@@ -25,10 +25,7 @@ It should print 'nvm' if the installation was successful.
 
 ### Install yarn
 
-* <code>curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -</code>
-* <code>echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list</code>
-* <code>sudo apt install yarn</code>
-* <code>yarn --version</code>
+* <code>npm install --global yarn</code>
 
 It should print the version of yarn if the installation was successful.
 
