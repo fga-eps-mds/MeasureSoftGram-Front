@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest --passWithNoTests",
-    "test:watch": "yarn test -- --watch"
+    "test": "jest --watch --coverage --verbose --onlyChanged"
   },
   "dependencies": {
     "next": "12.2.2",
