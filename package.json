@@ -6,9 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "jest --watch --coverage --verbose --onlyChanged"
   },
   "dependencies": {
+    "jest": "^28.1.3",
     "next": "12.2.2",
     "react": "18.2.0",
     "react-dom": "18.2.0"
