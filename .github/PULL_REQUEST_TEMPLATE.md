@@ -14,7 +14,7 @@
 
 - [ ] Test
 - [ ] Lint
-- [ ] Devint
+- [ ] Development
 
 ## Screenshots
 
