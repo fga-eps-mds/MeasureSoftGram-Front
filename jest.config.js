@@ -1,8 +1,7 @@
 module.exports = {
   roots: ['<rootDir>/src'],
   collectCoverageFrom: [
-    '<rootDir>/src/**/*.{ts,tsx}',
-    "((\\.|/*.)(spec))\\.ts?$"
+    '<rootDir>/src/**/*.{ts,tsx}'
   ],
   testRegex: "((\\.|/*.)(spec))\\.ts?$",
   coverageDirectory: 'coverage',
