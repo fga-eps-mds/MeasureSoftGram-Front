@@ -22,18 +22,20 @@ function Header() {
       <Container>
         <Box display="flex" justifyContent="space-between">
           <Link href="/">
-            <Styles.Logo src="/images/svg/logo.svg" />
+            <Styles.Logo src="/images/svg/logo.svg" height={30} />
           </Link>
 
-          <Styles.Options>
+          <Box display="flex">
             {options.map((option) => {
               return (
-                <Link href={option.path}>
-                  <Button>{option.name}</Button>
-                </Link>
+                <Box marginLeft="20px">
+                  <Link href={option.path} key={option.name}>
+                    <Button>{option.name}</Button>
+                  </Link>
+                </Box>
               );
             })}
-          </Styles.Options>
+          </Box>
         </Box>
       </Container>
     </Styles.Wrapper>

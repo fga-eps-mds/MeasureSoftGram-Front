@@ -5,8 +5,8 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(
-  async (response) => {
-    return response;
+  async (config) => {
+    return config;
   },
   (error) => {
     console.log(error);

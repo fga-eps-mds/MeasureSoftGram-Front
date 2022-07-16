@@ -7,9 +7,5 @@ export const Wrapper = styled.header`
 `;
 
 export const Logo = styled.img`
-  height: 30px;
-
   cursor: pointer;
 `;
-
-export const Options = styled.div``;

@@ -4,10 +4,16 @@ import Head from 'next/head';
 import { Box, Container, Typography } from '@mui/material';
 
 import Layout from '@components/Layout';
-
-import ProjectsCards from './components/ProjectsCards';
+import Card from '@components/Card';
 
 const Projects: NextPage = () => {
+  const resultMock = [
+    {
+      id: 1,
+      name: '2022-1-MeasureSoftGram-Front'
+    }
+  ];
+
   return (
     <Layout>
       <Head>
@@ -20,7 +26,11 @@ const Projects: NextPage = () => {
             <Typography variant="h5">Projetos</Typography>
           </Box>
 
-          <ProjectsCards />
+          <Box display="flex">
+            {resultMock.map((project) => (
+              <Card key={project.id} id={project.id} name={project.name} url={`/projects/${project.id}`} />
+            ))}
+          </Box>
         </Box>
       </Container>
     </Layout>

@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import styled from 'styled-components';
 
 export const Wrapper = styled.nav`
@@ -6,7 +8,11 @@ export const Wrapper = styled.nav`
   background-color: #231b22;
 `;
 
-export const Button = styled.span`
+interface Button {
+  isClicked: boolean;
+}
+
+export const Button = styled.span<Button>`
   height: 50px;
 
   cursor: pointer;
@@ -15,7 +21,7 @@ export const Button = styled.span`
   align-items: center;
 
   color: white;
-  border-bottom: 3px solid white;
+  border-bottom: ${({ isClicked }) => (isClicked ? '3px solid white' : null)};
 
   :not(:first-child) {
     margin-left: 25px;
