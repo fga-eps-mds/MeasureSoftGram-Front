@@ -9,7 +9,7 @@ import { Box, Container, Typography } from '@mui/material';
 
 import Layout from '@components/Layout';
 
-import * as Styles from './styles';
+import Circle from './styles';
 
 const Layer: NextPage = () => {
   const resultMock = {
@@ -34,7 +34,7 @@ const Layer: NextPage = () => {
       <Container>
         <Box display="flex" flexDirection="column">
           <Box display="flex" flexDirection="row" alignItems="center" marginY="60px">
-            <Styles.Circle />
+            <Circle />
 
             <Box>
               <Typography variant="h6">{resultMock.name}</Typography>
