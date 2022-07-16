@@ -9,14 +9,15 @@ export const Wrapper = styled.nav`
 export const Button = styled.span`
   height: 50px;
 
+  cursor: pointer;
+
   display: flex;
   align-items: center;
 
   color: white;
-
   border-bottom: 3px solid white;
 
   :not(:first-child) {
-    margin-left: 20px;
+    margin-left: 25px;
   }
 `;

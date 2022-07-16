@@ -13,7 +13,7 @@ function Header() {
     },
     {
       name: 'Projetos',
-      path: '/projetos'
+      path: '/projects'
     }
   ];
 
