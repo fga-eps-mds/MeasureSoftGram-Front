@@ -7,7 +7,7 @@ import { Box, Typography } from '@mui/material';
 
 import Skeleton from './Skeleton';
 
-import * as Styles from './styles';
+import Circle from './styles';
 import useQuery from './hook/useQuery';
 
 const ProjectContent = () => {
@@ -26,7 +26,7 @@ const ProjectContent = () => {
   return (
     <Box display="flex" flexDirection="column">
       <Box display="flex" flexDirection="row" alignItems="center" marginY="60px">
-        <Styles.Circle />
+        <Circle />
 
         <Box>
           <Typography variant="h6">{project?.name}</Typography>
