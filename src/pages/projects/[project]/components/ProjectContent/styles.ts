@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Circle = styled.div`
+const Circle = styled.div`
   height: 30px;
   width: 30px;
 
@@ -10,3 +10,5 @@ export const Circle = styled.div`
 
   border-radius: 50%;
 `;
+
+export default Circle;

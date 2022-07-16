@@ -4,8 +4,8 @@ import Link from 'next/link';
 
 import { Box, Container, Typography } from '@mui/material';
 
-import * as Styles from './styles';
 import { useRouter } from 'next/router';
+import * as Styles from './styles';
 
 interface SubHeaderOptions {
   name: string;
@@ -40,15 +40,13 @@ function SubHeader() {
     <Styles.Wrapper>
       <Container>
         <Box display="flex">
-          {options.map((option: SubHeaderOptions) => {
-            return (
-              <Link href={option.path}>
-                <Styles.Button key={option.name} isClicked={option.selected}>
-                  <Typography variant="subtitle2">{option.name}</Typography>
-                </Styles.Button>
-              </Link>
-            );
-          })}
+          {options.map((option: SubHeaderOptions) => (
+            <Link key={option.name} href={option.path}>
+              <Styles.Button key={option.name} isClicked={option.selected}>
+                <Typography variant="subtitle2">{option.name}</Typography>
+              </Styles.Button>
+            </Link>
+          ))}
         </Box>
       </Container>
     </Styles.Wrapper>

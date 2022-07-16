@@ -26,15 +26,13 @@ function Header() {
           </Link>
 
           <Box display="flex">
-            {options.map((option) => {
-              return (
-                <Box marginLeft="20px">
-                  <Link href={option.path} key={option.name}>
-                    <Button>{option.name}</Button>
-                  </Link>
-                </Box>
-              );
-            })}
+            {options.map((option) => (
+              <Box key={option.name} marginLeft="20px">
+                <Link href={option.path} key={option.name}>
+                  <Button>{option.name}</Button>
+                </Link>
+              </Box>
+            ))}
           </Box>
         </Box>
       </Container>

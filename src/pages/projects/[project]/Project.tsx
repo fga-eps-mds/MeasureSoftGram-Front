@@ -9,20 +9,18 @@ import Layout from '@components/Layout';
 
 import ProjectContent from './components/ProjectContent';
 
-const Project: NextPage = () => {
-  return (
-    <Layout>
-      <Head>
-        <title>MeasureSoftGram - Projetos</title>
-      </Head>
+const Project: NextPage = () => (
+  <Layout>
+    <Head>
+      <title>MeasureSoftGram - Projetos</title>
+    </Head>
 
-      <Container>
-        <Box>
-          <ProjectContent />
-        </Box>
-      </Container>
-    </Layout>
-  );
-};
+    <Container>
+      <Box>
+        <ProjectContent />
+      </Box>
+    </Container>
+  </Layout>
+);
 
 export default Project;
