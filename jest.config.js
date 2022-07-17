@@ -3,8 +3,10 @@ module.exports = {
   collectCoverageFrom: ['<rootDir>/src/**/*.{ts,tsx}'],
   testRegex: '((\\.|/*.)(spec))\\.tsx?$',
   coverageDirectory: 'coverage',
-  testEnvironment: 'node',
   transform: {
-    '.+\\.ts$': 'ts-jest'
-  }
+    '^.+\\.tsx?$': 'ts-jest'
+  },
+
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+  testEnvironment: 'jsdom'
 };
