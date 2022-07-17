@@ -28,11 +28,22 @@ const useQuery = () => {
     }
   }
 
+  async function loadProjectMeasuresHistory() {
+    if (query?.project) {
+      try {
+        const result = await projectQuery.getProjectMeasuresHistory('1', query?.project as string);
+        return result.data;
+      } catch (error) {
+        return error;
+      }
+    }
+  }
+
   useEffect(() => {
     loadQuery();
   }, [query?.project]);
 
-  return { project };
+  return { project, loadProjectMeasuresHistory };
 };
 
 export default useQuery;
