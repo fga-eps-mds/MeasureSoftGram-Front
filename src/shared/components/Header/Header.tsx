@@ -2,21 +2,13 @@ import React from 'react';
 import Link from 'next/link';
 
 import { Box, Button, Container } from '@mui/material';
+import { HEADER } from './Header.consts';
+const { BUTTON_OPTIONS } = HEADER.VALUES;
+const { BUTTON_TEST_ID } = HEADER.TEST_ID;
 
 import * as Styles from './styles';
 
 function Header() {
-  const options = [
-    {
-      name: 'Organizações',
-      path: '/'
-    },
-    {
-      name: 'Projetos',
-      path: '/projects'
-    }
-  ];
-
   return (
     <Styles.Wrapper>
       <Container>
@@ -26,7 +18,7 @@ function Header() {
           </Link>
 
           <Box display="flex">
-            {options.map((option) => (
+            {BUTTON_OPTIONS.map((option) => (
               <Box key={option.name} marginLeft="20px">
                 <Link href={option.path} key={option.name}>
                   <Button>{option.name}</Button>
