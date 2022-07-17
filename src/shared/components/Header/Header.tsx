@@ -3,8 +3,7 @@ import Link from 'next/link';
 
 import { Box, Button, Container } from '@mui/material';
 import { HEADER } from './Header.consts';
-const { BUTTON_OPTIONS } = HEADER.VALUES;
-const { BUTTON_TEST_ID } = HEADER.TEST_ID;
+const { BUTTON_OPTIONS, IMAGE_SOURCE } = HEADER.VALUES;
 
 import * as Styles from './styles';
 
@@ -14,7 +13,7 @@ function Header() {
       <Container>
         <Box display="flex" justifyContent="space-between">
           <Link href="/">
-            <Styles.Logo src="/images/svg/logo.svg" height={30} />
+            <Styles.Logo src={IMAGE_SOURCE} height={30} />
           </Link>
 
           <Box display="flex">

@@ -9,9 +9,7 @@ export const HEADER = {
         name: 'Projetos',
         path: '/projects'
       }
-    ]
-  },
-  TEST_ID: {
-    BUTTON_TEST_ID: 'HEADER_BUTTON_TEST_ID'
+    ],
+    IMAGE_SOURCE: '/images/svg/logo.svg'
   }
 };
