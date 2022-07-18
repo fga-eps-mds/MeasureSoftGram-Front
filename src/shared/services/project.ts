@@ -1,4 +1,4 @@
-import { MeasuresHistory } from '@types';
+import { MeasuresHistory } from '@types/project';
 import api from './api';
 
 class ProjectQuery {
