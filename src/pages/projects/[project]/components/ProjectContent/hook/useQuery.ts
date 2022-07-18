@@ -18,7 +18,9 @@ const useQuery = () => {
   const [project, setProject] = useState<Project>();
 
   async function loadQuery() {
-    if (query?.project) {
+    const isNewProjectId = query?.project !== project?.id;
+
+    if (query?.project && isNewProjectId) {
       try {
         const result = await projectQuery.getProjectById('1', query?.project as string);
         setProject(result.data);
