@@ -1,10 +1,11 @@
 import '@testing-library/jest-dom';
+
 import React from 'react';
+import * as hooks from 'next/router';
+import { NextRouter } from 'next/router';
 import { render } from '@testing-library/react';
 
 import SubHeader from '../SubHeader';
-import * as hooks from 'next/router';
-import { NextRouter } from 'next/router';
 import { SUB_HEADER } from '../SubHeader.consts';
 
 const { OVERVIEW, MESURES, METRICS } = SUB_HEADER.VALUES;
@@ -21,12 +22,14 @@ describe('<SubHeader />', () => {
   beforeEach(() => {
     jest.spyOn(hooks, 'useRouter').mockImplementation(() => createMockedRoute());
   });
+
   describe('Snapshot', () => {
     it('Deve corresponder ao Snapshot', () => {
       const tree = render(<SubHeader />);
       expect(tree).toMatchSnapshot();
     });
   });
+
   describe('Comportamento', () => {
     describe.each([{ name: OVERVIEW }, { name: MESURES }, { name: METRICS }])('Botões', ({ name }) => {
       it(`Deve renderizar botão ${name}`, () => {

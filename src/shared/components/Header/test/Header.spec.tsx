@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom';
+
 import React from 'react';
 import { render } from '@testing-library/react';
 
@@ -15,6 +16,7 @@ describe('<Header />', () => {
       expect(tree).toMatchSnapshot();
     });
   });
+
   describe('Comportamento', () => {
     describe.each(BUTTON_OPTIONS)('Botões', ({ name }) => {
       it(`Deve renderizar botão ${name}`, () => {
@@ -24,6 +26,7 @@ describe('<Header />', () => {
         expect(button.nodeName.toLowerCase()).toBe(BUTTON_TYPE);
       });
     });
+
     describe('Logo', () => {
       it('Deve renderizar a logo', () => {
         const { getByRole } = render(<Header />);
