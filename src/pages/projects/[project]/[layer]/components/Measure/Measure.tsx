@@ -1,17 +1,25 @@
 import React from 'react';
-
-import { Box, Typography } from '@mui/material';
-import { ChevronRight } from '@mui/icons-material';
+import { Card, CardContent, Typography } from '@mui/material';
 
 const Measure = () => (
-  <Box
+  <Card
     sx={{
-      width: 200,
+      width: 300,
       height: 200,
-      backgroundColor: 'yellow',
-      marginTop: '30px'
+      backgroundColor: '#113D4C',
+      marginTop: '20px',
+      borderRadius: '5px'
     }}
-  />
+  >
+    <CardContent>
+      <Typography variant="h5" textAlign="center" color="white" component="div">
+        medida
+      </Typography>
+      <Typography variant="h2" textAlign="center" marginTop="20px" color="white">
+        55.5
+      </Typography>
+    </CardContent>
+  </Card>
 );
 
 export default Measure;

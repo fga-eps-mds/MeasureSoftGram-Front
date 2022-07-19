@@ -18,7 +18,7 @@ const Card: React.FC<Props> = ({ id, name, url }) => (
       <Box display="flex" alignItems="center" paddingX="10px" paddingY="5px">
         <Styles.Circle />
 
-        <Typography variant="subtitle1">{name}</Typography>
+        <Typography variant="subtitle1">{name} oioi</Typography>
 
         <Box display="flex" alignItems="center" marginLeft="15px">
           <ChevronRight />

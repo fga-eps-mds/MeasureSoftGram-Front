@@ -12,6 +12,11 @@ class ProjectQuery {
     const response = await api.get(`/organizations/${organization_id}/repository/`);
     return response;
   }
+
+  async getProjectMeasures(organization_id: string, repository_id: string) {
+    const response = await api.get(`/organizations/${organization_id}/repository/${repository_id}/measures/`);
+    return response;
+  }
 }
 
 export const projectQuery = new ProjectQuery();
