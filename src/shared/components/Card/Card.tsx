@@ -1,31 +1,30 @@
 import React from 'react';
-import Link from 'next/link';
-
-import { Box, Button, Typography } from '@mui/material';
-import { ChevronRight } from '@mui/icons-material';
-
-import * as Styles from './styles';
+import { Card as Wrapper, CardContent, Typography } from '@mui/material';
 
 interface Props {
-  id: number;
-  name: string;
-  url: string;
+  title: string;
+  value: number;
 }
 
-const Card: React.FC<Props> = ({ id, name, url }) => (
-  <Button key={id} variant="outlined">
-    <Link href={url}>
-      <Box display="flex" alignItems="center" paddingX="10px" paddingY="5px">
-        <Styles.Circle />
-
-        <Typography variant="subtitle1">{name} oioi</Typography>
-
-        <Box display="flex" alignItems="center" marginLeft="15px">
-          <ChevronRight />
-        </Box>
-      </Box>
-    </Link>
-  </Button>
+const Card: React.FC<Props> = ({ title, value }) => (
+  <Wrapper
+    sx={{
+      width: 300,
+      height: 200,
+      backgroundColor: '#113D4C',
+      marginTop: '20px',
+      borderRadius: '5px'
+    }}
+  >
+    <CardContent>
+      <Typography variant="h5" textAlign="center" color="white" component="div">
+        {title}
+      </Typography>
+      <Typography variant="h2" textAlign="center" marginTop="20px" color="white">
+        {value}
+      </Typography>
+    </CardContent>
+  </Wrapper>
 );
 
 export default Card;

@@ -1,25 +1,22 @@
+import Card from '@components/Card';
+import { MeasureResult } from '@types/measure';
 import React from 'react';
-import { Card, CardContent, Typography } from '@mui/material';
+import useQuery from './hook/useQuery';
 
-const Measure = () => (
-  <Card
-    sx={{
-      width: 300,
-      height: 200,
-      backgroundColor: '#113D4C',
-      marginTop: '20px',
-      borderRadius: '5px'
-    }}
-  >
-    <CardContent>
-      <Typography variant="h5" textAlign="center" color="white" component="div">
-        medida
-      </Typography>
-      <Typography variant="h2" textAlign="center" marginTop="20px" color="white">
-        55.5
-      </Typography>
-    </CardContent>
-  </Card>
-);
+const Measure = () => {
+  const { measure } = useQuery();
+
+  if (!measure) {
+    return <>carregando</>;
+  }
+
+  return (
+    <>
+      {measure?.results.map((result: MeasureResult) => (
+        <Card title={result.name} value={result.latest.value} />
+      ))}
+    </>
+  );
+};
 
 export default Measure;

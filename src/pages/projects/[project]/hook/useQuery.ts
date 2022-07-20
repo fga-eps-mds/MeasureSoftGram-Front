@@ -1,21 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 
 import { projectQuery } from '@services/index';
 
-interface Project {
-  id: number;
-  name: string;
-  description: string;
-  github_url: string;
-  created_at: string;
-  updated_at: string;
-}
+import { useProject } from '@pages/projects/contexts/ProjectProvider';
 
 const useQuery = () => {
   const { query } = useRouter();
-  const [project, setProject] = useState<Project>();
+  const { setProject } = useProject();
 
   async function loadQuery() {
     if (query?.project) {
@@ -31,8 +24,6 @@ const useQuery = () => {
   useEffect(() => {
     loadQuery();
   }, [query?.project]);
-
-  return { project };
 };
 
 export default useQuery;

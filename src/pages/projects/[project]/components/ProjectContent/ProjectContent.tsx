@@ -5,13 +5,16 @@ import { ptBR } from 'date-fns/locale';
 
 import { Box, Typography } from '@mui/material';
 
+import { useProject } from '@pages/projects/contexts/ProjectProvider';
+
 import Skeleton from './Skeleton';
 
 import Circle from './styles';
-import useQuery from './hook/useQuery';
+import useQuery from '../../hook/useQuery';
 
 const ProjectContent = () => {
-  const { project } = useQuery();
+  useQuery();
+  const { project } = useProject();
 
   const lastUpdateDate =
     project &&
