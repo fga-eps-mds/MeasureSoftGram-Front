@@ -9,6 +9,7 @@ import { Box, Container } from '@mui/material';
 import Layout from '@components/Layout';
 
 import formatMeasuresHistoryChartData from '@utils/formatMeasuresHistory';
+import { MeasuresHistory } from '@types/project';
 import ProjectContent from '../components/ProjectContent';
 import useQuery from '../components/ProjectContent/hook/useQuery';
 
@@ -25,7 +26,7 @@ const Measures: NextPage = () => {
 
     async function getProjectMeasuresHistory() {
       const response = await loadProjectMeasuresHistory();
-      setChartOptions(formatMeasuresHistoryChartData(response));
+      setChartOptions(formatMeasuresHistoryChartData(response as MeasuresHistory));
     }
 
     getProjectMeasuresHistory();

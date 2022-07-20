@@ -1,27 +1,30 @@
 import { format } from 'date-fns';
 
 import { MeasuresHistory } from '@types/project';
+import translateMeasures from './translateMeasures';
 
-const indexOfLongestArray = (measuresHistory: MeasuresHistory) => measuresHistory.results.reduce((prevIndex, historyResult, currentIndex) => {
+const longestHistoryMetricsIndex = (measuresHistory: MeasuresHistory) => measuresHistory.results.reduce((prevIndex, historyResult, currentIndex) => {
     const previousMetricHistoryLength = measuresHistory.results[prevIndex].collected_metric_history.length;
     const currentMetricHistoryLength = historyResult.collected_metric_history.length;
 
     return currentMetricHistoryLength > previousMetricHistoryLength ? currentIndex : prevIndex
   }, 0)
 
+const formatTwoDecimalPlaces = (value: number) => Math.round(value * 100) / 100;
+
 const formatMeasuresHistoryChartData = (measuresHistory: MeasuresHistory) => {
   const legendData: string[] = []
 
-  const xAxisData = measuresHistory.results[indexOfLongestArray(measuresHistory)]
+  const xAxisData = measuresHistory.results[longestHistoryMetricsIndex(measuresHistory)]
     .collected_metric_history
     .map(metric => format(new Date(metric.created_at.replace(/\s+/g, '')), 'dd/MM/yyyy HH:MM'))
 
   const series = measuresHistory.results.map(item => {
-    legendData.push(item.key)
+    legendData.push(translateMeasures(item.key)!)
 
     return {
-      name: item.key,
-      data: item.collected_metric_history.map(metric => metric.value),
+      name: translateMeasures(item.key),
+      data: item.collected_metric_history.map(metric => formatTwoDecimalPlaces(metric.value)),
       type: "line",
       animationDuration: 1200
     }})

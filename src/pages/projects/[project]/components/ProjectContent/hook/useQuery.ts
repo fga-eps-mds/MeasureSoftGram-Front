@@ -3,21 +3,13 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { projectQuery } from '@services/index';
-
-interface Project {
-  id: number;
-  name: string;
-  description: string;
-  github_url: string;
-  created_at: string;
-  updated_at: string;
-}
+import { Project } from '@types/project';
 
 const useQuery = () => {
   const { query } = useRouter();
   const [project, setProject] = useState<Project>();
 
-  async function loadQuery() {
+  async function loadProject() {
     const isNewProjectId = query?.project !== project?.id;
 
     if (query?.project && isNewProjectId) {
@@ -42,7 +34,7 @@ const useQuery = () => {
   }
 
   useEffect(() => {
-    loadQuery();
+    loadProject();
   }, [query?.project]);
 
   return { project, loadProjectMeasuresHistory };
