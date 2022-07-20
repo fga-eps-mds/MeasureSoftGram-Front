@@ -1,10 +1,10 @@
 import { format } from 'date-fns';
 
-import { MeasuresHistory } from '@types/project';
+import { MeasuresHistoryResult } from '@types/project';
 import translateMeasures from './translateMeasures';
 
-const longestHistoryMetricsIndex = (measuresHistory: MeasuresHistory) => measuresHistory.results.reduce((prevIndex, historyResult, currentIndex) => {
-    const previousMetricHistoryLength = measuresHistory.results[prevIndex].collected_metric_history.length;
+const longestHistoryMetricsIndex = (measuresHistoryResults: Array<MeasuresHistoryResult>) => measuresHistoryResults.reduce((prevIndex, historyResult, currentIndex) => {
+    const previousMetricHistoryLength = measuresHistoryResults[prevIndex].collected_metric_history.length;
     const currentMetricHistoryLength = historyResult.collected_metric_history.length;
 
     return currentMetricHistoryLength > previousMetricHistoryLength ? currentIndex : prevIndex
@@ -12,14 +12,15 @@ const longestHistoryMetricsIndex = (measuresHistory: MeasuresHistory) => measure
 
 const formatTwoDecimalPlaces = (value: number) => Math.round(value * 100) / 100;
 
-const formatMeasuresHistoryChartData = (measuresHistory: MeasuresHistory) => {
+const formatMeasuresHistoryChartData = (measuresHistoryResults: Array<MeasuresHistoryResult>) => {
+  console.log(measuresHistoryResults)
   const legendData: string[] = []
 
-  const xAxisData = measuresHistory.results[longestHistoryMetricsIndex(measuresHistory)]
+  const xAxisData = measuresHistoryResults[longestHistoryMetricsIndex(measuresHistoryResults)]
     .collected_metric_history
     .map(metric => format(new Date(metric.created_at.replace(/\s+/g, '')), 'dd/MM/yyyy HH:MM'))
 
-  const series = measuresHistory.results.map(item => {
+  const series = measuresHistoryResults.map(item => {
     legendData.push(translateMeasures(item.key)!)
 
     return {

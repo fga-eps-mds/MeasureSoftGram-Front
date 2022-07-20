@@ -5,7 +5,7 @@ interface CollectedMetric {
   created_at: string;
 }
 
-interface MeasuresHistoryResult {
+export interface MeasuresHistoryResult {
   id: number,
   key: string,
   name: string,
