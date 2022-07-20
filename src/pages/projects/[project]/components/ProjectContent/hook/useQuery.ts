@@ -10,23 +10,11 @@ const useQuery = () => {
   const [project, setProject] = useState<Project>();
 
   async function loadProject() {
-    const isNewProjectId = query?.project !== project?.id;
 
-    if (query?.project && isNewProjectId) {
+    if (query?.project) {
       try {
         const result = await projectQuery.getProjectById('1', query?.project as string);
         setProject(result.data);
-      } catch (error) {
-        return error;
-      }
-    }
-  }
-
-  async function loadProjectMeasuresHistory() {
-    if (query?.project) {
-      try {
-        const result = await projectQuery.getProjectMeasuresHistory('1', query?.project as string);
-        return result.data;
       } catch (error) {
         return error;
       }
@@ -37,7 +25,7 @@ const useQuery = () => {
     loadProject();
   }, [query?.project]);
 
-  return { project, loadProjectMeasuresHistory };
+  return { project };
 };
 
 export default useQuery;
