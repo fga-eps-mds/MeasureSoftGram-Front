@@ -5,7 +5,7 @@ import Head from 'next/head';
 import { Box, Container, Typography } from '@mui/material';
 
 import Layout from '@components/Layout';
-import Card from '@components/Card';
+import Card from '@components/ButtonCard';
 
 const Organizations: NextPage = () => {
   const resultMock = [
