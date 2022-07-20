@@ -15,27 +15,24 @@ interface SubHeaderOptions {
 
 function SubHeader() {
   const {
-    query: { project },
-    pathname
+    query: { layer, project }
   } = useRouter();
-
-  const tab = pathname.split('/').at(-1)
 
   const options: SubHeaderOptions[] = [
     {
       name: 'Overview',
       path: `/projects/${project}/`,
-      selected: tab === '[project]'
+      selected: layer === undefined
     },
     {
       name: 'Medidas',
-      path: `/projects/${project}/measures`,
-      selected: tab === 'measures'
+      path: `/projects/${project}/measure`,
+      selected: layer === 'measure'
     },
     {
       name: 'Métricas',
       path: `/projects/${project}/metrics`,
-      selected: tab === 'metrics'
+      selected: layer === 'metrics'
     }
   ];
 
