@@ -26,8 +26,8 @@ function SubHeader() {
     },
     {
       name: 'Medidas',
-      path: `/projects/${project}/measure`,
-      selected: layer === 'measure'
+      path: `/projects/${project}/measures`,
+      selected: layer === 'measures'
     },
     {
       name: 'Métricas',
