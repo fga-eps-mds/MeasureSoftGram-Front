@@ -17,10 +17,10 @@ const Card: React.FC<Props> = ({ title, value }) => (
     }}
   >
     <CardContent>
-      <Typography variant="h5" textAlign="center" color="white" component="div">
+      <Typography variant="h5" textAlign="center" color="white">
         {title}
       </Typography>
-      <Typography variant="h2" textAlign="center" marginTop="20px" color="white">
+      <Typography variant="h2" textAlign="center" color="white">
         {value}
       </Typography>
     </CardContent>

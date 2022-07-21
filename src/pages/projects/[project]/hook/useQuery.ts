@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 import { projectQuery } from '@services/index';
 
-import { useProject } from '@pages/projects/contexts/ProjectProvider';
+import { useProject } from '@contexts/ProjectProvider';
 
 const useQuery = () => {
   const { query } = useRouter();

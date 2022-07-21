@@ -3,6 +3,8 @@ import { MeasureResult } from '@types/measure';
 import React from 'react';
 import useQuery from './hook/useQuery';
 
+import Styles from './styles';
+
 const Measure = () => {
   const { measure } = useQuery();
 
@@ -11,11 +13,11 @@ const Measure = () => {
   }
 
   return (
-    <>
+    <Styles.MeasureWrapper>
       {measure?.results.map((result: MeasureResult) => (
         <Card title={result.name} value={result.latest.value} />
       ))}
-    </>
+    </Styles.MeasureWrapper>
   );
 };
 

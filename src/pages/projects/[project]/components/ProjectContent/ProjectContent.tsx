@@ -5,7 +5,7 @@ import { ptBR } from 'date-fns/locale';
 
 import { Box, Typography } from '@mui/material';
 
-import { useProject } from '@pages/projects/contexts/ProjectProvider';
+import { useProject } from '@contexts/ProjectProvider';
 
 import Skeleton from './Skeleton';
 

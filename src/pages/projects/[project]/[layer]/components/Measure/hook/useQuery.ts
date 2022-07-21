@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { projectQuery } from '@services/index';
 
 import { Measure } from '@types/measure';
-import { useProject } from '@pages/projects/contexts/ProjectProvider';
+import { useProject } from '@contexts/ProjectProvider';
 
 const useQuery = () => {
   const { project } = useProject();
