@@ -1,28 +1,16 @@
 import '@testing-library/jest-dom';
 
 import React from 'react';
-import * as hooks from 'next/router';
-import { NextRouter } from 'next/router';
 import { render } from '@testing-library/react';
 
 import SubHeader from '../SubHeader';
-import { SUB_HEADER } from '../SubHeader.consts';
+import { SUB_HEADER } from '../consts';
 
 const { OVERVIEW, MESURES, METRICS } = SUB_HEADER.VALUES;
 
 const BUTTON_TITLE_TYPE = 'h6';
 
-const createMockedRoute = (layer?: string, project?: string) => {
-  const query = { layer, project };
-  const route = { query } as unknown as NextRouter;
-  return route;
-};
-
 describe('<SubHeader />', () => {
-  beforeEach(() => {
-    jest.spyOn(hooks, 'useRouter').mockImplementation(() => createMockedRoute());
-  });
-
   describe('Snapshot', () => {
     it('Deve corresponder ao Snapshot', () => {
       const tree = render(<SubHeader />);

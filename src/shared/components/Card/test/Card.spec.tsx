@@ -18,6 +18,7 @@ describe('<Card />', () => {
   describe('Comportamento', () => {
     it('Deve executar a ação de clique', async () => {
       const { getByText } = render(<Card id={1} name="Simbora" url="/simbora" />);
+
       const clickCard = getByText('Simbora');
       userEvent.click(clickCard);
     });

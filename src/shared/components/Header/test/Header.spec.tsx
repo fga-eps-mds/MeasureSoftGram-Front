@@ -4,7 +4,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 
 import Header from '../Header';
-import { HEADER } from '../Header.consts';
+import { HEADER } from '../consts';
 
 const { BUTTON_OPTIONS, IMAGE_SOURCE } = HEADER.VALUES;
 const BUTTON_TYPE = 'button';

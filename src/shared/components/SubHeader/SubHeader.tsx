@@ -6,7 +6,7 @@ import { Box, Container, Typography } from '@mui/material';
 
 import { useRouter } from 'next/router';
 import * as Styles from './styles';
-import { SUB_HEADER } from './SubHeader.consts';
+import { SUB_HEADER } from './consts';
 
 const { OVERVIEW, MESURES, METRICS } = SUB_HEADER.VALUES;
 

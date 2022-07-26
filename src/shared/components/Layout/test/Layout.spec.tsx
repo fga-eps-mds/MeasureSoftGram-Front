@@ -1,15 +1,17 @@
 import '@testing-library/jest-dom';
 
 import React from 'react';
+import { render } from '@testing-library/react';
 
-import { render, screen } from '@testing-library/react';
-// import userEvent from '@testing-library/user-event';
+import setRouteQuery from '@tests/helper/router';
 
 import Layout from '../Layout';
 
 describe('<Layout />', () => {
   describe('Snapshot', () => {
     it('Deve corresponder ao Snapshot', () => {
+      setRouteQuery({});
+
       const tree = render(<Layout />);
       expect(tree).toMatchSnapshot();
     });
@@ -17,20 +19,23 @@ describe('<Layout />', () => {
 
   describe('Comportamento', () => {
     it('Deve mostrar apenas o Layout principal', () => {
-      const { getByRole } = render(<Layout />);
+      setRouteQuery({});
 
+      const { getByRole, getByText } = render(<Layout />);
       getByRole('img');
+      getByText('Organizações');
+      getByText('Projetos');
     });
 
-    it('', async () => {
-      // jest.mock('next/config', () => () => ({
-      //   publicRuntimeConfig: {
-      //     YGGDRASIL_URL: downloadUrl
-      //   }
-      // }));
-      // render(<Layout />);
-      // const clickCard = screen.getByText('Simbora');
-      // userEvent.click(clickCard);
+    it('Deve mostrar Layout com subheader', async () => {
+      setRouteQuery({
+        project: 'measure'
+      });
+
+      const { getByRole, getByText } = render(<Layout />);
+      getByRole('img');
+      getByText('Organizações');
+      getByText('Medidas');
     });
   });
 });
