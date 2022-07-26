@@ -6,6 +6,9 @@ import { Box, Container, Typography } from '@mui/material';
 
 import { useRouter } from 'next/router';
 import * as Styles from './styles';
+import { SUB_HEADER } from './consts';
+
+const { OVERVIEW, MESURES, METRICS } = SUB_HEADER.VALUES;
 
 interface SubHeaderOptions {
   name: string;
@@ -20,17 +23,17 @@ function SubHeader() {
 
   const options: SubHeaderOptions[] = [
     {
-      name: 'Overview',
+      name: OVERVIEW,
       path: `/projects/${project}/`,
       selected: layer === undefined
     },
     {
-      name: 'Medidas',
+      name: MESURES,
       path: `/projects/${project}/measure`,
       selected: layer === 'measure'
     },
     {
-      name: 'Métricas',
+      name: METRICS,
       path: `/projects/${project}/metrics`,
       selected: layer === 'metrics'
     }

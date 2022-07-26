@@ -11,7 +11,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "jsx": "preserve",
+    "jsx": "react",
     "incremental": true,
     "baseUrl": ".",
     "paths": {
@@ -23,7 +23,8 @@
       "@public/*": ["public/*"],
       "@types/*": ["src/shared/types/*"],
       "@styles/*": ["styles/*"],
-      "@utils/*": ["src/shared/utils/*"]
+      "@utils/*": ["src/shared/utils/*"],
+      "@tests/*": ["tests/*"]
     },
     "isolatedModules": true
   },
