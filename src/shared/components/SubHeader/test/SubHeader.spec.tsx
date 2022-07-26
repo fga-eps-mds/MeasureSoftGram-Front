@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 
 import React from 'react';
-import { render } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import SubHeader from '../SubHeader';
 import { SUB_HEADER } from '../consts';
@@ -19,10 +19,13 @@ describe('<SubHeader />', () => {
   });
 
   describe('Comportamento', () => {
+    beforeEach(() => {
+      render(<SubHeader />);
+    });
+
     describe.each([{ name: OVERVIEW }, { name: MESURES }, { name: METRICS }])('Botões', ({ name }) => {
       it(`Deve renderizar botão ${name}`, () => {
-        const { getByText } = render(<SubHeader />);
-        const button = getByText(name);
+        const button = screen.getByText(name);
         expect(button).toBeDefined();
         expect(button.nodeName.toLowerCase()).toBe(BUTTON_TITLE_TYPE);
       });

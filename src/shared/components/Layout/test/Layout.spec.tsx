@@ -10,8 +10,6 @@ import Layout from '../Layout';
 describe('<Layout />', () => {
   describe('Snapshot', () => {
     it('Deve corresponder ao Snapshot', () => {
-      setRouteQuery({});
-
       const tree = render(<Layout />);
       expect(tree).toMatchSnapshot();
     });
@@ -19,8 +17,6 @@ describe('<Layout />', () => {
 
   describe('Comportamento', () => {
     it('Deve mostrar apenas o Layout principal', () => {
-      setRouteQuery({});
-
       const { getByRole, getByText } = render(<Layout />);
       getByRole('img');
       getByText('Organizações');

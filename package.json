@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest --watch --coverage --verbose --onlyChanged --passWithNoTests",
-    "ci:test": "jest --coverage --verbose --onlyChanged --passWithNoTests",
+    "ci:test": "jest --passWithNoTests",
     "prettier": "prettier --config .prettierrc 'src/**/*.ts' --write"
   },
   "dependencies": {

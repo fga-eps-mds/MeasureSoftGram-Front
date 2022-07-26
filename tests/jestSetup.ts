@@ -3,7 +3,8 @@ import * as hooks from 'next/router';
 import { NextRouter } from 'next/router';
 
 export const createMockedRoute = (query?: Object) => {
-  return query as unknown as NextRouter;
+  const route = { query } as unknown as NextRouter;
+  return route;
 };
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -11,4 +12,4 @@ export const createMockedRoute = (query?: Object) => {
 global.fetch = jest.fn();
 
 jest.mock('next/config', () => () => ({ publicRuntimeConfig: {} }));
-jest.spyOn(hooks, 'useRouter').mockImplementation(() => createMockedRoute());
+jest.spyOn(hooks, 'useRouter').mockImplementation(() => createMockedRoute({ layer: undefined, project: undefined }));
