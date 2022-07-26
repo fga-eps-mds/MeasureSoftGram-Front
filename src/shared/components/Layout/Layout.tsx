@@ -13,7 +13,7 @@ interface Props {
 const Layout: React.FC<Props> = ({ children }) => {
   const { query } = useRouter();
 
-  const hasSubHeader = query?.project;
+  const hasSubHeader = query?.projectId;
 
   return (
     <Styles.Wrapper>
