@@ -17,18 +17,19 @@ const useQuery = () => {
   const { query } = useRouter();
   const [project, setProject] = useState<Project>();
 
-  async function loadQuery() {
-    if (query?.project) {
-      try {
-        const result = await projectQuery.getProjectById('1', query?.project as string);
-        setProject(result.data);
-      } catch (error) {
-        return error;
+  useEffect(() => {
+    async function loadQuery() {
+      if (query?.project) {
+        try {
+          const result = await projectQuery.getProjectById('1', query?.project as string);
+          setProject(result.data);
+        } catch (error) {
+          console.error(error);
+          throw new Error();
+        }
       }
     }
-  }
 
-  useEffect(() => {
     loadQuery();
   }, [query?.project]);
 
