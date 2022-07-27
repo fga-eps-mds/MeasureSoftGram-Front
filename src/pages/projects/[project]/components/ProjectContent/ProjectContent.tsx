@@ -8,7 +8,7 @@ import { Box, Typography } from '@mui/material';
 import Skeleton from './Skeleton';
 
 import Circle from './styles';
-import useQuery from './hook/useQuery';
+import { useQuery } from './hook/useQuery';
 
 const ProjectContent = () => {
   const { project } = useQuery();
