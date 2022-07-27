@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest --watch --coverage --verbose --onlyChanged --passWithNoTests",
+    "test": "jest --watch --coverage --verbose --onlyChanged --passWithNoTests a",
     "ci:test": "jest --passWithNoTests",
     "prettier": "prettier --config .prettierrc 'src/**/*.ts' --write"
   },
