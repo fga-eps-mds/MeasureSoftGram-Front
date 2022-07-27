@@ -10,7 +10,7 @@ const TabSwitch = ({ layer }: ParsedUrlQuery) => {
       return <Measures />
 
     case "metrics":
-      return <ProjectContent />
+      return <h1>Métricas</h1>
 
     default:
       return <ProjectContent />

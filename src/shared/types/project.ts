@@ -10,7 +10,7 @@ export interface MeasuresHistoryResult {
   key: string,
   name: string,
   description: string,
-  collected_metric_history: Array<CollectedMetric>
+  history: Array<CollectedMetric>
 }
 
 export interface MeasuresHistory {

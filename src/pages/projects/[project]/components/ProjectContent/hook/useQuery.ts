@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { projectQuery } from '@services/index';
-import { Project } from '@types/project';
+import { Project } from '@customTypes/project';
 
-const useQuery = () => {
+export const useQuery = () => {
   const { query } = useRouter();
   const [project, setProject] = useState<Project>();
 
@@ -27,5 +27,3 @@ const useQuery = () => {
 
   return { project };
 };
-
-export default useQuery;

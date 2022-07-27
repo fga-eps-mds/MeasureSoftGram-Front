@@ -5,7 +5,7 @@ import ReactEcharts, { EChartsOption } from "echarts-for-react";
 import { Box, Container } from '@mui/material';
 
 import formatMeasuresHistoryChartData from '@utils/formatMeasuresHistory';
-import { MeasuresHistoryResult } from '@types/project';
+import { MeasuresHistoryResult } from '@customTypes/project';
 import useMeasures from './hook/useMeasures';
 
 
@@ -27,7 +27,7 @@ const Measures: React.FC = () => {
 
   return (
     <Container>
-      <Box marginY="60px">
+      <Box marginY="60px" data-testid="measures">
         <ReactEcharts
           option={chartOptions}
           style={{ height: "600px", width: "100%" }}

@@ -9,7 +9,8 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
     tsconfigPath: './tsconfig.json'
-  }
+  },
+  pageExtensions: ['page.ts', 'page.tsx', 'next.tsx']
 };
 
 module.exports = nextConfig;

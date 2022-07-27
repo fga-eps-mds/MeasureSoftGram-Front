@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { projectQuery } from '@services/index';
-import { MeasuresHistory } from '@types/project';
+import { MeasuresHistory } from '@customTypes/project';
 
 const useMeasures = () => {
   const { query } = useRouter();
