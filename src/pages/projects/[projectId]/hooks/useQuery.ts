@@ -2,16 +2,8 @@ import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
+import { Project } from '@customTypes/project';
 import { projectQuery } from '@services/index';
-
-interface Project {
-  id: number;
-  name: string;
-  description: string;
-  github_url: string;
-  created_at: string;
-  updated_at: string;
-}
 
 export const useQuery = () => {
   const { query } = useRouter();
