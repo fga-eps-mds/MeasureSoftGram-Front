@@ -1,10 +1,10 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 
 import Header from '@components/Header';
 import SubHeader from '@components/SubHeader';
 
 import * as Styles from './styles';
-import { useRouter } from 'next/router';
 
 interface Props {
   children?: React.ReactNode;

@@ -4,11 +4,12 @@ import Head from 'next/head';
 import { formatRelative } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
+import { NextPageWithLayout } from '@pages/_app.next';
+
 import { Box, Container, Typography } from '@mui/material';
 import getLayout from '@components/Layout';
 
 import Circle from './styles';
-import { NextPageWithLayout } from '@pages/_app';
 
 const Metrics: NextPageWithLayout = () => {
   const resultMock = {

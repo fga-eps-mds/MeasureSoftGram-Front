@@ -1,19 +1,19 @@
 import React from 'react';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 
 import { formatRelative } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
 import { Box, Container, Typography } from '@mui/material';
 
-import { NextPageWithLayout } from '@pages/_app';
+import { NextPageWithLayout } from '@pages/_app.next';
 import getLayout from '@components/Layout';
 
 import Circle from './styles';
 
 const Measure: NextPageWithLayout = () => {
-  const { query } = useRouter();
+  // const { query } = useRouter();
 
   const resultMock = {
     id: 1,

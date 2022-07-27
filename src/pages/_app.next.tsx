@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode } from 'react';
+import React, { ReactElement } from 'react';
 import type { AppProps } from 'next/app';
 
 import Theme from '@components/Theme';
@@ -7,7 +7,7 @@ import '@styles/globals.css';
 import { NextPage } from 'next';
 
 export type NextPageWithLayout = NextPage & {
-  getLayout?: (page: ReactElement) => ReactNode;
+  getLayout?: (page: ReactElement) => typeof page;
 };
 
 type AppPropsWithLayout = AppProps & {
