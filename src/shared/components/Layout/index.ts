@@ -1,1 +1,1 @@
-export { default } from './Layout';
+export { getLayout as default } from './getLayout';
