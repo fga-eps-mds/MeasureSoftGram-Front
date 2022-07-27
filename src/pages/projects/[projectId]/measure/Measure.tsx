@@ -1,20 +1,19 @@
 import React from 'react';
-import type { NextPage } from 'next';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 
 import { formatRelative } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
 import { Box, Container, Typography } from '@mui/material';
 
-import Layout from '@components/Layout';
+import { NextPageWithLayout } from '@pages/_app';
+import getLayout from '@components/Layout';
 
 import Circle from './styles';
-import { useRouter } from 'next/router';
 
-const Measure: NextPage = () => {
+const Measure: NextPageWithLayout = () => {
   const { query } = useRouter();
-  console.log('🚀 ~ file: Measure.tsx ~ line 18 ~ query', query);
 
   const resultMock = {
     id: 1,
@@ -30,7 +29,7 @@ const Measure: NextPage = () => {
   });
 
   return (
-    <Layout>
+    <>
       <Head>
         <title>MeasureSoftGram - Projetos</title>
       </Head>
@@ -47,8 +46,10 @@ const Measure: NextPage = () => {
           </Box>
         </Box>
       </Container>
-    </Layout>
+    </>
   );
 };
+
+Measure.getLayout = getLayout;
 
 export default Measure;

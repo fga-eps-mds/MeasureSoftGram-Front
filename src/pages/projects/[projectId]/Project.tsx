@@ -1,20 +1,21 @@
 import React from 'react';
 
-import type { NextPage } from 'next';
 import Head from 'next/head';
 
 import { Box, Container } from '@mui/material';
 
-import Layout from '@components/Layout';
+import { NextPageWithLayout } from '@pages/_app';
 
-import ProjectContent from '../../../shared/components/ProjectContent';
 import useQuery from '@hooks/useQuery';
 
-const Project: NextPage = () => {
+import getLayout from '@components/Layout';
+import ProjectContent from '../components/ProjectContent';
+
+const Project: NextPageWithLayout = () => {
   const { project } = useQuery();
 
   return (
-    <Layout>
+    <>
       <Head>
         <title>MeasureSoftGram - Projetos</title>
       </Head>
@@ -24,8 +25,10 @@ const Project: NextPage = () => {
           <ProjectContent project={project} />
         </Box>
       </Container>
-    </Layout>
+    </>
   );
 };
+
+Project.getLayout = getLayout;
 
 export default Project;
