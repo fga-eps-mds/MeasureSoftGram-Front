@@ -5,7 +5,7 @@ import { Box, Container, Typography } from '@mui/material';
 
 import CardNavigation from '@components/CardNavigation';
 import getLayout from '@components/Layout';
-import { NextPageWithLayout } from '@pages/_app';
+import { NextPageWithLayout } from '@pages/_app.next';
 
 const Organizations: NextPageWithLayout = () => {
   const resultMock = [

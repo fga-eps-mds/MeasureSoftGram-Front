@@ -3,7 +3,7 @@ import Head from 'next/head';
 
 import { Box, Container, Typography } from '@mui/material';
 
-import { NextPageWithLayout } from '@pages/_app';
+import { NextPageWithLayout } from '@pages/_app.next';
 
 import getLayout from '@components/Layout';
 import CardNavigation from '@components/CardNavigation';
