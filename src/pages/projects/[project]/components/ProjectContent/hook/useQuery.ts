@@ -13,7 +13,7 @@ interface Project {
   updated_at: string;
 }
 
-const useQuery = () => {
+export const useQuery = () => {
   const { query } = useRouter();
   const [project, setProject] = useState<Project>();
 
@@ -24,7 +24,6 @@ const useQuery = () => {
           const result = await projectQuery.getProjectById('1', query?.project as string);
           setProject(result.data);
         } catch (error) {
-          console.error(error);
           throw new Error();
         }
       }
@@ -35,5 +34,3 @@ const useQuery = () => {
 
   return { project };
 };
-
-export default useQuery;
