@@ -17,7 +17,7 @@
     "paths": {
       "@components/*": ["src/shared/components/*"],
       "@contexts/*": ["src/shared/contexts/*"],
-      "@hooks/*": ["src/pages/projects/[projectId]/hooks/*"],
+      "@hooks/*": ["src/shared/hooks/*"],
       "@pages/*": ["src/pages/*"],
       "@services/*": ["src/shared/services/*"],
       "@public/*": ["public/*"],

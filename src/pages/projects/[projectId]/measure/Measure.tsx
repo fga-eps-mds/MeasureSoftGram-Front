@@ -1,6 +1,5 @@
 import React from 'react';
 import Head from 'next/head';
-// import { useRouter } from 'next/router';
 
 import { formatRelative } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -13,8 +12,6 @@ import getLayout from '@components/Layout';
 import Circle from './styles';
 
 const Measure: NextPageWithLayout = () => {
-  // const { query } = useRouter();
-
   const resultMock = {
     id: 1,
     name: '2022-1-MeasureSoftGram-Front-Medidas',
