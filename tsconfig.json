@@ -21,7 +21,7 @@
       "@pages/*": ["src/pages/*"],
       "@services/*": ["src/shared/services/*"],
       "@public/*": ["public/*"],
-      "@customTypes/*": ["src/shared/customTypes/*"],
+      "@types/*": ["src/shared/types/*"],
       "@styles/*": ["styles/*"],
       "@utils/*": ["src/shared/utils/*"],
       "@tests/*": ["tests/*"]

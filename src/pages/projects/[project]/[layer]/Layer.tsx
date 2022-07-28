@@ -1,20 +1,20 @@
 import React from 'react';
+import type { NextPage } from 'next';
 import Head from 'next/head';
 
 import { formatRelative } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
-import { NextPageWithLayout } from '@pages/_app.next';
-
 import { Box, Container, Typography } from '@mui/material';
-import getLayout from '@components/Layout';
+
+import Layout from '@components/Layout';
 
 import Circle from './styles';
 
-const Metrics: NextPageWithLayout = () => {
+const Layer: NextPage = () => {
   const resultMock = {
     id: 1,
-    name: '2022-1-MeasureSoftGram-Front-Métricas',
+    name: '2022-1-MeasureSoftGram-Front',
     description: 'Repositório Frontend do software MeasureSoftGram.',
     github_url: 'https://github.com/fga-eps-mds/2022-1-MeasureSoftGram-Front',
     created_at: '2022-07-14T020:00:55.603466',
@@ -26,7 +26,7 @@ const Metrics: NextPageWithLayout = () => {
   });
 
   return (
-    <>
+    <Layout>
       <Head>
         <title>MeasureSoftGram - Projetos</title>
       </Head>
@@ -43,10 +43,8 @@ const Metrics: NextPageWithLayout = () => {
           </Box>
         </Box>
       </Container>
-    </>
+    </Layout>
   );
 };
 
-Metrics.getLayout = getLayout;
-
-export default Metrics;
+export default Layer;

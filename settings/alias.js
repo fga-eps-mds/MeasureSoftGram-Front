@@ -28,8 +28,8 @@ module.exports = [
     path: './tests'
   },
   {
-    name: '@customTypes',
-    path: './src/shared/customTypes'
+    name: '@types',
+    path: './src/shared/types'
   },
   {
     name: '@utils',

@@ -1,1 +1,1 @@
-export { default } from './CardNavigation';
+export { default } from './Card';

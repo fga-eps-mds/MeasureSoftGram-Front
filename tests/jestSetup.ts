@@ -3,7 +3,7 @@ import * as hooks from 'next/router';
 import { NextRouter } from 'next/router';
 
 export const createMockedRoute = (query?: Object) => {
-  const route = { query, asPath: '/project/id' } as unknown as NextRouter;
+  const route = { query } as unknown as NextRouter;
   return route;
 };
 

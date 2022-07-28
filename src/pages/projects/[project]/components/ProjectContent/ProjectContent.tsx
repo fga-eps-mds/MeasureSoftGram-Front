@@ -5,17 +5,14 @@ import { ptBR } from 'date-fns/locale';
 
 import { Box, Typography } from '@mui/material';
 
-import { Project } from '@customTypes/project';
-
-import Skeleton from '../Skeleton';
+import Skeleton from './Skeleton';
 
 import Circle from './styles';
+import { useQuery } from './hook/useQuery';
 
-interface Props {
-  project?: Project;
-}
+const ProjectContent = () => {
+  const { project } = useQuery();
 
-const ProjectContent: React.FC<Props> = ({ project }) => {
   const lastUpdateDate =
     project &&
     formatRelative(new Date(project.updated_at), new Date(), {

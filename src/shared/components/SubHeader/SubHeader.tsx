@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import * as Styles from './styles';
 import { SUB_HEADER } from './consts';
 
-const { OVERVIEW, MESURES, METRICS, PATH_NAME_INDEX } = SUB_HEADER.VALUES;
+const { OVERVIEW, MESURES, METRICS } = SUB_HEADER.VALUES;
 
 interface SubHeaderOptions {
   name: string;
@@ -16,33 +16,26 @@ interface SubHeaderOptions {
   selected: boolean;
 }
 
-const routeGetter = (path: string) => {
-  return path.split('/')[PATH_NAME_INDEX];
-};
-
 function SubHeader() {
   const {
-    query: { projectId },
-    asPath
+    query: { layer, project }
   } = useRouter();
-
-  const selectedPath = routeGetter(asPath);
 
   const options: SubHeaderOptions[] = [
     {
       name: OVERVIEW,
-      path: `/projects/${projectId}/`,
-      selected: selectedPath === undefined
+      path: `/projects/${project}/`,
+      selected: layer === undefined
     },
     {
       name: MESURES,
-      path: `/projects/${projectId}/measure`,
-      selected: selectedPath === 'measure'
+      path: `/projects/${project}/measure`,
+      selected: layer === 'measure'
     },
     {
       name: METRICS,
-      path: `/projects/${projectId}/metrics`,
-      selected: selectedPath === 'metrics'
+      path: `/projects/${project}/metrics`,
+      selected: layer === 'metrics'
     }
   ];
 
