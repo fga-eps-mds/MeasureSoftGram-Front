@@ -16,5 +16,6 @@ module.exports = {
     ...aliases
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  setupFiles: ['<rootDir>/tests/jestSetup.ts']
+  setupFiles: ['<rootDir>/tests/jestSetup.ts'],
+  testEnvironment: 'jsdom'
 };

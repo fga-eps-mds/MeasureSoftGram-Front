@@ -6,7 +6,7 @@ Object {
   "baseElement": <body>
     <div>
       <header
-        class="sc-bczRLJ gGilsS"
+        class="styles__Wrapper-sc-lrv4uu-0 ixkdiG"
       >
         <div
           class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
@@ -15,7 +15,7 @@ Object {
             class="MuiBox-root css-gg4vpm"
           >
             <img
-              class="sc-gsnTZi gnrHXY"
+              class="styles__Logo-sc-lrv4uu-1 bcoVzf"
               height="30"
               src="/images/svg/logo.svg"
             />
@@ -58,7 +58,7 @@ Object {
   </body>,
   "container": <div>
     <header
-      class="sc-bczRLJ gGilsS"
+      class="styles__Wrapper-sc-lrv4uu-0 ixkdiG"
     >
       <div
         class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
@@ -67,7 +67,7 @@ Object {
           class="MuiBox-root css-gg4vpm"
         >
           <img
-            class="sc-gsnTZi gnrHXY"
+            class="styles__Logo-sc-lrv4uu-1 bcoVzf"
             height="30"
             src="/images/svg/logo.svg"
           />
