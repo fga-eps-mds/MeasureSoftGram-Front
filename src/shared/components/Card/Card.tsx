@@ -12,7 +12,7 @@ interface Props {
   url: string;
 }
 
-const CardNavigation: React.FC<Props> = ({ id, name, url }) => (
+const Card: React.FC<Props> = ({ id, name, url }) => (
   <Button key={id} variant="outlined">
     <Link href={url}>
       <Box display="flex" alignItems="center" paddingX="10px" paddingY="5px">
@@ -28,4 +28,4 @@ const CardNavigation: React.FC<Props> = ({ id, name, url }) => (
   </Button>
 );
 
-export default CardNavigation;
+export default Card;

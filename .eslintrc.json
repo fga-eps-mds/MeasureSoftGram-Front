@@ -15,7 +15,6 @@
   },
   "plugins": ["react", "@typescript-eslint", "prettier", "jest"],
   "rules": {
-    "react/require-default-props": "off",
     "import/prefer-default-export": "off",
     "react/jsx-filename-extension": "off",
     "react/function-component-definition": "off",

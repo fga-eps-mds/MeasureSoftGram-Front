@@ -1,10 +1,10 @@
 import React from 'react';
-import { useRouter } from 'next/router';
 
 import Header from '@components/Header';
 import SubHeader from '@components/SubHeader';
 
 import * as Styles from './styles';
+import { useRouter } from 'next/router';
 
 interface Props {
   children?: React.ReactNode;
@@ -13,7 +13,7 @@ interface Props {
 const Layout: React.FC<Props> = ({ children }) => {
   const { query } = useRouter();
 
-  const hasSubHeader = query?.projectId;
+  const hasSubHeader = query?.project;
 
   return (
     <Styles.Wrapper>

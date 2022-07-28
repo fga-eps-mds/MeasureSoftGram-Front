@@ -1,14 +1,13 @@
 import React from 'react';
+import type { NextPage } from 'next';
 import Head from 'next/head';
 
 import { Box, Container, Typography } from '@mui/material';
 
-import { NextPageWithLayout } from '@pages/_app.next';
+import Layout from '@components/Layout';
+import Card from '@components/Card';
 
-import getLayout from '@components/Layout';
-import CardNavigation from '@components/CardNavigation';
-
-const Projects: NextPageWithLayout = () => {
+const Projects: NextPage = () => {
   const resultMock = [
     {
       id: 1,
@@ -17,7 +16,7 @@ const Projects: NextPageWithLayout = () => {
   ];
 
   return (
-    <>
+    <Layout>
       <Head>
         <title>MeasureSoftGram - Projetos</title>
       </Head>
@@ -30,15 +29,13 @@ const Projects: NextPageWithLayout = () => {
 
           <Box display="flex">
             {resultMock.map((project) => (
-              <CardNavigation key={project.id} id={project.id} name={project.name} url={`/projects/${project.id}`} />
+              <Card key={project.id} id={project.id} name={project.name} url={`/projects/${project.id}`} />
             ))}
           </Box>
         </Box>
       </Container>
-    </>
+    </Layout>
   );
 };
-
-Projects.getLayout = getLayout;
 
 export default Projects;

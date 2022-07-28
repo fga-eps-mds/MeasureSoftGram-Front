@@ -25,8 +25,7 @@ describe('<Layout />', () => {
 
     it('Deve mostrar Layout com subheader', async () => {
       setRouteQuery({
-        project: 'measure',
-        projectId: 1
+        project: 'measure'
       });
 
       const { getByRole, getByText } = render(<Layout />);
