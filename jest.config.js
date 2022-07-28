@@ -8,13 +8,13 @@ module.exports = {
   collectCoverageFrom: ['<rootDir>/src/**/*.{ts,tsx}'],
   testRegex: '((\\.|/*.)(spec))\\.tsx?$',
   coverageDirectory: 'coverage',
+  preset: 'ts-jest',
   transform: {
-    '^.+\\.tsx?$': 'ts-jest'
+    '^.+\\.tsx?$': 'babel-jest'
   },
   moduleNameMapper: {
     ...aliases
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  setupFiles: ['<rootDir>/tests/jestSetup.ts'],
-  testEnvironment: 'jsdom'
+  setupFiles: ['<rootDir>/tests/jestSetup.ts']
 };

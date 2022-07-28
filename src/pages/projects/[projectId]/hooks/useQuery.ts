@@ -9,19 +9,19 @@ export const useQuery = () => {
   const { query } = useRouter();
   const [project, setProject] = useState<Project>();
 
-  useEffect(() => {
-    async function loadQuery() {
-      if (query?.projectId) {
-        try {
-          const result = await projectQuery.getProjectById('1', query?.projectId as string);
-          setProject(result.data);
-        } catch (error) {
-          console.error(error);
-        }
+  async function loadProject() {
+    if (query?.projectId) {
+      try {
+        const result = await projectQuery.getProjectById('1', query?.projectId as string);
+        setProject(result.data);
+      } catch (error) {
+        console.error(error);
       }
     }
+  }
 
-    loadQuery();
+  useEffect(() => {
+    loadProject();
   }, [query?.projectId]);
 
   return { project };

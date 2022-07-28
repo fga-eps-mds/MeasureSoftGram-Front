@@ -3,16 +3,17 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { projectQuery } from '@services/index';
+
 import { MeasuresHistory } from '@customTypes/project';
 
-const useMeasures = () => {
+const useQuery = () => {
   const { query } = useRouter();
   const [projectMeasuresHistory, setProjectMeasuresHistory] = useState<MeasuresHistory>();
 
   async function loadProjectMeasuresHistory() {
-    if (query?.project) {
+    if (query?.projectId) {
       try {
-        const result = await projectQuery.getProjectMeasuresHistory('1', query?.project as string);
+        const result = await projectQuery.getProjectMeasuresHistory('1', query?.projectId as string);
         setProjectMeasuresHistory(result.data);
       } catch (error) {
         return error;
@@ -27,4 +28,4 @@ const useMeasures = () => {
   return { projectMeasuresHistory };
 };
 
-export default useMeasures;
+export default useQuery;
