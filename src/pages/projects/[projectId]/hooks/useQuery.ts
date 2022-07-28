@@ -2,16 +2,8 @@ import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
+import { Project } from '@customTypes/project';
 import { projectQuery } from '@services/index';
-
-interface Project {
-  id: number;
-  name: string;
-  description: string;
-  github_url: string;
-  created_at: string;
-  updated_at: string;
-}
 
 export const useQuery = () => {
   const { query } = useRouter();
@@ -19,18 +11,19 @@ export const useQuery = () => {
 
   useEffect(() => {
     async function loadQuery() {
-      if (query?.project) {
+      if (query?.projectId) {
         try {
-          const result = await projectQuery.getProjectById('1', query?.project as string);
+          const result = await projectQuery.getProjectById('1', query?.projectId as string);
           setProject(result.data);
         } catch (error) {
-          throw new Error();
+          console.error(error);
+          // throw new Error();
         }
       }
     }
 
     loadQuery();
-  }, [query?.project]);
+  }, [query?.projectId]);
 
   return { project };
 };

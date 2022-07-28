@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Card /> Snapshot Deve corresponder ao Snapshot 1`] = `
+exports[`<CardNavigation /> Snapshot Deve corresponder ao Snapshot 1`] = `
 Object {
   "asFragment": [Function],
   "baseElement": <body>
