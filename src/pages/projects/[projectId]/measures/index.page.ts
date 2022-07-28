@@ -1,1 +1,1 @@
-export { default } from './Measure';
+export { default } from './Measures';

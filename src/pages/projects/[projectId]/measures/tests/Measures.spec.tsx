@@ -1,20 +1,27 @@
-import React from 'react'
+import React from 'react';
 
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 
-import Measures from '../Measure';
+import Measures from '../Measures';
 import mockMeasuresHistory from './mocks';
 
-jest.mock("./hook/useMeasures", () => ({
+jest.mock('../hooks/useQuery', () => ({
   __esModule: true,
   default: () => ({ projectMeasuresHistory: mockMeasuresHistory })
 }));
 
-describe('<Measures />', () => {
-  it('should render Measures', async () => {
-    const { getByTestId } = render(<Measures />);
+jest.mock('echarts-for-react', () => ({
+  __esModule: true,
+  ...jest.requireActual('echarts-for-react'),
+  default: () => <div />
+}));
 
-    expect(getByTestId('measures')).toBeInTheDocument()
+describe('<Measures />', () => {
+  describe('Snapshot', () => {
+    it('Deve corresponder ao Snapshot', () => {
+      const tree = render(<Measures />);
+      expect(tree).toMatchSnapshot();
+    });
   });
 });
