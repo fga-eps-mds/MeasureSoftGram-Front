@@ -6,13 +6,13 @@ Object {
   "baseElement": <body>
     <div>
       <div
-        class="sc-eCYdqJ laVtOZ"
+        class="styles__Wrapper-sc-1vn80o5-0 jSIghj"
       >
         <div
-          class="sc-jSMfEi eaLAsk"
+          class="styles__HeaderBox-sc-1vn80o5-1 fXKwkA"
         >
           <header
-            class="sc-bczRLJ gGilsS"
+            class="styles__Wrapper-sc-lrv4uu-0 ixkdiG"
           >
             <div
               class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
@@ -21,7 +21,7 @@ Object {
                 class="MuiBox-root css-gg4vpm"
               >
                 <img
-                  class="sc-gsnTZi gnrHXY"
+                  class="styles__Logo-sc-lrv4uu-1 bcoVzf"
                   height="30"
                   src="/images/svg/logo.svg"
                 />
@@ -66,13 +66,13 @@ Object {
   </body>,
   "container": <div>
     <div
-      class="sc-eCYdqJ laVtOZ"
+      class="styles__Wrapper-sc-1vn80o5-0 jSIghj"
     >
       <div
-        class="sc-jSMfEi eaLAsk"
+        class="styles__HeaderBox-sc-1vn80o5-1 fXKwkA"
       >
         <header
-          class="sc-bczRLJ gGilsS"
+          class="styles__Wrapper-sc-lrv4uu-0 ixkdiG"
         >
           <div
             class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
@@ -81,7 +81,7 @@ Object {
               class="MuiBox-root css-gg4vpm"
             >
               <img
-                class="sc-gsnTZi gnrHXY"
+                class="styles__Logo-sc-lrv4uu-1 bcoVzf"
                 height="30"
                 src="/images/svg/logo.svg"
               />

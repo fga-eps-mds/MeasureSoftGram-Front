@@ -3,9 +3,10 @@ import Link from 'next/link';
 
 import { Box, Button, Container } from '@mui/material';
 import { HEADER } from './consts';
-const { BUTTON_OPTIONS, IMAGE_SOURCE } = HEADER.VALUES;
 
 import * as Styles from './styles';
+
+const { BUTTON_OPTIONS, IMAGE_SOURCE } = HEADER.VALUES;
 
 function Header() {
   return (

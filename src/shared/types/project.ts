@@ -1,4 +1,4 @@
-export interface CollectedMetric {
+interface CollectedMetric {
   id: number;
   measure_id: number;
   value: number;
@@ -6,18 +6,18 @@ export interface CollectedMetric {
 }
 
 export interface MeasuresHistoryResult {
-  id: number;
-  key: string;
-  name: string;
-  description: string;
-  history: Array<CollectedMetric>;
+  id: number,
+  key: string,
+  name: string,
+  description: string,
+  history: Array<CollectedMetric>
 }
 
 export interface MeasuresHistory {
   count: string;
   next: string;
-  previous: string;
-  results: Array<MeasuresHistoryResult>;
+	previous: string;
+	results: Array<MeasuresHistoryResult>
 }
 
 export interface Project {

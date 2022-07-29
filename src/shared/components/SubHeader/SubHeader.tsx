@@ -36,8 +36,8 @@ function SubHeader() {
     },
     {
       name: MESURES,
-      path: `/projects/${projectId}/measure`,
-      selected: selectedPath === 'measure'
+      path: `/projects/${projectId}/measures`,
+      selected: selectedPath === 'measures'
     },
     {
       name: METRICS,

@@ -8,8 +8,9 @@ module.exports = {
   collectCoverageFrom: ['<rootDir>/src/**/*.{ts,tsx}'],
   testRegex: '((\\.|/*.)(spec))\\.tsx?$',
   coverageDirectory: 'coverage',
+  preset: 'ts-jest',
   transform: {
-    '^.+\\.tsx?$': 'ts-jest'
+    '^.+\\.tsx?$': 'babel-jest'
   },
   moduleNameMapper: {
     ...aliases
