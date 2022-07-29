@@ -9,6 +9,42 @@ Object {
         class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
       >
         <div
+          class="MuiGrid-root css-1i9d3ev-MuiGrid-root"
+        >
+          <h5
+            class="MuiTypography-root MuiTypography-h5 css-1657z6w-MuiTypography-root"
+          >
+            Funcionalidade
+          </h5>
+          <div
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-aqz1n5-MuiGrid-root"
+          />
+          <h5
+            class="MuiTypography-root MuiTypography-h5 css-1657z6w-MuiTypography-root"
+          >
+            Eficiência
+          </h5>
+          <div
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-aqz1n5-MuiGrid-root"
+          />
+          <h5
+            class="MuiTypography-root MuiTypography-h5 css-1657z6w-MuiTypography-root"
+          >
+            Manutenibilidade
+          </h5>
+          <div
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-aqz1n5-MuiGrid-root"
+          />
+          <h5
+            class="MuiTypography-root MuiTypography-h5 css-1657z6w-MuiTypography-root"
+          >
+            Portabilidade
+          </h5>
+          <div
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-aqz1n5-MuiGrid-root"
+          />
+        </div>
+        <div
           class="MuiBox-root css-1s8bum5"
           data-testid="measures"
         >
@@ -21,6 +57,42 @@ Object {
     <div
       class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
     >
+      <div
+        class="MuiGrid-root css-1i9d3ev-MuiGrid-root"
+      >
+        <h5
+          class="MuiTypography-root MuiTypography-h5 css-1657z6w-MuiTypography-root"
+        >
+          Funcionalidade
+        </h5>
+        <div
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-aqz1n5-MuiGrid-root"
+        />
+        <h5
+          class="MuiTypography-root MuiTypography-h5 css-1657z6w-MuiTypography-root"
+        >
+          Eficiência
+        </h5>
+        <div
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-aqz1n5-MuiGrid-root"
+        />
+        <h5
+          class="MuiTypography-root MuiTypography-h5 css-1657z6w-MuiTypography-root"
+        >
+          Manutenibilidade
+        </h5>
+        <div
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-aqz1n5-MuiGrid-root"
+        />
+        <h5
+          class="MuiTypography-root MuiTypography-h5 css-1657z6w-MuiTypography-root"
+        >
+          Portabilidade
+        </h5>
+        <div
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-aqz1n5-MuiGrid-root"
+        />
+      </div>
       <div
         class="MuiBox-root css-1s8bum5"
         data-testid="measures"
