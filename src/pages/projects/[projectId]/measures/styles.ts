@@ -1,14 +1,10 @@
-import styled from 'styled-components';
+const BoxStyle = {
+  backgroundColor: '#231b22',
+  '&:hover': {
+    backgroundColor: 'primary.main',
+    cursor: 'pointer',
+    opacity: [0.9, 0.8, 0.7]
+  }
+};
 
-const Circle = styled.div`
-  height: 30px;
-  width: 30px;
-
-  margin-right: 20px;
-
-  background-color: orange;
-
-  border-radius: 50%;
-`;
-
-export default Circle;
+export default BoxStyle;

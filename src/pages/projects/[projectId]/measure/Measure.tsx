@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
-import Moment from 'moment';
 import { formatRelative } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Grid, Typography, Container } from '@mui/material';
 
 import { NextPageWithLayout } from '@pages/_app.next';
 import { projectQuery } from '@services/index';
 import getLayout from '@components/Layout';
 
-import Circle from './styles';
 import { MeasureType } from '@types/MeasureTypes';
+import BoxStyle from './styles';
 
-const DATE = 'DD/MM/YYYY';
+const subcategories = [
+  { name: 'Funcionalidade', measures: [1, 2, 3] },
+  { name: 'Confiabilidade', measures: [] },
+  { name: 'Usabilidade', measures: [] },
+  { name: 'Eficiência', measures: [4] },
+  { name: 'Manutenibilidade', measures: [5] },
+  { name: 'Portabilidade', measures: [6] }
+];
 
 const Measure: NextPageWithLayout = () => {
   const resultMock = {
@@ -49,32 +55,49 @@ const Measure: NextPageWithLayout = () => {
     locale: ptBR
   });
 
+  const renderMeasures = (subcategoryMeasures: any) =>
+    measureResults.map((measureResult) => {
+      if (subcategoryMeasures.indexOf(measureResult.id) > -1) {
+        return (
+          <Grid item xs={3} marginBottom="32px">
+            <Box borderRadius="16px" padding="16px" color="#fff" sx={BoxStyle} textAlign="center">
+              <Typography variant="h6" paddingBottom="4px">
+                {measureResult.name}
+              </Typography>
+              <Typography variant="h6" paddingBottom="4px">
+                Valor: {measureResult.latest.value.toFixed(2)}
+              </Typography>
+              <Typography variant="caption">Última medida: {lastUpdateDate}</Typography>
+            </Box>
+          </Grid>
+        );
+      }
+      return null;
+    });
+
+  const renderSubcategories = () =>
+    subcategories.map((subcategory) => {
+      if (subcategory.measures.length > 0)
+        return (
+          <>
+            <Typography variant="h5" marginTop="16px">
+              {subcategory.name}
+            </Typography>
+            <Grid container spacing={3} marginTop="16px">
+              {renderMeasures(subcategory.measures)}
+            </Grid>
+          </>
+        );
+      return null;
+    });
+
   return (
     <>
       <Head>
         <title>MeasureSoftGram - Projetos</title>
       </Head>
-
       <Container>
-        <Box display="flex" flexDirection="row">
-          {measureResults.map((measureResult) => {
-            return (
-              <div style={{ borderWidth: 1, borderColor: 'red' }}>
-                <Box display="flex" flexDirection="row" alignItems="center" marginX="20px" width={200}>
-                  <Box>
-                    <Typography variant="h6">{measureResult.name}</Typography>
-                    <Typography variant="h6" textAlign={'center'}>
-                      {measureResult.latest.value}
-                    </Typography>
-                    <Typography variant="caption">
-                      Medido: {Moment(measureResult.latest.created_at).format(DATE)}
-                    </Typography>
-                  </Box>
-                </Box>
-              </div>
-            );
-          })}
-        </Box>
+        <Grid marginTop="32px">{renderSubcategories()}</Grid>
       </Container>
     </>
   );
