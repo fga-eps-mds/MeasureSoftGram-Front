@@ -18,10 +18,10 @@ jobs:
         run: yarn
 
       - name: Run tests
-        run: yarn ci:test
+        run: yarn run jest --coverage --ci --json --outputFile=test-results.json
 
       - name: ESLint + Prettier
-        run: yarn run jest --coverage
+        run: yarn lint
 
       - name: SonarCloud Scan
         if: always()

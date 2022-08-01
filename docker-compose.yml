@@ -1,0 +1,17 @@
+version: "3.8"
+
+volumes:
+  service_postgres_data:
+
+services:
+  front:
+    container_name: front
+    image: measuresoftgram-front:latest
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: ./docker/front.Dockerfile
+    ports:
+      - "9999:9999"
+    volumes:
+      - .:/usr/src/
