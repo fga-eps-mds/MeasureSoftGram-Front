@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 
 volumes:
   service_postgres_data:
@@ -12,6 +12,12 @@ services:
       context: .
       dockerfile: ./docker/front.Dockerfile
     ports:
-      - "9999:9999"
+      - '3000:3000'
+    volumes:
+      - .:/usr/src/
+  sonar_scan:
+    image: sonarsource/sonar-scanner-cli
+    environment:
+      - SONAR_TOKEN=c3ea735a30a7e86e1457e29e0dbf8996284385a0
     volumes:
       - .:/usr/src/

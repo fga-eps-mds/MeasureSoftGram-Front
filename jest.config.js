@@ -17,5 +17,15 @@ module.exports = {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   setupFiles: ['<rootDir>/tests/jestSetup.ts'],
-  testEnvironment: 'jsdom'
+  testEnvironment: 'jsdom',
+  reporters: [
+    'default',
+    [
+      'jest-sonar',
+      {
+        outputDirectory: '.',
+        outputName: 'test-report.xml'
+      }
+    ]
+  ]
 };
