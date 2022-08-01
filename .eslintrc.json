@@ -4,7 +4,14 @@
     "es2021": true,
     "jest/globals": true
   },
-  "extends": ["next/core-web-vitals", "plugin:react/recommended", "airbnb", "prettier", "plugin:jest/recommended"],
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:react/recommended",
+    "airbnb",
+    "prettier",
+    "plugin:jest/recommended",
+    "plugin:sonarjs/recommended"
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
@@ -13,8 +20,10 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint", "prettier", "jest"],
+  "plugins": ["react", "@typescript-eslint", "prettier", "jest", "sonarjs"],
   "rules": {
+    "sonarjs/cognitive-complexity": "error",
+    "sonarjs/no-identical-expressions": "error",
     "react/require-default-props": "off",
     "import/prefer-default-export": "off",
     "react/jsx-filename-extension": "off",
