@@ -2,6 +2,20 @@
 
 Frontend repository of MeasureSoftGram application.
 
+## Badges
+
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=bugs)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=coverage)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
+
 ## Links
 
 - Prod: [https://measuresoftgram.herokuapp.com/](https://measuresoftgram.herokuapp.com/)
