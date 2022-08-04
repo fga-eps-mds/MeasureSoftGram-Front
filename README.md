@@ -15,6 +15,12 @@ Frontend repository of MeasureSoftGram application.
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=coverage)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
+[![codecov](https://codecov.io/gh/fga-eps-mds/2022-1-MeasureSoftGram-Front/branch/stage/graph/badge.svg?token=9GRTFZ4K28)](https://codecov.io/gh/fga-eps-mds/2022-1-MeasureSoftGram-Front)
+
+<br>
+
+<img src="https://codecov.io/gh/fga-eps-mds/2022-1-MeasureSoftGram-Front/branch/stage/graphs/sunburst.svg?token=9GRTFZ4K28" width="128"/>
+
 
 ## Links
 
