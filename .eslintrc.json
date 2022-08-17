@@ -31,6 +31,7 @@
     "import/extensions": "off",
     "no-restricted-exports": "off",
     "react/jsx-props-no-spreading": "off",
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "no-undef": "off"
   }
 }
