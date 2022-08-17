@@ -1,3 +1,5 @@
+import { ButtonProps } from '@mui/material';
+
 export interface CollectedMetric {
   id: number;
   measure_id: number;
@@ -27,4 +29,12 @@ export interface Project {
   github_url: string;
   created_at: string;
   updated_at: string;
+}
+
+export interface ButtonType {
+  label: string;
+  onClick: () => void;
+  backgroundColor: string;
+  color: string;
+  variant?: ButtonProps['variant'];
 }

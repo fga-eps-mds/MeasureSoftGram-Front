@@ -1,23 +1,15 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import { Button, ButtonProps } from '@mui/material';
+import { Button } from '@mui/material';
+import { ButtonType } from '@customTypes/project';
 import * as Styles from './styles';
 
 const { ScrollDiv } = Styles;
-
-interface Buttons {
-  label: string;
-  onClick: () => void;
-  backgroundColor: string;
-  color: string;
-  variant?: ButtonProps['variant'];
-}
-
 interface DrawerMenuProps {
   children: JSX.Element;
   open: boolean;
-  buttons?: Array<Buttons>;
+  buttons?: Array<ButtonType>;
 }
 
 const DrawerMenu = ({ children, open, buttons }: DrawerMenuProps) => {
@@ -27,6 +19,7 @@ const DrawerMenu = ({ children, open, buttons }: DrawerMenuProps) => {
         <Box marginTop="16px">
           {buttons.map((button) => (
             <Button
+              key={Math.random()}
               variant={button.variant}
               sx={{
                 backgroundColor: button.backgroundColor,
