@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { ButtonType } from '@customTypes/project';
 import * as Styles from './styles';
 
@@ -10,9 +10,11 @@ interface DrawerMenuProps {
   children: JSX.Element;
   open: boolean;
   buttons?: Array<ButtonType>;
+  subtitle?: string;
+  title?: string;
 }
 
-const DrawerMenu = ({ children, open, buttons }: DrawerMenuProps) => {
+const DrawerMenu = ({ children, open, buttons, title, subtitle }: DrawerMenuProps) => {
   const renderButtons = () => {
     if (buttons)
       return (
@@ -36,15 +38,28 @@ const DrawerMenu = ({ children, open, buttons }: DrawerMenuProps) => {
       );
   };
 
+  const renderTitle = () => {
+    if (title)
+      return (
+        <Box>
+          <Typography variant="h3">{title}</Typography>
+          {!!subtitle && <Typography mt="12px">{subtitle}</Typography>}
+        </Box>
+      );
+  };
+
   return (
     <Drawer anchor="right" open={open}>
       <Box
         display="flex"
         flexDirection="column"
         justifyContent="space-between"
-        sx={{ padding: '46px 24px 34px', height: '100%' }}
+        sx={{ padding: '46px 36px 34px', height: '100%' }}
       >
-        <ScrollDiv>{children}</ScrollDiv>
+        <ScrollDiv>
+          {renderTitle()}
+          {children}
+        </ScrollDiv>
         {renderButtons()}
       </Box>
     </Drawer>
