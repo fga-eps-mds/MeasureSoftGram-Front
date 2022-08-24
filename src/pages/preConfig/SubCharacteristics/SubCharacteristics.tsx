@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Grid, Slider, Tab, Tabs, TextField, Typography } from '@mui/material';
+import { Box, Grid, InputAdornment, Slider, Tab, Tabs, TextField, Typography } from '@mui/material';
 import CheckboxButton from '@components/CheckboxButton/CheckboxButton';
 import capitilizer from '@utils/capitilizer';
 import mockedData from '../mockData.json';
@@ -100,6 +100,7 @@ const SubCharacteristics = () => {
                   variant="standard"
                   value={subcharacteristic.weight}
                   onChange={setWeight(subcharacteristic.key)}
+                  InputProps={{ endAdornment: <InputAdornment position="end">%</InputAdornment> }}
                 />
               </Grid>
             </Grid>

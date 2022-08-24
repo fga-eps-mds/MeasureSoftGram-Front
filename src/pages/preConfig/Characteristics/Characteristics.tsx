@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Box, Grid, Slider, TextField, Typography } from '@mui/material';
+import { Box, Grid, InputAdornment, Slider, TextField, Typography } from '@mui/material';
 import CheckboxButton from '@components/CheckboxButton/CheckboxButton';
 import capitilizer from '@utils/capitilizer';
-import percentageMask from '@utils/Masks/percentageMask';
 import mockedData from '../mockData.json';
 import toPercentage from '../utils/toPercentage';
 
@@ -71,8 +70,9 @@ const Characteristics = () => {
                 <TextField
                   sx={{ width: '96px', top: -4 }}
                   variant="standard"
-                  value={percentageMask(characteristic.weight.toString())}
+                  value={characteristic.weight.toString()}
                   onChange={setWeight(characteristic.key)}
+                  InputProps={{ endAdornment: <InputAdornment position="end">%</InputAdornment> }}
                 />
               </Grid>
             </Grid>

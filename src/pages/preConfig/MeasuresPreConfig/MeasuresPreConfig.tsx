@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Grid, Slider, TextField, Typography } from '@mui/material';
+import { Box, Grid, InputAdornment, Slider, TextField, Typography } from '@mui/material';
 import CheckboxButton from '@components/CheckboxButton/CheckboxButton';
 import titleFormater from '@utils/titleFormater';
 import capitilizer from '@utils/capitilizer';
@@ -105,6 +105,7 @@ const MeasuresPreConfig = () => {
                     variant="standard"
                     value={measure.weight}
                     onChange={setWeight(measure.key)}
+                    InputProps={{ endAdornment: <InputAdornment position="end">%</InputAdornment> }}
                   />
                 </Grid>
               </Grid>
