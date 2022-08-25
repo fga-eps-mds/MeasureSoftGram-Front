@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import { Grid, Slider, SliderProps, TextField, TextFieldProps, Typography } from '@mui/material';
+import { Grid, InputAdornment, Slider, SliderProps, TextField, TextFieldProps, Typography } from '@mui/material';
 import capitilizer from '@utils/capitilizer';
 import titleFormater from '@utils/titleFormater';
 
@@ -26,6 +26,7 @@ const PreConfigSliders = ({ label, onChange, weight }: PreConfigSlidersProps) =>
         variant="standard"
         value={weight}
         onChange={onChange as TextFieldProps['onChange']}
+        InputProps={{ endAdornment: <InputAdornment position="end">%</InputAdornment> }}
       />
     </Grid>
   </Grid>
