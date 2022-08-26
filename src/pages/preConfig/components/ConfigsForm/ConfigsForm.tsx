@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Box, Grid, Typography } from '@mui/material';
 import { Characteristic, Measure, Subcharacteristic } from '@customTypes/preConfig';
 import CheckboxButton from '@components/CheckboxButton/CheckboxButton';
@@ -18,29 +18,34 @@ interface PreConfigTypes {
   data: Characteristic[];
   type: iteratorType;
   onChange: Function;
-  labels?: string[];
+  setCheckboxValues: Function;
+  checkboxValues: string[];
+  tabs?: string[];
 }
 
-const ConfigForm = ({ onChange, data, labels, type }: PreConfigTypes) => {
-  const labelArray = labels || [''];
-
-  const [checkboxNames, setCheckboxNames] = useState<Array<string>>([]);
-  const [tabValue, setTabValue] = useState<string>(labelArray[0]);
-
+const ConfigForm = ({ onChange, data, tabs, type, checkboxValues, setCheckboxValues }: PreConfigTypes) => {
+  const [tabValue, setTabValue] = useState<string>('');
   const setWeight = (key: string) => (event: any) => {
     const weight = toPercentage(event.target.value);
     onChange(iterator[type]({ data, key, weight }));
   };
 
-  const addCharacteristic = (key: string) => {
-    let namesArray = [...checkboxNames];
+  useEffect(() => {
+    if (tabs) setTabValue(tabs[0]);
+  }, [tabs]);
 
-    if (checkboxNames.includes(key)) {
-      namesArray = namesArray.filter((name) => name !== key);
-    } else namesArray.push(key);
+  const checkboxValue = useCallback(
+    (key: string) => {
+      let namesArray = [...checkboxValues];
 
-    setCheckboxNames(namesArray);
-  };
+      if (checkboxValues.includes(key)) {
+        namesArray = namesArray.filter((name) => name !== key);
+      } else namesArray.push(key);
+
+      setCheckboxValues(namesArray);
+    },
+    [checkboxValues, setCheckboxValues]
+  );
 
   const checkBoxCallback = (
     value: Measure | Characteristic | Subcharacteristic,
@@ -51,9 +56,10 @@ const ConfigForm = ({ onChange, data, labels, type }: PreConfigTypes) => {
         <Grid item>
           <CheckboxButton
             label={titleFormater(value.key)}
+            checked={checkboxValues.includes(value.key)}
             style={{ marginRight: '8px' }}
             onClick={() => {
-              addCharacteristic(value.key);
+              checkboxValue(value.key);
             }}
           />
         </Grid>
@@ -61,7 +67,7 @@ const ConfigForm = ({ onChange, data, labels, type }: PreConfigTypes) => {
   };
 
   const renderCheckBoxes = () => (
-    <Grid container marginBottom="64px">
+    <Grid container marginBottom="64px" columns={4}>
       {componentIterator[type](data, checkBoxCallback)}
     </Grid>
   );
@@ -70,7 +76,7 @@ const ConfigForm = ({ onChange, data, labels, type }: PreConfigTypes) => {
     value: Measure | Characteristic | Subcharacteristic,
     previousValue: Characteristic | Subcharacteristic
   ) => {
-    if (checkboxNames.includes(value.key) && (!previousValue || previousValue.key === tabValue)) {
+    if (checkboxValues.includes(value.key) && (!previousValue || previousValue.key === tabValue)) {
       return <PreConfigSliders label={value.key} weight={value.weight} onChange={setWeight(value.key)} />;
     }
   };
@@ -82,10 +88,8 @@ const ConfigForm = ({ onChange, data, labels, type }: PreConfigTypes) => {
   };
 
   const renderTabs = () => {
-    if (labelArray.length > 1)
-      return (
-        <PreConfigTabs style={{ marginBottom: '24px' }} onChange={setTab} value={tabValue} tabsValues={labelArray} />
-      );
+    if (tabs)
+      return <PreConfigTabs style={{ marginBottom: '24px' }} onChange={setTab} value={tabValue} tabsValues={tabs} />;
   };
 
   return (
