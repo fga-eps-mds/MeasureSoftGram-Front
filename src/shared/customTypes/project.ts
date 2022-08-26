@@ -31,7 +31,7 @@ export interface Project {
   updated_at: string;
 }
 
-export interface ButtonType {
+export interface ButtonType extends Omit<Partial<ButtonProps>, 'color'> {
   label: string;
   onClick: () => void;
   backgroundColor: string;

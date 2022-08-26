@@ -29,6 +29,7 @@ const DrawerMenu = ({ children, open, buttons, title, subtitle }: DrawerMenuProp
                 padding: '9px 20px',
                 marginRight: '16px'
               }}
+              disabled={button.disabled}
               onClick={button.onClick}
             >
               {button.label}
