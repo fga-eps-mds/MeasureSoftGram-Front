@@ -3,11 +3,11 @@ import { Box, Grid, Typography } from '@mui/material';
 import { Characteristic, Measure, Subcharacteristic } from '@customTypes/preConfig';
 import CheckboxButton from '@components/CheckboxButton/CheckboxButton';
 import titleFormater from '@utils/titleFormater';
-import toPercentage from '../utils/toPercentage';
-import PreConfigSliders from '../components/PreConfigSliders';
-import PreConfigTabs from '../components/PreConfigTabs';
-import { iterator, iteratorType } from '../utils/iterators';
-import { componentIterator } from '../utils/componentIterator';
+import toPercentage from '../../utils/toPercentage';
+import PreConfigSliders from '../PreConfigSliders';
+import PreConfigTabs from '../PreConfigTabs';
+import { iterator, iteratorType } from '../../utils/iterators';
+import { componentIterator } from '../../utils/componentIterator';
 
 export const titleAndSubTitle = {
   title: 'Preencher pré configurações',

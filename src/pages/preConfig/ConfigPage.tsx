@@ -1,15 +1,24 @@
 import DrawerMenu from '@components/DrawerMenu';
 import { ButtonType } from '@customTypes/project';
-import React, { useState } from 'react';
-import ConfigsForm from './ConfigsForm';
-import mockedData from './mockData.json';
+import { Typography } from '@mui/material';
+import { projectQuery } from '@services/project';
+import React, { useEffect, useState } from 'react';
+import ConfigsForm from './components/ConfigsForm';
+import { useQuery } from './hooks/useQuery';
 
-const ConfigPage = () => {
-  const [data, setData] = useState(mockedData.data.characteristics);
+interface ConfigPageProps {
+  isOpen: boolean;
+  onClose: Function;
+  repoName: string;
+}
+
+const ConfigPage = ({ isOpen, onClose, repoName }: ConfigPageProps) => {
+  const request = useQuery();
+
+  const [data, setData] = useState(request?.data.characteristics);
   const [characterCheckbox, setCharacterCheckbox] = useState<string[]>([]);
   const [subcharacterCheckbox, setSubcharacterCheckbox] = useState<string[]>([]);
   const [measureCheckbox, setMeasureheckbox] = useState<string[]>([]);
-  const [isOpen, setIsOpen] = useState(true);
   const [page, setPage] = useState(0);
 
   const isArrayNull = (array: Array<any>) => array.length === 0;
@@ -21,21 +30,23 @@ const ConfigPage = () => {
   };
 
   const sendJson = () => {
-    const responseCharacterFiltered = data.filter((charcterValue) => characterCheckbox.includes(charcterValue.key));
-    const responseSubcharacterFiltered = responseCharacterFiltered.map((charcterValue) => ({
+    const responseCharacterFiltered = data?.filter((charcterValue) => characterCheckbox.includes(charcterValue.key));
+    const responseSubcharacterFiltered = responseCharacterFiltered?.map((charcterValue) => ({
       ...charcterValue,
       subcharacteristics: charcterValue.subcharacteristics.filter((subcharcterValue) =>
         subcharacterCheckbox.includes(subcharcterValue.key)
       )
     }));
-    const responseMeasureFiltered = responseSubcharacterFiltered.map((charcterValue) => ({
+    const finalData = responseSubcharacterFiltered?.map((charcterValue) => ({
       ...charcterValue,
       subcharacteristics: charcterValue.subcharacteristics.map((subcharcterValue) => ({
         ...subcharcterValue,
         measures: subcharcterValue.measures.filter((measureValue) => measureCheckbox.includes(measureValue.key))
       }))
     }));
-    console.log(responseMeasureFiltered);
+    console.log({ name: repoName, characteristics: finalData });
+
+    projectQuery.postPreConfig('1', '1', { name: repoName, characteristics: finalData });
   };
 
   const renderNextOrEndButton = (): ButtonType => {
@@ -47,7 +58,7 @@ const ConfigPage = () => {
     if (page === 2) {
       label = 'Finalizar';
       onClick = () => {
-        setIsOpen(false);
+        onClose(false);
         sendJson();
       };
     }
@@ -64,7 +75,7 @@ const ConfigPage = () => {
   const buttons: Array<ButtonType> = [
     {
       label: 'Cancelar',
-      onClick: () => setIsOpen(false),
+      onClick: () => onClose(false),
       backgroundColor: 'black',
       color: 'white'
     },
@@ -123,7 +134,12 @@ const ConfigPage = () => {
       title="Preencher pré configurações"
       subtitle="Mini explicação do que é caracteristica e como esse formulário pode demorar um tempo para ser preenchido"
     >
-      {renderPage()}
+      <>
+        <Typography variant="h6" mt="24px">
+          {repoName}
+        </Typography>
+        {renderPage()}
+      </>
     </DrawerMenu>
   );
 };

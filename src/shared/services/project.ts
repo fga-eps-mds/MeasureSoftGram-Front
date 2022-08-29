@@ -16,8 +16,19 @@ class ProjectQuery {
 
   async getProjectMeasuresHistory(organization_id: string, project_id: string) {
     const url = `organizations/${organization_id}/repository/${project_id}/history/measures/`;
-    const response = await api.get<MeasuresHistory>(url);
-    return response;
+    return await api.get<MeasuresHistory>(url);
+  }
+
+  async getPreConfig(organization_id: string, product_id: string) {
+    return await api.get(`/organizations/${organization_id}/products/${product_id}/current/pre-config/`);
+  }
+
+  postPreConfig(
+    organization_id: string,
+    product_id: string,
+    data: { name: string; characteristics: Characteristic[] }
+  ) {
+    api.put(`/organizations/${organization_id}/products/${product_id}/current/pre-config/`, data);
   }
 }
 
