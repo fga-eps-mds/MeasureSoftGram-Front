@@ -25,6 +25,7 @@ interface PreConfigTypes {
 
 const ConfigForm = ({ onChange, data, tabs, type, checkboxValues, setCheckboxValues }: PreConfigTypes) => {
   const [tabValue, setTabValue] = useState<string>('');
+
   const setWeight = (key: string) => (event: any) => {
     const weight = toPercentage(event.target.value);
     onChange(iterator[type]({ data, key, weight }));
