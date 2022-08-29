@@ -21,6 +21,10 @@ const ConfigPage = ({ isOpen, onClose, repoName }: ConfigPageProps) => {
   const [measureCheckbox, setMeasureheckbox] = useState<string[]>([]);
   const [page, setPage] = useState(0);
 
+  useEffect(() => {
+    setPage(0);
+  }, [isOpen]);
+
   const isArrayNull = (array: Array<any>) => array.length === 0;
 
   const isFormCompleted = () => {
@@ -44,8 +48,6 @@ const ConfigPage = ({ isOpen, onClose, repoName }: ConfigPageProps) => {
         measures: subcharcterValue.measures.filter((measureValue) => measureCheckbox.includes(measureValue.key))
       }))
     }));
-    console.log({ name: repoName, characteristics: finalData });
-
     projectQuery.postPreConfig('1', '1', { name: repoName, characteristics: finalData });
   };
 
