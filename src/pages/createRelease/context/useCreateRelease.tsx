@@ -19,6 +19,7 @@ interface ReleaseInfoForm {
 
 interface CreateReleaseContextData {
   releaseInfoForm: ReleaseInfoForm;
+  successOnCreation: string;
   preConfigCharacteristics: string[] | undefined;
   // eslint-disable-next-line no-unused-vars
   handleChangeForm: (field: string, value: string | Changes[]) => void;
@@ -26,12 +27,14 @@ interface CreateReleaseContextData {
   handleSelectCharacteristics: (characteristic: string) => void;
   createProjectReleaseGoal: () => void
   goToGoalsStep: () => boolean;
+  closeAlert: () => void;
 }
 
 const CreateReleaseContext = createContext({} as CreateReleaseContextData);
 
 export function CreateReleaseProvider({ children, projectId, organizationId }: CreateReleaseProviderProps) {
   const [preConfigCharacteristics, setPreConfigCharacteristics] = useState<string[]>();
+  const [successOnCreation, setSuccessOnCreation] = useState('');
   const [releaseInfoForm, setReleaseInfoForm] = useState<ReleaseInfoForm>({
     endDate: format(addDays(new Date(), 7), 'yyyy-MM-dd'),
     startDate: format(new Date(), 'yyyy-MM-dd'),
@@ -56,7 +59,10 @@ export function CreateReleaseProvider({ children, projectId, organizationId }: C
       }
 
       await projectQuery.createProjectReleaseGoal(organizationId, projectId, data);
+
+      setSuccessOnCreation('success')
     } catch (error) {
+      setSuccessOnCreation('error')
       console.error(error);
     }
   }
@@ -85,6 +91,10 @@ export function CreateReleaseProvider({ children, projectId, organizationId }: C
     return !!characteristics?.length && !!name
   }
 
+  function closeAlert() {
+    setSuccessOnCreation('')
+  }
+
   useEffect(() => {
     loadCurrentPreConfig();
   }, [projectId]);
@@ -92,11 +102,13 @@ export function CreateReleaseProvider({ children, projectId, organizationId }: C
   // eslint-disable-next-line react/jsx-no-constructed-context-values
   const value = {
     releaseInfoForm,
+    successOnCreation,
     preConfigCharacteristics,
     handleChangeForm,
     handleSelectCharacteristics,
     createProjectReleaseGoal,
-    goToGoalsStep
+    goToGoalsStep,
+    closeAlert
   };
 
   return (

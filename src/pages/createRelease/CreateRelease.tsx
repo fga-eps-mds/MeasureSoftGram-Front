@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Container } from '@mui/material';
+import { Alert, Container, Snackbar } from '@mui/material';
 
 import DrawerMenu from '@components/DrawerMenu';
 import { ButtonType } from '@customTypes/project';
@@ -23,7 +23,12 @@ interface CreateReleaseContainerProps {
 function CreateRelease({ open, handleClose }: CreateReleaseProps) {
   const [activeStep, setActiveStep] = useState(0);
 
-  const { createProjectReleaseGoal, goToGoalsStep } = useCreateReleaseContext();
+  const {
+    successOnCreation,
+    closeAlert,
+    goToGoalsStep,
+    createProjectReleaseGoal,
+  } = useCreateReleaseContext();
 
   const renderStep = () => ({
       0: <ReleaseInfo/>,
@@ -53,12 +58,39 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
     }
   ];
 
+  const ALERTS = {
+    success: (
+      <Alert severity="success">Release criada com sucesso!</Alert>
+    ),
+    error: (
+      <Alert severity="error">Ocorreu um erro durante a criação da release.</Alert>
+    )
+  }
+  const handleOnCloseAlert = () => {
+    if (successOnCreation === 'success') {
+      handleClose()
+    }
+
+    closeAlert()
+  }
+
   return (
-    <DrawerMenu open={open} buttons={BUTTONS}>
-      <Container>
-        {renderStep()}
-      </Container>
-    </DrawerMenu>
+    <>
+      <DrawerMenu open={open} buttons={BUTTONS}>
+        <Container>
+          {renderStep()}
+        </Container>
+      </DrawerMenu>
+
+      <Snackbar
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        open={!!successOnCreation}
+        autoHideDuration={3000}
+        onClose={handleOnCloseAlert}
+      >
+        {ALERTS[successOnCreation as keyof typeof ALERTS]}
+      </Snackbar>
+    </>
   )
 }
 
