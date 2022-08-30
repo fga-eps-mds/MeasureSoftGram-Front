@@ -1,5 +1,4 @@
 import React from 'react';
-import { addDays, format } from 'date-fns';
 
 import { Box, Checkbox, FormControlLabel, FormGroup, TextField } from '@mui/material';
 import { useCreateReleaseContext } from '@pages/createRelease/context/useCreateRelease';
@@ -33,15 +32,16 @@ function ReleaseInfo() {
             label="Apelido da release"
             style={{ marginBottom: '24px' }}
             value={name}
+            required
             onChange={(e) => {handleChangeForm('name', e.target.value)}}
             fullWidth
           />
 
           <Box display="flex">
             <TextField
-              defaultValue={format(new Date(), 'yyyy-MM-dd')}
               label="Data de ínicio da release"
               type="date"
+              required
               value={startDate}
               style={{ marginRight: '16px' }}
               onChange={(e) => {handleChangeForm('startDate', e.target.value)}}
@@ -49,9 +49,9 @@ function ReleaseInfo() {
             />
 
             <TextField
-              defaultValue={format(addDays(new Date(), 7), 'yyyy-MM-dd')}
               label="Data de fim da release"
               type="date"
+              required
               value={endDate}
               onChange={(e) => {handleChangeForm('endDate', e.target.value)}}
               sx={{flex: 1}}

@@ -23,16 +23,18 @@ interface CreateReleaseContainerProps {
 function CreateRelease({ open, handleClose }: CreateReleaseProps) {
   const [activeStep, setActiveStep] = useState(0);
 
-  const { createProjectReleaseGoal } = useCreateReleaseContext();
+  const { createProjectReleaseGoal, goToGoalsStep } = useCreateReleaseContext();
 
   const renderStep = () => ({
       0: <ReleaseInfo/>,
       1: <ReleaseGoals />
     }[activeStep])
 
+  const handleGoToGoalsStep = () => goToGoalsStep() ? setActiveStep(1) : () => {}
+
   const handleBackButton = () => activeStep ? setActiveStep(0) : handleClose();
 
-  const handleNextButton = () => activeStep ? createProjectReleaseGoal() : setActiveStep(1);
+  const handleNextButton = () => activeStep ? createProjectReleaseGoal() : handleGoToGoalsStep();
 
   const BUTTONS: Array<ButtonType> = [
     {

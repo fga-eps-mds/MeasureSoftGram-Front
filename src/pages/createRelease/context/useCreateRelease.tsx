@@ -1,6 +1,7 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { projectQuery } from '@services/project';
 import { Changes } from '@customTypes/project';
+import { addDays, format } from 'date-fns';
 
 interface CreateReleaseProviderProps {
   children: ReactNode;
@@ -24,13 +25,17 @@ interface CreateReleaseContextData {
   // eslint-disable-next-line no-unused-vars
   handleSelectCharacteristics: (characteristic: string) => void;
   createProjectReleaseGoal: () => void
+  goToGoalsStep: () => boolean;
 }
 
 const CreateReleaseContext = createContext({} as CreateReleaseContextData);
 
 export function CreateReleaseProvider({ children, projectId, organizationId }: CreateReleaseProviderProps) {
   const [preConfigCharacteristics, setPreConfigCharacteristics] = useState<string[]>();
-  const [releaseInfoForm, setReleaseInfoForm] = useState<ReleaseInfoForm>({} as ReleaseInfoForm);
+  const [releaseInfoForm, setReleaseInfoForm] = useState<ReleaseInfoForm>({
+    endDate: format(addDays(new Date(), 7), 'yyyy-MM-dd'),
+    startDate: format(new Date(), 'yyyy-MM-dd'),
+  } as ReleaseInfoForm);
 
   async function loadCurrentPreConfig() {
     try {
@@ -43,7 +48,6 @@ export function CreateReleaseProvider({ children, projectId, organizationId }: C
 
   async function createProjectReleaseGoal() {
     try {
-      console.log(releaseInfoForm)
       const data = {
         release_name: releaseInfoForm.name,
         start_at: releaseInfoForm.startDate,
@@ -76,6 +80,11 @@ export function CreateReleaseProvider({ children, projectId, organizationId }: C
     handleChangeForm('characteristics', selectedCharacteristics)
   }
 
+  function goToGoalsStep() {
+    const { characteristics, name } = releaseInfoForm;
+    return !!characteristics?.length && !!name
+  }
+
   useEffect(() => {
     loadCurrentPreConfig();
   }, [projectId]);
@@ -86,7 +95,8 @@ export function CreateReleaseProvider({ children, projectId, organizationId }: C
     preConfigCharacteristics,
     handleChangeForm,
     handleSelectCharacteristics,
-    createProjectReleaseGoal
+    createProjectReleaseGoal,
+    goToGoalsStep
   };
 
   return (
