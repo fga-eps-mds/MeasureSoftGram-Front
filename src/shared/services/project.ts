@@ -1,23 +1,28 @@
-import { MeasuresHistory } from '@customTypes/project';
+import { CurrentPreConfig, MeasuresHistory, ReleaseGoal } from '@customTypes/project';
 import api from './api';
 
 class ProjectQuery {
-  constructor() {}
-
-  async getProjectById(organization_id: string, id: string) {
-    const response = await api.get(`/organizations/${organization_id}/repository/${id}/`);
-    return response;
+  async getProjectById(organizationId: string, id: string) {
+    return api.get(`/organizations/${organizationId}/products/${id}/`);
   }
 
-  async getAllProjects(organization_id: string) {
-    const response = await api.get(`/organizations/${organization_id}/repository/`);
-    return response;
+  async getAllProjects(organizationId: string) {
+    return api.get(`/organizations/${organizationId}/repository/`);
   }
 
-  async getProjectMeasuresHistory(organization_id: string, project_id: string) {
-    const url = `organizations/${organization_id}/repository/${project_id}/history/measures/`;
-    const response = await api.get<MeasuresHistory>(url);
-    return response;
+  async getProjectMeasuresHistory(organizationId: string, projectId: string) {
+    const url = `organizations/${organizationId}/repository/${projectId}/history/measures/`;
+    return api.get<MeasuresHistory>(url);
+  }
+
+  async getProjectCurrentPreConfig(organizationId: string, projectId: string) {
+    const url = `organizations/${organizationId}/products/${projectId}/current/pre-config/`;
+    return api.get<CurrentPreConfig>(url);
+  }
+
+  async createProjectReleaseGoal(organizationId: string, projectId: string, data: ReleaseGoal) {
+    const url = `organizations/${organizationId}/products/${projectId}/create/goal/`
+    return api.post(url, data);
   }
 }
 
