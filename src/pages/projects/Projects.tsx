@@ -11,7 +11,7 @@ import CardNavigation from '@components/CardNavigation';
 const Projects: NextPageWithLayout = () => {
   const resultMock = [
     {
-      id: 1,
+      id: 3,
       name: '2022-1-MeasureSoftGram-Front'
     }
   ];
