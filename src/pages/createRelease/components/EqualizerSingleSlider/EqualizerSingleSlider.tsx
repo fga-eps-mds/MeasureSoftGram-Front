@@ -23,6 +23,7 @@ const EqualizerSingleSlider = ({
     <Box textAlign='center'>
       <Box height={300}>
         <Slider
+          data-testid="single-slider"
           orientation="vertical"
           value={value}
           disabled={disabled}
