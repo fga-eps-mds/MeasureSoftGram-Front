@@ -33,7 +33,7 @@ Object {
             class="styles__ScrollDiv-sc-1casz44-0 hQdqmM"
           >
             <div
-              class="MuiBox-root css-0"
+              class="MuiBox-root css-i63f07"
             >
               <h3
                 class="MuiTypography-root MuiTypography-h3 css-gepadz-MuiTypography-root"
@@ -43,7 +43,7 @@ Object {
               <p
                 class="MuiTypography-root MuiTypography-body1 css-2vzer3-MuiTypography-root"
               >
-                Mini explicação do que é caracteristica e como esse formulário pode demorar um tempo para ser preenchido
+                Por meio da pré-configuração que é definido quais características, subcaracterísticas e medidas serão consideradas para mensurar a qualidade do software analisado. Na pré-configuração também é definido os pesos de cada uma das entidades definidas.
               </p>
             </div>
             <h6
@@ -52,7 +52,7 @@ Object {
               Test
             </h6>
             <div
-              class="MuiBox-root css-154vyc5"
+              class="MuiBox-root css-1spiuho"
             >
               <h6
                 class="MuiTypography-root MuiTypography-h6 css-1mo68eo-MuiTypography-root"
