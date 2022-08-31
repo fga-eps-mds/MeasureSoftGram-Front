@@ -5,4 +5,5 @@ export const ScrollDiv = styled.div`
   flexdirection: column;
   overflow-y: auto;
   margin-top: 50px;
+  height: 100%;
 `;
