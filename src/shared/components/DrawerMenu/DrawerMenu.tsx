@@ -42,7 +42,7 @@ const DrawerMenu = ({ children, open, buttons, title, subtitle }: DrawerMenuProp
   const renderTitle = () => {
     if (title)
       return (
-        <Box>
+        <Box sx={{ maxWidth: '700px' }}>
           <Typography variant="h3">{title}</Typography>
           {!!subtitle && <Typography mt="12px">{subtitle}</Typography>}
         </Box>

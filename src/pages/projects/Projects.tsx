@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 
-import { Box, Button, Container, Typography } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 
 import { NextPageWithLayout } from '@pages/_app.next';
 
@@ -24,7 +24,6 @@ const Projects: NextPageWithLayout = () => {
         <title>MeasureSoftGram - Projetos</title>
       </Head>
       <Container>
-        <Button onClick={() => setIsOpen(true)}>Abrir configurações</Button>
         <ConfigPage isOpen={isOpen} onClose={setIsOpen} repoName={resultMock[0].name} />
         <Box display="flex" flexDirection="column">
           <Box marginY="60px">
@@ -32,7 +31,13 @@ const Projects: NextPageWithLayout = () => {
           </Box>
           <Box display="flex">
             {resultMock.map((project) => (
-              <CardNavigation key={project.id} id={project.id} name={project.name} url={`/projects/${project.id}`} />
+              <CardNavigation
+                key={project.id}
+                id={project.id}
+                name={project.name}
+                url={`/projects/${project.id}`}
+                onClickMoreVert={() => setIsOpen(true)}
+              />
             ))}
           </Box>
         </Box>

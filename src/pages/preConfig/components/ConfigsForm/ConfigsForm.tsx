@@ -94,7 +94,7 @@ const ConfigForm = ({ onChange, data, tabs, type, checkboxValues, setCheckboxVal
   };
 
   return (
-    <Box display="flex" flexDirection="column" mt="25vh">
+    <Box display="flex" flexDirection="column" mt="10vh">
       <Typography variant="h6" sx={{ marginBottom: '16px' }}>
         Preencher pré configurações
       </Typography>

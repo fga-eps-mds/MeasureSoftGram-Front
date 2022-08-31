@@ -1,10 +1,14 @@
 import DrawerMenu from '@components/DrawerMenu';
+import { Characteristic } from '@customTypes/preConfig';
 import { ButtonType } from '@customTypes/project';
 import { Typography } from '@mui/material';
 import { projectQuery } from '@services/project';
 import React, { useEffect, useState } from 'react';
 import ConfigsForm from './components/ConfigsForm';
 import { useQuery } from './hooks/useQuery';
+import CONFIG_PAGE from './ConfigPage-consts';
+
+const { TITLE, SUB_TITLE } = CONFIG_PAGE;
 
 interface ConfigPageProps {
   isOpen: boolean;
@@ -47,8 +51,9 @@ const ConfigPage = ({ isOpen, onClose, repoName }: ConfigPageProps) => {
         ...subcharcterValue,
         measures: subcharcterValue.measures.filter((measureValue) => measureCheckbox.includes(measureValue.key))
       }))
-    }));
-    projectQuery.postPreConfig('1', '1', { name: repoName, characteristics: finalData });
+    })) as Characteristic[];
+
+    projectQuery.postPreConfig('1', '1', { name: repoName, data: { characteristics: finalData } });
   };
 
   const renderNextOrEndButton = (): ButtonType => {
@@ -130,12 +135,7 @@ const ConfigPage = ({ isOpen, onClose, repoName }: ConfigPageProps) => {
   };
 
   return (
-    <DrawerMenu
-      open={isOpen}
-      buttons={buttons}
-      title="Preencher pré configurações"
-      subtitle="Mini explicação do que é caracteristica e como esse formulário pode demorar um tempo para ser preenchido"
-    >
+    <DrawerMenu open={isOpen} buttons={buttons} title={TITLE} subtitle={SUB_TITLE}>
       <>
         <Typography variant="h6" mt="24px">
           {repoName}

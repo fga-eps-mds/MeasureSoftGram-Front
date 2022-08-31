@@ -23,12 +23,8 @@ class ProjectQuery {
     return await api.get(`/organizations/${organization_id}/products/${product_id}/current/pre-config/`);
   }
 
-  postPreConfig(
-    organization_id: string,
-    product_id: string,
-    data: { name: string; characteristics: Characteristic[] }
-  ) {
-    api.put(`/organizations/${organization_id}/products/${product_id}/current/pre-config/`, data);
+  postPreConfig(organization_id: string, product_id: string, data: { name: string; data: Data }) {
+    api.post(`/organizations/${organization_id}/products/${product_id}/create/pre-config/`, data);
   }
 }
 
