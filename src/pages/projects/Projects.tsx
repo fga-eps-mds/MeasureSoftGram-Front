@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Container, IconButton, Typography } from '@mui/material';
 
 import { NextPageWithLayout } from '@pages/_app.next';
 
 import getLayout from '@components/Layout';
 import CardNavigation from '@components/CardNavigation';
 import ConfigPage from '@pages/preConfig/ConfigPage';
+import { MoreVert } from '@mui/icons-material';
 
 const Projects: NextPageWithLayout = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,13 +32,12 @@ const Projects: NextPageWithLayout = () => {
           </Box>
           <Box display="flex">
             {resultMock.map((project) => (
-              <CardNavigation
-                key={project.id}
-                id={project.id}
-                name={project.name}
-                url={`/projects/${project.id}`}
-                onClickMoreVert={() => setIsOpen(true)}
-              />
+              <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <CardNavigation key={project.id} id={project.id} name={project.name} url={`/projects/${project.id}`} />
+                <IconButton color="primary" onClick={() => setIsOpen(true)}>
+                  <MoreVert />
+                </IconButton>
+              </div>
             ))}
           </Box>
         </Box>
