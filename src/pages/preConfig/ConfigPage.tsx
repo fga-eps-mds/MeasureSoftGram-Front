@@ -6,7 +6,7 @@ import { projectQuery } from '@services/project';
 import React, { useEffect, useState } from 'react';
 import ConfigsForm from './components/ConfigsForm';
 import { useQuery } from './hooks/useQuery';
-import CONFIG_PAGE from './ConfigPage-consts';
+import CONFIG_PAGE from './consts';
 
 const { TITLE, SUB_TITLE } = CONFIG_PAGE;
 
