@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -19,9 +20,9 @@ const DrawerMenu = ({ children, open, buttons, title, subtitle }: DrawerMenuProp
     if (buttons)
       return (
         <Box marginTop="16px">
-          {buttons.map((button) => (
+          {buttons.map((button, index) => (
             <Button
-              key={Math.random()}
+              key={`DrawerButton_${index}`}
               variant={button.variant}
               sx={{
                 backgroundColor: button.backgroundColor,
