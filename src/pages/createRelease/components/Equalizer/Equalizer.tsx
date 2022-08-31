@@ -55,7 +55,7 @@ export default function Equalizer({ selectedCharacteristics }: EquilizerProps) {
 
       <Styles.Labels>
         {preConfigCharacteristics?.map((item, index) => (
-          <p key={item}>C{index+1}: {item}</p>
+          <p key={item} data-testid="label">C{index+1}: {item}</p>
         ))}
       </Styles.Labels>
     </Box>
