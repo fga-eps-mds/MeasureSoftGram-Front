@@ -1,3 +1,7 @@
+/* eslint-disable camelcase */
+/* eslint-disable class-methods-use-this */
+/* eslint-disable no-return-await */
+import { Data } from '@customTypes/preConfig';
 import { MeasuresHistory } from '@customTypes/project';
 import api from './api';
 
