@@ -2,8 +2,7 @@ import styled from 'styled-components';
 
 export const ScrollDiv = styled.div`
   width: auto;
-  flexdirection: column;
+  flex-direction: column;
   overflow-y: auto;
-  margin-top: 50px;
   height: 100%;
 `;
