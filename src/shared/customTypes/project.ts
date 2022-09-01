@@ -79,7 +79,7 @@ export interface ReleaseGoal {
   changes: Changes[];
 }
 
-export interface ButtonType {
+export interface ButtonType extends Omit<Partial<ButtonProps>, 'color'> {
   label: string;
   onClick: () => void;
   backgroundColor: string;
