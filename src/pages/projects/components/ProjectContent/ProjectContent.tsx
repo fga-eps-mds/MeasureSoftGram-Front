@@ -3,11 +3,12 @@ import React, { useState } from 'react';
 import { formatRelative } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
-import { Box, Typography } from '@mui/material';
+import { Box, IconButton, Menu, MenuItem, Typography } from '@mui/material';
 
 import { Project } from '@customTypes/project';
 
 import CreateRelease from '@pages/createRelease';
+import { MoreVert } from '@mui/icons-material';
 import Skeleton from '../Skeleton';
 
 import Circle from './styles';
@@ -18,6 +19,21 @@ interface Props {
 
 const ProjectContent: React.FC<Props> = ({ project }) => {
   const [openCreateRelease, setOpenCreateRelease] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const openMenu = Boolean(anchorEl);
+
+  const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+
+  const handleOpenCreateRelease = () => {
+    setOpenCreateRelease(true)
+    setAnchorEl(null);
+  };
 
   const lastUpdateDate =
     project &&
@@ -40,13 +56,22 @@ const ProjectContent: React.FC<Props> = ({ project }) => {
             <Typography variant="caption">última atualização: {lastUpdateDate}</Typography>
           </Box>
 
+          <IconButton color="primary" onClick={handleOpenMenu}>
+            <MoreVert />
+          </IconButton>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={openMenu}
+            onClose={handleCloseMenu}
+            MenuListProps={{
+              'aria-labelledby': 'basic-button',
+            }}
+          >
+            <MenuItem onClick={handleOpenCreateRelease}>Definir release</MenuItem>
+          </Menu>
         </Box>
       </Box>
-      <button
-        type="button"
-        onClick={() => setOpenCreateRelease(true)}
-      >Definir release</button>
-
 
       <CreateRelease
         open={openCreateRelease}

@@ -2,6 +2,7 @@ import React from 'react'
 import EqualizerSingleSlider from '@pages/createRelease/components/EqualizerSingleSlider'
 import { Box } from '@mui/material';
 import { useCreateReleaseContext } from '@pages/createRelease/context/useCreateRelease';
+import formatCharacteristicName from '@utils/formatCharacteristicName';
 import useEqualizer from './hook/useEqualizer';
 
 import * as Styles from './styles';
@@ -43,7 +44,7 @@ export default function Equalizer({ selectedCharacteristics }: EquilizerProps) {
             <EqualizerSingleSlider
               key={id}
               index={index+1}
-              name={item}
+              name={formatCharacteristicName(item)}
               value={value || 50}
               disabled={!selectedCharacteristics.includes(item)}
               onChange={(newValue) => equalize(index, newValue)}
@@ -55,7 +56,7 @@ export default function Equalizer({ selectedCharacteristics }: EquilizerProps) {
 
       <Styles.Labels>
         {preConfigCharacteristics?.map((item, index) => (
-          <p key={item} data-testid="label">C{index+1}: {item}</p>
+          <p key={item} data-testid="label">C{index+1}: {formatCharacteristicName(item)}</p>
         ))}
       </Styles.Labels>
     </Box>

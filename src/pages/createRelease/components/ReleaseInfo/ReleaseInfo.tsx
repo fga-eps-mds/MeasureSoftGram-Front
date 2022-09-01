@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Box, Checkbox, FormControlLabel, FormGroup, TextField } from '@mui/material';
 import { useCreateReleaseContext } from '@pages/createRelease/context/useCreateRelease';
+import formatCharacteristicName from '@utils/formatCharacteristicName';
 import * as Styles from './styles';
 import Skeleton from './Skeleton';
 
@@ -76,7 +77,7 @@ function ReleaseInfo() {
                     checked={characteristics?.includes(item)}
                   />
                 }
-                label={item}
+                label={formatCharacteristicName(item)}
               />
             ))}
           </FormGroup>

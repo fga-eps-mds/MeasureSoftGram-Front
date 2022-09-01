@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 
-import { Box, Container, IconButton, Typography } from '@mui/material';
+import { Box, Container, IconButton, Menu, MenuItem, Typography } from '@mui/material';
 
 import { NextPageWithLayout } from '@pages/_app.next';
 
@@ -11,7 +11,23 @@ import ConfigPage from '@pages/preConfig/ConfigPage';
 import { MoreVert } from '@mui/icons-material';
 
 const Projects: NextPageWithLayout = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [openConfig, setOpenConfig] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const openMenu = Boolean(anchorEl);
+
+  const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+
+  const handleOpenConfig = () => {
+    setOpenConfig(true)
+    setAnchorEl(null);
+  };
+
   const resultMock = [
     {
       id: 3,
@@ -25,7 +41,7 @@ const Projects: NextPageWithLayout = () => {
         <title>MeasureSoftGram - Projetos</title>
       </Head>
       <Container>
-        <ConfigPage isOpen={isOpen} onClose={setIsOpen} repoName={resultMock[0].name} />
+        <ConfigPage isOpen={openConfig} onClose={setOpenConfig} repoName={resultMock[0].name} />
         <Box display="flex" flexDirection="column">
           <Box marginY="60px">
             <Typography variant="h5">Projetos</Typography>
@@ -34,9 +50,20 @@ const Projects: NextPageWithLayout = () => {
             {resultMock.map((project) => (
               <div style={{ display: 'flex', flexDirection: 'row' }}>
                 <CardNavigation key={project.id} id={project.id} name={project.name} url={`/projects/${project.id}`} />
-                <IconButton color="primary" onClick={() => setIsOpen(true)}>
+                <IconButton color="primary" onClick={handleOpenMenu}>
                   <MoreVert />
                 </IconButton>
+                <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={openMenu}
+                  onClose={handleCloseMenu}
+                  MenuListProps={{
+                    'aria-labelledby': 'basic-button',
+                  }}
+                >
+                  <MenuItem onClick={handleOpenConfig}>Definir pré configurações</MenuItem>
+                </Menu>
               </div>
             ))}
           </Box>
