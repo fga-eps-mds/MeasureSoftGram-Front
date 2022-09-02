@@ -5,7 +5,8 @@ import { Checkbox } from '@mui/material';
 import { FiltersTitle, Option, OptionContainer } from './styles';
 
 interface OptionProps {
-  optionTitle: string;
+  name: string;
+  key: string;
 }
 
 interface FiltersProps {
@@ -25,9 +26,9 @@ const Filters: React.FC<FiltersProps> = ({ filterTitle, options = [] }) => {
       {isVisible ? (
         <OptionContainer display="flex" flexDirection="column">
           {options.map((option) => (
-            <Option key={option.optionTitle} display="flex" flexDirection="row" alignItems="center">
-              <Checkbox onChange={() => console.log(`oi ${option.optionTitle}`)} />
-              <span>{option.optionTitle}</span>
+            <Option key={option.key} display="flex" flexDirection="row" alignItems="center">
+              <Checkbox onChange={() => console.log(`oi ${option.name}`)} />
+              <span>{option.name}</span>
             </Option>
           ))}
         </OptionContainer>
