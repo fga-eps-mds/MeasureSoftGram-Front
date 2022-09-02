@@ -24,7 +24,7 @@ const Projects: NextPageWithLayout = () => {
   };
 
   const handleOpenConfig = () => {
-    setOpenConfig(true)
+    setOpenConfig(true);
     setAnchorEl(null);
   };
 
@@ -48,7 +48,7 @@ const Projects: NextPageWithLayout = () => {
           </Box>
           <Box display="flex">
             {resultMock.map((project) => (
-              <div style={{ display: 'flex', flexDirection: 'row' }}>
+              <div key={project.id} style={{ display: 'flex', flexDirection: 'row' }}>
                 <CardNavigation key={project.id} id={project.id} name={project.name} url={`/projects/${project.id}`} />
                 <IconButton color="primary" onClick={handleOpenMenu}>
                   <MoreVert />
@@ -59,7 +59,7 @@ const Projects: NextPageWithLayout = () => {
                   open={openMenu}
                   onClose={handleCloseMenu}
                   MenuListProps={{
-                    'aria-labelledby': 'basic-button',
+                    'aria-labelledby': 'basic-button'
                   }}
                 >
                   <MenuItem onClick={handleOpenConfig}>Definir pré configurações</MenuItem>
