@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { formatRelative } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -11,19 +11,42 @@ import Filters from '@components/Filters';
 
 import CreateRelease from '@pages/createRelease';
 import { MoreVert } from '@mui/icons-material';
+import GraphicStackedLine from '@components/GraphicStackedLine';
+import { supportedEntitiesQuery } from '@services/supportedEntities';
+import axios from 'axios';
 import Skeleton from '../Skeleton';
 
-import { BodyContainer, Circle, FiltersContainer } from './styles';
-import { filterOptions } from './filterOptions';
+import { BodyContainer, Circle, FiltersContainer, GraphicContainer } from './styles';
 
 interface Props {
   project?: Project;
 }
 
 const ProjectContent: React.FC<Props> = ({ project }) => {
-  const [openCreateRelease, setOpenCreateRelease] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const openMenu = Boolean(anchorEl);
+
+  const [openCreateRelease, setOpenCreateRelease] = useState(false);
+
+  const [filterCharacteristics, setFilterCharacteristics] = useState({ filterTitle: 'CARACTERÍSTICAS', options: [] });
+  const [filterSubCharacteristics, setFilterSubCharacteristics] = useState({
+    filterTitle: 'SUB CARACTERÍSTICAS',
+    options: []
+  });
+
+  useEffect(() => {
+    axios
+      .all([
+        supportedEntitiesQuery.getSupportedEntities('characteristics'),
+        supportedEntitiesQuery.getSupportedEntities('subcharacteristics')
+      ])
+      .then((res) => {
+        const results = res.map((result) => result.data.results);
+
+        setFilterCharacteristics({ ...filterCharacteristics, options: results[0] });
+        setFilterSubCharacteristics({ ...filterSubCharacteristics, options: results[1] });
+      });
+  }, []);
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -76,12 +99,16 @@ const ProjectContent: React.FC<Props> = ({ project }) => {
         </Box>
       </Box>
 
-      <BodyContainer display="flex" flexDirection="row">
-        <FiltersContainer display="flex" flexDirection="column">
-          {filterOptions.map((filter) => (
+      <BodyContainer display="flex" width="100%" flexDirection="row">
+        <FiltersContainer display="flex" width="30%" flexDirection="column">
+          {[filterCharacteristics, filterSubCharacteristics].map((filter) => (
             <Filters key={filter.filterTitle} filterTitle={filter.filterTitle} options={filter.options} />
           ))}
         </FiltersContainer>
+
+        <GraphicContainer display="flex" width="100%" justifyContent="center" alignItems="center">
+          <GraphicStackedLine />
+        </GraphicContainer>
       </BodyContainer>
 
       <CreateRelease
