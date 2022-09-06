@@ -2,7 +2,7 @@ import React from 'react';
 
 import Head from 'next/head';
 
-import { Box, Container } from '@mui/material';
+import { Box } from '@mui/material';
 
 import { NextPageWithLayout } from '@pages/_app.next';
 
@@ -17,14 +17,12 @@ const Project: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>MeasureSoftGram - Projetos</title>
+        <title>MeasureSoftGram - Product</title>
       </Head>
 
-      <Container>
-        <Box>
-          <ProjectContent project={project} />
-        </Box>
-      </Container>
+      <Box>
+        <ProjectContent project={project} />
+      </Box>
     </>
   );
 };

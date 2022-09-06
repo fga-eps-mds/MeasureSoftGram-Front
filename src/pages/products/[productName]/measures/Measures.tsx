@@ -30,11 +30,9 @@ const Measures: NextPageWithLayout = () => {
   }
 
   return (
-    <Container>
-      <Box marginY="60px" data-testid="measures">
-        <ReactEcharts option={chartOptions} style={{ height: '600px', width: '100%' }} />
-      </Box>
-    </Container>
+    <Box marginY="60px" data-testid="measures">
+      <ReactEcharts option={chartOptions} style={{ height: '600px', width: '100%' }} />
+    </Box>
   );
 };
 

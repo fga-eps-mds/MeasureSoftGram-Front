@@ -6,7 +6,7 @@ import { ptBR } from 'date-fns/locale';
 
 import { NextPageWithLayout } from '@pages/_app.next';
 
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import getLayout from '@components/Layout';
 
 import Circle from './styles';
@@ -31,18 +31,16 @@ const Metrics: NextPageWithLayout = () => {
         <title>MeasureSoftGram - Projetos</title>
       </Head>
 
-      <Container>
-        <Box display="flex" flexDirection="column">
-          <Box display="flex" flexDirection="row" alignItems="center" marginY="60px">
-            <Circle />
+      <Box display="flex" flexDirection="column">
+        <Box display="flex" flexDirection="row" alignItems="center" marginY="60px">
+          <Circle />
 
-            <Box>
-              <Typography variant="h6">{resultMock.name}</Typography>
-              <Typography variant="caption">última atualização: {lastUpdateDate}</Typography>
-            </Box>
+          <Box>
+            <Typography variant="h6">{resultMock.name}</Typography>
+            <Typography variant="caption">última atualização: {lastUpdateDate}</Typography>
           </Box>
         </Box>
-      </Container>
+      </Box>
     </>
   );
 };
