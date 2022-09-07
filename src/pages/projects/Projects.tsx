@@ -9,6 +9,7 @@ import getLayout from '@components/Layout';
 import CardNavigation from '@components/CardNavigation';
 import ConfigPage from '@pages/preConfig/ConfigPage';
 import { MoreVert } from '@mui/icons-material';
+import GraphicStackedLine from '@components/GraphicStackedLine';
 
 const Projects: NextPageWithLayout = () => {
   const [openConfig, setOpenConfig] = useState(false);
@@ -42,6 +43,7 @@ const Projects: NextPageWithLayout = () => {
       </Head>
       <Container>
         <ConfigPage isOpen={openConfig} onClose={setOpenConfig} repoName={resultMock[0].name} />
+        <GraphicStackedLine />
         <Box display="flex" flexDirection="column">
           <Box marginY="60px">
             <Typography variant="h5">Projetos</Typography>
