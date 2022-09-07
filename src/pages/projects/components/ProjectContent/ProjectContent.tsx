@@ -13,7 +13,9 @@ import CreateRelease from '@pages/createRelease';
 import { MoreVert } from '@mui/icons-material';
 import GraphicStackedLine from '@components/GraphicStackedLine';
 import { supportedEntitiesQuery } from '@services/supportedEntities';
+import { historical } from '@services/historicalCharacteristics';
 import axios from 'axios';
+import formatCharacteristicsHistory from '@utils/formatCharacteristicsHistory';
 import Skeleton from '../Skeleton';
 
 import { BodyContainer, Circle, FiltersContainer, GraphicContainer } from './styles';
@@ -34,17 +36,29 @@ const ProjectContent: React.FC<Props> = ({ project }) => {
     options: []
   });
 
+  const [historicalCharacteristics, setHistoricalCharacteristics] = useState([]);
+  const [organizationId, setOrganizationId] = useState(1);
+  const [productId, setProductId] = useState(3);
+  const [repositoryId, setRepositoryId] = useState(6);
+
   useEffect(() => {
     axios
       .all([
         supportedEntitiesQuery.getSupportedEntities('characteristics'),
-        supportedEntitiesQuery.getSupportedEntities('subcharacteristics')
+        supportedEntitiesQuery.getSupportedEntities('subcharacteristics'),
+        historical.getHistoricalCharacteristics({
+          organizationId,
+          productId,
+          repositoryId,
+          entity: 'characteristics'
+        })
       ])
       .then((res) => {
         const results = res.map((result) => result.data.results);
 
         setFilterCharacteristics({ ...filterCharacteristics, options: results[0] });
         setFilterSubCharacteristics({ ...filterSubCharacteristics, options: results[1] });
+        setHistoricalCharacteristics(results[2]);
       });
   }, []);
 
@@ -107,7 +121,7 @@ const ProjectContent: React.FC<Props> = ({ project }) => {
         </FiltersContainer>
 
         <GraphicContainer display="flex" width="100%" justifyContent="center" alignItems="center">
-          <GraphicStackedLine />
+          {historicalCharacteristics.length !== 0 && <GraphicStackedLine historical={historicalCharacteristics} />}
         </GraphicContainer>
       </BodyContainer>
 
