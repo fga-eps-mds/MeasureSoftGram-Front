@@ -15,7 +15,6 @@ import GraphicStackedLine from '@components/GraphicStackedLine';
 import { supportedEntitiesQuery } from '@services/supportedEntities';
 import { historical } from '@services/historicalCharacteristics';
 import axios from 'axios';
-import formatCharacteristicsHistory from '@utils/formatCharacteristicsHistory';
 import Skeleton from '../Skeleton';
 
 import { BodyContainer, Circle, FiltersContainer, GraphicContainer } from './styles';
@@ -23,6 +22,8 @@ import { BodyContainer, Circle, FiltersContainer, GraphicContainer } from './sty
 interface Props {
   project?: Project;
 }
+
+const LARGE_PRIME_NUMBER = 907111937;
 
 const ProjectContent: React.FC<Props> = ({ project }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -35,6 +36,7 @@ const ProjectContent: React.FC<Props> = ({ project }) => {
     filterTitle: 'SUB CARACTERÍSTICAS',
     options: []
   });
+  const [sqcValues, setSqcValues] = useState<Object>({});
 
   const [historicalCharacteristics, setHistoricalCharacteristics] = useState([]);
   const [organizationId, setOrganizationId] = useState(1);
@@ -42,6 +44,11 @@ const ProjectContent: React.FC<Props> = ({ project }) => {
   const [repositoryId, setRepositoryId] = useState(6);
 
   useEffect(() => {
+    historical.getSqcHistory(organizationId, productId, repositoryId).then((response) => {
+      const id = Math.round(Math.random() * LARGE_PRIME_NUMBER);
+      setSqcValues({ id, key: 'SQC', name: 'SQC', history: response.data.results });
+    });
+
     axios
       .all([
         supportedEntitiesQuery.getSupportedEntities('characteristics'),
@@ -56,9 +63,13 @@ const ProjectContent: React.FC<Props> = ({ project }) => {
       .then((res) => {
         const results = res.map((result) => result.data.results);
 
+        const historicalValues = results[2];
+        historicalValues.push(sqcValues);
+
         setFilterCharacteristics({ ...filterCharacteristics, options: results[0] });
         setFilterSubCharacteristics({ ...filterSubCharacteristics, options: results[1] });
-        setHistoricalCharacteristics(results[2]);
+
+        setHistoricalCharacteristics(historicalValues);
       });
   }, []);
 
