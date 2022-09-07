@@ -15,3 +15,5 @@ export const Circle = styled.div`
 export const BodyContainer = styled(Box)``;
 
 export const FiltersContainer = styled(Box)``;
+
+export const GraphicContainer = styled(Box)``;
