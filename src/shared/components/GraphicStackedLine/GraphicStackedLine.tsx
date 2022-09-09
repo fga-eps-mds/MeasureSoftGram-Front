@@ -6,6 +6,7 @@ import formatCharacteristicsHistory from '@utils/formatCharacteristicsHistory';
 import { GraphicContainer, StackedLineStyled } from './styles';
 
 interface HistoricalEntity {
+  key: string;
   name: string;
   history: Array<{
     value: number;
@@ -13,17 +14,22 @@ interface HistoricalEntity {
   }>;
 }
 
-interface Prop {
-  historical: HistoricalEntity[];
+interface OptionCheckedProps {
+  [key: string]: boolean;
 }
 
-const GraphicStackedLine = ({ historical }: Prop) => {
+interface Prop {
+  historical: HistoricalEntity[];
+  checkedOptions: OptionCheckedProps;
+}
+
+const GraphicStackedLine = ({ historical, checkedOptions }: Prop) => {
   const [chartOption, setChartOption] = useState<EChartsOption>({});
 
   useEffect(() => {
-    const formatedOptions = formatCharacteristicsHistory(historical);
+    const formatedOptions = formatCharacteristicsHistory(historical, checkedOptions);
     setChartOption(formatedOptions);
-  }, [historical]);
+  }, [historical, checkedOptions]);
 
   return (
     <GraphicContainer>
