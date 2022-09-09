@@ -1,8 +1,8 @@
 import api from './api';
 
 class SupportedEntitiesQuery {
-  async getSupportedEntities(entity: string) {
-    return api.get(`/supported-${entity}/`);
+  async getSupportedEntities(organizationId: number, productId: number) {
+    return api.get(`organizations/${organizationId}/products/${productId}/current/pre-config/`);
   }
 }
 
