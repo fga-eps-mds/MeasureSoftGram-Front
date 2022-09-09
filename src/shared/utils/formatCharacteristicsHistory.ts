@@ -1,4 +1,5 @@
 interface Charactheristic {
+  key: string;
   name: string;
   history: Array<{
     value: number;
@@ -6,20 +7,31 @@ interface Charactheristic {
   }>;
 }
 
-const formatCharacteristicsHistory = (historical: Charactheristic[]) => {
+interface OptionCheckedProps {
+  [key: string]: boolean;
+}
+
+const formatCharacteristicsHistory = (historical: Charactheristic[], checkedOptions: OptionCheckedProps) => {
   if (!historical || historical.length === 0) return {};
 
-  const legendData = historical.map((h) => h.name);
+  const newHistorical = historical.filter((h) => {
+    if (h && h.history) return h;
+    return null;
+  });
 
-  const series = historical.map((h) => ({
-    name: h.name,
-    type: 'line',
-    data: h.history.map(({ value }) => value.toFixed(3))
-  }));
+  const legendData = newHistorical.map((h) => (checkedOptions[h.key] || h.key.includes('SQC') ? h.name : null));
+  const series = newHistorical
+    .map((h) => ({
+      name: h.name,
+      type: 'line',
+      data: checkedOptions[h.key] || h.key.includes('SQC') ? h.history.map(({ value }) => value.toFixed(3)) : null
+    }))
+    .reverse();
 
-  const xAxisData = historical.map((h) =>
-    h.history.map(({ created_at: createdAt }) => new Date(createdAt).toLocaleDateString('pt-BR'))
-  )[0];
+  const xAxisData = newHistorical
+    .filter((h) => checkedOptions[h.key] || h.key.includes('SQC'))
+    .map((h) => h.history.map(({ created_at: createdAt }) => new Date(createdAt).toLocaleDateString('pt-BR')))[0]
+    .reverse();
 
   return {
     title: {
