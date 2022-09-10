@@ -1,4 +1,5 @@
 interface Charactheristic {
+  key: string;
   name: string;
   history: Array<{
     value: number;
@@ -6,46 +7,41 @@ interface Charactheristic {
   }>;
 }
 
-const formatCharacteristicsHistory = (historical: Charactheristic[]) => {
-  if (historical.length === 0) return {};
-  // console.log('e', historical);
-  // console.log(
-  //   'f',
-  //   historical.map((h) => h)
-  // );
-  console.log(
-    historical.map((h) => h.history.map(({ created_at: createdAt }) => new Date(createdAt).toLocaleDateString('pt-BR')))
-  );
-  // console.log(
-  //   historical.map((h) => ({
-  //     name: h.name,
-  //     type: 'line',
-  //     stack: 'Total',
-  //     data: h.history.map(({ value }) => value).slice(0, 10)
-  //   }))
-  // );
+interface OptionCheckedProps {
+  [key: string]: boolean;
+}
 
-  const data = historical.map((h) => h.name);
-  const series = historical.map((h) => ({
-    name: h.name,
-    type: 'line',
-    stack: 'Total',
-    // data: Array.from({ length: 10 }).map((_, i) => i)
-    data: h.history.map(({ value }) => value.toFixed(3))
-  }));
-  const xAxisData = historical.map((h) =>
-    h.history.map(({ created_at: createdAt }) => new Date(createdAt).toLocaleDateString('pt-BR'))
-  )[0];
+const formatCharacteristicsHistory = (historical: Charactheristic[], checkedOptions: OptionCheckedProps) => {
+  if (!historical || historical.length === 0) return {};
+
+  const newHistorical = historical.filter((h) => {
+    if (h && h.history) return h;
+    return null;
+  });
+
+  const legendData = newHistorical.map((h) => (checkedOptions[h.key] || h.key.includes('SQC') ? h.name : null));
+  const series = newHistorical
+    .map((h) => ({
+      name: h.name,
+      type: 'line',
+      data: checkedOptions[h.key] || h.key.includes('SQC') ? h.history.map(({ value }) => value.toFixed(3)) : null
+    }))
+    .reverse();
+
+  const xAxisData = newHistorical
+    .filter((h) => checkedOptions[h.key] || h.key.includes('SQC'))
+    .map((h) => h.history.map(({ created_at: createdAt }) => new Date(createdAt).toLocaleDateString('pt-BR')))[0]
+    .reverse();
 
   return {
     title: {
-      text: 'Stacked Line'
+      text: 'Caracteristicas'
     },
     tooltip: {
       trigger: 'axis'
     },
     legend: {
-      data
+      data: legendData
     },
     grid: {
       left: '3%',
@@ -65,11 +61,8 @@ const formatCharacteristicsHistory = (historical: Charactheristic[]) => {
     },
     yAxis: {
       type: 'value',
-      boundaryGap: ['20%', '20%'],
-      // scale: false,
-      min: 0,
-      minInterval: 0.1,
-      max: 3
+      scale: true,
+      minInterval: 0.1
     },
     series
   };
