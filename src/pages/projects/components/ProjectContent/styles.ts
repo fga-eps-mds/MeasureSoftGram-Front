@@ -1,6 +1,7 @@
+import { Box } from '@mui/material';
 import styled from 'styled-components';
 
-const Circle = styled.div`
+export const Circle = styled.div`
   height: 30px;
   width: 30px;
 
@@ -11,4 +12,8 @@ const Circle = styled.div`
   border-radius: 50%;
 `;
 
-export default Circle;
+export const BodyContainer = styled(Box)``;
+
+export const FiltersContainer = styled(Box)``;
+
+export const GraphicContainer = styled(Box)``;
