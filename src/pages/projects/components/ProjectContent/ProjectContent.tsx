@@ -68,7 +68,7 @@ const ProjectContent: React.FC<Props> = ({ project }) => {
               'aria-labelledby': 'basic-button',
             }}
           >
-            <MenuItem onClick={handleOpenCreateRelease}>Definir release</MenuItem>
+            <MenuItem onClick={handleOpenCreateRelease}>Definir Objetivo de Qualidade</MenuItem>
           </Menu>
         </Box>
       </Box>
