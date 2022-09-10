@@ -30,6 +30,7 @@
     "react/function-component-definition": "off",
     "import/extensions": "off",
     "no-restricted-exports": "off",
+    "eslint-disable no-return-await": "off",
     "react/jsx-props-no-spreading": "off",
     "consistent-return": "off",
     "no-undef": "off"

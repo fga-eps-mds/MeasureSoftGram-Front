@@ -16,7 +16,15 @@ const CheckboxButton = ({ label, checked = false, onClick, style }: CheckboxButt
 
   return (
     <div style={style}>
-      <input type="checkbox" checked={internalChecked} style={{ position: 'absolute', opacity: 0 }} name={label} />
+      <input
+        type="checkbox"
+        checked={internalChecked}
+        style={{ position: 'absolute', opacity: 0 }}
+        name={label}
+        onChange={(_e) => {
+          console.log(_e);
+        }}
+      />
       <Button
         variant="outlined"
         sx={{ backgroundColor: buttonColor, color: labelColor }}

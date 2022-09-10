@@ -44,7 +44,7 @@ const DrawerMenu = ({ children, open, buttons, title, subtitle }: DrawerMenuProp
     if (title)
       return (
         <Box sx={{ maxWidth: '700px' }}>
-          <Typography variant="h3">{title}</Typography>
+          <Typography variant="h4">{title}</Typography>
           {!!subtitle && <Typography mt="12px">{subtitle}</Typography>}
         </Box>
       );
