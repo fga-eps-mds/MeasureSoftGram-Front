@@ -21,8 +21,8 @@ export default function Equalizer({ selectedCharacteristics }: EquilizerProps) {
 
   const { preConfigCharacteristics, handleChangeForm } = useCreateReleaseContext();
 
-  const handleChangeCommitted = (index: number, newValue: number) => {
-    addDeltaToChanges(index, newValue)
+  const handleChangeCommitted = (characteristicName: string, newValue: number) => {
+    addDeltaToChanges(characteristicName, newValue)
     handleChangeForm('changes', changes)
   }
 
@@ -32,23 +32,21 @@ export default function Equalizer({ selectedCharacteristics }: EquilizerProps) {
         {preConfigCharacteristics?.map((item, index) => {
           const char = characteristics.find(i => i.key === item);
 
-          let id = index;
           let value;
 
           if (char) {
-            id = char.id
             value = char.value
           }
 
           return (
             <EqualizerSingleSlider
-              key={id}
+              key={item}
               index={index+1}
               name={formatCharacteristicName(item)}
               value={value || 50}
               disabled={!selectedCharacteristics.includes(item)}
-              onChange={(newValue) => equalize(index, newValue)}
-              onChangeCommitted={(newValue) => handleChangeCommitted(index, newValue)}
+              onChange={(newValue) => equalize(item, newValue)}
+              onChangeCommitted={(newValue) => handleChangeCommitted(item, newValue)}
             />
           )
         })}
