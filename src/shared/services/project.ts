@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-import { CurrentPreConfig, MeasuresHistory, ReleaseGoal } from '@customTypes/project';
+import { PreConfigEntitiesRelationship, MeasuresHistory, ReleaseGoal } from '@customTypes/project';
 import { Data } from '@customTypes/preConfig';
 import api from './api';
 
@@ -25,9 +25,9 @@ class ProjectQuery {
     api.post(`/organizations/${organizationId}/products/${productId}/create/pre-config/`, data);
   }
 
-  async getProjectCurrentPreConfig(organizationId: string, projectId: string) {
-    const url = `organizations/${organizationId}/products/${projectId}/current/pre-config/`;
-    return api.get<CurrentPreConfig>(url);
+  async getPreConfigEntitiesRelationship(organizationId: string, projectId: string) {
+    const url = `organizations/${organizationId}/products/${projectId}/entity-relationship-tree/`;
+    return api.get<Array<PreConfigEntitiesRelationship>>(url);
   }
 
   async createProjectReleaseGoal(organizationId: string, projectId: string, data: ReleaseGoal) {
