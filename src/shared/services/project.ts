@@ -31,7 +31,7 @@ class ProjectQuery {
   }
 
   async createProjectReleaseGoal(organizationId: string, projectId: string, data: ReleaseGoal) {
-    const url = `organizations/${organizationId}/products/${projectId}/create/goal/`
+    const url = `organizations/${organizationId}/products/${projectId}/create/goal/`;
     return api.post(url, data);
   }
 }
