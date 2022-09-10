@@ -35,9 +35,14 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
       1: <ReleaseGoals />
     }[activeStep])
 
+  const handleCloseModal = () => {
+    handleClose()
+    closeAlert()
+  }
+
   const handleGoToGoalsStep = () => goToGoalsStep() ? setActiveStep(1) : () => {}
 
-  const handleBackButton = () => activeStep ? setActiveStep(0) : handleClose();
+  const handleBackButton = () => activeStep ? setActiveStep(0) : handleCloseModal();
 
   const handleNextButton = () => activeStep ? createProjectReleaseGoal() : handleGoToGoalsStep();
 
@@ -69,6 +74,7 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
   const handleOnCloseAlert = () => {
     if (successOnCreation === 'success') {
       handleClose()
+      setActiveStep(0)
     }
 
     closeAlert()
