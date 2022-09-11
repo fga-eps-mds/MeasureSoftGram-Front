@@ -24,10 +24,19 @@ const ConfigPage = ({ isOpen, onClose, repoName }: ConfigPageProps) => {
   const [subcharacterCheckbox, setSubcharacterCheckbox] = useState<string[]>([]);
   const [measureCheckbox, setMeasureheckbox] = useState<string[]>([]);
   const [page, setPage] = useState(0);
+  const [isValuesValid, setIsValuesValid] = useState(false);
 
   useEffect(() => {
     setPage(0);
   }, [isOpen]);
+
+  useEffect(() => {
+    console.log('🚀 ~ file: ConfigPage.tsx ~ line 36 ~ useEffect ~ isValuesValid', isValuesValid);
+  }, [isValuesValid]);
+
+  useEffect(() => {
+    setIsValuesValid(false);
+  }, [page]);
 
   const isArrayNull = (array: Array<any>) => array.length === 0;
 
@@ -72,7 +81,7 @@ const ConfigPage = ({ isOpen, onClose, repoName }: ConfigPageProps) => {
     return {
       label,
       onClick,
-      disabled: isFormCompleted(),
+      disabled: isFormCompleted() || !isValuesValid,
       backgroundColor: 'white',
       color: 'black',
       variant: 'outlined'
@@ -100,7 +109,7 @@ const ConfigPage = ({ isOpen, onClose, repoName }: ConfigPageProps) => {
   ];
 
   const renderPage = () => {
-    const genericProps = { onChange: setData, data };
+    const genericProps = { onChange: setData, setIsValuesValid, data };
 
     if (page === 0) {
       return (

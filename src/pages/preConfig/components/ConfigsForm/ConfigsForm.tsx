@@ -19,13 +19,23 @@ interface PreConfigTypes {
   type: iteratorType;
   onChange: Function;
   setCheckboxValues: Function;
+  setIsValuesValid: Function;
   checkboxValues: string[];
   tabs?: string[];
 }
+
 type limiterType = { tabName?: string; data: { key: string; weight: number } };
 const PERCENTAGE = 100;
 
-const ConfigForm = ({ onChange, data, type, checkboxValues, setCheckboxValues, tabs }: PreConfigTypes) => {
+const ConfigForm = ({
+  onChange,
+  data,
+  type,
+  checkboxValues,
+  setCheckboxValues,
+  setIsValuesValid,
+  tabs
+}: PreConfigTypes) => {
   const [tabValue, setTabValue] = useState<string>('');
   const [limiters, setLimiters] = useState<[limiterType] | []>([]);
 
@@ -36,6 +46,18 @@ const ConfigForm = ({ onChange, data, type, checkboxValues, setCheckboxValues, t
   useEffect(() => {
     if (tabs) setTabValue(tabs[0]);
   }, [tabs]);
+
+  useEffect(() => {
+    let totalValue = 0;
+
+    limiters.forEach((limiter) => {
+      totalValue += limiter.data.weight;
+    });
+
+    const quantityTabs = tabs ? tabs.length : 1;
+    const minimalValueToFinish = PERCENTAGE * quantityTabs;
+    setIsValuesValid(minimalValueToFinish === totalValue);
+  }, [limiters, checkboxValues, tabs, setIsValuesValid]);
 
   const keyGetter = (objectArray: [limiterType] | []) => objectArray.map((object) => object.data.key);
 
@@ -50,14 +72,20 @@ const ConfigForm = ({ onChange, data, type, checkboxValues, setCheckboxValues, t
     const currentWeight = toPercentage(event.target.value);
 
     let weightSumExeceptCurrent = 0;
+    let isAnyWeight = false;
+    let totalValue = 0;
 
     limiters.forEach((limiter) => {
-      if (limiter.tabName === tabName && limiter.data.key !== key) {
-        weightSumExeceptCurrent += limiter.data.weight;
+      if (limiter.tabName === tabName) {
+        if (limiter.data.key !== key) weightSumExeceptCurrent += limiter.data.weight;
+        if (limiter.data.weight === 0) isAnyWeight = true;
+        totalValue += limiter.data.weight;
       }
     });
 
     const limit = PERCENTAGE - weightSumExeceptCurrent;
+
+    setIsValuesValid(totalValue === PERCENTAGE && !isAnyWeight);
 
     if (currentWeight <= limit) {
       onChange(iterator[type]({ data, key, weight: currentWeight }));
