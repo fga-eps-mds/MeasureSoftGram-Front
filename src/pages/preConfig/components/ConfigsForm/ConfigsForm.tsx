@@ -22,18 +22,48 @@ interface PreConfigTypes {
   checkboxValues: string[];
   tabs?: string[];
 }
+type limiterType = { tabName?: string; data: { key: string; weight: number } };
+const PERCENTAGE = 100;
 
-const ConfigForm = ({ onChange, data, tabs, type, checkboxValues, setCheckboxValues }: PreConfigTypes) => {
+const ConfigForm = ({ onChange, data, type, checkboxValues, setCheckboxValues, tabs }: PreConfigTypes) => {
   const [tabValue, setTabValue] = useState<string>('');
+  const [limiters, setLimiters] = useState<[limiterType] | []>([]);
 
-  const setWeight = (key: string) => (event: any) => {
-    const weight = toPercentage(event.target.value);
-    onChange(iterator[type]({ data, key, weight }));
-  };
+  useEffect(() => {
+    if (limiters) setLimiters([]);
+  }, [type]);
 
   useEffect(() => {
     if (tabs) setTabValue(tabs[0]);
   }, [tabs]);
+
+  const keyGetter = (objectArray: [limiterType] | []) => objectArray.map((object) => object.data.key);
+
+  const weightArrayHandler = (key: string, weight: number) => {
+    const index = keyGetter(limiters).indexOf(key);
+    limiters[index].data.weight = weight;
+
+    setLimiters(limiters);
+  };
+
+  const setWeight = (key: string, tabName?: string) => (event: any) => {
+    const currentWeight = toPercentage(event.target.value);
+
+    let weightSumExeceptCurrent = 0;
+
+    limiters.forEach((limiter) => {
+      if (limiter.tabName === tabName && limiter.data.key !== key) {
+        weightSumExeceptCurrent += limiter.data.weight;
+      }
+    });
+
+    const limit = PERCENTAGE - weightSumExeceptCurrent;
+
+    if (currentWeight <= limit) {
+      onChange(iterator[type]({ data, key, weight: currentWeight }));
+      weightArrayHandler(key, currentWeight);
+    }
+  };
 
   const checkboxValue = useCallback(
     (key: string) => {
@@ -52,19 +82,26 @@ const ConfigForm = ({ onChange, data, tabs, type, checkboxValues, setCheckboxVal
     value: Measure | Characteristic | Subcharacteristic,
     previousValue: Characteristic | Subcharacteristic
   ) => {
-    if (previousValue?.key === tabValue || !previousValue)
+    if (previousValue?.key === tabValue || !previousValue) {
+      const isChecked = checkboxValues.includes(value.key);
       return (
         <Grid item>
           <CheckboxButton
             label={titleFormater(value.key)}
-            checked={checkboxValues.includes(value.key)}
+            checked={isChecked}
             style={{ marginRight: '8px' }}
             onClick={() => {
               checkboxValue(value.key);
+              const index = keyGetter(limiters).indexOf(value.key);
+              if (!(index < 0)) {
+                limiters.splice(index, 1);
+                setLimiters(limiters);
+              }
             }}
           />
         </Grid>
       );
+    }
   };
 
   const renderCheckBoxes = () => (
@@ -78,7 +115,14 @@ const ConfigForm = ({ onChange, data, tabs, type, checkboxValues, setCheckboxVal
     previousValue: Characteristic | Subcharacteristic
   ) => {
     if (checkboxValues.includes(value.key) && (!previousValue || previousValue.key === tabValue)) {
-      return <PreConfigSliders label={value.key} weight={value.weight} onChange={setWeight(value.key)} />;
+      const tabName = previousValue?.key;
+
+      if (keyGetter(limiters).indexOf(value.key) < 0) {
+        limiters.push({ tabName, data: { key: value.key, weight: value.weight } } as limiterType as never);
+        setLimiters(limiters);
+      }
+
+      return <PreConfigSliders label={value.key} weight={value.weight} onChange={setWeight(value.key, tabName)} />;
     }
   };
 
