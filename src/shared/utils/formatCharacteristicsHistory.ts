@@ -35,7 +35,7 @@ const formatCharacteristicsHistory = (historical: Charactheristic[], checkedOpti
 
   return {
     title: {
-      text: 'Caracteristicas'
+      text: 'Características'
     },
     tooltip: {
       trigger: 'axis'
