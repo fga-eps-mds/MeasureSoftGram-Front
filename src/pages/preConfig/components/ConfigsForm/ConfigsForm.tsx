@@ -9,15 +9,11 @@ import PreConfigTabs from '../PreConfigTabs';
 import { iterator, iteratorType } from '../../utils/iterators';
 import { componentIterator } from '../../utils/componentIterator';
 
-export const titleAndSubTitle = {
-  title: 'Preencher pré configurações',
-  subtitle: 'Mini explicação do que é caracteristica e como esse formulário pode demorar um tempo para ser preenchido'
-};
-
 interface PreConfigTypes {
   data: Characteristic[];
   type: iteratorType;
   onChange: Function;
+  subtitle: string;
   setCheckboxValues: Function;
   setIsValuesValid: Function;
   checkboxValues: string[];
@@ -34,6 +30,7 @@ const ConfigForm = ({
   checkboxValues,
   setCheckboxValues,
   setIsValuesValid,
+  subtitle,
   tabs
 }: PreConfigTypes) => {
   const [tabValue, setTabValue] = useState<string>('');
@@ -56,6 +53,7 @@ const ConfigForm = ({
 
     const quantityTabs = tabs ? tabs.length : 1;
     const minimalValueToFinish = PERCENTAGE * quantityTabs;
+
     setIsValuesValid(minimalValueToFinish === totalValue);
   }, [limiters, checkboxValues, tabs, setIsValuesValid]);
 
@@ -168,7 +166,7 @@ const ConfigForm = ({
   return (
     <Box display="flex" flexDirection="column" mt="10vh">
       <Typography variant="h6" sx={{ marginBottom: '16px' }}>
-        Preencher pré configurações
+        {subtitle}
       </Typography>
       {renderTabs()}
       {renderCheckBoxes()}

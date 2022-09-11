@@ -33,6 +33,7 @@
     "eslint-disable no-return-await": "off",
     "react/jsx-props-no-spreading": "off",
     "consistent-return": "off",
+    "no-use-before-define": "off",
     "no-undef": "off"
   }
 }
