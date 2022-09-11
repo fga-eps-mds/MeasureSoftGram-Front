@@ -5,7 +5,7 @@ import { ptBR } from 'date-fns/locale';
 
 import { Box, IconButton, Menu, MenuItem, Typography } from '@mui/material';
 
-import { Project } from '@customTypes/project';
+import { Project, RepositoriesSqcHistory } from '@customTypes/project';
 
 import Filters from '@components/Filters';
 
@@ -16,12 +16,14 @@ import { supportedEntitiesQuery } from '@services/supportedEntities';
 import { historical } from '@services/historicalCharacteristics';
 import axios from 'axios';
 import formatEntitiesFilter from '@utils/formatEntitiesFilter';
+import GraphicRepositoriesSqcHistory from '@components/GraphicRepositoriesSqcHistory';
 import Skeleton from '../Skeleton';
 
 import { BodyContainer, Circle, FiltersContainer, GraphicContainer } from './styles';
 
 interface Props {
   project?: Project;
+  repositoriesSqcHistory?: RepositoriesSqcHistory;
 }
 
 interface FilterProps {
@@ -31,7 +33,7 @@ interface FilterProps {
 
 const LARGE_PRIME_NUMBER = 907111937;
 
-const ProjectContent: React.FC<Props> = ({ project }) => {
+const ProjectContent: React.FC<Props> = ({ project, repositoriesSqcHistory }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const openMenu = Boolean(anchorEl);
 
@@ -151,6 +153,8 @@ const ProjectContent: React.FC<Props> = ({ project }) => {
           </Menu>
         </Box>
       </Box>
+
+      <GraphicRepositoriesSqcHistory history={repositoriesSqcHistory} />
 
       <BodyContainer display="flex" width="100%" flexDirection="row">
         <FiltersContainer display="flex" width="30%" flexDirection="column">
