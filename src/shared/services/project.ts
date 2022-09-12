@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-import { CurrentPreConfig, MeasuresHistory, ReleaseGoal } from '@customTypes/project';
+import { CurrentPreConfig, MeasuresHistory, ReleaseGoal, RepositoriesSqcHistory } from '@customTypes/project';
 import { Data } from '@customTypes/preConfig';
 import api from './api';
 
@@ -33,6 +33,11 @@ class ProjectQuery {
   async createProjectReleaseGoal(organizationId: string, projectId: string, data: ReleaseGoal) {
     const url = `organizations/${organizationId}/products/${projectId}/create/goal/`;
     return api.post(url, data);
+  }
+
+  async getProductRepositoriesSqcHistory(organizationId: string, productId: string) {
+    const url = `organizations/${organizationId}/products/${productId}/repositories-sqc-historical-values/`;
+    return api.get<RepositoriesSqcHistory>(url);
   }
 }
 
