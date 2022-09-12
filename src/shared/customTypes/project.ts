@@ -79,3 +79,21 @@ export interface ButtonType extends Omit<Partial<ButtonProps>, 'color'> {
   color: string;
   variant?: ButtonProps['variant'];
 }
+
+interface SqcValue {
+  id: number;
+  value: number;
+  created_at: string;
+}
+
+interface RepositoriesSqcHistoryResult {
+  id: number;
+  url: string;
+  name: string;
+  history: Array<SqcValue>
+}
+
+export interface RepositoriesSqcHistory {
+  count: number;
+  results: Array<RepositoriesSqcHistoryResult>
+}
