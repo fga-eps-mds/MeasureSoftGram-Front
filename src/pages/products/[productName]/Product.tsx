@@ -12,7 +12,7 @@ import { useQuery } from './hooks/useQuery';
 import ProjectContent from '../components/ProjectContent';
 
 const Project: NextPageWithLayout = () => {
-  const { project } = useQuery();
+  const { project, repositoriesSqcHistory } = useQuery();
 
   return (
     <>
@@ -21,7 +21,7 @@ const Project: NextPageWithLayout = () => {
       </Head>
 
       <Box>
-        <ProjectContent project={project} />
+        <ProjectContent project={project} repositoriesSqcHistory={repositoriesSqcHistory} />
       </Box>
     </>
   );

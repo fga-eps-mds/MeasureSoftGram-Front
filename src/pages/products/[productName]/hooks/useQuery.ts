@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { Project } from '@customTypes/project';
-import { projectQuery } from '@services/index';
+import { Project, RepositoriesSqcHistory } from '@customTypes/project';
+import { projectQuery } from '@services/project';
 
 export const useQuery = () => {
-  const { query } = useRouter();
   const [project, setProject] = useState<Project>();
+  const [repositoriesSqcHistory, setRepositoriesSqcHistory] = useState<RepositoriesSqcHistory>()
+
+  const { query } = useRouter();
 
   async function loadProject() {
     if (query?.projectId) {
@@ -20,9 +22,21 @@ export const useQuery = () => {
     }
   }
 
+  async function loadRepositoriesSqcHistory() {
+    if (query?.projectId) {
+      try {
+        const result = await projectQuery.getProductRepositoriesSqcHistory('1', query?.projectId as string);
+        setRepositoriesSqcHistory(result.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }
+
   useEffect(() => {
     loadProject();
+    loadRepositoriesSqcHistory();
   }, [query?.projectId]);
 
-  return { project };
+  return { project, repositoriesSqcHistory };
 };
