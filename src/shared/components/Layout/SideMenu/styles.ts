@@ -42,4 +42,8 @@ export const Logo = styled.img`
 
 export const NavButton = styled(Button)`
   justify-content: flex-start;
+
+  :disabled {
+    background-color: #f2f2f2;
+  }
 `;

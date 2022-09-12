@@ -7,36 +7,41 @@ import { projectQuery } from '@services/project';
 
 export const useQuery = () => {
   const [project, setProject] = useState<Project>();
-  const [repositoriesSqcHistory, setRepositoriesSqcHistory] = useState<RepositoriesSqcHistory>()
+  const [repositoriesSqcHistory, setRepositoriesSqcHistory] = useState<RepositoriesSqcHistory>();
 
   const { query } = useRouter();
 
-  async function loadProject() {
-    if (query?.projectId) {
-      try {
-        const result = await projectQuery.getProjectById('1', query?.projectId as string);
-        setProject(result.data);
-      } catch (error) {
-        console.error(error);
-      }
+  function getPathId(name: string) {
+    const nameArray = name.split('-');
+    return nameArray[0];
+  }
+
+  async function loadProject(productId: string) {
+    try {
+      const result = await projectQuery.getProjectById('1', productId);
+      setProject(result.data);
+    } catch (error) {
+      console.error(error);
     }
   }
 
-  async function loadRepositoriesSqcHistory() {
-    if (query?.projectId) {
-      try {
-        const result = await projectQuery.getProductRepositoriesSqcHistory('1', query?.projectId as string);
-        setRepositoriesSqcHistory(result.data);
-      } catch (error) {
-        console.error(error);
-      }
+  async function loadRepositoriesSqcHistory(productId: string) {
+    try {
+      const result = await projectQuery.getProductRepositoriesSqcHistory('1', productId as string);
+      setRepositoriesSqcHistory(result.data);
+    } catch (error) {
+      console.error(error);
     }
   }
 
   useEffect(() => {
-    loadProject();
-    loadRepositoriesSqcHistory();
-  }, [query?.projectId]);
+    if (query?.productName) {
+      const productId = getPathId(query?.productName as string);
+
+      loadProject(productId);
+      loadRepositoriesSqcHistory(productId);
+    }
+  }, [query?.productName]);
 
   return { project, repositoriesSqcHistory };
 };

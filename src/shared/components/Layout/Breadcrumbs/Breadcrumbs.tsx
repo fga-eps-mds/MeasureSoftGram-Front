@@ -23,6 +23,14 @@ export function Breadcrumbs() {
     const breadcrumbArray = pathArray.map((path, index) => {
       currentPath.push(path);
 
+      if (pathArray[0] === '') {
+        return (
+          <Typography color="text.primary" variant="subtitle1">
+            Produtos
+          </Typography>
+        );
+      }
+
       if (pathArray.length === index + 1)
         return (
           <Typography color="text.primary" variant="subtitle1">
@@ -39,16 +47,6 @@ export function Breadcrumbs() {
 
     setPathnameArray(breadcrumbArray);
   }, [router]);
-
-  if (pathnameArray[0] === '') {
-    return (
-      <BreadcrumbsMUI>
-        <Typography color="text.primary" variant="subtitle1">
-          Produtos
-        </Typography>
-      </BreadcrumbsMUI>
-    );
-  }
 
   return <BreadcrumbsMUI>{pathnameArray.map((path) => path)}</BreadcrumbsMUI>;
 }
