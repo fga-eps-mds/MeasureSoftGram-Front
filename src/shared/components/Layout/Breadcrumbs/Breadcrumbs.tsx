@@ -6,46 +6,49 @@ import { Breadcrumbs as BreadcrumbsMUI, Typography } from '@mui/material';
 
 import { TRANSLATION } from './consts';
 
-import * as Styles from './styles';
-
-function Breadcrumbs() {
+export function Breadcrumbs() {
   const router = useRouter();
-  const [pathnameArray, setPathnameArray] = useState<string[]>([]);
+  const [pathnameArray, setPathnameArray] = useState<string[] | React.ReactElement[]>([]);
+
+  function getPathName(name: string) {
+    const nameArray = name.split('-');
+    return nameArray.slice(1).join('-');
+  }
 
   useEffect(() => {
     const { asPath } = router;
+    const currentPath: string[] = [];
+    const pathArray = asPath.split('/').slice(1);
 
-    console.log(router);
+    const breadcrumbArray = pathArray.map((path, index) => {
+      currentPath.push(path);
 
-    const pathArray = asPath.split('/');
-    setPathnameArray(pathArray);
-  }, [router.pathname]);
+      if (pathArray.length === index + 1)
+        return (
+          <Typography color="text.primary" variant="subtitle1">
+            {TRANSLATION[path] || getPathName(path)}
+          </Typography>
+        );
 
-  const currentPath: string[] = [];
+      return (
+        <Typography>
+          <Link href={`/${currentPath.join('/')}`}>{TRANSLATION[path] || getPathName(path)}</Link>
+        </Typography>
+      );
+    });
 
-  return (
-    <Styles.Wrapper>
+    setPathnameArray(breadcrumbArray);
+  }, [router]);
+
+  if (pathnameArray[0] === '') {
+    return (
       <BreadcrumbsMUI>
-        {pathnameArray.map((pathName: string, index) => {
-          currentPath.push(pathName);
-
-          if (pathnameArray.length === index + 1) {
-            return (
-              <Typography color="text.primary" variant="subtitle1">
-                {pathName}
-              </Typography>
-            );
-          }
-
-          return (
-            <Typography>
-              <Link href={`${currentPath.join('/')}`}>{pathName}</Link>
-            </Typography>
-          );
-        })}
+        <Typography color="text.primary" variant="subtitle1">
+          Produtos
+        </Typography>
       </BreadcrumbsMUI>
-    </Styles.Wrapper>
-  );
-}
+    );
+  }
 
-export default Breadcrumbs;
+  return <BreadcrumbsMUI>{pathnameArray.map((path) => path)}</BreadcrumbsMUI>;
+}
