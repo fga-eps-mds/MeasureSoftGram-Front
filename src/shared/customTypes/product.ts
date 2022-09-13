@@ -94,10 +94,10 @@ interface SqcValue {
 }
 
 export interface RepositoriesSqcHistoryResult {
-  id: number;
-  url: string;
-  name: string;
-  history: Array<SqcValue>;
+  id: number | undefined;
+  url: string | undefined;
+  name: string | undefined;
+  history: Array<SqcValue> | undefined;
 }
 
 export interface RepositoriesSqcHistory {

@@ -5,7 +5,7 @@ import api from './api';
 interface HistoricalCharacteristicsProps {
   organizationId: number;
   productId: number;
-  repositoryId: number;
+  repositoryId: number | undefined;
   entity: 'characteristics';
 }
 
@@ -19,7 +19,11 @@ class Historical {
     );
   }
 
-  getSqcHistory(organizationId: string | number, productId: string | number, repositoryId: string | number) {
+  getSqcHistory(
+    organizationId: string | number | undefined,
+    productId: string | number,
+    repositoryId: number | undefined
+  ) {
     const url = `organizations/${organizationId}/products/${productId}/repositories/${repositoryId}/historical-values/sqc/`;
     return api.get<sqcHistorical.RootObject>(url);
   }

@@ -13,7 +13,9 @@ import { historical } from '@services/historicalCharacteristics';
 
 import formatEntitiesFilter from '@utils/formatEntitiesFilter';
 
+import { useRepositoryContext } from '@contexts/RepositoryProvider';
 import * as Styles from './styles';
+import { useQuery } from './hooks/useQuery';
 // import Skeleton from './components/Skeleton';
 
 interface FilterProps {
@@ -24,13 +26,16 @@ interface FilterProps {
 const LARGE_PRIME_NUMBER = 907111937;
 
 const Repository: NextPageWithLayout = () => {
+  const {} = useQuery();
+  const { currentRepository, characteristics, subCharacteristics } = useRepositoryContext();
+
   const [filterCharacteristics, setFilterCharacteristics] = useState<FilterProps>({
     filterTitle: 'CARACTERÍSTICAS',
-    options: []
+    options: characteristics
   });
   const [filterSubCharacteristics, setFilterSubCharacteristics] = useState<FilterProps>({
     filterTitle: 'SUB CARACTERÍSTICAS',
-    options: []
+    options: subCharacteristics
   });
 
   const [checkedOptions, setCheckedOptions] = useState({});
@@ -40,7 +45,7 @@ const Repository: NextPageWithLayout = () => {
   const [historicalCharacteristics, setHistoricalCharacteristics] = useState([]);
   const [organizationId, setOrganizationId] = useState(1);
   const [productId, setProductId] = useState(3);
-  const [repositoryId, setRepositoryId] = useState(6);
+  // const [repositoryId, setRepositoryId] = useState(6);
 
   useEffect(() => {
     axios
@@ -50,16 +55,16 @@ const Repository: NextPageWithLayout = () => {
         historical.getHistoricalCharacteristics({
           organizationId,
           productId,
-          repositoryId,
+          repositoryId: currentRepository?.id,
           entity: 'characteristics'
         }),
-        historical.getSqcHistory(organizationId, productId, repositoryId)
+        historical.getSqcHistory(organizationId, productId, currentRepository?.id)
       ])
       .then((res) => {
-        let map = {};
+        const map = {};
         const results = res.map((result) => result.data.results || result.data.data);
 
-        const [characteristics, subCharacteristics] = formatEntitiesFilter(results[0].characteristics);
+        // const [characteristics, subCharacteristics] = formatEntitiesFilter(results[0].characteristics);
         const id = Math.round(Math.random() * LARGE_PRIME_NUMBER);
         const sqcOptions = { id, key: 'SQC', name: 'SQC', history: results[2] };
 
@@ -68,25 +73,25 @@ const Repository: NextPageWithLayout = () => {
         const historicalValues = results[1];
         historicalValues.push(sqcOptions);
 
-        setFilterCharacteristics({
-          ...filterCharacteristics,
-          options: characteristics
-        });
-        setFilterSubCharacteristics({ ...filterSubCharacteristics, options: subCharacteristics });
+        // setFilterCharacteristics({
+        //   ...filterCharacteristics,
+        //   options: characteristics
+        // });
+        // setFilterSubCharacteristics({ ...filterSubCharacteristics, options: subCharacteristics });
 
-        [characteristics, subCharacteristics].forEach((result: Array<string>) => {
-          result.forEach((option) => {
-            map = {
-              ...map,
-              [option]: false
-            };
-          });
-        });
+        // [characteristics, subCharacteristics].forEach((result: Array<string>) => {
+        //   result.forEach((option) => {
+        //     map = {
+        //       ...map,
+        //       [option]: false
+        //     };
+        //   });
+        // });
 
         setCheckedOptions(map);
         setHistoricalCharacteristics(historicalValues);
       });
-  }, []);
+  }, [currentRepository]);
 
   // if (!product) {
   //   return <Skeleton />;
