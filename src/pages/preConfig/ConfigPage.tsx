@@ -24,10 +24,28 @@ const ConfigPage = ({ isOpen, onClose, repoName }: ConfigPageProps) => {
   const [subcharacterCheckbox, setSubcharacterCheckbox] = useState<string[]>([]);
   const [measureCheckbox, setMeasureheckbox] = useState<string[]>([]);
   const [page, setPage] = useState(0);
+  const [isValuesValid, setIsValuesValid] = useState(false);
 
   useEffect(() => {
     setPage(0);
+    setData(clearRequest(data));
+
+    setCharacterCheckbox([]);
+    setSubcharacterCheckbox([]);
+    setMeasureheckbox([]);
   }, [isOpen]);
+
+  useEffect(() => {
+    setIsValuesValid(false);
+  }, [page]);
+
+  useEffect(() => {}, []);
+
+  const clearRequest = (jsonValue: Characteristic[]): Characteristic[] => {
+    const jsonString = JSON.stringify(jsonValue);
+    const jsonStringReplaced = jsonString?.replace(/\d+/g, '0');
+    return JSON?.parse(jsonStringReplaced) as Characteristic[];
+  };
 
   const isArrayNull = (array: Array<any>) => array.length === 0;
 
@@ -72,7 +90,7 @@ const ConfigPage = ({ isOpen, onClose, repoName }: ConfigPageProps) => {
     return {
       label,
       onClick,
-      disabled: isFormCompleted(),
+      disabled: isFormCompleted() || !isValuesValid,
       backgroundColor: 'white',
       color: 'black',
       variant: 'outlined'
@@ -82,7 +100,10 @@ const ConfigPage = ({ isOpen, onClose, repoName }: ConfigPageProps) => {
   const buttons: Array<ButtonType> = [
     {
       label: 'Cancelar',
-      onClick: () => onClose(false),
+      onClick: () => {
+        setData(clearRequest(data));
+        onClose(false);
+      },
       backgroundColor: 'black',
       color: 'white'
     },
@@ -100,12 +121,13 @@ const ConfigPage = ({ isOpen, onClose, repoName }: ConfigPageProps) => {
   ];
 
   const renderPage = () => {
-    const genericProps = { onChange: setData, data };
-
+    const genericProps = { onChange: setData, setIsValuesValid, data };
+    const subtitle = 'Definir os pesos das';
     if (page === 0) {
       return (
         <ConfigsForm
           {...genericProps}
+          subtitle={`${subtitle} caracteristicas`}
           type="characteristic"
           checkboxValues={characterCheckbox}
           setCheckboxValues={setCharacterCheckbox}
@@ -118,6 +140,7 @@ const ConfigPage = ({ isOpen, onClose, repoName }: ConfigPageProps) => {
           {...genericProps}
           tabs={characterCheckbox}
           type="subcharacteristic"
+          subtitle={`${subtitle} subcaracteristicas`}
           checkboxValues={subcharacterCheckbox}
           setCheckboxValues={setSubcharacterCheckbox}
         />
@@ -127,6 +150,7 @@ const ConfigPage = ({ isOpen, onClose, repoName }: ConfigPageProps) => {
       <ConfigsForm
         {...genericProps}
         tabs={subcharacterCheckbox}
+        subtitle={`${subtitle} medidas`}
         type="measure"
         checkboxValues={measureCheckbox}
         setCheckboxValues={setMeasureheckbox}
