@@ -1,25 +1,27 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
 import { formatRelative } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
 import { Box, IconButton, Menu, MenuItem, Typography } from '@mui/material';
+import { MoreVert } from '@mui/icons-material';
 
 import { Product, RepositoriesSqcHistory } from '@customTypes/product';
 
 import Filters from '@components/Filters';
+import GraphicStackedLine from '@components/GraphicStackedLine';
+import GraphicRepositoriesSqcHistory from '@components/GraphicRepositoriesSqcHistory';
 
 import CreateRelease from '@pages/createRelease';
-import { MoreVert } from '@mui/icons-material';
-import GraphicStackedLine from '@components/GraphicStackedLine';
+
 import { supportedEntitiesQuery } from '@services/supportedEntities';
 import { historical } from '@services/historicalCharacteristics';
-import axios from 'axios';
-import formatEntitiesFilter from '@utils/formatEntitiesFilter';
-import GraphicRepositoriesSqcHistory from '@components/GraphicRepositoriesSqcHistory';
-import Skeleton from '../Skeleton';
 
-import { BodyContainer, Circle, FiltersContainer, GraphicContainer } from './styles';
+import formatEntitiesFilter from '@utils/formatEntitiesFilter';
+
+import * as Styles from './styles';
+import Skeleton from '../Skeleton';
 
 interface Props {
   product?: Product;
@@ -130,7 +132,7 @@ const ProductContent: React.FC<Props> = ({ product, repositoriesSqcHistory }) =>
     <>
       <Box display="flex" flexDirection="column">
         <Box display="flex" flexDirection="row" alignItems="center" marginY="60px">
-          <Circle />
+          <Styles.Circle />
 
           <Box>
             <Typography variant="h6">{product?.name}</Typography>
@@ -156,8 +158,8 @@ const ProductContent: React.FC<Props> = ({ product, repositoriesSqcHistory }) =>
 
       <GraphicRepositoriesSqcHistory history={repositoriesSqcHistory} />
 
-      <BodyContainer display="flex" width="100%" flexDirection="row">
-        <FiltersContainer display="flex" width="30%" flexDirection="column">
+      <Styles.BodyContainer display="flex" width="100%" flexDirection="row">
+        <Styles.FiltersContainer display="flex" width="30%" flexDirection="column">
           {[filterCharacteristics, filterSubCharacteristics].map((filter) => (
             <Filters
               key={filter.filterTitle}
@@ -167,14 +169,14 @@ const ProductContent: React.FC<Props> = ({ product, repositoriesSqcHistory }) =>
               checkedOptions={checkedOptions}
             />
           ))}
-        </FiltersContainer>
+        </Styles.FiltersContainer>
 
-        <GraphicContainer display="flex" width="100%" justifyContent="center" alignItems="center">
+        <Styles.GraphicContainer display="flex" width="100%" justifyContent="center" alignItems="center">
           {historicalCharacteristics.length !== 0 && (
             <GraphicStackedLine historical={historicalCharacteristics} checkedOptions={checkedOptions} />
           )}
-        </GraphicContainer>
-      </BodyContainer>
+        </Styles.GraphicContainer>
+      </Styles.BodyContainer>
 
       <CreateRelease
         open={openCreateRelease}

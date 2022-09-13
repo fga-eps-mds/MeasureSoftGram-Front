@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { Product, RepositoriesSqcHistory } from '@customTypes/product';
+import { RepositoriesSqcHistory } from '@customTypes/product';
 import { productQuery } from '@services/product';
+import { useProductContext } from '@contexts/ProductProvider';
 
 export const useQuery = () => {
-  const [product, setProduct] = useState<Product>();
+  const { setCurrentProduct } = useProductContext();
   const [repositoriesSqcHistory, setRepositoriesSqcHistory] = useState<RepositoriesSqcHistory>();
 
   const { query } = useRouter();
@@ -19,7 +20,7 @@ export const useQuery = () => {
   async function loadProduct(productId: string) {
     try {
       const result = await productQuery.getProductById('1', productId);
-      setProduct(result.data);
+      setCurrentProduct(result.data);
     } catch (error) {
       console.error(error);
     }
@@ -35,13 +36,13 @@ export const useQuery = () => {
   }
 
   useEffect(() => {
-    if (query?.productName) {
-      const productId = getPathId(query?.productName as string);
+    if (query?.product) {
+      const productId = getPathId(query?.product as string);
 
       loadProduct(productId);
       loadRepositoriesSqcHistory(productId);
     }
-  }, [query?.productName]);
+  }, [query?.product]);
 
-  return { product, repositoriesSqcHistory };
+  return { repositoriesSqcHistory };
 };

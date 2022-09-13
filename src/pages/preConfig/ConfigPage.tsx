@@ -17,10 +17,10 @@ const { TITLE, SUB_TITLE } = CONFIG_PAGE;
 interface ConfigPageProps {
   isOpen: boolean;
   onClose: Function;
-  repoName: string;
+  repoName?: string;
 }
 
-const ConfigPage = ({ isOpen, onClose, repoName }: ConfigPageProps) => {
+const ConfigPage = ({ isOpen, onClose, repoName = '' }: ConfigPageProps) => {
   const request = useQuery();
 
   const [data, setData] = useState(request?.data.characteristics);
