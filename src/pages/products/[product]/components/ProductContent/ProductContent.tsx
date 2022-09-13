@@ -20,11 +20,11 @@ import { historical } from '@services/historicalCharacteristics';
 
 import formatEntitiesFilter from '@utils/formatEntitiesFilter';
 
+import { useProductContext } from '@contexts/ProductProvider';
 import * as Styles from './styles';
 import Skeleton from '../Skeleton';
 
 interface Props {
-  product?: Product;
   repositoriesSqcHistory?: RepositoriesSqcHistory;
 }
 
@@ -35,7 +35,9 @@ interface FilterProps {
 
 const LARGE_PRIME_NUMBER = 907111937;
 
-const ProductContent: React.FC<Props> = ({ product, repositoriesSqcHistory }) => {
+const ProductContent: React.FC<Props> = ({ repositoriesSqcHistory }) => {
+  const { currentProduct } = useProductContext();
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const openMenu = Boolean(anchorEl);
 
@@ -119,12 +121,12 @@ const ProductContent: React.FC<Props> = ({ product, repositoriesSqcHistory }) =>
   };
 
   const lastUpdateDate =
-    product &&
+    currentProduct &&
     formatRelative(new Date(), new Date(), {
       locale: ptBR
     });
 
-  if (!product) {
+  if (!currentProduct) {
     return <Skeleton />;
   }
 
@@ -135,7 +137,7 @@ const ProductContent: React.FC<Props> = ({ product, repositoriesSqcHistory }) =>
           <Styles.Circle />
 
           <Box>
-            <Typography variant="h6">{product?.name}</Typography>
+            <Typography variant="h6">{currentProduct?.name}</Typography>
             <Typography variant="caption">última atualização: {lastUpdateDate}</Typography>
           </Box>
 

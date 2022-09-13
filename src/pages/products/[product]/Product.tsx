@@ -14,7 +14,6 @@ import ProductContent from './components/ProductContent';
 
 const Product: NextPageWithLayout = () => {
   const { repositoriesSqcHistory } = useQuery();
-  const { currentProduct } = useProductContext();
 
   return (
     <>
@@ -23,7 +22,7 @@ const Product: NextPageWithLayout = () => {
       </Head>
 
       <Box>
-        <ProductContent product={currentProduct} repositoriesSqcHistory={repositoriesSqcHistory} />
+        <ProductContent repositoriesSqcHistory={repositoriesSqcHistory} />
       </Box>
     </>
   );
