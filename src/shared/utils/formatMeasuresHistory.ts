@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 
-import { MeasuresHistoryResult } from '@customTypes/project';
+import { MeasuresHistoryResult } from '@customTypes/product';
 
 const longestHistoryMetricsIndex = (measuresHistoryResults: Array<MeasuresHistoryResult>) =>
   measuresHistoryResults.reduce((prevIndex, historyResult, currentIndex) => {

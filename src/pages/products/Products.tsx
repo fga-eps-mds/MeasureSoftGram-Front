@@ -31,29 +31,29 @@ const Products: NextPageWithLayout = () => {
   const resultMock = [
     {
       id: 3,
-      name: '2022-1-MeasureSoftGram-Front'
+      name: 'MeasureSoftGram'
     }
   ];
 
   return (
     <>
       <Head>
-        <title>MeasureSoftGram - Projetos</title>
+        <title>MeasureSoftGram - Produtos</title>
       </Head>
       <Container>
         <ConfigPage isOpen={openConfig} onClose={setOpenConfig} repoName={resultMock[0].name} />
         <Box display="flex" flexDirection="column">
           <Box marginY="60px">
-            <Typography variant="h5">Projetos</Typography>
+            <Typography variant="h5">Produtos</Typography>
           </Box>
           <Box display="flex">
-            {resultMock.map((project) => (
-              <div key={project.id} style={{ display: 'flex', flexDirection: 'row' }}>
+            {resultMock.map((product) => (
+              <div key={product.id} style={{ display: 'flex', flexDirection: 'row' }}>
                 <CardNavigation
-                  key={project.id}
-                  id={project.id}
-                  name={project.name}
-                  url={`/products/${project.id}-${project.name}`}
+                  key={product.id}
+                  id={product.id}
+                  name={product.name}
+                  url={`/products/${product.id}-${product.name}`}
                 />
                 <IconButton color="primary" onClick={handleOpenMenu}>
                   <MoreVert />

@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
+import * as sqcHistorical from '@customTypes/sqcHistorical';
 import api from './api';
-import * as sqcHistorical from '../types/sqcHistorical';
 
 interface HistoricalCharacteristicsProps {
   organizationId: number;
@@ -19,8 +19,8 @@ class Historical {
     );
   }
 
-  getSqcHistory(organizationId: string | number, projectId: string | number, repositoryId: string | number) {
-    const url = `organizations/${organizationId}/products/${projectId}/repositories/${repositoryId}/historical-values/sqc/`;
+  getSqcHistory(organizationId: string | number, productId: string | number, repositoryId: string | number) {
+    const url = `organizations/${organizationId}/products/${productId}/repositories/${repositoryId}/historical-values/sqc/`;
     return api.get<sqcHistorical.RootObject>(url);
   }
 }

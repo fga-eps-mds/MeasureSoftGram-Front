@@ -1,2 +1,2 @@
 export { default } from './api';
-export { projectQuery } from './project';
+export { productQuery } from './product';

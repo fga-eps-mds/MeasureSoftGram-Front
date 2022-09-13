@@ -5,7 +5,7 @@ import { ptBR } from 'date-fns/locale';
 
 import { Box, IconButton, Menu, MenuItem, Typography } from '@mui/material';
 
-import { Project, RepositoriesSqcHistory } from '@customTypes/project';
+import { Product, RepositoriesSqcHistory } from '@customTypes/product';
 
 import Filters from '@components/Filters';
 
@@ -22,7 +22,7 @@ import Skeleton from '../Skeleton';
 import { BodyContainer, Circle, FiltersContainer, GraphicContainer } from './styles';
 
 interface Props {
-  project?: Project;
+  product?: Product;
   repositoriesSqcHistory?: RepositoriesSqcHistory;
 }
 
@@ -33,7 +33,7 @@ interface FilterProps {
 
 const LARGE_PRIME_NUMBER = 907111937;
 
-const ProjectContent: React.FC<Props> = ({ project, repositoriesSqcHistory }) => {
+const ProductContent: React.FC<Props> = ({ product, repositoriesSqcHistory }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const openMenu = Boolean(anchorEl);
 
@@ -117,12 +117,12 @@ const ProjectContent: React.FC<Props> = ({ project, repositoriesSqcHistory }) =>
   };
 
   const lastUpdateDate =
-    project &&
+    product &&
     formatRelative(new Date(), new Date(), {
       locale: ptBR
     });
 
-  if (!project) {
+  if (!product) {
     return <Skeleton />;
   }
 
@@ -133,7 +133,7 @@ const ProjectContent: React.FC<Props> = ({ project, repositoriesSqcHistory }) =>
           <Circle />
 
           <Box>
-            <Typography variant="h6">{project?.name}</Typography>
+            <Typography variant="h6">{product?.name}</Typography>
             <Typography variant="caption">última atualização: {lastUpdateDate}</Typography>
           </Box>
 
@@ -179,11 +179,11 @@ const ProjectContent: React.FC<Props> = ({ project, repositoriesSqcHistory }) =>
       <CreateRelease
         open={openCreateRelease}
         handleClose={() => setOpenCreateRelease(false)}
-        projectId={3}
+        productId={3}
         organizationId={1}
       />
     </>
   );
 };
 
-export default ProjectContent;
+export default ProductContent;

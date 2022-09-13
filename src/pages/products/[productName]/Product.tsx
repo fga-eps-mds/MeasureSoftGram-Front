@@ -12,7 +12,7 @@ import { useQuery } from './hooks/useQuery';
 import ProductContent from '../components/ProductContent';
 
 const Product: NextPageWithLayout = () => {
-  const { project, repositoriesSqcHistory } = useQuery();
+  const { product, repositoriesSqcHistory } = useQuery();
 
   return (
     <>
@@ -21,7 +21,7 @@ const Product: NextPageWithLayout = () => {
       </Head>
 
       <Box>
-        <ProductContent project={project} repositoriesSqcHistory={repositoriesSqcHistory} />
+        <ProductContent product={product} repositoriesSqcHistory={repositoriesSqcHistory} />
       </Box>
     </>
   );

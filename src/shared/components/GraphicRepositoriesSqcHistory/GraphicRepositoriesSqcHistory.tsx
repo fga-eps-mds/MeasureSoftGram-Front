@@ -1,10 +1,10 @@
 import React from 'react';
 
 import formatRepositoriesSqcHistory from '@utils/formatRepositoriesSqcHistory';
-import { RepositoriesSqcHistory } from '@customTypes/project';
+import { RepositoriesSqcHistory } from '@customTypes/product';
+
 import ReactEcharts from 'echarts-for-react';
 import { GraphicContainer } from './styles';
-
 
 interface Props {
   history: RepositoriesSqcHistory | undefined;
@@ -19,7 +19,7 @@ const GraphicRepositoriesSqcHistory = ({ history }: Props) => {
 
   return (
     <GraphicContainer>
-        <ReactEcharts option={formatedOptions} style={{ height: '450px', width: '100%' }} />
+      <ReactEcharts option={formatedOptions} style={{ height: '450px', width: '100%' }} />
     </GraphicContainer>
   );
 };

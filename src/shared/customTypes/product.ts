@@ -22,7 +22,7 @@ export interface MeasuresHistory {
   results: Array<MeasuresHistoryResult>;
 }
 
-export interface Project {
+export interface Product {
   id: number;
   name: string;
   description: string;
@@ -36,12 +36,12 @@ interface DefaultAttr {
   weight: number;
 }
 
-interface PreConfigSubCharacteristics extends DefaultAttr{
-  measures: Array<DefaultAttr>
+interface PreConfigSubCharacteristics extends DefaultAttr {
+  measures: Array<DefaultAttr>;
 }
 
-interface PreConfigCharacteristics extends DefaultAttr{
-  subcharacteristics: Array<PreConfigSubCharacteristics>
+interface PreConfigCharacteristics extends DefaultAttr {
+  subcharacteristics: Array<PreConfigSubCharacteristics>;
 }
 
 export interface CurrentPreConfig {
@@ -49,7 +49,7 @@ export interface CurrentPreConfig {
   name: string;
   created_at: string;
   data: {
-    characteristics: Array<PreConfigCharacteristics>
+    characteristics: Array<PreConfigCharacteristics>;
   };
 }
 
@@ -59,17 +59,17 @@ export interface CharacteristicWithBalanceMatrix {
   value: number;
   correlations: {
     '+': string[];
-    '-': string[]
-  }
+    '-': string[];
+  };
 }
 
 export interface ValuesCommitted {
-  [key: string]: number
+  [key: string]: number;
 }
 
 export interface Changes {
   characteristic_key: keyof ValuesCommitted;
-  delta: number
+  delta: number;
 }
 
 export interface ReleaseGoal {
@@ -97,10 +97,10 @@ interface RepositoriesSqcHistoryResult {
   id: number;
   url: string;
   name: string;
-  history: Array<SqcValue>
+  history: Array<SqcValue>;
 }
 
 export interface RepositoriesSqcHistory {
   count: number;
-  results: Array<RepositoriesSqcHistoryResult>
+  results: Array<RepositoriesSqcHistoryResult>;
 }

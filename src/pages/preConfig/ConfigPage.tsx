@@ -1,9 +1,13 @@
-import DrawerMenu from '@components/DrawerMenu';
-import { Characteristic } from '@customTypes/preConfig';
-import { ButtonType } from '@customTypes/project';
-import { Typography } from '@mui/material';
-import { projectQuery } from '@services/project';
 import React, { useEffect, useState } from 'react';
+
+import { Typography } from '@mui/material';
+
+import DrawerMenu from '@components/DrawerMenu';
+import { productQuery } from '@services/product';
+
+import { Characteristic } from '@customTypes/preConfig';
+import { ButtonType } from '@customTypes/product';
+
 import ConfigsForm from './components/ConfigsForm';
 import { useQuery } from './hooks/useQuery';
 import CONFIG_PAGE from './consts';
@@ -53,7 +57,7 @@ const ConfigPage = ({ isOpen, onClose, repoName }: ConfigPageProps) => {
       }))
     })) as Characteristic[];
 
-    projectQuery.postPreConfig('1', '1', { name: repoName, data: { characteristics: finalData } });
+    productQuery.postPreConfig('1', '1', { name: repoName, data: { characteristics: finalData } });
   };
 
   const renderNextOrEndButton = (): ButtonType => {

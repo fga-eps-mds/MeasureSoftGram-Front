@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
-import { projectQuery } from '@services/index';
+
+import { productQuery } from '@services/index';
 import { PreConfigRoot } from '@customTypes/preConfig';
+
 import mockedData from '../utils/mockedData.json';
 
 export const useQuery = () => {
   const [preConfig, setPreConfig] = useState<PreConfigRoot>();
 
-  async function loadProject() {
+  async function loadProduct() {
     try {
-      const result = (await projectQuery.getPreConfig('1', '1')) as unknown as PreConfigRoot;
+      const result = (await productQuery.getProductCurrentPreConfig('1', '1')) as unknown as PreConfigRoot;
 
       setPreConfig(result);
     } catch (error) {
@@ -17,7 +19,7 @@ export const useQuery = () => {
   }
 
   useEffect(() => {
-    loadProject();
+    loadProduct();
   }, []);
 
   return preConfig ?? mockedData;

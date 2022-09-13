@@ -1,8 +1,8 @@
-import '@testing-library/jest-dom';
-
-import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
-import { ButtonType } from '@customTypes/project';
+import '@testing-library/jest-dom';
+import React from 'react';
+
+import { ButtonType } from '@customTypes/product';
 
 import DrawerMenu from '../DrawerMenu';
 
