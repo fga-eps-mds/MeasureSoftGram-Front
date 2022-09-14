@@ -63,7 +63,7 @@ Object {
             C
             1
             : 
-            Reliability
+            reliability
           </p>
           <p
             data-testid="label"
@@ -71,7 +71,7 @@ Object {
             C
             2
             : 
-            Maintainability
+            maintainability
           </p>
         </div>
       </div>
@@ -136,7 +136,7 @@ Object {
           C
           1
           : 
-          Reliability
+          reliability
         </p>
         <p
           data-testid="label"
@@ -144,7 +144,7 @@ Object {
           C
           2
           : 
-          Maintainability
+          maintainability
         </p>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tab, Tabs, TabsProps } from '@mui/material';
-import titleFormater from '@utils/titleFormater';
+import undelineRemover from '@utils/undelineRemover';
 
 interface PreConfigTabsPropType extends TabsProps {
   tabsValues: Array<string>;
@@ -9,7 +9,7 @@ interface PreConfigTabsPropType extends TabsProps {
 const PreConfigTabs = ({ onChange, value, tabsValues, ...rest }: PreConfigTabsPropType) => (
   <Tabs {...rest} value={value} onChange={onChange}>
     {tabsValues.map((tabValue) => (
-      <Tab value={tabValue} label={titleFormater(tabValue)} />
+      <Tab value={tabValue} label={undelineRemover(tabValue)} />
     ))}
   </Tabs>
 );

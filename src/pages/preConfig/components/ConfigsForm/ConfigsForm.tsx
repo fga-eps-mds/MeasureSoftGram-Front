@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { Box, Grid, Typography } from '@mui/material';
 import { Characteristic, Measure, Subcharacteristic } from '@customTypes/preConfig';
 import CheckboxButton from '@components/CheckboxButton/CheckboxButton';
-import titleFormater from '@utils/titleFormater';
+import undelineRemover from '@utils/undelineRemover';
 import toPercentage from '../../utils/toPercentage';
 import PreConfigSliders from '../PreConfigSliders';
 import PreConfigTabs from '../PreConfigTabs';
@@ -113,7 +113,7 @@ const ConfigForm = ({
       return (
         <Grid item>
           <CheckboxButton
-            label={titleFormater(value.key)}
+            label={undelineRemover(value.key)}
             checked={isChecked}
             style={{ marginRight: '8px' }}
             onClick={() => {
