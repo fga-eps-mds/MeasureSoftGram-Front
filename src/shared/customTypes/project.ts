@@ -32,25 +32,18 @@ export interface Project {
 }
 
 interface DefaultAttr {
+  id: number;
   key: string;
-  weight: number;
+  name: string;
+  description: string | null;
 }
 
 interface PreConfigSubCharacteristics extends DefaultAttr{
   measures: Array<DefaultAttr>
 }
 
-interface PreConfigCharacteristics extends DefaultAttr{
+export interface PreConfigEntitiesRelationship extends DefaultAttr {
   subcharacteristics: Array<PreConfigSubCharacteristics>
-}
-
-export interface CurrentPreConfig {
-  id: number;
-  name: string;
-  created_at: string;
-  data: {
-    characteristics: Array<PreConfigCharacteristics>
-  };
 }
 
 export interface CharacteristicWithBalanceMatrix {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Alert, Container, Snackbar } from '@mui/material';
 
 import DrawerMenu from '@components/DrawerMenu';
@@ -35,9 +35,14 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
       1: <ReleaseGoals />
     }[activeStep])
 
+  const handleCloseModal = () => {
+    handleClose()
+    closeAlert()
+  }
+
   const handleGoToGoalsStep = () => goToGoalsStep() ? setActiveStep(1) : () => {}
 
-  const handleBackButton = () => activeStep ? setActiveStep(0) : handleClose();
+  const handleBackButton = () => activeStep ? setActiveStep(0) : handleCloseModal();
 
   const handleNextButton = () => activeStep ? createProjectReleaseGoal() : handleGoToGoalsStep();
 
@@ -69,10 +74,15 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
   const handleOnCloseAlert = () => {
     if (successOnCreation === 'success') {
       handleClose()
+      setActiveStep(0)
     }
 
-    closeAlert()
+    setTimeout(closeAlert, 3000)
   }
+
+  useEffect(() => {
+    if (successOnCreation === 'success') handleOnCloseAlert()
+  }, [successOnCreation])
 
   return (
     <>
@@ -85,7 +95,6 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         open={!!successOnCreation}
-        autoHideDuration={3000}
         onClose={handleOnCloseAlert}
       >
         {ALERTS[successOnCreation as keyof typeof ALERTS]}
