@@ -55,7 +55,7 @@ const ConfigForm = ({
     const minimalValueToFinish = PERCENTAGE * quantityTabs;
 
     setIsValuesValid(minimalValueToFinish === totalValue);
-  }, [limiters, checkboxValues, tabs, setIsValuesValid]);
+  }, [limiters, checkboxValues, tabs, setIsValuesValid, data]);
 
   const keyGetter = (objectArray: [limiterType] | []) => objectArray.map((object) => object.data.key);
 

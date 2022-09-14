@@ -1,14 +1,14 @@
 import DrawerMenu from '@components/DrawerMenu';
 import { Characteristic } from '@customTypes/preConfig';
 import { ButtonType } from '@customTypes/project';
-import { Typography } from '@mui/material';
+import { Alert, Snackbar, Typography } from '@mui/material';
 import { projectQuery } from '@services/project';
 import React, { useEffect, useState } from 'react';
 import ConfigsForm from './components/ConfigsForm';
 import { useQuery } from './hooks/useQuery';
 import CONFIG_PAGE from './consts';
 
-const { TITLE, SUB_TITLE } = CONFIG_PAGE;
+const { TITLE, SUB_TITLE, DEFAULT_MESSAGE, ERROR_MESSAGE } = CONFIG_PAGE;
 
 interface ConfigPageProps {
   isOpen: boolean;
@@ -25,6 +25,8 @@ const ConfigPage = ({ isOpen, onClose, repoName }: ConfigPageProps) => {
   const [measureCheckbox, setMeasureheckbox] = useState<string[]>([]);
   const [page, setPage] = useState(0);
   const [isValuesValid, setIsValuesValid] = useState(false);
+  const [error, setError] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
     setPage(0);
@@ -71,7 +73,10 @@ const ConfigPage = ({ isOpen, onClose, repoName }: ConfigPageProps) => {
       }))
     })) as Characteristic[];
 
-    projectQuery.postPreConfig('1', '1', { name: repoName, data: { characteristics: finalData } });
+    setShowAlert(true);
+    projectQuery.postPreConfig('1', '1', { name: repoName, data: { characteristics: finalData } }).catch(() => {
+      setError(true);
+    });
   };
 
   const renderNextOrEndButton = (): ButtonType => {
@@ -159,14 +164,28 @@ const ConfigPage = ({ isOpen, onClose, repoName }: ConfigPageProps) => {
   };
 
   return (
-    <DrawerMenu open={isOpen} buttons={buttons} title={TITLE} subtitle={SUB_TITLE}>
-      <>
-        <Typography variant="h6" mt="24px">
-          {repoName}
-        </Typography>
-        {renderPage()}
-      </>
-    </DrawerMenu>
+    <>
+      <DrawerMenu open={isOpen} buttons={buttons} title={TITLE} subtitle={SUB_TITLE}>
+        <>
+          <Typography variant="h6" mt="24px">
+            {repoName}
+          </Typography>
+          {renderPage()}
+        </>
+      </DrawerMenu>
+      <Snackbar
+        open={showAlert}
+        autoHideDuration={6000}
+        onClose={() => {
+          setShowAlert(false);
+          setError(false);
+        }}
+      >
+        <Alert severity={error ? 'error' : 'success'} sx={{ width: '100%' }}>
+          {error ? ERROR_MESSAGE : DEFAULT_MESSAGE}
+        </Alert>
+      </Snackbar>
+    </>
   );
 };
 
