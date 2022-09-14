@@ -8,7 +8,7 @@ export const useQuery = () => {
 
   async function loadProject() {
     try {
-      const result = (await projectQuery.getPreConfig('1', '1')) as unknown as PreConfigRoot;
+      const result = (await projectQuery.getPreConfig('1', '3')) as unknown as PreConfigRoot;
 
       setPreConfig(result);
     } catch (error) {

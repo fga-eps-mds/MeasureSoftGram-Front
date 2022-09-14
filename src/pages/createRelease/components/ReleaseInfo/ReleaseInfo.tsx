@@ -21,7 +21,7 @@ function ReleaseInfo() {
   return (
     <>
       <Styles.Header>
-        <h1>Definir release</h1>
+        <h1>Definir Meta de Qualidade (planejada)</h1>
         <p>Mini explicação sobre as configurações basicas e a seleção de caracteristicas</p>
       </Styles.Header>
 
@@ -61,7 +61,7 @@ function ReleaseInfo() {
         </Box>
 
         <Box>
-          <h2>Caracteristicas a serem calculadas na release</h2>
+          <h2>Caracteristicas a serem observadas no release</h2>
 
           <FormGroup
             onChange={(e) => handleSelectCharacteristics((e.target as HTMLInputElement).value)}
