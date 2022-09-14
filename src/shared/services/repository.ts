@@ -4,12 +4,16 @@ import api from './api';
 
 interface HistoricalCharacteristicsProps {
   organizationId: number;
-  productId: number;
+  productId: number | undefined;
   repositoryId: number | undefined;
-  entity: 'characteristics';
+  entity: string;
 }
 
-class Historical {
+class Repository {
+  getRepository(organizationId: number | undefined, productId: number | undefined, repositoryId: number | undefined) {
+    return api.get(`organizations/${organizationId}/products/${productId}/repositories/${repositoryId}/`);
+  }
+
   getHistoricalCharacteristics(props: HistoricalCharacteristicsProps) {
     const { organizationId, entity, productId, repositoryId } = props;
     return api.get(
@@ -29,5 +33,5 @@ class Historical {
   }
 }
 
-export const historical = new Historical();
-Object.freeze(historical);
+export const repository = new Repository();
+Object.freeze(repository);

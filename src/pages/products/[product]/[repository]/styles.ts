@@ -12,7 +12,9 @@ export const Circle = styled.div`
   border-radius: 50%;
 `;
 
-export const BodyContainer = styled(Box)``;
+export const BodyContainer = styled(Box)`
+  background-color: #f5f5f5;
+`;
 
 export const FiltersContainer = styled(Box)``;
 

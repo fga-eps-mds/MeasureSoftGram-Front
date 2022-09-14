@@ -5,13 +5,7 @@ import Filters from '@components/Filters';
 import getLayout from '@components/Layout';
 import GraphicStackedLine from '@components/GraphicStackedLine';
 
-import CreateRelease from '@pages/createRelease';
 import { NextPageWithLayout } from '@pages/_app.next';
-
-import { supportedEntitiesQuery } from '@services/supportedEntities';
-import { historical } from '@services/historicalCharacteristics';
-
-import formatEntitiesFilter from '@utils/formatEntitiesFilter';
 
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
 import * as Styles from './styles';
@@ -23,75 +17,31 @@ interface FilterProps {
   options: Array<string>;
 }
 
-const LARGE_PRIME_NUMBER = 907111937;
-
 const Repository: NextPageWithLayout = () => {
-  const {} = useQuery();
+  const { repositoryHistoricalCharacteristics, repositoryHistoricalSqc, checkedOptionsFormat } = useQuery();
   const { currentRepository, characteristics, subCharacteristics } = useRepositoryContext();
 
   const [filterCharacteristics, setFilterCharacteristics] = useState<FilterProps>({
     filterTitle: 'CARACTERÍSTICAS',
-    options: characteristics
+    options: []
   });
   const [filterSubCharacteristics, setFilterSubCharacteristics] = useState<FilterProps>({
     filterTitle: 'SUB CARACTERÍSTICAS',
-    options: subCharacteristics
+    options: []
   });
 
-  const [checkedOptions, setCheckedOptions] = useState({});
+  const [checkedOptions, setCheckedOptions] = useState(checkedOptionsFormat);
 
   const [sqcValues, setSqcValues] = useState<Object>({});
 
   const [historicalCharacteristics, setHistoricalCharacteristics] = useState([]);
   const [organizationId, setOrganizationId] = useState(1);
   const [productId, setProductId] = useState(3);
-  // const [repositoryId, setRepositoryId] = useState(6);
 
   useEffect(() => {
-    axios
-      .all([
-        supportedEntitiesQuery.getSupportedEntities(organizationId, productId),
-        // supportedEntitiesQuery.getSupportedEntities('subcharacteristics'),
-        historical.getHistoricalCharacteristics({
-          organizationId,
-          productId,
-          repositoryId: currentRepository?.id,
-          entity: 'characteristics'
-        }),
-        historical.getSqcHistory(organizationId, productId, currentRepository?.id)
-      ])
-      .then((res) => {
-        const map = {};
-        const results = res.map((result) => result.data.results || result.data.data);
-
-        // const [characteristics, subCharacteristics] = formatEntitiesFilter(results[0].characteristics);
-        const id = Math.round(Math.random() * LARGE_PRIME_NUMBER);
-        const sqcOptions = { id, key: 'SQC', name: 'SQC', history: results[2] };
-
-        setSqcValues(sqcOptions);
-
-        const historicalValues = results[1];
-        historicalValues.push(sqcOptions);
-
-        // setFilterCharacteristics({
-        //   ...filterCharacteristics,
-        //   options: characteristics
-        // });
-        // setFilterSubCharacteristics({ ...filterSubCharacteristics, options: subCharacteristics });
-
-        // [characteristics, subCharacteristics].forEach((result: Array<string>) => {
-        //   result.forEach((option) => {
-        //     map = {
-        //       ...map,
-        //       [option]: false
-        //     };
-        //   });
-        // });
-
-        setCheckedOptions(map);
-        setHistoricalCharacteristics(historicalValues);
-      });
-  }, [currentRepository]);
+    setFilterCharacteristics({ ...filterCharacteristics, options: characteristics });
+    setFilterSubCharacteristics({ ...filterSubCharacteristics, options: subCharacteristics });
+  }, [characteristics, subCharacteristics]);
 
   // if (!product) {
   //   return <Skeleton />;
@@ -112,9 +62,14 @@ const Repository: NextPageWithLayout = () => {
       </Styles.FiltersContainer>
 
       <Styles.GraphicContainer display="flex" width="100%" justifyContent="center" alignItems="center">
-        {historicalCharacteristics.length !== 0 && (
-          <GraphicStackedLine historical={historicalCharacteristics} checkedOptions={checkedOptions} />
-        )}
+        {repositoryHistoricalSqc &&
+          repositoryHistoricalCharacteristics &&
+          repositoryHistoricalCharacteristics.length !== 0 && (
+            <GraphicStackedLine
+              historical={repositoryHistoricalCharacteristics.concat(repositoryHistoricalSqc)}
+              checkedOptions={checkedOptions}
+            />
+          )}
       </Styles.GraphicContainer>
     </Styles.BodyContainer>
   );
