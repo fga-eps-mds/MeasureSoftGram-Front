@@ -4,18 +4,18 @@ import { Button } from '@mui/material';
 
 export const Wrapper = styled.div`
   height: 100vh;
+  width: inherit;
 
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 
+  padding: 30px 12px;
   left: 0;
 
-  width: inherit;
-
-  padding: 30px 12px;
-
   background-color: white;
+
+  position: fixed;
 `;
 
 export const Ul = styled.ul`

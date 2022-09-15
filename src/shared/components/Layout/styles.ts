@@ -12,5 +12,6 @@ export const Wrapper = styled.div`
 `;
 
 export const ContentContainer = styled(Container)`
+  margin-left: 318px;
   padding: 0;
 `;
