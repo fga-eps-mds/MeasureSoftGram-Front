@@ -1,16 +1,18 @@
-import { Historical } from '@customTypes/respository';
+interface Charactheristic {
+  key: string;
+  name: string;
+  history: Array<{
+    value: number;
+    created_at: string;
+  }>;
+}
 
 interface OptionCheckedProps {
   [key: string]: boolean;
 }
 
-interface Props {
-  historical?: Historical[];
-  checkedOptions: OptionCheckedProps;
-}
-
-const formatCharacteristicsHistory = ({ historical, checkedOptions }: Props) => {
-  if (!historical || historical.length === 0 || historical.filter((h) => h.key.includes('SQC')).length === 0) return {};
+const formatCharacteristicsHistory = (historical: Charactheristic[], checkedOptions: OptionCheckedProps) => {
+  if (!historical || historical.length === 0) return {};
 
   const newHistorical = historical.filter((h) => {
     if (h && h.history) return h;

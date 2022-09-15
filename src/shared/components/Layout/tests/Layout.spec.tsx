@@ -20,13 +20,13 @@ describe('<Layout />', () => {
       const { getByRole, getByText } = render(<Layout />);
       getByRole('img');
       getByText('Organizações');
-      getByText('Produtos');
+      getByText('Projetos');
     });
 
     it('Deve mostrar Layout com subheader', async () => {
       setRouteQuery({
-        product: 'measure',
-        productId: 1
+        project: 'measure',
+        projectId: 1
       });
 
       const { getByRole, getByText } = render(<Layout />);
