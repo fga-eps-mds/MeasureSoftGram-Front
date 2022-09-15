@@ -93,14 +93,20 @@ interface SqcValue {
   created_at: string;
 }
 
-export interface RepositoriesSqcHistoryResult {
+export interface Repositories {
   id: number;
   url: string;
   name: string;
+  key: string;
+  description: string;
+  product: string;
+}
+
+interface RepositoriesSqcHistoryResult {
   history: Array<SqcValue>;
 }
 
 export interface RepositoriesSqcHistory {
   count: number;
-  results: Array<RepositoriesSqcHistoryResult>;
+  results: Array<RepositoriesSqcHistoryResult & Repositories>;
 }

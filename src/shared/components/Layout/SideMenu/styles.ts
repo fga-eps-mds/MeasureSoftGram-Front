@@ -37,7 +37,6 @@ export const Li = styled.li`
 
 export const Logo = styled.img`
   cursor: pointer;
-  padding-left: 8px;
 `;
 
 export const NavButton = styled(Button)`

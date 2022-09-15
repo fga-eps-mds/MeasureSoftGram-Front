@@ -21,7 +21,7 @@ export function ProductProvider({ children }: Props) {
 
   const updateProductList = useCallback(
     (products: Product[]) => {
-      setProductsList([...productsList, ...products]);
+      setProductsList(products);
     },
     [productsList]
   );
