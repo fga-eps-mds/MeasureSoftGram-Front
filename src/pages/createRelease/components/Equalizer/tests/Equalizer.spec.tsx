@@ -7,7 +7,7 @@ import Equalizer from '../Equalizer';
 
 jest.mock('@pages/createRelease/context/useCreateRelease', () => ({
   useCreateReleaseContext: () => ({
-    preConfigCharacteristics: ['reliability', 'maintainability'],
+    preConfigCharacteristics: ['usability', 'maintainability'],
     handleChangeForm: () => {}
   })
 }));

@@ -63,7 +63,7 @@ Object {
             C
             1
             : 
-            reliability
+            usability
           </p>
           <p
             data-testid="label"
@@ -136,7 +136,7 @@ Object {
           C
           1
           : 
-          reliability
+          usability
         </p>
         <p
           data-testid="label"
