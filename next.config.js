@@ -2,6 +2,7 @@
 
 const nextConfig = {
   reactStrictMode: true,
+  // swcMinify: true,
   env: {
     SERVICE_URL: process.env.SERVICE_URL
   },

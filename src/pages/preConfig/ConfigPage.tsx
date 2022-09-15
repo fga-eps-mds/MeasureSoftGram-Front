@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from 'react';
-
-import { Alert, Snackbar, Typography } from '@mui/material';
-
 import DrawerMenu from '@components/DrawerMenu';
-import { productQuery } from '@services/product';
-
 import { Characteristic } from '@customTypes/preConfig';
-import { ButtonType } from '@customTypes/product';
-
+import { ButtonType } from '@customTypes/project';
+import { Alert, Snackbar, Typography } from '@mui/material';
+import { projectQuery } from '@services/project';
+import React, { useEffect, useState } from 'react';
 import ConfigsForm from './components/ConfigsForm';
 import { useQuery } from './hooks/useQuery';
 import CONFIG_PAGE from './consts';
@@ -17,10 +13,10 @@ const { TITLE, SUB_TITLE, DEFAULT_MESSAGE, ERROR_MESSAGE } = CONFIG_PAGE;
 interface ConfigPageProps {
   isOpen: boolean;
   onClose: Function;
-  repoName?: string;
+  repoName: string;
 }
 
-const ConfigPage = ({ isOpen, onClose, repoName = '' }: ConfigPageProps) => {
+const ConfigPage = ({ isOpen, onClose, repoName }: ConfigPageProps) => {
   const request = useQuery();
 
   const [data, setData] = useState(request?.data.characteristics);
@@ -77,7 +73,10 @@ const ConfigPage = ({ isOpen, onClose, repoName = '' }: ConfigPageProps) => {
       }))
     })) as Characteristic[];
 
-    productQuery.postPreConfig('1', '1', { name: repoName, data: { characteristics: finalData } });
+    setShowAlert(true);
+    projectQuery.postPreConfig('1', '1', { name: repoName, data: { characteristics: finalData } }).catch(() => {
+      setError(true);
+    });
   };
 
   const renderNextOrEndButton = (): ButtonType => {

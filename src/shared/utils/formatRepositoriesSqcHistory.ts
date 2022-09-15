@@ -1,5 +1,5 @@
-import { RepositoriesSqcHistory } from '@customTypes/product';
-import { format } from 'date-fns';
+import { RepositoriesSqcHistory } from "@customTypes/project";
+import { format } from "date-fns";
 
 const longestHistoryMetricsIndex = (sqcHistoryResults: RepositoriesSqcHistory['results']) =>
   sqcHistoryResults.reduce((prevIndex, historyResult, currentIndex) => {
@@ -31,13 +31,13 @@ const formatRepositoriesSqcHistory = (history: RepositoriesSqcHistory) => {
 
   return {
     title: {
-      text: 'Comportamento observado do produto'
+      text: 'Comportamento observado do produto',
     },
     tooltip: {
       trigger: 'axis'
     },
     legend: {
-      data: legendData.flatMap((i) => [i, i]),
+      data: legendData.flatMap(i => [i,i]),
       top: 40
     },
     grid: {
