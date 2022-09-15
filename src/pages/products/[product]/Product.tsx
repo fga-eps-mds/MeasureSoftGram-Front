@@ -5,8 +5,6 @@ import { Box } from '@mui/material';
 
 import { NextPageWithLayout } from '@pages/_app.next';
 
-import { useProductContext } from '@contexts/ProductProvider';
-
 import getLayout from '@components/Layout';
 
 import { useQuery } from './hooks/useQuery';

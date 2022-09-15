@@ -2,20 +2,17 @@ import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { RepositoriesSqcHistory } from '@customTypes/product';
-import { productQuery } from '@services/product';
 import { useProductContext } from '@contexts/ProductProvider';
+import { productQuery } from '@services/product';
+
+import { RepositoriesSqcHistory } from '@customTypes/product';
+import { getPathId } from '@utils/pathDestructer';
 
 export const useQuery = () => {
   const { setCurrentProduct } = useProductContext();
   const [repositoriesSqcHistory, setRepositoriesSqcHistory] = useState<RepositoriesSqcHistory>();
 
   const { query } = useRouter();
-
-  function getPathId(name: string) {
-    const nameArray = name.split('-');
-    return nameArray[0];
-  }
 
   async function loadProduct(productId: string) {
     try {

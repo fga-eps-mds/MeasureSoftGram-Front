@@ -1,44 +1,27 @@
 import { useEffect, useState } from 'react';
-
 import { useRouter } from 'next/router';
+
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
-import { supportedEntitiesQuery } from '@services/supportedEntities';
 import { useProductContext } from '@contexts/ProductProvider';
-import formatEntitiesFilter from '@utils/formatEntitiesFilter';
+
+import { supportedEntitiesQuery } from '@services/supportedEntities';
 import { repository } from '@services/repository';
 
-interface SqcHistory {
-  id: number;
-  value: number;
-  created_at: Date;
-}
+import formatEntitiesFilter from '@utils/formatEntitiesFilter';
+import { getPathId } from '@utils/pathDestructer';
+import { Historical } from '@customTypes/respository';
 
-interface Historical {
-  id: number;
-  key: string;
-  name: string;
-  history: Array<SqcHistory>;
-}
-
-const LARGE_PRIME_NUMBER = 907111937;
+import { LARGE_PRIME_NUMBER } from './const';
 
 export const useQuery = () => {
-  const { setCurrentRepository, setCharacteristics, setSubCharacteristics, currentRepository } = useRepositoryContext();
+  const { setCurrentRepository, setCharacteristics, setSubCharacteristics } = useRepositoryContext();
   const { currentProduct } = useProductContext();
 
-  const [repositoryHistoricalCharacteristics, setRepositoryHistoricalCharacteristics] = useState<
-    Array<Historical | undefined>
-  >([]);
+  const [repositoryHistoricalCharacteristics, setRepositoryHistoricalCharacteristics] = useState<Historical[]>([]);
   const [repositoryHistoricalSqc, setRepositoryHistoricalSqc] = useState<Historical>();
-
   const [checkedOptionsFormat, setCheckedOptions] = useState({});
 
   const { query } = useRouter();
-
-  function getPathId(name: string) {
-    const nameArray = name.split('-');
-    return nameArray[0];
-  }
 
   function formatCheckedOptions(characteristics: string[], subCharacteristics: string[]) {
     let map = {};
@@ -55,9 +38,9 @@ export const useQuery = () => {
     return map;
   }
 
-  async function loadRepositorySupportedEntities(repositoryId: number) {
+  async function loadRepositorySupportedEntities() {
     try {
-      const result = await supportedEntitiesQuery.getSupportedEntities(currentProduct?.id, repositoryId);
+      const result = await supportedEntitiesQuery.getSupportedEntities('1', currentProduct?.id);
       const [characteristics, subCharacteristics] = formatEntitiesFilter(result.data.data.characteristics);
 
       setCharacteristics(characteristics);
@@ -89,7 +72,7 @@ export const useQuery = () => {
       const id = Math.round(Math.random() * LARGE_PRIME_NUMBER);
       const {
         data: { results }
-      } = await repository.getSqcHistory(1, currentProduct?.id || 3, repositoryId);
+      } = await repository.getSqcHistory('1', currentProduct?.id || 3, repositoryId);
 
       setRepositoryHistoricalSqc({ id, key: 'SQC', name: 'SQC', history: results });
     } catch (error) {
@@ -99,7 +82,7 @@ export const useQuery = () => {
 
   async function loadRepository(repositoryId: number) {
     try {
-      const { data } = await repository.getRepository(1, currentProduct?.id || 3, repositoryId);
+      const { data } = await repository.getRepository('1', currentProduct?.id || 3, repositoryId);
 
       setCurrentRepository({ id: data.id, url: data.url, history: undefined, name: data.name });
     } catch (error) {
@@ -111,9 +94,9 @@ export const useQuery = () => {
     try {
       await Promise.all([
         loadRepository(repositoryId),
-        loadRepositorySupportedEntities(repositoryId),
-        loadHistoricalCharacteristicsAndSub(repositoryId),
-        loadHistoricalSqc(repositoryId)
+        loadHistoricalSqc(repositoryId),
+        loadRepositorySupportedEntities(),
+        loadHistoricalCharacteristicsAndSub(repositoryId)
       ]).then();
     } catch (error) {
       console.error(error);
@@ -121,13 +104,12 @@ export const useQuery = () => {
   }
 
   useEffect(() => {
-    if (query?.repository) {
+    if (query?.repository && currentProduct) {
       const repositoryId = Number(getPathId(query?.repository as string));
 
       loadRepositoryInfo(repositoryId);
-      // setRepositoryHistoricalCharacteristics([...repositoryHistoricalCharacteristics, repositoryHistoricalSqc]);
     }
-  }, [query?.repository]);
+  }, [query?.repository, currentProduct]);
 
   return { repositoryHistoricalCharacteristics, repositoryHistoricalSqc, checkedOptionsFormat };
 };

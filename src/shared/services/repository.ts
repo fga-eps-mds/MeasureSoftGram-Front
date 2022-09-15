@@ -10,7 +10,7 @@ interface HistoricalCharacteristicsProps {
 }
 
 class Repository {
-  getRepository(organizationId: number | undefined, productId: number | undefined, repositoryId: number | undefined) {
+  getRepository(organizationId: string, productId: number, repositoryId: number) {
     return api.get(`organizations/${organizationId}/products/${productId}/repositories/${repositoryId}/`);
   }
 
@@ -23,11 +23,7 @@ class Repository {
     );
   }
 
-  getSqcHistory(
-    organizationId: string | number | undefined,
-    productId: string | number,
-    repositoryId: number | undefined
-  ) {
+  getSqcHistory(organizationId: string, productId: string | number, repositoryId: number | undefined) {
     const url = `organizations/${organizationId}/products/${productId}/repositories/${repositoryId}/historical-values/sqc/`;
     return api.get<sqcHistorical.RootObject>(url);
   }

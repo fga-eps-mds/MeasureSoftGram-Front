@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
 import Filters from '@components/Filters';
@@ -8,9 +7,10 @@ import GraphicStackedLine from '@components/GraphicStackedLine';
 import { NextPageWithLayout } from '@pages/_app.next';
 
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
+import { useQuery as useQueryProduct } from '../hooks/useQuery';
+
 import * as Styles from './styles';
 import { useQuery } from './hooks/useQuery';
-// import Skeleton from './components/Skeleton';
 
 interface FilterProps {
   filterTitle: string;
@@ -18,8 +18,10 @@ interface FilterProps {
 }
 
 const Repository: NextPageWithLayout = () => {
+  useQueryProduct();
+
   const { repositoryHistoricalCharacteristics, repositoryHistoricalSqc, checkedOptionsFormat } = useQuery();
-  const { currentRepository, characteristics, subCharacteristics } = useRepositoryContext();
+  const { characteristics, subCharacteristics } = useRepositoryContext();
 
   const [filterCharacteristics, setFilterCharacteristics] = useState<FilterProps>({
     filterTitle: 'CARACTERÍSTICAS',
@@ -32,20 +34,10 @@ const Repository: NextPageWithLayout = () => {
 
   const [checkedOptions, setCheckedOptions] = useState(checkedOptionsFormat);
 
-  const [sqcValues, setSqcValues] = useState<Object>({});
-
-  const [historicalCharacteristics, setHistoricalCharacteristics] = useState([]);
-  const [organizationId, setOrganizationId] = useState(1);
-  const [productId, setProductId] = useState(3);
-
   useEffect(() => {
     setFilterCharacteristics({ ...filterCharacteristics, options: characteristics });
     setFilterSubCharacteristics({ ...filterSubCharacteristics, options: subCharacteristics });
   }, [characteristics, subCharacteristics]);
-
-  // if (!product) {
-  //   return <Skeleton />;
-  // }
 
   return (
     <Styles.BodyContainer display="flex" width="100%" flexDirection="row">
