@@ -1,25 +1,17 @@
 import React, { useEffect, useState } from 'react';
-
 import { EChartsOption } from 'echarts-for-react';
 
 import formatCharacteristicsHistory from '@utils/formatCharacteristicsHistory';
-import { GraphicContainer, StackedLineStyled } from './styles';
+import { Historical } from '@customTypes/respository';
 
-interface HistoricalEntity {
-  key: string;
-  name: string;
-  history: Array<{
-    value: number;
-    created_at: string;
-  }>;
-}
+import { GraphicContainer, StackedLineStyled } from './styles';
 
 interface OptionCheckedProps {
   [key: string]: boolean;
 }
 
 interface Prop {
-  historical: HistoricalEntity[];
+  historical?: Historical[];
   checkedOptions: OptionCheckedProps;
 }
 
@@ -27,7 +19,7 @@ const GraphicStackedLine = ({ historical, checkedOptions }: Prop) => {
   const [chartOption, setChartOption] = useState<EChartsOption>({});
 
   useEffect(() => {
-    const formatedOptions = formatCharacteristicsHistory(historical, checkedOptions);
+    const formatedOptions = formatCharacteristicsHistory({ historical, checkedOptions });
     setChartOption(formatedOptions);
   }, [historical, checkedOptions]);
 

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { Alert, Container, Snackbar } from '@mui/material';
 
 import DrawerMenu from '@components/DrawerMenu';
-import { ButtonType } from '@customTypes/project';
+import { ButtonType } from '@customTypes/product';
 import ReleaseInfo from './components/ReleaseInfo';
 import ReleaseGoals from './components/ReleaseGoals';
 
@@ -14,7 +14,7 @@ interface CreateReleaseProps {
 }
 
 interface CreateReleaseContainerProps {
-  projectId: number;
+  productId: number;
   organizationId: number;
   open: boolean;
   handleClose: () => void;
@@ -23,28 +23,19 @@ interface CreateReleaseContainerProps {
 function CreateRelease({ open, handleClose }: CreateReleaseProps) {
   const [activeStep, setActiveStep] = useState(0);
 
-  const {
-    successOnCreation,
-    closeAlert,
-    goToGoalsStep,
-    createProjectReleaseGoal,
-  } = useCreateReleaseContext();
+  const { successOnCreation, closeAlert, goToGoalsStep, createProductReleaseGoal } = useCreateReleaseContext();
 
-  const renderStep = () => ({
-      0: <ReleaseInfo/>,
+  const renderStep = () =>
+    ({
+      0: <ReleaseInfo />,
       1: <ReleaseGoals />
-    }[activeStep])
+    }[activeStep]);
 
-  const handleCloseModal = () => {
-    handleClose()
-    closeAlert()
-  }
+  const handleGoToGoalsStep = () => (goToGoalsStep() ? setActiveStep(1) : () => {});
 
-  const handleGoToGoalsStep = () => goToGoalsStep() ? setActiveStep(1) : () => {}
+  const handleBackButton = () => (activeStep ? setActiveStep(0) : handleClose());
 
-  const handleBackButton = () => activeStep ? setActiveStep(0) : handleCloseModal();
-
-  const handleNextButton = () => activeStep ? createProjectReleaseGoal() : handleGoToGoalsStep();
+  const handleNextButton = () => (activeStep ? createProductReleaseGoal() : handleGoToGoalsStep());
 
   const BUTTONS: Array<ButtonType> = [
     {
@@ -64,32 +55,25 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
   ];
 
   const ALERTS = {
-    success: (
-      <Alert severity="success">Release criada com sucesso!</Alert>
-    ),
-    error: (
-      <Alert severity="error">Ocorreu um erro durante a criação da release.</Alert>
-    )
-  }
+    success: <Alert severity="success">Release criada com sucesso!</Alert>,
+    error: <Alert severity="error">Ocorreu um erro durante a criação da release.</Alert>
+  };
   const handleOnCloseAlert = () => {
     if (successOnCreation === 'success') {
-      handleClose()
-      setActiveStep(0)
+      handleClose();
     }
 
-    setTimeout(closeAlert, 3000)
-  }
+    closeAlert();
+  };
 
   useEffect(() => {
-    if (successOnCreation === 'success') handleOnCloseAlert()
-  }, [successOnCreation])
+    if (successOnCreation === 'success') handleOnCloseAlert();
+  }, [successOnCreation]);
 
   return (
     <>
       <DrawerMenu open={open} buttons={BUTTONS}>
-        <Container>
-          {renderStep()}
-        </Container>
+        <Container>{renderStep()}</Container>
       </DrawerMenu>
 
       <Snackbar
@@ -100,26 +84,15 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
         {ALERTS[successOnCreation as keyof typeof ALERTS]}
       </Snackbar>
     </>
-  )
+  );
 }
 
-function CreateReleaseContainer({
-  projectId,
-  organizationId,
-  open,
-  handleClose
-}: CreateReleaseContainerProps) {
+function CreateReleaseContainer({ productId, organizationId, open, handleClose }: CreateReleaseContainerProps) {
   return (
-    <CreateReleaseProvider
-      projectId={projectId.toString()}
-      organizationId={organizationId.toString()}
-    >
-      <CreateRelease
-        open={open}
-        handleClose={handleClose}
-      />
+    <CreateReleaseProvider productId={productId.toString()} organizationId={organizationId.toString()}>
+      <CreateRelease open={open} handleClose={handleClose} />
     </CreateReleaseProvider>
-  )
+  );
 }
 
 export default CreateReleaseContainer;
