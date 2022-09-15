@@ -7,6 +7,8 @@ export const Wrapper = styled.div`
   flex-direction: row;
 
   min-height: 100vh;
+
+  background-color: #f5f5f5;
 `;
 
 export const ContentContainer = styled(Container)`

@@ -25,7 +25,7 @@ export function Breadcrumbs() {
 
       if (pathArray[0] === '') {
         return (
-          <Typography color="text.primary" variant="subtitle1">
+          <Typography color="text.primary" variant="subtitle1" key={path}>
             Produtos
           </Typography>
         );
@@ -33,13 +33,13 @@ export function Breadcrumbs() {
 
       if (pathArray.length === index + 1)
         return (
-          <Typography color="text.primary" variant="subtitle1">
+          <Typography color="text.primary" variant="subtitle1" key={path}>
             {TRANSLATION[path] || getPathName(path)}
           </Typography>
         );
 
       return (
-        <Typography>
+        <Typography key={path}>
           <Link href={`/${currentPath.join('/')}`}>{TRANSLATION[path] || getPathName(path)}</Link>
         </Typography>
       );

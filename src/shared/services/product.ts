@@ -9,8 +9,8 @@ class ProductQuery {
     return api.get(`/organizations/${organizationId}/products/${id}/`);
   }
 
-  async getAllProducts(organizationId: string) {
-    return api.get(`/organizations/${organizationId}/repository/`);
+  async getAllRepositories(organizationId: string, productId: string) {
+    return api.get(`/organizations/${organizationId}/products/${productId}/repositories`);
   }
 
   async getProductMeasuresHistory(organizationId: string, productId: string) {

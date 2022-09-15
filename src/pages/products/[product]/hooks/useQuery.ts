@@ -2,14 +2,17 @@ import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { useProductContext } from '@contexts/ProductProvider';
+import { RepositoriesSqcHistory } from '@customTypes/product';
 import { productQuery } from '@services/product';
 
-import { RepositoriesSqcHistory } from '@customTypes/product';
+import { useProductContext } from '@contexts/ProductProvider';
+import { useRepositoryContext } from '@contexts/RepositoryProvider';
+
 import { getPathId } from '@utils/pathDestructer';
 
 export const useQuery = () => {
   const { setCurrentProduct } = useProductContext();
+  const { updateRepositoryList } = useRepositoryContext();
   const [repositoriesSqcHistory, setRepositoriesSqcHistory] = useState<RepositoriesSqcHistory>();
 
   const { query } = useRouter();
@@ -32,12 +35,22 @@ export const useQuery = () => {
     }
   }
 
+  async function loadRepositories(productId: string) {
+    try {
+      const result = await productQuery.getAllRepositories('1', productId as string);
+      updateRepositoryList(result.data.results);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   useEffect(() => {
     if (query?.product) {
       const productId = getPathId(query?.product as string);
 
       loadProduct(productId);
       loadRepositoriesSqcHistory(productId);
+      loadRepositories(productId);
     }
   }, [query?.product]);
 

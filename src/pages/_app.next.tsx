@@ -23,7 +23,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <RepositoryProvider>
       <ProductProvider>
-        <Theme>{getLayout(<Component {...pageProps} />)}</Theme>;
+        <Theme>{getLayout(<Component {...pageProps} />)}</Theme>
       </ProductProvider>
     </RepositoryProvider>
   );

@@ -31,7 +31,7 @@ function Header() {
   return (
     <Styles.Wrapper>
       <Link href="/">
-        <Styles.Logo src={IMAGE_SOURCE} height={25} />
+        <Styles.Logo src={IMAGE_SOURCE} height={30} />
       </Link>
 
       <OrganizationButton />

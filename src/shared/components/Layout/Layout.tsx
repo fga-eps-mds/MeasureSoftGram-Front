@@ -1,5 +1,4 @@
 import React from 'react';
-import { Container } from '@mui/material';
 
 import SideMenu from './SideMenu';
 import Breadcrumbs from './Breadcrumbs';
@@ -16,7 +15,7 @@ const Layout: React.FC<Props> = ({ children }) => (
 
     <Styles.ContentContainer>
       <Breadcrumbs />
-      <Container>{children}</Container>
+      {children}
     </Styles.ContentContainer>
   </Styles.Wrapper>
 );

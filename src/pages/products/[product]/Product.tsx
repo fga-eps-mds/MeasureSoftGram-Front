@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 
-import { Box } from '@mui/material';
+import { Container } from '@mui/material';
 
 import { NextPageWithLayout } from '@pages/_app.next';
 
@@ -9,6 +9,9 @@ import getLayout from '@components/Layout';
 
 import { useQuery } from './hooks/useQuery';
 import ProductContent from './components/ProductContent';
+
+import * as Styles from './styles';
+import RepositoriesList from './components/RepositoriesList';
 
 const Product: NextPageWithLayout = () => {
   const { repositoriesSqcHistory } = useQuery();
@@ -19,9 +22,10 @@ const Product: NextPageWithLayout = () => {
         <title>MeasureSoftGram - Product</title>
       </Head>
 
-      <Box>
+      <Styles.ProductBackground>
         <ProductContent repositoriesSqcHistory={repositoriesSqcHistory} />
-      </Box>
+        <RepositoriesList />
+      </Styles.ProductBackground>
     </>
   );
 };
