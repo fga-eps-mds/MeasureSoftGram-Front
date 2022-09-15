@@ -1,5 +1,11 @@
 /* eslint-disable class-methods-use-this */
-import { CurrentPreConfig, MeasuresHistory, ReleaseGoal, RepositoriesSqcHistory } from '@customTypes/product';
+import {
+  PreConfigEntitiesRelationship,
+  CurrentPreConfig,
+  MeasuresHistory,
+  ReleaseGoal,
+  RepositoriesSqcHistory
+} from '@customTypes/product';
 import { Data } from '@customTypes/preConfig';
 
 import api from './api';
@@ -19,12 +25,17 @@ class ProductQuery {
   }
 
   postPreConfig(organizationId: string, productId: string, data: { name: string; data: Data }) {
-    api.post(`/organizations/${organizationId}/products/${productId}/create/pre-config/`, data);
+    return api.post(`/organizations/${organizationId}/products/${productId}/create/pre-config/`, data);
   }
 
   async getProductCurrentPreConfig(organizationId: string, productId: string) {
     const url = `organizations/${organizationId}/products/${productId}/current/pre-config/`;
     return api.get<CurrentPreConfig>(url);
+  }
+
+  async getPreConfigEntitiesRelationship(organizationId: string, projectId: string) {
+    const url = `organizations/${organizationId}/products/${projectId}/entity-relationship-tree/`;
+    return api.get<Array<PreConfigEntitiesRelationship>>(url);
   }
 
   async createProductReleaseGoal(organizationId: string, productId: string, data: ReleaseGoal) {

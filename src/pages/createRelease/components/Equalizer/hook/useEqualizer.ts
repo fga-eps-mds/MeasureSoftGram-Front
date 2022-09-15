@@ -39,7 +39,7 @@ export default function useEqualizer(selectedCharacteristics: string[]) {
 
     const delta = val - value;
 
-    characteristic.value = val;
+    characteristic!.value = val;
 
     correlations['+'].forEach((characteristicKey) => {
       const correlatedCharacteristic = updatedCharacteristics.find((item) => item.key === characteristicKey);

@@ -32,8 +32,10 @@ export interface Product {
 }
 
 interface DefaultAttr {
+  id: number;
   key: string;
-  weight: number;
+  name: string;
+  description: string | null;
 }
 
 interface PreConfigSubCharacteristics extends DefaultAttr {
@@ -51,6 +53,10 @@ export interface CurrentPreConfig {
   data: {
     characteristics: Array<PreConfigCharacteristics>;
   };
+}
+
+export interface PreConfigEntitiesRelationship extends DefaultAttr {
+  subcharacteristics: Array<PreConfigSubCharacteristics>;
 }
 
 export interface CharacteristicWithBalanceMatrix {

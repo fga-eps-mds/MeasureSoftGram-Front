@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Typography } from '@mui/material';
+import { Alert, Snackbar, Typography } from '@mui/material';
 
 import DrawerMenu from '@components/DrawerMenu';
 import { productQuery } from '@services/product';
@@ -12,7 +12,7 @@ import ConfigsForm from './components/ConfigsForm';
 import { useQuery } from './hooks/useQuery';
 import CONFIG_PAGE from './consts';
 
-const { TITLE, SUB_TITLE } = CONFIG_PAGE;
+const { TITLE, SUB_TITLE, DEFAULT_MESSAGE, ERROR_MESSAGE } = CONFIG_PAGE;
 
 interface ConfigPageProps {
   isOpen: boolean;
@@ -28,10 +28,30 @@ const ConfigPage = ({ isOpen, onClose, repoName = '' }: ConfigPageProps) => {
   const [subcharacterCheckbox, setSubcharacterCheckbox] = useState<string[]>([]);
   const [measureCheckbox, setMeasureheckbox] = useState<string[]>([]);
   const [page, setPage] = useState(0);
+  const [isValuesValid, setIsValuesValid] = useState(false);
+  const [error, setError] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
     setPage(0);
+    setData(clearRequest(data));
+
+    setCharacterCheckbox([]);
+    setSubcharacterCheckbox([]);
+    setMeasureheckbox([]);
   }, [isOpen]);
+
+  useEffect(() => {
+    setIsValuesValid(false);
+  }, [page]);
+
+  useEffect(() => {}, []);
+
+  const clearRequest = (jsonValue: Characteristic[]): Characteristic[] => {
+    const jsonString = JSON.stringify(jsonValue);
+    const jsonStringReplaced = jsonString?.replace(/\d+/g, '0');
+    return JSON?.parse(jsonStringReplaced) as Characteristic[];
+  };
 
   const isArrayNull = (array: Array<any>) => array.length === 0;
 
@@ -76,7 +96,7 @@ const ConfigPage = ({ isOpen, onClose, repoName = '' }: ConfigPageProps) => {
     return {
       label,
       onClick,
-      disabled: isFormCompleted(),
+      disabled: isFormCompleted() || !isValuesValid,
       backgroundColor: 'white',
       color: 'black',
       variant: 'outlined'
@@ -86,7 +106,10 @@ const ConfigPage = ({ isOpen, onClose, repoName = '' }: ConfigPageProps) => {
   const buttons: Array<ButtonType> = [
     {
       label: 'Cancelar',
-      onClick: () => onClose(false),
+      onClick: () => {
+        setData(clearRequest(data));
+        onClose(false);
+      },
       backgroundColor: 'black',
       color: 'white'
     },
@@ -104,12 +127,13 @@ const ConfigPage = ({ isOpen, onClose, repoName = '' }: ConfigPageProps) => {
   ];
 
   const renderPage = () => {
-    const genericProps = { onChange: setData, data };
-
+    const genericProps = { onChange: setData, setIsValuesValid, data };
+    const subtitle = 'Definir os pesos das';
     if (page === 0) {
       return (
         <ConfigsForm
           {...genericProps}
+          subtitle={`${subtitle} caracteristicas`}
           type="characteristic"
           checkboxValues={characterCheckbox}
           setCheckboxValues={setCharacterCheckbox}
@@ -122,6 +146,7 @@ const ConfigPage = ({ isOpen, onClose, repoName = '' }: ConfigPageProps) => {
           {...genericProps}
           tabs={characterCheckbox}
           type="subcharacteristic"
+          subtitle={`${subtitle} subcaracteristicas`}
           checkboxValues={subcharacterCheckbox}
           setCheckboxValues={setSubcharacterCheckbox}
         />
@@ -131,6 +156,7 @@ const ConfigPage = ({ isOpen, onClose, repoName = '' }: ConfigPageProps) => {
       <ConfigsForm
         {...genericProps}
         tabs={subcharacterCheckbox}
+        subtitle={`${subtitle} medidas`}
         type="measure"
         checkboxValues={measureCheckbox}
         setCheckboxValues={setMeasureheckbox}
@@ -139,14 +165,28 @@ const ConfigPage = ({ isOpen, onClose, repoName = '' }: ConfigPageProps) => {
   };
 
   return (
-    <DrawerMenu open={isOpen} buttons={buttons} title={TITLE} subtitle={SUB_TITLE}>
-      <>
-        <Typography variant="h6" mt="24px">
-          {repoName}
-        </Typography>
-        {renderPage()}
-      </>
-    </DrawerMenu>
+    <>
+      <DrawerMenu open={isOpen} buttons={buttons} title={TITLE} subtitle={SUB_TITLE}>
+        <>
+          <Typography variant="h6" mt="24px">
+            {repoName}
+          </Typography>
+          {renderPage()}
+        </>
+      </DrawerMenu>
+      <Snackbar
+        open={showAlert}
+        autoHideDuration={6000}
+        onClose={() => {
+          setShowAlert(false);
+          setError(false);
+        }}
+      >
+        <Alert severity={error ? 'error' : 'success'} sx={{ width: '100%' }}>
+          {error ? ERROR_MESSAGE : DEFAULT_MESSAGE}
+        </Alert>
+      </Snackbar>
+    </>
   );
 };
 

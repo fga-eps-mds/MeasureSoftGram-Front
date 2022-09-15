@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, Container, Snackbar } from '@mui/material';
 
 import DrawerMenu from '@components/DrawerMenu';
@@ -66,6 +66,10 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
     closeAlert();
   };
 
+  useEffect(() => {
+    if (successOnCreation === 'success') handleOnCloseAlert();
+  }, [successOnCreation]);
+
   return (
     <>
       <DrawerMenu open={open} buttons={BUTTONS}>
@@ -75,7 +79,6 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         open={!!successOnCreation}
-        autoHideDuration={3000}
         onClose={handleOnCloseAlert}
       >
         {ALERTS[successOnCreation as keyof typeof ALERTS]}

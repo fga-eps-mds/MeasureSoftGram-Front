@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-
-import { productQuery } from '@services/index';
+import { productQuery } from '@services/product';
 import { PreConfigRoot } from '@customTypes/preConfig';
 
 import mockedData from '../utils/mockedData.json';

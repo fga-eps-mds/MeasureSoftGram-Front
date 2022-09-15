@@ -22,11 +22,14 @@ const formatCharacteristicsHistory = ({ historical, checkedOptions }: Props) => 
     .map((h) => ({
       name: h.name,
       type: 'line',
-      data: checkedOptions[h.key] || h.key.includes('SQC') ? h.history.map(({ value }) => value.toFixed(3)) : null
+      data: checkedOptions[h.key] || h.key.includes('SQC') ? h.history.map(({ value }) => value.toFixed(3)) : null,
+      lineStyle: {
+        width: h.key.includes('SQC') ? 5 : 2
+      }
     }))
     .reverse();
 
-  const xAxisData = newHistorical
+  const dates = newHistorical
     .filter((h) => checkedOptions[h.key] || h.key.includes('SQC'))
     .map((h) => h.history.map(({ created_at: createdAt }) => new Date(createdAt).toLocaleDateString('pt-BR')))[0]
     .reverse();
@@ -44,7 +47,7 @@ const formatCharacteristicsHistory = ({ historical, checkedOptions }: Props) => 
     grid: {
       left: '3%',
       right: '4%',
-      bottom: '3%',
+      bottom: '17%',
       containLabel: true
     },
     toolbox: {
@@ -52,10 +55,21 @@ const formatCharacteristicsHistory = ({ historical, checkedOptions }: Props) => 
         saveAsImage: {}
       }
     },
+    dataZoom: [
+      {
+        type: 'inside',
+        start: dates.length - 20,
+        end: dates.length - 1
+      },
+      {
+        start: dates.length - 20,
+        end: dates.length - 1
+      }
+    ],
     xAxis: {
       type: 'category',
       boundaryGap: false,
-      data: xAxisData
+      data: dates
     },
     yAxis: {
       type: 'value',
