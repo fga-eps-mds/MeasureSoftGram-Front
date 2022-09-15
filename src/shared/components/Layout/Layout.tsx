@@ -1,8 +1,8 @@
 import React from 'react';
-import { useRouter } from 'next/router';
+import { Container } from '@mui/material';
 
-import Header from '@components/Header';
-import SubHeader from '@components/SubHeader';
+import SideMenu from './SideMenu';
+import Breadcrumbs from './Breadcrumbs';
 
 import * as Styles from './styles';
 
@@ -10,21 +10,15 @@ interface Props {
   children?: React.ReactNode;
 }
 
-const Layout: React.FC<Props> = ({ children }) => {
-  const { query } = useRouter();
+const Layout: React.FC<Props> = ({ children }) => (
+  <Styles.Wrapper>
+    <SideMenu />
 
-  const hasSubHeader = query?.projectId;
-
-  return (
-    <Styles.Wrapper>
-      <Styles.HeaderBox>
-        <Header />
-        {hasSubHeader && <SubHeader />}
-      </Styles.HeaderBox>
-
-      {children}
-    </Styles.Wrapper>
-  );
-};
+    <Styles.ContentContainer>
+      <Breadcrumbs />
+      <Container>{children}</Container>
+    </Styles.ContentContainer>
+  </Styles.Wrapper>
+);
 
 export default Layout;
