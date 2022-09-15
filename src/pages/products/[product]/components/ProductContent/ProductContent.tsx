@@ -7,9 +7,8 @@ import { Box, Button, Typography, Container } from '@mui/material';
 
 import { RepositoriesSqcHistory } from '@customTypes/product';
 
-import GraphicRepositoriesSqcHistory from '@components/GraphicRepositoriesSqcHistory';
-
 import CreateRelease from '@pages/createRelease';
+import GraphicRepositoriesSqcHistory from '@components/GraphicRepositoriesSqcHistory';
 
 import { useProductContext } from '@contexts/ProductProvider';
 

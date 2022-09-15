@@ -11,6 +11,10 @@ interface IRepositoryContext {
   setCurrentRepository: (repository: Repositories) => void;
   repositoryList?: Repositories[];
   updateRepositoryList: (repository: Repositories) => void;
+  characteristics: string[];
+  setCharacteristics: (characteristics: string[]) => void;
+  subCharacteristics: string[];
+  setSubCharacteristics: (subCharacteristics: string[]) => void;
 }
 
 const RepositoryContext = createContext<IRepositoryContext | undefined>(undefined);
@@ -18,6 +22,9 @@ const RepositoryContext = createContext<IRepositoryContext | undefined>(undefine
 export function RepositoryProvider({ children }: Props) {
   const [currentRepository, setCurrentRepository] = useState<Repositories | undefined>();
   const [repositoryList, setRepositoryList] = useState<Repositories[]>([]);
+
+  const [characteristics, setCharacteristics] = useState<string[]>([]);
+  const [subCharacteristics, setSubCharacteristics] = useState<string[]>([]);
 
   const updateRepositoryList = useCallback(
     (repository: Repositories[]) => {
@@ -31,9 +38,13 @@ export function RepositoryProvider({ children }: Props) {
       currentRepository,
       setCurrentRepository,
       repositoryList,
-      updateRepositoryList
+      updateRepositoryList,
+      characteristics,
+      setCharacteristics,
+      subCharacteristics,
+      setSubCharacteristics
     }),
-    [currentRepository, repositoryList, updateRepositoryList]
+    [currentRepository, repositoryList, updateRepositoryList, characteristics, subCharacteristics]
   );
 
   return <RepositoryContext.Provider value={value}>{children}</RepositoryContext.Provider>;

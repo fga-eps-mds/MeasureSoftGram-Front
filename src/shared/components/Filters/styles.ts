@@ -5,7 +5,7 @@ export const FiltersTitle = styled.button`
   display: flex;
   flex-direction: row;
   align-items: center;
-  background-color: #ffffff;
+  background-color: #f5f5f5;
   margin: 0.4rem;
 
   outline: 0;

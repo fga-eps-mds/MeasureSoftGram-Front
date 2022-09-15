@@ -8,17 +8,14 @@ import { productQuery } from '@services/product';
 import { useProductContext } from '@contexts/ProductProvider';
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
 
+import { getPathId } from '@utils/pathDestructer';
+
 export const useQuery = () => {
   const { setCurrentProduct } = useProductContext();
   const { updateRepositoryList } = useRepositoryContext();
   const [repositoriesSqcHistory, setRepositoriesSqcHistory] = useState<RepositoriesSqcHistory>();
 
   const { query } = useRouter();
-
-  function getPathId(name: string) {
-    const nameArray = name.split('-');
-    return nameArray[0];
-  }
 
   async function loadProduct(productId: string) {
     try {
