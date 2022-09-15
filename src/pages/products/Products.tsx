@@ -1,18 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 
 import { Box, Container, IconButton, Menu, MenuItem, Typography } from '@mui/material';
+import { MoreVert } from '@mui/icons-material';
 
 import { NextPageWithLayout } from '@pages/_app.next';
+import ConfigPage from '@pages/preConfig/ConfigPage';
+
+import { useProductContext } from '@contexts/ProductProvider';
 
 import getLayout from '@components/Layout';
 import CardNavigation from '@components/CardNavigation';
-import ConfigPage from '@pages/preConfig/ConfigPage';
-import { MoreVert } from '@mui/icons-material';
+
+import { Product } from '@customTypes/product';
 
 const Products: NextPageWithLayout = () => {
   const [openConfig, setOpenConfig] = useState(false);
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [selectedProduct, setSelectedProduct] = useState<Product>();
+
+  const { updateProductList, productsList } = useProductContext();
+
   const openMenu = Boolean(anchorEl);
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -23,41 +31,50 @@ const Products: NextPageWithLayout = () => {
     setAnchorEl(null);
   };
 
-  const handleOpenConfig = () => {
+  const handleOpenConfig = (product: Product) => {
+    setSelectedProduct(product);
     setOpenConfig(true);
     setAnchorEl(null);
   };
 
-  const resultMock = [
-    {
-      id: 3,
-      name: '2022-1-MeasureSoftGram-Front'
-    }
-  ];
+  useEffect(() => {
+    updateProductList([
+      {
+        id: 3,
+        description: 'MSG',
+        name: 'MeasureSoftGram',
+        github_url: 'google.com',
+        created_at: '',
+        updated_at: ''
+      }
+    ]);
+  }, []);
 
   return (
     <>
       <Head>
-        <title>MeasureSoftGram - Projetos</title>
+        <title>MeasureSoftGram - Produtos</title>
       </Head>
       <Container>
-        <ConfigPage isOpen={openConfig} onClose={setOpenConfig} repoName={resultMock[0].name} />
+        <ConfigPage isOpen={openConfig} onClose={setOpenConfig} repoName={selectedProduct?.name} />
         <Box display="flex" flexDirection="column">
           <Box marginY="60px">
-            <Typography variant="h5">Projetos</Typography>
+            <Typography variant="h5">Produtos</Typography>
           </Box>
           <Box display="flex">
-            {resultMock.map((project) => (
-              <div key={project.id} style={{ display: 'flex', flexDirection: 'row' }}>
+            {productsList?.map((product) => (
+              <div key={product.id} style={{ display: 'flex', flexDirection: 'row' }}>
                 <CardNavigation
-                  key={project.id}
-                  id={project.id}
-                  name={project.name}
-                  url={`/products/${project.id}-${project.name}`}
+                  key={product.id}
+                  id={product.id}
+                  name={product.name}
+                  url={`/products/${product.id}-${product.name}`}
                 />
+
                 <IconButton color="primary" onClick={handleOpenMenu}>
                   <MoreVert />
                 </IconButton>
+
                 <Menu
                   id="basic-menu"
                   anchorEl={anchorEl}
@@ -67,7 +84,7 @@ const Products: NextPageWithLayout = () => {
                     'aria-labelledby': 'basic-button'
                   }}
                 >
-                  <MenuItem onClick={handleOpenConfig}>Definir pré configurações</MenuItem>
+                  <MenuItem onClick={() => handleOpenConfig(product)}>Definir pré configurações</MenuItem>
                 </Menu>
               </div>
             ))}

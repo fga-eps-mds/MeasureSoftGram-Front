@@ -1,9 +1,11 @@
 /* eslint-disable react/no-array-index-key */
 import * as React from 'react';
+
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import { Button, Typography } from '@mui/material';
-import { ButtonType } from '@customTypes/project';
+
+import { ButtonType } from '@customTypes/product';
 import * as Styles from './styles';
 
 const { ScrollDiv } = Styles;
