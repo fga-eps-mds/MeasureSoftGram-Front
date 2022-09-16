@@ -36,7 +36,7 @@ const Filters: React.FC<FiltersProps> = ({ filterTitle, options = [], updateOpti
         <Styles.OptionContainer display="flex" flexDirection="column">
           {options.map((option) => (
             <Styles.Option key={option} display="flex" flexDirection="row" alignItems="center">
-              <Checkbox onChange={() => handleUpdate(option)} />
+              <Checkbox checked={checkedOptions[option]} onChange={() => handleUpdate(option)} />
               <span>{option[0].toUpperCase() + option.slice(1).replace('_', ' ')}</span>
             </Styles.Option>
           ))}
