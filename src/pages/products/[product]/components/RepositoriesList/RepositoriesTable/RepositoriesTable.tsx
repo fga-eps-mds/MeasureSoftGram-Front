@@ -27,7 +27,12 @@ function RepositoriesTable() {
         </TableHead>
         <TableBody>
           {repositoryList?.map((repository) => (
-            <TableRow hover onClick={() => handleClickCell(`${repository.id}-${repository.name}`)}>
+            <TableRow
+              key={repository.id}
+              hover
+              onClick={() => handleClickCell(`${repository.id}-${repository.name}`)}
+              style={{ cursor: 'pointer' }}
+            >
               <TableCell>{repository.name}</TableCell>
               <TableCell align="right">
                 <ArrowCircleRightIcon />

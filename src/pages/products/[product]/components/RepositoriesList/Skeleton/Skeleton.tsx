@@ -14,8 +14,8 @@ function Skeleton() {
             <Shimmer variant="text" height={50} width={150} />
           </Box>
           <Box marginBottom="32px">
-            {range(5).map(() => (
-              <Box marginBottom="2px">
+            {range(5).map((i) => (
+              <Box key={i} marginBottom="2px">
                 <Shimmer variant="rectangular" height={45} />
               </Box>
             ))}
