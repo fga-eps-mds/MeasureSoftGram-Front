@@ -13,6 +13,7 @@ import getLayout from '@components/Layout';
 import CardNavigation from '@components/CardNavigation';
 
 import { Product } from '@customTypes/product';
+import Skeleton from './components/Skeleton';
 
 const Products: NextPageWithLayout = () => {
   const [openConfig, setOpenConfig] = useState(false);
@@ -50,6 +51,14 @@ const Products: NextPageWithLayout = () => {
     ]);
   }, []);
 
+  if (!productsList) {
+    return (
+      <Container>
+        <Skeleton />
+      </Container>
+    );
+  }
+
   return (
     <>
       <Head>
@@ -58,9 +67,15 @@ const Products: NextPageWithLayout = () => {
       <Container>
         <ConfigPage isOpen={openConfig} onClose={setOpenConfig} repoName={selectedProduct?.name} />
         <Box display="flex" flexDirection="column">
-          <Box marginY="60px">
-            <Typography variant="h5">Produtos</Typography>
+          <Box display="flex" marginTop="40px" marginBottom="36px">
+            <Typography variant="h4" marginRight="10px">
+              Hi
+            </Typography>
+            <Typography variant="h4" fontWeight="300">
+              User
+            </Typography>
           </Box>
+
           <Box display="flex">
             {productsList?.map((product) => (
               <div key={product.id} style={{ display: 'flex', flexDirection: 'row' }}>

@@ -15,7 +15,7 @@ const Layout: React.FC<Props> = ({ children }) => (
 
     <Styles.ContentContainer>
       <Breadcrumbs />
-      {children}
+      <Styles.ContentWrapper>{children}</Styles.ContentWrapper>
     </Styles.ContentContainer>
   </Styles.Wrapper>
 );
