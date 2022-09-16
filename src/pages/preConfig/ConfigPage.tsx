@@ -77,7 +77,10 @@ const ConfigPage = ({ isOpen, onClose, repoName = '' }: ConfigPageProps) => {
       }))
     })) as Characteristic[];
 
-    productQuery.postPreConfig('1', '1', { name: repoName, data: { characteristics: finalData } });
+    setShowAlert(true);
+    productQuery.postPreConfig('1', '1', { name: repoName, data: { characteristics: finalData } }).catch(() => {
+      setError(true);
+    });
   };
 
   const renderNextOrEndButton = (): ButtonType => {

@@ -3,6 +3,7 @@ import { Box, Grid, Typography } from '@mui/material';
 
 import { Characteristic, Measure, Subcharacteristic } from '@customTypes/preConfig';
 import CheckboxButton from '@components/CheckboxButton/CheckboxButton';
+import undelineRemover from '@utils/undelineRemover';
 
 import { componentIterator } from '../../utils/componentIterator';
 import { iterator, iteratorType } from '../../utils/iterators';

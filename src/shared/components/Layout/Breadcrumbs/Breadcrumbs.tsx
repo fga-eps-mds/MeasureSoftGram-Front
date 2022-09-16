@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -8,19 +8,18 @@ import { TRANSLATION } from './consts';
 
 export function Breadcrumbs() {
   const router = useRouter();
-  const [pathnameArray, setPathnameArray] = useState<string[] | React.ReactElement[]>([]);
 
   function getPathName(name: string) {
     const nameArray = name.split('-');
     return nameArray.slice(1).join('-');
   }
 
-  useEffect(() => {
+  const getCrumbs = () => {
     const { asPath } = router;
     const currentPath: string[] = [];
     const pathArray = asPath.split('/').slice(1);
 
-    const breadcrumbArray = pathArray.map((path, index) => {
+    return pathArray.map((path, index) => {
       currentPath.push(path);
 
       if (pathArray[0] === '') {
@@ -44,9 +43,7 @@ export function Breadcrumbs() {
         </Typography>
       );
     });
+  };
 
-    setPathnameArray(breadcrumbArray);
-  }, [router]);
-
-  return <BreadcrumbsMUI>{pathnameArray.map((path) => path)}</BreadcrumbsMUI>;
+  return <BreadcrumbsMUI>{getCrumbs()}</BreadcrumbsMUI>;
 }
