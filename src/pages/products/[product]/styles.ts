@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const ProductBackground = styled.div`
-  min-height: calc(100vh - 60px);
+  min-height: 100vh;
 
   background-color: #fafafa;
 `;

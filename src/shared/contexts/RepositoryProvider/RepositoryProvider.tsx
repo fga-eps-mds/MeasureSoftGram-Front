@@ -21,7 +21,7 @@ const RepositoryContext = createContext<IRepositoryContext | undefined>(undefine
 
 export function RepositoryProvider({ children }: Props) {
   const [currentRepository, setCurrentRepository] = useState<Repositories | undefined>();
-  const [repositoryList, setRepositoryList] = useState<Repositories[]>([]);
+  const [repositoryList, setRepositoryList] = useState<Repositories[]>();
 
   const [characteristics, setCharacteristics] = useState<string[]>([]);
   const [subCharacteristics, setSubCharacteristics] = useState<string[]>([]);

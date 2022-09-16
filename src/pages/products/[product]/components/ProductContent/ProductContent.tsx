@@ -33,8 +33,12 @@ const ProductContent: React.FC<Props> = ({ repositoriesSqcHistory }) => {
       locale: ptBR
     });
 
-  if (!currentProduct) {
-    return <Skeleton />;
+  if (!currentProduct || !repositoriesSqcHistory) {
+    return (
+      <Container>
+        <Skeleton />
+      </Container>
+    );
   }
 
   return (
