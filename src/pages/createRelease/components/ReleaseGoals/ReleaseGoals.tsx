@@ -12,7 +12,7 @@ export default function ReleaseGoals() {
   return (
     <>
       <Styles.Header>
-        <h1>Definir metas</h1>
+        <h1>Balancear a Meta de Qualidade</h1>
         <p>
           Mini explicação como funciona as metas da release
           (Configuração das caracteristicas,

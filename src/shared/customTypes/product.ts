@@ -32,8 +32,10 @@ export interface Product {
 }
 
 interface DefaultAttr {
+  id: number;
   key: string;
-  weight: number;
+  name: string;
+  description: string | null;
 }
 
 interface PreConfigSubCharacteristics extends DefaultAttr {

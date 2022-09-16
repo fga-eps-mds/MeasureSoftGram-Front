@@ -16,8 +16,9 @@ export default function useEqualizer(selectedCharacteristics: string[]) {
   const [valuesCommitted, setValuesCommitted] = useState<ValuesCommitted>(INITIAL_VALUES_COMMITTED);
   const [changes, setChanges] = useState<Changes[]>([]);
 
-  const addDeltaToChanges = useCallback((characteristicIdx: number, newValue: number) => {
-    const characteristicDragged = characteristics[characteristicIdx].key as keyof typeof valuesCommitted;
+  const addDeltaToChanges = useCallback((characteristicName: string, newValue: number) => {
+    const characteristic = characteristics.find((c) => c.key === characteristicName);
+    const characteristicDragged = characteristic!.key as keyof typeof valuesCommitted;
 
     const value = valuesCommitted[characteristicDragged];
 
@@ -31,15 +32,15 @@ export default function useEqualizer(selectedCharacteristics: string[]) {
     });
   }, []);
 
-  const equalize = useCallback((characteristicIdx: number, val: number) => {
+  const equalize = useCallback((characteristicName: string, val: number) => {
     const updatedCharacteristics = characteristics.map((item) => item);
 
-    const characteristic = updatedCharacteristics[characteristicIdx];
-    const { correlations, value } = characteristic;
+    const characteristic = updatedCharacteristics.find((c) => c.key === characteristicName);
+    const { correlations, value } = characteristic!;
 
     const delta = val - value;
 
-    characteristic.value = val;
+    characteristic!.value = val;
 
     correlations['+'].forEach((characteristicKey) => {
       const correlatedCharacteristic = updatedCharacteristics.find((item) => item.key === characteristicKey);

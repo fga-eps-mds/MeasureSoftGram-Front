@@ -10,7 +10,7 @@ export const useQuery = () => {
 
   async function loadProduct() {
     try {
-      const result = (await productQuery.getProductCurrentPreConfig('1', '1')) as unknown as PreConfigRoot;
+      const result = (await productQuery.getProductCurrentPreConfig('1', '3')) as unknown as PreConfigRoot;
 
       setPreConfig(result);
     } catch (error) {

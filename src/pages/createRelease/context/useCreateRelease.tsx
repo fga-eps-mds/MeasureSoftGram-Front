@@ -32,12 +32,15 @@ interface CreateReleaseContextData {
 
 const CreateReleaseContext = createContext({} as CreateReleaseContextData);
 
+const defaultEndDate = format(addDays(new Date(), 7), 'yyyy-MM-dd');
+const defaulStartDate = format(new Date(), 'yyyy-MM-dd');
+
 export function CreateReleaseProvider({ children, productId, organizationId }: CreateReleaseProviderProps) {
   const [preConfigCharacteristics, setPreConfigCharacteristics] = useState<string[]>();
   const [successOnCreation, setSuccessOnCreation] = useState('');
   const [releaseInfoForm, setReleaseInfoForm] = useState<ReleaseInfoForm>({
-    endDate: format(addDays(new Date(), 7), 'yyyy-MM-dd'),
-    startDate: format(new Date(), 'yyyy-MM-dd')
+    endDate: defaultEndDate,
+    startDate: defaulStartDate
   } as ReleaseInfoForm);
 
   async function loadCurrentPreConfig() {
@@ -93,6 +96,13 @@ export function CreateReleaseProvider({ children, productId, organizationId }: C
 
   function closeAlert() {
     setSuccessOnCreation('');
+    setReleaseInfoForm({
+      endDate: defaultEndDate,
+      startDate: defaulStartDate,
+      name: '',
+      characteristics: [],
+      changes: []
+    });
   }
 
   useEffect(() => {

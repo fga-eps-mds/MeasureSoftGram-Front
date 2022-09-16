@@ -19,7 +19,7 @@ class ProductQuery {
   }
 
   postPreConfig(organizationId: string, productId: string, data: { name: string; data: Data }) {
-    api.post(`/organizations/${organizationId}/products/${productId}/create/pre-config/`, data);
+    return api.post(`/organizations/${organizationId}/products/${productId}/create/pre-config/`, data);
   }
 
   async getProductCurrentPreConfig(organizationId: string, productId: string) {
