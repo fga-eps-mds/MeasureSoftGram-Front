@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Box, Container, Typography } from '@mui/material';
 
 import Filters from '@components/Filters';
 import getLayout from '@components/Layout';
@@ -9,8 +10,9 @@ import { NextPageWithLayout } from '@pages/_app.next';
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
 import { useQuery as useQueryProduct } from '../hooks/useQuery';
 
-import * as Styles from './styles';
 import { useQuery } from './hooks/useQuery';
+
+import * as Styles from './styles';
 
 interface FilterProps {
   filterTitle: string;
@@ -21,7 +23,7 @@ const Repository: NextPageWithLayout = () => {
   useQueryProduct();
 
   const { repositoryHistoricalCharacteristics, repositoryHistoricalSqc, checkedOptionsFormat } = useQuery();
-  const { characteristics, subCharacteristics } = useRepositoryContext();
+  const { characteristics, subCharacteristics, currentRepository } = useRepositoryContext();
 
   const [filterCharacteristics, setFilterCharacteristics] = useState<FilterProps>({
     filterTitle: 'CARACTERÍSTICAS',
@@ -40,30 +42,49 @@ const Repository: NextPageWithLayout = () => {
   }, [characteristics, subCharacteristics]);
 
   return (
-    <Styles.BodyContainer display="flex" width="100%" flexDirection="row">
-      <Styles.FiltersContainer display="flex" width="30%" flexDirection="column">
-        {[filterCharacteristics, filterSubCharacteristics].map((filter) => (
-          <Filters
-            key={filter.filterTitle}
-            filterTitle={filter.filterTitle}
-            options={filter.options}
-            updateOptions={setCheckedOptions}
-            checkedOptions={checkedOptions}
-          />
-        ))}
-      </Styles.FiltersContainer>
-
-      <Styles.GraphicContainer display="flex" width="100%" justifyContent="center" alignItems="center">
-        {repositoryHistoricalSqc &&
-          repositoryHistoricalCharacteristics &&
-          repositoryHistoricalCharacteristics.length !== 0 && (
-            <GraphicStackedLine
-              historical={repositoryHistoricalCharacteristics.concat(repositoryHistoricalSqc)}
+    <Box display="flex" width="100%" flexDirection="row">
+      <Styles.FilterBackground>
+        <Box display="flex" paddingX="15px" flexDirection="column" marginTop="36px">
+          {[filterCharacteristics, filterSubCharacteristics].map((filter) => (
+            <Filters
+              key={filter.filterTitle}
+              filterTitle={filter.filterTitle}
+              options={filter.options}
+              updateOptions={setCheckedOptions}
               checkedOptions={checkedOptions}
             />
-          )}
-      </Styles.GraphicContainer>
-    </Styles.BodyContainer>
+          ))}
+        </Box>
+      </Styles.FilterBackground>
+
+      <Container>
+        <Box display="flex" flexDirection="column" width="100%">
+          <Box marginTop="40px" marginBottom="36px">
+            <Box display="flex">
+              <Typography variant="h4" marginRight="10px">
+                Repositório
+              </Typography>
+              <Typography variant="h4" fontWeight="300">
+                {currentRepository?.name}
+              </Typography>
+            </Box>
+
+            <Typography variant="caption" color="gray">
+              {currentRepository?.description}
+            </Typography>
+          </Box>
+
+          {repositoryHistoricalSqc &&
+            repositoryHistoricalCharacteristics &&
+            repositoryHistoricalCharacteristics.length !== 0 && (
+              <GraphicStackedLine
+                historical={repositoryHistoricalCharacteristics.concat(repositoryHistoricalSqc)}
+                checkedOptions={checkedOptions}
+              />
+            )}
+        </Box>
+      </Container>
+    </Box>
   );
 };
 
