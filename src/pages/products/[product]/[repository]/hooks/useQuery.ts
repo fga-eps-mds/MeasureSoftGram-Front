@@ -84,7 +84,7 @@ export const useQuery = () => {
     try {
       const { data } = await repository.getRepository('1', currentProduct?.id || 3, repositoryId);
 
-      setCurrentRepository({ id: data.id, url: data.url, history: undefined, name: data.name });
+      setCurrentRepository(data);
     } catch (error) {
       console.error(error);
     }

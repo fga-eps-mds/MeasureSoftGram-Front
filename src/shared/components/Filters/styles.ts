@@ -6,7 +6,10 @@ export const FiltersTitle = styled.button`
   flex-direction: row;
   align-items: center;
   background-color: #f5f5f5;
-  margin: 0.4rem;
+
+  margin-bottom: 0.4rem;
+  margin-top: 0.4rem;
+  padding: 0;
 
   outline: 0;
   border: 0;
@@ -21,8 +24,9 @@ export const FiltersTitle = styled.button`
 
   span {
     font-weight: 700;
-    font-size: 1rem;
-    line-height: 1.5rem;
+    font-size: 14px;
+    line-height: 1rem;
+    text-align: initial;
     color: #000000;
 
     padding: 0.4rem;
@@ -34,12 +38,12 @@ export const OptionContainer = styled(Box)``;
 export const Option = styled(Box)`
   & > span:first-child {
     padding: 0.2rem;
-    margin-left: 1rem;
+    font-size: 12px;
   }
 
-  p {
+  span {
     font-weight: 400;
-    font-size: 0.8rem;
+    font-size: 14px;
     line-height: 1rem;
   }
 `;

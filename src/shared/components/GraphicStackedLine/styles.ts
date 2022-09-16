@@ -6,7 +6,6 @@ export const GraphicContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  padding: 1rem;
 `;
 
 export const StackedLineStyled = styled(ReactEcharts)`

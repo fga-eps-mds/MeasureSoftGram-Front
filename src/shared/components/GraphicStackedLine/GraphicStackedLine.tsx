@@ -4,7 +4,7 @@ import { EChartsOption } from 'echarts-for-react';
 import formatCharacteristicsHistory from '@utils/formatCharacteristicsHistory';
 import { Historical } from '@customTypes/respository';
 
-import { GraphicContainer, StackedLineStyled } from './styles';
+import * as Styles from './styles';
 
 interface OptionCheckedProps {
   [key: string]: boolean;
@@ -24,9 +24,9 @@ const GraphicStackedLine = ({ historical, checkedOptions }: Prop) => {
   }, [historical, checkedOptions]);
 
   return (
-    <GraphicContainer>
-      <StackedLineStyled option={chartOption} />
-    </GraphicContainer>
+    <Styles.GraphicContainer>
+      <Styles.StackedLineStyled option={chartOption} />
+    </Styles.GraphicContainer>
   );
 };
 
