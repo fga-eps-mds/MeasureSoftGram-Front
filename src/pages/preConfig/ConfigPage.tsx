@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Alert, Typography, Snackbar } from '@mui/material';
+import { Alert, Snackbar, Typography } from '@mui/material';
 
 import DrawerMenu from '@components/DrawerMenu';
 import { productQuery } from '@services/product';

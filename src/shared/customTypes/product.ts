@@ -55,6 +55,10 @@ export interface CurrentPreConfig {
   };
 }
 
+export interface PreConfigEntitiesRelationship extends DefaultAttr {
+  subcharacteristics: Array<PreConfigSubCharacteristics>;
+}
+
 export interface CharacteristicWithBalanceMatrix {
   id: number;
   key: string;
