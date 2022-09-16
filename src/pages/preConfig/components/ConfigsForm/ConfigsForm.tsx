@@ -114,7 +114,7 @@ const ConfigForm = ({
     if (previousValue?.key === tabValue || !previousValue) {
       const isChecked = checkboxValues.includes(value.key);
       return (
-        <Grid item>
+        <Grid item key={value.key}>
           <CheckboxButton
             label={undelineRemover(value.key)}
             checked={isChecked}
@@ -151,7 +151,14 @@ const ConfigForm = ({
         setLimiters(limiters);
       }
 
-      return <PreConfigSliders label={value.key} weight={value.weight} onChange={setWeight(value.key, tabName)} />;
+      return (
+        <PreConfigSliders
+          key={value.key}
+          label={value.key}
+          weight={value.weight}
+          onChange={setWeight(value.key, tabName)}
+        />
+      );
     }
   };
 

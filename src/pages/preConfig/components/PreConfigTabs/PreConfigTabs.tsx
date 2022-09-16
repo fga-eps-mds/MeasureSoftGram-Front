@@ -9,7 +9,7 @@ interface PreConfigTabsPropType extends TabsProps {
 const PreConfigTabs = ({ onChange, value, tabsValues, ...rest }: PreConfigTabsPropType) => (
   <Tabs {...rest} value={value} onChange={onChange}>
     {tabsValues.map((tabValue) => (
-      <Tab value={tabValue} label={undelineRemover(tabValue)} />
+      <Tab key={tabValue} value={tabValue} label={undelineRemover(tabValue)} />
     ))}
   </Tabs>
 );
