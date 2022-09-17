@@ -87,6 +87,7 @@ Object {
             >
               <span
                 class="MuiSlider-colorPrimary MuiSlider-sizeMedium MuiSlider-root css-187mznn-MuiSlider-root"
+                data-testid="CONFIG_SLIDER_TEST_ID"
               >
                 <span
                   class="MuiSlider-rail css-14pt78w-MuiSlider-rail"
@@ -122,6 +123,7 @@ Object {
             >
               <div
                 class="MuiFormControl-root MuiTextField-root css-rtrmyr-MuiFormControl-root-MuiTextField-root"
+                data-testid="CONFIG_INPUT_TEST_ID"
               >
                 <div
                   class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
@@ -165,6 +167,7 @@ Object {
             >
               <span
                 class="MuiSlider-colorPrimary MuiSlider-sizeMedium MuiSlider-root css-187mznn-MuiSlider-root"
+                data-testid="CONFIG_SLIDER_TEST_ID"
               >
                 <span
                   class="MuiSlider-rail css-14pt78w-MuiSlider-rail"
@@ -200,6 +203,7 @@ Object {
             >
               <div
                 class="MuiFormControl-root MuiTextField-root css-rtrmyr-MuiFormControl-root-MuiTextField-root"
+                data-testid="CONFIG_INPUT_TEST_ID"
               >
                 <div
                   class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
@@ -311,6 +315,7 @@ Object {
           >
             <span
               class="MuiSlider-colorPrimary MuiSlider-sizeMedium MuiSlider-root css-187mznn-MuiSlider-root"
+              data-testid="CONFIG_SLIDER_TEST_ID"
             >
               <span
                 class="MuiSlider-rail css-14pt78w-MuiSlider-rail"
@@ -346,6 +351,7 @@ Object {
           >
             <div
               class="MuiFormControl-root MuiTextField-root css-rtrmyr-MuiFormControl-root-MuiTextField-root"
+              data-testid="CONFIG_INPUT_TEST_ID"
             >
               <div
                 class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
@@ -389,6 +395,7 @@ Object {
           >
             <span
               class="MuiSlider-colorPrimary MuiSlider-sizeMedium MuiSlider-root css-187mznn-MuiSlider-root"
+              data-testid="CONFIG_SLIDER_TEST_ID"
             >
               <span
                 class="MuiSlider-rail css-14pt78w-MuiSlider-rail"
@@ -424,6 +431,7 @@ Object {
           >
             <div
               class="MuiFormControl-root MuiTextField-root css-rtrmyr-MuiFormControl-root-MuiTextField-root"
+              data-testid="CONFIG_INPUT_TEST_ID"
             >
               <div
                 class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
@@ -658,6 +666,7 @@ Object {
             >
               <span
                 class="MuiSlider-colorPrimary MuiSlider-sizeMedium MuiSlider-root css-187mznn-MuiSlider-root"
+                data-testid="CONFIG_SLIDER_TEST_ID"
               >
                 <span
                   class="MuiSlider-rail css-14pt78w-MuiSlider-rail"
@@ -693,6 +702,7 @@ Object {
             >
               <div
                 class="MuiFormControl-root MuiTextField-root css-rtrmyr-MuiFormControl-root-MuiTextField-root"
+                data-testid="CONFIG_INPUT_TEST_ID"
               >
                 <div
                   class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
@@ -736,6 +746,7 @@ Object {
             >
               <span
                 class="MuiSlider-colorPrimary MuiSlider-sizeMedium MuiSlider-root css-187mznn-MuiSlider-root"
+                data-testid="CONFIG_SLIDER_TEST_ID"
               >
                 <span
                   class="MuiSlider-rail css-14pt78w-MuiSlider-rail"
@@ -771,6 +782,7 @@ Object {
             >
               <div
                 class="MuiFormControl-root MuiTextField-root css-rtrmyr-MuiFormControl-root-MuiTextField-root"
+                data-testid="CONFIG_INPUT_TEST_ID"
               >
                 <div
                   class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
@@ -948,6 +960,7 @@ Object {
           >
             <span
               class="MuiSlider-colorPrimary MuiSlider-sizeMedium MuiSlider-root css-187mznn-MuiSlider-root"
+              data-testid="CONFIG_SLIDER_TEST_ID"
             >
               <span
                 class="MuiSlider-rail css-14pt78w-MuiSlider-rail"
@@ -983,6 +996,7 @@ Object {
           >
             <div
               class="MuiFormControl-root MuiTextField-root css-rtrmyr-MuiFormControl-root-MuiTextField-root"
+              data-testid="CONFIG_INPUT_TEST_ID"
             >
               <div
                 class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
@@ -1026,6 +1040,7 @@ Object {
           >
             <span
               class="MuiSlider-colorPrimary MuiSlider-sizeMedium MuiSlider-root css-187mznn-MuiSlider-root"
+              data-testid="CONFIG_SLIDER_TEST_ID"
             >
               <span
                 class="MuiSlider-rail css-14pt78w-MuiSlider-rail"
@@ -1061,6 +1076,7 @@ Object {
           >
             <div
               class="MuiFormControl-root MuiTextField-root css-rtrmyr-MuiFormControl-root-MuiTextField-root"
+              data-testid="CONFIG_INPUT_TEST_ID"
             >
               <div
                 class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
@@ -1248,6 +1264,7 @@ Object {
             >
               <span
                 class="MuiSlider-colorPrimary MuiSlider-sizeMedium MuiSlider-root css-187mznn-MuiSlider-root"
+                data-testid="CONFIG_SLIDER_TEST_ID"
               >
                 <span
                   class="MuiSlider-rail css-14pt78w-MuiSlider-rail"
@@ -1283,6 +1300,7 @@ Object {
             >
               <div
                 class="MuiFormControl-root MuiTextField-root css-rtrmyr-MuiFormControl-root-MuiTextField-root"
+                data-testid="CONFIG_INPUT_TEST_ID"
               >
                 <div
                   class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
@@ -1413,6 +1431,7 @@ Object {
           >
             <span
               class="MuiSlider-colorPrimary MuiSlider-sizeMedium MuiSlider-root css-187mznn-MuiSlider-root"
+              data-testid="CONFIG_SLIDER_TEST_ID"
             >
               <span
                 class="MuiSlider-rail css-14pt78w-MuiSlider-rail"
@@ -1448,6 +1467,7 @@ Object {
           >
             <div
               class="MuiFormControl-root MuiTextField-root css-rtrmyr-MuiFormControl-root-MuiTextField-root"
+              data-testid="CONFIG_INPUT_TEST_ID"
             >
               <div
                 class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
