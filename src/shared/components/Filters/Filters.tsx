@@ -2,13 +2,15 @@
 import React, { useState } from 'react';
 import { ExpandCircleDown, ExpandCircleDownOutlined } from '@mui/icons-material';
 import { Checkbox } from '@mui/material';
-import * as Styles from './styles';
+import undelineRemover from '@utils/undelineRemover';
+import capitilizer from '@utils/capitilizer';
+import { FiltersTitle, Option, OptionContainer } from './styles';
 
 interface OptionCheckedProps {
   [key: string]: boolean;
 }
 
-interface FiltersProps {
+export interface FiltersProps {
   filterTitle: string;
   options?: Array<string>;
   updateOptions: Function;
@@ -27,20 +29,28 @@ const Filters: React.FC<FiltersProps> = ({ filterTitle, options = [], updateOpti
 
   return (
     <div>
-      <Styles.FiltersTitle onClick={() => setIsVisible(!isVisible)}>
+      <FiltersTitle onClick={() => setIsVisible(!isVisible)}>
         {isVisible ? <ExpandCircleDown /> : <ExpandCircleDownOutlined />}
         <span>{filterTitle}</span>
-      </Styles.FiltersTitle>
+      </FiltersTitle>
 
       {isVisible ? (
-        <Styles.OptionContainer display="flex" flexDirection="column">
+        <OptionContainer display="flex" flexDirection="column">
           {options.map((option) => (
-            <Styles.Option key={option} display="flex" flexDirection="row" alignItems="center">
-              <Checkbox onChange={() => handleUpdate(option)} />
-              <span>{option[0].toUpperCase() + option.slice(1).replace('_', ' ')}</span>
-            </Styles.Option>
+            <Option
+              onClick={() => handleUpdate(option)}
+              data-testid={option}
+              key={option}
+              display="flex"
+              flexDirection="row"
+              alignItems="center"
+              sx={{ cursor: 'pointer' }}
+            >
+              <Checkbox checked={checkedOptions[option]} />
+              <span>{capitilizer(undelineRemover(option))}</span>
+            </Option>
           ))}
-        </Styles.OptionContainer>
+        </OptionContainer>
       ) : null}
     </div>
   );
