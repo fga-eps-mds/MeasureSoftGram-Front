@@ -1,4 +1,4 @@
-import { Historical } from '@customTypes/respository';
+import { Historical } from '@customTypes/repository';
 
 interface OptionCheckedProps {
   [key: string]: boolean;

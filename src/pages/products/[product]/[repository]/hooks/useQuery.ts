@@ -9,16 +9,15 @@ import { repository } from '@services/repository';
 
 import formatEntitiesFilter from '@utils/formatEntitiesFilter';
 import { getPathId } from '@utils/pathDestructer';
-import { Historical } from '@customTypes/respository';
+import { Historical } from '@customTypes/repository';
 
 import { LARGE_PRIME_NUMBER } from './const';
 
 export const useQuery = () => {
-  const { setCurrentRepository, setCharacteristics, setSubCharacteristics } = useRepositoryContext();
+  const { setCurrentRepository, setCharacteristics, setSubCharacteristics, setHistoricalSQC } = useRepositoryContext();
   const { currentProduct } = useProductContext();
 
   const [repositoryHistoricalCharacteristics, setRepositoryHistoricalCharacteristics] = useState<Historical[]>([]);
-  const [repositoryHistoricalSqc, setRepositoryHistoricalSqc] = useState<Historical>();
   const [checkedOptionsFormat, setCheckedOptions] = useState({});
 
   const { query } = useRouter();
@@ -74,7 +73,7 @@ export const useQuery = () => {
         data: { results }
       } = await repository.getSqcHistory('1', currentProduct?.id || 1, repositoryId);
 
-      setRepositoryHistoricalSqc({ id, key: 'SQC', name: 'SQC', history: results });
+      setHistoricalSQC({ id, key: 'SQC', name: 'SQC', history: results });
     } catch (error) {
       console.error(error);
     }
@@ -111,5 +110,5 @@ export const useQuery = () => {
     }
   }, [query?.repository, currentProduct]);
 
-  return { repositoryHistoricalCharacteristics, repositoryHistoricalSqc, checkedOptionsFormat };
+  return { repositoryHistoricalCharacteristics, checkedOptionsFormat };
 };

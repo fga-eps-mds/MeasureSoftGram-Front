@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { EChartsOption } from 'echarts-for-react';
 
 import formatCharacteristicsHistory from '@utils/formatCharacteristicsHistory';
-import { Historical } from '@customTypes/respository';
+import { Historical } from '@customTypes/repository';
 
 import * as Styles from './styles';
 
