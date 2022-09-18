@@ -1,6 +1,8 @@
 /* eslint-disable jest/no-conditional-expect */
 import { Characteristic } from '@customTypes/preConfig';
 import { iterator, iteratorType } from '@pages/preConfig/utils/iterators';
+import { componentIterator, componentIteratorType } from '@pages/preConfig/utils/componentIterator';
+import toPercentage from '@pages/preConfig/utils/toPercentage';
 
 const CHARACTERISTIC_KEY = 'Test-Char';
 const SUBHARACTERISTIC_KEY = 'Test-Subchar';
@@ -48,12 +50,34 @@ describe('Utils', () => {
 
       const subcharacteristic = characteristic[0].subcharacteristics;
       const measure = subcharacteristic[0].measures;
+
       const mockedSubcharacteristic = mockedCharacteristic[0].subcharacteristics;
       const mockedMeasure = mockedSubcharacteristic[0].measures;
 
       if (type === 'characteristic') expect(characteristic).toMatchObject(mockedCharacteristic);
       else if (type === 'subcharacteristic') expect(subcharacteristic).toMatchObject(mockedSubcharacteristic);
       else expect(measure).toMatchObject(mockedMeasure);
+    });
+  });
+  describe.each(ITERATORS_CONFIG)('componentIterators', ({ type }) => {
+    it(`Deve chamar callback somente uma vez quando ${type}`, () => {
+      jest.clearAllMocks();
+      const callbackFunc = jest.fn();
+
+      componentIterator[type as componentIteratorType](mockedCharacteristic, callbackFunc);
+
+      expect(callbackFunc).toBeCalledTimes(1);
+    });
+  });
+  describe('toPercentage', () => {
+    it('Deve formatar valor para porcentagem de 0 à 100', () => {
+      expect(toPercentage(101)).toBe(100);
+      expect(toPercentage(-1)).toBe(0);
+      expect(toPercentage(0)).toBe(0);
+      expect(toPercentage(100)).toBe(100);
+      expect(toPercentage(50)).toBe(50);
+      expect(toPercentage('50')).toBe(50);
+      expect(toPercentage(NaN)).toBe(0);
     });
   });
 });
