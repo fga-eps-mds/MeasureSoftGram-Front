@@ -13,11 +13,20 @@ services:
       dockerfile: ./docker/front.Dockerfile
     ports:
       - '3000:3000'
+    networks:
+      - msg-service-network
     volumes:
       - .:/usr/src/
-  sonar_scan:
-    image: sonarsource/sonar-scanner-cli
-    environment:
-      - SONAR_TOKEN=c3ea735a30a7e86e1457e29e0dbf8996284385a0
-    volumes:
-      - .:/usr/src/
+
+  # sonar_scan:
+  #   image: sonarsource/sonar-scanner-cli
+  #   environment:
+  #     - SONAR_TOKEN=c3ea735a30a7e86e1457e29e0dbf8996284385a0
+  #   volumes:
+  #     - .:/usr/src/
+
+
+networks:
+  msg-service-network:
+    name: msg-service-network
+    external: true

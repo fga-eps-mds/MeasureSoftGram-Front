@@ -41,10 +41,10 @@ const Products: NextPageWithLayout = () => {
   useEffect(() => {
     updateProductList([
       {
-        id: 3,
-        description: 'MSG',
-        name: 'MeasureSoftGram',
-        github_url: 'google.com',
+        id: 1,
+        description: '<PRODUCT DESCRIPTION>',
+        name: 'PRODUCT-NAME',
+        github_url: 'https://github.com/fga-eps-mds/',
         created_at: '',
         updated_at: ''
       }
@@ -62,7 +62,7 @@ const Products: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>MeasureSoftGram - Produtos</title>
+        <title> Site do MeasureSoftGram </title>
       </Head>
       <Container>
         <ConfigPage isOpen={openConfig} onClose={setOpenConfig} repoName={selectedProduct?.name} />
