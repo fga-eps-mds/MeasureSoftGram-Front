@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { ExpandCircleDown, ExpandCircleDownOutlined } from '@mui/icons-material';
 import { Checkbox } from '@mui/material';
 import undelineRemover from '@utils/undelineRemover';
-import capitilizer from '@utils/capitilizer';
+import capitalizer from '@utils/capitalizer';
 import { FiltersTitle, Option, OptionContainer } from './styles';
 
 interface OptionCheckedProps {
@@ -47,7 +47,7 @@ const Filters: React.FC<FiltersProps> = ({ filterTitle, options = [], updateOpti
               sx={{ cursor: 'pointer' }}
             >
               <Checkbox checked={checkedOptions[option]} />
-              <span>{capitilizer(undelineRemover(option))}</span>
+              <span>{capitalizer(undelineRemover(option))}</span>
             </Option>
           ))}
         </OptionContainer>

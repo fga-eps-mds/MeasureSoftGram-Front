@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import { Grid, InputAdornment, Slider, SliderProps, TextField, TextFieldProps, Typography } from '@mui/material';
-import capitilizer from '@utils/capitilizer';
+import capitalizer from '@utils/capitalizer';
 import undelineRemover from '@utils/undelineRemover';
 import PRE_CONFIG_SLIDERS from './consts';
 
@@ -15,7 +15,7 @@ const PreConfigSliders = ({ label, onChange, weight }: PreConfigSlidersProps) =>
   <Grid spacing={3} container columns={16}>
     <Grid item xs={3}>
       <Typography textAlign="start">
-        <strong>{capitilizer(undelineRemover(label))}</strong>
+        <strong>{capitalizer(undelineRemover(label))}</strong>
       </Typography>
     </Grid>
     <Grid item xs={9}>
