@@ -4,12 +4,12 @@ interface OptionCheckedProps {
   [key: string]: boolean;
 }
 
-interface Props {
+export interface FormatCharacteristicsHistoryType {
   historical?: Historical[];
   checkedOptions: OptionCheckedProps;
 }
 
-const formatCharacteristicsHistory = ({ historical, checkedOptions }: Props) => {
+const formatCharacteristicsHistory = ({ historical, checkedOptions }: FormatCharacteristicsHistoryType) => {
   if (!historical || historical.length === 0 || historical.filter((h) => h.key.includes('SQC')).length === 0) return {};
 
   const newHistorical = historical.filter((h) => {

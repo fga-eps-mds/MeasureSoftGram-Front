@@ -1,7 +1,7 @@
 interface SqcHistory {
   id: number;
   value: number;
-  created_at: Date;
+  created_at: Date | string;
 }
 
 export interface Historical {
