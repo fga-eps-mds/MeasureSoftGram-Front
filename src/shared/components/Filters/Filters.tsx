@@ -37,16 +37,8 @@ const Filters: React.FC<FiltersProps> = ({ filterTitle, options = [], updateOpti
       {isVisible ? (
         <OptionContainer display="flex" flexDirection="column">
           {options.map((option) => (
-            <Option
-              onClick={() => handleUpdate(option)}
-              data-testid={option}
-              key={option}
-              display="flex"
-              flexDirection="row"
-              alignItems="center"
-              sx={{ cursor: 'pointer' }}
-            >
-              <Checkbox checked={checkedOptions[option]} />
+            <Option key={option} display="flex" flexDirection="row" alignItems="center">
+              <Checkbox data-testid={option} onClick={() => handleUpdate(option)} checked={checkedOptions[option]} />
               <span>{capitalizer(undelineRemover(option))}</span>
             </Option>
           ))}

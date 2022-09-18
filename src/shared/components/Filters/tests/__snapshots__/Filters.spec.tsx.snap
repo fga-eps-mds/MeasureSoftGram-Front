@@ -28,11 +28,11 @@ Object {
           class="styles__OptionContainer-sc-1ywle5j-1 MuiBox-root css-j7qwjs"
         >
           <div
-            class="styles__Option-sc-1ywle5j-2 kZhFnX MuiBox-root css-1qx36yh"
-            data-testid="Op_1"
+            class="styles__Option-sc-1ywle5j-2 kZhFnX MuiBox-root css-u4p24i"
           >
             <span
               class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+              data-testid="Op_1"
             >
               <input
                 class="PrivateSwitchBase-input css-1m9pwf3"
@@ -59,11 +59,11 @@ Object {
             </span>
           </div>
           <div
-            class="styles__Option-sc-1ywle5j-2 kZhFnX MuiBox-root css-1qx36yh"
-            data-testid="Op_2"
+            class="styles__Option-sc-1ywle5j-2 kZhFnX MuiBox-root css-u4p24i"
           >
             <span
               class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+              data-testid="Op_2"
             >
               <input
                 class="PrivateSwitchBase-input css-1m9pwf3"
@@ -90,11 +90,11 @@ Object {
             </span>
           </div>
           <div
-            class="styles__Option-sc-1ywle5j-2 kZhFnX MuiBox-root css-1qx36yh"
-            data-testid="Op_3"
+            class="styles__Option-sc-1ywle5j-2 kZhFnX MuiBox-root css-u4p24i"
           >
             <span
               class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root Mui-checked css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+              data-testid="Op_3"
             >
               <input
                 checked=""
@@ -149,11 +149,11 @@ Object {
         class="styles__OptionContainer-sc-1ywle5j-1 MuiBox-root css-j7qwjs"
       >
         <div
-          class="styles__Option-sc-1ywle5j-2 kZhFnX MuiBox-root css-1qx36yh"
-          data-testid="Op_1"
+          class="styles__Option-sc-1ywle5j-2 kZhFnX MuiBox-root css-u4p24i"
         >
           <span
             class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+            data-testid="Op_1"
           >
             <input
               class="PrivateSwitchBase-input css-1m9pwf3"
@@ -180,11 +180,11 @@ Object {
           </span>
         </div>
         <div
-          class="styles__Option-sc-1ywle5j-2 kZhFnX MuiBox-root css-1qx36yh"
-          data-testid="Op_2"
+          class="styles__Option-sc-1ywle5j-2 kZhFnX MuiBox-root css-u4p24i"
         >
           <span
             class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+            data-testid="Op_2"
           >
             <input
               class="PrivateSwitchBase-input css-1m9pwf3"
@@ -211,11 +211,11 @@ Object {
           </span>
         </div>
         <div
-          class="styles__Option-sc-1ywle5j-2 kZhFnX MuiBox-root css-1qx36yh"
-          data-testid="Op_3"
+          class="styles__Option-sc-1ywle5j-2 kZhFnX MuiBox-root css-u4p24i"
         >
           <span
             class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root Mui-checked css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+            data-testid="Op_3"
           >
             <input
               checked=""
