@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
+import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
 import { useProductContext } from '@contexts/ProductProvider';
 
@@ -16,6 +17,7 @@ import { LARGE_PRIME_NUMBER } from './const';
 export const useQuery = () => {
   const { setCurrentRepository, setCharacteristics, setSubCharacteristics, setHistoricalSQC } = useRepositoryContext();
   const { currentProduct } = useProductContext();
+  const { currentOrganization } = useOrganizationContext();
 
   const [repositoryHistoricalCharacteristics, setRepositoryHistoricalCharacteristics] = useState<Historical[]>([]);
   const [checkedOptionsFormat, setCheckedOptions] = useState({});
@@ -40,7 +42,7 @@ export const useQuery = () => {
   async function loadRepositorySupportedEntities() {
     try {
       if (currentProduct) {
-        const result = await productQuery.getPreConfigEntitiesRelationship('1', currentProduct.id);
+        const result = await productQuery.getPreConfigEntitiesRelationship(currentOrganization.id, currentProduct.id);
         const [characteristics, subCharacteristics] = formatEntitiesFilter(result.data);
 
         setCharacteristics(characteristics);
@@ -55,7 +57,7 @@ export const useQuery = () => {
   async function loadHistoricalCharacteristics(repositoryId: string) {
     try {
       const result = await repository.getHistorical({
-        organizationId: '1',
+        organizationId: currentOrganization.id,
         productId: currentProduct?.id,
         repositoryId,
         entity: 'characteristics'
@@ -73,7 +75,7 @@ export const useQuery = () => {
       const {
         data: { results }
       } = await repository.getHistorical({
-        organizationId: '1',
+        organizationId: currentOrganization.id,
         productId: currentProduct?.id,
         repositoryId,
         entity: 'sqc'
@@ -87,7 +89,11 @@ export const useQuery = () => {
 
   async function loadRepository(repositoryId: string) {
     try {
-      const { data } = await repository.getRepository('1', currentProduct?.id || '1', repositoryId);
+      const { data } = await repository.getRepository(
+        currentOrganization.id,
+        currentProduct?.id || currentOrganization.id,
+        repositoryId
+      );
 
       setCurrentRepository(data);
     } catch (error) {

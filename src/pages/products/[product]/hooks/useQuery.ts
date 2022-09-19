@@ -9,8 +9,10 @@ import { useProductContext } from '@contexts/ProductProvider';
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
 
 import { getPathId } from '@utils/pathDestructer';
+import { useOrganizationContext } from '@contexts/OrganizationProvider';
 
 export const useQuery = () => {
+  const { currentOrganization } = useOrganizationContext();
   const { setCurrentProduct } = useProductContext();
   const { setRepositoryList } = useRepositoryContext();
   const [repositoriesSqcHistory, setRepositoriesSqcHistory] = useState<RepositoriesSqcHistory>();
@@ -19,7 +21,7 @@ export const useQuery = () => {
 
   async function loadProduct(productId: string) {
     try {
-      const result = await productQuery.getProductById('1', productId);
+      const result = await productQuery.getProductById(currentOrganization.id, productId);
       setCurrentProduct(result.data);
     } catch (error) {
       console.error(error);
@@ -28,7 +30,7 @@ export const useQuery = () => {
 
   async function loadRepositoriesSqcHistory(productId: string) {
     try {
-      const result = await productQuery.getProductRepositoriesSqcHistory('1', productId as string);
+      const result = await productQuery.getProductRepositoriesSqcHistory(currentOrganization.id, productId as string);
       setRepositoriesSqcHistory(result.data);
     } catch (error) {
       console.error(error);
@@ -37,7 +39,7 @@ export const useQuery = () => {
 
   async function loadRepositories(productId: string) {
     try {
-      const result = await productQuery.getAllRepositories('1', productId as string);
+      const result = await productQuery.getAllRepositories(currentOrganization.id, productId as string);
       setRepositoryList(result.data.results);
     } catch (error) {
       console.error(error);

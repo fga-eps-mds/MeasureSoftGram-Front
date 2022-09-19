@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
 
 import { Box, Container, IconButton, Menu, MenuItem, Typography } from '@mui/material';
@@ -13,14 +13,18 @@ import getLayout from '@components/Layout';
 import CardNavigation from '@components/CardNavigation';
 
 import { Product } from '@customTypes/product';
+
 import Skeleton from './components/Skeleton';
+import { useQuery } from './hooks/useQuery';
 
 const Products: NextPageWithLayout = () => {
+  useQuery();
+
   const [openConfig, setOpenConfig] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedProduct, setSelectedProduct] = useState<Product>();
 
-  const { updateProductList, productsList } = useProductContext();
+  const { productsList } = useProductContext();
 
   const openMenu = Boolean(anchorEl);
 
@@ -37,19 +41,6 @@ const Products: NextPageWithLayout = () => {
     setOpenConfig(true);
     setAnchorEl(null);
   };
-
-  useEffect(() => {
-    updateProductList([
-      {
-        id: 1,
-        description: '<PRODUCT DESCRIPTION>',
-        name: 'PRODUCT-NAME',
-        github_url: 'https://github.com/fga-eps-mds/',
-        created_at: '',
-        updated_at: ''
-      }
-    ]);
-  }, []);
 
   if (!productsList) {
     return (
@@ -78,7 +69,7 @@ const Products: NextPageWithLayout = () => {
 
           <Box display="flex">
             {productsList?.map((product) => (
-              <div key={product.id} style={{ display: 'flex', flexDirection: 'row' }}>
+              <Box key={product.id} display="flex" flexDirection="row" paddingRight="20px">
                 <CardNavigation
                   key={product.id}
                   id={product.id}
@@ -101,7 +92,7 @@ const Products: NextPageWithLayout = () => {
                 >
                   <MenuItem onClick={() => handleOpenConfig(product)}>Definir pré configurações</MenuItem>
                 </Menu>
-              </div>
+              </Box>
             ))}
           </Box>
         </Box>

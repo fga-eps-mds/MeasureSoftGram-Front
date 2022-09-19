@@ -8,6 +8,7 @@ import Theme from '@components/Theme';
 
 import { ProductProvider } from '@contexts/ProductProvider';
 import { RepositoryProvider } from '@contexts/RepositoryProvider';
+import { OrganizationProvider } from '@contexts/OrganizationProvider';
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => typeof page;
@@ -21,11 +22,13 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
-    <RepositoryProvider>
-      <ProductProvider>
-        <Theme>{getLayout(<Component {...pageProps} />)}</Theme>
-      </ProductProvider>
-    </RepositoryProvider>
+    <OrganizationProvider>
+      <RepositoryProvider>
+        <ProductProvider>
+          <Theme>{getLayout(<Component {...pageProps} />)}</Theme>
+        </ProductProvider>
+      </RepositoryProvider>
+    </OrganizationProvider>
   );
 }
 
