@@ -9,7 +9,7 @@ import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import * as Styles from './styles';
 
 function OrganizationSelector() {
-  const { organizationList, setCurrentOrganization } = useOrganizationContext();
+  const { organizationList, setCurrentOrganization, currentOrganization } = useOrganizationContext();
 
   const [selectedOrganization, setSelectedOrganization] = useState<number>(0);
 
@@ -18,8 +18,8 @@ function OrganizationSelector() {
   };
 
   useEffect(() => {
-    if (organizationList.length !== 0) {
-      setCurrentOrganization(organizationList[0]);
+    if (organizationList.length !== 0 && !currentOrganization) {
+      setSelectedOrganization(0);
     }
   }, [organizationList]);
 

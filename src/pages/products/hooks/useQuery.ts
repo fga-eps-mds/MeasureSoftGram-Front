@@ -9,7 +9,7 @@ import { useProductContext } from '@contexts/ProductProvider';
 export const useQuery = () => {
   const { currentOrganization } = useOrganizationContext();
   const { updateProductList } = useProductContext();
-  const { setOrganizationList, organizationList } = useOrganizationContext();
+  const { setOrganizationList } = useOrganizationContext();
 
   async function loadAllOrganization() {
     try {

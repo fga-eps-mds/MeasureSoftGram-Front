@@ -116,7 +116,7 @@ export const useQuery = () => {
 
   useEffect(() => {
     if (query?.repository && currentProduct) {
-      const repositoryId = getPathId(query?.repository as string);
+      const [repositoryId] = getPathId(query?.repository as string);
 
       loadRepositoryInfo(repositoryId);
     }

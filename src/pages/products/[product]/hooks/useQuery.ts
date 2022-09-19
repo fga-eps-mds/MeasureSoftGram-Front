@@ -12,34 +12,34 @@ import { getPathId } from '@utils/pathDestructer';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
 
 export const useQuery = () => {
-  const { currentOrganization } = useOrganizationContext();
+  const { setCurrentOrganization } = useOrganizationContext();
   const { setCurrentProduct } = useProductContext();
   const { setRepositoryList } = useRepositoryContext();
   const [repositoriesSqcHistory, setRepositoriesSqcHistory] = useState<RepositoriesSqcHistory>();
 
   const { query } = useRouter();
 
-  async function loadProduct(productId: string) {
+  async function loadProduct(organizationId: string, productId: string) {
     try {
-      const result = await productQuery.getProductById(currentOrganization.id, productId);
+      const result = await productQuery.getProductById(organizationId, productId);
       setCurrentProduct(result.data);
     } catch (error) {
       console.error(error);
     }
   }
 
-  async function loadRepositoriesSqcHistory(productId: string) {
+  async function loadRepositoriesSqcHistory(organizationId: string, productId: string) {
     try {
-      const result = await productQuery.getProductRepositoriesSqcHistory(currentOrganization.id, productId as string);
+      const result = await productQuery.getProductRepositoriesSqcHistory(organizationId, productId as string);
       setRepositoriesSqcHistory(result.data);
     } catch (error) {
       console.error(error);
     }
   }
 
-  async function loadRepositories(productId: string) {
+  async function loadRepositories(organizationId: string, productId: string) {
     try {
-      const result = await productQuery.getAllRepositories(currentOrganization.id, productId as string);
+      const result = await productQuery.getAllRepositories(organizationId, productId as string);
       setRepositoryList(result.data.results);
     } catch (error) {
       console.error(error);
@@ -48,11 +48,11 @@ export const useQuery = () => {
 
   useEffect(() => {
     if (query?.product) {
-      const productId = getPathId(query?.product as string);
+      const [organizationId, productId] = getPathId(query?.product as string);
 
-      loadProduct(productId);
-      loadRepositoriesSqcHistory(productId);
-      loadRepositories(productId);
+      loadProduct(organizationId, productId);
+      loadRepositoriesSqcHistory(organizationId, productId);
+      loadRepositories(organizationId, productId);
     }
   }, [query?.product]);
 

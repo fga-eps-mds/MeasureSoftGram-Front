@@ -8,6 +8,7 @@ import { NextPageWithLayout } from '@pages/_app.next';
 import ConfigPage from '@pages/preConfig/ConfigPage';
 
 import { useProductContext } from '@contexts/ProductProvider';
+import { useOrganizationContext } from '@contexts/OrganizationProvider';
 
 import getLayout from '@components/Layout';
 import CardNavigation from '@components/CardNavigation';
@@ -20,6 +21,7 @@ import { useQuery } from './hooks/useQuery';
 const Products: NextPageWithLayout = () => {
   useQuery();
 
+  const { currentOrganization } = useOrganizationContext();
   const [openConfig, setOpenConfig] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedProduct, setSelectedProduct] = useState<Product>();
@@ -89,7 +91,7 @@ const Products: NextPageWithLayout = () => {
                   key={product.id}
                   id={product.id}
                   name={product.name}
-                  url={`/products/${product.id}-${product.name}`}
+                  url={`/products/${currentOrganization.id}-${product.id}-${product.name}`}
                 />
 
                 <IconButton color="primary" onClick={handleOpenMenu}>
