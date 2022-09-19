@@ -55,7 +55,7 @@ describe('<CreateReleaseProvider />', () => {
     jest.clearAllMocks();
   });
 
-  describe.skip('Snapshot', () => {
+  describe('Snapshot', () => {
     it('Deve corresponder ao Snapshot', () => {
       const tree = render(
         <CreateReleaseProvider

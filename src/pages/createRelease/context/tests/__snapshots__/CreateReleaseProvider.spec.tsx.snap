@@ -8,12 +8,48 @@ Object {
       <h1>
         Aoba
       </h1>
+      <button
+        data-testid="close-alert"
+        type="submit"
+      >
+        Fechar alerta
+      </button>
+      <button
+        data-testid="goal-step"
+        type="submit"
+      >
+        Denifir pesos
+      </button>
+      <button
+        data-testid="create-release-goal"
+        type="submit"
+      >
+        Cria metas
+      </button>
     </div>
   </body>,
   "container": <div>
     <h1>
       Aoba
     </h1>
+    <button
+      data-testid="close-alert"
+      type="submit"
+    >
+      Fechar alerta
+    </button>
+    <button
+      data-testid="goal-step"
+      type="submit"
+    >
+      Denifir pesos
+    </button>
+    <button
+      data-testid="create-release-goal"
+      type="submit"
+    >
+      Cria metas
+    </button>
   </div>,
   "debug": [Function],
   "findAllByAltText": [Function],
