@@ -40,6 +40,10 @@ const Repository: NextPageWithLayout = () => {
   const [checkedOptions, setCheckedOptions] = useState(checkedOptionsFormat);
 
   useEffect(() => {
+    setCheckedOptions(checkedOptionsFormat);
+  }, [checkedOptionsFormat]);
+
+  useEffect(() => {
     setFilterCharacteristics({ ...filterCharacteristics, options: characteristics });
     setFilterSubCharacteristics({ ...filterSubCharacteristics, options: subCharacteristics });
   }, [characteristics, subCharacteristics]);
@@ -55,6 +59,7 @@ const Repository: NextPageWithLayout = () => {
   ) {
     return <Skeleton />;
   }
+
   return (
     <Box display="flex" width="100%" flexDirection="row">
       <Styles.FilterBackground>
@@ -96,13 +101,14 @@ const Repository: NextPageWithLayout = () => {
                   <GraphicStackedLine
                     historical={repositoryHistoricalCharacteristics.concat(historicalSQC)}
                     checkedOptions={checkedOptions}
+                    title="Características"
                   />
                 )}
             </Box>
           </Container>
         </Box>
 
-        <SubCharacteristicsList />
+        <SubCharacteristicsList checkedOptions={checkedOptions} />
       </Box>
     </Box>
   );

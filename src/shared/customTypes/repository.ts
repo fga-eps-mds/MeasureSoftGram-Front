@@ -1,4 +1,4 @@
-interface SqcHistory {
+export interface SqcHistory {
   id: number;
   value: number;
   created_at: Date;

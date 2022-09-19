@@ -13,13 +13,15 @@ interface OptionCheckedProps {
 interface Prop {
   historical?: Historical[];
   checkedOptions: OptionCheckedProps;
+  title: string;
+  selected?: (any) => boolean;
 }
 
-const GraphicStackedLine = ({ historical, checkedOptions }: Prop) => {
+const GraphicStackedLine = ({ historical, checkedOptions, title, selected }: Prop) => {
   const [chartOption, setChartOption] = useState<EChartsOption>({});
 
   useEffect(() => {
-    const formatedOptions = formatCharacteristicsHistory({ historical, checkedOptions });
+    const formatedOptions = formatCharacteristicsHistory({ historical, checkedOptions, title, selected });
     setChartOption(formatedOptions);
   }, [historical, checkedOptions]);
 

@@ -1,16 +1,37 @@
 import React, { useState } from 'react';
-import { formatRelative } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
 
-import { TableContainer, Table, TableCell, TableHead, TableRow, TableBody, Collapse } from '@mui/material';
-import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import {
+  TableContainer,
+  Table,
+  TableCell,
+  TableHead,
+  TableRow,
+  TableBody,
+  TableFooter,
+  TablePagination
+} from '@mui/material';
 
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
 
-function SubCharacteristicsTable() {
-  const { historicalSQC } = useRepositoryContext();
+import SubCharacteristicsGraph from '../SubCharacteristicsGraph';
+import { useQuery } from '../hooks/useQuery';
 
-  const [open, setOpen] = useState(false);
+interface OptionCheckedProps {
+  [key: string]: boolean;
+}
+
+interface Prop {
+  checkedOptions: OptionCheckedProps;
+}
+
+function SubCharacteristicsTable({ checkedOptions }: Prop) {
+  const { repositoryHistoricalSubCharacteristics } = useQuery();
+  const { historicalSQC } = useRepositoryContext();
+  const [page, setPage] = useState(0);
+
+  const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+    setPage(newPage);
+  };
 
   return (
     <TableContainer>
@@ -23,27 +44,26 @@ function SubCharacteristicsTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {historicalSQC.history?.map((repository) => (
-            <>
-              <TableRow hover onClick={() => setOpen(!open)} sx={{ '& > *': { borderBottom: 'unset' } }}>
-                <TableCell>
-                  <ArrowCircleRightIcon aria-label="expand row" />
-                </TableCell>
-                <TableCell align="right">
-                  {formatRelative(new Date(repository.created_at), new Date(), { locale: ptBR })}
-                </TableCell>
-                <TableCell align="right">{repository.value.toFixed(2)}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={3} align="right">
-                  <Collapse in={open}>
-                    {formatRelative(new Date(repository.created_at), new Date(), { locale: ptBR })}
-                  </Collapse>
-                </TableCell>
-              </TableRow>
-            </>
+          {historicalSQC.history.slice(page * 5, page * 5 + 5)?.map((SQC) => (
+            <SubCharacteristicsGraph
+              SQC={SQC}
+              checkedOptions={checkedOptions}
+              subCharacteristics={repositoryHistoricalSubCharacteristics}
+              key={SQC.id}
+            />
           ))}
         </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TablePagination
+              count={historicalSQC.history.length}
+              rowsPerPage={5}
+              page={page}
+              onPageChange={handleChangePage}
+              rowsPerPageOptions={[5]}
+            />
+          </TableRow>
+        </TableFooter>
       </Table>
     </TableContainer>
   );
