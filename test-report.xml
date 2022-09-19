@@ -1,9 +1,5 @@
 <testExecutions version="1">
-<file path="src/pages/createRelease/context/tests/CreateReleaseProvider.spec.tsx">
-<testCase name="&lt;CreateReleaseProvider /&gt; Snapshot Deve corresponder ao Snapshot" duration="51" />
-<testCase name="&lt;CreateReleaseProvider /&gt; Comportamento Deve resetar estados" duration="14" />
-</file>
-<file path="src/pages/createRelease/tests/CreateRelease.spec.tsx">
-<testCase name="&lt;CreateRelease /&gt; Snapshot Deve corresponder ao Snapshot" duration="161" />
+<file path="src/pages/products/[product]/tests/Product.spec.tsx">
+<testCase name="Products Snapshot Deve corresponder ao Snapshot" duration="84" />
 </file>
 </testExecutions>
