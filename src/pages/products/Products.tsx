@@ -84,9 +84,9 @@ const Products: NextPageWithLayout = () => {
             </Typography>
           </Box>
 
-          <Box display="flex">
+          <Box display="flex" flexWrap="wrap">
             {productsList?.map((product) => (
-              <Box key={product.id} display="flex" flexDirection="row" paddingRight="20px">
+              <Box key={product.id} display="flex" flexDirection="row" paddingRight="20px" paddingBottom="20px">
                 <CardNavigation
                   key={product.id}
                   id={product.id}

@@ -11,7 +11,7 @@ import * as Styles from './styles';
 function OrganizationSelector() {
   const { organizationList, setCurrentOrganization, currentOrganization } = useOrganizationContext();
 
-  const [selectedOrganization, setSelectedOrganization] = useState<number>(0);
+  const [selectedOrganization, setSelectedOrganization] = useState<number>();
 
   const handleChange = (event: SelectChangeEvent) => {
     setSelectedOrganization(event.target.value);
@@ -24,13 +24,13 @@ function OrganizationSelector() {
   }, [organizationList]);
 
   useEffect(() => {
-    setCurrentOrganization(organizationList[selectedOrganization]);
+    if (selectedOrganization !== undefined) setCurrentOrganization(organizationList[selectedOrganization]);
   }, [selectedOrganization]);
 
   return (
     <Box mt="64px" display="flex" alignItems="center">
       <BusinessIcon />
-      <Styles.DropDown value={selectedOrganization} onChange={handleChange}>
+      <Styles.DropDown value={selectedOrganization || 0} onChange={handleChange}>
         {organizationList?.map((organization, id) => (
           <MenuItem value={id} key={organization.id}>
             {organization.name}

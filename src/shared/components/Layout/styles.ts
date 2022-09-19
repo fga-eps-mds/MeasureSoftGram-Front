@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-import { Container } from '@mui/material';
-
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -17,7 +15,8 @@ export const ContentWrapper = styled.div`
   background-color: #fafafa;
 `;
 
-export const ContentContainer = styled(Container)`
+export const ContentContainer = styled.div`
   margin-left: 318px;
+  width: 100%;
   padding: 0;
 `;
