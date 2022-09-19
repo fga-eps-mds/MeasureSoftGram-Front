@@ -8,8 +8,10 @@ import GraphicStackedLine from '@components/GraphicStackedLine';
 import { NextPageWithLayout } from '@pages/_app.next';
 
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
-import { useQuery as useQueryProduct } from '../hooks/useQuery';
 
+import Skeleton from './components/Skeleton';
+
+import { useQuery as useQueryProduct } from '../hooks/useQuery';
 import { useQuery } from './hooks/useQuery';
 
 import * as Styles from './styles';
@@ -41,10 +43,21 @@ const Repository: NextPageWithLayout = () => {
     setFilterSubCharacteristics({ ...filterSubCharacteristics, options: subCharacteristics });
   }, [characteristics, subCharacteristics]);
 
+  const isArrayEmpty = (array: Array<any>) => array.length === 0;
+
+  if (
+    isArrayEmpty(repositoryHistoricalCharacteristics) ||
+    isArrayEmpty(filterCharacteristics.options) ||
+    isArrayEmpty(filterSubCharacteristics.options) ||
+    !currentRepository ||
+    !repositoryHistoricalSqc
+  ) {
+    return <Skeleton />;
+  }
   return (
     <Box display="flex" width="100%" flexDirection="row">
       <Styles.FilterBackground>
-        <Box display="flex" paddingX="15px" flexDirection="column" marginTop="36px">
+        <Box display="flex" paddingX="15px" flexDirection="column" marginTop="36px" position="fixed">
           {[filterCharacteristics, filterSubCharacteristics].map((filter) => (
             <Filters
               key={filter.filterTitle}
