@@ -40,13 +40,17 @@ Object {
                 role="button"
                 tabindex="0"
               >
-                fga-eps-mds
+                <span
+                  class="notranslate"
+                >
+                  ​
+                </span>
               </div>
               <input
                 aria-hidden="true"
                 class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
                 tabindex="-1"
-                value="fga-eps-mds"
+                value="0"
               />
               <svg
                 aria-hidden="true"
@@ -119,35 +123,6 @@ Object {
                   class="MuiTypography-root MuiTypography-button css-r0272g-MuiTypography-root"
                 >
                   Produtos
-                </span>
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
-              </button>
-            </li>
-            <li
-              class="styles__Li-sc-15dt1da-2 cEZKrY"
-            >
-              <button
-                class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-fullWidth MuiButtonBase-root styles__NavButton-sc-15dt1da-4 eYJtOH css-10vjzfb-MuiButtonBase-root-MuiButton-root"
-                tabindex="0"
-                type="button"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                  data-testid="AccountTreeIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M22 11V3h-7v3H9V3H2v8h7V8h2v10h4v3h7v-8h-7v3h-2V8h2v3z"
-                  />
-                </svg>
-                <span
-                  class="MuiTypography-root MuiTypography-button css-r0272g-MuiTypography-root"
-                >
-                  Repositórios
                 </span>
                 <span
                   class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
@@ -242,13 +217,17 @@ Object {
               role="button"
               tabindex="0"
             >
-              fga-eps-mds
+              <span
+                class="notranslate"
+              >
+                ​
+              </span>
             </div>
             <input
               aria-hidden="true"
               class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
               tabindex="-1"
-              value="fga-eps-mds"
+              value="0"
             />
             <svg
               aria-hidden="true"
@@ -321,35 +300,6 @@ Object {
                 class="MuiTypography-root MuiTypography-button css-r0272g-MuiTypography-root"
               >
                 Produtos
-              </span>
-              <span
-                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-              />
-            </button>
-          </li>
-          <li
-            class="styles__Li-sc-15dt1da-2 cEZKrY"
-          >
-            <button
-              class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-fullWidth MuiButtonBase-root styles__NavButton-sc-15dt1da-4 eYJtOH css-10vjzfb-MuiButtonBase-root-MuiButton-root"
-              tabindex="0"
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                data-testid="AccountTreeIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M22 11V3h-7v3H9V3H2v8h7V8h2v10h4v3h7v-8h-7v3h-2V8h2v3z"
-                />
-              </svg>
-              <span
-                class="MuiTypography-root MuiTypography-button css-r0272g-MuiTypography-root"
-              >
-                Repositórios
               </span>
               <span
                 class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
