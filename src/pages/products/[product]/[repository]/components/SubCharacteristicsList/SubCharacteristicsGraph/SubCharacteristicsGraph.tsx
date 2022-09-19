@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { formatRelative } from 'date-fns';
+import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
 import { TableCell, TableRow, Collapse } from '@mui/material';
@@ -29,7 +29,7 @@ function SubCharacteristicsGraph({ SQC, checkedOptions, subCharacteristics }: Pr
         <TableCell>
           {open ? <ArrowCircleDownIcon aria-label="expand row" /> : <ArrowCircleRightIcon aria-label="expand row" />}
         </TableCell>
-        <TableCell align="right">{formatRelative(new Date(createdAt), new Date(), { locale: ptBR })}</TableCell>
+        <TableCell align="right">{format(new Date(createdAt), 'dd/MM/yyyy HH:MM', { locale: ptBR })}</TableCell>
         <TableCell align="right">{value.toFixed(2)}</TableCell>
       </TableRow>
       <TableRow>
