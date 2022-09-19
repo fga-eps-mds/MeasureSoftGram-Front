@@ -87,11 +87,7 @@ export const useQuery = () => {
 
   async function loadRepository(repositoryId: string) {
     try {
-<<<<<<< HEAD
-      const { data } = await repository.getRepository('1', currentProduct?.id || 1, repositoryId);
-=======
-      const { data } = await repository.getRepository('1', currentProduct?.id || '3', repositoryId);
->>>>>>> 6a28cea (Create repository list)
+      const { data } = await repository.getRepository('1', currentProduct?.id || '1', repositoryId);
 
       setCurrentRepository(data);
     } catch (error) {

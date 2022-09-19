@@ -26,7 +26,9 @@ interface Prop {
 
 function SubCharacteristicsTable({ checkedOptions }: Prop) {
   const { repositoryHistoricalSubCharacteristics } = useQuery();
-  const { historicalSQC } = useRepositoryContext();
+  const {
+    historicalSQC: { history }
+  } = useRepositoryContext();
   const [page, setPage] = useState(0);
 
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
@@ -44,19 +46,22 @@ function SubCharacteristicsTable({ checkedOptions }: Prop) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {historicalSQC.history.slice(page * 5, page * 5 + 5)?.map((SQC) => (
-            <SubCharacteristicsGraph
-              SQC={SQC}
-              checkedOptions={checkedOptions}
-              subCharacteristics={repositoryHistoricalSubCharacteristics}
-              key={SQC.id}
-            />
-          ))}
+          {[...history]
+            .reverse()
+            .slice(page * 5, page * 5 + 5)
+            ?.map((SQC) => (
+              <SubCharacteristicsGraph
+                SQC={SQC}
+                checkedOptions={checkedOptions}
+                subCharacteristics={repositoryHistoricalSubCharacteristics}
+                key={SQC.id}
+              />
+            ))}
         </TableBody>
         <TableFooter>
           <TableRow>
             <TablePagination
-              count={historicalSQC.history.length}
+              count={history.length}
               rowsPerPage={5}
               page={page}
               onPageChange={handleChangePage}
