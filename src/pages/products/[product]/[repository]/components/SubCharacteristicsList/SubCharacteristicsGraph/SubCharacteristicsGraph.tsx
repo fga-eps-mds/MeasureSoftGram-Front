@@ -21,7 +21,7 @@ interface Props {
 
 function SubCharacteristicsGraph({ SQC, checkedOptions, subCharacteristics }: Props) {
   const [open, setOpen] = useState(false);
-  const { value, created_at } = SQC;
+  const { value, created_at: createdAt } = SQC;
 
   return (
     <>
@@ -29,7 +29,7 @@ function SubCharacteristicsGraph({ SQC, checkedOptions, subCharacteristics }: Pr
         <TableCell>
           {open ? <ArrowCircleDownIcon aria-label="expand row" /> : <ArrowCircleRightIcon aria-label="expand row" />}
         </TableCell>
-        <TableCell align="right">{formatRelative(new Date(created_at), new Date(), { locale: ptBR })}</TableCell>
+        <TableCell align="right">{formatRelative(new Date(createdAt), new Date(), { locale: ptBR })}</TableCell>
         <TableCell align="right">{value.toFixed(2)}</TableCell>
       </TableRow>
       <TableRow>
@@ -39,7 +39,7 @@ function SubCharacteristicsGraph({ SQC, checkedOptions, subCharacteristics }: Pr
               historical={subCharacteristics}
               checkedOptions={checkedOptions}
               title="Sub-Caracteríticas"
-              selected={(item: Date) => created_at === item}
+              selected={(item: Date) => createdAt === item}
             />
           </Collapse>
         </TableCell>
