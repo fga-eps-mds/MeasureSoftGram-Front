@@ -1,5 +1,4 @@
 import { RepositoriesSqcHistory } from '@customTypes/product';
-import { format } from 'date-fns';
 
 const formatTwoDecimalPlaces = (value: number) => Math.round(value * 100) / 100;
 
@@ -12,7 +11,7 @@ const formatRepositoriesSqcHistory = (history: RepositoriesSqcHistory) => {
     return {
       name: item.name,
       data: item.history.map((metric) => [
-        format(new Date(metric.created_at), 'dd/MM/yyyy HH:MM'),
+        new Date(metric.created_at).getTime(),
         formatTwoDecimalPlaces(metric.value)
       ]),
       type: 'line',
@@ -59,7 +58,7 @@ const formatRepositoriesSqcHistory = (history: RepositoriesSqcHistory) => {
       }
     ],
     xAxis: {
-      type: 'category',
+      type: 'time',
       axisLine: { onZero: false }
     },
     yAxis: {
