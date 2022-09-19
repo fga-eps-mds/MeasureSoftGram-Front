@@ -18,9 +18,11 @@ interface ConfigPageProps {
   isOpen: boolean;
   onClose: Function;
   repoName?: string;
+  organizationId: string;
+  productId: string;
 }
 
-const ConfigPage = ({ isOpen, onClose, repoName = '' }: ConfigPageProps) => {
+const ConfigPage = ({ isOpen, onClose, repoName = '', organizationId, productId }: ConfigPageProps) => {
   const request = useQuery();
 
   const [data, setData] = useState(request?.data.characteristics);
@@ -78,9 +80,11 @@ const ConfigPage = ({ isOpen, onClose, repoName = '' }: ConfigPageProps) => {
     })) as Characteristic[];
 
     setShowAlert(true);
-    productQuery.postPreConfig('1', '1', { name: repoName, data: { characteristics: finalData } }).catch(() => {
-      setError(true);
-    });
+    productQuery
+      .postPreConfig(organizationId, productId, { name: repoName, data: { characteristics: finalData } })
+      .catch(() => {
+        setError(true);
+      });
   };
 
   const renderNextOrEndButton = (): ButtonType => {

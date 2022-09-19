@@ -42,6 +42,15 @@ const Products: NextPageWithLayout = () => {
     setAnchorEl(null);
   };
 
+  const getOrganizationId = (product?: Product) => {
+    if (product) {
+      const url = product.organization[0];
+      const urlArray = url.split('/');
+      return urlArray.at(-2);
+    }
+    return '-1';
+  };
+
   if (!productsList) {
     return (
       <Container>
@@ -56,7 +65,13 @@ const Products: NextPageWithLayout = () => {
         <title> Site do MeasureSoftGram </title>
       </Head>
       <Container>
-        <ConfigPage isOpen={openConfig} onClose={setOpenConfig} repoName={selectedProduct?.name} />
+        <ConfigPage
+          isOpen={openConfig}
+          onClose={setOpenConfig}
+          repoName={selectedProduct?.name}
+          productId={selectedProduct?.id ?? '-1'}
+          organizationId={getOrganizationId(selectedProduct)}
+        />
         <Box display="flex" flexDirection="column">
           <Box display="flex" marginTop="40px" marginBottom="36px">
             <Typography variant="h4" marginRight="10px">
