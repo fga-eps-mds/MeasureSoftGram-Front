@@ -1,5 +1,4 @@
 /* eslint-disable class-methods-use-this */
-import { Historical } from '@customTypes/repository';
 import api from './api';
 
 interface HistoricalCharacteristicsProps {
@@ -9,12 +8,12 @@ interface HistoricalCharacteristicsProps {
   entity: string;
 }
 
-class Repository {
+class SubCharacteristics {
   getRepository(organizationId: string, productId: string, repositoryId: string) {
     return api.get(`organizations/${organizationId}/products/${productId}/repositories/${repositoryId}/`);
   }
 
-  getHistorical(props: HistoricalCharacteristicsProps) {
+  getHistoricalCharacteristics(props: HistoricalCharacteristicsProps) {
     const { organizationId, entity, productId, repositoryId } = props;
     return api.get(
       `organizations/${organizationId}` +
@@ -24,5 +23,5 @@ class Repository {
   }
 }
 
-export const repository = new Repository();
-Object.freeze(repository);
+export const subCharacteristics = new SubCharacteristics();
+Object.freeze(subCharacteristics);

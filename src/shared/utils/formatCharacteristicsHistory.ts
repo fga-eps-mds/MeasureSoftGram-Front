@@ -1,4 +1,4 @@
-import { Historical } from '@customTypes/respository';
+import { Historical } from '@customTypes/repository';
 
 interface OptionCheckedProps {
   [key: string]: boolean;
@@ -7,10 +7,12 @@ interface OptionCheckedProps {
 interface Props {
   historical?: Historical[];
   checkedOptions: OptionCheckedProps;
+  title: string;
+  selected?: (any) => boolean;
 }
 
-const formatCharacteristicsHistory = ({ historical, checkedOptions }: Props) => {
-  if (!historical || historical.length === 0 || historical.filter((h) => h.key.includes('SQC')).length === 0) return {};
+const formatCharacteristicsHistory = ({ historical, checkedOptions, title, selected }: Props) => {
+  if (!historical || historical.length === 0) return {};
 
   const newHistorical = historical.filter((h) => {
     if (h && h.history) return h;
@@ -18,25 +20,29 @@ const formatCharacteristicsHistory = ({ historical, checkedOptions }: Props) => 
   });
 
   const legendData = newHistorical.map((h) => (checkedOptions[h.key] || h.key.includes('SQC') ? h.name : null));
-  const series = newHistorical
-    .map((h) => ({
-      name: h.name,
-      type: 'line',
-      data: checkedOptions[h.key] || h.key.includes('SQC') ? h.history.map(({ value }) => value.toFixed(3)) : null,
-      lineStyle: {
-        width: h.key.includes('SQC') ? 5 : 2
-      }
-    }))
-    .reverse();
+  const series = newHistorical.map((h) => ({
+    name: h.name,
+    type: 'line',
+    data:
+      (checkedOptions[h.key] || h.key.includes('SQC')) &&
+      h.history.map(({ value, created_at }) => ({
+        value: value.toFixed(3),
+        itemStyle: {
+          color: selected && selected(created_at) ? 'red' : null
+        }
+      })),
+    lineStyle: {
+      width: h.key.includes('SQC') ? 5 : 2
+    }
+  }));
 
   const dates = newHistorical
     .filter((h) => checkedOptions[h.key] || h.key.includes('SQC'))
-    .map((h) => h.history.map(({ created_at: createdAt }) => new Date(createdAt).toLocaleDateString('pt-BR')))[0]
-    .reverse();
+    .map((h) => h.history.map(({ created_at: createdAt }) => new Date(createdAt).toLocaleDateString('pt-BR')))[0];
 
   return {
     title: {
-      text: 'Características'
+      text: title
     },
     tooltip: {
       trigger: 'axis'
@@ -51,6 +57,7 @@ const formatCharacteristicsHistory = ({ historical, checkedOptions }: Props) => 
       containLabel: true
     },
     toolbox: {
+      show: true,
       feature: {
         saveAsImage: {}
       }
@@ -58,12 +65,12 @@ const formatCharacteristicsHistory = ({ historical, checkedOptions }: Props) => 
     dataZoom: [
       {
         type: 'inside',
-        start: dates.length - 20,
-        end: dates.length - 1
+        start: 0,
+        end: 200
       },
       {
-        start: dates.length - 20,
-        end: dates.length - 1
+        start: 0,
+        end: 200
       }
     ],
     xAxis: {
