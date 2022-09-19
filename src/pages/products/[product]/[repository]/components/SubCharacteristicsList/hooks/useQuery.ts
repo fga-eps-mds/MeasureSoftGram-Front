@@ -7,9 +7,11 @@ import { repository } from '@services/repository';
 
 import { getPathId } from '@utils/pathDestructer';
 import { Historical } from '@customTypes/repository';
+import { useOrganizationContext } from '@contexts/OrganizationProvider';
 
 export const useQuery = () => {
   const { currentProduct } = useProductContext();
+  const { currentOrganization } = useOrganizationContext();
 
   const [repositoryHistoricalSubCharacteristics, setRepositoryHistoricalSubCharacteristics] = useState<Historical[]>(
     []
@@ -17,11 +19,11 @@ export const useQuery = () => {
 
   const { query } = useRouter();
 
-  async function loadHistoricalSubCharacteristics(repositoryId: string) {
+  async function loadHistoricalSubCharacteristics(organizationId: string, productId: string, repositoryId: string) {
     try {
       const result = await repository.getHistorical({
-        organizationId: '1',
-        productId: currentProduct?.id,
+        organizationId,
+        productId,
         repositoryId,
         entity: 'subcharacteristics'
       });
@@ -34,9 +36,10 @@ export const useQuery = () => {
 
   useEffect(() => {
     if (query?.repository && currentProduct) {
-      const repositoryId = getPathId(query?.repository as string);
+      const [organizationId, productId] = getPathId(query?.product as string);
+      const [repositoryId] = getPathId(query?.repository as string);
 
-      loadHistoricalSubCharacteristics(repositoryId);
+      loadHistoricalSubCharacteristics(organizationId, productId, repositoryId);
     }
   }, [query?.repository, currentProduct]);
 

@@ -26,6 +26,7 @@ interface Prop {
 
 function SubCharacteristicsTable({ checkedOptions }: Prop) {
   const { repositoryHistoricalSubCharacteristics } = useQuery();
+
   const {
     historicalSQC: { history }
   } = useRepositoryContext();

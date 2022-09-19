@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
-import { useProductContext } from '@contexts/ProductProvider';
 
 import { repository } from '@services/repository';
 import { productQuery } from '@services/product';
@@ -16,8 +14,6 @@ import { LARGE_PRIME_NUMBER } from './const';
 
 export const useQuery = () => {
   const { setCurrentRepository, setCharacteristics, setSubCharacteristics, setHistoricalSQC } = useRepositoryContext();
-  const { currentProduct } = useProductContext();
-  const { currentOrganization } = useOrganizationContext();
 
   const [repositoryHistoricalCharacteristics, setRepositoryHistoricalCharacteristics] = useState<Historical[]>([]);
   const [checkedOptionsFormat, setCheckedOptions] = useState({});
@@ -39,26 +35,24 @@ export const useQuery = () => {
     return map;
   }
 
-  async function loadRepositorySupportedEntities() {
+  async function loadRepositorySupportedEntities(organizationId: string, productId: string) {
     try {
-      if (currentProduct) {
-        const result = await productQuery.getPreConfigEntitiesRelationship(currentOrganization.id, currentProduct.id);
-        const [characteristics, subCharacteristics] = formatEntitiesFilter(result.data);
+      const result = await productQuery.getPreConfigEntitiesRelationship(organizationId, productId);
+      const [characteristics, subCharacteristics] = formatEntitiesFilter(result.data);
 
-        setCharacteristics(characteristics);
-        setSubCharacteristics(subCharacteristics);
-        setCheckedOptions(formatCheckedOptions(characteristics, subCharacteristics));
-      }
+      setCharacteristics(characteristics);
+      setSubCharacteristics(subCharacteristics);
+      setCheckedOptions(formatCheckedOptions(characteristics, subCharacteristics));
     } catch (error) {
       console.error(error);
     }
   }
 
-  async function loadHistoricalCharacteristics(repositoryId: string) {
+  async function loadHistoricalCharacteristics(organizationId: string, productId: string, repositoryId: string) {
     try {
       const result = await repository.getHistorical({
-        organizationId: currentOrganization.id,
-        productId: currentProduct?.id,
+        organizationId,
+        productId,
         repositoryId,
         entity: 'characteristics'
       });
@@ -69,14 +63,14 @@ export const useQuery = () => {
     }
   }
 
-  async function loadHistoricalSqc(repositoryId: string) {
+  async function loadHistoricalSqc(organizationId: string, productId: string, repositoryId: string) {
     try {
       const id = Math.round(Math.random() * LARGE_PRIME_NUMBER);
       const {
         data: { results }
       } = await repository.getHistorical({
-        organizationId: currentOrganization.id,
-        productId: currentProduct?.id,
+        organizationId,
+        productId,
         repositoryId,
         entity: 'sqc'
       });
@@ -87,13 +81,9 @@ export const useQuery = () => {
     }
   }
 
-  async function loadRepository(repositoryId: string) {
+  async function loadRepository(organizationId: string, productId: string, repositoryId: string) {
     try {
-      const { data } = await repository.getRepository(
-        currentOrganization.id,
-        currentProduct?.id || currentOrganization.id,
-        repositoryId
-      );
+      const { data } = await repository.getRepository(organizationId, productId, repositoryId);
 
       setCurrentRepository(data);
     } catch (error) {
@@ -101,13 +91,13 @@ export const useQuery = () => {
     }
   }
 
-  async function loadRepositoryInfo(repositoryId: string) {
+  async function loadRepositoryInfo(organizationId: string, productId: string, repositoryId: string) {
     try {
       await Promise.all([
-        loadRepository(repositoryId),
-        loadHistoricalSqc(repositoryId),
-        loadRepositorySupportedEntities(),
-        loadHistoricalCharacteristics(repositoryId)
+        loadRepository(organizationId, productId, repositoryId),
+        loadHistoricalSqc(organizationId, productId, repositoryId),
+        loadRepositorySupportedEntities(organizationId, productId),
+        loadHistoricalCharacteristics(organizationId, productId, repositoryId)
       ]).then();
     } catch (error) {
       console.error(error);
@@ -115,12 +105,13 @@ export const useQuery = () => {
   }
 
   useEffect(() => {
-    if (query?.repository && currentProduct) {
+    if (query?.repository) {
+      const [organizationId, productId] = getPathId(query?.product as string);
       const [repositoryId] = getPathId(query?.repository as string);
 
-      loadRepositoryInfo(repositoryId);
+      loadRepositoryInfo(organizationId, productId, repositoryId);
     }
-  }, [query?.repository, currentProduct]);
+  }, [query?.repository]);
 
   return { repositoryHistoricalCharacteristics, checkedOptionsFormat };
 };

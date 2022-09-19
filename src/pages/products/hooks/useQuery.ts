@@ -35,7 +35,6 @@ export const useQuery = () => {
   }, []);
 
   useEffect(() => {
-    console.log(currentOrganization);
     if (currentOrganization) {
       loadAllProducts();
     }
