@@ -10,6 +10,7 @@ import { NextPageWithLayout } from '@pages/_app.next';
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
 
 import Skeleton from './components/Skeleton';
+import SubCharacteristicsList from './components/SubCharacteristicsList';
 
 import { useQuery as useQueryProduct } from '../hooks/useQuery';
 import { useQuery } from './hooks/useQuery';
@@ -24,8 +25,8 @@ interface FilterProps {
 const Repository: NextPageWithLayout = () => {
   useQueryProduct();
 
-  const { repositoryHistoricalCharacteristics, repositoryHistoricalSqc, checkedOptionsFormat } = useQuery();
-  const { characteristics, subCharacteristics, currentRepository } = useRepositoryContext();
+  const { repositoryHistoricalCharacteristics, checkedOptionsFormat } = useQuery();
+  const { characteristics, subCharacteristics, currentRepository, historicalSQC } = useRepositoryContext();
 
   const [filterCharacteristics, setFilterCharacteristics] = useState<FilterProps>({
     filterTitle: 'CARACTERÍSTICAS',
@@ -39,6 +40,10 @@ const Repository: NextPageWithLayout = () => {
   const [checkedOptions, setCheckedOptions] = useState(checkedOptionsFormat);
 
   useEffect(() => {
+    setCheckedOptions(checkedOptionsFormat);
+  }, [checkedOptionsFormat]);
+
+  useEffect(() => {
     setFilterCharacteristics({ ...filterCharacteristics, options: characteristics });
     setFilterSubCharacteristics({ ...filterSubCharacteristics, options: subCharacteristics });
   }, [characteristics, subCharacteristics]);
@@ -50,10 +55,11 @@ const Repository: NextPageWithLayout = () => {
     isArrayEmpty(filterCharacteristics.options) ||
     isArrayEmpty(filterSubCharacteristics.options) ||
     !currentRepository ||
-    !repositoryHistoricalSqc
+    !historicalSQC
   ) {
     return <Skeleton />;
   }
+
   return (
     <Box display="flex" width="100%" flexDirection="row">
       <Styles.FilterBackground>
@@ -70,33 +76,40 @@ const Repository: NextPageWithLayout = () => {
         </Box>
       </Styles.FilterBackground>
 
-      <Container>
-        <Box display="flex" flexDirection="column" width="100%">
-          <Box marginTop="40px" marginBottom="36px">
-            <Box display="flex">
-              <Typography variant="h4" marginRight="10px">
-                Repositório
-              </Typography>
-              <Typography variant="h4" fontWeight="300">
-                {currentRepository?.name}
-              </Typography>
+      <Box width="100%">
+        <Box marginBottom="42px">
+          <Container>
+            <Box display="flex" flexDirection="column" width="100%">
+              <Box marginTop="40px" marginBottom="36px">
+                <Box display="flex">
+                  <Typography variant="h4" marginRight="10px">
+                    Repositório
+                  </Typography>
+                  <Typography variant="h4" fontWeight="300">
+                    {currentRepository?.name}
+                  </Typography>
+                </Box>
+
+                <Typography variant="caption" color="gray">
+                  {currentRepository?.description}
+                </Typography>
+              </Box>
+
+              {historicalSQC &&
+                repositoryHistoricalCharacteristics &&
+                repositoryHistoricalCharacteristics.length !== 0 && (
+                  <GraphicStackedLine
+                    historical={repositoryHistoricalCharacteristics.concat(historicalSQC)}
+                    checkedOptions={checkedOptions}
+                    title="Características"
+                  />
+                )}
             </Box>
-
-            <Typography variant="caption" color="gray">
-              {currentRepository?.description}
-            </Typography>
-          </Box>
-
-          {repositoryHistoricalSqc &&
-            repositoryHistoricalCharacteristics &&
-            repositoryHistoricalCharacteristics.length !== 0 && (
-              <GraphicStackedLine
-                historical={repositoryHistoricalCharacteristics.concat(repositoryHistoricalSqc)}
-                checkedOptions={checkedOptions}
-              />
-            )}
+          </Container>
         </Box>
-      </Container>
+
+        <SubCharacteristicsList checkedOptions={checkedOptions} />
+      </Box>
     </Box>
   );
 };
