@@ -19,7 +19,7 @@ const GraphicRepositoriesSqcHistory = ({ history }: Props) => {
 
   return (
     <Styles.GraphicContainer>
-      <ReactEcharts option={formatedOptions} style={{ height: '700px', width: '100%' }} />
+      <ReactEcharts option={formatedOptions} style={{ height: '450px', width: '100%' }} />
     </Styles.GraphicContainer>
   );
 };

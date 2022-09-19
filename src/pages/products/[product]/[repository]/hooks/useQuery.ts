@@ -55,7 +55,7 @@ export const useQuery = () => {
     try {
       const obj = {
         organizationId: 1,
-        productId: currentProduct?.id || 1,
+        productId: currentProduct?.id || 3,
         repositoryId,
         entity: 'characteristics'
       };
@@ -72,7 +72,7 @@ export const useQuery = () => {
       const id = Math.round(Math.random() * LARGE_PRIME_NUMBER);
       const {
         data: { results }
-      } = await repository.getSqcHistory('1', currentProduct?.id || 1, repositoryId);
+      } = await repository.getSqcHistory('1', currentProduct?.id || 3, repositoryId);
 
       setRepositoryHistoricalSqc({ id, key: 'SQC', name: 'SQC', history: results });
     } catch (error) {
@@ -82,7 +82,7 @@ export const useQuery = () => {
 
   async function loadRepository(repositoryId: number) {
     try {
-      const { data } = await repository.getRepository('1', currentProduct?.id || 1, repositoryId);
+      const { data } = await repository.getRepository('1', currentProduct?.id || 3, repositoryId);
 
       setCurrentRepository(data);
     } catch (error) {

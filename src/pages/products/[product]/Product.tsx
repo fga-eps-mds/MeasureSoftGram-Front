@@ -16,7 +16,7 @@ const Product: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>PRODUCT NAME</title>
+        <title>MeasureSoftGram - Product</title>
       </Head>
 
       <ProductContent repositoriesSqcHistory={repositoriesSqcHistory} />
