@@ -72,7 +72,7 @@ const ProductContent: React.FC<Props> = ({ repositoriesSqcHistory }) => {
       <CreateRelease
         open={openCreateRelease}
         handleClose={() => setOpenCreateRelease(false)}
-        productId={3}
+        productId={1}
         organizationId={1}
       />
     </Container>

@@ -7,7 +7,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import * as Styles from './styles';
 
 function OrganizationSelector() {
-  const [organization, setOrganization] = useState('MeasureSoftGram');
+  const [organization, setOrganization] = useState('fga-eps-mds');
 
   const handleChange = (event: SelectChangeEvent) => {
     setOrganization(event.target.value as string);
@@ -17,7 +17,7 @@ function OrganizationSelector() {
     <Box mt="64px" display="flex" alignItems="center">
       <BusinessIcon />
       <Styles.DropDown value={organization} onChange={handleChange}>
-        <MenuItem value="MeasureSoftGram">MeasureSoftGram</MenuItem>
+        <MenuItem value="fga-eps-mds">fga-eps-mds</MenuItem>
       </Styles.DropDown>
       <IconButton disabled>
         <AddCircleIcon />
