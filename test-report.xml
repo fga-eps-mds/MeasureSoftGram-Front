@@ -1,39 +1,39 @@
 <testExecutions version="1">
 <file path="src/pages/createRelease/components/Equalizer/tests/Equalizer.spec.tsx">
-<testCase name="&lt;Equalizer /&gt; Snapshot Deve corresponder ao Snapshot" duration="38" />
-<testCase name="&lt;Equalizer /&gt; Comportamento Deve chamar onChange ao movimnetar o slider" duration="13" />
-</file>
-<file path="src/shared/components/Layout/tests/Layout.spec.tsx">
-<testCase name="&lt;Layout /&gt; Snapshot Deve corresponder ao Snapshot" duration="109" />
+<testCase name="&lt;Equalizer /&gt; Snapshot Deve corresponder ao Snapshot" duration="47" />
+<testCase name="&lt;Equalizer /&gt; Comportamento Deve chamar onChange ao movimnetar o slider" duration="20" />
 </file>
 <file path="src/pages/preConfig/components/ConfigsForm/test/ConfigsForm.spec.tsx">
-<testCase name="&lt;ConfigsForm /&gt; Snapshot Deve corresponder ao Snapshot de characteristic" duration="99" />
-<testCase name="&lt;ConfigsForm /&gt; Snapshot Deve corresponder ao Snapshot de subcharacteristic" duration="21" />
-<testCase name="&lt;ConfigsForm /&gt; Snapshot Deve corresponder ao Snapshot de measure" duration="26" />
+<testCase name="&lt;ConfigsForm /&gt; Snapshot Deve corresponder ao Snapshot de characteristic" duration="105" />
+<testCase name="&lt;ConfigsForm /&gt; Snapshot Deve corresponder ao Snapshot de subcharacteristic" duration="34" />
+<testCase name="&lt;ConfigsForm /&gt; Snapshot Deve corresponder ao Snapshot de measure" duration="28" />
 </file>
-<file path="src/pages/preConfig/components/PreConfigSliders/tests/PreConfigSliders.spec.tsx">
-<testCase name="&lt;PreConfigSliders /&gt; Snapshot Deve corresponder ao Snapshot" duration="53" />
-</file>
-<file path="src/pages/createRelease/components/EqualizerSingleSlider/tests/EqualizerSingleSlider.spec.tsx">
-<testCase name="&lt;EqualizerSingleSlider /&gt; Snapshot Deve corresponder ao Snapshot" duration="22" />
-<testCase name="&lt;EqualizerSingleSlider /&gt; Comportamento Deve chamar onChange ao movimnetar o slider" duration="8" />
-</file>
-<file path="src/shared/components/DrawerMenu/tests/DrawerMenu.spec.tsx">
-<testCase name="&lt;DrawerMenu /&gt; Snapshot Deve corresponder ao Snapshot" duration="40" />
-<testCase name="&lt;DrawerMenu /&gt; Snapshot Deve corresponder ao Snapshot com bot&#xF5;es" duration="23" />
-<testCase name="&lt;DrawerMenu /&gt; Snapshot Deve corresponder ao Snapshot com componente fechado" duration="2" />
-<testCase name="&lt;DrawerMenu /&gt; Comportamento Bot&#xE3;o dentro do DrawerMenu deve ser clicavel" duration="8" />
-</file>
-<file path="src/pages/preConfig/components/PreConfigTabs/tests/PreConfigTabs.spec.tsx">
-<testCase name="&lt;PreConfigTabs /&gt; Snapshot Deve corresponder ao Snapshot" duration="32" />
+<file path="src/shared/components/Layout/tests/Layout.spec.tsx">
+<testCase name="&lt;Layout /&gt; Snapshot Deve corresponder ao Snapshot" duration="141" />
 </file>
 <file path="src/shared/components/CheckboxButton/tests/CheckboxButton.spec.tsx">
-<testCase name="&lt;CheckboxButton /&gt; Snapshot Deve corresponder ao Snapshot com bot&#xE3;o true" duration="21" />
-<testCase name="&lt;CheckboxButton /&gt; Snapshot Deve corresponder ao Snapshot com bot&#xE3;o false" duration="8" />
-<testCase name="&lt;CheckboxButton /&gt; Comportamento Deve corresponder ao Snapshot com bot&#xE3;o false" duration="7" />
+<testCase name="&lt;CheckboxButton /&gt; Snapshot Deve corresponder ao Snapshot com bot&#xE3;o true" duration="33" />
+<testCase name="&lt;CheckboxButton /&gt; Snapshot Deve corresponder ao Snapshot com bot&#xE3;o false" duration="17" />
+<testCase name="&lt;CheckboxButton /&gt; Comportamento Deve corresponder ao Snapshot com bot&#xE3;o false" duration="14" />
+</file>
+<file path="src/pages/preConfig/components/PreConfigTabs/tests/PreConfigTabs.spec.tsx">
+<testCase name="&lt;PreConfigTabs /&gt; Snapshot Deve corresponder ao Snapshot" duration="45" />
+</file>
+<file path="src/shared/components/DrawerMenu/tests/DrawerMenu.spec.tsx">
+<testCase name="&lt;DrawerMenu /&gt; Snapshot Deve corresponder ao Snapshot" duration="61" />
+<testCase name="&lt;DrawerMenu /&gt; Snapshot Deve corresponder ao Snapshot com bot&#xF5;es" duration="32" />
+<testCase name="&lt;DrawerMenu /&gt; Snapshot Deve corresponder ao Snapshot com componente fechado" duration="4" />
+<testCase name="&lt;DrawerMenu /&gt; Comportamento Bot&#xE3;o dentro do DrawerMenu deve ser clicavel" duration="14" />
+</file>
+<file path="src/pages/createRelease/components/EqualizerSingleSlider/tests/EqualizerSingleSlider.spec.tsx">
+<testCase name="&lt;EqualizerSingleSlider /&gt; Snapshot Deve corresponder ao Snapshot" duration="42" />
+<testCase name="&lt;EqualizerSingleSlider /&gt; Comportamento Deve chamar onChange ao movimnetar o slider" duration="13" />
+</file>
+<file path="src/pages/preConfig/components/PreConfigSliders/tests/PreConfigSliders.spec.tsx">
+<testCase name="&lt;PreConfigSliders /&gt; Snapshot Deve corresponder ao Snapshot" duration="100" />
 </file>
 <file path="src/shared/components/CardNavigation/tests/CardNavigation.spec.tsx">
-<testCase name="&lt;CardNavigation /&gt; Snapshot Deve corresponder ao Snapshot" duration="32" />
-<testCase name="&lt;CardNavigation /&gt; Comportamento Deve executar a a&#xE7;&#xE3;o de clique" duration="28" />
+<testCase name="&lt;CardNavigation /&gt; Snapshot Deve corresponder ao Snapshot" duration="37" />
+<testCase name="&lt;CardNavigation /&gt; Comportamento Deve executar a a&#xE7;&#xE3;o de clique" duration="31" />
 </file>
 </testExecutions>
