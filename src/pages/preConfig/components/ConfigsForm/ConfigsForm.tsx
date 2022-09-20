@@ -37,7 +37,7 @@ const ConfigForm = ({
   tabs
 }: PreConfigTypes) => {
   const [tabValue, setTabValue] = useState<string>('');
-  const [limiters, setLimiters] = useState<[limiterType] | []>([]);
+  const [limiters, setLimiters] = useState<limiterType[]>([]);
 
   useEffect(() => {
     if (limiters) setLimiters([]);
@@ -60,13 +60,14 @@ const ConfigForm = ({
     setIsValuesValid(minimalValueToFinish === totalValue);
   }, [limiters, checkboxValues, tabs, setIsValuesValid, data]);
 
-  const keyGetter = (objectArray: [limiterType] | []) => objectArray.map((object) => object.data.key);
+  const keyGetter = (objectArray: limiterType[]) => objectArray.map((object) => object.data.key);
 
   const weightArrayHandler = (key: string, weight: number) => {
+    const newLimiters = limiters;
     const index = keyGetter(limiters).indexOf(key);
-    limiters[index].data.weight = weight;
+    newLimiters[index].data.weight = weight;
 
-    setLimiters(limiters);
+    setLimiters(newLimiters);
   };
 
   const setWeight = (key: string, tabName?: string) => (event: any) => {
@@ -124,7 +125,8 @@ const ConfigForm = ({
               const index = keyGetter(limiters).indexOf(value.key);
               if (!(index < 0)) {
                 limiters.splice(index, 1);
-                setLimiters(limiters);
+                const newLimiterValue = limiters;
+                setLimiters(newLimiterValue);
               }
             }}
           />
@@ -147,8 +149,9 @@ const ConfigForm = ({
       const tabName = previousValue?.key;
 
       if (keyGetter(limiters).indexOf(value.key) < 0) {
-        limiters.push({ tabName, data: { key: value.key, weight: value.weight } } as limiterType as never);
-        setLimiters(limiters);
+        const sliderValue: limiterType = { tabName, data: { key: value.key, weight: value.weight } };
+        const newLimiterValue: limiterType[] = [...limiters, sliderValue];
+        setLimiters(newLimiterValue);
       }
 
       return (

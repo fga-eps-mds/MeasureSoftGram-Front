@@ -33,6 +33,9 @@ function ReleaseInfo() {
             onChange={(e) => {
               handleChangeForm('name', e.target.value);
             }}
+            inputProps={{
+              "data-testid": "apelido-release",
+            }}
             fullWidth
           />
 
@@ -46,6 +49,9 @@ function ReleaseInfo() {
               onChange={(e) => {
                 handleChangeForm('startDate', e.target.value);
               }}
+              inputProps={{
+                "data-testid": "inicio-release",
+              }}
               sx={{ flex: 1 }}
             />
 
@@ -56,6 +62,9 @@ function ReleaseInfo() {
               value={endDate}
               onChange={(e) => {
                 handleChangeForm('endDate', e.target.value);
+              }}
+              inputProps={{
+                "data-testid": "fim-release",
               }}
               sx={{ flex: 1 }}
             />
@@ -69,7 +78,17 @@ function ReleaseInfo() {
             {preConfigCharacteristics.map((item) => (
               <FormControlLabel
                 key={item}
-                control={<Checkbox value={item} name={item} id={item} checked={characteristics?.includes(item)} />}
+                control={
+                  <Checkbox
+                    value={item}
+                    name={item}
+                    id={item}
+                    checked={characteristics?.includes(item)}
+                    inputProps={{
+                      "data-testid": "characteristic-release",
+                    }}
+                  />
+                }
                 label={undelineRemover(item)}
               />
             ))}

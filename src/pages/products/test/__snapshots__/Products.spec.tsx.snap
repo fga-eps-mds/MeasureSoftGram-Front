@@ -1,41 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<PreConfigSliders /> Snapshot Deve corresponder ao Snapshot 1`] = `
+exports[`Products Snapshot Deve corresponder ao Snapshot 1`] = `
 Object {
   "asFragment": [Function],
   "baseElement": <body>
     <div>
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-zow5z4-MuiGrid-root"
+        class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3 css-12qstyp-MuiGrid-root"
+          class="MuiBox-root css-j7qwjs"
         >
-          <p
-            class="MuiTypography-root MuiTypography-body1 css-1v2d8t3-MuiTypography-root"
+          <div
+            class="MuiBox-root css-f13xwn"
           >
-            <strong>
-              SLIDER
-            </strong>
-          </p>
-        </div>
-        <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
-        >
-          <input
-            data-testid="CONFIG_SLIDER_TEST_ID"
-            value="100"
-          />
-        </div>
-        <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-1equabv-MuiGrid-root"
-        >
-          <input
-            data-testid="CONFIG_INPUT_TEST_ID"
-            inputprops="[object Object]"
-            sx="[object Object]"
-            value="100"
-            variant="standard"
+            <h4
+              class="MuiTypography-root MuiTypography-h4 css-obdthj-MuiTypography-root"
+            >
+              Hi
+            </h4>
+            <h4
+              class="MuiTypography-root MuiTypography-h4 css-1yvpk5c-MuiTypography-root"
+            >
+              User
+            </h4>
+          </div>
+          <div
+            class="MuiBox-root css-2imjyh"
           />
         </div>
       </div>
@@ -43,36 +34,27 @@ Object {
   </body>,
   "container": <div>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-zow5z4-MuiGrid-root"
+      class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
     >
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3 css-12qstyp-MuiGrid-root"
+        class="MuiBox-root css-j7qwjs"
       >
-        <p
-          class="MuiTypography-root MuiTypography-body1 css-1v2d8t3-MuiTypography-root"
+        <div
+          class="MuiBox-root css-f13xwn"
         >
-          <strong>
-            SLIDER
-          </strong>
-        </p>
-      </div>
-      <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
-      >
-        <input
-          data-testid="CONFIG_SLIDER_TEST_ID"
-          value="100"
-        />
-      </div>
-      <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-1equabv-MuiGrid-root"
-      >
-        <input
-          data-testid="CONFIG_INPUT_TEST_ID"
-          inputprops="[object Object]"
-          sx="[object Object]"
-          value="100"
-          variant="standard"
+          <h4
+            class="MuiTypography-root MuiTypography-h4 css-obdthj-MuiTypography-root"
+          >
+            Hi
+          </h4>
+          <h4
+            class="MuiTypography-root MuiTypography-h4 css-1yvpk5c-MuiTypography-root"
+          >
+            User
+          </h4>
+        </div>
+        <div
+          class="MuiBox-root css-2imjyh"
         />
       </div>
     </div>

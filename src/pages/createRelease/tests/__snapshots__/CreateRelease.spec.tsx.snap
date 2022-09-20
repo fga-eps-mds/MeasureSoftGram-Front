@@ -1,0 +1,139 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CreateRelease /> Snapshot Deve corresponder ao Snapshot 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body
+    style="padding-right: 1024px; overflow: hidden;"
+  >
+    <div
+      aria-hidden="true"
+    />
+    <div
+      class="MuiDrawer-root MuiDrawer-modal MuiModal-root css-1u2w381-MuiModal-root-MuiDrawer-root"
+      role="presentation"
+    >
+      <div
+        aria-hidden="true"
+        class="MuiBackdrop-root css-i9fmh8-MuiBackdrop-root-MuiModal-backdrop"
+        style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+      />
+      <div
+        data-test="sentinelStart"
+        tabindex="0"
+      />
+      <div
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation16 MuiDrawer-paper MuiDrawer-paperAnchorRight css-1160xiw-MuiPaper-root-MuiDrawer-paper"
+        tabindex="-1"
+      >
+        <div
+          class="MuiBox-root css-1m45ylu"
+        >
+          <div
+            class="styles__ScrollDiv-sc-1casz44-0 eTyGvR"
+          >
+            <div
+              class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
+            >
+              <div
+                class="MuiBox-root css-0"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  style="width: 300px; height: 64px;"
+                />
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  style="width: 600px; height: 32px;"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiBox-root css-1yuhvjn"
+          >
+            <button
+              class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root  css-1mxmpgj-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
+              type="button"
+            >
+              Voltar
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+            <button
+              class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root  css-1bjby6n-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
+              type="button"
+            >
+              Continuar
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        data-test="sentinelEnd"
+        tabindex="0"
+      />
+    </div>
+  </body>,
+  "container": <div
+    aria-hidden="true"
+  />,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

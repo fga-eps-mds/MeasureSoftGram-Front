@@ -1,4 +1,3 @@
-/* eslint-disable react/no-array-index-key */
 import React, { useState } from 'react';
 import { ExpandCircleDown, ExpandCircleDownOutlined } from '@mui/icons-material';
 import { Checkbox } from '@mui/material';
@@ -36,7 +35,7 @@ const Filters: React.FC<FiltersProps> = ({ filterTitle, options = [], updateOpti
         <Styles.OptionContainer display="flex" flexDirection="column">
           {options.map((option) => (
             <Styles.Option key={option} display="flex" flexDirection="row" alignItems="center">
-              <Checkbox onChange={() => handleUpdate(option)} checked={checkedOptions[option]} />
+              <Checkbox data-testid={option} onClick={() => handleUpdate(option)} checked={checkedOptions[option]} />
               <span>{option[0].toUpperCase() + option.slice(1).replace('_', ' ')}</span>
             </Styles.Option>
           ))}

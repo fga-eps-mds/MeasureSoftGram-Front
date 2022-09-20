@@ -1,41 +1,41 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<PreConfigSliders /> Snapshot Deve corresponder ao Snapshot 1`] = `
+exports[`<ReleaseGoals /> Snapshot Deve corresponder ao Snapshot 1`] = `
 Object {
   "asFragment": [Function],
   "baseElement": <body>
     <div>
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-zow5z4-MuiGrid-root"
+        class="styles__Header-sc-15quhu7-0 dsjdCx"
       >
-        <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3 css-12qstyp-MuiGrid-root"
-        >
-          <p
-            class="MuiTypography-root MuiTypography-body1 css-1v2d8t3-MuiTypography-root"
-          >
-            <strong>
-              SLIDER
-            </strong>
+        <h1>
+          Balancear a Meta de Qualidade
+        </h1>
+        <p>
+          Mini explicação como funciona as metas da release (Configuração das caracteristicas, valor de uma caracteristica pode influenciar em outra, etc)
+        </p>
+      </div>
+      <div
+        class="styles__Body-sc-15quhu7-1 fsQjbk"
+      >
+        <div>
+          <strong>
+            asdasd
+          </strong>
+          <p>
+            2022-09-18
+             - 
+            2022-09-25
           </p>
         </div>
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
+          class="MuiBox-root css-ckc6o3"
         >
-          <input
-            data-testid="CONFIG_SLIDER_TEST_ID"
-            value="100"
+          <div
+            class="MuiBox-root css-t0lfuy"
           />
-        </div>
-        <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-1equabv-MuiGrid-root"
-        >
-          <input
-            data-testid="CONFIG_INPUT_TEST_ID"
-            inputprops="[object Object]"
-            sx="[object Object]"
-            value="100"
-            variant="standard"
+          <div
+            class="styles__Labels-sc-1fexhzx-0 kyDTDD"
           />
         </div>
       </div>
@@ -43,36 +43,36 @@ Object {
   </body>,
   "container": <div>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-zow5z4-MuiGrid-root"
+      class="styles__Header-sc-15quhu7-0 dsjdCx"
     >
-      <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3 css-12qstyp-MuiGrid-root"
-      >
-        <p
-          class="MuiTypography-root MuiTypography-body1 css-1v2d8t3-MuiTypography-root"
-        >
-          <strong>
-            SLIDER
-          </strong>
+      <h1>
+        Balancear a Meta de Qualidade
+      </h1>
+      <p>
+        Mini explicação como funciona as metas da release (Configuração das caracteristicas, valor de uma caracteristica pode influenciar em outra, etc)
+      </p>
+    </div>
+    <div
+      class="styles__Body-sc-15quhu7-1 fsQjbk"
+    >
+      <div>
+        <strong>
+          asdasd
+        </strong>
+        <p>
+          2022-09-18
+           - 
+          2022-09-25
         </p>
       </div>
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
+        class="MuiBox-root css-ckc6o3"
       >
-        <input
-          data-testid="CONFIG_SLIDER_TEST_ID"
-          value="100"
+        <div
+          class="MuiBox-root css-t0lfuy"
         />
-      </div>
-      <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-1equabv-MuiGrid-root"
-      >
-        <input
-          data-testid="CONFIG_INPUT_TEST_ID"
-          inputprops="[object Object]"
-          sx="[object Object]"
-          value="100"
-          variant="standard"
+        <div
+          class="styles__Labels-sc-1fexhzx-0 kyDTDD"
         />
       </div>
     </div>

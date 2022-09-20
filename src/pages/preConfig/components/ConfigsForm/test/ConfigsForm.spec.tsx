@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 
 import React from 'react';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 
 import ConfigsForm from '../ConfigsForm';
 import mockedData from '../../../utils/mockedData.json';
@@ -63,6 +63,42 @@ describe('<ConfigsForm />', () => {
         />
       );
       expect(tree).toMatchSnapshot();
+    });
+  });
+
+  describe('Comportamento', () => {
+    it('Deve chamar setCheckboxValues', () => {
+      const setCheckboxValues = jest.fn();
+
+      const { getByText, rerender } = render(
+        <ConfigsForm
+          type="characteristic"
+          setCheckboxValues={setCheckboxValues}
+          onChange={jest.fn()}
+          setIsValuesValid={jest.fn()}
+          subtitle={SUBTITLE_TEST}
+          checkboxValues={CHECKBOX_VALUES_CHAR}
+          data={DATA}
+        />
+      );
+      const button = getByText('reliability');
+      fireEvent.click(button);
+
+      expect(setCheckboxValues).toBeCalled();
+
+      rerender(
+        <ConfigsForm
+          type="characteristic"
+          setCheckboxValues={setCheckboxValues}
+          onChange={jest.fn()}
+          setIsValuesValid={jest.fn()}
+          subtitle={SUBTITLE_TEST}
+          checkboxValues={[CHECKBOX_VALUES_CHAR[1]]}
+          data={DATA}
+        />
+      );
+      fireEvent.click(button);
+      expect(setCheckboxValues).toBeCalledTimes(2);
     });
   });
 });
