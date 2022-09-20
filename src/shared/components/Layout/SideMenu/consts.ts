@@ -1,5 +1,5 @@
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
-import AccountTreeIcon from '@mui/icons-material/AccountTree';
+// import AccountTreeIcon from '@mui/icons-material/AccountTree';
 
 export const HEADER = {
   VALUES: {
@@ -9,13 +9,13 @@ export const HEADER = {
         path: '/',
         permission: ['', 'products'],
         icon: ContentPasteIcon
-      },
-      {
-        name: 'Repositórios',
-        path: '/repositories',
-        permission: ['repositories'],
-        icon: AccountTreeIcon
       }
+      // {
+      //   name: 'Repositórios',
+      //   path: '/repositories',
+      //   permission: ['repositories'],
+      //   icon: AccountTreeIcon
+      // }
     ],
     IMAGE_SOURCE: '/images/svg/logo.svg'
   }

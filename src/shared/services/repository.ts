@@ -1,31 +1,26 @@
 /* eslint-disable class-methods-use-this */
-import * as sqcHistorical from '@customTypes/sqcHistorical';
+import { Historical } from '@customTypes/repository';
 import api from './api';
 
 interface HistoricalCharacteristicsProps {
-  organizationId: number;
-  productId: number | undefined;
-  repositoryId: number | undefined;
+  organizationId: string;
+  productId: string | undefined;
+  repositoryId: string | undefined;
   entity: string;
 }
 
 class Repository {
-  getRepository(organizationId: string, productId: number, repositoryId: number) {
+  getRepository(organizationId: string, productId: string, repositoryId: string) {
     return api.get(`organizations/${organizationId}/products/${productId}/repositories/${repositoryId}/`);
   }
 
-  getHistoricalCharacteristics(props: HistoricalCharacteristicsProps) {
+  getHistorical(props: HistoricalCharacteristicsProps) {
     const { organizationId, entity, productId, repositoryId } = props;
     return api.get(
       `organizations/${organizationId}` +
         `/products/${productId}/repositories/${repositoryId}` +
         `/historical-values/${entity}/`
     );
-  }
-
-  getSqcHistory(organizationId: string, productId: string | number, repositoryId: number | undefined) {
-    const url = `organizations/${organizationId}/products/${productId}/repositories/${repositoryId}/historical-values/sqc/`;
-    return api.get<sqcHistorical.RootObject>(url);
   }
 }
 

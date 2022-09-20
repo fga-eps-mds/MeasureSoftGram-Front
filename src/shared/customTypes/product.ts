@@ -23,7 +23,7 @@ export interface MeasuresHistory {
 }
 
 export interface Product {
-  id: number;
+  id: string;
   name: string;
   description: string;
   github_url: string;

@@ -7,7 +7,7 @@ import { ChevronRight } from '@mui/icons-material';
 import * as Styles from './styles';
 
 interface Props {
-  id: number;
+  id: string;
   name: string;
   url: string;
 }

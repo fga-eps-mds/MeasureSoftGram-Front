@@ -1,29 +1,19 @@
 import { RepositoriesSqcHistory } from '@customTypes/product';
-import { format } from 'date-fns';
-
-const longestHistoryMetricsIndex = (sqcHistoryResults: RepositoriesSqcHistory['results']) =>
-  sqcHistoryResults.reduce((prevIndex, historyResult, currentIndex) => {
-    const previousMetricHistoryLength = sqcHistoryResults[prevIndex].history.length;
-    const currentMetricHistoryLength = historyResult.history.length;
-
-    return currentMetricHistoryLength > previousMetricHistoryLength ? currentIndex : prevIndex;
-  }, 0);
 
 const formatTwoDecimalPlaces = (value: number) => Math.round(value * 100) / 100;
 
 const formatRepositoriesSqcHistory = (history: RepositoriesSqcHistory) => {
   const legendData: string[] = [];
 
-  const xAxisData = history.results[longestHistoryMetricsIndex(history.results)].history.map((metric) =>
-    format(new Date(metric.created_at.replace(/\s+/g, '')), 'dd/MM/yyyy HH:MM')
-  );
-
   const series = history.results.map((item) => {
     legendData.push(item.name);
 
     return {
       name: item.name,
-      data: item.history.map((metric) => formatTwoDecimalPlaces(metric.value)),
+      data: item.history.map((metric) => [
+        new Date(metric.created_at).getTime(),
+        formatTwoDecimalPlaces(metric.value)
+      ]),
       type: 'line',
       animationDuration: 1200
     };
@@ -59,23 +49,23 @@ const formatRepositoriesSqcHistory = (history: RepositoriesSqcHistory) => {
     dataZoom: [
       {
         type: 'inside',
-        start: xAxisData.length - 20,
-        end: xAxisData.length - 1
+        start: 0,
+        end: 2000
       },
       {
-        start: xAxisData.length - 20,
-        end: xAxisData.length - 1
+        start: 0,
+        end: 2000
       }
     ],
     xAxis: {
-      type: 'category',
-      data: xAxisData,
-      axisLabel: {
-        rotate: 45
-      }
+      type: 'time',
+      axisLine: { onZero: false }
     },
     yAxis: {
-      type: 'value'
+      type: 'value',
+      axisLine: { onZero: false },
+      min: 0,
+      max: 1
     },
     series
   };

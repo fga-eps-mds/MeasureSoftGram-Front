@@ -11,6 +11,10 @@ import { Data } from '@customTypes/preConfig';
 import api from './api';
 
 class ProductQuery {
+  async getAllProducts(organizationId: string) {
+    return api.get(`/organizations/${organizationId}/products/`);
+  }
+
   async getProductById(organizationId: string, id: string) {
     return api.get(`/organizations/${organizationId}/products/${id}/`);
   }

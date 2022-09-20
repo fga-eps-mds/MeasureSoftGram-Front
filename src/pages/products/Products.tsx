@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
 
 import { Box, Container, IconButton, Menu, MenuItem, Typography } from '@mui/material';
@@ -8,19 +8,25 @@ import { NextPageWithLayout } from '@pages/_app.next';
 import ConfigPage from '@pages/preConfig/ConfigPage';
 
 import { useProductContext } from '@contexts/ProductProvider';
+import { useOrganizationContext } from '@contexts/OrganizationProvider';
 
 import getLayout from '@components/Layout';
 import CardNavigation from '@components/CardNavigation';
 
 import { Product } from '@customTypes/product';
+
 import Skeleton from './components/Skeleton';
+import { useQuery } from './hooks/useQuery';
 
 const Products: NextPageWithLayout = () => {
+  useQuery();
+
+  const { currentOrganization } = useOrganizationContext();
   const [openConfig, setOpenConfig] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedProduct, setSelectedProduct] = useState<Product>();
 
-  const { updateProductList, productsList } = useProductContext();
+  const { productsList } = useProductContext();
 
   const openMenu = Boolean(anchorEl);
 
@@ -38,18 +44,14 @@ const Products: NextPageWithLayout = () => {
     setAnchorEl(null);
   };
 
-  useEffect(() => {
-    updateProductList([
-      {
-        id: 3,
-        description: 'MSG',
-        name: 'MeasureSoftGram',
-        github_url: 'google.com',
-        created_at: '',
-        updated_at: ''
-      }
-    ]);
-  }, []);
+  const getOrganizationId = (product?: Product) => {
+    if (product) {
+      const url = product.organization[0];
+      const urlArray = url.split('/');
+      return urlArray.at(-2);
+    }
+    return '-1';
+  };
 
   if (!productsList) {
     return (
@@ -62,10 +64,16 @@ const Products: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>MeasureSoftGram - Produtos</title>
+        <title> Site do MeasureSoftGram </title>
       </Head>
       <Container>
-        <ConfigPage isOpen={openConfig} onClose={setOpenConfig} repoName={selectedProduct?.name} />
+        <ConfigPage
+          isOpen={openConfig}
+          onClose={setOpenConfig}
+          repoName={selectedProduct?.name}
+          productId={selectedProduct?.id ?? '-1'}
+          organizationId={getOrganizationId(selectedProduct)}
+        />
         <Box display="flex" flexDirection="column">
           <Box display="flex" marginTop="40px" marginBottom="36px">
             <Typography variant="h4" marginRight="10px">
@@ -76,14 +84,14 @@ const Products: NextPageWithLayout = () => {
             </Typography>
           </Box>
 
-          <Box display="flex">
+          <Box display="flex" flexWrap="wrap">
             {productsList?.map((product) => (
-              <div key={product.id} style={{ display: 'flex', flexDirection: 'row' }}>
+              <Box key={product.id} display="flex" flexDirection="row" paddingRight="20px" paddingBottom="20px">
                 <CardNavigation
                   key={product.id}
                   id={product.id}
                   name={product.name}
-                  url={`/products/${product.id}-${product.name}`}
+                  url={`/products/${currentOrganization.id}-${product.id}-${product.name}`}
                 />
 
                 <IconButton color="primary" onClick={handleOpenMenu}>
@@ -101,7 +109,7 @@ const Products: NextPageWithLayout = () => {
                 >
                   <MenuItem onClick={() => handleOpenConfig(product)}>Definir pré configurações</MenuItem>
                 </Menu>
-              </div>
+              </Box>
             ))}
           </Box>
         </Box>

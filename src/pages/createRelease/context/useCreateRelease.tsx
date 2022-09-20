@@ -45,8 +45,8 @@ export function CreateReleaseProvider({ children, productId, organizationId }: C
 
   async function loadCurrentPreConfig() {
     try {
-      const result = await productQuery.getProductCurrentPreConfig(organizationId, productId);
-      setPreConfigCharacteristics(result.data.data.characteristics.map((item) => item.key));
+      const result = await productQuery.getPreConfigEntitiesRelationship(organizationId, productId);
+      setPreConfigCharacteristics(result.data.map((item) => item.key));
     } catch (error) {
       console.error(error);
     }

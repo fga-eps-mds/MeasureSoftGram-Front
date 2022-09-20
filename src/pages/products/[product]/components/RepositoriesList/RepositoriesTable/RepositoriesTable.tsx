@@ -6,14 +6,16 @@ import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
 import { useProductContext } from '@contexts/ProductProvider';
+import { useOrganizationContext } from '@contexts/OrganizationProvider';
 
 function RepositoriesTable() {
   const { currentProduct } = useProductContext();
+  const { currentOrganization } = useOrganizationContext();
   const { repositoryList } = useRepositoryContext();
   const router = useRouter();
 
   const handleClickCell = (path: string) => {
-    router.push(`${currentProduct?.id}-${currentProduct?.name}/${path}`);
+    router.push(`${currentOrganization.id}-${currentProduct?.id}-${currentProduct?.name}/${path}`);
   };
 
   return (

@@ -23,7 +23,7 @@
     "@types/lodash": "^4.14.185",
     "@types/styled-components": "^5.1.25",
     "axios": "^0.27.2",
-    "date-fns": "^2.28.0",
+    "date-fns": "^2.29.3",
     "echarts": "^5.3.3",
     "echarts-for-react": "^3.0.2",
     "eslint-plugin-jest": "^26.6.0",

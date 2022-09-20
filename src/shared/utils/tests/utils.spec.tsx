@@ -1,10 +1,9 @@
 import { MeasuresHistoryResult, RepositoriesSqcHistory } from '@customTypes/product';
 import capitalizer from '@utils/capitalizer';
-import formatCharacteristicsHistory, { FormatCharacteristicsHistoryType } from '@utils/formatCharacteristicsHistory';
+import formatCharacteristicsHistory from '@utils/formatCharacteristicsHistory';
 import formatEntitiesFilter, { FormatEntitiesFilterType } from '@utils/formatEntitiesFilter';
 import formatMeasuresHistoryChartData from '@utils/formatMeasuresHistory';
 import formatRepositoriesSqcHistory from '@utils/formatRepositoriesSqcHistory';
-import getCharacteristicsWithBalanceMatrix from '@utils/getCharacteristicsWithBalanceMatrix';
 import { getPathId } from '@utils/pathDestructer';
 import undelineRemover from '@utils/undelineRemover';
 
@@ -27,17 +26,17 @@ const SQC_HISTORY_MOCKED: RepositoriesSqcHistory = {
 };
 const EXPECTED_SQC_GRAPH = {
   dataZoom: [
-    { end: 0, start: -19, type: 'inside' },
-    { end: 0, start: -19 }
+    { end: 2000, start: 0, type: 'inside' },
+    { end: 2000, start: 0 }
   ],
   grid: { bottom: '12%', containLabel: true, left: '3%', right: '4%', top: '25%' },
   legend: { data: ['SQC_NAME', 'SQC_NAME'], top: 40 },
-  series: [{ animationDuration: 1200, data: [50], name: 'SQC_NAME', type: 'line' }],
+  series: [{ animationDuration: 1200, data: [[1662409994000, 50]], name: 'SQC_NAME', type: 'line' }],
   title: { text: 'Comportamento observado do produto' },
   toolbox: { feature: { dataZoom: { yAxisIndex: 'none' }, restore: {}, saveAsImage: {} } },
   tooltip: { trigger: 'axis' },
-  xAxis: { axisLabel: { rotate: 45 }, data: ['05/09/2022 17:09'], type: 'category' },
-  yAxis: { type: 'value' }
+  xAxis: { axisLine: { onZero: false }, type: 'time' },
+  yAxis: { axisLine: { onZero: false }, max: 1, min: 0, type: 'value' }
 };
 
 const FILTER_CONST: FormatEntitiesFilterType = [
@@ -74,20 +73,20 @@ const CHARACTERISTICS_HISTORY = [
 
 const CHARACTERISTIC_EXPECTED = {
   dataZoom: [
-    { end: 0, start: -19, type: 'inside' },
-    { end: 0, start: -19 }
+    { end: 200, start: 0, type: 'inside' },
+    { end: 200, start: 0 }
   ],
   grid: { bottom: '17%', containLabel: true, left: '3%', right: '4%' },
   legend: { data: ['Name', null, 'Name'] },
   series: [
-    { data: ['50.000'], lineStyle: { width: 2 }, name: 'Name', type: 'line' },
-    { data: null, lineStyle: { width: 2 }, name: 'Name', type: 'line' },
-    { data: ['50.000'], lineStyle: { width: 5 }, name: 'Name', type: 'line' }
+    { data: [{ itemStyle: { color: null }, value: '50.000' }], lineStyle: { width: 5 }, name: 'Name', type: 'line' },
+    { data: false, lineStyle: { width: 2 }, name: 'Name', type: 'line' },
+    { data: [{ itemStyle: { color: null }, value: '50.000' }], lineStyle: { width: 2 }, name: 'Name', type: 'line' }
   ],
-  title: { text: 'Características' },
-  toolbox: { feature: { saveAsImage: {} } },
+  title: { text: undefined },
+  toolbox: { feature: { saveAsImage: {} }, show: true },
   tooltip: { trigger: 'axis' },
-  xAxis: { boundaryGap: false, data: ['05/09/2022'], type: 'category' },
+  xAxis: { boundaryGap: false, data: ['2022-9-5'], type: 'category' },
   yAxis: { minInterval: 0.1, scale: true, type: 'value' }
 };
 
@@ -129,12 +128,12 @@ describe('Utils', () => {
     describe('getPathId', () => {
       it('Deve pegar o ID do nome do projeto', () => {
         const projectName = '3-MSG';
-        expect(getPathId(projectName)).toBe('3');
+        expect(getPathId(projectName)).toStrictEqual(['3', 'MSG']);
       });
     });
   });
   describe('formatRepositoriesSqcHistory', () => {
-    it('Deve formatar valores do grafico corretamente', () => {
+    it('Deve formatar valores do grafico SQC corretamente', () => {
       const graph = formatRepositoriesSqcHistory(SQC_HISTORY_MOCKED);
       expect(graph).toMatchObject(EXPECTED_SQC_GRAPH);
     });
@@ -146,7 +145,7 @@ describe('Utils', () => {
     });
   });
   describe('formatCharacteristicsHistory', () => {
-    it('Deve formatar valores do grafico corretamente', () => {
+    it('Deve formatar valores do grafico historico de caracteristicas corretamente', () => {
       const values = formatCharacteristicsHistory({
         historical: CHARACTERISTICS_HISTORY,
         checkedOptions: { Teste1: false, Teste2: true }
@@ -156,7 +155,7 @@ describe('Utils', () => {
     });
   });
   describe('formatMeasuresHistory', () => {
-    it('Deve formatar valores do grafico corretamente', () => {
+    it('Deve formatar valores do grafico de caracteristicas corretamente', () => {
       const values = formatMeasuresHistoryChartData([MEASURE_MOCKED]);
       expect(values).toMatchObject(MEASURE_GRAPH);
     });
