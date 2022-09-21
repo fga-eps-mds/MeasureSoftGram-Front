@@ -7,11 +7,9 @@ import { repository } from '@services/repository';
 
 import { getPathId } from '@utils/pathDestructer';
 import { Historical } from '@customTypes/repository';
-import { useOrganizationContext } from '@contexts/OrganizationProvider';
 
 export const useQuery = () => {
   const { currentProduct } = useProductContext();
-  const { currentOrganization } = useOrganizationContext();
 
   const [repositoryHistoricalSubCharacteristics, setRepositoryHistoricalSubCharacteristics] = useState<Historical[]>(
     []
