@@ -14,7 +14,7 @@ const SQC_HISTORY_MOCKED: RepositoriesSqcHistory = {
   count: 1,
   results: [
     {
-      history: [{ created_at: '2022-09-05T17:33:14-03:00', value: 50, id: 1 }],
+      history: [{ created_at: '2022-09-05T17:33:14', value: 50, id: 1 }],
       id: 1,
       url: 'URL',
       name: 'SQC_NAME',
@@ -55,19 +55,19 @@ const CHARACTERISTICS_HISTORY = [
     id: 1,
     key: 'SQC',
     name: 'Name',
-    history: [{ created_at: '2022-09-05T17:33:14-03:00', id: 1, value: 50 }]
+    history: [{ created_at: '2022-09-05T17:33:14', id: 1, value: 50 }]
   },
   {
     id: 2,
     key: 'Teste1',
     name: 'Name',
-    history: [{ created_at: '2022-09-05T17:33:14-03:00', id: 1, value: 50 }]
+    history: [{ created_at: '2022-09-05T17:33:14', id: 1, value: 50 }]
   },
   {
     id: 3,
     key: 'Teste2',
     name: 'Name',
-    history: [{ created_at: '2022-09-05T17:33:14-03:00', id: 1, value: 50 }]
+    history: [{ created_at: '2022-09-05T17:33:14', id: 1, value: 50 }]
   }
 ];
 
@@ -92,7 +92,7 @@ const CHARACTERISTIC_EXPECTED = {
 
 const MEASURE_MOCKED: MeasuresHistoryResult = {
   description: 'teste',
-  history: [{ created_at: '2022-09-05T17:33:14-03:00', value: 50, measure_id: 1, id: 1 }],
+  history: [{ created_at: '2022-09-05T17:33:14', value: 50, measure_id: 1, id: 1 }],
   id: 1,
   key: 'Teste',
   name: 'Medida Teste'

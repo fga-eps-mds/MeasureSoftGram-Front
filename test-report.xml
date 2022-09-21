@@ -1,106 +1,106 @@
 <testExecutions version="1">
+<file path="src/pages/createRelease/tests/CreateRelease.spec.tsx">
+<testCase name="&lt;CreateRelease /&gt; Snapshot Deve corresponder ao Snapshot" duration="322" />
+</file>
 <file path="src/pages/products/[product]/[repository]/components/SubCharacteristicsList/SubCharacteristicsTable/test/SubCharacteristicsTable.spec.tsx">
-<testCase name="&lt;SubCharacteristicsTable Snapshot Deve corresponder ao Snapshot" duration="187" />
+<testCase name="&lt;SubCharacteristicsTable Snapshot Deve corresponder ao Snapshot" duration="164" />
 </file>
 <file path="src/pages/products/[product]/tests/Product.spec.tsx">
-<testCase name="Product Snapshot Deve corresponder ao Snapshot" duration="84" />
-</file>
-<file path="src/pages/createRelease/tests/CreateRelease.spec.tsx">
-<testCase name="&lt;CreateRelease /&gt; Snapshot Deve corresponder ao Snapshot" duration="307" />
-</file>
-<file path="src/shared/components/Layout/tests/Layout.spec.tsx">
-<testCase name="&lt;Layout /&gt; Snapshot Deve corresponder ao Snapshot" duration="245" />
-</file>
-<file path="src/pages/products/[product]/[repository]/components/SubCharacteristicsList/SubCharacteristicsGraph/tests/SubCharacteristicGraph.spec.tsx">
-<testCase name="&lt;SubCharacteristicsGraph /&gt; Snapshot Deve corresponder ao Snapshot" duration="146" />
-<testCase name="&lt;SubCharacteristicsGraph /&gt; Comportamento Deve corresponder ao Snapshot" duration="26" />
-</file>
-<file path="src/pages/preConfig/components/ConfigsForm/test/ConfigsForm.spec.tsx">
-<testCase name="&lt;ConfigsForm /&gt; Snapshot Deve corresponder ao Snapshot de characteristic" duration="224" />
-<testCase name="&lt;ConfigsForm /&gt; Snapshot Deve corresponder ao Snapshot de subcharacteristic" duration="72" />
-<testCase name="&lt;ConfigsForm /&gt; Snapshot Deve corresponder ao Snapshot de measure" duration="83" />
-<testCase name="&lt;ConfigsForm /&gt; Comportamento Deve chamar setCheckboxValues" duration="99" />
-</file>
-<file path="src/pages/products/components/Skeleton/test/Skeleton.spec.tsx">
-<testCase name="Skeleton Snapshot Deve corresponder ao Snapshot" duration="47" />
-</file>
-<file path="src/shared/components/CheckboxButton/tests/CheckboxButton.spec.tsx">
-<testCase name="&lt;CheckboxButton /&gt; Snapshot Deve corresponder ao Snapshot com bot&#xE3;o true" duration="46" />
-<testCase name="&lt;CheckboxButton /&gt; Snapshot Deve corresponder ao Snapshot com bot&#xE3;o false" duration="40" />
-<testCase name="&lt;CheckboxButton /&gt; Comportamento Deve corresponder ao Snapshot com bot&#xE3;o false" duration="17" />
-</file>
-<file path="src/pages/preConfig/tests/ConfigPage.spec.tsx">
-<testCase name="&lt;ConfigPage /&gt; Snapshot Deve corresponder ao Snapshot" duration="384" />
-</file>
-<file path="src/pages/createRelease/components/ReleaseInfo/tests/ReleaseInfo.spec.tsx">
-<testCase name="&lt;ReleaseInfo /&gt; Snapshot Deve corresponder ao Snapshot" duration="286" />
-<testCase name="&lt;ReleaseInfo /&gt; Comportamento Deve preencher campos do formulario" duration="56" />
-</file>
-<file path="src/pages/createRelease/components/ReleaseGoals/tests/ReleaseGoals.spec.tsx">
-<testCase name="&lt;ReleaseGoals /&gt; Snapshot Deve corresponder ao Snapshot" duration="46" />
-</file>
-<file path="src/pages/createRelease/components/Equalizer/tests/Equalizer.spec.tsx">
-<testCase name="&lt;Equalizer /&gt; Snapshot Deve corresponder ao Snapshot" duration="81" />
-<testCase name="&lt;Equalizer /&gt; Comportamento Deve chamar onChange ao movimnetar o slider" duration="35" />
-</file>
-<file path="src/shared/components/CardNavigation/tests/CardNavigation.spec.tsx">
-<testCase name="&lt;CardNavigation /&gt; Snapshot Deve corresponder ao Snapshot" duration="119" />
-<testCase name="&lt;CardNavigation /&gt; Comportamento Deve executar a a&#xE7;&#xE3;o de clique" duration="78" />
-</file>
-<file path="src/pages/products/test/Products.spec.tsx">
-<testCase name="Products Snapshot Deve corresponder ao Snapshot" duration="156" />
-</file>
-<file path="src/shared/components/Filters/tests/Filters.spec.tsx">
-<testCase name="&lt;Filter /&gt; Snapshot Deve corresponder ao Snapshot" duration="138" />
-<testCase name="&lt;Filter /&gt; Comportamento Deve chamar updateOptions ao selecionar novo checkbox" duration="40" />
-</file>
-<file path="src/pages/products/[product]/[repository]/tests/Repository.spec.tsx">
-<testCase name="Repository Snapshot Deve corresponder ao Snapshot" duration="158" />
-</file>
-<file path="src/shared/components/DrawerMenu/tests/DrawerMenu.spec.tsx">
-<testCase name="&lt;DrawerMenu /&gt; Snapshot Deve corresponder ao Snapshot" duration="94" />
-<testCase name="&lt;DrawerMenu /&gt; Snapshot Deve corresponder ao Snapshot com bot&#xF5;es" duration="46" />
-<testCase name="&lt;DrawerMenu /&gt; Snapshot Deve corresponder ao Snapshot com componente fechado" duration="4" />
-<testCase name="&lt;DrawerMenu /&gt; Comportamento Bot&#xE3;o dentro do DrawerMenu deve ser clicavel" duration="29" />
-</file>
-<file path="src/pages/createRelease/context/tests/CreateReleaseProvider.spec.tsx">
-<testCase name="&lt;CreateReleaseProvider /&gt; Snapshot Deve corresponder ao Snapshot" duration="105" />
-<testCase name="&lt;CreateReleaseProvider /&gt; Comportamento Deve resetar estados" duration="19" />
-</file>
-<file path="src/pages/products/[product]/components/RepositoriesList/RepositoriesTable/test/Repositoriestable.spec.tsx">
-<testCase name="RepositoriesTable Snapshot Deve corresponder ao Snapshot" duration="67" />
+<testCase name="Product Snapshot Deve corresponder ao Snapshot" duration="94" />
 </file>
 <file path="src/pages/preConfig/components/PreConfigSliders/tests/PreConfigSliders.spec.tsx">
-<testCase name="&lt;PreConfigSliders /&gt; Snapshot Deve corresponder ao Snapshot" duration="102" />
-<testCase name="&lt;PreConfigSliders /&gt; Comportamento Deve alterar valor ao arrastar slider" duration="11" />
-<testCase name="&lt;PreConfigSliders /&gt; Comportamento Deve alterar valor no input" duration="8" />
+<testCase name="&lt;PreConfigSliders /&gt; Snapshot Deve corresponder ao Snapshot" duration="97" />
+<testCase name="&lt;PreConfigSliders /&gt; Comportamento Deve alterar valor ao arrastar slider" duration="18" />
+<testCase name="&lt;PreConfigSliders /&gt; Comportamento Deve alterar valor no input" duration="11" />
+</file>
+<file path="src/pages/preConfig/components/ConfigsForm/test/ConfigsForm.spec.tsx">
+<testCase name="&lt;ConfigsForm /&gt; Snapshot Deve corresponder ao Snapshot de characteristic" duration="255" />
+<testCase name="&lt;ConfigsForm /&gt; Snapshot Deve corresponder ao Snapshot de subcharacteristic" duration="67" />
+<testCase name="&lt;ConfigsForm /&gt; Snapshot Deve corresponder ao Snapshot de measure" duration="85" />
+<testCase name="&lt;ConfigsForm /&gt; Comportamento Deve chamar setCheckboxValues" duration="88" />
+</file>
+<file path="src/shared/components/DrawerMenu/tests/DrawerMenu.spec.tsx">
+<testCase name="&lt;DrawerMenu /&gt; Snapshot Deve corresponder ao Snapshot" duration="97" />
+<testCase name="&lt;DrawerMenu /&gt; Snapshot Deve corresponder ao Snapshot com bot&#xF5;es" duration="73" />
+<testCase name="&lt;DrawerMenu /&gt; Snapshot Deve corresponder ao Snapshot com componente fechado" duration="4" />
+<testCase name="&lt;DrawerMenu /&gt; Comportamento Bot&#xE3;o dentro do DrawerMenu deve ser clicavel" duration="36" />
+</file>
+<file path="src/pages/products/[product]/[repository]/components/SubCharacteristicsList/SubCharacteristicsGraph/tests/SubCharacteristicGraph.spec.tsx">
+<testCase name="&lt;SubCharacteristicsGraph /&gt; Snapshot Deve corresponder ao Snapshot" duration="153" />
+<testCase name="&lt;SubCharacteristicsGraph /&gt; Comportamento Deve corresponder ao Snapshot" duration="45" />
+</file>
+<file path="src/pages/preConfig/tests/ConfigPage.spec.tsx">
+<testCase name="&lt;ConfigPage /&gt; Snapshot Deve corresponder ao Snapshot" duration="212" />
+</file>
+<file path="src/shared/utils/tests/utils.spec.tsx">
+<testCase name="Utils capitalizer Deve tornar primeira letra em caixa alta" duration="2" />
+<testCase name="Utils underlineRemover Deve remover _" duration="0" />
+<testCase name="Utils pathDestructer getPathId Deve pegar o ID do nome do projeto" duration="2" />
+<testCase name="Utils formatRepositoriesSqcHistory Deve formatar valores do grafico SQC corretamente" duration="2" />
+<testCase name="Utils formatEntitiesFilter Deve retornar array correto para a chave correta" duration="0" />
+<testCase name="Utils formatCharacteristicsHistory Deve formatar valores do grafico historico de caracteristicas corretamente" duration="21" />
+<testCase name="Utils formatMeasuresHistory Deve formatar valores do grafico de caracteristicas corretamente" duration="3" />
+</file>
+<file path="src/pages/createRelease/components/Equalizer/tests/Equalizer.spec.tsx">
+<testCase name="&lt;Equalizer /&gt; Snapshot Deve corresponder ao Snapshot" duration="68" />
+<testCase name="&lt;Equalizer /&gt; Comportamento Deve chamar onChange ao movimnetar o slider" duration="33" />
+</file>
+<file path="src/shared/components/CardNavigation/tests/CardNavigation.spec.tsx">
+<testCase name="&lt;CardNavigation /&gt; Snapshot Deve corresponder ao Snapshot" duration="115" />
+<testCase name="&lt;CardNavigation /&gt; Comportamento Deve executar a a&#xE7;&#xE3;o de clique" duration="113" />
+</file>
+<file path="src/shared/components/Filters/tests/Filters.spec.tsx">
+<testCase name="&lt;Filter /&gt; Snapshot Deve corresponder ao Snapshot" duration="190" />
+<testCase name="&lt;Filter /&gt; Comportamento Deve chamar updateOptions ao selecionar novo checkbox" duration="125" />
+</file>
+<file path="src/pages/createRelease/components/ReleaseInfo/tests/ReleaseInfo.spec.tsx">
+<testCase name="&lt;ReleaseInfo /&gt; Snapshot Deve corresponder ao Snapshot" duration="150" />
+<testCase name="&lt;ReleaseInfo /&gt; Comportamento Deve preencher campos do formulario" duration="47" />
+</file>
+<file path="src/pages/products/test/Products.spec.tsx">
+<testCase name="Products Snapshot Deve corresponder ao Snapshot" duration="151" />
+</file>
+<file path="src/shared/components/CheckboxButton/tests/CheckboxButton.spec.tsx">
+<testCase name="&lt;CheckboxButton /&gt; Snapshot Deve corresponder ao Snapshot com bot&#xE3;o true" duration="65" />
+<testCase name="&lt;CheckboxButton /&gt; Snapshot Deve corresponder ao Snapshot com bot&#xE3;o false" duration="27" />
+<testCase name="&lt;CheckboxButton /&gt; Comportamento Deve corresponder ao Snapshot com bot&#xE3;o false" duration="27" />
+</file>
+<file path="src/shared/components/Layout/tests/Layout.spec.tsx">
+<testCase name="&lt;Layout /&gt; Snapshot Deve corresponder ao Snapshot" duration="226" />
 </file>
 <file path="src/pages/createRelease/components/EqualizerSingleSlider/tests/EqualizerSingleSlider.spec.tsx">
-<testCase name="&lt;EqualizerSingleSlider /&gt; Snapshot Deve corresponder ao Snapshot" duration="64" />
-<testCase name="&lt;EqualizerSingleSlider /&gt; Comportamento Deve chamar onChange ao movimnetar o slider" duration="19" />
+<testCase name="&lt;EqualizerSingleSlider /&gt; Snapshot Deve corresponder ao Snapshot" duration="67" />
+<testCase name="&lt;EqualizerSingleSlider /&gt; Comportamento Deve chamar onChange ao movimnetar o slider" duration="18" />
+</file>
+<file path="src/pages/products/[product]/components/RepositoriesList/RepositoriesTable/test/Repositoriestable.spec.tsx">
+<testCase name="RepositoriesTable Snapshot Deve corresponder ao Snapshot" duration="77" />
+</file>
+<file path="src/pages/products/[product]/[repository]/tests/Repository.spec.tsx">
+<testCase name="Repository Snapshot Deve corresponder ao Snapshot" duration="145" />
+</file>
+<file path="src/pages/createRelease/components/ReleaseGoals/tests/ReleaseGoals.spec.tsx">
+<testCase name="&lt;ReleaseGoals /&gt; Snapshot Deve corresponder ao Snapshot" duration="39" />
+</file>
+<file path="src/pages/createRelease/context/tests/CreateReleaseProvider.spec.tsx">
+<testCase name="&lt;CreateReleaseProvider /&gt; Snapshot Deve corresponder ao Snapshot" duration="48" />
+<testCase name="&lt;CreateReleaseProvider /&gt; Comportamento Deve resetar estados" duration="11" />
+</file>
+<file path="src/pages/preConfig/components/PreConfigTabs/tests/PreConfigTabs.spec.tsx">
+<testCase name="&lt;PreConfigTabs /&gt; Snapshot Deve corresponder ao Snapshot" duration="57" />
 </file>
 <file path="src/pages/preConfig/utils/tests/utils.spec.tsx">
-<testCase name="Utils iterators Deve alterar peso quando tipo for characteristic" duration="1" />
+<testCase name="Utils iterators Deve alterar peso quando tipo for characteristic" duration="2" />
 <testCase name="Utils iterators Deve manter formato caso n&#xE3;o encontre a chave - characteristic" duration="1" />
-<testCase name="Utils iterators Deve alterar peso quando tipo for subcharacteristic" duration="0" />
-<testCase name="Utils iterators Deve manter formato caso n&#xE3;o encontre a chave - subcharacteristic" duration="1" />
-<testCase name="Utils iterators Deve alterar peso quando tipo for measure" duration="0" />
-<testCase name="Utils iterators Deve manter formato caso n&#xE3;o encontre a chave - measure" duration="1" />
-<testCase name="Utils componentIterators Deve chamar callback somente uma vez quando characteristic" duration="0" />
+<testCase name="Utils iterators Deve alterar peso quando tipo for subcharacteristic" duration="1" />
+<testCase name="Utils iterators Deve manter formato caso n&#xE3;o encontre a chave - subcharacteristic" duration="0" />
+<testCase name="Utils iterators Deve alterar peso quando tipo for measure" duration="6" />
+<testCase name="Utils iterators Deve manter formato caso n&#xE3;o encontre a chave - measure" duration="0" />
+<testCase name="Utils componentIterators Deve chamar callback somente uma vez quando characteristic" duration="1" />
 <testCase name="Utils componentIterators Deve chamar callback somente uma vez quando subcharacteristic" duration="1" />
 <testCase name="Utils componentIterators Deve chamar callback somente uma vez quando measure" duration="0" />
 <testCase name="Utils toPercentage Deve formatar valor para porcentagem de 0 &#xE0; 100" duration="1" />
 </file>
-<file path="src/shared/utils/tests/utils.spec.tsx">
-<testCase name="Utils capitalizer Deve tornar primeira letra em caixa alta" duration="1" />
-<testCase name="Utils underlineRemover Deve remover _" duration="0" />
-<testCase name="Utils pathDestructer getPathId Deve pegar o ID do nome do projeto" duration="1" />
-<testCase name="Utils formatRepositoriesSqcHistory Deve formatar valores do grafico SQC corretamente" duration="1" />
-<testCase name="Utils formatEntitiesFilter Deve retornar array correto para a chave correta" duration="1" />
-<testCase name="Utils formatCharacteristicsHistory Deve formatar valores do grafico historico de caracteristicas corretamente" duration="11" />
-<testCase name="Utils formatMeasuresHistory Deve formatar valores do grafico de caracteristicas corretamente" duration="1" />
-</file>
-<file path="src/pages/preConfig/components/PreConfigTabs/tests/PreConfigTabs.spec.tsx">
-<testCase name="&lt;PreConfigTabs /&gt; Snapshot Deve corresponder ao Snapshot" duration="56" />
+<file path="src/pages/products/components/Skeleton/test/Skeleton.spec.tsx">
+<testCase name="Skeleton Snapshot Deve corresponder ao Snapshot" duration="30" />
 </file>
 </testExecutions>
