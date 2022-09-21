@@ -34,6 +34,7 @@ function RepositoriesTable() {
               hover
               onClick={() => handleClickCell(`${repository.id}-${repository.name}`)}
               style={{ cursor: 'pointer' }}
+              data-testid="repository-row"
             >
               <TableCell>{repository.name}</TableCell>
               <TableCell align="right">
