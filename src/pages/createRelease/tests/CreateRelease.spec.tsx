@@ -5,6 +5,16 @@ import { render } from '@testing-library/react';
 
 import CreateRelease from '../CreateRelease';
 
+jest.mock('@pages/createRelease/context/useCreateRelease', () => ({
+  ...jest.requireActual('@pages/createRelease/context/useCreateRelease'),
+  useCreateReleaseContext: () => ({
+    successOnCreation: 'success',
+    closeAlert: () => {},
+    goToGoalsStep: () => {},
+    createProductReleaseGoal: () => {}
+  })
+}));
+
 describe('<CreateRelease />', () => {
   beforeEach(() => {
     jest.clearAllMocks();
