@@ -12,6 +12,8 @@ import GraphicRepositoriesSqcHistory from '@components/GraphicRepositoriesSqcHis
 
 import { useProductContext } from '@contexts/ProductProvider';
 
+import { getPathId } from '@utils/pathDestructer';
+import { useRouter } from 'next/router';
 import Skeleton from './Skeleton';
 
 interface Props {
@@ -22,6 +24,14 @@ const ProductContent: React.FC<Props> = ({ repositoriesSqcHistory }) => {
   const { currentProduct } = useProductContext();
 
   const [openCreateRelease, setOpenCreateRelease] = useState(false);
+  const [pathId, setPathId] = useState({} as {productId: string; organizationId: string;});
+
+  const { query } = useRouter();
+
+  if (!Object.keys(pathId).length && currentProduct) {
+    const [organizationId, productId] = getPathId(query?.product as string);
+    setPathId({organizationId, productId})
+  }
 
   const handleOpenCreateRelease = () => {
     setOpenCreateRelease(true);
@@ -72,8 +82,8 @@ const ProductContent: React.FC<Props> = ({ repositoriesSqcHistory }) => {
       <CreateRelease
         open={openCreateRelease}
         handleClose={() => setOpenCreateRelease(false)}
-        productId={1}
-        organizationId={1}
+        productId={pathId.productId}
+        organizationId={pathId.organizationId}
       />
     </Container>
   );

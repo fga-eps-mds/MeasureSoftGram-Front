@@ -14,8 +14,8 @@ interface CreateReleaseProps {
 }
 
 interface CreateReleaseContainerProps {
-  productId: number;
-  organizationId: number;
+  productId: string;
+  organizationId: string;
   open: boolean;
   handleClose: () => void;
 }
@@ -95,7 +95,7 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
 
 function CreateReleaseContainer({ productId, organizationId, open, handleClose }: CreateReleaseContainerProps) {
   return (
-    <CreateReleaseProvider productId={productId.toString()} organizationId={organizationId.toString()}>
+    <CreateReleaseProvider productId={productId} organizationId={organizationId}>
       <CreateRelease open={open} handleClose={handleClose} />
     </CreateReleaseProvider>
   );

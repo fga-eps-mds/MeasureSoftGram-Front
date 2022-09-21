@@ -18,6 +18,12 @@ jest.mock('@contexts/RepositoryProvider', () => ({
   useRepositoryContext: () => ({})
 }));
 
+jest.mock('next/router', () => ({
+  useRouter: () => ({
+    query: { product: "1-5-MeasureSoftGram" }
+  })
+}));
+
 describe('Product', () => {
   describe('Snapshot', () => {
     it('Deve corresponder ao Snapshot', () => {
