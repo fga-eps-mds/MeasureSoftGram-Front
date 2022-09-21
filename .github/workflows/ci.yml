@@ -18,7 +18,7 @@ jobs:
         run: yarn
 
       - name: Run tests
-        run: yarn run jest --coverage --ci --json --outputFile=test-results.json
+        run: yarn run jest --coverage --updateSnapshot --ci --json --outputFile=test-results.json
 
       - name: ESLint + Prettier
         run: yarn lint
