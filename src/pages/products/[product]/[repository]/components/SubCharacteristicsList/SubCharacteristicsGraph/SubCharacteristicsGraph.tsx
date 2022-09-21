@@ -25,9 +25,9 @@ function SubCharacteristicsGraph({ SQC, checkedOptions, subCharacteristics }: Pr
 
   return (
     <>
-      <TableRow hover onClick={() => setOpen(!open)} sx={{ '& > *': { borderBottom: 'unset' } }}>
+      <TableRow hover onClick={() => setOpen(!open)} sx={{ '& > *': { borderBottom: 'unset' } }} data-testid="open-row">
         <TableCell>
-          {open ? <ArrowCircleDownIcon aria-label="expand row" /> : <ArrowCircleRightIcon aria-label="expand row" />}
+          {open ? <ArrowCircleDownIcon aria-label="expand row" data-testid="open"/> : <ArrowCircleRightIcon aria-label="expand row" />}
         </TableCell>
         <TableCell align="right">{format(new Date(createdAt), 'dd/MM/yyyy HH:MM', { locale: ptBR })}</TableCell>
         <TableCell align="right">{value.toFixed(2)}</TableCell>
