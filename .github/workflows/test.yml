@@ -23,7 +23,7 @@ jobs:
         run: yarn
 
       - name: Rodar testes
-        run: yarn run jest --coverage --updateSnapshot --ci
+        run: yarn run jest --coverage --updateSnapshot --ci --silent
 
       - name: Scanner do SonarCloud
         uses: SonarSource/sonarcloud-github-action@v1.8

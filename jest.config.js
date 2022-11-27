@@ -18,4 +18,14 @@ module.exports = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   setupFiles: ['<rootDir>/tests/jestSetup.ts'],
   testEnvironment: 'jsdom',
+  reporters: [
+    'default',
+    [
+      'jest-sonar',
+      {
+        outputDirectory: '.',
+        outputName: 'coverage.xml'
+      }
+    ]
+  ]
 };
