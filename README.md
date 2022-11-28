@@ -51,7 +51,13 @@ It should print the version of yarn if the installation was successful.
 
 ## Usage
 
-### Start project local
+### Copy environment variables 
+
+#### Local or Development
+* <code>cp .envs/.env.local .env </code>
+* <code>cp .envs/.env.development .env </code>
+  
+### Start project local  
 
 * <code>yarn dev</code>
 
