@@ -2,7 +2,7 @@ name: Deploy FrontEnd
 
 on:
   push:
-    branches: [ stage, main ]
+    branches: [ stage, main, release/** ]
 
 jobs:
   deploy-staging:
@@ -38,7 +38,7 @@ jobs:
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_AUTH_TOKEN }}
 
   deploy-production:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref != 'refs/heads/stage'
     runs-on: ubuntu-latest
     env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
