@@ -2,7 +2,9 @@ name: Deploy FrontEnd
 
 on:
   push:
-    branches: [ stage, main, release/** ]
+    branches: [main, stage]
+    tags:
+      - "v*"
 
 jobs:
   deploy-staging:
