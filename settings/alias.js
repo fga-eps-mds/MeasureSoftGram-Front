@@ -16,6 +16,10 @@ module.exports = [
     path: './src/pages'
   },
   {
+    name: '@modules',
+    path: './src/modules'
+  },
+  {
     name: '@services',
     path: './src/shared/services'
   },
