@@ -13,7 +13,12 @@ import {
 import { useForm } from 'react-hook-form';
 
 export const SignUpForm = () => {
-  const { register, handleSubmit } = useForm<SignUpFormData>();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors }
+  } = useForm<SignUpFormData>();
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => {
@@ -29,7 +34,20 @@ export const SignUpForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'column', gap: '2rem' }}>
-        <TextField label="Email" id="outlined-start-adornment" {...register('email')} />
+        <TextField
+          label="Email"
+          id="outlined-start-adornment"
+          {...register('email', {
+            required: 'Email é obrigatório',
+            pattern: {
+              value:
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+              message: 'Formato de email inválido'
+            }
+          })}
+          error={!!errors?.email}
+          helperText={errors?.email?.message}
+        />
         <FormControl variant="outlined">
           <InputLabel htmlFor="outlined-adornment-password">Senha</InputLabel>
           <OutlinedInput
@@ -48,7 +66,12 @@ export const SignUpForm = () => {
               </InputAdornment>
             }
             label="Password"
-            {...register('password')}
+            {...register('password', {
+              minLength: {
+                value: 6,
+                message: 'Senha precisa ter ao menos 6 dígitos'
+              }
+            })}
           />
         </FormControl>
         <FormControl variant="outlined">
@@ -69,7 +92,9 @@ export const SignUpForm = () => {
               </InputAdornment>
             }
             label="Confirmar senha"
-            {...register('confirmPassword')}
+            {...register('confirmPassword', {
+              validate: (value) => value === watch('password') || 'auth:signup.messages.passwordMatch'
+            })}
           />
         </FormControl>
         <TextField label="Github Token" id="outlined-start-adornment" {...register('githubToken')}>
