@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -19,45 +15,20 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@components/*": [
-        "src/shared/components/*"
-      ],
-      "@contexts/*": [
-        "src/shared/contexts/*"
-      ],
-      "@hooks/*": [
-        "src/shared/hooks/*"
-      ],
-      "@pages/*": [
-        "src/pages/*"
-      ],
-      "@services/*": [
-        "src/shared/services/*"
-      ],
-      "@public/*": [
-        "public/*"
-      ],
-      "@customTypes/*": [
-        "src/shared/customTypes/*"
-      ],
-      "@styles/*": [
-        "styles/*"
-      ],
-      "@utils/*": [
-        "src/shared/utils/*"
-      ],
-      "@tests/*": [
-        "tests/*"
-      ]
+      "@components/*": ["src/shared/components/*"],
+      "@contexts/*": ["src/shared/contexts/*"],
+      "@hooks/*": ["src/shared/hooks/*"],
+      "@pages/*": ["src/pages/*"],
+      "@modules/*": ["src/modules/*"],
+      "@services/*": ["src/shared/services/*"],
+      "@public/*": ["public/*"],
+      "@customTypes/*": ["src/shared/customTypes/*"],
+      "@styles/*": ["styles/*"],
+      "@utils/*": ["src/shared/utils/*"],
+      "@tests/*": ["tests/*"]
     },
     "isolatedModules": true
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
 }

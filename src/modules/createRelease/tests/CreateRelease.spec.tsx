@@ -5,8 +5,8 @@ import { render } from '@testing-library/react';
 
 import CreateRelease from '../CreateRelease';
 
-jest.mock('@pages/createRelease/context/useCreateRelease', () => ({
-  ...jest.requireActual('@pages/createRelease/context/useCreateRelease'),
+jest.mock('@modules/createRelease/context/useCreateRelease', () => ({
+  ...jest.requireActual('@modules/createRelease/context/useCreateRelease'),
   useCreateReleaseContext: () => ({
     successOnCreation: 'success',
     closeAlert: () => {},
@@ -22,14 +22,7 @@ describe('<CreateRelease />', () => {
 
   describe('Snapshot', () => {
     it('Deve corresponder ao Snapshot', () => {
-      const tree = render(
-        <CreateRelease
-          open
-          handleClose={() => {}}
-          productId={1}
-          organizationId={1}
-        />
-      )
+      const tree = render(<CreateRelease open handleClose={() => {}} productId={1} organizationId={1} />);
 
       expect(tree).toMatchSnapshot();
     });
