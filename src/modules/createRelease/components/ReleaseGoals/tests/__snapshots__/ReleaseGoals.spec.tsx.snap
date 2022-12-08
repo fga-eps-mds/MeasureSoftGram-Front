@@ -6,7 +6,7 @@ Object {
   "baseElement": <body>
     <div>
       <div
-        class="styles__Header-sc-15quhu7-0 dsjdCx"
+        class="styles__Header-sc-ki0fgv-0 hAZQDu"
       >
         <h1>
           Balancear a Meta de Qualidade
@@ -16,7 +16,7 @@ Object {
         </p>
       </div>
       <div
-        class="styles__Body-sc-15quhu7-1 fsQjbk"
+        class="styles__Body-sc-ki0fgv-1 dEJEjT"
       >
         <div>
           <strong>
@@ -35,7 +35,7 @@ Object {
             class="MuiBox-root css-t0lfuy"
           />
           <div
-            class="styles__Labels-sc-1fexhzx-0 kyDTDD"
+            class="styles__Labels-sc-duigeu-0 zNSqE"
           />
         </div>
       </div>
@@ -43,7 +43,7 @@ Object {
   </body>,
   "container": <div>
     <div
-      class="styles__Header-sc-15quhu7-0 dsjdCx"
+      class="styles__Header-sc-ki0fgv-0 hAZQDu"
     >
       <h1>
         Balancear a Meta de Qualidade
@@ -53,7 +53,7 @@ Object {
       </p>
     </div>
     <div
-      class="styles__Body-sc-15quhu7-1 fsQjbk"
+      class="styles__Body-sc-ki0fgv-1 dEJEjT"
     >
       <div>
         <strong>
@@ -72,7 +72,7 @@ Object {
           class="MuiBox-root css-t0lfuy"
         />
         <div
-          class="styles__Labels-sc-1fexhzx-0 kyDTDD"
+          class="styles__Labels-sc-duigeu-0 zNSqE"
         />
       </div>
     </div>

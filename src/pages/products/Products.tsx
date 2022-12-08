@@ -5,7 +5,7 @@ import { Box, Container, IconButton, Menu, MenuItem, Typography } from '@mui/mat
 import { MoreVert } from '@mui/icons-material';
 
 import { NextPageWithLayout } from '@pages/_app.next';
-import ConfigPage from '@pages/preConfig/ConfigPage';
+import ConfigPage from '@modules/preConfig/ConfigPage';
 
 import { useProductContext } from '@contexts/ProductProvider';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';

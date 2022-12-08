@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Box, Checkbox, FormControlLabel, FormGroup, TextField } from '@mui/material';
-import { useCreateReleaseContext } from '@pages/createRelease/context/useCreateRelease';
+import { useCreateReleaseContext } from '@modules/createRelease/context/useCreateRelease';
 import undelineRemover from '@utils/undelineRemover';
 import * as Styles from './styles';
 import Skeleton from './Skeleton';
@@ -34,7 +34,7 @@ function ReleaseInfo() {
               handleChangeForm('name', e.target.value);
             }}
             inputProps={{
-              "data-testid": "apelido-release",
+              'data-testid': 'apelido-release'
             }}
             fullWidth
           />
@@ -50,7 +50,7 @@ function ReleaseInfo() {
                 handleChangeForm('startDate', e.target.value);
               }}
               inputProps={{
-                "data-testid": "inicio-release",
+                'data-testid': 'inicio-release'
               }}
               sx={{ flex: 1 }}
             />
@@ -64,7 +64,7 @@ function ReleaseInfo() {
                 handleChangeForm('endDate', e.target.value);
               }}
               inputProps={{
-                "data-testid": "fim-release",
+                'data-testid': 'fim-release'
               }}
               sx={{ flex: 1 }}
             />
@@ -85,7 +85,7 @@ function ReleaseInfo() {
                     id={item}
                     checked={characteristics?.includes(item)}
                     inputProps={{
-                      "data-testid": "characteristic-release",
+                      'data-testid': 'characteristic-release'
                     }}
                   />
                 }

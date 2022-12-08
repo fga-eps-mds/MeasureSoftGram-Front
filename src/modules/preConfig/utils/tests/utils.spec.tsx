@@ -1,8 +1,8 @@
 /* eslint-disable jest/no-conditional-expect */
 import { Characteristic } from '@customTypes/preConfig';
-import { iterator, iteratorType } from '@pages/preConfig/utils/iterators';
-import { componentIterator, componentIteratorType } from '@pages/preConfig/utils/componentIterator';
-import toPercentage from '@pages/preConfig/utils/toPercentage';
+import { iterator, iteratorType } from '@modules/preConfig/utils/iterators';
+import { componentIterator, componentIteratorType } from '@modules/preConfig/utils/componentIterator';
+import toPercentage from '@modules/preConfig/utils/toPercentage';
 
 const CHARACTERISTIC_KEY = 'Test-Char';
 const SUBHARACTERISTIC_KEY = 'Test-Subchar';

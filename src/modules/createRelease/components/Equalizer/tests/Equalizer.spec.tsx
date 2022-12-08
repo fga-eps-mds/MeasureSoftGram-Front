@@ -5,7 +5,7 @@ import { fireEvent, render } from '@testing-library/react';
 
 import Equalizer from '../Equalizer';
 
-jest.mock('@pages/createRelease/context/useCreateRelease', () => ({
+jest.mock('@modules/createRelease/context/useCreateRelease', () => ({
   useCreateReleaseContext: () => ({
     preConfigCharacteristics: ['usability', 'maintainability'],
     handleChangeForm: () => {}

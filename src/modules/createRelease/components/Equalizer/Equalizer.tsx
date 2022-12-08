@@ -1,7 +1,7 @@
 import React from 'react';
-import EqualizerSingleSlider from '@pages/createRelease/components/EqualizerSingleSlider';
+import EqualizerSingleSlider from '@modules/createRelease/components/EqualizerSingleSlider';
 import { Box } from '@mui/material';
-import { useCreateReleaseContext } from '@pages/createRelease/context/useCreateRelease';
+import { useCreateReleaseContext } from '@modules/createRelease/context/useCreateRelease';
 import undelineRemover from '@utils/undelineRemover';
 import useEqualizer from './hook/useEqualizer';
 
