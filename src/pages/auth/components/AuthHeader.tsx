@@ -12,7 +12,7 @@ export const AuthHeader = memo(
         <Typography sx={{ fontSize: '0.8rem', fontWeight: '300' }}>{subTitle}</Typography>
       </Divider>
 
-      <Box marginBottom="2rem" display="flex" justifyContent="center">
+      <Box display="flex" marginBottom="2rem" justifyContent="center">
         {loginButton}
       </Box>
     </Box>

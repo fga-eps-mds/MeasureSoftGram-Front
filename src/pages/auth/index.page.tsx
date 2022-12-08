@@ -6,6 +6,7 @@ import { GitHub } from '@mui/icons-material';
 import { AuthHeader } from './components/AuthHeader';
 import { AuthFooter } from './components/AuthFooter';
 import { SignInForm } from './components/SignInForm';
+import { SignUpForm } from './components/SignUpForm';
 
 type AuthState = 'signin' | 'signup';
 
@@ -23,7 +24,7 @@ const Auth: NextPageWithLayout = () => {
               title="Login"
               subTitle="Ou utilize o Email"
               loginButton={
-                <Button variant="outlined" startIcon={<GitHub />}>
+                <Button fullWidth variant="outlined" startIcon={<GitHub />}>
                   Login com Github
                 </Button>
               }
@@ -34,7 +35,7 @@ const Auth: NextPageWithLayout = () => {
               title="Cadastro"
               subTitle="Ou utilize o Email"
               loginButton={
-                <Button variant="outlined" startIcon={<GitHub />}>
+                <Button fullWidth variant="outlined" startIcon={<GitHub />}>
                   Cadastro com Github
                 </Button>
               }
@@ -60,7 +61,7 @@ const Auth: NextPageWithLayout = () => {
       {
         {
           signin: <SignInForm />,
-          signup: <SignInForm />
+          signup: <SignUpForm />
         }[authState]
       }
     </AuthLayout>
