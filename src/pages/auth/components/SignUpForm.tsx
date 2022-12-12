@@ -48,6 +48,33 @@ export const SignUpForm = () => {
           error={!!errors?.email}
           helperText={errors?.email?.message}
         />
+        <TextField
+          label="Username"
+          id="outlined-start-adornment"
+          {...register('username', {
+            required: 'Username é obrigatório'
+          })}
+          error={!!errors?.username}
+          helperText={errors?.username?.message}
+        />
+        <TextField
+          label="Nome"
+          id="outlined-start-adornment"
+          {...register('first_name', {
+            required: 'Nome é obrigatório'
+          })}
+          error={!!errors?.first_name}
+          helperText={errors?.first_name?.message as string}
+        />
+        <TextField
+          label="Sobrenome"
+          id="outlined-start-adornment"
+          {...register('last_name', {
+            required: 'Sobrenome é obrigatório'
+          })}
+          error={!!errors?.last_name}
+          helperText={errors?.last_name?.message as string}
+        />
         <FormControl variant="outlined">
           <InputLabel htmlFor="outlined-adornment-password">Senha</InputLabel>
           <OutlinedInput
@@ -97,9 +124,7 @@ export const SignUpForm = () => {
             })}
           />
         </FormControl>
-        <TextField label="Github Token" id="outlined-start-adornment" {...register('githubToken')}>
-          Github Token
-        </TextField>
+
         <Button type="submit" variant="contained">
           Cadastrar
         </Button>
