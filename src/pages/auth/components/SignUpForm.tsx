@@ -10,14 +10,17 @@ import {
   OutlinedInput,
   TextField
 } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import { useForm } from 'react-hook-form';
+import { signUp } from '@services/Auth';
+import { toast } from 'react-toastify';
 
 export const SignUpForm = () => {
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors }
+    formState: { errors, isSubmitting }
   } = useForm<SignUpFormData>();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -29,7 +32,12 @@ export const SignUpForm = () => {
   };
 
   const onSubmit = async (data: SignUpFormData) => {
-    console.log('SIGNUP DATA', data);
+    const response = await signUp(data);
+    if (response.type === 'success') {
+      toast.success('Usuário cadastrado com sucesso!');
+    } else {
+      toast.error(`Erro ao cadastrar usuário: ${response.error.message}`);
+    }
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -52,7 +60,15 @@ export const SignUpForm = () => {
           label="Username"
           id="outlined-start-adornment"
           {...register('username', {
-            required: 'Username é obrigatório'
+            required: 'Username é obrigatório',
+            pattern: {
+              value: /^\S+$/g,
+              message: 'Username não pode ter espaços'
+            },
+            minLength: {
+              value: 3,
+              message: 'Username deve ter no mínimo 3 caracteres'
+            }
           })}
           error={!!errors?.username}
           helperText={errors?.username?.message}
@@ -125,9 +141,9 @@ export const SignUpForm = () => {
           />
         </FormControl>
 
-        <Button type="submit" variant="contained">
+        <LoadingButton type="submit" variant="contained" color="primary" loading={isSubmitting}>
           Cadastrar
-        </Button>
+        </LoadingButton>
       </Box>
     </form>
   );
