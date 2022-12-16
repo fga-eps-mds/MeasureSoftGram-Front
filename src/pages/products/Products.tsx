@@ -88,15 +88,17 @@ const Products: NextPageWithLayout = () => {
             <Typography variant="h4" fontWeight="300">
               {session?.username}
             </Typography>
-            <Button
-              variant="contained"
-              onClick={() => {
-                logout();
-                router.push('/');
-              }}
-            >
-              Sair
-            </Button>
+            {session?.username && (
+              <Button
+                variant="contained"
+                onClick={() => {
+                  logout();
+                  router.push('/');
+                }}
+              >
+                Sair
+              </Button>
+            )}
           </Box>
 
           <Box display="flex" flexWrap="wrap">
