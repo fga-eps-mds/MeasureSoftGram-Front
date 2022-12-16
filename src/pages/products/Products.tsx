@@ -81,13 +81,16 @@ const Products: NextPageWithLayout = () => {
           organizationId={getOrganizationId(selectedProduct)}
         />
         <Box display="flex" flexDirection="column">
-          <Box display="flex" marginTop="40px" marginBottom="36px">
-            <Typography variant="h4" marginRight="10px">
-              Hi
-            </Typography>
-            <Typography variant="h4" fontWeight="300">
-              {session?.username}
-            </Typography>
+          <Box display="flex" gap="1rem" marginTop="40px" marginBottom="36px">
+            <Box display="flex" alignItems="center">
+              <Typography variant="h4" marginRight="10px">
+                Hi
+              </Typography>
+              <Typography variant="h4" fontWeight="300">
+                {session?.username}
+              </Typography>
+            </Box>
+
             {session?.username && (
               <Button
                 variant="contained"
