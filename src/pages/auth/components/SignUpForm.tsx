@@ -6,13 +6,17 @@ import { useForm } from 'react-hook-form';
 import { signUp } from '@services/Auth';
 import { toast } from 'react-toastify';
 
-export const SignUpForm = () => {
+interface SignupFormProps {
+  changeAuthState: () => void;
+}
+export const SignUpForm = ({ changeAuthState }: SignupFormProps) => {
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors, isSubmitting }
   } = useForm<SignUpFormData>();
+
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => {
@@ -26,6 +30,7 @@ export const SignUpForm = () => {
     const response = await signUp(data);
     if (response.type === 'success') {
       toast.success('Usuário cadastrado com sucesso!');
+      changeAuthState();
     } else {
       toast.error(`Erro ao cadastrar usuário: ${response.error.message}`);
     }

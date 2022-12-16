@@ -73,7 +73,7 @@ const Auth: NextPageWithLayout = () => {
       {
         {
           signin: <SignInForm />,
-          signup: <SignUpForm />
+          signup: <SignUpForm changeAuthState={changeAuthState('signin')} />
         }[authState]
       }
     </AuthLayout>
