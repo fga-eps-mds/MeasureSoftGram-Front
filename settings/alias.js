@@ -24,6 +24,10 @@ module.exports = [
     path: './src/shared/services'
   },
   {
+    name: '@layouts',
+    path: './src/shared/layouts'
+  },
+  {
     name: '@styles',
     path: './styles'
   },

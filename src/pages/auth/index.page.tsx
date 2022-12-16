@@ -1,12 +1,11 @@
 import React, { ReactElement, useCallback, useState } from 'react';
 import { NextPageWithLayout } from '@pages/_app.next';
-import { AuthLayout } from 'src/shared/Layout';
 import { Button } from '@mui/material';
 import { GitHub } from '@mui/icons-material';
-import { signIn } from 'next-auth/react';
 import { getGithubAuthUrl } from '@services/Auth';
 import { useRouter } from 'next/router';
 import { useAuth } from '@contexts/Auth';
+import { AuthLayout } from '@layouts/auth';
 import { AuthHeader } from './components/AuthHeader';
 import { AuthFooter } from './components/AuthFooter';
 import { SignInForm } from './components/SignInForm';
