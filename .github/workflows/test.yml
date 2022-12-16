@@ -2,9 +2,9 @@ name: Rodar Testes
 
 on:
   push:
-    branches: [ main, stage ]
+    branches: [ main, develop ]
   pull_request:
-    branches: [ main, stage ]
+    branches: [ main, develop ]
 
 jobs:
   pipeline:
