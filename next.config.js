@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   env: {
     SERVICE_URL: process.env.SERVICE_URL
   },
@@ -9,7 +9,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
     tsconfigPath: './tsconfig.json'
   },
-  pageExtensions: ['page.ts', 'page.tsx', 'next.tsx']
+  pageExtensions: ['page.ts', 'page.tsx', 'next.tsx', 'next.ts']
 };
 
 module.exports = nextConfig;

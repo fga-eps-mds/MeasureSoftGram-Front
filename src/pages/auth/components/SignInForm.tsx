@@ -5,14 +5,13 @@ import {
   Button,
   FormControl,
   IconButton,
-  Input,
   InputAdornment,
   InputLabel,
   OutlinedInput,
   TextField
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import GitHubIcon from '@mui/icons-material/GitHub';
+import { signIn } from 'next-auth/react';
 
 export const SignInForm = () => {
   const {
@@ -31,6 +30,8 @@ export const SignInForm = () => {
 
   const onSubmit = async (data: LoginFormData) => {
     console.log('SIGNIN DATA', data);
+
+    await signIn();
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
