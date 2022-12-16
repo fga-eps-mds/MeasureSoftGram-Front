@@ -11,7 +11,8 @@ import {
   TextField
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { useAuth } from '@contexts/Auth';
 
 export const SignInForm = () => {
   const {
@@ -27,11 +28,11 @@ export const SignInForm = () => {
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
-
+  const router = useRouter();
+  const { setProvider, signInWithCredentials } = useAuth();
   const onSubmit = async (data: LoginFormData) => {
-    console.log('SIGNIN DATA', data);
-
-    await signIn();
+    setProvider('credentials');
+    await signInWithCredentials(data);
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

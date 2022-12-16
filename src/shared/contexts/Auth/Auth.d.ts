@@ -1,7 +1,7 @@
 type authContextType = {
-  session: Session | null;
-  signIn: (credentials:   ) => Promise<Result<User>>;
+  session: User | null;
   signInWithGithub: (code: string) => Promise<Result<User>>;
+  signInWithCredentials: (data: LoginFormData) => Promise<Result<User>>;
   logout: () => Promise<void>;
   provider: Providers;
   setProvider: React.Dispatch<SetStateAction<Providers>>;

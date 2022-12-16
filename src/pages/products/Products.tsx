@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 
-import { Box, Container, IconButton, Menu, MenuItem, Typography } from '@mui/material';
+import { Box, Button, Container, IconButton, Menu, MenuItem, Typography } from '@mui/material';
 import { MoreVert } from '@mui/icons-material';
 
 import { NextPageWithLayout } from '@pages/_app.next';
@@ -15,6 +15,8 @@ import CardNavigation from '@components/CardNavigation';
 
 import { Product } from '@customTypes/product';
 
+import { useAuth } from '@contexts/Auth';
+import { useRouter } from 'next/router';
 import Skeleton from './components/Skeleton';
 import { useQuery } from './hooks/useQuery';
 
@@ -26,6 +28,10 @@ const Products: NextPageWithLayout = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedProduct, setSelectedProduct] = useState<Product>();
 
+  const { session, logout } = useAuth();
+  const router = useRouter();
+
+  console.log('session', session);
   const { productsList } = useProductContext();
 
   const openMenu = Boolean(anchorEl);
@@ -80,8 +86,17 @@ const Products: NextPageWithLayout = () => {
               Hi
             </Typography>
             <Typography variant="h4" fontWeight="300">
-              User
+              {session?.username}
             </Typography>
+            <Button
+              variant="contained"
+              onClick={() => {
+                logout();
+                router.push('/');
+              }}
+            >
+              Sair
+            </Button>
           </Box>
 
           <Box display="flex" flexWrap="wrap">

@@ -1,14 +1,13 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { getUserInfo, signInGithub, signOut } from '@services/Auth';
-import { signIn } from 'next-auth/react';
+import { getUserInfo, signInCredentials, signInGithub, signOut } from '@services/Auth';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import { useLocalStorage } from '@hooks/useLocalStorage';
 
 export const authContextDefaultValues: authContextType = {
   session: null,
-  signIn: async () => ({} as Result<User>),
   signInWithGithub: async () => ({} as Result<User>),
+  signInWithCredentials: async () => ({} as Result<User>),
   logout: async () => ({} as Promise<void>),
   provider: 'credentials',
   setProvider: async () => ({})
@@ -44,11 +43,9 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     const response = await signOut();
 
     if (response.type === 'success') {
-      toast.success('Logout realizado com sucesso');
-    } else {
-      toast.error('Erro ao realizar logout');
-      removeAuthStorage();
+      toast.success('Volte logo para acompanhar seus produtos!');
     }
+    removeAuthStorage();
   }, [removeAuthStorage]);
   const router = useRouter();
 
@@ -56,7 +53,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     const response = await getUserInfo();
     if (response.type === 'success') {
       setSession(response.value);
-      toast.success(`Bem vindo ao MeasureSoftGram ${response?.value?.username}!`);
+      if (router?.asPath === '/') toast.success(`Bem vindo ao MeasureSoftGram ${response?.value?.username}!`);
       router.push('/products/');
     } else {
       removeAuthStorage();
@@ -75,6 +72,23 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     },
     [setToken]
   );
+
+  const signInWithCredentials = useCallback(
+    async (data: LoginFormData) => {
+      setProvider('credentials');
+      const response = await signInCredentials(data);
+
+      if (response.type === 'success') {
+        setToken(response?.value?.key);
+        toast.success('Login realizado com sucesso!');
+        router.push('/products');
+      } else {
+        toast.error('Erro ao realizar login');
+      }
+    },
+    [router, setProvider]
+  );
+
   useEffect(() => {
     const code = router?.query?.code;
     if (code && provider === 'github') {
@@ -91,12 +105,12 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     () => ({
       session,
       logout,
-      signIn,
+      signInWithCredentials,
       signInWithGithub,
       provider,
       setProvider
     }),
-    [logout, provider, session, setProvider, signInWithGithub]
+    [logout, provider, session, setProvider, signInWithCredentials, signInWithGithub]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

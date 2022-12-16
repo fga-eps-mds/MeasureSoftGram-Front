@@ -1,9 +1,9 @@
 import api from '@services/api';
 import { AxiosError } from 'axios';
 
-export const signInCredentials = async (code: string): Promise<Result<void>> => {
+export const signInCredentials = async (data: LoginFormData): Promise<Result<User>> => {
   try {
-    const response = await api.post('accounts/github/login/', code);
+    const response = await api.post('/accounts/login/', data);
 
     return { type: 'success', value: response?.data };
   } catch (err) {
