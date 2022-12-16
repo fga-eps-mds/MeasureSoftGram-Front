@@ -57,4 +57,4 @@ export const getUserInfo = async (): Promise<Result<User>> => {
 };
 
 export const getGithubAuthUrl = () =>
-  `https://github.com/login/oauth/authorize?client_id=ec924c8ae89f8bac950a&redirect_uri=http://127.0.0.1:3000`;
+  `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${process.env.LOGIN_REDIRECT_URL}`;

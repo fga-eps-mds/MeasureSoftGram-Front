@@ -3,7 +3,10 @@
 const nextConfig = {
   reactStrictMode: false,
   env: {
-    SERVICE_URL: process.env.SERVICE_URL
+    SERVICE_URL: process.env.SERVICE_URL,
+    LOGIN_REDIRECT_URL: process.env.LOGIN_REDIRECT_URL,
+    GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
+    GITHUB_SECRET: process.env.GITHUB_SECRET
   },
   typescript: {
     ignoreBuildErrors: true,
