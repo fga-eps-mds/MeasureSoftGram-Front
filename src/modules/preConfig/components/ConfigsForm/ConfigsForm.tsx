@@ -87,8 +87,6 @@ const ConfigForm = ({
 
     const limit = PERCENTAGE - weightSumExeceptCurrent;
 
-    setIsValuesValid(totalValue === PERCENTAGE && !isAnyWeight);
-
     if (currentWeight <= limit) {
       onChange(iterator[type]({ data, key, weight: currentWeight }));
       weightArrayHandler(key, currentWeight);

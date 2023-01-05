@@ -26,11 +26,10 @@ export default function Equalizer({ selectedCharacteristics }: EquilizerProps) {
       <Box gap="24px" display="flex">
         {preConfigCharacteristics?.map((item, index) => {
           const char = characteristics.find((i) => i.key === item);
-
-          let value;
+          let characteristicValue = 50; // Valor inicial do slider;
 
           if (char) {
-            value = char.value;
+            characteristicValue = char.value;
           }
 
           return (
@@ -38,7 +37,7 @@ export default function Equalizer({ selectedCharacteristics }: EquilizerProps) {
               key={item}
               index={index + 1}
               name={undelineRemover(item)}
-              value={value || 50}
+              value={characteristicValue}
               disabled={!selectedCharacteristics.includes(item)}
               onChange={(newValue) => equalize(item, newValue)}
               onChangeCommitted={(newValue) => handleChangeCommitted(item, newValue)}

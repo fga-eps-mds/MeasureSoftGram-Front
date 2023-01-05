@@ -53,8 +53,10 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     const response = await getUserInfo();
     if (response.type === 'success') {
       setSession(response.value);
-      if (router?.asPath === '/') toast.success(`Bem vindo ao MeasureSoftGram ${response?.value?.username}!`);
-      router.push('/products/');
+      if (router?.pathname === '/') {
+        router.push('/products/');
+        toast.success(`Bem vindo ao MeasureSoftGram ${response?.value?.username}!`);
+      }
     } else {
       removeAuthStorage();
     }
