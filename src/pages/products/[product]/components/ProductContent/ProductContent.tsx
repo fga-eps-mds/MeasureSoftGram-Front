@@ -9,6 +9,7 @@ import { RepositoriesSqcHistory } from '@customTypes/product';
 
 import CreateRelease from '@modules/createRelease';
 import GraphicRepositoriesSqcHistory from '@components/GraphicRepositoriesSqcHistory';
+import CompareGoalsChartHistory from '@components/CompareGoalsChartHistory';
 
 import { useProductContext } from '@contexts/ProductProvider';
 
@@ -78,6 +79,7 @@ const ProductContent: React.FC<Props> = ({ repositoriesSqcHistory }) => {
       </Box>
 
       <GraphicRepositoriesSqcHistory history={repositoriesSqcHistory} />
+      <CompareGoalsChartHistory history={repositoriesSqcHistory} />
 
       <CreateRelease
         open={openCreateRelease}

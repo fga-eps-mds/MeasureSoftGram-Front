@@ -117,7 +117,6 @@ export interface RepositoriesSqcHistory {
   results: Array<RepositoriesSqcHistoryResult & Repositories>;
 }
 
-
 export interface CollectedMetric {
   id: number;
   metric_id: number;
@@ -140,8 +139,7 @@ export interface EntitiesMetrics {
   results: Array<MeasuresHistoryResult>;
 }
 
-
-export interface LatestValuesInfos{
+export interface LatestValuesInfos {
   id: number;
   value: number;
   created_at: string;
@@ -162,4 +160,15 @@ export interface LatestValues {
   results: Array<LatestValuesResult>;
 }
 
+export interface Characteristics {
+  reliability: number;
+  maintainability: number;
+}
 
+export interface Goal {
+  id: number;
+  release_name: string;
+  start_at: Date | string;
+  end_at: Date | string;
+  data: Characteristics;
+}
