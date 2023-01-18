@@ -27,10 +27,11 @@ interface FilterProps {
 const Repository: NextPageWithLayout = () => {
   useQueryProduct();
 
-  const { repositoryHistoricalCharacteristics, checkedOptionsFormat } = useQuery();
+  const { repositoryHistoricalCharacteristics, repositoryHistoricalMeasures, checkedOptionsFormat } = useQuery();
   const { characteristics, subCharacteristics, measures, currentRepository, historicalSQC } = useRepositoryContext();
 
-  console.log('Measures', measures)
+  // console.log('Measures', measures)
+  console.log('Historical Measures', repositoryHistoricalMeasures)
 
   const [filterCharacteristics, setFilterCharacteristics] = useState<FilterProps>({
     filterTitle: 'CARACTERÍSTICAS',
@@ -62,6 +63,7 @@ const Repository: NextPageWithLayout = () => {
 
   if (
     isArrayEmpty(repositoryHistoricalCharacteristics) ||
+    isArrayEmpty(repositoryHistoricalMeasures) ||
     isArrayEmpty(filterCharacteristics.options) ||
     isArrayEmpty(filterSubCharacteristics.options) ||
     isArrayEmpty(filterMeasures.options) ||
@@ -127,6 +129,29 @@ const Repository: NextPageWithLayout = () => {
         <MetricsList /> */}
 
         <SubCharacteristicsList checkedOptions={checkedOptions} />
+        
+
+        <Box marginBottom="42px">
+          <Container>
+            <Box display="flex" flexDirection="column" width="100%">
+              <Box marginTop="20px" marginBottom="16px">
+                <Typography variant="caption" color="gray">
+                  {currentRepository?.description}
+                </Typography>
+              </Box>
+              {repositoryHistoricalMeasures &&
+                repositoryHistoricalMeasures.length !== 0 && (
+                  <GraphicStackedLine
+                    historical={repositoryHistoricalMeasures}
+                    checkedOptions={checkedOptions}
+                    title="Medidas"
+                  />
+                )}
+            </Box>
+          </Container>
+        </Box>
+
+        
       </Box>
     </Box>
   );

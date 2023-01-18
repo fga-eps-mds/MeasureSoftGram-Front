@@ -9,6 +9,7 @@ export interface FormatEntitiesFilterType {
 }
 
 const formatEntitiesFilter = (result: FormatEntitiesFilterType[]) => {
+  
 
   console.log('result', result);
 

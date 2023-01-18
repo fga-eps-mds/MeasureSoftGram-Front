@@ -115,7 +115,8 @@ export const useQuery = () => {
         loadRepository(organizationId, productId, repositoryId),
         loadHistoricalSqc(organizationId, productId, repositoryId),
         loadRepositorySupportedEntities(organizationId, productId),
-        loadHistoricalCharacteristics(organizationId, productId, repositoryId)
+        loadHistoricalCharacteristics(organizationId, productId, repositoryId),
+        loadHistoricalMeasures(organizationId, productId, repositoryId)
       ]).then();
     } catch (error) {
       console.error(error);
@@ -131,5 +132,5 @@ export const useQuery = () => {
     }
   }, [query?.repository]);
 
-  return { repositoryHistoricalCharacteristics, checkedOptionsFormat };
+  return { repositoryHistoricalCharacteristics, repositoryHistoricalMeasures, checkedOptionsFormat };
 };
