@@ -13,14 +13,15 @@ import { Historical } from '@customTypes/repository';
 import { LARGE_PRIME_NUMBER } from './const';
 
 export const useQuery = () => {
-  const { setCurrentRepository, setCharacteristics, setSubCharacteristics, setHistoricalSQC } = useRepositoryContext();
+  const { setCurrentRepository, setCharacteristics, setSubCharacteristics, setMeasures, setHistoricalSQC } = useRepositoryContext();
 
   const [repositoryHistoricalCharacteristics, setRepositoryHistoricalCharacteristics] = useState<Historical[]>([]);
+  const [repositoryHistoricalMeasures, setRepositoryHistoricalMeasures] = useState<Historical[]>([]);
   const [checkedOptionsFormat, setCheckedOptions] = useState({});
 
   const { query } = useRouter();
 
-  function formatCheckedOptions(characteristics: string[], subCharacteristics: string[]) {
+  function formatCheckedOptions(characteristics: string[], subCharacteristics: string[], measures: string[]) {
     let map = {};
     const updateMap = (option: string) => {
       map = {
@@ -31,6 +32,7 @@ export const useQuery = () => {
 
     characteristics.forEach((option) => updateMap(option));
     subCharacteristics.forEach((option) => updateMap(option));
+    measures.forEach((option) => updateMap(option));
 
     return map;
   }
@@ -38,11 +40,12 @@ export const useQuery = () => {
   async function loadRepositorySupportedEntities(organizationId: string, productId: string) {
     try {
       const result = await productQuery.getPreConfigEntitiesRelationship(organizationId, productId);
-      const [characteristics, subCharacteristics] = formatEntitiesFilter(result.data);
+      const [characteristics, subCharacteristics, measures] = formatEntitiesFilter(result.data);
 
       setCharacteristics(characteristics);
       setSubCharacteristics(subCharacteristics);
-      setCheckedOptions(formatCheckedOptions(characteristics, subCharacteristics));
+      setMeasures(measures);
+      setCheckedOptions(formatCheckedOptions(characteristics, subCharacteristics, measures));
     } catch (error) {
       console.error(error);
     }
@@ -58,6 +61,21 @@ export const useQuery = () => {
       });
 
       setRepositoryHistoricalCharacteristics(result.data.results);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function loadHistoricalMeasures(organizationId: string, productId: string, repositoryId: string) {
+    try {
+      const result = await repository.getHistorical({
+        organizationId,
+        productId,
+        repositoryId,
+        entity: 'measures'
+      });
+
+      setRepositoryHistoricalMeasures(result.data.results);
     } catch (error) {
       console.error(error);
     }

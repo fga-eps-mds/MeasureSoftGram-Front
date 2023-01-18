@@ -11,6 +11,8 @@ import { useRepositoryContext } from '@contexts/RepositoryProvider';
 
 import Skeleton from './components/Skeleton';
 import SubCharacteristicsList from './components/SubCharacteristicsList';
+import MeasuresList from './components/MeasuresList';
+import MetricsList from './components/MetricsList';
 
 import { useQuery as useQueryProduct } from '../hooks/useQuery';
 import { useQuery } from './hooks/useQuery';
@@ -26,7 +28,9 @@ const Repository: NextPageWithLayout = () => {
   useQueryProduct();
 
   const { repositoryHistoricalCharacteristics, checkedOptionsFormat } = useQuery();
-  const { characteristics, subCharacteristics, currentRepository, historicalSQC } = useRepositoryContext();
+  const { characteristics, subCharacteristics, measures, currentRepository, historicalSQC } = useRepositoryContext();
+
+  console.log('Measures', measures)
 
   const [filterCharacteristics, setFilterCharacteristics] = useState<FilterProps>({
     filterTitle: 'CARACTERÍSTICAS',
@@ -36,6 +40,11 @@ const Repository: NextPageWithLayout = () => {
     filterTitle: 'SUB CARACTERÍSTICAS',
     options: []
   });
+  const [filterMeasures, setFilterMeasures] = useState<FilterProps>({
+    filterTitle: 'MEDIDAS',
+    options: []
+  });
+
 
   const [checkedOptions, setCheckedOptions] = useState(checkedOptionsFormat);
 
@@ -46,6 +55,7 @@ const Repository: NextPageWithLayout = () => {
   useEffect(() => {
     setFilterCharacteristics({ ...filterCharacteristics, options: characteristics });
     setFilterSubCharacteristics({ ...filterSubCharacteristics, options: subCharacteristics });
+    setFilterMeasures({ ...filterMeasures, options: measures });
   }, [characteristics, subCharacteristics]);
 
   const isArrayEmpty = (array: Array<any>) => array.length === 0;
@@ -54,17 +64,20 @@ const Repository: NextPageWithLayout = () => {
     isArrayEmpty(repositoryHistoricalCharacteristics) ||
     isArrayEmpty(filterCharacteristics.options) ||
     isArrayEmpty(filterSubCharacteristics.options) ||
+    isArrayEmpty(filterMeasures.options) ||
     !currentRepository ||
     !historicalSQC
   ) {
     return <Skeleton />;
   }
 
+  console.log(currentRepository)
+
   return (
     <Box display="flex" width="100%" flexDirection="row">
       <Styles.FilterBackground>
         <Box display="flex" paddingX="15px" flexDirection="column" marginTop="36px" position="fixed">
-          {[filterCharacteristics, filterSubCharacteristics].map((filter) => (
+          {[filterCharacteristics, filterSubCharacteristics, filterMeasures].map((filter) => (
             <Filters
               key={filter.filterTitle}
               filterTitle={filter.filterTitle}
@@ -107,6 +120,11 @@ const Repository: NextPageWithLayout = () => {
             </Box>
           </Container>
         </Box>
+
+        {/* <MeasuresList />
+        
+        
+        <MetricsList /> */}
 
         <SubCharacteristicsList checkedOptions={checkedOptions} />
       </Box>
