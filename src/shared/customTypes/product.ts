@@ -1,6 +1,6 @@
 import { ButtonProps } from '@mui/material';
 
-export interface CollectedMetric {
+export interface CollectedMeasure {
   id: number;
   measure_id: number;
   value: number;
@@ -12,7 +12,7 @@ export interface MeasuresHistoryResult {
   key: string;
   name: string;
   description: string;
-  history: Array<CollectedMetric>;
+  history: Array<CollectedMeasure>;
 }
 
 export interface MeasuresHistory {
@@ -116,3 +116,27 @@ export interface RepositoriesSqcHistory {
   count: number;
   results: Array<RepositoriesSqcHistoryResult & Repositories>;
 }
+
+
+export interface CollectedMetric {
+  id: number;
+  metric_id: number;
+  value: number;
+  created_at: string;
+}
+
+export interface EntitiesMetricsResult {
+  id: number;
+  key: string;
+  name: string;
+  description: string;
+  latest: Array<CollectedMetric>;
+}
+
+export interface EntitiesMetrics {
+  count: string;
+  next: string;
+  previous: string;
+  results: Array<MeasuresHistoryResult>;
+}
+

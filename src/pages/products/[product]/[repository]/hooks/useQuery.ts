@@ -7,21 +7,23 @@ import { repository } from '@services/repository';
 import { productQuery } from '@services/product';
 
 import formatEntitiesFilter from '@utils/formatEntitiesFilter';
+import formatEntitiesMetrics from '@utils/formatEntitiesMetrics';
 import { getPathId } from '@utils/pathDestructer';
 import { Historical } from '@customTypes/repository';
 
 import { LARGE_PRIME_NUMBER } from './const';
 
 export const useQuery = () => {
-  const { setCurrentRepository, setCharacteristics, setSubCharacteristics, setMeasures, setHistoricalSQC } = useRepositoryContext();
+  const { setCurrentRepository, setCharacteristics, setSubCharacteristics, setMeasures, setMetrics, setHistoricalSQC } = useRepositoryContext();
 
   const [repositoryHistoricalCharacteristics, setRepositoryHistoricalCharacteristics] = useState<Historical[]>([]);
   const [repositoryHistoricalMeasures, setRepositoryHistoricalMeasures] = useState<Historical[]>([]);
+  const [repositoryHistoricalMetrics, setRepositoryHistoricalMetrics] = useState<Historical[]>([]);
   const [checkedOptionsFormat, setCheckedOptions] = useState({});
 
   const { query } = useRouter();
 
-  function formatCheckedOptions(characteristics: string[], subCharacteristics: string[], measures: string[]) {
+  function formatCheckedOptions(characteristics: string[], subCharacteristics: string[], measures: string[], metrics: string[]) {
     let map = {};
     const updateMap = (option: string) => {
       map = {
@@ -33,19 +35,26 @@ export const useQuery = () => {
     characteristics.forEach((option) => updateMap(option));
     subCharacteristics.forEach((option) => updateMap(option));
     measures.forEach((option) => updateMap(option));
+    metrics.forEach((option) => updateMap(option));
 
     return map;
   }
 
-  async function loadRepositorySupportedEntities(organizationId: string, productId: string) {
+  async function loadRepositorySupportedEntities(organizationId: string, productId: string, repositoryId: string) {
     try {
       const result = await productQuery.getPreConfigEntitiesRelationship(organizationId, productId);
       const [characteristics, subCharacteristics, measures] = formatEntitiesFilter(result.data);
 
+      const resultMetrics = await productQuery.getEntitiesMetrics(organizationId, productId, repositoryId);
+      const [metrics] = formatEntitiesMetrics(resultMetrics.data);
+      
+      // console.log('resultMetrics', resultMetrics);
+
       setCharacteristics(characteristics);
       setSubCharacteristics(subCharacteristics);
       setMeasures(measures);
-      setCheckedOptions(formatCheckedOptions(characteristics, subCharacteristics, measures));
+      setMetrics(metrics);
+      setCheckedOptions(formatCheckedOptions(characteristics, subCharacteristics, measures, metrics));
     } catch (error) {
       console.error(error);
     }
@@ -76,6 +85,21 @@ export const useQuery = () => {
       });
 
       setRepositoryHistoricalMeasures(result.data.results);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function loadHistoricalMetrics(organizationId: string, productId: string, repositoryId: string) {
+    try {
+      const result = await repository.getHistorical({
+        organizationId,
+        productId,
+        repositoryId,
+        entity: 'metrics'
+      });
+
+      setRepositoryHistoricalMetrics(result.data.results);
     } catch (error) {
       console.error(error);
     }
@@ -114,9 +138,10 @@ export const useQuery = () => {
       await Promise.all([
         loadRepository(organizationId, productId, repositoryId),
         loadHistoricalSqc(organizationId, productId, repositoryId),
-        loadRepositorySupportedEntities(organizationId, productId),
+        loadRepositorySupportedEntities(organizationId, productId, repositoryId),
         loadHistoricalCharacteristics(organizationId, productId, repositoryId),
-        loadHistoricalMeasures(organizationId, productId, repositoryId)
+        loadHistoricalMeasures(organizationId, productId, repositoryId),
+        loadHistoricalMetrics(organizationId, productId, repositoryId)
       ]).then();
     } catch (error) {
       console.error(error);
@@ -132,5 +157,5 @@ export const useQuery = () => {
     }
   }, [query?.repository]);
 
-  return { repositoryHistoricalCharacteristics, repositoryHistoricalMeasures, checkedOptionsFormat };
+  return { repositoryHistoricalCharacteristics, repositoryHistoricalMeasures, repositoryHistoricalMetrics, checkedOptionsFormat };
 };

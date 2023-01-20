@@ -4,7 +4,8 @@ import {
   CurrentPreConfig,
   MeasuresHistory,
   ReleaseGoal,
-  RepositoriesSqcHistory
+  RepositoriesSqcHistory,
+  EntitiesMetrics
 } from '@customTypes/product';
 import { Data } from '@customTypes/preConfig';
 
@@ -40,6 +41,11 @@ class ProductQuery {
   async getPreConfigEntitiesRelationship(organizationId: string, projectId: string) {
     const url = `organizations/${organizationId}/products/${projectId}/entity-relationship-tree/`;
     return api.get<Array<PreConfigEntitiesRelationship>>(url);
+  }
+
+  async getEntitiesMetrics(organizationId: string, productId: string, repositoryId: string) {
+    const url = `organizations/${organizationId}/products/${productId}/repositories/${repositoryId}/latest-values/metrics/`;
+    return api.get<Array<EntitiesMetrics>>(url);
   }
 
   async createProductReleaseGoal(organizationId: string, productId: string, data: ReleaseGoal) {

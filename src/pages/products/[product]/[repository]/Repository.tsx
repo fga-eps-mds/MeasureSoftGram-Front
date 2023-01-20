@@ -27,11 +27,11 @@ interface FilterProps {
 const Repository: NextPageWithLayout = () => {
   useQueryProduct();
 
-  const { repositoryHistoricalCharacteristics, repositoryHistoricalMeasures, checkedOptionsFormat } = useQuery();
-  const { characteristics, subCharacteristics, measures, currentRepository, historicalSQC } = useRepositoryContext();
+  const { repositoryHistoricalCharacteristics, repositoryHistoricalMeasures, repositoryHistoricalMetrics, checkedOptionsFormat } = useQuery();
+  const { characteristics, subCharacteristics, measures, metrics, currentRepository, historicalSQC } = useRepositoryContext();
 
-  // console.log('Measures', measures)
-  console.log('Historical Measures', repositoryHistoricalMeasures)
+  // console.log('Metrics', metrics)
+  console.log('Historical Measures', repositoryHistoricalMetrics)
 
   const [filterCharacteristics, setFilterCharacteristics] = useState<FilterProps>({
     filterTitle: 'CARACTERÍSTICAS',
@@ -43,6 +43,10 @@ const Repository: NextPageWithLayout = () => {
   });
   const [filterMeasures, setFilterMeasures] = useState<FilterProps>({
     filterTitle: 'MEDIDAS',
+    options: []
+  });
+  const [filterMetrics, setFilterMetrics] = useState<FilterProps>({
+    filterTitle: 'MÉTRICAS',
     options: []
   });
 
@@ -57,29 +61,32 @@ const Repository: NextPageWithLayout = () => {
     setFilterCharacteristics({ ...filterCharacteristics, options: characteristics });
     setFilterSubCharacteristics({ ...filterSubCharacteristics, options: subCharacteristics });
     setFilterMeasures({ ...filterMeasures, options: measures });
-  }, [characteristics, subCharacteristics]);
+    setFilterMetrics({ ...filterMetrics, options: metrics });
+  }, [characteristics, subCharacteristics, measures, metrics]);
 
   const isArrayEmpty = (array: Array<any>) => array.length === 0;
 
   if (
     isArrayEmpty(repositoryHistoricalCharacteristics) ||
     isArrayEmpty(repositoryHistoricalMeasures) ||
+    isArrayEmpty(repositoryHistoricalMetrics) ||
     isArrayEmpty(filterCharacteristics.options) ||
     isArrayEmpty(filterSubCharacteristics.options) ||
     isArrayEmpty(filterMeasures.options) ||
+    isArrayEmpty(filterMetrics.options) ||
     !currentRepository ||
     !historicalSQC
   ) {
     return <Skeleton />;
   }
 
-  console.log(currentRepository)
+  // console.log(currentRepository)
 
   return (
     <Box display="flex" width="100%" flexDirection="row">
       <Styles.FilterBackground>
         <Box display="flex" paddingX="15px" flexDirection="column" marginTop="36px" position="fixed">
-          {[filterCharacteristics, filterSubCharacteristics, filterMeasures].map((filter) => (
+          {[filterCharacteristics, filterSubCharacteristics, filterMeasures, filterMetrics].map((filter) => (
             <Filters
               key={filter.filterTitle}
               filterTitle={filter.filterTitle}
@@ -148,6 +155,26 @@ const Repository: NextPageWithLayout = () => {
                   />
                 )}
             </Box>
+          </Container>
+        </Box>
+
+        <Box marginBottom="42px">
+          <Container>
+            <Box display="flex" flexDirection="column" width="100%">
+              <Box marginTop="20px" marginBottom="16px">
+                <Typography variant="caption" color="gray">
+                  {currentRepository?.description}
+                </Typography>
+              </Box>
+              {repositoryHistoricalMetrics &&
+                repositoryHistoricalMetrics.length !== 0 && (
+                  <GraphicStackedLine
+                    historical={repositoryHistoricalMetrics}
+                    checkedOptions={checkedOptions}
+                    title="Métricas"
+                  />
+                )}
+              </Box>
           </Container>
         </Box>
 
