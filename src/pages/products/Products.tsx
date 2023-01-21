@@ -123,7 +123,6 @@ const Products: NextPageWithLayout = () => {
                 <IconButton color="primary" onClick={(e) => handleOpenMenu(e, index)}>
                   <MoreVert />
                 </IconButton>
-                {product?.name}
                 <Menu
                   id="basic-menu"
                   key={product?.id}
