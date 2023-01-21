@@ -172,3 +172,12 @@ export interface Goal {
   end_at: Date | string;
   data: Characteristics;
 }
+
+export interface CompareGoalAccomplished {
+  id: number;
+  release_name: string;
+  start_at: Date | string;
+  end_at: Date | string;
+  accomplished: Characteristics;
+  goal: Characteristics;
+}

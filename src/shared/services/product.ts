@@ -69,6 +69,11 @@ class ProductQuery {
     return api.post(url, data);
   }
 
+  async getCompareGoalAccomplished(organizationId: string, productId: string, repositoryId: Number) {
+    const url = `organizations/${organizationId}/products/${productId}/all/goal/`;
+    return api.get(url);
+  }
+
   async getProductRepositoriesSqcHistory(organizationId: string, productId: string) {
     const url = `organizations/${organizationId}/products/${productId}/repositories-sqc-historical-values/`;
     return api.get<RepositoriesSqcHistory>(url);

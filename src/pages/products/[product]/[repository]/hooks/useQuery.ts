@@ -10,20 +10,27 @@ import formatEntitiesFilter from '@utils/formatEntitiesFilter';
 import formatEntitiesMetrics from '@utils/formatEntitiesMetrics';
 import { getPathId } from '@utils/pathDestructer';
 import { Historical } from '@customTypes/repository';
-import { LatestValues } from '@customTypes/product';
+import { LatestValues, CompareGoalAccomplished } from '@customTypes/product';
 
 import { LARGE_PRIME_NUMBER } from './const';
 
 export const useQuery = () => {
-  const { setCurrentRepository, setCharacteristics, setSubCharacteristics, setMeasures, setMetrics, setHistoricalSQC } = useRepositoryContext();
+  const { setCurrentRepository, setCharacteristics, setSubCharacteristics, setMeasures, setMetrics, setHistoricalSQC } =
+    useRepositoryContext();
 
   const [repositoryHistoricalCharacteristics, setRepositoryHistoricalCharacteristics] = useState<Historical[]>([]);
   const [latestValueCharacteristics, setLatestValueCharacteristics] = useState<LatestValues[]>([]);
+  const [comparedGoalAccomplished, setcomparedGoalAccomplished] = useState<CompareGoalAccomplished[]>([]);
   const [checkedOptionsFormat, setCheckedOptions] = useState({});
 
   const { query } = useRouter();
 
-  function formatCheckedOptions(characteristics: string[], subCharacteristics: string[], measures: string[], metrics: string[]) {
+  function formatCheckedOptions(
+    characteristics: string[],
+    subCharacteristics: string[],
+    measures: string[],
+    metrics: string[]
+  ) {
     let map = {};
     const updateMap = (option: string) => {
       map = {
@@ -125,14 +132,32 @@ export const useQuery = () => {
     }
   }
 
+  async function loadCompareGoalAccomplished(organizationId: string, productId: string, repositoryId: string) {
+    try {
+      const result = await productQuery.getCompareGoalAccomplished(organizationId, productId, repositoryId);
+      return result?.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   useEffect(() => {
     if (query?.repository) {
       const [organizationId, productId] = getPathId(query?.product as string);
       const [repositoryId] = getPathId(query?.repository as string);
 
       loadRepositoryInfo(organizationId, productId, repositoryId);
+      loadCompareGoalAccomplished(organizationId, productId, repositoryId).then((data) => {
+        setcomparedGoalAccomplished(data);
+      });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query?.repository]);
 
-  return { repositoryHistoricalCharacteristics, latestValueCharacteristics, checkedOptionsFormat };
+  return {
+    repositoryHistoricalCharacteristics,
+    checkedOptionsFormat,
+    comparedGoalAccomplished,
+    latestValueCharacteristics
+  };
 };

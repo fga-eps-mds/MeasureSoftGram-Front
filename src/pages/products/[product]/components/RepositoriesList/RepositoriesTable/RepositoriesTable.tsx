@@ -15,7 +15,7 @@ function RepositoriesTable() {
   const router = useRouter();
 
   const handleClickCell = (path: string) => {
-    router.push(`${currentOrganization.id}-${currentProduct?.id}-${currentProduct?.name}/${path}`);
+    router.push(`${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/${path}`);
   };
 
   return (
