@@ -41,7 +41,7 @@ const ConfigPage = ({ isOpen, onClose, repoName = '', organizationId, productId 
     setCharacterCheckbox([]);
     setSubcharacterCheckbox([]);
     setMeasureheckbox([]);
-  }, [isOpen]);
+  }, [data, isOpen]);
 
   useEffect(() => {
     setIsValuesValid(false);
