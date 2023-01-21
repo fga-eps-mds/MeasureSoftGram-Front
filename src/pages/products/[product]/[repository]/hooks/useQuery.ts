@@ -17,8 +17,6 @@ export const useQuery = () => {
   const { setCurrentRepository, setCharacteristics, setSubCharacteristics, setMeasures, setMetrics, setHistoricalSQC } = useRepositoryContext();
 
   const [repositoryHistoricalCharacteristics, setRepositoryHistoricalCharacteristics] = useState<Historical[]>([]);
-  const [repositoryHistoricalMeasures, setRepositoryHistoricalMeasures] = useState<Historical[]>([]);
-  const [repositoryHistoricalMetrics, setRepositoryHistoricalMetrics] = useState<Historical[]>([]);
   const [checkedOptionsFormat, setCheckedOptions] = useState({});
 
   const { query } = useRouter();
@@ -47,8 +45,6 @@ export const useQuery = () => {
 
       const resultMetrics = await productQuery.getEntitiesMetrics(organizationId, productId, repositoryId);
       const [metrics] = formatEntitiesMetrics(resultMetrics.data);
-      
-      // console.log('resultMetrics', resultMetrics);
 
       setCharacteristics(characteristics);
       setSubCharacteristics(subCharacteristics);
@@ -70,36 +66,6 @@ export const useQuery = () => {
       });
 
       setRepositoryHistoricalCharacteristics(result.data.results);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  async function loadHistoricalMeasures(organizationId: string, productId: string, repositoryId: string) {
-    try {
-      const result = await repository.getHistorical({
-        organizationId,
-        productId,
-        repositoryId,
-        entity: 'measures'
-      });
-
-      setRepositoryHistoricalMeasures(result.data.results);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  async function loadHistoricalMetrics(organizationId: string, productId: string, repositoryId: string) {
-    try {
-      const result = await repository.getHistorical({
-        organizationId,
-        productId,
-        repositoryId,
-        entity: 'metrics'
-      });
-
-      setRepositoryHistoricalMetrics(result.data.results);
     } catch (error) {
       console.error(error);
     }
@@ -140,8 +106,6 @@ export const useQuery = () => {
         loadHistoricalSqc(organizationId, productId, repositoryId),
         loadRepositorySupportedEntities(organizationId, productId, repositoryId),
         loadHistoricalCharacteristics(organizationId, productId, repositoryId),
-        loadHistoricalMeasures(organizationId, productId, repositoryId),
-        loadHistoricalMetrics(organizationId, productId, repositoryId)
       ]).then();
     } catch (error) {
       console.error(error);
@@ -157,5 +121,5 @@ export const useQuery = () => {
     }
   }, [query?.repository]);
 
-  return { repositoryHistoricalCharacteristics, repositoryHistoricalMeasures, repositoryHistoricalMetrics, checkedOptionsFormat };
+  return { repositoryHistoricalCharacteristics, checkedOptionsFormat };
 };

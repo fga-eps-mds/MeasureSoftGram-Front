@@ -11,8 +11,7 @@ import { useRepositoryContext } from '@contexts/RepositoryProvider';
 
 import Skeleton from './components/Skeleton';
 import SubCharacteristicsList from './components/SubCharacteristicsList';
-import MeasuresList from './components/MeasuresList';
-import MetricsList from './components/MetricsList';
+import HistoricalInfosList from './components/HistoricalInfosList';
 
 import { useQuery as useQueryProduct } from '../hooks/useQuery';
 import { useQuery } from './hooks/useQuery';
@@ -27,11 +26,8 @@ interface FilterProps {
 const Repository: NextPageWithLayout = () => {
   useQueryProduct();
 
-  const { repositoryHistoricalCharacteristics, repositoryHistoricalMeasures, repositoryHistoricalMetrics, checkedOptionsFormat } = useQuery();
+  const { repositoryHistoricalCharacteristics, checkedOptionsFormat } = useQuery();
   const { characteristics, subCharacteristics, measures, metrics, currentRepository, historicalSQC } = useRepositoryContext();
-
-  // console.log('Metrics', metrics)
-  console.log('Historical Measures', repositoryHistoricalMetrics)
 
   const [filterCharacteristics, setFilterCharacteristics] = useState<FilterProps>({
     filterTitle: 'CARACTERÍSTICAS',
@@ -68,8 +64,6 @@ const Repository: NextPageWithLayout = () => {
 
   if (
     isArrayEmpty(repositoryHistoricalCharacteristics) ||
-    isArrayEmpty(repositoryHistoricalMeasures) ||
-    isArrayEmpty(repositoryHistoricalMetrics) ||
     isArrayEmpty(filterCharacteristics.options) ||
     isArrayEmpty(filterSubCharacteristics.options) ||
     isArrayEmpty(filterMeasures.options) ||
@@ -80,12 +74,10 @@ const Repository: NextPageWithLayout = () => {
     return <Skeleton />;
   }
 
-  // console.log(currentRepository)
-
   return (
     <Box display="flex" width="100%" flexDirection="row">
       <Styles.FilterBackground>
-        <Box display="flex" paddingX="15px" flexDirection="column" marginTop="36px" position="fixed">
+        <Box display="flex" paddingX="15px" flexDirection="column" marginTop="36px">
           {[filterCharacteristics, filterSubCharacteristics, filterMeasures, filterMetrics].map((filter) => (
             <Filters
               key={filter.filterTitle}
@@ -130,53 +122,9 @@ const Repository: NextPageWithLayout = () => {
           </Container>
         </Box>
 
-        {/* <MeasuresList />
-        
-        
-        <MetricsList /> */}
+        {/* <SubCharacteristicsList checkedOptions={checkedOptions} /> */}
 
-        <SubCharacteristicsList checkedOptions={checkedOptions} />
-        
-
-        <Box marginBottom="42px">
-          <Container>
-            <Box display="flex" flexDirection="column" width="100%">
-              <Box marginTop="20px" marginBottom="16px">
-                <Typography variant="caption" color="gray">
-                  {currentRepository?.description}
-                </Typography>
-              </Box>
-              {repositoryHistoricalMeasures &&
-                repositoryHistoricalMeasures.length !== 0 && (
-                  <GraphicStackedLine
-                    historical={repositoryHistoricalMeasures}
-                    checkedOptions={checkedOptions}
-                    title="Medidas"
-                  />
-                )}
-            </Box>
-          </Container>
-        </Box>
-
-        <Box marginBottom="42px">
-          <Container>
-            <Box display="flex" flexDirection="column" width="100%">
-              <Box marginTop="20px" marginBottom="16px">
-                <Typography variant="caption" color="gray">
-                  {currentRepository?.description}
-                </Typography>
-              </Box>
-              {repositoryHistoricalMetrics &&
-                repositoryHistoricalMetrics.length !== 0 && (
-                  <GraphicStackedLine
-                    historical={repositoryHistoricalMetrics}
-                    checkedOptions={checkedOptions}
-                    title="Métricas"
-                  />
-                )}
-              </Box>
-          </Container>
-        </Box>
+        <HistoricalInfosList checkedOptions={checkedOptions}/>
 
         
       </Box>
