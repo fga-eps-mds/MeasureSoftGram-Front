@@ -12,21 +12,62 @@ import { useRepositoryContext } from '@contexts/RepositoryProvider';
 import Skeleton from './components/Skeleton';
 import SubCharacteristicsList from './components/SubCharacteristicsList';
 import HistoricalInfosList from './components/HistoricalInfosList';
+import LatestValueTable from './components/LatestValueTable';
 
 import { useQuery as useQueryProduct } from '../hooks/useQuery';
 import { useQuery } from './hooks/useQuery';
 
 import * as Styles from './styles';
+import axios from 'axios';
 
 interface FilterProps {
   filterTitle: string;
   options: Array<string>;
 }
 
+
+const tree = {
+  'reliability': {
+    'testing_status': {
+      'passed_tests': [
+        'test_errors',
+        'test_failures',
+        'tests'
+      ],
+      'test_builds' : [
+        'test_execution_time'
+      ],
+      'test_coverage': [
+        'coverage'
+      ]
+    }
+  },
+  'maintainability': {
+    'modifiability': {
+      'non_complex_file_density': [
+        'complexity',
+        'functions'
+      ],
+      'commented_file_density': [
+        'comment_lines_density'
+      ],
+      'duplication_absense' : [
+        'duplicated_lines_density'
+      ]
+    }
+  }
+}
+
+// files
+// ncloc
+// reliability_rating
+// security_rating
+// test_success_density
+
 const Repository: NextPageWithLayout = () => {
   useQueryProduct();
 
-  const { repositoryHistoricalCharacteristics, checkedOptionsFormat } = useQuery();
+  const { repositoryHistoricalCharacteristics, latestValueCharacteristics, checkedOptionsFormat } = useQuery();
   const { characteristics, subCharacteristics, measures, metrics, currentRepository, historicalSQC } = useRepositoryContext();
 
   const [filterCharacteristics, setFilterCharacteristics] = useState<FilterProps>({
@@ -46,8 +87,35 @@ const Repository: NextPageWithLayout = () => {
     options: []
   });
 
+  // console.log("Dale latestValueCharacteristics", latestValueCharacteristics);
 
   const [checkedOptions, setCheckedOptions] = useState(checkedOptionsFormat);
+
+  // -------------------------------------------
+
+  async function getNextFilterOptionsFromAPI(currentFilterOptions: any[]) {
+    try {
+      // Make an API call to get the next filter options
+      // For example, you can pass the current filter options as query parameters in the API call
+      const response = await axios.get(`http://localhost:3000/products/1-1-MeasureSoftGram/1-2022-2-MeasureSoftGram-CLI=${currentFilterOptions}`);
+      console.log("Teste",response.data);
+      // Extract the next filter options from the API response
+      const nextFilterOptions = response.data.nextFilterOptions;
+      return nextFilterOptions;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  
+  const [nextFilterOptions, setNextFilterOptions] = useState([]);
+
+  async function updateNextFilterOptions(currentFilterOptions: any[]) {
+      console.log("Entrou aqui");
+      const options = getNextFilterOptionsFromAPI(currentFilterOptions);
+      setNextFilterOptions(await options);
+  }
+
+  // -------------------------------------------
 
   useEffect(() => {
     setCheckedOptions(checkedOptionsFormat);
@@ -74,10 +142,11 @@ const Repository: NextPageWithLayout = () => {
     return <Skeleton />;
   }
 
+
   return (
     <Box display="flex" width="100%" flexDirection="row">
       <Styles.FilterBackground>
-        <Box display="flex" paddingX="15px" flexDirection="column" marginTop="36px">
+        <Box display="flex" paddingX="10px" flexDirection="column" marginTop="0px" position="fixed" overflow="auto" maxHeight="85vh">
           {[filterCharacteristics, filterSubCharacteristics, filterMeasures, filterMetrics].map((filter) => (
             <Filters
               key={filter.filterTitle}
@@ -85,8 +154,8 @@ const Repository: NextPageWithLayout = () => {
               options={filter.options}
               updateOptions={setCheckedOptions}
               checkedOptions={checkedOptions}
-            />
-          ))}
+              />
+              ))}
         </Box>
       </Styles.FilterBackground>
 
@@ -116,9 +185,15 @@ const Repository: NextPageWithLayout = () => {
                     historical={repositoryHistoricalCharacteristics.concat(historicalSQC)}
                     checkedOptions={checkedOptions}
                     title="Características"
-                  />
+                  /> 
                 )}
-            </Box>
+
+              <LatestValueTable 
+                title="Características"
+                latestValue={latestValueCharacteristics}/>
+
+              </Box>
+            
           </Container>
         </Box>
 
@@ -126,10 +201,12 @@ const Repository: NextPageWithLayout = () => {
 
         <HistoricalInfosList checkedOptions={checkedOptions}/>
 
+          
         
       </Box>
     </Box>
-  );
+    
+    );
 };
 
 Repository.getLayout = getLayout;

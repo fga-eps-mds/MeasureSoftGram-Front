@@ -140,3 +140,26 @@ export interface EntitiesMetrics {
   results: Array<MeasuresHistoryResult>;
 }
 
+
+export interface LatestValuesInfos{
+  id: number;
+  value: number;
+  created_at: string;
+}
+
+export interface LatestValuesResult {
+  id: number;
+  key: string;
+  name: string;
+  description: string;
+  latest: Array<LatestValuesInfos>;
+}
+
+export interface LatestValues {
+  count: string;
+  next: string;
+  previous: string;
+  results: Array<LatestValuesResult>;
+}
+
+

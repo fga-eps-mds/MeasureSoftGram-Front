@@ -10,6 +10,7 @@ import formatEntitiesFilter from '@utils/formatEntitiesFilter';
 import formatEntitiesMetrics from '@utils/formatEntitiesMetrics';
 import { getPathId } from '@utils/pathDestructer';
 import { Historical } from '@customTypes/repository';
+import { LatestValues } from '@customTypes/product';
 
 import { LARGE_PRIME_NUMBER } from './const';
 
@@ -17,6 +18,7 @@ export const useQuery = () => {
   const { setCurrentRepository, setCharacteristics, setSubCharacteristics, setMeasures, setMetrics, setHistoricalSQC } = useRepositoryContext();
 
   const [repositoryHistoricalCharacteristics, setRepositoryHistoricalCharacteristics] = useState<Historical[]>([]);
+  const [latestValueCharacteristics, setLatestValueCharacteristics] = useState<LatestValues[]>([]);
   const [checkedOptionsFormat, setCheckedOptions] = useState({});
 
   const { query } = useRouter();
@@ -43,7 +45,7 @@ export const useQuery = () => {
       const result = await productQuery.getPreConfigEntitiesRelationship(organizationId, productId);
       const [characteristics, subCharacteristics, measures] = formatEntitiesFilter(result.data);
 
-      const resultMetrics = await productQuery.getEntitiesMetrics(organizationId, productId, repositoryId);
+      const resultMetrics = await productQuery.getMetricsLatestValues(organizationId, productId, repositoryId);
       const [metrics] = formatEntitiesMetrics(resultMetrics.data);
 
       setCharacteristics(characteristics);
@@ -66,6 +68,16 @@ export const useQuery = () => {
       });
 
       setRepositoryHistoricalCharacteristics(result.data.results);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function loadLatestValueCharacteristics(organizationId: string, productId: string, repositoryId: string) {
+    try {
+      const result = await productQuery.getCharacteristicsLatestValues(organizationId, productId, repositoryId);
+
+      setLatestValueCharacteristics(result.data);
     } catch (error) {
       console.error(error);
     }
@@ -106,6 +118,7 @@ export const useQuery = () => {
         loadHistoricalSqc(organizationId, productId, repositoryId),
         loadRepositorySupportedEntities(organizationId, productId, repositoryId),
         loadHistoricalCharacteristics(organizationId, productId, repositoryId),
+        loadLatestValueCharacteristics(organizationId, productId, repositoryId)
       ]).then();
     } catch (error) {
       console.error(error);
@@ -121,5 +134,5 @@ export const useQuery = () => {
     }
   }, [query?.repository]);
 
-  return { repositoryHistoricalCharacteristics, checkedOptionsFormat };
+  return { repositoryHistoricalCharacteristics, latestValueCharacteristics, checkedOptionsFormat };
 };

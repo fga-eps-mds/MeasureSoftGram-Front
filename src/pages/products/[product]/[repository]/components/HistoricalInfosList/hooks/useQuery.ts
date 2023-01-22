@@ -3,10 +3,12 @@ import { useRouter } from 'next/router';
 
 import { useProductContext } from '@contexts/ProductProvider';
 
+import { productQuery } from '@services/product';
 import { repository } from '@services/repository';
 
 import { getPathId } from '@utils/pathDestructer';
 import { Historical } from '@customTypes/repository';
+import { LatestValues } from '@customTypes/product';
 
 export const useQuery = () => {
   const { currentProduct } = useProductContext();
@@ -14,6 +16,10 @@ export const useQuery = () => {
   const [repositoryHistoricalSubCharacteristics, setRepositoryHistoricalSubCharacteristics] = useState<Historical[]>([]);
   const [repositoryHistoricalMeasures, setRepositoryHistoricalMeasures] = useState<Historical[]>([]);
   const [repositoryHistoricalMetrics, setRepositoryHistoricalMetrics] = useState<Historical[]>([]);
+
+  const [latestValueSubcharacteristics, setLatestValueSubcharacteristics] = useState<LatestValues[]>([]);
+  const [latestValueMeasures, setLatestValueMeasures] = useState<LatestValues[]>([]);
+  const [latestValueMetrics, setLatestValueMetrics] = useState<LatestValues[]>([]);
 
   const { query } = useRouter();
 
@@ -62,6 +68,36 @@ export const useQuery = () => {
     }
   }
 
+  async function loadLatestValueSubcharacteristics(organizationId: string, productId: string, repositoryId: string) {
+    try {
+      const result = await productQuery.getSubcharacteristicsLatestValues(organizationId, productId, repositoryId);
+
+      setLatestValueSubcharacteristics(result.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function loadLatestValueMeasures(organizationId: string, productId: string, repositoryId: string) {
+    try {
+      const result = await productQuery.getMeasuresLatestValues(organizationId, productId, repositoryId);
+
+      setLatestValueMeasures(result.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function loadLatestValueMetrics(organizationId: string, productId: string, repositoryId: string) {
+    try {
+      const result = await productQuery.getMetricsLatestValues(organizationId, productId, repositoryId);
+
+      setLatestValueMetrics(result.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   useEffect(() => {
     if (query?.repository && currentProduct) {
       const [organizationId, productId] = getPathId(query?.product as string);
@@ -70,8 +106,11 @@ export const useQuery = () => {
       loadHistoricalSubCharacteristics(organizationId, productId, repositoryId);
       loadHistoricalMeasures(organizationId, productId, repositoryId);
       loadHistoricalMetrics(organizationId, productId, repositoryId);
+      loadLatestValueSubcharacteristics(organizationId, productId, repositoryId);
+      loadLatestValueMeasures(organizationId, productId, repositoryId);
+      loadLatestValueMetrics(organizationId, productId, repositoryId);
     }
   }, [query?.repository, currentProduct]);
 
-  return { repositoryHistoricalSubCharacteristics, repositoryHistoricalMeasures, repositoryHistoricalMetrics };
+  return { repositoryHistoricalSubCharacteristics, repositoryHistoricalMeasures, repositoryHistoricalMetrics, latestValueSubcharacteristics, latestValueMeasures, latestValueMetrics };
 };
