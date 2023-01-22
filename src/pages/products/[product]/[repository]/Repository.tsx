@@ -132,6 +132,7 @@ const Repository: NextPageWithLayout = () => {
 
   if (
     isArrayEmpty(repositoryHistoricalCharacteristics) ||
+    isArrayEmpty(latestValueCharacteristics) ||
     isArrayEmpty(filterCharacteristics.options) ||
     isArrayEmpty(filterSubCharacteristics.options) ||
     isArrayEmpty(filterMeasures.options) ||

@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { useQuery } from '../hooks/useQuery';
 
-import Skeleton from '@mui/material/Skeleton';
+import Skeleton from '../../Skeleton/Skeleton';
 
 import LatestValueTable from '../../LatestValueTable/LatestValueTable'
 
