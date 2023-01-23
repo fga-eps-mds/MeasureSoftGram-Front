@@ -29,31 +29,31 @@ interface FilterProps {
 const tree = {
   'reliability': {
     'testing_status': {
-      'passed_tests': [
-        'test_errors',
-        'test_failures',
-        'tests'
-      ],
-      'test_builds' : [
-        'test_execution_time'
-      ],
-      'test_coverage': [
-        'coverage'
-      ]
+      'passed_tests': {
+        'test_errors': true,
+        'test_failures': true,
+        'tests': true
+      },
+      'test_builds' : {
+        'test_execution_time': true
+      },
+      'test_coverage': {
+        'coverage': true
+      }
     }
   },
   'maintainability': {
     'modifiability': {
-      'non_complex_file_density': [
-        'complexity',
-        'functions'
-      ],
-      'commented_file_density': [
-        'comment_lines_density'
-      ],
-      'duplication_absense' : [
-        'duplicated_lines_density'
-      ]
+      'non_complex_file_density': {
+        'complexity': true,
+        'functions': true
+      },
+      'commented_file_density': {
+        'comment_lines_density': true
+      },
+      'duplication_absense' : {
+        'duplicated_lines_density': true
+      }
     }
   }
 }
@@ -87,39 +87,13 @@ const Repository: NextPageWithLayout = () => {
     options: []
   });
 
-  // console.log("Dale latestValueCharacteristics", latestValueCharacteristics);
-
   const [checkedOptions, setCheckedOptions] = useState(checkedOptionsFormat);
 
-  // -------------------------------------------
-
-  async function getNextFilterOptionsFromAPI(currentFilterOptions: any[]) {
-    try {
-      // Make an API call to get the next filter options
-      // For example, you can pass the current filter options as query parameters in the API call
-      const response = await axios.get(`http://localhost:3000/products/1-1-MeasureSoftGram/1-2022-2-MeasureSoftGram-CLI=${currentFilterOptions}`);
-      console.log("Teste",response.data);
-      // Extract the next filter options from the API response
-      const nextFilterOptions = response.data.nextFilterOptions;
-      return nextFilterOptions;
-    } catch (error) {
-      console.error(error);
-    }
-  }
   
-  const [nextFilterOptions, setNextFilterOptions] = useState([]);
-
-  async function updateNextFilterOptions(currentFilterOptions: any[]) {
-      console.log("Entrou aqui");
-      const options = getNextFilterOptionsFromAPI(currentFilterOptions);
-      setNextFilterOptions(await options);
-  }
-
-  // -------------------------------------------
-
   useEffect(() => {
     setCheckedOptions(checkedOptionsFormat);
   }, [checkedOptionsFormat]);
+
 
   useEffect(() => {
     setFilterCharacteristics({ ...filterCharacteristics, options: characteristics });
@@ -129,6 +103,7 @@ const Repository: NextPageWithLayout = () => {
   }, [characteristics, subCharacteristics, measures, metrics]);
 
   const isArrayEmpty = (array: Array<any>) => array.length === 0;
+
 
   if (
     isArrayEmpty(repositoryHistoricalCharacteristics) ||
@@ -144,6 +119,45 @@ const Repository: NextPageWithLayout = () => {
   }
 
 
+  const handleFilter = (item) => {
+    for (const charc in tree) {
+      if (item[charc] === false) {
+        for (const subCharc in tree[charc]) {
+          item[subCharc] = false;
+          for (const measure in tree[charc][subCharc]) {
+            item[measure] = false;
+            for (const metric in tree[charc][subCharc][measure]) {
+              item[metric] = false;
+            }
+          }
+        }
+      }
+      else {
+        for (const subCharc in tree[charc]) {
+          if (item[subCharc] === false) {
+            for (const measure in tree[charc][subCharc]) {
+              item[measure] = false;
+              for (const metric in tree[charc][subCharc][measure]) {
+                item[metric] = false;
+              }
+            }
+          }
+          else {
+            for (const measure in tree[charc][subCharc]) {
+              if (item[measure] === false) {
+                for (const metric in tree[charc][subCharc][measure]) {
+                  item[metric] = false;
+                }
+              }
+            }
+          }
+        }        
+      }
+    }
+    setCheckedOptions(item);
+  };
+
+  
   return (
     <Box display="flex" width="100%" flexDirection="row">
       <Styles.FilterBackground>
@@ -153,7 +167,7 @@ const Repository: NextPageWithLayout = () => {
               key={filter.filterTitle}
               filterTitle={filter.filterTitle}
               options={filter.options}
-              updateOptions={setCheckedOptions}
+              updateOptions={handleFilter}
               checkedOptions={checkedOptions}
               />
               ))}
