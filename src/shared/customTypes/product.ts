@@ -175,6 +175,7 @@ export interface Goal {
 
 export interface CompareGoalAccomplished {
   id: number;
+  created_by: string;
   release_name: string;
   start_at: Date | string;
   end_at: Date | string;

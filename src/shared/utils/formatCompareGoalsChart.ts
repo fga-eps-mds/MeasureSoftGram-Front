@@ -12,7 +12,11 @@ const formatCompareGoalsChart = (data: CompareGoalAccomplished) => {
   return {
     title: {
       text: 'Realizado x Planejado - Características',
-      subtext: data?.release_name
+      subtext: `${data?.release_name} - release criada por ${data?.created_by}`,
+      subtextStyle: {
+        color: '#4461A5',
+        fontSize: 14
+      }
     },
     grid: {
       left: '3%',
