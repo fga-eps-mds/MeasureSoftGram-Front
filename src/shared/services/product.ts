@@ -78,6 +78,11 @@ class ProductQuery {
     const url = `organizations/${organizationId}/products/${productId}/repositories-sqc-historical-values/`;
     return api.get<RepositoriesSqcHistory>(url);
   }
+
+  async getReleases(organizationId: string, productId: string) {
+    const url = `organizations/${organizationId}/products/${productId}/repositories-sqc-historical-values/`;
+    return api.get<RepositoriesSqcHistory>(url);
+  }
 }
 
 export const productQuery = new ProductQuery();
