@@ -10,19 +10,18 @@ import { NextPageWithLayout } from '@pages/_app.next';
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
 
 import Skeleton from './components/Skeleton';
-import SubCharacteristicsList from './components/SubCharacteristicsList';
-import HistoricalInfosList from './components/HistoricalInfosList';
+import HistoricalLatestInfos from './components/HistoricalInfosList';
 import LatestValueTable from './components/LatestValueTable';
 
 import { useQuery as useQueryProduct } from '../hooks/useQuery';
 import { useQuery } from './hooks/useQuery';
 
 import * as Styles from './styles';
-import axios from 'axios';
 
 interface FilterProps {
   filterTitle: string;
   options: Array<string>;
+  optionsShow: Array<string>;
 }
 
 
@@ -58,11 +57,25 @@ const tree = {
   }
 }
 
-// files
-// ncloc
-// reliability_rating
-// security_rating
-// test_success_density
+const treeParentRelationship = {
+  'test_errors': 'passed_tests',
+  'test_failures': 'passed_tests',
+  'tests': 'passed_tests',
+  'test_execution_time': 'test_builds',
+  'coverage': 'test_coverage',
+  'complexity': 'non_complex_file_density',
+  'functions': 'non_complex_file_density',
+  'comment_lines_density': 'commented_file_density',
+  'duplicated_lines_density': 'duplication_absense',
+  'passed_tests': 'testing_status',
+  'test_builds': 'testing_status',
+  'test_coverage': 'testing_status',
+  'non_complex_file_density': 'modifiability',
+  'commented_file_density': 'modifiability',
+  'duplication_absense': 'modifiability',
+  'testing_status': 'reliability',
+  'modifiability': 'maintainability'
+}
 
 const Repository: NextPageWithLayout = () => {
   useQueryProduct();
@@ -72,19 +85,23 @@ const Repository: NextPageWithLayout = () => {
 
   const [filterCharacteristics, setFilterCharacteristics] = useState<FilterProps>({
     filterTitle: 'CARACTERÍSTICAS',
-    options: []
+    options: [],
+    optionsShow: []
   });
   const [filterSubCharacteristics, setFilterSubCharacteristics] = useState<FilterProps>({
     filterTitle: 'SUB CARACTERÍSTICAS',
-    options: []
+    options: [],
+    optionsShow: []
   });
   const [filterMeasures, setFilterMeasures] = useState<FilterProps>({
     filterTitle: 'MEDIDAS',
-    options: []
+    options: [],
+    optionsShow: []
   });
   const [filterMetrics, setFilterMetrics] = useState<FilterProps>({
     filterTitle: 'MÉTRICAS',
-    options: []
+    options: [],
+    optionsShow: []
   });
 
   const [checkedOptions, setCheckedOptions] = useState(checkedOptionsFormat);
@@ -96,11 +113,34 @@ const Repository: NextPageWithLayout = () => {
 
 
   useEffect(() => {
-    setFilterCharacteristics({ ...filterCharacteristics, options: characteristics });
-    setFilterSubCharacteristics({ ...filterSubCharacteristics, options: subCharacteristics });
-    setFilterMeasures({ ...filterMeasures, options: measures });
-    setFilterMetrics({ ...filterMetrics, options: metrics });
-  }, [characteristics, subCharacteristics, measures, metrics]);
+    const subCharacteristicsFilter = [];
+    const measuresFilter = [];
+    const metricsFilter = ['ncloc', 'files'];
+
+    subCharacteristics.filter((subCharacteristic) => {
+      if (checkedOptions[treeParentRelationship[subCharacteristic]]){
+        subCharacteristicsFilter.push(subCharacteristic);
+      }
+    });
+
+    measures.filter((measure) => {
+      if (checkedOptions[treeParentRelationship[measure]]){
+        measuresFilter.push(measure);
+      }
+    });
+
+    metrics.filter((metric) => {
+      if (checkedOptions[treeParentRelationship[metric]]){
+        metricsFilter.push(metric);
+      }  
+    });
+
+
+    setFilterCharacteristics({ ...filterCharacteristics, options: characteristics, optionsShow: characteristics });
+    setFilterSubCharacteristics({ ...filterSubCharacteristics, options: subCharacteristics, optionsShow: subCharacteristicsFilter });
+    setFilterMeasures({ ...filterMeasures, options: measures, optionsShow: measuresFilter });
+    setFilterMetrics({ ...filterMetrics, options: metrics, optionsShow: metricsFilter });
+  }, [characteristics, subCharacteristics, measures, metrics, checkedOptions]);
 
   const isArrayEmpty = (array: Array<any>) => array.length === 0;
 
@@ -169,6 +209,7 @@ const Repository: NextPageWithLayout = () => {
               options={filter.options}
               updateOptions={handleFilter}
               checkedOptions={checkedOptions}
+              optionsShow={filter.optionsShow}
               />
               ))}
         </Box>
@@ -214,7 +255,9 @@ const Repository: NextPageWithLayout = () => {
 
         {/* <SubCharacteristicsList checkedOptions={checkedOptions} /> */}
 
-        <HistoricalInfosList checkedOptions={checkedOptions}/>
+        {/* <HistoricalInfosList checkedOptions={checkedOptions}/> */}
+
+        <HistoricalLatestInfos checkedOptions={checkedOptions}/>
 
           
         

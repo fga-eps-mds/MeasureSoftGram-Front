@@ -1,48 +1,77 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import { useQuery } from '../hooks/useQuery';
 
+import { useRepositoryContext } from '@contexts/RepositoryProvider';
+import GraphicStackedLine from '@components/GraphicStackedLine';
 import Skeleton from '../../Skeleton/Skeleton';
 
 import LatestValueTable from '../../LatestValueTable/LatestValueTable'
 
+interface OptionCheckedProps {
+    [key: string]: boolean;
+  }
+  
+interface Prop {
+    checkedOptions: OptionCheckedProps;
+}
 
-function HistoricalLatestInfos(){
+function HistoricalLatestInfos({ checkedOptions }: Prop){
+    const { repositoryHistoricalSubCharacteristics, repositoryHistoricalMeasures, repositoryHistoricalMetrics } = useQuery();
     const { latestValueSubcharacteristics, latestValueMeasures, latestValueMetrics } = useQuery();
 
-    
+    const {
+        historicalSQC: { history }
+      } = useRepositoryContext();
+      const [page, setPage] = useState(0);
+
     const isArrayEmpty = (array: Array<any>) => array.length === 0;
     
     if (
         isArrayEmpty(latestValueSubcharacteristics) ||
         isArrayEmpty(latestValueMeasures) ||
-        isArrayEmpty(latestValueMetrics)
+        isArrayEmpty(latestValueMetrics) ||
+        isArrayEmpty(repositoryHistoricalSubCharacteristics) ||
+        isArrayEmpty(repositoryHistoricalMeasures) ||
+        isArrayEmpty(repositoryHistoricalMetrics)
         ) {
             return <Skeleton />;
     }
 
     return(
         <>
-            <Box marginTop="24px" marginBottom="36px">
-                <Typography variant="h6">Sub Características</Typography>
+            <Box marginBottom="42px">
+                <GraphicStackedLine
+                    historical={repositoryHistoricalSubCharacteristics}
+                    checkedOptions={checkedOptions}
+                    title="Sub-Caracteríticas"
+                />
+                <LatestValueTable 
+                    title="Sub Características"
+                    latestValue={latestValueSubcharacteristics}/>
             </Box>
-            <LatestValueTable 
-                title="Sub Características"
-                latestValue={latestValueSubcharacteristics}/>
 
-            <Box marginTop="24px" marginBottom="36px">
-                <Typography variant="h6">Medidas</Typography>
+            <Box marginBottom="42px">
+                <GraphicStackedLine
+                    historical={repositoryHistoricalMeasures}
+                    checkedOptions={checkedOptions}
+                    title="Medidas"
+                />
+                <LatestValueTable 
+                    title="Medidas"
+                    latestValue={latestValueMeasures}/>
             </Box>
-            <LatestValueTable 
-                title="Medidas"
-                latestValue={latestValueMeasures}/>
 
-            <Box marginTop="24px" marginBottom="36px">
-                <Typography variant="h6">Métricas</Typography>
-            </Box>
-            <LatestValueTable 
-                title="Métricas"
-                latestValue={latestValueMetrics}/>
+            <Box marginBottom="42px">
+                <GraphicStackedLine
+                    historical={repositoryHistoricalMetrics}
+                    checkedOptions={checkedOptions}
+                    title="Métricas"
+                />
+                <LatestValueTable 
+                    title="Métricas"
+                    latestValue={latestValueMetrics}/>
+            </Box>  
         </>
     );
 }

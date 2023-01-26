@@ -1,9 +1,14 @@
 const formatEntitiesMetrics = (result: []) => {
 
-    const metrics = [];    
+    console.log(result['results'])
+
+    const metrics = [];
+    const metricsInvalid = ['reliability_rating', 'security_rating', 'test_success_density']
 
     for (let i = 0; i < result['results'].length; i++) {
-        metrics.push(result['results'][i]['key']);  
+        if (!metricsInvalid.includes(result['results'][i]['key'])) {
+            metrics.push(result['results'][i]['key']);  
+        }
     }
 
     return [metrics];
