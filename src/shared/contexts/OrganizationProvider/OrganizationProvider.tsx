@@ -20,14 +20,14 @@ export function OrganizationProvider({ children }: Props) {
   const [organizationList, setOrganizationList] = useState<Organization[]>([]);
   const [currentOrganization, setCurrentOrganization] = useState<Organization>();
 
-  const loadAllOrganization = useCallback(async () => {
+  const loadAllOrganization = async () => {
     try {
       const result = await organization?.getAllOrganization();
       setOrganizationList(result?.data?.results);
     } catch (error) {
       console.error(error);
     }
-  }, [setOrganizationList]);
+  };
 
   useEffect(() => {
     loadAllOrganization();
