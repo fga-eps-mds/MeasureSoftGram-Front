@@ -112,11 +112,14 @@ const Repository: NextPageWithLayout = () => {
   }, [checkedOptionsFormat]);
 
 
-  useEffect(() => {    
+  useEffect(() => {        
+    if (!subCharacteristics || !measures || !metrics) {
+      return;
+    }
+
     const subCharacteristicsFilter = [];
     const measuresFilter = [];
     const metricsFilter = ['ncloc', 'files'];
-
 
     subCharacteristics.forEach((subCharacteristic) => {
       if (checkedOptions[treeParentRelationship[subCharacteristic]]){
