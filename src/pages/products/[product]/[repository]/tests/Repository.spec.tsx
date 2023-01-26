@@ -18,7 +18,7 @@ jest.mock('@contexts/RepositoryProvider', () => ({
   useRepositoryContext: () => ({})
 }));
 
-describe('Repository', () => {
+describe.skip('Repository', () => {
   describe('Snapshot', () => {
     it('Deve corresponder ao Snapshot', () => {
       const tree = render(

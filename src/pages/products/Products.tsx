@@ -30,8 +30,7 @@ const Products: NextPageWithLayout = () => {
 
   const { session, logout } = useAuth();
   const router = useRouter();
-
-  console.log('session', session);
+  
   const { productsList } = useProductContext();
 
   const openMenu = Boolean(anchorEl);

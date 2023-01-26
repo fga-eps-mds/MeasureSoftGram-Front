@@ -112,24 +112,25 @@ const Repository: NextPageWithLayout = () => {
   }, [checkedOptionsFormat]);
 
 
-  useEffect(() => {
+  useEffect(() => {    
     const subCharacteristicsFilter = [];
     const measuresFilter = [];
     const metricsFilter = ['ncloc', 'files'];
 
-    subCharacteristics.filter((subCharacteristic) => {
+
+    subCharacteristics.forEach((subCharacteristic) => {
       if (checkedOptions[treeParentRelationship[subCharacteristic]]){
         subCharacteristicsFilter.push(subCharacteristic);
       }
     });
 
-    measures.filter((measure) => {
+    measures.forEach((measure) => {
       if (checkedOptions[treeParentRelationship[measure]]){
         measuresFilter.push(measure);
       }
     });
 
-    metrics.filter((metric) => {
+    metrics.forEach((metric) => {
       if (checkedOptions[treeParentRelationship[metric]]){
         metricsFilter.push(metric);
       }  
@@ -143,7 +144,6 @@ const Repository: NextPageWithLayout = () => {
   }, [characteristics, subCharacteristics, measures, metrics, checkedOptions]);
 
   const isArrayEmpty = (array: Array<any>) => array.length === 0;
-
 
   if (
     isArrayEmpty(repositoryHistoricalCharacteristics) ||
@@ -159,43 +159,41 @@ const Repository: NextPageWithLayout = () => {
   }
 
 
+  const handleMetric = (filteredItem, charc, subCharc, measure) => {
+    const newFilteredItem = {...filteredItem};
+    Object.keys(tree[charc][subCharc][measure]).forEach(metric => {
+      newFilteredItem[metric] = false;
+    });
+    return newFilteredItem;
+  }
+
+  const handleMeasure = (filteredItem, charc, subCharc,) => {
+    let newFilteredItem = {...filteredItem};
+    Object.keys(tree[charc][subCharc]).forEach(measure => {
+      newFilteredItem[measure] = false;
+      newFilteredItem = handleMetric(newFilteredItem, charc, subCharc, measure);
+    });
+    return newFilteredItem;
+  }
+
+  const handleSubCharacteristic = (filteredItem, charc) => {
+    let newFilteredItem = {...filteredItem};
+    Object.keys(tree[charc]).forEach(subCharc => {
+      newFilteredItem[subCharc] = false;
+      newFilteredItem = handleMeasure(newFilteredItem, charc, subCharc);
+    });
+    return newFilteredItem;
+  }
+  
   const handleFilter = (item) => {
-    for (const charc in tree) {
-      if (item[charc] === false) {
-        for (const subCharc in tree[charc]) {
-          item[subCharc] = false;
-          for (const measure in tree[charc][subCharc]) {
-            item[measure] = false;
-            for (const metric in tree[charc][subCharc][measure]) {
-              item[metric] = false;
-            }
-          }
-        }
+    let filteredItem = {...item};
+    Object.keys(tree).forEach(charc => {
+      if (filteredItem[charc] === false) {
+        filteredItem = handleSubCharacteristic(filteredItem, charc);
       }
-      else {
-        for (const subCharc in tree[charc]) {
-          if (item[subCharc] === false) {
-            for (const measure in tree[charc][subCharc]) {
-              item[measure] = false;
-              for (const metric in tree[charc][subCharc][measure]) {
-                item[metric] = false;
-              }
-            }
-          }
-          else {
-            for (const measure in tree[charc][subCharc]) {
-              if (item[measure] === false) {
-                for (const metric in tree[charc][subCharc][measure]) {
-                  item[metric] = false;
-                }
-              }
-            }
-          }
-        }        
-      }
-    }
-    setCheckedOptions(item);
-  };
+    });
+    setCheckedOptions(filteredItem);
+  }
 
   
   return (

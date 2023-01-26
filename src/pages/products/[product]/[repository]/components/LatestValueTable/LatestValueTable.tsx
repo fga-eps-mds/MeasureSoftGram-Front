@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
@@ -33,14 +33,13 @@ function LatestValueTable({title, latestValue}: Prop) {
   
     const rows: any[] = [];
     
-    for (let i = 0; i < latestValue['results'].length; i++) {
 
-      const name = latestValue['results'][i]['name'];
-      const Value = latestValue['results'][i]['latest']['value'];
-      const Data = latestValue['results'][i]['latest']['created_at'];
+    latestValue.results.forEach((item) => {
+      const {name} = item;
+      const {value, created_at: data} = item.latest;
 
-      rows.push(createData(name, Value, format(new Date(Data), 'dd/MM/yyyy HH:MM', { locale: ptBR })))    
-    }
+      rows.push(createData(name, value, format(new Date(data), 'dd/MM/yyyy HH:MM', { locale: ptBR })))
+    });
 
     return (
       <Box marginTop="12px" overflow="auto" maxHeight="200px">

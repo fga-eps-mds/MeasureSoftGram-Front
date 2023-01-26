@@ -44,7 +44,12 @@ const FILTER_CONST: FormatEntitiesFilterType = [
     key: 'Entity',
     subcharacteristics: [
       {
-        key: 'value1'
+        key: 'value1',
+        measures: [
+          {
+            key: 'value2'
+          }
+        ]
       }
     ]
   }
@@ -141,7 +146,7 @@ describe('Utils', () => {
   describe('formatEntitiesFilter', () => {
     it('Deve retornar array correto para a chave correta', () => {
       const value = formatEntitiesFilter(FILTER_CONST);
-      expect(value).toMatchObject([['Entity'], ['value1']]);
+      expect(value).toMatchObject([['Entity'], ['value1'], ['value2']]);
     });
   });
   describe('formatCharacteristicsHistory', () => {

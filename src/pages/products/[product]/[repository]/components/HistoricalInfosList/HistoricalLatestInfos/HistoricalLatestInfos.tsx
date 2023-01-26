@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import React from 'react';
+import { Box } from '@mui/material';
+import GraphicStackedLine from '@components/GraphicStackedLine';
 import { useQuery } from '../hooks/useQuery';
 
-import { useRepositoryContext } from '@contexts/RepositoryProvider';
-import GraphicStackedLine from '@components/GraphicStackedLine';
 import Skeleton from '../../Skeleton/Skeleton';
 
 import LatestValueTable from '../../LatestValueTable/LatestValueTable'
@@ -19,11 +18,6 @@ interface Prop {
 function HistoricalLatestInfos({ checkedOptions }: Prop){
     const { repositoryHistoricalSubCharacteristics, repositoryHistoricalMeasures, repositoryHistoricalMetrics } = useQuery();
     const { latestValueSubcharacteristics, latestValueMeasures, latestValueMetrics } = useQuery();
-
-    const {
-        historicalSQC: { history }
-      } = useRepositoryContext();
-      const [page, setPage] = useState(0);
 
     const isArrayEmpty = (array: Array<any>) => array.length === 0;
     

@@ -51,7 +51,6 @@ const ProductContent: React.FC<Props> = ({ repositoriesSqcHistory }) => {
     );
   }
 
-  {console.log(currentProduct)}
   return (
     <Container>
       <Box display="flex" flexDirection="column">
