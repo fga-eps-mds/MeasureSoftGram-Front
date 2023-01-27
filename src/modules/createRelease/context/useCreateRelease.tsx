@@ -2,6 +2,7 @@ import React, { createContext, ReactNode, useContext, useEffect, useState } from
 import { productQuery } from '@services/product';
 import { Changes } from '@customTypes/product';
 import { addDays, format } from 'date-fns';
+import { mutate } from 'swr';
 
 interface CreateReleaseProviderProps {
   children: ReactNode;
@@ -62,7 +63,9 @@ export function CreateReleaseProvider({ children, productId, organizationId }: C
       };
 
       await productQuery.createProductReleaseGoal(organizationId, productId, data);
-
+      await mutate(
+        JSON.stringify({ url: `organizations/${organizationId}/products/${organizationId}/all/goal/`, method: 'get' })
+      );
       setSuccessOnCreation('success');
     } catch (error) {
       setSuccessOnCreation('error');
