@@ -27,19 +27,19 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
   return (
     <AuthProvider>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
       <OrganizationProvider>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
         <RepositoryProvider>
           <ProductProvider>
             <Theme>{getLayout(<Component {...pageProps} />)}</Theme>

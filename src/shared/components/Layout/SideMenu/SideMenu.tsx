@@ -20,7 +20,7 @@ function Header() {
 
     const pathnameArray = asPath.split('/');
     setCurrentPath(pathnameArray[1]);
-  }, [router.pathname]);
+  }, [router, router.pathname]);
 
   const handleClick = (path: string) => {
     router.push(path);

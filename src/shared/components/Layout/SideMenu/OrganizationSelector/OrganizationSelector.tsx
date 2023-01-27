@@ -21,11 +21,11 @@ function OrganizationSelector() {
     if (organizationList.length !== 0 && !currentOrganization) {
       setSelectedOrganization(0);
     }
-  }, [organizationList]);
+  }, [currentOrganization, organizationList]);
 
   useEffect(() => {
     if (selectedOrganization !== undefined) setCurrentOrganization(organizationList[selectedOrganization]);
-  }, [selectedOrganization]);
+  }, [organizationList, selectedOrganization, setCurrentOrganization]);
 
   return (
     <Box mt="64px" display="flex" alignItems="center">

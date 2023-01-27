@@ -23,7 +23,7 @@ const GraphicStackedLine = ({ historical, checkedOptions, title, selected }: Pro
   useEffect(() => {
     const formatedOptions = formatCharacteristicsHistory({ historical, checkedOptions, title, selected });
     setChartOption(formatedOptions);
-  }, [historical, checkedOptions]);
+  }, [historical, checkedOptions, title, selected]);
 
   return (
     <Styles.GraphicContainer>

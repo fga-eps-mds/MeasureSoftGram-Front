@@ -19,12 +19,9 @@ export function ProductProvider({ children }: Props) {
   const [currentProduct, setCurrentProduct] = useState<Product | undefined>();
   const [productsList, setProductsList] = useState<Product[]>([]);
 
-  const updateProductList = useCallback(
-    (products: Product[]) => {
-      setProductsList(products);
-    },
-    [productsList]
-  );
+  const updateProductList = useCallback((products: Product[]) => {
+    setProductsList(products);
+  }, []);
 
   const value = useMemo(
     () => ({
