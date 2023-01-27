@@ -1,29 +1,34 @@
 import React from 'react';
 
 import { Box, Typography, Container } from '@mui/material';
-import { useRepositoryContext } from '@contexts/RepositoryProvider';
 
+import { productQuery } from '@services/product';
+import { useProductContext } from '@contexts/ProductProvider';
+import { useOrganizationContext } from '@contexts/OrganizationProvider';
+import { useRequest } from '@hooks/useRequest';
+import { CompareGoalAccomplished } from '@customTypes/product';
 import RepositoriesTable from './ReleasesTable';
-import Skeleton from './Skeleton';
 
 import * as Styles from './styles';
+import Skeleton from './Skeleton';
 
 function ReleasesList() {
-  const { repositoryList } = useRepositoryContext();
+  const { currentProduct } = useProductContext();
+  const { currentOrganization } = useOrganizationContext();
 
-  if (!repositoryList) {
-    return <Skeleton />;
-  }
-
+  const { data: ReleaseList, isLoading } = useRequest<CompareGoalAccomplished[]>(
+    productQuery.getReleaseList(currentOrganization?.id, currentProduct?.id as string)
+  );
+  if (isLoading) return <Skeleton />;
   return (
     <Box display="flex" flexDirection="column" mt="42px">
       <Styles.Wrapper>
         <Container>
           <Typography variant="h5" marginRight="10px" mb="32px">
-            Repositórios
+            Releases
           </Typography>
 
-          <RepositoriesTable />
+          <RepositoriesTable releaseList={ReleaseList} />
         </Container>
       </Styles.Wrapper>
     </Box>

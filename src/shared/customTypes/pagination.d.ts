@@ -1,7 +1,3 @@
-type PaginationParams = {
-  bookmark?: string;
-};
-
 type PaginatedResult<Data> = {
-  result: Data;
+  results: Data;
 };

@@ -10,6 +10,7 @@ import {
 } from '@customTypes/product';
 import { Data } from '@customTypes/preConfig';
 
+import { AxiosRequestConfig } from 'axios';
 import api from './api';
 
 class ProductQuery {
@@ -69,7 +70,7 @@ class ProductQuery {
     return api.post(url, data);
   }
 
-  async getCompareGoalAccomplished(organizationId: string, productId: string, repositoryId: Number) {
+  async getCompareGoalAccomplished(organizationId: string, productId: string) {
     const url = `organizations/${organizationId}/products/${productId}/all/goal/`;
     return api.get(url);
   }
@@ -79,9 +80,12 @@ class ProductQuery {
     return api.get<RepositoriesSqcHistory>(url);
   }
 
-  async getReleases(organizationId: string, productId: string) {
-    const url = `organizations/${organizationId}/products/${productId}/repositories-sqc-historical-values/`;
-    return api.get<RepositoriesSqcHistory>(url);
+  getReleaseList(organizationId: string, productId: string): AxiosRequestConfig {
+    const url = `organizations/${organizationId}/products/${productId}/all/goal/`;
+    return {
+      url,
+      method: 'get'
+    };
   }
 }
 

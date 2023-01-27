@@ -4,30 +4,17 @@ import { useRouter } from 'next/router';
 import { TableContainer, Table, TableCell, TableHead, TableRow, TableBody } from '@mui/material';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 
-import { useRepositoryContext } from '@contexts/RepositoryProvider';
 import { useProductContext } from '@contexts/ProductProvider';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
+import { CompareGoalAccomplished } from '@customTypes/product';
+import { formatDate } from '@utils/formatDate';
 
-function ReleasesTable() {
+interface ReleasesTableProps {
+  releaseList: CompareGoalAccomplished[];
+}
+function ReleasesTable({ releaseList }: ReleasesTableProps) {
   const { currentProduct } = useProductContext();
   const { currentOrganization } = useOrganizationContext();
-
-  const { data, fetchMore, mutate, isReachingEnd } = useRequestInfinite<PaginatedResult<PostoOData[]>>(
-    (_, previousPageData) =>
-      searchAsset({
-        assetType: 'acionamentoPostoO',
-        limit: 10,
-        bookmark: previousPageData?.data?.metadata?.bookmark || '',
-        filters: {
-          ...(contratoSearched !== 'all' && {
-            contrato: {
-              '@key': contratoSearched
-            }
-          })
-        }
-      }),
-    { dataPath: 'result', limit: 10 }
-  );
 
   const router = useRouter();
 
@@ -41,19 +28,23 @@ function ReleasesTable() {
         <TableHead>
           <TableRow>
             <TableCell>Nome</TableCell>
+            <TableCell>Início da release</TableCell>
+            <TableCell>Fim da release</TableCell>
             <TableCell />
           </TableRow>
         </TableHead>
         <TableBody>
-          {repositoryList?.map((repository) => (
+          {releaseList?.map((release) => (
             <TableRow
-              key={repository.id}
+              key={release.id}
               hover
-              onClick={() => handleClickCell(`${repository.id}-${repository.name}`)}
+              onClick={() => handleClickCell(`release/${release?.id}`)}
               style={{ cursor: 'pointer' }}
               data-testid="repository-row"
             >
-              <TableCell>{repository.name}</TableCell>
+              <TableCell>{release?.release_name}</TableCell>
+              <TableCell>{formatDate(release?.start_at)}</TableCell>
+              <TableCell>{formatDate(release?.end_at)}</TableCell>
               <TableCell align="right">
                 <ArrowCircleRightIcon />
               </TableCell>

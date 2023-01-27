@@ -1,1 +1,1 @@
-export { default } from './RepositoriesList';
+export { default } from './ReleasesList';
