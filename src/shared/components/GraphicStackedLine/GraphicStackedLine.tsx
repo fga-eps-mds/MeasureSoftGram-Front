@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { EChartsOption } from 'echarts-for-react';
+import React, { useEffect, useRef, useState } from 'react';
+import ReactEcharts, { EChartsOption } from 'echarts-for-react';
 
 import formatCharacteristicsHistory from '@utils/formatCharacteristicsHistory';
 import { Historical } from '@customTypes/repository';
@@ -18,6 +18,7 @@ interface Prop {
 }
 
 const GraphicStackedLine = ({ historical, checkedOptions, title, selected }: Prop) => {
+  const chartRef = useRef<ReactEcharts>(null);
   const [chartOption, setChartOption] = useState<EChartsOption>({});
 
   useEffect(() => {
@@ -25,9 +26,24 @@ const GraphicStackedLine = ({ historical, checkedOptions, title, selected }: Pro
     setChartOption(formatedOptions);
   }, [historical, checkedOptions]);
 
+  const onDateZoom = () => {
+    if (chartRef.current) {
+      const option = chartRef.current.getEchartsInstance().getOption();
+      const data = option.dataZoom as any;
+      const { startValue, endValue } = data[0];
+
+      console.log('startValue', startValue);
+      console.log('endValue', endValue);
+    }
+  };
+
+  const onEvents = {
+    dataZoom: onDateZoom
+  };
+
   return (
     <Styles.GraphicContainer>
-      <Styles.StackedLineStyled option={chartOption} />
+      <Styles.StackedLineStyled ref={chartRef} option={chartOption} onEvents={onEvents} />
     </Styles.GraphicContainer>
   );
 };
