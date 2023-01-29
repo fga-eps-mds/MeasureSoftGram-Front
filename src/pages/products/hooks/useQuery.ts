@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { productQuery } from '@services/product';
 import { organization } from '@services/organization';
@@ -9,18 +9,8 @@ import { useProductContext } from '@contexts/ProductProvider';
 export const useQuery = () => {
   const { currentOrganization } = useOrganizationContext();
   const { updateProductList } = useProductContext();
-  const { setOrganizationList } = useOrganizationContext();
 
-  async function loadAllOrganization() {
-    try {
-      const result = await organization.getAllOrganization();
-      setOrganizationList(result.data.results);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  async function loadAllProducts() {
+  const loadAllProducts = async () => {
     try {
       const result = await productQuery.getAllProducts(currentOrganization.id);
 
@@ -28,11 +18,7 @@ export const useQuery = () => {
     } catch (error) {
       console.error(error);
     }
-  }
-
-  useEffect(() => {
-    loadAllOrganization();
-  }, []);
+  };
 
   useEffect(() => {
     if (currentOrganization) {

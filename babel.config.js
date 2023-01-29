@@ -1,4 +1,15 @@
 module.exports = {
-  presets: ['next/babel'],
-  plugins: [['styled-components']]
+  presets: [
+    [
+      'next/babel',
+      {
+        'preset-react': {
+          runtime: 'automatic',
+          importSource: '@emotion/react'
+        }
+      }
+    ]
+  ],
+
+  plugins: [['styled-components', { ssr: true }], '@emotion/babel-plugin']
 };

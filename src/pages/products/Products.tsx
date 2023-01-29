@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import Head from 'next/head';
 
 import { Box, Button, Container, IconButton, Menu, MenuItem, Typography } from '@mui/material';
-import { MoreVert } from '@mui/icons-material';
+import MoreVert from '@mui/icons-material/MoreVert';
 
 import { NextPageWithLayout } from '@pages/_app.next';
 import ConfigPage from '@modules/preConfig/ConfigPage';
@@ -25,29 +25,33 @@ const Products: NextPageWithLayout = () => {
 
   const { currentOrganization } = useOrganizationContext();
   const [openConfig, setOpenConfig] = useState(false);
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Product>();
 
   const { session, logout } = useAuth();
   const router = useRouter();
-  
   const { productsList } = useProductContext();
-
   const openMenu = Boolean(anchorEl);
 
-  const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+  const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>, index: number) => {
+    anchorEl[index] = event.currentTarget;
+    setAnchorEl([...anchorEl]);
   };
 
-  const handleCloseMenu = () => {
-    setAnchorEl(null);
+  const handleCloseMenu = (event: any, idx: number) => {
+    const array = [...anchorEl];
+    array.splice(idx, 1);
+    setAnchorEl(array);
   };
 
-  const handleOpenConfig = (product: Product) => {
-    setSelectedProduct(product);
-    setOpenConfig(true);
-    setAnchorEl(null);
-  };
+  const handleOpenConfig = useCallback(
+    (product: Product) => () => {
+      setSelectedProduct(product);
+      setOpenConfig(true);
+      setAnchorEl([]);
+    },
+    []
+  );
 
   const getOrganizationId = (product?: Product) => {
     if (product) {
@@ -71,6 +75,7 @@ const Products: NextPageWithLayout = () => {
       <Head>
         <title> Site do MeasureSoftGram </title>
       </Head>
+
       <Container>
         <ConfigPage
           isOpen={openConfig}
@@ -104,7 +109,7 @@ const Products: NextPageWithLayout = () => {
           </Box>
 
           <Box display="flex" flexWrap="wrap">
-            {productsList?.map((product) => (
+            {productsList?.map((product, index) => (
               <Box key={product.id} display="flex" flexDirection="row" paddingRight="20px" paddingBottom="20px">
                 <CardNavigation
                   key={product.id}
@@ -113,20 +118,22 @@ const Products: NextPageWithLayout = () => {
                   url={`/products/${currentOrganization.id}-${product.id}-${product.name}`}
                 />
 
-                <IconButton color="primary" onClick={handleOpenMenu}>
+                <IconButton color="primary" onClick={(e) => handleOpenMenu(e, index)}>
                   <MoreVert />
                 </IconButton>
-
                 <Menu
                   id="basic-menu"
-                  anchorEl={anchorEl}
-                  open={openMenu}
-                  onClose={handleCloseMenu}
+                  key={product?.id}
+                  anchorEl={anchorEl[index]}
+                  open={Boolean(anchorEl[index])}
+                  onClick={(event) => handleCloseMenu(event, index)}
                   MenuListProps={{
                     'aria-labelledby': 'basic-button'
                   }}
                 >
-                  <MenuItem onClick={() => handleOpenConfig(product)}>Definir pré configurações</MenuItem>
+                  <MenuItem key={product?.id} onClick={handleOpenConfig(product)}>
+                    Definir pré configurações
+                  </MenuItem>
                 </Menu>
               </Box>
             ))}
