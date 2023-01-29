@@ -4,6 +4,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 
 import { OrganizationProvider } from '@contexts/OrganizationProvider';
+import { ProductProvider } from '@contexts/ProductProvider';
 import Layout from '../Layout';
 
 describe('<Layout />', () => {
@@ -11,7 +12,9 @@ describe('<Layout />', () => {
     it('Deve corresponder ao Snapshot', () => {
       const tree = render(
         <OrganizationProvider>
-          <Layout />
+          <ProductProvider>
+            <Layout />
+          </ProductProvider>
         </OrganizationProvider>
       );
       expect(tree).toMatchSnapshot();

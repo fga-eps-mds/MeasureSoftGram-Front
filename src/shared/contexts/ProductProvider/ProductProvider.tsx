@@ -1,6 +1,8 @@
-import React, { createContext, useState, useContext, ReactNode, useMemo, useCallback } from 'react';
+import React, { createContext, useState, useContext, ReactNode, useMemo, useCallback, useEffect } from 'react';
 
 import { Product } from '@customTypes/product';
+import { productQuery } from '@services/product';
+import { useOrganizationContext } from '@contexts/OrganizationProvider';
 
 interface Props {
   children: ReactNode;
@@ -19,9 +21,28 @@ export function ProductProvider({ children }: Props) {
   const [currentProduct, setCurrentProduct] = useState<Product | undefined>();
   const [productsList, setProductsList] = useState<Product[]>([]);
 
+  const { currentOrganization } = useOrganizationContext();
+
   const updateProductList = useCallback((products: Product[]) => {
     setProductsList(products);
   }, []);
+
+  const loadAllProducts = async () => {
+    try {
+      const result = await productQuery.getAllProducts(currentOrganization.id);
+
+      updateProductList(result.data.results);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (currentOrganization) {
+      loadAllProducts();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentOrganization]);
 
   const value = useMemo(
     () => ({
