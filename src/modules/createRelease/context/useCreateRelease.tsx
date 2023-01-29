@@ -64,7 +64,7 @@ export function CreateReleaseProvider({ children, productId, organizationId }: C
 
       await productQuery.createProductReleaseGoal(organizationId, productId, data);
       await mutate(
-        JSON.stringify({ url: `organizations/${organizationId}/products/${organizationId}/all/goal/`, method: 'get' })
+        JSON.stringify({ url: `organizations/${organizationId}/products/${productId}/all/goal/`, method: 'get' })
       );
       setSuccessOnCreation('success');
     } catch (error) {
