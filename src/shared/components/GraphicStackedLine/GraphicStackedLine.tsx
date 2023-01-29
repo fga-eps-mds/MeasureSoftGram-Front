@@ -31,9 +31,10 @@ const GraphicStackedLine = ({ historical, checkedOptions, title, selected }: Pro
       const option = chartRef.current.getEchartsInstance().getOption();
       const data = option.dataZoom as any;
       const { startValue, endValue } = data[0];
+      const dates = chartOption.xAxis.data;
 
-      console.log('startValue', startValue);
-      console.log('endValue', endValue);
+      console.log('startDate', dates[startValue]);
+      console.log('endDate', dates[endValue]);
     }
   };
 
