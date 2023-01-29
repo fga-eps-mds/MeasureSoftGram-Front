@@ -134,7 +134,7 @@ const Products: NextPageWithLayout = () => {
                   }}
                 >
                   <MenuItem key={product?.id} onClick={handleOpenConfig(product)}>
-                    Definir pré configurações
+                    Definir pesos para uma configuração
                   </MenuItem>
                 </Menu>
               </Box>
