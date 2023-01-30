@@ -10,6 +10,7 @@ import { Box } from '@mui/system';
 import { Container, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useRequest } from '@hooks/useRequest';
+import { formatDate } from '@utils/formatDate';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
@@ -66,14 +67,21 @@ const Release: NextPageWithLayout = ({ release, organizationId, productId }: Rel
       </Head>
       <Container>
         <Box display="flex" alignItems="center" justifyContent="space-between">
-          <Box display="flex" alignItems="center" gap="1rem">
-            <Typography fontSize="32px" fontWeight="400">
-              Release
-            </Typography>
-            <Typography fontSize="32px" fontWeight="400" color="GrayText">
-              {release?.release_name}
+          <Box>
+            <Box display="flex" alignItems="center" gap="1rem">
+              <Typography fontSize="32px" fontWeight="400">
+                Release
+              </Typography>
+              <Typography fontSize="32px" fontWeight="400" color="GrayText">
+                {release?.release_name}
+              </Typography>
+            </Box>
+            Duração da release
+            <Typography fontSize="14px" fontWeight="300">
+              {formatDate(release?.start_at)} - {formatDate(release?.end_at)}
             </Typography>
           </Box>
+
           <Box>
             <InputLabel id="demo-simple-select-label">Selecione a release</InputLabel>
             <Select
