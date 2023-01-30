@@ -13,11 +13,13 @@ jest.mock('@services/product', () => ({
 
 describe('Release', () => {
   it('renders without crashing', async () => {
+    const startAtDate = '2022-01-01T00:00:00.000Z';
+    const endAtDate = '2022-04-01T00:00:00.000Z';
     const release = {
       id: 1,
       release_name: 'release name',
-      start_at: '2022-01-01T00:00:00.000Z',
-      end_at: '2022-01-01T00:00:00.000Z',
+      start_at: startAtDate,
+      end_at: endAtDate,
       goal: {},
       accomplished: {}
     };
@@ -25,16 +27,14 @@ describe('Release', () => {
       {
         id: 1,
         release_name: 'release name 1',
-        start_at: '2022-01-01T00:00:00.000Z',
-        end_at: '2022-01-01T00:00:00.000Z',
+        start_at: startAtDate,
         goal: {},
         accomplished: {}
       },
       {
         id: 2,
         release_name: 'release name 2',
-        start_at: '2022-01-01T00:00:00.000Z',
-        end_at: '2022-01-01T00:00:00.000Z',
+        end_at: endAtDate,
         goal: {},
         accomplished: {}
       }
