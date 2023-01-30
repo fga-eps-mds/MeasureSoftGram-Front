@@ -91,7 +91,7 @@ const CHARACTERISTIC_EXPECTED = {
   title: { text: undefined },
   toolbox: { feature: { saveAsImage: {} }, show: true },
   tooltip: { trigger: 'axis' },
-  xAxis: { boundaryGap: false, data: ['05/09/2022'], type: 'category' },
+  xAxis: { boundaryGap: false, data: ['9/5/2022'], type: 'category' },
   yAxis: { minInterval: 0.1, scale: true, type: 'value' }
 };
 

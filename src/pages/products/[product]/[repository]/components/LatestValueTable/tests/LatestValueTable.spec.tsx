@@ -27,14 +27,14 @@ describe('LatestValueTable', () => {
           name: 'item 1',
           latest: {
             value: 123,
-            created_at: '2022-12-01T12:00:00.000Z'
+            created_at: '2022-12-01T09:12:00.000Z'
           }
         },
         {
           name: 'item 2',
           latest: {
             value: 456,
-            created_at: '2022-12-01T12:00:00.000Z'
+            created_at: '2022-12-02T09:12:00.000Z'
           }
         }
       ]
@@ -45,7 +45,7 @@ describe('LatestValueTable', () => {
     });
 
     const received = container.textContent;
-    const expected = 'Título da tabelaÚltimo valorÚltima atualizaçãoitem 112301/12/2022 09:12item 245601/12/2022 09:12';
+    const expected = 'Título da tabelaÚltimo valorÚltima atualizaçãoitem 112301/12/2022 06:12item 245602/12/2022 06:12';
 
     expect(received).toContain(expected);
   });
