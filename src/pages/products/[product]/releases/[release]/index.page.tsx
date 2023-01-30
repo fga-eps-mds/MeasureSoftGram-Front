@@ -7,7 +7,9 @@ import { productQuery } from '@services/product';
 import { ReleaseGoal } from '@customTypes/product';
 import CompareGoalsChart from '@components/CompareGoalsChart';
 import { Box } from '@mui/system';
-import { Typography } from '@mui/material';
+import { Container, InputLabel, MenuItem, Select, Typography } from '@mui/material';
+import { useRouter } from 'next/router';
+import { useRequest } from '@hooks/useRequest';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
@@ -31,11 +33,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     return {
       props: {
-        release: response?.data?.[0]
+        release: response?.data?.[0],
+        organizationId,
+        productId
       }
     };
   } catch (err) {
-    console.log('log', context);
     return {
       redirect: {
         permanent: false,
@@ -48,25 +51,51 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 interface ReleaseProps {
   release: ReleaseGoal;
+  organizationId: string;
+  productId: string;
 }
-const Release: NextPageWithLayout = ({ release }: ReleaseProps) => {
-  console.log(release);
+const Release: NextPageWithLayout = ({ release, organizationId, productId }: ReleaseProps) => {
+  const router = useRouter();
+  console.log(router);
+  const { data: releaseList } = useRequest<ReleaseGoal[]>(
+    productQuery.getReleaseList(organizationId, productId as string)
+  );
   return (
     <>
       <Head>
         <title>{release?.release_name || 'release'}</title>
       </Head>
-      <Box display="flex" alignItems="center">
-        <Box display="flex" alignItems="center" gap="1rem">
-          <Typography fontSize="32px" fontWeight="400">
-            Release
-          </Typography>
-          <Typography fontSize="32px" fontWeight="400" color="GrayText">
-            {release?.release_name}
-          </Typography>
+      <Container>
+        <Box display="flex" alignItems="center" justifyContent="space-between">
+          <Box display="flex" alignItems="center" gap="1rem">
+            <Typography fontSize="32px" fontWeight="400">
+              Release
+            </Typography>
+            <Typography fontSize="32px" fontWeight="400" color="GrayText">
+              {release?.release_name}
+            </Typography>
+          </Box>
+          <Box>
+            <InputLabel id="demo-simple-select-label">Selecione a release</InputLabel>
+            <Select
+              variant="standard"
+              value={release?.id}
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="Selecione a release"
+              fullWidth
+              onChange={(e) => router.push(`/products/${router?.query?.product}/releases/${e.target.value}`)}
+            >
+              {releaseList?.map((release) => (
+                <MenuItem value={release?.id} key={release.id}>
+                  {release?.release_name}
+                </MenuItem>
+              ))}
+            </Select>
+          </Box>
         </Box>
-      </Box>
-      <CompareGoalsChart release={release} />
+        <CompareGoalsChart release={release} />
+      </Container>
     </>
   );
 };

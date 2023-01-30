@@ -79,6 +79,7 @@ export interface Changes {
 }
 
 export interface ReleaseGoal {
+  id: number;
   release_name: string;
   start_at: string;
   end_at: string;

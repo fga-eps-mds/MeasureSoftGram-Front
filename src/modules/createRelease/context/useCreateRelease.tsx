@@ -1,13 +1,15 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { productQuery } from '@services/product';
-import { Changes } from '@customTypes/product';
+import { Changes, Product } from '@customTypes/product';
 import { addDays, format } from 'date-fns';
 import { mutate } from 'swr';
+import { useRouter } from 'next/router';
 
 interface CreateReleaseProviderProps {
   children: ReactNode;
   productId: string;
   organizationId: string;
+  currentProduct: Product;
 }
 
 interface ReleaseInfoForm {
@@ -36,13 +38,20 @@ const CreateReleaseContext = createContext({} as CreateReleaseContextData);
 const defaultEndDate = format(addDays(new Date(), 7), 'yyyy-MM-dd');
 const defaulStartDate = format(new Date(), 'yyyy-MM-dd');
 
-export function CreateReleaseProvider({ children, productId, organizationId }: CreateReleaseProviderProps) {
+export function CreateReleaseProvider({
+  children,
+  productId,
+  organizationId,
+  currentProduct
+}: CreateReleaseProviderProps) {
   const [preConfigCharacteristics, setPreConfigCharacteristics] = useState<string[]>();
   const [successOnCreation, setSuccessOnCreation] = useState('');
   const [releaseInfoForm, setReleaseInfoForm] = useState<ReleaseInfoForm>({
     endDate: defaultEndDate,
     startDate: defaulStartDate
   } as ReleaseInfoForm);
+
+  const router = useRouter();
 
   async function loadCurrentPreConfig() {
     try {
@@ -62,11 +71,19 @@ export function CreateReleaseProvider({ children, productId, organizationId }: C
         changes: releaseInfoForm.changes
       };
 
-      await productQuery.createProductReleaseGoal(organizationId, productId, data);
+      const response = await productQuery.createProductReleaseGoal(organizationId, productId, data);
+      console.log(response?.data);
       await mutate(
-        JSON.stringify({ url: `organizations/${organizationId}/products/${productId}/all/goal/`, method: 'get' })
+        JSON.stringify({ url: `organizations/${organizationId}/products/${productId}/release/`, method: 'get' })
       );
-      setSuccessOnCreation('success');
+      const releaseId = response?.data?.id;
+
+      if (releaseId) {
+        router.push(
+          `/products/${organizationId}-${productId}-${currentProduct.name.toLowerCase()}/releases/${releaseId}`
+        );
+        setSuccessOnCreation('success');
+      }
     } catch (error) {
       setSuccessOnCreation('error');
       console.error(error);

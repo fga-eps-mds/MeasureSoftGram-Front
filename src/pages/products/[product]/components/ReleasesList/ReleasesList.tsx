@@ -16,7 +16,7 @@ function ReleasesList() {
   const { currentProduct } = useProductContext();
   const { currentOrganization } = useOrganizationContext();
 
-  const { data: ReleaseList, isLoading } = useRequest<CompareGoalAccomplished[]>(
+  const { data: releaseList, isLoading } = useRequest<CompareGoalAccomplished[]>(
     productQuery.getReleaseList(currentOrganization?.id, currentProduct?.id as string)
   );
   if (isLoading) return <Skeleton />;
@@ -28,7 +28,7 @@ function ReleasesList() {
             Releases
           </Typography>
 
-          <RepositoriesTable releaseList={ReleaseList} />
+          <RepositoriesTable releaseList={releaseList} />
         </Container>
       </Styles.Wrapper>
     </Box>
