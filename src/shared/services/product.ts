@@ -70,9 +70,9 @@ class ProductQuery {
     return api.post(url, data);
   }
 
-  async getCompareGoalAccomplished(organizationId: string, productId: string) {
+  async getCompareGoalAccomplished(organizationId: string, productId: string, releaseId?: number) {
     const url = `organizations/${organizationId}/products/${productId}/all/goal/`;
-    return api.get(url);
+    return api.get(url, { params: releaseId && { release_id: releaseId } });
   }
 
   async getProductRepositoriesSqcHistory(organizationId: string, productId: string) {
@@ -80,11 +80,12 @@ class ProductQuery {
     return api.get<RepositoriesSqcHistory>(url);
   }
 
-  getReleaseList(organizationId: string, productId: string): AxiosRequestConfig {
-    const url = `organizations/${organizationId}/products/${productId}/all/goal/`;
+  getReleaseList(organizationId: string, productId: string, releaseId?: number): AxiosRequestConfig {
+    const url = `organizations/${organizationId}/products/${productId}/release/`;
     return {
       url,
-      method: 'get'
+      method: 'get',
+      params: releaseId && { release_id: releaseId }
     };
   }
 }

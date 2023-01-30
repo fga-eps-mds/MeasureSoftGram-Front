@@ -18,6 +18,7 @@
     "@mui/lab": "^5.0.0-alpha.111",
     "@mui/material": "^5.10.17",
     "@mui/styled-engine-sc": "^5.8.0",
+    "@mui/system": "^5.11.5",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^14.2.5",

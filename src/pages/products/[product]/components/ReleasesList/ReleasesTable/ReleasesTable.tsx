@@ -38,7 +38,7 @@ function ReleasesTable({ releaseList }: ReleasesTableProps) {
             <TableRow
               key={release.id}
               hover
-              onClick={() => handleClickCell(`release/${release?.id}`)}
+              onClick={() => handleClickCell(`releases/${release?.id}`)}
               style={{ cursor: 'pointer' }}
               data-testid="repository-row"
             >

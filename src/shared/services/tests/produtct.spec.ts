@@ -113,6 +113,16 @@ describe('ProductQuery', () => {
       `organizations/${organizationId}/products/${productId}/repositories/${repositoryId}/latest-values/metrics/`
     );
   });
+  it('should return a proper AxiosRequestConfig object', () => {
+    const organizationId = '1';
+    const productId = '2';
+    const expectedResult = {
+      url: `organizations/${organizationId}/products/${productId}/release/`,
+      method: 'get'
+    };
+
+    expect(productQuery.getReleaseList(organizationId, productId)).toEqual(expectedResult);
+  });
 
   afterEach(() => {
     jest.clearAllMocks();

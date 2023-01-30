@@ -1,10 +1,6 @@
-import { CompareGoalAccomplished } from '@customTypes/product';
+import { ReleaseGoal } from '@customTypes/product';
 
-const formatTwoDecimalPlaces = (value: number) => Math.round(value * 100) / 100;
-
-const formatCompareGoalsChart = (data: CompareGoalAccomplished) => {
-  const legendData: string[] = [];
-
+const formatCompareGoalsChart = (data: ReleaseGoal) => {
   const xAxisData = Object.keys(data?.goal);
 
   const seriesGoalData = Object.values(data?.goal).map((value) => value / 100);
@@ -12,7 +8,7 @@ const formatCompareGoalsChart = (data: CompareGoalAccomplished) => {
   return {
     title: {
       text: 'Realizado x Planejado - Características',
-      subtext: `${data?.release_name} - release criada por ${data?.created_by}`,
+      subtext: `criada por ${data?.created_by}`,
       subtextStyle: {
         color: '#4461A5',
         fontSize: 14
