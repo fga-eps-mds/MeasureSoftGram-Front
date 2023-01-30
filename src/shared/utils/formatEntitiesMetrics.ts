@@ -1,17 +1,17 @@
 const formatEntitiesMetrics = (result: []) => {
+  console.log(result.results);
 
-    console.log(result['results'])
+  const metrics = [];
+  const metricsInvalid = ['reliability_rating', 'security_rating', 'test_success_density'];
 
-    const metrics = [];
-    const metricsInvalid = ['reliability_rating', 'security_rating', 'test_success_density']
-
-    for (let i = 0; i < result['results'].length; i++) {
-        if (!metricsInvalid.includes(result['results'][i]['key'])) {
-            metrics.push(result['results'][i]['key']);  
-        }
+  // eslint-disable-next-line no-restricted-syntax
+  for (const item of result.results) {
+    if (!metricsInvalid.includes(item.key)) {
+      metrics.push(item.key);
     }
+  }
 
-    return [metrics];
+  return [metrics];
 };
 
 export default formatEntitiesMetrics;

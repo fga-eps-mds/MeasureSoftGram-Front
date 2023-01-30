@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { format, isValid } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
 
 import { TableCell, TableRow, Collapse } from '@mui/material';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
