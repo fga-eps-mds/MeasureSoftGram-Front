@@ -4,11 +4,11 @@ import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
 import { ProductProvider } from '@contexts/ProductProvider';
-import RepositoriesTable from '../RepositoriesTable';
+import ReleasesTable from '../ReleasesTable';
 
 jest.mock('@contexts/RepositoryProvider', () => ({
   useRepositoryContext: () => ({
-    repositoryList: [{"id":19,"name":"2022-1-MeasureSoftGram-Core"}]
+    repositoryList: [{ id: 19, name: '2022-1-MeasureSoftGram-Core' }]
   })
 }));
 
@@ -24,16 +24,16 @@ jest.mock('next/router', () => ({
   })
 }));
 
-describe('RepositoriesTable', () => {
+describe('ReleasesTable', () => {
   describe('Snapshot', () => {
     it('Deve corresponder ao Snapshot', () => {
       const tree = render(
         <ProductProvider>
-            <RepositoriesTable />
+          <ReleasesTable />
         </ProductProvider>
       );
 
-      fireEvent.click(tree.getByTestId("repository-row"))
+      fireEvent.click(tree.getByTestId('repository-row'));
 
       expect(tree).toMatchSnapshot();
     });

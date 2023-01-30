@@ -93,9 +93,9 @@ const Release: NextPageWithLayout = ({ release, organizationId, productId }: Rel
               fullWidth
               onChange={(e) => router.push(`/products/${router?.query?.product}/releases/${e.target.value}`)}
             >
-              {releaseList?.map((release) => (
-                <MenuItem value={release?.id} key={release.id}>
-                  {release?.release_name}
+              {releaseList?.map((item) => (
+                <MenuItem value={item?.id} key={item.id}>
+                  {item?.release_name}
                 </MenuItem>
               ))}
             </Select>
