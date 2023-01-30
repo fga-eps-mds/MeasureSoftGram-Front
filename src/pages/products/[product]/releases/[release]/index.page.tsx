@@ -56,7 +56,6 @@ interface ReleaseProps {
 }
 const Release: NextPageWithLayout = ({ release, organizationId, productId }: ReleaseProps) => {
   const router = useRouter();
-  console.log(router);
   const { data: releaseList } = useRequest<ReleaseGoal[]>(
     productQuery.getReleaseList(organizationId, productId as string)
   );

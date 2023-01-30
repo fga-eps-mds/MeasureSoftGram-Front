@@ -72,7 +72,6 @@ export function CreateReleaseProvider({
       };
 
       const response = await productQuery.createProductReleaseGoal(organizationId, productId, data);
-      console.log(response?.data);
       await mutate(
         JSON.stringify({ url: `organizations/${organizationId}/products/${productId}/release/`, method: 'get' })
       );
