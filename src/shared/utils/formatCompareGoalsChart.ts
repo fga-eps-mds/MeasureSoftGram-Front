@@ -8,10 +8,22 @@ const formatCompareGoalsChart = (data: ReleaseGoal) => {
   return {
     title: {
       text: 'Realizado x Planejado - Características',
-      subtext: `criada por ${data?.created_by}`,
+      subtext: `release criada por ${data?.created_by}`,
       subtextStyle: {
         color: '#4461A5',
         fontSize: 14
+      }
+    },
+    toolbox: {
+      show: true,
+      feature: {
+        dataZoom: {
+          yAxisIndex: 'none'
+        },
+        magicType: {
+          type: ['line', 'bar']
+        },
+        saveAsImage: {}
       }
     },
     grid: {
@@ -41,12 +53,12 @@ const formatCompareGoalsChart = (data: ReleaseGoal) => {
     series: [
       {
         name: 'Planejado',
-        type: 'bar',
+        type: 'line',
         data: seriesGoalData
       },
       {
         name: 'Realizado',
-        type: 'bar',
+        type: 'line',
         data: seriesAccomplishedData
       }
     ]
