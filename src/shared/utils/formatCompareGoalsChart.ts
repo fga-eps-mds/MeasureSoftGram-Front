@@ -1,6 +1,6 @@
-import { ReleaseGoal } from '@customTypes/product';
+import { CompareGoalAccomplished } from '@customTypes/product';
 
-const formatCompareGoalsChart = (data: ReleaseGoal) => {
+const formatCompareGoalsChart = (data: CompareGoalAccomplished) => {
   const xAxisData = Object.keys(data?.goal);
 
   const seriesGoalData = Object.values(data?.goal).map((value) => value / 100);

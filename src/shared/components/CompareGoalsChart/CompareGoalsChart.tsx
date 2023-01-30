@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { CompareGoalAccomplished, ReleaseGoal } from '@customTypes/product';
+import { CompareGoalAccomplished } from '@customTypes/product';
 
 import ReactEcharts from 'echarts-for-react';
 import formatCompareGoalsChart from '@utils/formatCompareGoalsChart';
-import { Box, InputLabel, MenuItem, Select } from '@mui/material';
+import { Box } from '@mui/material';
 import * as Styles from './styles';
 
 interface Props {
-  release: ReleaseGoal;
+  release: CompareGoalAccomplished;
 }
 
 const CompareGoalsChart = ({ release }: Props) => {

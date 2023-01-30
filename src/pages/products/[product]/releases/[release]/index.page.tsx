@@ -4,7 +4,7 @@ import { NextPageWithLayout } from '@pages/_app.next';
 import getLayout from '@components/Layout';
 import { GetServerSideProps } from 'next';
 import { productQuery } from '@services/product';
-import { ReleaseGoal } from '@customTypes/product';
+import { CompareGoalAccomplished, ReleaseGoal } from '@customTypes/product';
 import CompareGoalsChart from '@components/CompareGoalsChart';
 import { Box } from '@mui/system';
 import { Container, InputLabel, MenuItem, Select, Typography } from '@mui/material';
@@ -15,12 +15,12 @@ import { formatDate } from '@utils/formatDate';
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const product = context?.params?.product as string;
-    const releaseId = context?.params?.release as number;
+    const releaseId = context?.params?.release as string;
 
     const organizationId = product.split('-')[0];
     const productId = product.split('-')[1];
 
-    const response = await productQuery.getCompareGoalAccomplished(organizationId, productId, releaseId);
+    const response = await productQuery.getCompareGoalAccomplished(organizationId, productId, Number(releaseId));
 
     if (!response?.data?.[0]?.id) {
       return {
@@ -51,7 +51,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 interface ReleaseProps {
-  release: ReleaseGoal;
+  release: CompareGoalAccomplished;
   organizationId: string;
   productId: string;
 }
