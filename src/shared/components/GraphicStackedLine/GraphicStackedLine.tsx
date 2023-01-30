@@ -14,7 +14,7 @@ interface Prop {
   historical?: Historical[];
   checkedOptions: OptionCheckedProps;
   title: string;
-  selected?: (any) => boolean;
+  selected?: (arg: any) => boolean;
 }
 
 const GraphicStackedLine = ({ historical, checkedOptions, title, selected }: Prop) => {
