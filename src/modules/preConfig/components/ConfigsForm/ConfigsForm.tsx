@@ -119,6 +119,9 @@ const ConfigForm = ({
             checked={isChecked}
             style={{ marginRight: '8px' }}
             onClick={() => {
+              if (!isChecked) {
+                onChange(iterator[type]({ data, key: value.key, weight: 0 }));
+              }
               checkboxValue(value.key);
               const index = keyGetter(limiters).indexOf(value.key);
               if (!(index < 0)) {
@@ -143,15 +146,17 @@ const ConfigForm = ({
     value: Measure | Characteristic | Subcharacteristic,
     previousValue: Characteristic | Subcharacteristic
   ) => {
+    // if user clicks on border of slider, the value to maxium possible
+
     if (checkboxValues.includes(value.key) && (!previousValue || previousValue.key === tabValue)) {
       const tabName = previousValue?.key;
 
-      if (keyGetter(limiters).indexOf(value.key) < 0) {
+      // if don't find the key in the limiters array, add it
+      if (keyGetter(limiters).indexOf(value.key) === -1) {
         const sliderValue: limiterType = { tabName, data: { key: value.key, weight: value.weight } };
         const newLimiterValue: limiterType[] = [...limiters, sliderValue];
         setLimiters(newLimiterValue);
       }
-
       return (
         <PreConfigSliders
           key={value.key}
