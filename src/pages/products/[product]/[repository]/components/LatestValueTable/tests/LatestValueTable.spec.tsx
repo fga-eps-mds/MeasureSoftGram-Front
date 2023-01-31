@@ -27,14 +27,14 @@ describe('LatestValueTable', () => {
           name: 'item 1',
           latest: {
             value: 123,
-            created_at: '2022-12-01T12:12:00.000Z'
+            created_at: '2022-12-01T09:12:00.000Z'
           }
         },
         {
           name: 'item 2',
           latest: {
             value: 456,
-            created_at: '2022-12-02T12:12:00.000Z'
+            created_at: '2022-12-02T09:12:00.000Z'
           }
         }
       ]
