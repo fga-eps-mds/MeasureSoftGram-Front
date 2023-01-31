@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Alert, Container, Snackbar } from '@mui/material';
 
 import DrawerMenu from '@components/DrawerMenu';
-import { ButtonType } from '@customTypes/product';
+import { ButtonType, Product } from '@customTypes/product';
 import ReleaseInfo from './components/ReleaseInfo';
 import ReleaseGoals from './components/ReleaseGoals';
 
@@ -16,6 +16,7 @@ interface CreateReleaseProps {
 interface CreateReleaseContainerProps {
   productId: string;
   organizationId: string;
+  currentProduct: Product;
   open: boolean;
   handleClose: () => void;
 }
@@ -93,9 +94,15 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
   );
 }
 
-function CreateReleaseContainer({ productId, organizationId, open, handleClose }: CreateReleaseContainerProps) {
+function CreateReleaseContainer({
+  productId,
+  organizationId,
+  open,
+  handleClose,
+  currentProduct
+}: CreateReleaseContainerProps) {
   return (
-    <CreateReleaseProvider productId={productId} organizationId={organizationId}>
+    <CreateReleaseProvider productId={productId} organizationId={organizationId} currentProduct={currentProduct}>
       <CreateRelease open={open} handleClose={handleClose} />
     </CreateReleaseProvider>
   );

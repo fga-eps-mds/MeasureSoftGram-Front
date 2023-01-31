@@ -115,7 +115,7 @@ const Products: NextPageWithLayout = () => {
                   key={product.id}
                   id={product.id}
                   name={product.name}
-                  url={`/products/${currentOrganization.id}-${product.id}-${product.name}`}
+                  url={`/products/${currentOrganization?.id}-${product?.id}-${product?.name}`}
                 />
 
                 <IconButton color="primary" onClick={(e) => handleOpenMenu(e, index)}>

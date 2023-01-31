@@ -1,4 +1,5 @@
 export const TRANSLATION = {
   products: 'Produtos',
-  repositories: 'Repositórios'
+  repositories: 'Repositórios',
+  releases: 'Releases'
 };

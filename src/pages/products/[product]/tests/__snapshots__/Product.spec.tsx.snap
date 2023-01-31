@@ -105,6 +105,70 @@ Object {
           </div>
         </div>
       </div>
+      <div
+        class="MuiBox-root css-m6nhw9"
+      >
+        <div
+          class="styles__Wrapper-sc-f624tf-0 dOldAl"
+        >
+          <div
+            class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
+          >
+            <div
+              class="MuiBox-root css-1yjvs5a"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                style="width: 150px; height: 50px;"
+              />
+            </div>
+            <div
+              class="MuiBox-root css-1yjvs5a"
+            >
+              <div
+                class="MuiBox-root css-wlea3r"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
+                  style="height: 45px;"
+                />
+              </div>
+              <div
+                class="MuiBox-root css-wlea3r"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
+                  style="height: 45px;"
+                />
+              </div>
+              <div
+                class="MuiBox-root css-wlea3r"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
+                  style="height: 45px;"
+                />
+              </div>
+              <div
+                class="MuiBox-root css-wlea3r"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
+                  style="height: 45px;"
+                />
+              </div>
+              <div
+                class="MuiBox-root css-wlea3r"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
+                  style="height: 45px;"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </body>,
   "container": <div>
@@ -149,6 +213,70 @@ Object {
     >
       <div
         class="styles__Wrapper-sc-1mjhzrd-0 hvqbPr"
+      >
+        <div
+          class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
+        >
+          <div
+            class="MuiBox-root css-1yjvs5a"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+              style="width: 150px; height: 50px;"
+            />
+          </div>
+          <div
+            class="MuiBox-root css-1yjvs5a"
+          >
+            <div
+              class="MuiBox-root css-wlea3r"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
+                style="height: 45px;"
+              />
+            </div>
+            <div
+              class="MuiBox-root css-wlea3r"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
+                style="height: 45px;"
+              />
+            </div>
+            <div
+              class="MuiBox-root css-wlea3r"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
+                style="height: 45px;"
+              />
+            </div>
+            <div
+              class="MuiBox-root css-wlea3r"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
+                style="height: 45px;"
+              />
+            </div>
+            <div
+              class="MuiBox-root css-wlea3r"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
+                style="height: 45px;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiBox-root css-m6nhw9"
+    >
+      <div
+        class="styles__Wrapper-sc-f624tf-0 dOldAl"
       >
         <div
           class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"

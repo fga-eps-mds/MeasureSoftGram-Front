@@ -9,6 +9,7 @@ import { NextPageWithLayout } from '@pages/_app.next';
 
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
 
+import CompareGoalsChart from '@components/CompareGoalsChart';
 import Skeleton from './components/Skeleton';
 import HistoricalLatestInfos from './components/HistoricalInfosList';
 import LatestValueTable from './components/LatestValueTable';
@@ -24,64 +25,69 @@ interface FilterProps {
   optionsShow: Array<string>;
 }
 
-
 const tree = {
-  'reliability': {
-    'testing_status': {
-      'passed_tests': {
-        'test_errors': true,
-        'test_failures': true,
-        'tests': true
+  reliability: {
+    testing_status: {
+      passed_tests: {
+        test_errors: true,
+        test_failures: true,
+        tests: true
       },
-      'test_builds' : {
-        'test_execution_time': true
+      test_builds: {
+        test_execution_time: true
       },
-      'test_coverage': {
-        'coverage': true
+      test_coverage: {
+        coverage: true
       }
     }
   },
-  'maintainability': {
-    'modifiability': {
-      'non_complex_file_density': {
-        'complexity': true,
-        'functions': true
+  maintainability: {
+    modifiability: {
+      non_complex_file_density: {
+        complexity: true,
+        functions: true
       },
-      'commented_file_density': {
-        'comment_lines_density': true
+      commented_file_density: {
+        comment_lines_density: true
       },
-      'duplication_absense' : {
-        'duplicated_lines_density': true
+      duplication_absense: {
+        duplicated_lines_density: true
       }
     }
   }
-}
+};
 
 const treeParentRelationship = {
-  'test_errors': 'passed_tests',
-  'test_failures': 'passed_tests',
-  'tests': 'passed_tests',
-  'test_execution_time': 'test_builds',
-  'coverage': 'test_coverage',
-  'complexity': 'non_complex_file_density',
-  'functions': 'non_complex_file_density',
-  'comment_lines_density': 'commented_file_density',
-  'duplicated_lines_density': 'duplication_absense',
-  'passed_tests': 'testing_status',
-  'test_builds': 'testing_status',
-  'test_coverage': 'testing_status',
-  'non_complex_file_density': 'modifiability',
-  'commented_file_density': 'modifiability',
-  'duplication_absense': 'modifiability',
-  'testing_status': 'reliability',
-  'modifiability': 'maintainability'
-}
+  test_errors: 'passed_tests',
+  test_failures: 'passed_tests',
+  tests: 'passed_tests',
+  test_execution_time: 'test_builds',
+  coverage: 'test_coverage',
+  complexity: 'non_complex_file_density',
+  functions: 'non_complex_file_density',
+  comment_lines_density: 'commented_file_density',
+  duplicated_lines_density: 'duplication_absense',
+  passed_tests: 'testing_status',
+  test_builds: 'testing_status',
+  test_coverage: 'testing_status',
+  non_complex_file_density: 'modifiability',
+  commented_file_density: 'modifiability',
+  duplication_absense: 'modifiability',
+  testing_status: 'reliability',
+  modifiability: 'maintainability'
+};
 
 const Repository: NextPageWithLayout = () => {
   useQueryProduct();
 
-  const { repositoryHistoricalCharacteristics, latestValueCharacteristics, checkedOptionsFormat } = useQuery();
-  const { characteristics, subCharacteristics, measures, metrics, currentRepository, historicalSQC } = useRepositoryContext();
+  const {
+    repositoryHistoricalCharacteristics,
+    latestValueCharacteristics,
+    checkedOptionsFormat,
+    comparedGoalAccomplished
+  } = useQuery();
+  const { characteristics, subCharacteristics, measures, metrics, currentRepository, historicalSQC } =
+    useRepositoryContext();
 
   const [filterCharacteristics, setFilterCharacteristics] = useState<FilterProps>({
     filterTitle: 'CARACTERÍSTICAS',
@@ -106,13 +112,11 @@ const Repository: NextPageWithLayout = () => {
 
   const [checkedOptions, setCheckedOptions] = useState(checkedOptionsFormat);
 
-  
   useEffect(() => {
     setCheckedOptions(checkedOptionsFormat);
   }, [checkedOptionsFormat]);
 
-
-  useEffect(() => {        
+  useEffect(() => {
     if (!subCharacteristics || !measures || !metrics) {
       return;
     }
@@ -122,26 +126,29 @@ const Repository: NextPageWithLayout = () => {
     const metricsFilter = ['ncloc', 'files'];
 
     subCharacteristics.forEach((subCharacteristic) => {
-      if (checkedOptions[treeParentRelationship[subCharacteristic]]){
+      if (checkedOptions[treeParentRelationship[subCharacteristic]]) {
         subCharacteristicsFilter.push(subCharacteristic);
       }
     });
 
     measures.forEach((measure) => {
-      if (checkedOptions[treeParentRelationship[measure]]){
+      if (checkedOptions[treeParentRelationship[measure]]) {
         measuresFilter.push(measure);
       }
     });
 
     metrics.forEach((metric) => {
-      if (checkedOptions[treeParentRelationship[metric]]){
+      if (checkedOptions[treeParentRelationship[metric]]) {
         metricsFilter.push(metric);
-      }  
+      }
     });
 
-
     setFilterCharacteristics({ ...filterCharacteristics, options: characteristics, optionsShow: characteristics });
-    setFilterSubCharacteristics({ ...filterSubCharacteristics, options: subCharacteristics, optionsShow: subCharacteristicsFilter });
+    setFilterSubCharacteristics({
+      ...filterSubCharacteristics,
+      options: subCharacteristics,
+      optionsShow: subCharacteristicsFilter
+    });
     setFilterMeasures({ ...filterMeasures, options: measures, optionsShow: measuresFilter });
     setFilterMetrics({ ...filterMetrics, options: metrics, optionsShow: metricsFilter });
   }, [characteristics, subCharacteristics, measures, metrics, checkedOptions]);
@@ -161,48 +168,54 @@ const Repository: NextPageWithLayout = () => {
     return <Skeleton />;
   }
 
-
   const handleMetric = (filteredItem, charc, subCharc, measure) => {
-    const newFilteredItem = {...filteredItem};
-    Object.keys(tree[charc][subCharc][measure]).forEach(metric => {
+    const newFilteredItem = { ...filteredItem };
+    Object.keys(tree[charc][subCharc][measure]).forEach((metric) => {
       newFilteredItem[metric] = false;
     });
     return newFilteredItem;
-  }
+  };
 
-  const handleMeasure = (filteredItem, charc, subCharc,) => {
-    let newFilteredItem = {...filteredItem};
-    Object.keys(tree[charc][subCharc]).forEach(measure => {
+  const handleMeasure = (filteredItem, charc, subCharc) => {
+    let newFilteredItem = { ...filteredItem };
+    Object.keys(tree[charc][subCharc]).forEach((measure) => {
       newFilteredItem[measure] = false;
       newFilteredItem = handleMetric(newFilteredItem, charc, subCharc, measure);
     });
     return newFilteredItem;
-  }
+  };
 
   const handleSubCharacteristic = (filteredItem, charc) => {
-    let newFilteredItem = {...filteredItem};
-    Object.keys(tree[charc]).forEach(subCharc => {
+    let newFilteredItem = { ...filteredItem };
+    Object.keys(tree[charc]).forEach((subCharc) => {
       newFilteredItem[subCharc] = false;
       newFilteredItem = handleMeasure(newFilteredItem, charc, subCharc);
     });
     return newFilteredItem;
-  }
-  
+  };
+
   const handleFilter = (item) => {
-    let filteredItem = {...item};
-    Object.keys(tree).forEach(charc => {
+    let filteredItem = { ...item };
+    Object.keys(tree).forEach((charc) => {
       if (filteredItem[charc] === false) {
         filteredItem = handleSubCharacteristic(filteredItem, charc);
       }
     });
     setCheckedOptions(filteredItem);
-  }
+  };
 
-  
   return (
     <Box display="flex" width="100%" flexDirection="row">
       <Styles.FilterBackground>
-        <Box display="flex" paddingX="10px" flexDirection="column" marginTop="0px" position="fixed" overflow="auto" maxHeight="85vh">
+        <Box
+          display="flex"
+          paddingX="10px"
+          flexDirection="column"
+          marginTop="0px"
+          position="fixed"
+          overflow="auto"
+          maxHeight="85vh"
+        >
           {[filterCharacteristics, filterSubCharacteristics, filterMeasures, filterMetrics].map((filter) => (
             <Filters
               key={filter.filterTitle}
@@ -211,8 +224,8 @@ const Repository: NextPageWithLayout = () => {
               updateOptions={handleFilter}
               checkedOptions={checkedOptions}
               optionsShow={filter.optionsShow}
-              />
-              ))}
+            />
+          ))}
         </Box>
       </Styles.FilterBackground>
 
@@ -242,15 +255,11 @@ const Repository: NextPageWithLayout = () => {
                     historical={repositoryHistoricalCharacteristics.concat(historicalSQC)}
                     checkedOptions={checkedOptions}
                     title="Características"
-                  /> 
+                  />
                 )}
 
-              <LatestValueTable 
-                title="Características"
-                latestValue={latestValueCharacteristics}/>
-
-              </Box>
-            
+              <LatestValueTable title="Características" latestValue={latestValueCharacteristics} />
+            </Box>
           </Container>
         </Box>
 
@@ -258,14 +267,10 @@ const Repository: NextPageWithLayout = () => {
 
         {/* <HistoricalInfosList checkedOptions={checkedOptions}/> */}
 
-        <HistoricalLatestInfos checkedOptions={checkedOptions}/>
-
-          
-        
+        <HistoricalLatestInfos checkedOptions={checkedOptions} />
       </Box>
     </Box>
-    
-    );
+  );
 };
 
 Repository.getLayout = getLayout;
