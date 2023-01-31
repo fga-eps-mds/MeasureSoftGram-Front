@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
 
 import { TableCell, TableRow, Collapse } from '@mui/material';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
@@ -24,12 +22,11 @@ function SubCharacteristicsGraph({ SQC, checkedOptions, subCharacteristics }: Pr
   const { value, created_at: createdAt } = SQC;
 
   return (
-    <>
-      <TableRow hover onClick={() => setOpen(!open)} sx={{ '& > *': { borderBottom: 'unset' } }} data-testid="open-row">
-        <TableCell>
-          {open ? <ArrowCircleDownIcon aria-label="expand row" data-testid="open"/> : <ArrowCircleRightIcon aria-label="expand row" />}
+    <div data-testid="sub-characteristics-graph">
+      <TableRow data-testid="open-row" hover onClick={() => setOpen(!open)} sx={{ '& > *': { borderBottom: 'unset' } }}>
+        <TableCell data-testid="open">
+          {open ? <ArrowCircleDownIcon aria-label="expand row" /> : <ArrowCircleRightIcon aria-label="expand row" />}
         </TableCell>
-        <TableCell align="right">{format(new Date(createdAt), 'dd/MM/yyyy HH:MM', { locale: ptBR })}</TableCell>
         <TableCell align="right">{value.toFixed(2)}</TableCell>
       </TableRow>
       <TableRow>
@@ -44,7 +41,7 @@ function SubCharacteristicsGraph({ SQC, checkedOptions, subCharacteristics }: Pr
           </Collapse>
         </TableCell>
       </TableRow>
-    </>
+    </div>
   );
 }
 

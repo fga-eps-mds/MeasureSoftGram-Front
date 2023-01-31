@@ -1,4 +1,5 @@
 import { ReleaseGoal } from '@customTypes/product';
+import { responsivePropType } from '@mui/system';
 import { productQuery } from '..';
 import api from '../api';
 
@@ -71,6 +72,48 @@ describe('ProductQuery', () => {
     await productQuery.createProductReleaseGoal(organizationId, productId, data);
     expect(api.post).toHaveBeenCalledWith(`organizations/${organizationId}/products/${productId}/create/goal/`, data);
   });
+
+  it('getCharacteristicsLatestValues should call api.get with the right URL', async () => {
+    const organizationId = '1';
+    const productId = '2';
+    const repositoryId = '3';
+    await productQuery.getCharacteristicsLatestValues(organizationId, productId, repositoryId);
+    expect(api.get).toHaveBeenCalledWith(
+      `organizations/${organizationId}/products/${productId}/repositories/${repositoryId}/latest-values/characteristics/`
+    );
+  });
+
+  it('getSubcharacteristicsLatestValues should call api.get with the right URL', async () => {
+    const organizationId = '1';
+    const productId = '2';
+    const repositoryId = '3';
+    await productQuery.getSubcharacteristicsLatestValues(organizationId, productId, repositoryId);
+    expect(api.get).toHaveBeenCalledWith(
+      `organizations/${organizationId}/products/${productId}/repositories/${repositoryId}/latest-values/subcharacteristics/`
+    );
+  });
+
+  it('getMeasuresLatestValues should call api.get with the right URL', async () => {
+    const organizationId = '1';
+    const productId = '2';
+    const repositoryId = '3';
+    await productQuery.getMeasuresLatestValues(organizationId, productId, repositoryId);
+    expect(api.get).toHaveBeenCalledWith(
+      `organizations/${organizationId}/products/${productId}/repositories/${repositoryId}/latest-values/measures/`
+    );
+  });
+
+  // create test to getMetricsLatestValues
+  it('getMetricsLatestValues should call api.get with the right URL', async () => {
+    const organizationId = '1';
+    const productId = '2';
+    const repositoryId = '3';
+    await productQuery.getMetricsLatestValues(organizationId, productId, repositoryId);
+    expect(api.get).toHaveBeenCalledWith(
+      `organizations/${organizationId}/products/${productId}/repositories/${repositoryId}/latest-values/metrics/`
+    );
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });

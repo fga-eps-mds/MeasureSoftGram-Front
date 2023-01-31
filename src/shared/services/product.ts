@@ -4,7 +4,9 @@ import {
   CurrentPreConfig,
   MeasuresHistory,
   ReleaseGoal,
-  RepositoriesSqcHistory
+  RepositoriesSqcHistory,
+  EntitiesMetrics,
+  LatestValues,
 } from '@customTypes/product';
 import { Data } from '@customTypes/preConfig';
 
@@ -40,6 +42,26 @@ class ProductQuery {
   async getPreConfigEntitiesRelationship(organizationId: string, projectId: string) {
     const url = `organizations/${organizationId}/products/${projectId}/entity-relationship-tree/`;
     return api.get<Array<PreConfigEntitiesRelationship>>(url);
+  }
+
+  async getCharacteristicsLatestValues(organizationId: string, productId: string, repositoryId: string) {
+    const url = `organizations/${organizationId}/products/${productId}/repositories/${repositoryId}/latest-values/characteristics/`;
+    return api.get<Array<LatestValues>>(url);
+  }
+
+  async getSubcharacteristicsLatestValues(organizationId: string, productId: string, repositoryId: string) {
+    const url = `organizations/${organizationId}/products/${productId}/repositories/${repositoryId}/latest-values/subcharacteristics/`;
+    return api.get<Array<LatestValues>>(url);
+  }
+
+  async getMeasuresLatestValues(organizationId: string, productId: string, repositoryId: string) {
+    const url = `organizations/${organizationId}/products/${productId}/repositories/${repositoryId}/latest-values/measures/`;
+    return api.get<Array<LatestValues>>(url);
+  }
+
+  async getMetricsLatestValues(organizationId: string, productId: string, repositoryId: string) {
+    const url = `organizations/${organizationId}/products/${productId}/repositories/${repositoryId}/latest-values/metrics/`;
+    return api.get<Array<EntitiesMetrics>>(url);
   }
 
   async createProductReleaseGoal(organizationId: string, productId: string, data: ReleaseGoal) {

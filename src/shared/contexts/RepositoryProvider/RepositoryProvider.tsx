@@ -15,6 +15,10 @@ interface IRepositoryContext {
   setCharacteristics: (characteristics: string[]) => void;
   subCharacteristics: string[];
   setSubCharacteristics: (subCharacteristics: string[]) => void;
+  measures: string[];
+  setMeasures: (measures: string[]) => void;
+  metrics: string[];
+  setMetrics: (metrics: string[]) => void;
   historicalSQC: Historical;
   setHistoricalSQC: (historical: Historical) => void;
 }
@@ -27,6 +31,8 @@ export function RepositoryProvider({ children }: Props) {
 
   const [characteristics, setCharacteristics] = useState<string[]>([]);
   const [subCharacteristics, setSubCharacteristics] = useState<string[]>([]);
+  const [measures, setMeasures] = useState<string[]>([]);
+  const [metrics, setMetrics] = useState<string[]>([]);
   const [historicalSQC, setHistoricalSQC] = useState<Historical>();
 
   const value = useMemo(
@@ -39,10 +45,14 @@ export function RepositoryProvider({ children }: Props) {
       setCharacteristics,
       subCharacteristics,
       setSubCharacteristics,
+      measures,
+      setMeasures,
+      metrics,
+      setMetrics,
       historicalSQC,
       setHistoricalSQC
     }),
-    [currentRepository, repositoryList, characteristics, subCharacteristics, historicalSQC]
+    [currentRepository, repositoryList, characteristics, subCharacteristics, measures, metrics, historicalSQC]
   );
 
   return <RepositoryContext.Provider value={value}>{children}</RepositoryContext.Provider>;
