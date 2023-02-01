@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import ReactEcharts, { EChartsOption } from 'echarts-for-react';
 
 import formatCharacteristicsHistory from '@utils/formatCharacteristicsHistory';
@@ -14,10 +14,11 @@ interface Prop {
   historical?: Historical[];
   checkedOptions: OptionCheckedProps;
   title: string;
+  getDates?: (startDate: string, endDate: string) => void;
   selected?: (arg: any) => boolean;
 }
 
-const GraphicStackedLine = ({ historical, checkedOptions, title, selected }: Prop) => {
+const GraphicStackedLine = ({ historical, checkedOptions, title, getDates, selected }: Prop) => {
   const chartRef = useRef<ReactEcharts>(null);
   const [chartOption, setChartOption] = useState<EChartsOption>({});
 
@@ -26,17 +27,18 @@ const GraphicStackedLine = ({ historical, checkedOptions, title, selected }: Pro
     setChartOption(formatedOptions);
   }, [historical, checkedOptions]);
 
-  const onDateZoom = () => {
+  const onDateZoom = useCallback(() => {
     if (chartRef.current) {
       const option = chartRef.current.getEchartsInstance().getOption();
       const data = option.dataZoom as any;
       const { startValue, endValue } = data[0];
       const dates = chartOption.xAxis.data;
 
-      console.log('startDate', dates[startValue]);
-      console.log('endDate', dates[endValue]);
+      if (getDates) {
+        getDates(dates[startValue], dates[endValue]);
+      }
     }
-  };
+  }, [chartRef.current]);
 
   const onEvents = {
     dataZoom: onDateZoom
