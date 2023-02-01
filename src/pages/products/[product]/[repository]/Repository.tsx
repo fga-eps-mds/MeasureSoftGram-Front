@@ -17,6 +17,8 @@ import { useQuery } from './hooks/useQuery';
 
 import * as Styles from './styles';
 
+import Download from '../../../../shared/components/DownloadButton';
+
 interface FilterProps {
   filterTitle: string;
   options: Array<string>;
@@ -38,6 +40,13 @@ const Repository: NextPageWithLayout = () => {
   });
 
   const [checkedOptions, setCheckedOptions] = useState(checkedOptionsFormat);
+  const [startDate, setStartDate] = useState<string>('');
+  const [endDate, setEndDate] = useState<string>('');
+
+  const getGraphicDates = (sDate: string, eDate: string) => {
+    setStartDate(sDate);
+    setEndDate(eDate);
+  }
 
   useEffect(() => {
     setCheckedOptions(checkedOptionsFormat);
@@ -90,6 +99,12 @@ const Repository: NextPageWithLayout = () => {
                   </Typography>
                 </Box>
 
+                <div>
+                  <Download product = {currentRepository} kind = "characteristics" startDate={startDate} endDate={endDate} />
+                </div>
+                {/* sqc, characteristics, subcharacteristics, measures, metrics */}
+
+
                 <Typography variant="caption" color="gray">
                   {currentRepository?.description}
                 </Typography>
@@ -102,6 +117,7 @@ const Repository: NextPageWithLayout = () => {
                     historical={repositoryHistoricalCharacteristics.concat(historicalSQC)}
                     checkedOptions={checkedOptions}
                     title="Características"
+                    getDates={getGraphicDates}
                   />
                 )}
             </Box>
