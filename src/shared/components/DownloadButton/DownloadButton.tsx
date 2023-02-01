@@ -1,20 +1,24 @@
 import React, { useState } from "react";
 import { Button, Tooltip } from "@mui/material";
 import DownloadIcon from '@mui/icons-material/Download';
+import { parse } from 'date-fns'
 
 
-const Download = (props: any) => {
+interface DownloadProps {
+  product: any;
+  kind: string;
+  startDate: string;
+  endDate: string;
+}
+
+const Download = ({ product, kind, startDate, endDate }: DownloadProps) => {
   const [loading, setLoading] = useState(false);
 
   const handleDownload = async () => {
     setLoading(true);
     try {
-        console.log(props.product.historical_values[props.kind])
-        // const response = await fetch(props.product.historical_values[props.kind]);
-
-        const response = await fetch(props.product.historical_values[props.kind])
-        .then(response => response.json())
-        console.log('response', response);
+        const response = await fetch(product.historical_values[kind])
+          .then(response => response.json())
 
         const newProps = [];
         for (var key in response.results) {
@@ -26,41 +30,43 @@ const Download = (props: any) => {
             history: item.history
           });
         }
-        console.log('newProps', newProps);
 
-        const startDate = new Date(props.startDate);
-        const endDate = new Date(props.endDate);
-        const filteredResults = response.results.map(item => {
-            item.history = item.history.filter(historyItem => {
-                const historyDate = new Date(historyItem.created_at);
-                return historyDate >= startDate && historyDate <= endDate;
-            });
-            return item;
+        const parsedStartDate = parse(startDate, 'dd/MM/yyyy', new Date());
+        const parsedEndDate = parse(endDate, 'dd/MM/yyyy', new Date());
+        parsedStartDate.setHours(0, 0, 0, 0);
+        parsedEndDate.setHours(0, 0, 0, 0);
+
+        const filteredResults = response.results.map((item: any) => {
+          item.history = item.history.filter((historyItem: any) => {
+            const historyDate = new Date(historyItem.created_at);
+            historyDate.setHours(0, 0, 0, 0);
+            return (historyDate >= parsedStartDate) && (historyDate <= parsedEndDate);
+          });
+          return item;
         });
-        console.log('filtro', filteredResults);
         const json = JSON.stringify(filteredResults);
         const blob = new Blob([json], { type: "application/json" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = props.kind + 'Historical.json';
+        a.download = kind + 'Historical.json';
         a.click();
     } catch (error) {
-        console.log(error);
+      console.log(error);
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
   };
   return (
-          <div className="Download">
-            <p>
-              <Button variant="outlined" startIcon={<DownloadIcon />}
-                onClick={handleDownload} disabled={loading}>
-                {loading ? 'Downloading...' : 'Download'}
-              </Button>
-            </p>
-          </div>
-        );
+    <div className="Download">
+      <p>
+        <Button variant="outlined" startIcon={<DownloadIcon />}
+          onClick={handleDownload} disabled={loading}>
+          {loading ? 'Downloading...' : 'Download'}
+        </Button>
+      </p>
+    </div>
+  );
 };
 
 export default Download;
