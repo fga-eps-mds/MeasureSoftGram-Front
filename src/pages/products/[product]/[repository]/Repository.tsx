@@ -248,7 +248,7 @@ const Repository: NextPageWithLayout = () => {
                     Repositório
                   </Typography>
                   <Typography variant="h4" fontWeight="300">
-                    {currentRepository?.name}
+                    {currentRepository.name}
                   </Typography>
                 </Box>
 
@@ -283,7 +283,7 @@ const Repository: NextPageWithLayout = () => {
 
         {/* <HistoricalInfosList checkedOptions={checkedOptions}/> */}
 
-        <HistoricalLatestInfos checkedOptions={checkedOptions} />
+        <HistoricalLatestInfos checkedOptions={checkedOptions} currentRepository = {currentRepository} />
       </Box>
     </Box>
   );
