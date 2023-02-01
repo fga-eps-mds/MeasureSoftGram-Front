@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo } from 'react';
 import { getUserInfo, signInCredentials, signInGithub, signOut } from '@services/Auth';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
@@ -88,7 +88,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
         toast.error('Erro ao realizar login');
       }
     },
-    [router, setProvider]
+    [router, setProvider, setToken]
   );
 
   useEffect(() => {

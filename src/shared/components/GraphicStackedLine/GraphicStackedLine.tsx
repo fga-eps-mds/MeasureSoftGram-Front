@@ -25,7 +25,7 @@ const GraphicStackedLine = ({ historical, checkedOptions, title, getDates, selec
   useEffect(() => {
     const formatedOptions = formatCharacteristicsHistory({ historical, checkedOptions, title, selected });
     setChartOption(formatedOptions);
-  }, [historical, checkedOptions]);
+  }, [historical, checkedOptions, title, selected]);
 
   const onDateZoom = useCallback(() => {
     if (chartRef.current) {

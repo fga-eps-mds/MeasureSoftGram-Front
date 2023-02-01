@@ -17,28 +17,9 @@ export function useLocalStorage<T>(
   key: string,
   initialValue: T
 ): { storedValue: T; setValue: SetValue<T>; removeValue: () => void } {
-  // Get from local storage then
-  // parse stored json or return initialValue
-  const readValue = (): T => {
-    // Prevent build error "window is undefined" but keep keep working
-    if (typeof window === 'undefined') {
-      return initialValue;
-    }
-
-    try {
-      const item = window.localStorage.getItem(key);
-
-      return item ? (parseJSON(item) as T) : initialValue;
-    } catch (error) {
-      console.warn(`Error reading localStorage key “${key}”:`, error);
-
-      return initialValue;
-    }
-  };
-
   // State to store our value
   // Pass initial state function to useState so logic is only executed once
-  const [storedValue, setStoredValue] = useState<T>(readValue);
+  const [storedValue, setStoredValue] = useState<T>(initialValue);
 
   // Return a wrapped version of useState's setter function that ...
   // ... persists the new value to localStorage.
@@ -75,25 +56,13 @@ export function useLocalStorage<T>(
   };
 
   useEffect(() => {
-    setStoredValue(readValue());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    const handleStorageChange = () => {
-      setStoredValue(readValue());
-    };
-
-    // this only works for other documents, not the current one
-    window.addEventListener('storage', handleStorageChange);
-
-    // this is a custom event, triggered in writeValueTosessionStorage
-    window.addEventListener('local-storage', handleStorageChange);
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('local-storage', handleStorageChange);
-    };
+    try {
+      const item = window.localStorage.getItem(key);
+      setStoredValue(item ? JSON.parse(item) : initialValue);
+    } catch (error) {
+      console.log(error);
+      return setStoredValue(initialValue);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -9,6 +9,7 @@ import { useQuery } from './hooks/useQuery';
 import ProductContent from './components/ProductContent';
 
 import RepositoriesList from './components/RepositoriesList';
+import ReleasesList from './components/ReleasesList';
 
 const Product: NextPageWithLayout = () => {
   const { repositoriesSqcHistory } = useQuery();
@@ -21,6 +22,7 @@ const Product: NextPageWithLayout = () => {
 
       <ProductContent repositoriesSqcHistory={repositoriesSqcHistory} />
       <RepositoriesList />
+      <ReleasesList />
     </>
   );
 };

@@ -38,65 +38,65 @@ Object {
           <tbody
             class="MuiTableBody-root css-apqrd9-MuiTableBody-root"
           >
-            <tr
-              class="MuiTableRow-root MuiTableRow-hover css-2blr9s-MuiTableRow-root"
-              data-testid="open-row"
+            <div
+              data-testid="sub-characteristics-graph"
             >
-              <td
-                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
+              <tr
+                class="MuiTableRow-root MuiTableRow-hover css-2blr9s-MuiTableRow-root"
+                data-testid="open-row"
               >
-                <svg
-                  aria-hidden="true"
-                  aria-label="expand row"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                  data-testid="ArrowCircleRightIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
+                  data-testid="open"
                 >
-                  <path
-                    d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12s4.48 10 10 10 10-4.48 10-10zm-10 1H8v-2h4V8l4 4-4 4v-3z"
-                  />
-                </svg>
-              </td>
-              <td
-                class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-177gid-MuiTableCell-root"
+                  <svg
+                    aria-hidden="true"
+                    aria-label="expand row"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                    data-testid="ArrowCircleRightIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12s4.48 10 10 10 10-4.48 10-10zm-10 1H8v-2h4V8l4 4-4 4v-3z"
+                    />
+                  </svg>
+                </td>
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-177gid-MuiTableCell-root"
+                >
+                  0.66
+                </td>
+              </tr>
+              <tr
+                class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
               >
-                28/08/2022 18:08
-              </td>
-              <td
-                class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-177gid-MuiTableCell-root"
-              >
-                0.66
-              </td>
-            </tr>
-            <tr
-              class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-            >
-              <td
-                class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-177gid-MuiTableCell-root"
-                colspan="3"
-                style="padding-bottom: 0px; padding-top: 0px;"
-              >
-                <div
-                  class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
-                  style="min-height: 0px;"
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-177gid-MuiTableCell-root"
+                  colspan="3"
+                  style="padding-bottom: 0px; padding-top: 0px;"
                 >
                   <div
-                    class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+                    class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+                    style="min-height: 0px;"
                   >
                     <div
-                      class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+                      class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
                     >
                       <div
-                        class="styles__GraphicContainer-sc-1nisug5-0 glYmeV"
+                        class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
                       >
-                        <div />
+                        <div
+                          class="styles__GraphicContainer-sc-1nisug5-0 glYmeV"
+                        >
+                          <div />
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </td>
-            </tr>
+                </td>
+              </tr>
+            </div>
           </tbody>
           <tfoot
             class="MuiTableFooter-root css-9cgc89-MuiTableFooter-root"
@@ -205,65 +205,65 @@ Object {
         <tbody
           class="MuiTableBody-root css-apqrd9-MuiTableBody-root"
         >
-          <tr
-            class="MuiTableRow-root MuiTableRow-hover css-2blr9s-MuiTableRow-root"
-            data-testid="open-row"
+          <div
+            data-testid="sub-characteristics-graph"
           >
-            <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
+            <tr
+              class="MuiTableRow-root MuiTableRow-hover css-2blr9s-MuiTableRow-root"
+              data-testid="open-row"
             >
-              <svg
-                aria-hidden="true"
-                aria-label="expand row"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                data-testid="ArrowCircleRightIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
+                data-testid="open"
               >
-                <path
-                  d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12s4.48 10 10 10 10-4.48 10-10zm-10 1H8v-2h4V8l4 4-4 4v-3z"
-                />
-              </svg>
-            </td>
-            <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-177gid-MuiTableCell-root"
+                <svg
+                  aria-hidden="true"
+                  aria-label="expand row"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                  data-testid="ArrowCircleRightIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12s4.48 10 10 10 10-4.48 10-10zm-10 1H8v-2h4V8l4 4-4 4v-3z"
+                  />
+                </svg>
+              </td>
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-177gid-MuiTableCell-root"
+              >
+                0.66
+              </td>
+            </tr>
+            <tr
+              class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
             >
-              28/08/2022 18:08
-            </td>
-            <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-177gid-MuiTableCell-root"
-            >
-              0.66
-            </td>
-          </tr>
-          <tr
-            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-          >
-            <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-177gid-MuiTableCell-root"
-              colspan="3"
-              style="padding-bottom: 0px; padding-top: 0px;"
-            >
-              <div
-                class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
-                style="min-height: 0px;"
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-177gid-MuiTableCell-root"
+                colspan="3"
+                style="padding-bottom: 0px; padding-top: 0px;"
               >
                 <div
-                  class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+                  class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+                  style="min-height: 0px;"
                 >
                   <div
-                    class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+                    class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
                   >
                     <div
-                      class="styles__GraphicContainer-sc-1nisug5-0 glYmeV"
+                      class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
                     >
-                      <div />
+                      <div
+                        class="styles__GraphicContainer-sc-1nisug5-0 glYmeV"
+                      >
+                        <div />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </td>
-          </tr>
+              </td>
+            </tr>
+          </div>
         </tbody>
         <tfoot
           class="MuiTableFooter-root css-9cgc89-MuiTableFooter-root"

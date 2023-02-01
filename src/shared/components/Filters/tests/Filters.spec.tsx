@@ -16,7 +16,8 @@ const defaultProps = {
   checkedOptions: CHECKED_OPTIONS,
   updateOptions: jest.fn(),
   filterTitle: FILTER_TITLE,
-  options: OPTIONS
+  options: OPTIONS,
+  optionsShow: OPTIONS
 };
 
 type defaultPropsType = typeof defaultProps;

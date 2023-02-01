@@ -7,9 +7,11 @@ const api = axios.create({
 
 api.interceptors.request.use(
   async (config) => {
-    const token = localStorage.getItem('token');
-    if (token && config?.headers) {
-      config.headers.Authorization = token ? `Token ${JSON.parse(token)}` : '';
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (token && config?.headers) {
+        config.headers.Authorization = token ? `Token ${JSON.parse(token)}` : '';
+      }
     }
     return config;
   },

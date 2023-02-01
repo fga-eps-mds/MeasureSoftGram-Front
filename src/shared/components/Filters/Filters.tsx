@@ -10,11 +10,12 @@ interface OptionCheckedProps {
 interface FiltersProps {
   filterTitle: string;
   options?: Array<string>;
+  optionsShow?: Array<string>;
   updateOptions: Function;
   checkedOptions: OptionCheckedProps;
 }
 
-const Filters: React.FC<FiltersProps> = ({ filterTitle, options = [], updateOptions, checkedOptions }) => {
+const Filters: React.FC<FiltersProps> = ({ filterTitle, options = [], updateOptions, checkedOptions, optionsShow = [] }) => {
   const [isVisible, setIsVisible] = useState<boolean>(true);
 
   const handleUpdate = (selectedOption: string) => {
@@ -33,7 +34,7 @@ const Filters: React.FC<FiltersProps> = ({ filterTitle, options = [], updateOpti
 
       {isVisible ? (
         <Styles.OptionContainer display="flex" flexDirection="column">
-          {options.map((option) => (
+          {optionsShow.map((option) => (
             <Styles.Option key={option} display="flex" flexDirection="row" alignItems="center">
               <Checkbox data-testid={option} onClick={() => handleUpdate(option)} checked={checkedOptions[option]} />
               <span>{option[0].toUpperCase() + option.slice(1).replace('_', ' ')}</span>

@@ -4,10 +4,13 @@ import {
   CurrentPreConfig,
   MeasuresHistory,
   ReleaseGoal,
-  RepositoriesSqcHistory
+  RepositoriesSqcHistory,
+  EntitiesMetrics,
+  LatestValues,
 } from '@customTypes/product';
 import { Data } from '@customTypes/preConfig';
 
+import { AxiosRequestConfig } from 'axios';
 import api from './api';
 
 class ProductQuery {
@@ -42,14 +45,48 @@ class ProductQuery {
     return api.get<Array<PreConfigEntitiesRelationship>>(url);
   }
 
+  async getCharacteristicsLatestValues(organizationId: string, productId: string, repositoryId: string) {
+    const url = `organizations/${organizationId}/products/${productId}/repositories/${repositoryId}/latest-values/characteristics/`;
+    return api.get<Array<LatestValues>>(url);
+  }
+
+  async getSubcharacteristicsLatestValues(organizationId: string, productId: string, repositoryId: string) {
+    const url = `organizations/${organizationId}/products/${productId}/repositories/${repositoryId}/latest-values/subcharacteristics/`;
+    return api.get<Array<LatestValues>>(url);
+  }
+
+  async getMeasuresLatestValues(organizationId: string, productId: string, repositoryId: string) {
+    const url = `organizations/${organizationId}/products/${productId}/repositories/${repositoryId}/latest-values/measures/`;
+    return api.get<Array<LatestValues>>(url);
+  }
+
+  async getMetricsLatestValues(organizationId: string, productId: string, repositoryId: string) {
+    const url = `organizations/${organizationId}/products/${productId}/repositories/${repositoryId}/latest-values/metrics/`;
+    return api.get<Array<EntitiesMetrics>>(url);
+  }
+
   async createProductReleaseGoal(organizationId: string, productId: string, data: ReleaseGoal) {
     const url = `organizations/${organizationId}/products/${productId}/create/goal/`;
     return api.post(url, data);
   }
 
+  async getCompareGoalAccomplished(organizationId: string, productId: string, releaseId?: number) {
+    const url = `organizations/${organizationId}/products/${productId}/all/goal/`;
+    return api.get(url, { params: releaseId && { release_id: releaseId } });
+  }
+
   async getProductRepositoriesSqcHistory(organizationId: string, productId: string) {
     const url = `organizations/${organizationId}/products/${productId}/repositories-sqc-historical-values/`;
     return api.get<RepositoriesSqcHistory>(url);
+  }
+
+  getReleaseList(organizationId: string, productId: string, releaseId?: number): AxiosRequestConfig {
+    const url = `organizations/${organizationId}/products/${productId}/release/`;
+    return {
+      url,
+      method: 'get',
+      params: releaseId && { release_id: releaseId }
+    };
   }
 }
 

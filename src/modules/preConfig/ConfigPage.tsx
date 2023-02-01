@@ -41,7 +41,8 @@ const ConfigPage = ({ isOpen, onClose, repoName = '', organizationId, productId 
     setCharacterCheckbox([]);
     setSubcharacterCheckbox([]);
     setMeasureheckbox([]);
-  }, [isOpen]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     setIsValuesValid(false);

@@ -9,8 +9,10 @@ import { NextPageWithLayout } from '@pages/_app.next';
 
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
 
+import CompareGoalsChart from '@components/CompareGoalsChart';
 import Skeleton from './components/Skeleton';
-import SubCharacteristicsList from './components/SubCharacteristicsList';
+import HistoricalLatestInfos from './components/HistoricalInfosList';
+import LatestValueTable from './components/LatestValueTable';
 
 import { useQuery as useQueryProduct } from '../hooks/useQuery';
 import { useQuery } from './hooks/useQuery';
@@ -22,21 +24,92 @@ import Download from '../../../../shared/components/DownloadButton';
 interface FilterProps {
   filterTitle: string;
   options: Array<string>;
+  optionsShow: Array<string>;
 }
+
+const tree = {
+  reliability: {
+    testing_status: {
+      passed_tests: {
+        test_errors: true,
+        test_failures: true,
+        tests: true
+      },
+      test_builds: {
+        test_execution_time: true
+      },
+      test_coverage: {
+        coverage: true
+      }
+    }
+  },
+  maintainability: {
+    modifiability: {
+      non_complex_file_density: {
+        complexity: true,
+        functions: true
+      },
+      commented_file_density: {
+        comment_lines_density: true
+      },
+      duplication_absense: {
+        duplicated_lines_density: true
+      }
+    }
+  }
+};
+
+const treeParentRelationship = {
+  test_errors: 'passed_tests',
+  test_failures: 'passed_tests',
+  tests: 'passed_tests',
+  test_execution_time: 'test_builds',
+  coverage: 'test_coverage',
+  complexity: 'non_complex_file_density',
+  functions: 'non_complex_file_density',
+  comment_lines_density: 'commented_file_density',
+  duplicated_lines_density: 'duplication_absense',
+  passed_tests: 'testing_status',
+  test_builds: 'testing_status',
+  test_coverage: 'testing_status',
+  non_complex_file_density: 'modifiability',
+  commented_file_density: 'modifiability',
+  duplication_absense: 'modifiability',
+  testing_status: 'reliability',
+  modifiability: 'maintainability'
+};
 
 const Repository: NextPageWithLayout = () => {
   useQueryProduct();
 
-  const { repositoryHistoricalCharacteristics, checkedOptionsFormat } = useQuery();
-  const { characteristics, subCharacteristics, currentRepository, historicalSQC } = useRepositoryContext();
+  const {
+    repositoryHistoricalCharacteristics,
+    latestValueCharacteristics,
+    checkedOptionsFormat,
+    comparedGoalAccomplished
+  } = useQuery();
+  const { characteristics, subCharacteristics, measures, metrics, currentRepository, historicalSQC } =
+    useRepositoryContext();
 
   const [filterCharacteristics, setFilterCharacteristics] = useState<FilterProps>({
     filterTitle: 'CARACTERÍSTICAS',
-    options: []
+    options: [],
+    optionsShow: []
   });
   const [filterSubCharacteristics, setFilterSubCharacteristics] = useState<FilterProps>({
     filterTitle: 'SUB CARACTERÍSTICAS',
-    options: []
+    options: [],
+    optionsShow: []
+  });
+  const [filterMeasures, setFilterMeasures] = useState<FilterProps>({
+    filterTitle: 'MEDIDAS',
+    options: [],
+    optionsShow: []
+  });
+  const [filterMetrics, setFilterMetrics] = useState<FilterProps>({
+    filterTitle: 'MÉTRICAS',
+    options: [],
+    optionsShow: []
   });
 
   const [checkedOptions, setCheckedOptions] = useState(checkedOptionsFormat);
@@ -53,33 +126,113 @@ const Repository: NextPageWithLayout = () => {
   }, [checkedOptionsFormat]);
 
   useEffect(() => {
-    setFilterCharacteristics({ ...filterCharacteristics, options: characteristics });
-    setFilterSubCharacteristics({ ...filterSubCharacteristics, options: subCharacteristics });
-  }, [characteristics, subCharacteristics]);
+    if (!subCharacteristics || !measures || !metrics) {
+      return;
+    }
+
+    const subCharacteristicsFilter = [];
+    const measuresFilter = [];
+    const metricsFilter = ['ncloc', 'files'];
+
+    subCharacteristics.forEach((subCharacteristic) => {
+      if (checkedOptions[treeParentRelationship[subCharacteristic]]) {
+        subCharacteristicsFilter.push(subCharacteristic);
+      }
+    });
+
+    measures.forEach((measure) => {
+      if (checkedOptions[treeParentRelationship[measure]]) {
+        measuresFilter.push(measure);
+      }
+    });
+
+    metrics.forEach((metric) => {
+      if (checkedOptions[treeParentRelationship[metric]]) {
+        metricsFilter.push(metric);
+      }
+    });
+
+    setFilterCharacteristics({ ...filterCharacteristics, options: characteristics, optionsShow: characteristics });
+    setFilterSubCharacteristics({
+      ...filterSubCharacteristics,
+      options: subCharacteristics,
+      optionsShow: subCharacteristicsFilter
+    });
+    setFilterMeasures({ ...filterMeasures, options: measures, optionsShow: measuresFilter });
+    setFilterMetrics({ ...filterMetrics, options: metrics, optionsShow: metricsFilter });
+  }, [characteristics, subCharacteristics, measures, metrics, checkedOptions]);
 
   const isArrayEmpty = (array: Array<any>) => array.length === 0;
 
   if (
     isArrayEmpty(repositoryHistoricalCharacteristics) ||
+    isArrayEmpty(latestValueCharacteristics) ||
     isArrayEmpty(filterCharacteristics.options) ||
     isArrayEmpty(filterSubCharacteristics.options) ||
+    isArrayEmpty(filterMeasures.options) ||
+    isArrayEmpty(filterMetrics.options) ||
     !currentRepository ||
     !historicalSQC
   ) {
     return <Skeleton />;
   }
 
+  const handleMetric = (filteredItem, charc, subCharc, measure) => {
+    const newFilteredItem = { ...filteredItem };
+    Object.keys(tree[charc][subCharc][measure]).forEach((metric) => {
+      newFilteredItem[metric] = false;
+    });
+    return newFilteredItem;
+  };
+
+  const handleMeasure = (filteredItem, charc, subCharc) => {
+    let newFilteredItem = { ...filteredItem };
+    Object.keys(tree[charc][subCharc]).forEach((measure) => {
+      newFilteredItem[measure] = false;
+      newFilteredItem = handleMetric(newFilteredItem, charc, subCharc, measure);
+    });
+    return newFilteredItem;
+  };
+
+  const handleSubCharacteristic = (filteredItem, charc) => {
+    let newFilteredItem = { ...filteredItem };
+    Object.keys(tree[charc]).forEach((subCharc) => {
+      newFilteredItem[subCharc] = false;
+      newFilteredItem = handleMeasure(newFilteredItem, charc, subCharc);
+    });
+    return newFilteredItem;
+  };
+
+  const handleFilter = (item) => {
+    let filteredItem = { ...item };
+    Object.keys(tree).forEach((charc) => {
+      if (filteredItem[charc] === false) {
+        filteredItem = handleSubCharacteristic(filteredItem, charc);
+      }
+    });
+    setCheckedOptions(filteredItem);
+  };
+
   return (
     <Box display="flex" width="100%" flexDirection="row">
       <Styles.FilterBackground>
-        <Box display="flex" paddingX="15px" flexDirection="column" marginTop="36px" position="fixed">
-          {[filterCharacteristics, filterSubCharacteristics].map((filter) => (
+        <Box
+          display="flex"
+          paddingX="10px"
+          flexDirection="column"
+          marginTop="0px"
+          position="fixed"
+          overflow="auto"
+          maxHeight="85vh"
+        >
+          {[filterCharacteristics, filterSubCharacteristics, filterMeasures, filterMetrics].map((filter) => (
             <Filters
               key={filter.filterTitle}
               filterTitle={filter.filterTitle}
               options={filter.options}
-              updateOptions={setCheckedOptions}
+              updateOptions={handleFilter}
               checkedOptions={checkedOptions}
+              optionsShow={filter.optionsShow}
             />
           ))}
         </Box>
@@ -120,11 +273,17 @@ const Repository: NextPageWithLayout = () => {
                     getDates={getGraphicDates}
                   />
                 )}
+
+              <LatestValueTable title="Características" latestValue={latestValueCharacteristics} />
             </Box>
           </Container>
         </Box>
 
-        <SubCharacteristicsList checkedOptions={checkedOptions} />
+        {/* <SubCharacteristicsList checkedOptions={checkedOptions} /> */}
+
+        {/* <HistoricalInfosList checkedOptions={checkedOptions}/> */}
+
+        <HistoricalLatestInfos checkedOptions={checkedOptions} />
       </Box>
     </Box>
   );
