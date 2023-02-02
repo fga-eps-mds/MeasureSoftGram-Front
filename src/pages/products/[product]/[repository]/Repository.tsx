@@ -119,7 +119,7 @@ const Repository: NextPageWithLayout = () => {
   const getGraphicDates = (sDate: string, eDate: string) => {
     setStartDate(sDate);
     setEndDate(eDate);
-  }
+  };
 
   useEffect(() => {
     setCheckedOptions(checkedOptionsFormat);
@@ -253,10 +253,14 @@ const Repository: NextPageWithLayout = () => {
                 </Box>
 
                 <div>
-                  <Download product = {currentRepository} kind = "characteristics" startDate={startDate} endDate={endDate} />
+                  <Download
+                    product={currentRepository}
+                    kind="characteristics"
+                    startDate={startDate}
+                    endDate={endDate}
+                  />
                 </div>
                 {/* sqc, characteristics, subcharacteristics, measures, metrics */}
-
 
                 <Typography variant="caption" color="gray">
                   {currentRepository?.description}
@@ -283,7 +287,7 @@ const Repository: NextPageWithLayout = () => {
 
         {/* <HistoricalInfosList checkedOptions={checkedOptions}/> */}
 
-        <HistoricalLatestInfos checkedOptions={checkedOptions} currentRepository = {currentRepository} />
+        <HistoricalLatestInfos checkedOptions={checkedOptions} currentRepository={currentRepository} />
       </Box>
     </Box>
   );
