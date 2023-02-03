@@ -162,6 +162,7 @@ const Repository: NextPageWithLayout = () => {
     isArrayEmpty(filterSubCharacteristics.options) ||
     isArrayEmpty(filterMeasures.options) ||
     isArrayEmpty(filterMetrics.options) ||
+    isArrayEmpty(Object.values(checkedOptions)) ||
     !currentRepository ||
     !historicalSQC
   ) {
@@ -199,6 +200,20 @@ const Repository: NextPageWithLayout = () => {
     Object.keys(tree).forEach((charc) => {
       if (filteredItem[charc] === false) {
         filteredItem = handleSubCharacteristic(filteredItem, charc);
+      }
+      else {
+        Object.keys(tree[charc]).forEach((subCharc) => {
+          if (filteredItem[subCharc] === false) {
+            filteredItem = handleMeasure(filteredItem, charc, subCharc);
+          }
+          else{
+            Object.keys(tree[charc][subCharc]).forEach((measure) => {
+              if (filteredItem[measure] === false) {
+                filteredItem = handleMetric(filteredItem, charc, subCharc, measure);
+              }
+            });
+          }
+        });
       }
     });
     setCheckedOptions(filteredItem);
