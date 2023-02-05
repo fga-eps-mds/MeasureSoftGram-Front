@@ -1,13 +1,15 @@
 import '@testing-library/jest-dom';
 
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 import SubCharacteristicsTable from '../SubCharacteristicsTable';
 
 jest.mock('@contexts/RepositoryProvider', () => ({
   useRepositoryContext: () => ({
-    historicalSQC: { history: [{"id":302,"value":0.6641230995964292,"created_at":new Date("2022-08-28T18:04:48-03:00")}] }
+    historicalSQC: {
+      history: [{ id: 302, value: 0.6641230995964292, created_at: new Date('2022-08-28T18:04:48-03:00') }]
+    }
   })
 }));
 
@@ -49,7 +51,7 @@ describe('<SubCharacteristicsTable', () => {
             testing_status: true
           }}
         />
-      )
+      );
 
       expect(tree).toMatchSnapshot();
     });

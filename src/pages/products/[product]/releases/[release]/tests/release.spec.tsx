@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import { render, fireEvent, act } from '@testing-library/react';
+import { render, act } from '@testing-library/react';
 import { productQuery } from '@services/product';
 import Release from '../index.page';
 

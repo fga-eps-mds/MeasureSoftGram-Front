@@ -31,7 +31,6 @@ const Products: NextPageWithLayout = () => {
   const { session, logout } = useAuth();
   const router = useRouter();
   const { productsList } = useProductContext();
-  const openMenu = Boolean(anchorEl);
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>, index: number) => {
     anchorEl[index] = event.currentTarget;

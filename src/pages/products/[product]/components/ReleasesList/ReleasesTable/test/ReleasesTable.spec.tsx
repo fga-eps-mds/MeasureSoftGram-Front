@@ -1,6 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import { Router } from 'next/router';
+import { render } from '@testing-library/react';
 import { OrganizationProvider } from '@contexts/OrganizationProvider';
 import { ProductProvider } from '@contexts/ProductProvider';
 import ReleasesTable from '../ReleasesTable';

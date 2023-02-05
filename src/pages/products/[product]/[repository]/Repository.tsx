@@ -9,7 +9,6 @@ import { NextPageWithLayout } from '@pages/_app.next';
 
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
 
-import CompareGoalsChart from '@components/CompareGoalsChart';
 import Skeleton from './components/Skeleton';
 import HistoricalLatestInfos from './components/HistoricalInfosList';
 import LatestValueTable from './components/LatestValueTable';
@@ -82,12 +81,7 @@ const treeParentRelationship = {
 const Repository: NextPageWithLayout = () => {
   useQueryProduct();
 
-  const {
-    repositoryHistoricalCharacteristics,
-    latestValueCharacteristics,
-    checkedOptionsFormat,
-    comparedGoalAccomplished
-  } = useQuery();
+  const { repositoryHistoricalCharacteristics, latestValueCharacteristics, checkedOptionsFormat } = useQuery();
   const { characteristics, subCharacteristics, measures, metrics, currentRepository, historicalSQC } =
     useRepositoryContext();
 
@@ -160,6 +154,7 @@ const Repository: NextPageWithLayout = () => {
     });
     setFilterMeasures({ ...filterMeasures, options: measures, optionsShow: measuresFilter });
     setFilterMetrics({ ...filterMetrics, options: metrics, optionsShow: metricsFilter });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [characteristics, subCharacteristics, measures, metrics, checkedOptions]);
 
   const isArrayEmpty = (array: Array<any>) => array.length === 0;

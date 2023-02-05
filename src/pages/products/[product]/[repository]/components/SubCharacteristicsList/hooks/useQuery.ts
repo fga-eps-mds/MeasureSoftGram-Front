@@ -7,6 +7,7 @@ import { repository } from '@services/repository';
 
 import { getPathId } from '@utils/pathDestructer';
 import { Historical } from '@customTypes/repository';
+import { toast } from 'react-toastify';
 
 export const useQuery = () => {
   const { currentProduct } = useProductContext();
@@ -28,7 +29,7 @@ export const useQuery = () => {
 
       setRepositoryHistoricalSubCharacteristics(result.data.results);
     } catch (error) {
-      console.error(error);
+      toast.error(`${error}`);
     }
   }
 
@@ -39,6 +40,7 @@ export const useQuery = () => {
 
       loadHistoricalSubCharacteristics(organizationId, productId, repositoryId);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query?.repository, currentProduct]);
 
   return { repositoryHistoricalSubCharacteristics };

@@ -1,10 +1,8 @@
-import { useCallback, useEffect } from 'react';
-
 import { productQuery } from '@services/product';
-import { organization } from '@services/organization';
-
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import { useProductContext } from '@contexts/ProductProvider';
+import { toast } from 'react-toastify';
+import { useEffect } from 'react';
 
 export const useQuery = () => {
   const { currentOrganization } = useOrganizationContext();
@@ -16,13 +14,13 @@ export const useQuery = () => {
 
       updateProductList(result.data.results);
     } catch (error) {
-      console.error(error);
+      toast.error(`${error}`);
     }
   };
-
   useEffect(() => {
     if (currentOrganization) {
       loadAllProducts();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentOrganization]);
 };
