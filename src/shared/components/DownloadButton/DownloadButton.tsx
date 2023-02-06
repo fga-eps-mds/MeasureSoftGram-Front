@@ -3,14 +3,19 @@ import { Button } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import { parse } from 'date-fns';
 
+interface OptionCheckedProps {
+  [key: string]: boolean;
+}
+
 interface DownloadProps {
   product: any;
   kind: string;
   startDate: string;
   endDate: string;
+  checkedOptions: OptionCheckedProps;
 }
 
-const Download = ({ product, kind, startDate, endDate }: DownloadProps) => {
+const Download = ({ product, kind, startDate, endDate, checkedOptions }: DownloadProps) => {
   const [loading, setLoading] = useState(false);
 
   const handleDownload = async () => {
@@ -30,8 +35,10 @@ const Download = ({ product, kind, startDate, endDate }: DownloadProps) => {
 
       parsedStartDate.setHours(0, 0, 0, 0);
       parsedEndDate.setHours(0, 0, 0, 0);
-      
-      const filteredResults = results.map((item: any) => {
+
+      const filteredResults = results.filter((item: any) => {
+        return checkedOptions[item.key];
+      }).map((item: any) => {
         const history = item.history.filter((historyItem: any) => {
           const historyDate = new Date(historyItem.created_at);
           historyDate.setHours(0, 0, 0, 0);

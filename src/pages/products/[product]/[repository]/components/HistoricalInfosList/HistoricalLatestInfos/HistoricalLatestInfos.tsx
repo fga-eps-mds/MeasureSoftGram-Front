@@ -60,7 +60,12 @@ function HistoricalLatestInfos({ checkedOptions, currentRepository }: Prop) {
   return (
     <>
       <div>
-        <Download product={currentRepository} kind="subcharacteristics" startDate={startDateSub} endDate={endDateSub} />
+        <Download 
+        product={currentRepository} 
+        kind="subcharacteristics" 
+        startDate={startDateSub} 
+        endDate={endDateSub}
+        checkedOptions={checkedOptions} />
       </div>
       {/* sqc, characteristics, subcharacteristics, measures, metrics */}
       <Box marginBottom="42px">
@@ -74,7 +79,12 @@ function HistoricalLatestInfos({ checkedOptions, currentRepository }: Prop) {
       </Box>
 
       <div>
-        <Download product={currentRepository} kind="measures" startDate={startDateMes} endDate={endDateMes} />
+        <Download 
+        product={currentRepository} 
+        kind="measures" 
+        startDate={startDateMes} 
+        endDate={endDateMes}
+        checkedOptions={checkedOptions} />
       </div>
       <Box marginBottom="42px">
         <GraphicStackedLine
@@ -87,7 +97,12 @@ function HistoricalLatestInfos({ checkedOptions, currentRepository }: Prop) {
       </Box>
 
       <div>
-        <Download product={currentRepository} kind="metrics" startDate={startDateMet} endDate={endDateMet} />
+        <Download 
+        product={currentRepository} 
+        kind="metrics" 
+        startDate={startDateMet} 
+        endDate={endDateMet}
+        checkedOptions={checkedOptions} />
       </div>
       <Box marginBottom="42px">
         <GraphicStackedLine

@@ -253,6 +253,7 @@ const Repository: NextPageWithLayout = () => {
                     kind="characteristics"
                     startDate={startDate}
                     endDate={endDate}
+                    checkedOptions={checkedOptions}
                   />
                 </div>
                 {/* sqc, characteristics, subcharacteristics, measures, metrics */}
