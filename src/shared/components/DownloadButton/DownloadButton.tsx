@@ -19,11 +19,18 @@ const Download = ({ product, kind, startDate, endDate }: DownloadProps) => {
       const res = await fetch(product.historical_values[kind]).then((response) => response.json());
       const { results } = res;
 
-      const parsedStartDate = parse(startDate, 'dd/MM/yyyy', new Date());
-      const parsedEndDate = parse(endDate, 'dd/MM/yyyy', new Date());
+      let d_start = parse(startDate, 'dd/MM/yyyy', new Date());
+      let d_end = parse(endDate, 'dd/MM/yyyy', new Date());
+      const parsedStartDate = (d_start) instanceof Date && !isNaN(d_start)
+      ? parse(startDate, 'dd/MM/yyyy', new Date())
+      : parse(res.results[0].history[0].created_at, "yyyy-MM-dd'T'HH:mm:ssxxx", new Date());
+      const parsedEndDate = (d_end) instanceof Date && !isNaN(d_end)
+      ? parse(endDate, 'dd/MM/yyyy', new Date())
+      : parse(res.results[0].history[res.results[0].history.length-1].created_at, "yyyy-MM-dd'T'HH:mm:ssxxx", new Date());
+
       parsedStartDate.setHours(0, 0, 0, 0);
       parsedEndDate.setHours(0, 0, 0, 0);
-
+      
       const filteredResults = results.map((item: any) => {
         const history = item.history.filter((historyItem: any) => {
           const historyDate = new Date(historyItem.created_at);
@@ -32,7 +39,7 @@ const Download = ({ product, kind, startDate, endDate }: DownloadProps) => {
         });
         return { ...item, history };
       });
-
+      
       const json = JSON.stringify(filteredResults);
       const blob = new Blob([json], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
