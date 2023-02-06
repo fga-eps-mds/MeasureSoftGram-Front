@@ -24,8 +24,8 @@ Frontend repository of MeasureSoftGram application.
 
 ## Links
 
-- Prod: [https://measuresoftgram.herokuapp.com/](https://measuresoftgram.herokuapp.com/)
-- Stage: [https://stg-measuresoftgram.herokuapp.com/](https://stg-measuresoftgram.herokuapp.com/)
+- Prod: [https://measure-soft-gram.vercel.app/](https://measure-soft-gram.vercel.app/)
+- Stage: [https://measure-soft-gram-staging.vercel.app/](https://measure-soft-gram-staging.vercel.app/)
 
 ## Installation
 
