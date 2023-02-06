@@ -9,7 +9,6 @@ import { NextPageWithLayout } from '@pages/_app.next';
 
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
 
-import CompareGoalsChart from '@components/CompareGoalsChart';
 import Skeleton from './components/Skeleton';
 import HistoricalLatestInfos from './components/HistoricalInfosList';
 import LatestValueTable from './components/LatestValueTable';
@@ -18,6 +17,8 @@ import { useQuery as useQueryProduct } from '../hooks/useQuery';
 import { useQuery } from './hooks/useQuery';
 
 import * as Styles from './styles';
+
+import Download from '../../../../shared/components/DownloadButton';
 
 interface FilterProps {
   filterTitle: string;
@@ -80,12 +81,7 @@ const treeParentRelationship = {
 const Repository: NextPageWithLayout = () => {
   useQueryProduct();
 
-  const {
-    repositoryHistoricalCharacteristics,
-    latestValueCharacteristics,
-    checkedOptionsFormat,
-    comparedGoalAccomplished
-  } = useQuery();
+  const { repositoryHistoricalCharacteristics, latestValueCharacteristics, checkedOptionsFormat } = useQuery();
   const { characteristics, subCharacteristics, measures, metrics, currentRepository, historicalSQC } =
     useRepositoryContext();
 
@@ -111,6 +107,13 @@ const Repository: NextPageWithLayout = () => {
   });
 
   const [checkedOptions, setCheckedOptions] = useState(checkedOptionsFormat);
+  const [startDate, setStartDate] = useState<string>('');
+  const [endDate, setEndDate] = useState<string>('');
+
+  const getGraphicDates = (sDate: string, eDate: string) => {
+    setStartDate(sDate);
+    setEndDate(eDate);
+  };
 
   useEffect(() => {
     setCheckedOptions(checkedOptionsFormat);
@@ -151,6 +154,7 @@ const Repository: NextPageWithLayout = () => {
     });
     setFilterMeasures({ ...filterMeasures, options: measures, optionsShow: measuresFilter });
     setFilterMetrics({ ...filterMetrics, options: metrics, optionsShow: metricsFilter });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [characteristics, subCharacteristics, measures, metrics, checkedOptions]);
 
   const isArrayEmpty = (array: Array<any>) => array.length === 0;
@@ -254,9 +258,20 @@ const Repository: NextPageWithLayout = () => {
                     Repositório
                   </Typography>
                   <Typography variant="h4" fontWeight="300">
-                    {currentRepository?.name}
+                    {currentRepository.name}
                   </Typography>
                 </Box>
+
+                <div>
+                  <Download
+                    product={currentRepository}
+                    kind="characteristics"
+                    startDate={startDate}
+                    endDate={endDate}
+                    checkedOptions={checkedOptions}
+                  />
+                </div>
+                {/* sqc, characteristics, subcharacteristics, measures, metrics */}
 
                 <Typography variant="caption" color="gray">
                   {currentRepository?.description}
@@ -270,6 +285,7 @@ const Repository: NextPageWithLayout = () => {
                     historical={repositoryHistoricalCharacteristics.concat(historicalSQC)}
                     checkedOptions={checkedOptions}
                     title="Características"
+                    getDates={getGraphicDates}
                   />
                 )}
 
@@ -282,7 +298,7 @@ const Repository: NextPageWithLayout = () => {
 
         {/* <HistoricalInfosList checkedOptions={checkedOptions}/> */}
 
-        <HistoricalLatestInfos checkedOptions={checkedOptions} />
+        <HistoricalLatestInfos checkedOptions={checkedOptions} currentRepository={currentRepository} />
       </Box>
     </Box>
   );

@@ -9,11 +9,14 @@ import { repository } from '@services/repository';
 import { getPathId } from '@utils/pathDestructer';
 import { Historical } from '@customTypes/repository';
 import { LatestValues } from '@customTypes/product';
+import { toast } from 'react-toastify';
 
 export const useQuery = () => {
   const { currentProduct } = useProductContext();
 
-  const [repositoryHistoricalSubCharacteristics, setRepositoryHistoricalSubCharacteristics] = useState<Historical[]>([]);
+  const [repositoryHistoricalSubCharacteristics, setRepositoryHistoricalSubCharacteristics] = useState<Historical[]>(
+    []
+  );
   const [repositoryHistoricalMeasures, setRepositoryHistoricalMeasures] = useState<Historical[]>([]);
   const [repositoryHistoricalMetrics, setRepositoryHistoricalMetrics] = useState<Historical[]>([]);
 
@@ -34,7 +37,7 @@ export const useQuery = () => {
 
       setRepositoryHistoricalSubCharacteristics(result.data.results);
     } catch (error) {
-      console.error(error);
+      toast.error(`${error}`);
     }
   }
 
@@ -49,7 +52,7 @@ export const useQuery = () => {
 
       setRepositoryHistoricalMeasures(result.data.results);
     } catch (error) {
-      console.error(error);
+      toast.error(`${error}`);
     }
   }
 
@@ -64,7 +67,7 @@ export const useQuery = () => {
 
       setRepositoryHistoricalMetrics(result.data.results);
     } catch (error) {
-      console.error(error);
+      toast.error(`${error}`);
     }
   }
 
@@ -74,7 +77,7 @@ export const useQuery = () => {
 
       setLatestValueSubcharacteristics(result.data);
     } catch (error) {
-      console.error(error);
+      toast.error(`${error}`);
     }
   }
 
@@ -84,7 +87,7 @@ export const useQuery = () => {
 
       setLatestValueMeasures(result.data);
     } catch (error) {
-      console.error(error);
+      toast.error(`${error}`);
     }
   }
 
@@ -94,7 +97,7 @@ export const useQuery = () => {
 
       setLatestValueMetrics(result.data);
     } catch (error) {
-      console.error(error);
+      toast.error(`${error}`);
     }
   }
 
@@ -110,7 +113,15 @@ export const useQuery = () => {
       loadLatestValueMeasures(organizationId, productId, repositoryId);
       loadLatestValueMetrics(organizationId, productId, repositoryId);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query?.repository, currentProduct]);
 
-  return { repositoryHistoricalSubCharacteristics, repositoryHistoricalMeasures, repositoryHistoricalMetrics, latestValueSubcharacteristics, latestValueMeasures, latestValueMetrics };
+  return {
+    repositoryHistoricalSubCharacteristics,
+    repositoryHistoricalMeasures,
+    repositoryHistoricalMetrics,
+    latestValueSubcharacteristics,
+    latestValueMeasures,
+    latestValueMetrics
+  };
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container} from '@mui/material';
+import { Container } from '@mui/material';
 import HistoricalLatestInfos from './HistoricalLatestInfos';
 import * as Styles from './styles';
 
@@ -9,13 +9,13 @@ interface OptionCheckedProps {
 
 interface Prop {
   checkedOptions: OptionCheckedProps;
+  currentRepository: any;
 }
 
-const HistoricalInfosList = ({ checkedOptions }: Prop) => (
-  
+const HistoricalInfosList = ({ checkedOptions, currentRepository }: Prop) => (
   <Styles.HistoricalInfosBackground>
     <Container>
-      <HistoricalLatestInfos checkedOptions={checkedOptions}/>
+      <HistoricalLatestInfos checkedOptions={checkedOptions} currentRepository={currentRepository} />
     </Container>
   </Styles.HistoricalInfosBackground>
 );

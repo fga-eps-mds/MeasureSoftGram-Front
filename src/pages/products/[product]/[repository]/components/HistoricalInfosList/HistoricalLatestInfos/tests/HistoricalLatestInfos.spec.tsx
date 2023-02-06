@@ -1,7 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { ProductProvider } from '@contexts/ProductProvider';
 import HistoricalLatestInfos from '../HistoricalLatestInfos';
 
 jest.mock('@contexts/ProductProvider', () => ({
