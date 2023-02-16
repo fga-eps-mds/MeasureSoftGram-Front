@@ -11,6 +11,13 @@ export interface Historical {
   history: Array<SqcHistory>;
 }
 
+export interface HistoricalCharacteristicsProps {
+  organizationId: string | undefined;
+  productId: string | undefined;
+  repositoryId: string | undefined;
+  entity: string;
+}
+
 export interface Result {
   id: number;
   value: number;
