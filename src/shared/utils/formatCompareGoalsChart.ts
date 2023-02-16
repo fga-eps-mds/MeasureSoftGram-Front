@@ -48,6 +48,7 @@ const formatCompareGoalsChart = (data: CompareGoalAccomplished) => {
     yAxis: {
       type: 'value',
       min: 0,
+      max: 1,
       boundaryGap: [0, 0.1]
     },
     series: [
