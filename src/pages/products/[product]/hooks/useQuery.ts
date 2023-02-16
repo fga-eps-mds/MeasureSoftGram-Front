@@ -9,7 +9,6 @@ import { useProductContext } from '@contexts/ProductProvider';
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
 
 import { getPathId } from '@utils/pathDestructer';
-import { toast } from 'react-toastify';
 
 export const useQuery = () => {
   const { setCurrentProduct } = useProductContext();
@@ -23,7 +22,8 @@ export const useQuery = () => {
       const result = await productQuery.getProductById(organizationId, productId);
       setCurrentProduct(result.data);
     } catch (error) {
-      toast.error(`${error}`);
+      // eslint-disable-next-line no-console
+      console.log(error);
     }
   }
 
@@ -32,7 +32,8 @@ export const useQuery = () => {
       const result = await productQuery.getProductRepositoriesSqcHistory(organizationId, productId as string);
       setRepositoriesSqcHistory(result.data);
     } catch (error) {
-      toast.error(`${error}`);
+      // eslint-disable-next-line no-console
+      console.log(error);
     }
   }
 
@@ -41,7 +42,8 @@ export const useQuery = () => {
       const result = await productQuery.getAllRepositories(organizationId, productId as string);
       setRepositoryList(result.data.results);
     } catch (error) {
-      toast.error(`${error}`);
+      // eslint-disable-next-line no-console
+      console.log(error);
     }
   }
 
