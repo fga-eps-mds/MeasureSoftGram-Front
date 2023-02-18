@@ -66,12 +66,6 @@ const formatMsgramChart = ({ historical, repositoryName }: Props) => {
         fontSize: 14
       }
     },
-    toolbox: {
-      show: true,
-      feature: {
-        saveAsImage: {}
-      }
-    },
     tooltip: {
       trigger: 'axis'
     },

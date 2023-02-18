@@ -84,6 +84,7 @@ function RepositoriesTable() {
     if (repositoryList?.length) {
       loaldHistoricalCharacteristics(repositoryList[0].id);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [repositoryList]);
 
   return (
