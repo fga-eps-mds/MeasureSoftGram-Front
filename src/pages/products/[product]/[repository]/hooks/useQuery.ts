@@ -11,7 +11,6 @@ import formatEntitiesMetrics from '@utils/formatEntitiesMetrics';
 import { getPathId } from '@utils/pathDestructer';
 import { Historical } from '@customTypes/repository';
 import { LatestValues, CompareGoalAccomplished } from '@customTypes/product';
-import { toast } from 'react-toastify';
 
 import { LARGE_PRIME_NUMBER } from './const';
 
@@ -62,7 +61,8 @@ export const useQuery = () => {
       setMetrics(metrics);
       setCheckedOptions(formatCheckedOptions(characteristics, subCharacteristics, measures, metrics));
     } catch (error) {
-      toast.error(`${error}`);
+      // eslint-disable-next-line no-console
+      console.log(error);
     }
   }
 
@@ -77,7 +77,8 @@ export const useQuery = () => {
 
       setRepositoryHistoricalCharacteristics(result.data.results);
     } catch (error) {
-      toast.error(`${error}`);
+      // eslint-disable-next-line no-console
+      console.log(error);
     }
   }
 
@@ -87,7 +88,8 @@ export const useQuery = () => {
 
       setLatestValueCharacteristics(result.data);
     } catch (error) {
-      toast.error(`${error}`);
+      // eslint-disable-next-line no-console
+      console.log(error);
     }
   }
 
@@ -105,7 +107,8 @@ export const useQuery = () => {
 
       setHistoricalSQC({ id, key: 'SQC', name: 'SQC', history: results });
     } catch (error) {
-      toast.error(`${error}`);
+      // eslint-disable-next-line no-console
+      console.log(error);
     }
   }
 
@@ -115,7 +118,8 @@ export const useQuery = () => {
 
       setCurrentRepository(data);
     } catch (error) {
-      toast.error(`${error}`);
+      // eslint-disable-next-line no-console
+      console.log(error);
     }
   }
 
@@ -129,7 +133,8 @@ export const useQuery = () => {
         loadLatestValueCharacteristics(organizationId, productId, repositoryId)
       ]).then();
     } catch (error) {
-      toast.error(`${error}`);
+      // eslint-disable-next-line no-console
+      console.log(error);
     }
   }
 
@@ -138,7 +143,8 @@ export const useQuery = () => {
       const result = await productQuery.getCompareGoalAccomplished(organizationId, productId, repositoryId);
       return result?.data;
     } catch (error) {
-      toast.error(`${error}`);
+      // eslint-disable-next-line no-console
+      console.log(error);
     }
   }
 
