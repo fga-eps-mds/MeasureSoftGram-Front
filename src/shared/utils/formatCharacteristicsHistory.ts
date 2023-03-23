@@ -47,13 +47,16 @@ const formatCharacteristicsHistory = ({
 
   return {
     title: {
-      text: title
+      text: title,
     },
     tooltip: {
       trigger: 'axis'
     },
     legend: {
-      data: legendData
+      data: legendData,
+      selectedMode: false,
+      width: '80%',
+      type: 'scroll',
     },
     grid: {
       left: '3%',

@@ -7,7 +7,7 @@ import { Box, Button, Typography, Container } from '@mui/material';
 
 import { RepositoriesSqcHistory } from '@customTypes/product';
 
-import CreateRelease from '@pages/createRelease';
+import CreateRelease from '@modules/createRelease';
 import GraphicRepositoriesSqcHistory from '@components/GraphicRepositoriesSqcHistory';
 
 import { useProductContext } from '@contexts/ProductProvider';
@@ -24,13 +24,13 @@ const ProductContent: React.FC<Props> = ({ repositoriesSqcHistory }) => {
   const { currentProduct } = useProductContext();
 
   const [openCreateRelease, setOpenCreateRelease] = useState(false);
-  const [pathId, setPathId] = useState({} as {productId: string; organizationId: string;});
+  const [pathId, setPathId] = useState({} as { productId: string; organizationId: string });
 
   const { query } = useRouter();
 
   if (!Object.keys(pathId).length && currentProduct) {
     const [organizationId, productId] = getPathId(query?.product as string);
-    setPathId({organizationId, productId})
+    setPathId({ organizationId, productId });
   }
 
   const handleOpenCreateRelease = () => {
@@ -82,6 +82,7 @@ const ProductContent: React.FC<Props> = ({ repositoriesSqcHistory }) => {
       <CreateRelease
         open={openCreateRelease}
         handleClose={() => setOpenCreateRelease(false)}
+        currentProduct={currentProduct}
         productId={pathId.productId}
         organizationId={pathId.organizationId}
       />

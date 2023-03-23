@@ -6,8 +6,8 @@ export const HEADER = {
     MENU_OPTIONS: [
       {
         name: 'Produtos',
-        path: '/',
-        permission: ['', 'products'],
+        path: '/products',
+        permission: ['products'],
         icon: ContentPasteIcon
       }
       // {

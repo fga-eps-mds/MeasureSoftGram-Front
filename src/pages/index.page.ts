@@ -1,1 +1,1 @@
-export { default } from './products/index.page';
+export { default } from './auth/index.page';

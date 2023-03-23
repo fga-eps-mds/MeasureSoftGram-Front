@@ -9,7 +9,7 @@ Object {
         class="MuiBox-root css-kzcie9"
       >
         <div
-          class="styles__FilterBackground-sc-n9f0ab-0 cYvAIQ"
+          class="styles__FilterBackground-sc-n9f0ab-0 kGdXmE"
         >
           <div
             class="MuiBox-root css-1k25d3d"
@@ -19,6 +19,7 @@ Object {
             >
               <span
                 class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                data-testid="shimmer"
                 style="width: 200px; height: 32px;"
               />
               <div
@@ -26,10 +27,12 @@ Object {
               >
                 <span
                   class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  data-testid="shimmer"
                   style="width: 180px; height: 25px;"
                 />
                 <span
                   class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  data-testid="shimmer"
                   style="width: 180px; height: 25px;"
                 />
               </div>
@@ -39,6 +42,7 @@ Object {
             >
               <span
                 class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                data-testid="shimmer"
                 style="width: 200px; height: 32px;"
               />
               <div
@@ -46,10 +50,12 @@ Object {
               >
                 <span
                   class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  data-testid="shimmer"
                   style="width: 180px; height: 25px;"
                 />
                 <span
                   class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  data-testid="shimmer"
                   style="width: 180px; height: 25px;"
                 />
               </div>
@@ -67,10 +73,12 @@ Object {
             >
               <span
                 class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                data-testid="shimmer"
                 style="width: 400px; height: 50px;"
               />
               <span
                 class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                data-testid="shimmer"
                 style="width: 200px; height: 16px;"
               />
             </div>
@@ -80,6 +88,7 @@ Object {
           >
             <span
               class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
+              data-testid="shimmer"
               style="height: 280px;"
             />
           </div>
@@ -92,7 +101,7 @@ Object {
       class="MuiBox-root css-kzcie9"
     >
       <div
-        class="styles__FilterBackground-sc-n9f0ab-0 cYvAIQ"
+        class="styles__FilterBackground-sc-n9f0ab-0 kGdXmE"
       >
         <div
           class="MuiBox-root css-1k25d3d"
@@ -102,6 +111,7 @@ Object {
           >
             <span
               class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+              data-testid="shimmer"
               style="width: 200px; height: 32px;"
             />
             <div
@@ -109,10 +119,12 @@ Object {
             >
               <span
                 class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                data-testid="shimmer"
                 style="width: 180px; height: 25px;"
               />
               <span
                 class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                data-testid="shimmer"
                 style="width: 180px; height: 25px;"
               />
             </div>
@@ -122,6 +134,7 @@ Object {
           >
             <span
               class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+              data-testid="shimmer"
               style="width: 200px; height: 32px;"
             />
             <div
@@ -129,10 +142,12 @@ Object {
             >
               <span
                 class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                data-testid="shimmer"
                 style="width: 180px; height: 25px;"
               />
               <span
                 class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                data-testid="shimmer"
                 style="width: 180px; height: 25px;"
               />
             </div>
@@ -150,10 +165,12 @@ Object {
           >
             <span
               class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+              data-testid="shimmer"
               style="width: 400px; height: 50px;"
             />
             <span
               class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+              data-testid="shimmer"
               style="width: 200px; height: 16px;"
             />
           </div>
@@ -163,6 +180,7 @@ Object {
         >
           <span
             class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
+            data-testid="shimmer"
             style="height: 280px;"
           />
         </div>

@@ -1,6 +1,7 @@
-import React, { createContext, useState, useContext, ReactNode, useMemo } from 'react';
+import React, { createContext, useState, useContext, ReactNode, useMemo, useEffect, useCallback } from 'react';
 
 import { Organization } from '@customTypes/organization';
+import { organization } from '@services/organization';
 
 interface Props {
   children: ReactNode;
@@ -19,6 +20,19 @@ export function OrganizationProvider({ children }: Props) {
   const [organizationList, setOrganizationList] = useState<Organization[]>([]);
   const [currentOrganization, setCurrentOrganization] = useState<Organization>();
 
+  const loadAllOrganization = async () => {
+    try {
+      const result = await organization?.getAllOrganization();
+      setOrganizationList(result?.data?.results);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    loadAllOrganization();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const value = useMemo(
     () => ({
       currentOrganization,

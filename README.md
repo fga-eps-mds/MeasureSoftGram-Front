@@ -1,31 +1,31 @@
-# 2022.1 MeasureSoftGram Frontend
+# 2022.2 MeasureSoftGram Frontend
 
 Frontend repository of MeasureSoftGram application.
 
 ## Badges
 
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=bugs)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
-[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
-[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=coverage)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
-[![codecov](https://codecov.io/gh/fga-eps-mds/2022-1-MeasureSoftGram-Front/branch/stage/graph/badge.svg?token=9GRTFZ4K28)](https://codecov.io/gh/fga-eps-mds/2022-1-MeasureSoftGram-Front)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-2-MeasureSoftGram-Front&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-2-MeasureSoftGram-Front)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-2-MeasureSoftGram-Front&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-2-MeasureSoftGram-Front)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-2-MeasureSoftGram-Front&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-2-MeasureSoftGram-Front)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-2-MeasureSoftGram-Front&metric=bugs)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-2-MeasureSoftGram-Front)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-2-MeasureSoftGram-Front&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-2-MeasureSoftGram-Front)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-2-MeasureSoftGram-Front&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-2-MeasureSoftGram-Front)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-2-MeasureSoftGram-Front&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-2-MeasureSoftGram-Front)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-2-MeasureSoftGram-Front&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-2-MeasureSoftGram-Front)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-2-MeasureSoftGram-Front&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-2-MeasureSoftGram-Front)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-2-MeasureSoftGram-Front&metric=coverage)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-2-MeasureSoftGram-Front)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-2-MeasureSoftGram-Front&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-2-MeasureSoftGram-Front)
+[![codecov](https://codecov.io/gh/fga-eps-mds/2022-2-MeasureSoftGram-Front/branch/develop/graph/badge.svg?token=9GRTFZ4K28)](https://codecov.io/gh/fga-eps-mds/2022-2-MeasureSoftGram-Front)
 
 <br>
 
-<img src="https://codecov.io/gh/fga-eps-mds/2022-1-MeasureSoftGram-Front/branch/stage/graphs/sunburst.svg?token=9GRTFZ4K28" width="128"/>
+<img src="https://codecov.io/gh/fga-eps-mds/2022-2-MeasureSoftGram-Front/branch/develop/graphs/sunburst.svg?token=9GRTFZ4K28" width="128"/>
 
 
 ## Links
 
-- Prod: [https://measuresoftgram.herokuapp.com/](https://measuresoftgram.herokuapp.com/)
-- Stage: [https://stg-measuresoftgram.herokuapp.com/](https://stg-measuresoftgram.herokuapp.com/)
+- Prod: [https://measure-soft-gram.vercel.app/](https://measure-soft-gram.vercel.app/)
+- Stage: [https://measure-soft-gram-staging.vercel.app/](https://measure-soft-gram-staging.vercel.app/)
 
 ## Installation
 
@@ -50,6 +50,12 @@ It should print 'nvm' if the installation was successful.
 It should print the version of yarn if the installation was successful.
 
 ## Usage
+
+### Copy environment variables
+
+#### Local or Development
+* <code>cp .envs/.env.local .env </code>
+* <code>cp .envs/.env.development .env </code>
 
 ### Start project local
 

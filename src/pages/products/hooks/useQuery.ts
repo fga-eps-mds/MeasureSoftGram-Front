@@ -1,42 +1,26 @@
-import { useEffect } from 'react';
-
 import { productQuery } from '@services/product';
-import { organization } from '@services/organization';
-
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import { useProductContext } from '@contexts/ProductProvider';
+import { toast } from 'react-toastify';
+import { useEffect } from 'react';
 
 export const useQuery = () => {
   const { currentOrganization } = useOrganizationContext();
   const { updateProductList } = useProductContext();
-  const { setOrganizationList } = useOrganizationContext();
 
-  async function loadAllOrganization() {
-    try {
-      const result = await organization.getAllOrganization();
-      setOrganizationList(result.data.results);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  async function loadAllProducts() {
+  const loadAllProducts = async () => {
     try {
       const result = await productQuery.getAllProducts(currentOrganization.id);
 
       updateProductList(result.data.results);
     } catch (error) {
-      console.error(error);
+      toast.error(`${error}`);
     }
-  }
-
-  useEffect(() => {
-    loadAllOrganization();
-  }, []);
-
+  };
   useEffect(() => {
     if (currentOrganization) {
       loadAllProducts();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentOrganization]);
 };

@@ -31,7 +31,7 @@ const EXPECTED_SQC_GRAPH = {
   ],
   grid: { bottom: '12%', containLabel: true, left: '3%', right: '4%', top: '25%' },
   legend: { data: ['SQC_NAME', 'SQC_NAME'], top: 40 },
-  series: [{ animationDuration: 1200, data: [[1662399194000, 50]], name: 'SQC_NAME', type: 'line' }],
+  series: [{ animationDuration: 1200, name: 'SQC_NAME', type: 'line' }],
   title: { text: 'Comportamento observado do produto' },
   toolbox: { feature: { dataZoom: { yAxisIndex: 'none' }, restore: {}, saveAsImage: {} } },
   tooltip: { trigger: 'axis' },
@@ -44,7 +44,12 @@ const FILTER_CONST: FormatEntitiesFilterType = [
     key: 'Entity',
     subcharacteristics: [
       {
-        key: 'value1'
+        key: 'value1',
+        measures: [
+          {
+            key: 'value2'
+          }
+        ]
       }
     ]
   }
@@ -141,7 +146,7 @@ describe('Utils', () => {
   describe('formatEntitiesFilter', () => {
     it('Deve retornar array correto para a chave correta', () => {
       const value = formatEntitiesFilter(FILTER_CONST);
-      expect(value).toMatchObject([['Entity'], ['value1']]);
+      expect(value).toMatchObject([['Entity'], ['value1'], ['value2']]);
     });
   });
   describe('formatCharacteristicsHistory', () => {

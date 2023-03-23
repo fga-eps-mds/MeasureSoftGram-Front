@@ -1,0 +1,132 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ReleaseGoals /> Snapshot Deve corresponder ao Snapshot 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="styles__Header-sc-ki0fgv-0 hAZQDu"
+      >
+        <h1>
+          Balancear a Meta de Qualidade
+        </h1>
+        <p>
+          Mini explicação como funciona as metas da release (Configuração das caracteristicas, valor de uma caracteristica pode influenciar em outra, etc)
+        </p>
+      </div>
+      <div
+        class="styles__Body-sc-ki0fgv-1 dEJEjT"
+      >
+        <div>
+          <strong>
+            asdasd
+          </strong>
+          <p>
+            2022-09-18
+             - 
+            2022-09-25
+          </p>
+        </div>
+        <div
+          class="MuiBox-root css-ckc6o3"
+        >
+          <div
+            class="MuiBox-root css-t0lfuy"
+          />
+          <div
+            class="styles__Labels-sc-duigeu-0 zNSqE"
+          />
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="styles__Header-sc-ki0fgv-0 hAZQDu"
+    >
+      <h1>
+        Balancear a Meta de Qualidade
+      </h1>
+      <p>
+        Mini explicação como funciona as metas da release (Configuração das caracteristicas, valor de uma caracteristica pode influenciar em outra, etc)
+      </p>
+    </div>
+    <div
+      class="styles__Body-sc-ki0fgv-1 dEJEjT"
+    >
+      <div>
+        <strong>
+          asdasd
+        </strong>
+        <p>
+          2022-09-18
+           - 
+          2022-09-25
+        </p>
+      </div>
+      <div
+        class="MuiBox-root css-ckc6o3"
+      >
+        <div
+          class="MuiBox-root css-t0lfuy"
+        />
+        <div
+          class="styles__Labels-sc-duigeu-0 zNSqE"
+        />
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

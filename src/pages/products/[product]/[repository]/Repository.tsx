@@ -1,59 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Container, Typography } from '@mui/material';
-
-import Filters from '@components/Filters';
+import { NextPageWithLayout } from '@pages/_app.next';
+import { useRepositoryContext } from '@contexts/RepositoryProvider';
 import getLayout from '@components/Layout';
 import GraphicStackedLine from '@components/GraphicStackedLine';
-
-import { NextPageWithLayout } from '@pages/_app.next';
-
-import { useRepositoryContext } from '@contexts/RepositoryProvider';
-
 import Skeleton from './components/Skeleton';
-import SubCharacteristicsList from './components/SubCharacteristicsList';
-
+import HistoricalLatestInfos from './components/HistoricalInfosList';
+import LatestValueTable from './components/LatestValueTable';
+import FilterTreeInfos from './components/FilterTreeInfos';
 import { useQuery as useQueryProduct } from '../hooks/useQuery';
 import { useQuery } from './hooks/useQuery';
-
-import * as Styles from './styles';
-
-interface FilterProps {
-  filterTitle: string;
-  options: Array<string>;
-}
+import Download from '../../../../shared/components/DownloadButton';
 
 const Repository: NextPageWithLayout = () => {
   useQueryProduct();
 
-  const { repositoryHistoricalCharacteristics, checkedOptionsFormat } = useQuery();
-  const { characteristics, subCharacteristics, currentRepository, historicalSQC } = useRepositoryContext();
-
-  const [filterCharacteristics, setFilterCharacteristics] = useState<FilterProps>({
-    filterTitle: 'CARACTERÍSTICAS',
-    options: []
-  });
-  const [filterSubCharacteristics, setFilterSubCharacteristics] = useState<FilterProps>({
-    filterTitle: 'SUB CARACTERÍSTICAS',
-    options: []
-  });
+  const { repositoryHistoricalCharacteristics, latestValueCharacteristics, checkedOptionsFormat } = useQuery();
+  const { characteristics, subCharacteristics, measures, metrics, currentRepository, historicalSQC } =
+    useRepositoryContext();
 
   const [checkedOptions, setCheckedOptions] = useState(checkedOptionsFormat);
+  const [startDate, setStartDate] = useState<string>('');
+  const [endDate, setEndDate] = useState<string>('');
+
+  const getGraphicDates = (sDate: string, eDate: string) => {
+    setStartDate(sDate);
+    setEndDate(eDate);
+  };
 
   useEffect(() => {
     setCheckedOptions(checkedOptionsFormat);
   }, [checkedOptionsFormat]);
 
-  useEffect(() => {
-    setFilterCharacteristics({ ...filterCharacteristics, options: characteristics });
-    setFilterSubCharacteristics({ ...filterSubCharacteristics, options: subCharacteristics });
-  }, [characteristics, subCharacteristics]);
-
   const isArrayEmpty = (array: Array<any>) => array.length === 0;
 
   if (
     isArrayEmpty(repositoryHistoricalCharacteristics) ||
-    isArrayEmpty(filterCharacteristics.options) ||
-    isArrayEmpty(filterSubCharacteristics.options) ||
+    isArrayEmpty(latestValueCharacteristics) ||
+    isArrayEmpty(Object.values(checkedOptions)) ||
     !currentRepository ||
     !historicalSQC
   ) {
@@ -62,20 +46,14 @@ const Repository: NextPageWithLayout = () => {
 
   return (
     <Box display="flex" width="100%" flexDirection="row">
-      <Styles.FilterBackground>
-        <Box display="flex" paddingX="15px" flexDirection="column" marginTop="36px" position="fixed">
-          {[filterCharacteristics, filterSubCharacteristics].map((filter) => (
-            <Filters
-              key={filter.filterTitle}
-              filterTitle={filter.filterTitle}
-              options={filter.options}
-              updateOptions={setCheckedOptions}
-              checkedOptions={checkedOptions}
-            />
-          ))}
-        </Box>
-      </Styles.FilterBackground>
-
+      <FilterTreeInfos
+        checkedOptions={checkedOptions}
+        setCheckedOptions={setCheckedOptions}
+        characteristics={characteristics}
+        subCharacteristics={subCharacteristics}
+        measures={measures}
+        metrics={metrics}
+      />
       <Box width="100%">
         <Box marginBottom="42px">
           <Container>
@@ -86,9 +64,20 @@ const Repository: NextPageWithLayout = () => {
                     Repositório
                   </Typography>
                   <Typography variant="h4" fontWeight="300">
-                    {currentRepository?.name}
+                    {currentRepository.name}
                   </Typography>
                 </Box>
+
+                <div>
+                  <Download
+                    product={currentRepository}
+                    kind="characteristics"
+                    startDate={startDate}
+                    endDate={endDate}
+                    checkedOptions={checkedOptions}
+                  />
+                </div>
+                {/* sqc, characteristics, subcharacteristics, measures, metrics */}
 
                 <Typography variant="caption" color="gray">
                   {currentRepository?.description}
@@ -102,13 +91,20 @@ const Repository: NextPageWithLayout = () => {
                     historical={repositoryHistoricalCharacteristics.concat(historicalSQC)}
                     checkedOptions={checkedOptions}
                     title="Características"
+                    getDates={getGraphicDates}
                   />
                 )}
+
+              <LatestValueTable title="Características" latestValue={latestValueCharacteristics} />
             </Box>
           </Container>
         </Box>
 
-        <SubCharacteristicsList checkedOptions={checkedOptions} />
+        {/* <SubCharacteristicsList checkedOptions={checkedOptions} /> */}
+
+        {/* <HistoricalInfosList checkedOptions={checkedOptions}/> */}
+
+        <HistoricalLatestInfos checkedOptions={checkedOptions} currentRepository={currentRepository} />
       </Box>
     </Box>
   );

@@ -19,30 +19,32 @@ export function Breadcrumbs() {
     const currentPath: string[] = [];
     const pathArray = asPath.split('/').slice(1);
 
-    return pathArray.map((path, index) => {
-      currentPath.push(path);
+    return pathArray
+      .map((path, index) => {
+        currentPath.push(path);
 
-      if (pathArray[0] === '') {
+        if (pathArray[0] === '') {
+          return (
+            <Typography color="text.primary" variant="subtitle1" key={path}>
+              Produtos
+            </Typography>
+          );
+        }
+
+        if (pathArray.length === index + 1)
+          return (
+            <Typography color="text.primary" variant="subtitle1" key={path}>
+              {TRANSLATION[path] || getPathName(path)}
+            </Typography>
+          );
+
         return (
-          <Typography color="text.primary" variant="subtitle1" key={path}>
-            Produtos
+          <Typography key={path}>
+            <Link href={`/${currentPath.join('/')}`}>{TRANSLATION[path] || getPathName(path)}</Link>
           </Typography>
         );
-      }
-
-      if (pathArray.length === index + 1)
-        return (
-          <Typography color="text.primary" variant="subtitle1" key={path}>
-            {TRANSLATION[path] || getPathName(path)}
-          </Typography>
-        );
-
-      return (
-        <Typography key={path}>
-          <Link href={`/${currentPath.join('/')}`}>{TRANSLATION[path] || getPathName(path)}</Link>
-        </Typography>
-      );
-    });
+      })
+      ?.filter((data) => data.key !== 'releases' && !Number.isNaN(data?.key)); // remove releases key;
   };
 
   return <BreadcrumbsMUI>{getCrumbs()}</BreadcrumbsMUI>;

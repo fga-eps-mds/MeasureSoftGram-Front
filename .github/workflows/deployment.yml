@@ -1,0 +1,72 @@
+name: Deploy FrontEnd
+
+on:
+  push:
+    branches: [main, develop]
+    tags:
+      - "v*"
+
+jobs:
+  deploy-staging:
+    if: github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID_STAGING }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_STAGING }}
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v3
+
+      - name: 🏗 Config env
+        run: echo "$ENV_STAGING" > .env
+        env:
+          ENV_STAGING: ${{ secrets.ENV_STAGING }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+
+      - name: 🏗 Install Vercel CLI
+        run: npm i -g vercel@latest
+
+      - name: 🏗 Pull staging app from vercel environment
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_AUTH_TOKEN }}
+
+      - name: 📦 Build staging app artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_AUTH_TOKEN }}
+
+      - name: 📦 Deploy staging app artifacts to vercel
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_AUTH_TOKEN }}
+
+  deploy-production:
+    if: github.ref != 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v3
+
+      - name: 🏗 Config env
+        run: echo "$ENV_PRODUCTION" > .env
+        env:
+          ENV_PRODUCTION: ${{ secrets.ENV_PRODUCTION }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+
+      - name: 🏗 Install Vercel CLI
+        run: npm i -g vercel@latest
+
+      - name: 🏗 Pull production vercel environment
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_AUTH_TOKEN }}
+
+      - name: 📦 Build app artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_AUTH_TOKEN }}
+
+      - name: 📦 Deploy production app artifacts to vercel
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_AUTH_TOKEN }}

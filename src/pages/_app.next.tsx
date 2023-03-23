@@ -9,6 +9,10 @@ import Theme from '@components/Theme';
 import { ProductProvider } from '@contexts/ProductProvider';
 import { RepositoryProvider } from '@contexts/RepositoryProvider';
 import { OrganizationProvider } from '@contexts/OrganizationProvider';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import type {} from '@mui/lab/themeAugmentation';
+import { AuthProvider } from '@contexts/Auth';
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => typeof page;
@@ -22,13 +26,27 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
-    <OrganizationProvider>
-      <RepositoryProvider>
-        <ProductProvider>
-          <Theme>{getLayout(<Component {...pageProps} />)}</Theme>
-        </ProductProvider>
-      </RepositoryProvider>
-    </OrganizationProvider>
+    <AuthProvider>
+      <OrganizationProvider>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+        <RepositoryProvider>
+          <ProductProvider>
+            <Theme>{getLayout(<Component {...pageProps} />)}</Theme>
+          </ProductProvider>
+        </RepositoryProvider>
+      </OrganizationProvider>
+    </AuthProvider>
   );
 }
 
