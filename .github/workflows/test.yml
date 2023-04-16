@@ -40,5 +40,5 @@ jobs:
           fail_ci_if_error: true
           files: ./coverage/clover.xml
           flags: unittests
-          name: 2022-2-MeasureSoftGram-Front
+          name: 2023-1-MeasureSoftGram-Front
           verbose: true
