@@ -40,8 +40,8 @@ describe('useRequireAuth', () => {
     let mockSession = {
       user: {
         id: 1,
-        name: 'John Doe',
-        email: 'john@test.com',
+        name: 'Fake name',
+        email: 'fake@test.com',
       },
     };
 
