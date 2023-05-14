@@ -20,7 +20,7 @@ jest.mock('@contexts/RepositoryProvider', () => ({
 
 jest.mock('next/router', () => ({
   useRouter: () => ({
-    push: (path: string) => jest.fn(),
+    push: () => jest.fn(),
   })
 }));
 

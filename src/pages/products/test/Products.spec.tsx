@@ -6,7 +6,7 @@ import Products from '../Products';
 
 jest.mock('next/router', () => ({
   useRouter: () => ({
-    push: (path: string) => jest.fn(),
+    push: () => jest.fn(),
   })
 }));
 
