@@ -4,7 +4,7 @@ import { NextPageWithLayout } from '@pages/_app.next';
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
 import getLayout from '@components/Layout';
 import GraphicStackedLine from '@components/GraphicStackedLine';
-import { useRequireAuth } from '@contexts/Auth';
+import useRequireAuth from '@hooks/useRequireAuth';
 import Skeleton from './components/Skeleton';
 import HistoricalLatestInfos from './components/HistoricalInfosList';
 import LatestValueTable from './components/LatestValueTable';

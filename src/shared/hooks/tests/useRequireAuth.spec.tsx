@@ -1,6 +1,6 @@
 import { useAuth } from '@contexts/Auth';
 import { toast } from 'react-toastify';
-import useRequireAuth from "../useRequireAuth";
+import useRequireAuth from '@hooks/useRequireAuth';
 import { useRouter } from 'next/router';
 
 jest.mock('react-toastify', () => ({
