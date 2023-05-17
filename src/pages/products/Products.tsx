@@ -16,12 +16,14 @@ import CardNavigation from '@components/CardNavigation';
 import { Product } from '@customTypes/product';
 
 import { useAuth } from '@contexts/Auth';
+import useRequireAuth from '@hooks/useRequireAuth';
 import { useRouter } from 'next/router';
 import Skeleton from './components/Skeleton';
 import { useQuery } from './hooks/useQuery';
 
 const Products: NextPageWithLayout = () => {
   useQuery();
+  useRequireAuth();
 
   const { currentOrganization } = useOrganizationContext();
   const [openConfig, setOpenConfig] = useState(false);

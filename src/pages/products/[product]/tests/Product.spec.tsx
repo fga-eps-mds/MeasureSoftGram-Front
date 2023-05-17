@@ -20,7 +20,8 @@ jest.mock('@contexts/RepositoryProvider', () => ({
 
 jest.mock('next/router', () => ({
   useRouter: () => ({
-    query: { product: "1-5-MeasureSoftGram" }
+    query: { product: "1-5-MeasureSoftGram" },
+    push: () => jest.fn(),
   })
 }));
 
