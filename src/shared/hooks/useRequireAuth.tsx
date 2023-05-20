@@ -18,7 +18,7 @@ const useRequireAuth = () => {
   
         redirect();
       }
-    }, [loading, session, router]);
+    }, [loading, session]);
   };
 
 export default useRequireAuth;
