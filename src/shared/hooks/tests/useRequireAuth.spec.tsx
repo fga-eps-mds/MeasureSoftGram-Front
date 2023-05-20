@@ -2,6 +2,7 @@ import { useAuth } from '@contexts/Auth';
 import { toast } from 'react-toastify';
 import useRequireAuth from '@hooks/useRequireAuth';
 import { useRouter } from 'next/router';
+import { act, renderHook } from '@testing-library/react';
 
 jest.mock('react-toastify', () => ({
   toast: {
@@ -63,7 +64,12 @@ describe('useRequireAuth', () => {
             push: (path: string) => mockPush(path),
             pathname,
           });
-          useRequireAuth();
+
+          const { result } = renderHook(() => useRequireAuth());
+    
+          act(() => {
+            result.current;
+          });
         });
 
         test(`does not display toast message`, () => {
@@ -98,7 +104,12 @@ describe('useRequireAuth', () => {
             push: (path: string) => mockPush(path),
             pathname,
           });
-          useRequireAuth();
+
+          const { result } = renderHook(() => useRequireAuth());
+    
+          act(() => {
+            result.current;
+          });
         });
 
         test(`displays toast message`, () => {
