@@ -62,6 +62,8 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     } else {
       removeAuthStorage();
     }
+
+    setLoading('loaded');
   }, [removeAuthStorage, router, setSession]);
 
   const signInWithGithub = useCallback(
@@ -101,8 +103,10 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   }, [provider, router?.query?.code, signInWithGithub]);
 
   useEffect(() => {
+    setLoading('loading');
+
     if (token) getUser();
-    setLoading('loaded');
+    else setLoading('loaded');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
