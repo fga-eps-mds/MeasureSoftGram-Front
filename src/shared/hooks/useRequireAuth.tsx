@@ -11,7 +11,7 @@ const useRequireAuth = () => {
       if (loading === "loaded" && !session && router.pathname !== "/") {
         const redirect = async () => {
           toast.error(
-            "Você não está autorizado a acessar esta página. Por favor, faça login."
+            "Usuário(a) não autenticado(a). Por favor, realize o login."
           );
           await router.push("/");
         };
