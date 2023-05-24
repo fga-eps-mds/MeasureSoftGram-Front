@@ -24,17 +24,16 @@ jest.mock('@contexts/Auth', () => ({
 describe('useRequireAuth', () => {
   let mockUseAuth: any;
   let mockUseRouter: any;
+  let mockConsoleError: jest.SpyInstance;
 
   beforeEach(() => {
     mockUseAuth = useAuth;
     mockUseRouter = useRouter;
+    mockConsoleError = jest.spyOn(console, 'error');
   });
 
   afterEach(() => {
-    mockUseAuth.mockReset();
-    mockUseRouter.mockReset();
-    mockPush.mockReset();
-    toast.error.mockReset();
+    jest.clearAllMocks();
   });
 
   describe('when user is authorized', () => {
@@ -91,9 +90,10 @@ describe('useRequireAuth', () => {
       { pathname: '/products', loading: 'loading', redirect: false, displayToast: false },
       { pathname: '/', loading: 'loaded', redirect: false, displayToast: false },
       { pathname: '/', loading: 'loading', redirect: false, displayToast: false },
+      { pathname: '/productstest', loading: 'loaded', redirect: false, displayToast: true, redirectError: true },
     ];
 
-    testCases.forEach(({ pathname, loading, redirect, displayToast }) => {
+    testCases.forEach(({ pathname, loading, redirect, displayToast, redirectError }) => {
       describe(`when pathname is ${pathname} and loading is ${loading}`, () => {
         beforeEach(() => {
           mockUseAuth.mockReturnValueOnce({
@@ -101,7 +101,13 @@ describe('useRequireAuth', () => {
             loading,
           });
           mockUseRouter.mockReturnValueOnce({
-            push: (path: string) => mockPush(path),
+            push: (path: string) => {
+              if (redirectError) {
+                throw new Error('Redirect error');
+              } else {
+                mockPush(path);
+              }
+            },
             pathname,
           });
 
@@ -118,6 +124,10 @@ describe('useRequireAuth', () => {
 
         test(`redirects`, () => {
           expect(mockPush).toHaveBeenCalledTimes(redirect ? 1 : 0);
+        });
+
+        test('logs the error to console', () => {
+          expect(mockConsoleError).toHaveBeenCalledTimes(redirectError ? 1 : 0);
         });
       });
     });
