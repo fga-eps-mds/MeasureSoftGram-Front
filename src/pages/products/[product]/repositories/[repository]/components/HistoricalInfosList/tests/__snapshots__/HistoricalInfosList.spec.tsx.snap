@@ -3,7 +3,7 @@
 exports[`HistoricalInfosList renders correctly 1`] = `
 <div>
   <div
-    class="styles__HistoricalInfosBackground-sc-17ev0um-0 hYTmFv"
+    class="styles__HistoricalInfosBackground-sc-1hkh9i6-0 dDOAuq"
   >
     <div
       class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
@@ -12,7 +12,7 @@ exports[`HistoricalInfosList renders correctly 1`] = `
         class="MuiBox-root css-kzcie9"
       >
         <div
-          class="styles__FilterBackground-sc-n9f0ab-0 kGdXmE"
+          class="styles__FilterBackground-sc-13pkzeq-0 chXtYt"
         >
           <div
             class="MuiBox-root css-1k25d3d"
