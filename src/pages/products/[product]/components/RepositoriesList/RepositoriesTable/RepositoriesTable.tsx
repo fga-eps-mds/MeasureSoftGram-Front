@@ -113,8 +113,8 @@ const RepositoriesTable: React.FC<Props> = ({ disableButtons, maxCount }: Props)
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Nome</TableCell>
-            <TableCell align="right">
+            <TableCell style={{paddingBottom: '35px'}}>Nome</TableCell>
+            <TableCell align="right" style={{paddingBottom: '35px'}}>
               <SearchButton
                 onInput={(e) => handleRepositoriesFilter(e.target.value)}
                 label="Insira o nome do repositório"

@@ -15,14 +15,14 @@ interface Props {
 const CardNavigation: React.FC<Props> = ({ id, name, url }) => (
   <Button key={id} variant="outlined">
     <Link href={url}>
-      <Box display="flex" alignItems="center" paddingX="10px" paddingY="5px">
+      <Box display="flex" alignItems="center" padding="10px" /*<paddingX="10px" paddingY="5px"*/>
         <Styles.Circle />
 
         <Typography variant="subtitle1">{name}</Typography>
 
-        <Box display="flex" alignItems="center" marginLeft="15px">
+        {/*<Box display="flex" alignItems="center" marginLeft="15px">
           <ChevronRight />
-        </Box>
+        </Box>*/}
       </Box>
     </Link>
   </Button>

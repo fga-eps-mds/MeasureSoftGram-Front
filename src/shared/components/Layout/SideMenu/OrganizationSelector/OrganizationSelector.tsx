@@ -17,11 +17,11 @@ function OrganizationSelector() {
     setSelectedOrganization(event.target.value);
   };
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (organizationList.length !== 0 && !currentOrganization) {
       setSelectedOrganization(0);
     }
-  }, [currentOrganization, organizationList]);
+  }, [currentOrganization, organizationList]);*/
 
   useEffect(() => {
     if (selectedOrganization !== undefined) setCurrentOrganization(organizationList[selectedOrganization]);

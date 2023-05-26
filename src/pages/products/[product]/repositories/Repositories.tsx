@@ -9,6 +9,7 @@ import getLayout from '@components/Layout';
 
 import RepositoriesTable from '../components/RepositoriesList/RepositoriesTable';
 import { useQuery } from './hooks/useQuery';
+import { borderRadius } from '@mui/system';
 
 const Repositories: NextPageWithLayout = () => {
   useQuery();
@@ -29,7 +30,9 @@ const Repositories: NextPageWithLayout = () => {
             </Box>
           </Box>
         </Box>
-        <RepositoriesTable disableButtons />
+        <Box display="flex" flexDirection="column" padding="20px" style={{backgroundColor: 'white', border: '1px solid #113d4c80', borderRadius: '10px'}}>
+          <RepositoriesTable disableButtons />
+        </Box>
       </Container>
     </>
   );
