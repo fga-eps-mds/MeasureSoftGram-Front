@@ -15,12 +15,13 @@ import CardNavigation from '@components/CardNavigation';
 
 import { Product } from '@customTypes/product';
 
-import SearchButton from '@components/SearchButton';
+import useRequireAuth from '@hooks/useRequireAuth';
 import Skeleton from './components/Skeleton';
 import { useQuery } from './hooks/useQuery';
 
 const Products: NextPageWithLayout = () => {
   useQuery();
+  useRequireAuth();
 
   const { organizationList, currentOrganization, setCurrentOrganization } = useOrganizationContext();
   const { productsList } = useProductContext();

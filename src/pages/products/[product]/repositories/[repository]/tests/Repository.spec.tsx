@@ -18,6 +18,12 @@ jest.mock('@contexts/RepositoryProvider', () => ({
   useRepositoryContext: () => ({})
 }));
 
+jest.mock('next/router', () => ({
+  useRouter: () => ({
+    push: () => jest.fn(),
+  })
+}));
+
 describe('Repository', () => {
   describe('Snapshot', () => {
     it('Deve corresponder ao Snapshot', () => {

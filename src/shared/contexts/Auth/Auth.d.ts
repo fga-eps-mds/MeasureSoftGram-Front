@@ -1,5 +1,6 @@
 type authContextType = {
   session: User | null;
+  loading: 'loading' | string;
   signInWithGithub: (code: string) => Promise<Result<User>>;
   signInWithCredentials: (data: LoginFormData) => Promise<Result<User>>;
   logout: () => Promise<void>;

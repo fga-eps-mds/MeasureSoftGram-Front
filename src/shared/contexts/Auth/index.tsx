@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useEffect, useMemo } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { getUserInfo, signInCredentials, signInGithub, signOut } from '@services/Auth';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
@@ -6,6 +6,7 @@ import { useLocalStorage } from '@hooks/useLocalStorage';
 
 export const authContextDefaultValues: authContextType = {
   session: null,
+  loading: 'loading',
   signInWithGithub: async () => ({} as Result<User>),
   signInWithCredentials: async () => ({} as Result<User>),
   logout: async () => ({} as Promise<void>),
@@ -16,6 +17,7 @@ export const authContextDefaultValues: authContextType = {
 export const AuthContext = createContext<authContextType>(authContextDefaultValues);
 
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
+  const [loading, setLoading] = useState<'loading' | 'loaded'>('loading');
   const {
     storedValue: session,
     setValue: setSession,
@@ -60,6 +62,8 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     } else {
       removeAuthStorage();
     }
+
+    setLoading('loaded');
   }, [removeAuthStorage, router, setSession]);
 
   const signInWithGithub = useCallback(
@@ -99,7 +103,10 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   }, [provider, router?.query?.code, signInWithGithub]);
 
   useEffect(() => {
+    setLoading('loading');
+
     if (token) getUser();
+    else setLoading('loaded');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
@@ -110,9 +117,10 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
       signInWithCredentials,
       signInWithGithub,
       provider,
-      setProvider
+      setProvider,
+      loading
     }),
-    [logout, provider, session, setProvider, signInWithCredentials, signInWithGithub]
+    [logout, provider, session, setProvider, signInWithCredentials, signInWithGithub, loading]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
