@@ -103,7 +103,20 @@ const RepositoriesTable: React.FC<Props> = ({ disableButtons, maxCount }: Props)
   useEffect(() => {
     if (repositoryList?.length) {
       loaldHistoricalCharacteristics(repositoryList[0].id);
-      setFilteredRepositories(maxCount ? repositoryList.slice(0, maxCount) : repositoryList);
+      if (maxCount) setFilteredRepositories(repositoryList.slice(0, maxCount));
+      else {
+        setFilteredRepositories((prevState) => {
+          const tempRepositoryList = [...repositoryList];
+          const prevString = JSON.stringify(prevState);
+          const currentString = JSON.stringify(tempRepositoryList);
+
+          if (prevString !== currentString) {
+            return tempRepositoryList;
+          }
+
+          return prevState;
+        });
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [repositoryList]);
@@ -138,7 +151,7 @@ const RepositoriesTable: React.FC<Props> = ({ disableButtons, maxCount }: Props)
                     {open[repo.id] ? (
                       <RemoveCircle aria-label="collapse row" onClick={() => handleClickCollapse(repo.id)} />
                     ) : (
-                      <AddCircle aria-label="expand row" onClick={() => handleClickExpand(repo.id)} />
+                      <AddCircle aria-label="expand circle row" onClick={() => handleClickExpand(repo.id)} />
                     )}
                   </TableCell>
                 )}
