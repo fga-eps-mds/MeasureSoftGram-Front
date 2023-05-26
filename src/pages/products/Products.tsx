@@ -15,8 +15,6 @@ import CardNavigation from '@components/CardNavigation';
 
 import { Product } from '@customTypes/product';
 
-import { useAuth } from '@contexts/Auth';
-import { useRouter } from 'next/router';
 import SearchButton from '@components/SearchButton';
 import Skeleton from './components/Skeleton';
 import { useQuery } from './hooks/useQuery';
@@ -30,9 +28,6 @@ const Products: NextPageWithLayout = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Product>();
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(productsList ?? []);
-
-  const { session, logout } = useAuth();
-  const router = useRouter();
 
   useEffect(() => {
     if (productsList !== undefined) setFilteredProducts(productsList!);
@@ -81,8 +76,7 @@ const Products: NextPageWithLayout = () => {
   const handleSelectedOrganization = (organizationId: string) => {
     if (currentOrganization?.id === organizationId) {
       setCurrentOrganization(undefined);
-    }
-    else if (organizationList?.length) {
+    } else if (organizationList?.length) {
       setCurrentOrganization(organizationList.find((organization) => organization.id === organizationId)!);
     }
   };
@@ -139,47 +133,54 @@ const Products: NextPageWithLayout = () => {
             ))}
           </Box>
           {currentOrganization && (
-          <Box display="flex" flexDirection="column" marginTop="60px" padding="36px" style={{backgroundColor: 'white', border: '1px solid #113d4c', borderRadius:'10px'}}>
-            <Box display="flex" gap="1rem" flexDirection="row">
-              <Typography variant="h5" color="#626264cc" fontWeight="semibold">
-                Produtos
-              </Typography>
-              <Grid container justifyContent="flex-end" marginRight="20px">
-                <SearchButton onInput={(e) => handleProductFilter(e.target.value)} label="Insira o nome do produto" />
-              </Grid>
-            </Box>
+            <Box
+              display="flex"
+              flexDirection="column"
+              marginTop="60px"
+              padding="36px"
+              style={{ backgroundColor: 'white', border: '1px solid #113d4c', borderRadius: '10px' }}
+            >
+              <Box display="flex" gap="1rem" flexDirection="row">
+                <Typography variant="h5" color="#626264cc" fontWeight="semibold">
+                  Produtos
+                </Typography>
+                <Grid container justifyContent="flex-end" marginRight="20px">
+                  <SearchButton onInput={(e) => handleProductFilter(e.target.value)} label="Insira o nome do produto" />
+                </Grid>
+              </Box>
 
-            <Box display="flex" flexWrap="wrap" marginTop="60px" justifyContent="space-around">
-              {filteredProducts?.map((product, index) => (
-                <Box key={product.id} display="flex" flexDirection="row" paddingRight="20px" paddingBottom="20px">
-                  <CardNavigation
-                    key={product.id}
-                    id={product.id}
-                    name={product.name}
-                    url={`/products/${currentOrganization?.id}-${product?.id}-${product?.name}`}
-                  />
+              <Box display="flex" flexWrap="wrap" marginTop="60px" justifyContent="space-around">
+                {filteredProducts?.map((product, index) => (
+                  <Box key={product.id} display="flex" flexDirection="row" paddingRight="20px" paddingBottom="20px">
+                    <CardNavigation
+                      key={product.id}
+                      id={product.id}
+                      name={product.name}
+                      url={`/products/${currentOrganization?.id}-${product?.id}-${product?.name}`}
+                    />
 
-                  <IconButton color="primary" onClick={(e) => handleOpenMenu(e, index)}>
-                    <MoreVert />
-                  </IconButton>
-                  <Menu
-                    id="basic-menu"
-                    key={product?.id}
-                    anchorEl={anchorEl[index]}
-                    open={Boolean(anchorEl[index])}
-                    onClick={(event) => handleCloseMenu(event, index)}
-                    MenuListProps={{
-                      'aria-labelledby': 'basic-button'
-                    }}
-                  >
-                    <MenuItem key={product?.id} onClick={handleOpenConfig(product)}>
-                      Definir pesos para uma configuração
-                    </MenuItem>
-                  </Menu>
-                </Box>
-              ))}
+                    <IconButton color="primary" onClick={(e) => handleOpenMenu(e, index)}>
+                      <MoreVert />
+                    </IconButton>
+                    <Menu
+                      id="basic-menu"
+                      key={product?.id}
+                      anchorEl={anchorEl[index]}
+                      open={Boolean(anchorEl[index])}
+                      onClick={(event) => handleCloseMenu(event, index)}
+                      MenuListProps={{
+                        'aria-labelledby': 'basic-button'
+                      }}
+                    >
+                      <MenuItem key={product?.id} onClick={handleOpenConfig(product)}>
+                        Definir pesos para uma configuração
+                      </MenuItem>
+                    </Menu>
+                  </Box>
+                ))}
+              </Box>
             </Box>
-          </Box>)}
+          )}
         </Box>
       </Container>
     </>

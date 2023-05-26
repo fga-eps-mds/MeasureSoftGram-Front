@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Typography, Container, Link } from '@mui/material';
+import { Box, Typography, Container, Button } from '@mui/material';
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
 
 import { useProductContext } from '@contexts/ProductProvider';
@@ -36,9 +36,9 @@ function RepositoriesList() {
 
           <RepositoriesTable maxCount="3" />
           <Box display="flex" flexDirection="column" mt="10px" alignItems="center">
-            <Link component="button" onClick={() => pushToRepositoriesPath()} underline="always">
+            <Button onClick={() => pushToRepositoriesPath()} variant="text">
               VER MAIS...
-            </Link>
+            </Button>
           </Box>
         </Container>
       </Styles.Wrapper>

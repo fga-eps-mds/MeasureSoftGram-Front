@@ -4,7 +4,6 @@ import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
 import { ProductProvider } from '@contexts/ProductProvider';
-import { useRouter } from 'next/router';
 import RepositoriesTable from '../RepositoriesTable';
 
 jest.mock('@contexts/RepositoryProvider', () => ({
