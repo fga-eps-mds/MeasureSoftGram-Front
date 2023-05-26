@@ -1,14 +1,12 @@
 import React, { useCallback } from 'react';
 
-import { Box, MenuItem, SelectChangeEvent, IconButton, FormControl } from '@mui/material';
-import ContentPasteIcon from '@mui/icons-material/ContentPaste';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-
+import { SelectChangeEvent } from '@mui/material';
+import { FiBox, FiRepeat } from 'react-icons/fi';
 import { useProductContext } from '@contexts/ProductProvider';
-
 import { useRouter } from 'next/router';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
-import * as Styles from './styles';
+import LetterAvatar from '@components/LetterAvatar';
+import SideMenuItem from '../SideMenuItem';
 
 function ProductSelector() {
   const router = useRouter();
@@ -31,29 +29,12 @@ function ProductSelector() {
   const getProductId = useCallback((productName: string) => Number(productName.split('-')[1]) || '', []);
 
   return (
-    <Box mt="64px" display="flex" alignItems="center">
-      <ContentPasteIcon />
-      <FormControl>
-        <Styles.DropDown
-          inputProps={{ 'aria-label': 'Without label' }}
-          value={getProductId(router.asPath)}
-          displayEmpty
-          onChange={handleChange}
-        >
-          <MenuItem value="" disabled>
-            Selecione um produto
-          </MenuItem>
-          {productsList?.map((product) => (
-            <MenuItem value={product?.id} key={product.id}>
-              {product.name}
-            </MenuItem>
-          ))}
-        </Styles.DropDown>
-      </FormControl>
-      <IconButton disabled>
-        <AddCircleIcon />
-      </IconButton>
-    </Box>
+    <SideMenuItem
+      startIcon={<LetterAvatar name={currentOrganization?.name} icon={<FiBox />} />}
+      text={currentOrganization?.name}
+      endIcon={<FiRepeat />}
+      tooltip="Seleção de produto"
+    />
   );
 }
 
