@@ -1,8 +1,11 @@
 import React from 'react';
 
-import { Box, Typography, Container } from '@mui/material';
+import { Box, Typography, Container, Link } from '@mui/material';
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
 
+import { useProductContext } from '@contexts/ProductProvider';
+import { useOrganizationContext } from '@contexts/OrganizationProvider';
+import { useRouter } from 'next/router';
 import RepositoriesTable from './RepositoriesTable';
 import Skeleton from './Skeleton';
 
@@ -10,6 +13,14 @@ import * as Styles from './styles';
 
 function RepositoriesList() {
   const { repositoryList } = useRepositoryContext();
+  const { currentProduct } = useProductContext();
+  const { currentOrganization } = useOrganizationContext();
+  const router = useRouter();
+
+  const pushToRepositoriesPath = () => {
+    const repositoriesPath = `/products/${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/repositories`;
+    router.push(repositoriesPath);
+  };
 
   if (!repositoryList) {
     return <Skeleton />;
@@ -23,7 +34,12 @@ function RepositoriesList() {
             Repositórios
           </Typography>
 
-          <RepositoriesTable />
+          <RepositoriesTable maxCount="3" />
+          <Box display="flex" flexDirection="column" mt="10px" alignItems="center">
+            <Link component="button" onClick={() => pushToRepositoriesPath()} underline="always">
+              VER MAIS...
+            </Link>
+          </Box>
         </Container>
       </Styles.Wrapper>
     </Box>

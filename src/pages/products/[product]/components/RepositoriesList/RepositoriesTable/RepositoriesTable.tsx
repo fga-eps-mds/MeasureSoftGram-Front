@@ -20,18 +20,25 @@ import { useRepositoryContext } from '@contexts/RepositoryProvider';
 import { useProductContext } from '@contexts/ProductProvider';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import MeasureSoftGramChart from '@components/MeasureSoftGramChart';
-import { HistoricalCharacteristicsProps, Historical } from '@customTypes/repository';
+import { HistoricalCharacteristicsProps, Historical, Repository } from '@customTypes/repository';
+import SearchButton from '@components/SearchButton';
 
-function RepositoriesTable() {
+interface Props {
+  disableButtons?: boolean;
+  maxCount?: number;
+}
+
+const RepositoriesTable: React.FC<Props> = ({ disableButtons, maxCount }: Props) => {
   const { currentProduct } = useProductContext();
   const { currentOrganization } = useOrganizationContext();
   const { repositoryList } = useRepositoryContext();
   const router = useRouter();
 
   const [open, setOpen] = useState({});
+  const [filteredRepositories, setFilteredRepositories] = useState<Repository[]>([]);
 
   const handleClickRedirects = (id: string) => {
-    const path = `${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/${id}`;
+    const path = `/products/${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/repositories/${id}`;
     router.push(path);
   };
 
@@ -79,10 +86,24 @@ function RepositoriesTable() {
     }
   };
 
+  const handleRepositoriesFilter = (name: string) => {
+    if ((name == null || name === '') && repositoryList?.length) {
+      setFilteredRepositories(maxCount ? repositoryList.slice(0, maxCount) : repositoryList);
+      return;
+    }
+    const repositoriesWithName =
+      repositoryList?.filter((currentRepository: Repository) =>
+        currentRepository.name.toLowerCase().includes(name.toLowerCase())
+      ) ?? [];
+
+    setFilteredRepositories(maxCount ? repositoriesWithName.slice(0, maxCount) : repositoriesWithName);
+  };
+
   // update historicalCharacteristics if repositoryList changes
   useEffect(() => {
     if (repositoryList?.length) {
       loaldHistoricalCharacteristics(repositoryList[0].id);
+      setFilteredRepositories(maxCount ? repositoryList.slice(0, maxCount) : repositoryList);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [repositoryList]);
@@ -93,25 +114,34 @@ function RepositoriesTable() {
         <TableHead>
           <TableRow>
             <TableCell>Nome</TableCell>
-            <TableCell />
+            <TableCell align="right">
+              <SearchButton
+                onInput={(e) => handleRepositoriesFilter(e.target.value)}
+                label="Insira o nome do repositório"
+              />
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {repositoryList?.map((repo) => (
+          {filteredRepositories?.map((repo) => (
             <React.Fragment key={repo.id}>
               <TableRow hover style={{ cursor: 'pointer' }} data-testid="repository-row">
-                <TableCell>{repo.name}</TableCell>
-                <TableCell align="right">
-                  <ArrowCircleRight
-                    aria-label="expand row"
-                    onClick={() => handleClickRedirects(`${repo.id}-${repo.name}`)}
-                  />
-                  {open[repo.id] ? (
-                    <RemoveCircle aria-label="collapse row" onClick={() => handleClickCollapse(repo.id)} />
-                  ) : (
-                    <AddCircle aria-label="expand row" onClick={() => handleClickExpand(repo.id)} />
-                  )}
-                </TableCell>
+                <TableCell onClick={() => handleClickRedirects(`${repo.id}-${repo.name}`)}>{repo.name}</TableCell>
+                {disableButtons ? (
+                  <TableCell />
+                ) : (
+                  <TableCell align="right">
+                    <ArrowCircleRight
+                      aria-label="expand row"
+                      onClick={() => handleClickRedirects(`${repo.id}-${repo.name}`)}
+                    />
+                    {open[repo.id] ? (
+                      <RemoveCircle aria-label="collapse row" onClick={() => handleClickCollapse(repo.id)} />
+                    ) : (
+                      <AddCircle aria-label="expand row" onClick={() => handleClickExpand(repo.id)} />
+                    )}
+                  </TableCell>
+                )}
               </TableRow>
               <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -132,6 +162,6 @@ function RepositoriesTable() {
       </Table>
     </TableContainer>
   );
-}
+};
 
 export default RepositoriesTable;
