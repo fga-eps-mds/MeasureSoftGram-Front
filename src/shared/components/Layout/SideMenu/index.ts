@@ -1,1 +1,1 @@
-export { default } from './SideMenuWrapper';
+export { default } from './SideMenu';
