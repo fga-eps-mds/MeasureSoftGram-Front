@@ -16,6 +16,7 @@ import CardNavigation from '@components/CardNavigation';
 import { Product } from '@customTypes/product';
 
 import useRequireAuth from '@hooks/useRequireAuth';
+import SearchButton from '@components/SearchButton';
 import Skeleton from './components/Skeleton';
 import { useQuery } from './hooks/useQuery';
 
