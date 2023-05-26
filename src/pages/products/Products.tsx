@@ -1,7 +1,7 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Head from 'next/head';
 
-import { Box, Button, Container, IconButton, Menu, MenuItem, Typography } from '@mui/material';
+import { Box, Button, Container, Grid, IconButton, Menu, MenuItem, Typography } from '@mui/material';
 import MoreVert from '@mui/icons-material/MoreVert';
 
 import { NextPageWithLayout } from '@pages/_app.next';
@@ -17,20 +17,26 @@ import { Product } from '@customTypes/product';
 
 import { useAuth } from '@contexts/Auth';
 import { useRouter } from 'next/router';
+import SearchButton from '@components/SearchButton';
 import Skeleton from './components/Skeleton';
 import { useQuery } from './hooks/useQuery';
 
 const Products: NextPageWithLayout = () => {
   useQuery();
 
-  const { currentOrganization } = useOrganizationContext();
+  const { organizationList, currentOrganization, setCurrentOrganization } = useOrganizationContext();
+  const { productsList } = useProductContext();
   const [openConfig, setOpenConfig] = useState(false);
   const [anchorEl, setAnchorEl] = useState<HTMLElement[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Product>();
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>(productsList ?? []);
 
   const { session, logout } = useAuth();
   const router = useRouter();
-  const { productsList } = useProductContext();
+
+  useEffect(() => {
+    if (productsList !== undefined) setFilteredProducts(productsList!);
+  }, [productsList]);
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>, index: number) => {
     anchorEl[index] = event.currentTarget;
@@ -61,6 +67,23 @@ const Products: NextPageWithLayout = () => {
     return '-1';
   };
 
+  const handleProductFilter = (name: string) => {
+    if (name == null || name === '') {
+      setFilteredProducts(productsList!);
+      return;
+    }
+    const productsWithName =
+      productsList?.filter((product: Product) => product.name.toLowerCase().includes(name.toLowerCase())) ?? [];
+
+    setFilteredProducts(productsWithName);
+  };
+
+  const handleSelectedOrganization = (organizationId: string) => {
+    if (organizationList?.length) {
+      setCurrentOrganization(organizationList.find((organization) => organization.id === organizationId)!);
+    }
+  };
+
   if (!productsList) {
     return (
       <Container>
@@ -84,31 +107,44 @@ const Products: NextPageWithLayout = () => {
           organizationId={getOrganizationId(selectedProduct)}
         />
         <Box display="flex" flexDirection="column">
-          <Box display="flex" gap="1rem" marginTop="40px" marginBottom="36px">
-            <Box display="flex" alignItems="center">
-              <Typography variant="h4" marginRight="10px">
-                Hi
-              </Typography>
-              <Typography variant="h4" fontWeight="300">
-                {session?.username}
-              </Typography>
-            </Box>
-
-            {session?.username && (
-              <Button
-                variant="contained"
-                onClick={() => {
-                  logout();
-                  router.push('/');
-                }}
+          <Typography variant="h4" color="black" fontWeight="semibold">
+            Organizações
+          </Typography>
+          <Box display="flex" gap="1rem" marginTop="30px" marginBottom="10px">
+            {organizationList?.map((organization) => (
+              <Box
+                // eslint-disable-next-line react/no-array-index-key
+                key={organization.id}
+                display="flex"
+                flexDirection="row"
+                paddingRight="20px"
+                paddingBottom="20px"
+                width="400px"
+                height="60px"
+                justifyContent="center"
               >
-                Sair
-              </Button>
-            )}
+                <Button
+                  // eslint-disable-next-line react/no-array-index-key
+                  style={{ maxWidth: '280px', maxHeight: '80px', minWidth: '280px', minHeight: '80px' }}
+                  size="large"
+                  variant={organization.id === currentOrganization?.id ? 'contained' : 'outlined'}
+                  id={organization.id}
+                  name={organization.name}
+                  onClick={() => handleSelectedOrganization(organization.id)}
+                >
+                  {organization.name}
+                </Button>
+              </Box>
+            ))}
+          </Box>
+          <Box display="flex" gap="1rem" marginTop="40px" marginBottom="36px">
+            <Grid container justifyContent="flex-end" marginRight="100px">
+              <SearchButton onInput={(e) => handleProductFilter(e.target.value)} label="Insira o nome do produto" />
+            </Grid>
           </Box>
 
           <Box display="flex" flexWrap="wrap">
-            {productsList?.map((product, index) => (
+            {filteredProducts?.map((product, index) => (
               <Box key={product.id} display="flex" flexDirection="row" paddingRight="20px" paddingBottom="20px">
                 <CardNavigation
                   key={product.id}
