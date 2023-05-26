@@ -8,9 +8,9 @@ import Skeleton from './components/Skeleton';
 import HistoricalLatestInfos from './components/HistoricalInfosList';
 import LatestValueTable from './components/LatestValueTable';
 import FilterTreeInfos from './components/FilterTreeInfos';
-import { useQuery as useQueryProduct } from '../hooks/useQuery';
+import { useQuery as useQueryProduct } from '../../hooks/useQuery';
 import { useQuery } from './hooks/useQuery';
-import Download from '../../../../shared/components/DownloadButton';
+import Download from '../../../../../shared/components/DownloadButton';
 
 const Repository: NextPageWithLayout = () => {
   useQueryProduct();
