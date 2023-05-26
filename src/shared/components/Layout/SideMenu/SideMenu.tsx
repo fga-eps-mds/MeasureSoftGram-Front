@@ -1,25 +1,46 @@
 import React from 'react';
-import Link from 'next/link';
+import { FiBarChart2, FiGitBranch, FiPaperclip, FiChevronRight } from 'react-icons/fi';
+import { useAuth } from '@contexts/Auth';
+import { Avatar } from '@mui/material';
+import SideMenuItem from './SideMenuItem/SideMenuItem';
+import SideMenuWrapper from './SideMenuWrapper';
 
-import OrganizationButton from './OrganizationSelector';
-import { HEADER } from './consts';
+const MenuItems = [
+  {
+    startIcon: <FiBarChart2 fontSize={28} />,
+    text: 'Visão Geral',
+    tooltip: 'Visão Geral do Produto'
+  },
+  {
+    startIcon: <FiGitBranch fontSize={28} />,
+    text: 'Repositórios',
+    tooltip: 'Repositórios do Produto'
+  },
+  {
+    startIcon: <FiPaperclip fontSize={28} />,
+    text: 'Releases',
+    tooltip: 'Releases de cada repositório'
+  }
+];
 
-import * as Styles from './styles';
-import ProductsSelector from './ProductsSelector';
+function SideMenu() {
+  const { session } = useAuth();
 
-const { IMAGE_SOURCE } = HEADER.VALUES;
-
-function Header() {
   return (
-    <Styles.Wrapper>
-      <Link href="/home">
-        <Styles.Logo src={IMAGE_SOURCE} height={30} />
-      </Link>
-
-      <OrganizationButton />
-      <ProductsSelector />
-    </Styles.Wrapper>
+    <SideMenuWrapper
+      menuItems={MenuItems.map((item) => (
+        <SideMenuItem key={item.text} startIcon={item.startIcon} text={item.text} tooltip={item.tooltip} />
+      ))}
+      footer={
+        <SideMenuItem
+          startIcon={<Avatar sx={{ width: 34, height: 34, backgroundColor: '#000' }} />}
+          text={session?.username || '???'}
+          tooltip="Menu de usuário"
+          endIcon={<FiChevronRight fontSize={28} />}
+        />
+      }
+    />
   );
 }
 
-export default Header;
+export default SideMenu;

@@ -2,13 +2,12 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   height: 100vh;
-  min-width: 50px;
 
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  padding: 0 4px;
 
-  padding: 30px 12px;
   background-color: white;
   position: sticky;
   top: 0;
@@ -41,9 +40,17 @@ export const CollapseButton = styled.div`
   border-radius: 50%;
   background-color: white;
   cursor: pointer;
-  z-index: -1;
+  z-index: 1;
+
+  &:hover {
+    background-color: #f5f5f5;
+  }
 `;
 
 export const Logo = styled.img`
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 20px 0 20px 12px;
 `;

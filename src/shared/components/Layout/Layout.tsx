@@ -1,4 +1,5 @@
 import React from 'react';
+import { SideMenuProvider } from '@contexts/SidebarProvider/SideMenuProvider';
 import SideMenu from './SideMenu';
 import Breadcrumbs from './Breadcrumbs';
 
@@ -12,7 +13,9 @@ function Layout({ children }: Props) {
   return (
     <Styles.LayoutGrid>
       <Styles.SideMenuArea>
-        <SideMenu />
+        <SideMenuProvider>
+          <SideMenu />
+        </SideMenuProvider>
       </Styles.SideMenuArea>
       <Styles.MainContentArea>
         <Breadcrumbs />
