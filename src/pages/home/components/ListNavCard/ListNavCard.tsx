@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { List, ListItemButton, ListItemIcon, Box, Typography } from '@mui/material';
-import { ArrowForwardOutlined } from "@mui/icons-material/"
+import EastOutlinedIcon from "@mui/icons-material/EastOutlined"
 
 interface Props {
   navListData: Array<string>,
@@ -26,18 +26,21 @@ const ListNavCard: React.FC<Props> = ({ navListData }) => {
           selected={selected === data}
           onClick={(event) => handleListItemClick(event, data)}
           sx={{
-            ':active, :hover, :focus, :visited': { backgroundColor: "transparent", '.button-text': { color: "#113D4C" } },
+            display: "flex",
+            width: "100%",
+            backgroundColor: "transparent",
+            '.button-text': { color: selected === data ? "#113D4C" : "#000" },
           }}
         >
-          <Box display="flex" justifyContent="flex-start" width="100%" alignContent="center" alignItems="center">
+          <Box display="flex" justifyContent="flex-start" alignContent="center" alignItems="center">
             <Box display="flex" minWidth="55px">
               {selected === data &&
                 <ListItemIcon>
-                  <ArrowForwardOutlined />
+                  <EastOutlinedIcon />
                 </ListItemIcon>
               }
             </Box>
-            <Typography className="button-text" variant="body1" sx={{ alignSelf: "end" }} >
+            <Typography className="button-text" variant="body1" fontWeight="bold" sx={{ alignSelf: "end" }} >
               {data}
             </Typography>
           </Box>

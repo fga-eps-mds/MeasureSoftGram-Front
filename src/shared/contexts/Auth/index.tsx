@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     if (response.type === 'success') {
       setSession(response.value);
       if (router?.pathname === '/') {
-        router.push('/products/');
+        router.push('/home');
         toast.success(`Bem vindo ao MeasureSoftGram ${response?.value?.username}!`);
       }
     } else {
@@ -87,7 +87,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
       if (response.type === 'success') {
         setToken(response?.value?.key);
         toast.success('Login realizado com sucesso!');
-        router.push('/products');
+        router.push('/home');// AQUI
       } else {
         toast.error('Erro ao realizar login');
       }

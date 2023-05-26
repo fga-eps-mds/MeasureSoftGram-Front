@@ -23,12 +23,12 @@ const Home: NextPageWithLayout = () => {
       id: "Organizações e Produtos",
       elements: [
         {
-          imageSrc: "/images/png/logo.png",
+          imageSrc: "/images/png/organizations.png",
           title: "Organizações",
           description: `Organização é uma palavra originada do grego "organon", que significa instrumento, utensílio. Em Administração, o termo "organização" pode ter três sentidos: Associação de pessoas que combinam esforços individuais e em equipe com a finalidade de realizar propósitos colectivos`,
         },
         {
-          imageSrc: "/images/png/logo.png",
+          imageSrc: "/images/png/products.png",
           title: "Produtos",
           description: `Um projeto em "negócio" e ciência é normalmente definido como um empreendimento, frequentemente envolvendo pesquisa ou desenho, que tem como objetivo alcançar um resultado exclusivo`,
           routeTo: 'products',
@@ -39,12 +39,12 @@ const Home: NextPageWithLayout = () => {
       id: "Repositórios e Releases",
       elements: [
         {
-          imageSrc: "/images/png/logo.png",
+          imageSrc: "/images/png/repository.png",
           title: "Repositórios",
           description: `Organização é uma palavra originada do grego "organon", que significa instrumento, utensílio. Em Administração, o termo "organização" pode ter três sentidos: Associação de pessoas que combinam esforços individuais e em equipe com a finalidade de realizar propósitos colectivos`,
         },
         {
-          imageSrc: "/images/png/logo.png",
+          imageSrc: "/images/png/release.png",
           title: "Releases",
           description: `Um projeto em "negócio" e ciência é normalmente definido como um empreendimento, frequentemente envolvendo pesquisa ou desenho, que tem como objetivo alcançar um resultado exclusivo`,
           routeTo: 'products',
@@ -55,7 +55,7 @@ const Home: NextPageWithLayout = () => {
       id: "Gráficos",
       elements: [
         {
-          imageSrc: "/images/png/logo.png",
+          imageSrc: "/images/png/charts.png",
           title: "Gráficos",
           description: `aobaaa`
         }
@@ -65,9 +65,9 @@ const Home: NextPageWithLayout = () => {
       id: "Configuração",
       elements: [
         {
-          imageSrc: "/images/png/logo.png",
+          imageSrc: "/images/png/config.png",
           title: "Configuração",
-          description: `aobaaa`
+          description: `Mini explicação sobre as configurações basicas e a seleção de caracteristicas`
         }
       ]
     },
@@ -75,9 +75,9 @@ const Home: NextPageWithLayout = () => {
       id: "Pré-configuração",
       elements: [
         {
-          imageSrc: "/images/png/logo.png",
+          imageSrc: "/images/png/pre-config.png",
           title: "Pré-configuração",
-          description: `aobaaa`
+          description: `Por meio da pré-configuração que é definido quais características, subcaracterísticas e medidas serão consideradas para mensurar a qualidade do software analisado. Na pré-configuração também é definido os pesos de cada uma das entidades definidas.`
         }
       ]
     },
@@ -110,12 +110,12 @@ const Home: NextPageWithLayout = () => {
             </Typography>
           </Box>
 
-          <Box display="flex" columnGap="1rem" marginTop="3rem" justifyContent="space-between">
-            <Box display="flex" flexDirection="column" maxWidth="20%" minWidth="20%">
+          <Box display="flex" columnGap="1rem" marginTop="3rem" flexWrap="wrap" justifyContent="space-between">
+            <Box display="flex" flex="1" flexDirection="column" minWidth="20%">
               <ListNavCard navListData={navListData} />
             </Box>
 
-            <Box display="flex" flex="1" flexDirection="column" maxHeight="78vh" gap="2rem" sx={{
+            <Box display="flex" flex="1" minWidth="78%" flexDirection="column" maxHeight="78vh" gap="2rem" sx={{
               overflowY: "auto",
               scrollbarWidth: "thin",
               paddingRight: ".5rem",
@@ -134,7 +134,7 @@ const Home: NextPageWithLayout = () => {
             }}>
               {
                 cardsData.map(cardData => (
-                  <CardInfo cardData={cardData} />
+                  <CardInfo key={cardData?.id} cardData={cardData} />
                 ))
               }
             </Box>

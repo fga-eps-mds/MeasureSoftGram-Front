@@ -11,7 +11,7 @@ interface Props {
 }
 
 const CardInfo: React.FC<Props> = ({ cardData }) => (
-  <Card id={cardData?.id} sx={{ overflow: "visible", borderShadow: "none", borderRadius: "30px", display: "flex", flexDirection: "column", height: "100%", flex: "1" }}>
+  <Card id={cardData?.id} sx={{ overflow: "visible", borderShadow: "none", borderRadius: "30px", display: "flex", flexDirection: "column", flex: "1" }}>
     {cardData.elements.map(data => (
       <CardContent key={data.title} sx={{ display: "flex", height: "100%", flexDirection: "column", }}>
         <Box display="flex" justifyContent="space-between" gap="1rem">
@@ -19,9 +19,9 @@ const CardInfo: React.FC<Props> = ({ cardData }) => (
             component="img"
             image={data.imageSrc}
             alt="green iguana"
-            sx={{ width: "50%", padding: "0 1rem 1rem 1rem", maxWidth: "400px", height: "auto", maxHeight: "200px", borderRadius: "30px" }}
+            sx={{ width: "50%", padding: "1rem 1rem 1rem 1rem", minWidth: "400px", height: "auto", maxHeight: "200px", borderRadius: "30px" }}
           />
-          <Box display="flex" flexDirection="column" maxWidth="50%" alignItems="center" alignContent="center" width="100%">
+          <Box display="flex" margin="1rem 1rem 1rem 0" flexDirection="column" maxWidth="50%" alignItems="center" alignContent="center" width="100%">
             <Typography gutterBottom variant="h5" component="div" align="center">
               {data.title}
             </Typography>
