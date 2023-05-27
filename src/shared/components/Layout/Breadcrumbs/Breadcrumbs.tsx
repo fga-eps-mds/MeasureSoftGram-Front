@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { Breadcrumbs as BreadcrumbsMUI, Typography } from '@mui/material';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 
 import { TRANSLATION } from './consts';
 
@@ -44,8 +45,14 @@ export function Breadcrumbs() {
           </Typography>
         );
       })
-      ?.filter((data) => data.key !== 'releases' && !Number.isNaN(data?.key)); // remove releases key;
+      // ?.filter((data) => data.key !== 'releases' && !Number.isNaN(data?.key)); // remove releases key;
   };
 
-  return <BreadcrumbsMUI>{getCrumbs()}</BreadcrumbsMUI>;
+  return (
+    <BreadcrumbsMUI sx={{ display: "flex", alignItems: "center" }}>
+      <Link href="/home">
+        <HomeOutlinedIcon sx={{ cursor: "pointer", fontSize: "30px" }}/>
+      </Link>
+      {getCrumbs()}
+    </BreadcrumbsMUI>);
 }
