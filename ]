@@ -12,16 +12,23 @@ type Props = {
   type : 'drawer' | 'route';
   openState: boolean;
   children?: JSX.Element;
-  handleClose: () => void;
 };
 
-function SideMenuItem({ startIcon, text, endIcon, tooltip, type, openState, children, handleClose}: Props) {
+function SideMenuItem({ startIcon, text, endIcon, tooltip, type, openState, children}: Props) {
   const { isCollapsed } = useSideMenuContext();
+  const [ openClosed, setToggle ] = useState(openState);
 
   const itemRef = useRef();
-  
+
+  const toggleDrawer =
+  (open: boolean) =>
+  (event: React.KeyboardEvent | React.MouseEvent) => {
+    if (event.target !== itemRef.current) {
+      setToggle(false);
+    }
+  };
   return (
-    <Box onClick={() => handleClose()}
+    <Box onClick={() => {toggleDrawer(true)}}
       ref={itemRef} sx={{ marginY: '2px' }}>
       <Tooltip title={tooltip} arrow placement="left">
         <Styles.Wrapper $collapsed={isCollapsed}>
@@ -36,8 +43,8 @@ function SideMenuItem({ startIcon, text, endIcon, tooltip, type, openState, chil
       </Tooltip>
       {type === 'drawer' && <Drawer
         anchor='left'
-        open={openState}
-        onClose={handleClose}
+        open={openClosed}
+        onClose={toggleDrawer(false)}
       >
         {children}
       </Drawer>}
