@@ -41,13 +41,12 @@ const Home: NextPageWithLayout = () => {
         {
           imageSrc: "/images/png/repository.png",
           title: "Repositórios",
-          description: `Organização é uma palavra originada do grego "organon", que significa instrumento, utensílio. Em Administração, o termo "organização" pode ter três sentidos: Associação de pessoas que combinam esforços individuais e em equipe com a finalidade de realizar propósitos colectivos`,
+          description: `Uma breve explicação sobre os reposotórios.`,
         },
         {
           imageSrc: "/images/png/release.png",
           title: "Releases",
-          description: `Um projeto em "negócio" e ciência é normalmente definido como um empreendimento, frequentemente envolvendo pesquisa ou desenho, que tem como objetivo alcançar um resultado exclusivo`,
-          routeTo: 'products',
+          description: `Uma breve explicação sobre as releases.`
         }
       ]
     },
@@ -55,32 +54,27 @@ const Home: NextPageWithLayout = () => {
       id: "Gráficos",
       elements: [
         {
-          imageSrc: "/images/png/charts.png",
+          imageSrc: "/images/png/chart_example.png",
           title: "Gráficos",
-          description: `aobaaa`
+          description: `Uma breve explicação sobre os gráficos apresentados no site.`
         }
       ]
     },
     {
-      id: "Configuração",
+      id: "Configuração e Pré-configuração",
       elements: [
         {
           imageSrc: "/images/png/config.png",
           title: "Configuração",
-          description: `Mini explicação sobre as configurações basicas e a seleção de caracteristicas`
-        }
-      ]
-    },
-    {
-      id: "Pré-configuração",
-      elements: [
+          description: `Uma breve explicação sobre as configurações basicas e a seleção de caracteristicas.`
+        },
         {
           imageSrc: "/images/png/pre-config.png",
           title: "Pré-configuração",
           description: `Por meio da pré-configuração que é definido quais características, subcaracterísticas e medidas serão consideradas para mensurar a qualidade do software analisado. Na pré-configuração também é definido os pesos de cada uma das entidades definidas.`
         }
       ]
-    },
+    }
   ];
 
   const navListData: Array<string> = cardsData.map(cardData => cardData.id);
