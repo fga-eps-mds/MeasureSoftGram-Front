@@ -6,6 +6,7 @@ import * as Styles from './styles';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import { useProductContext } from '@contexts/ProductProvider';
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
+import { useQuery } from '../../../../../pages/products/[product]/repositories/hooks/useQuery'
 
 export type ContextControl = 'product' | 'organization' | 'repository';
 
@@ -28,27 +29,32 @@ function SideMenuItem(
     openState, children, handleClose, context,
     handlePath
   }: Props) {
+
+  useQuery();
   const { isCollapsed } = useSideMenuContext();
   const {currentOrganization} = useOrganizationContext();
   const {currentProduct} = useProductContext();
-  const {currentRepository} = useRepositoryContext()
+  const {repositoryList} = useRepositoryContext()
 
   const itemRef = useRef();
   let checkContext = false;
+  const checkOrg  = () => (currentOrganization !== null && currentOrganization !== undefined);
+  const checkProd = () => (currentProduct !== undefined && currentProduct !== null);
+  const checkRepo = () => repositoryList !== null && repositoryList !== undefined && repositoryList?.length !==0;
 
   switch (context) {
     case 'organization':
-      checkContext = currentOrganization && true; 
+      checkContext = checkOrg(); 
       break;
 
     case 'product':
-      checkContext = currentOrganization && (typeof currentProduct !== undefined && typeof currentProduct !== null); 
+      checkContext = checkOrg() && checkProd(); 
       break;
 
     case 'repository':
-      checkContext = currentOrganization
-          && (typeof currentProduct !== undefined && typeof currentProduct !== null)
-          && (currentRepository !== undefined && currentRepository !== null);
+      checkContext = checkOrg()
+          && checkProd()
+          && checkRepo();
       break;
 
     default:
@@ -57,30 +63,30 @@ function SideMenuItem(
   } 
   
   if ((optype === "drawer" || checkContext) ) { 
-    return <Box onClick={handleClose}
-      ref={itemRef} sx={{ marginY: '2px' }}>
-      <Tooltip title={tooltip} arrow placement="left">
-        <Styles.Wrapper 
-          $collapsed={isCollapsed}
-          onClick={handlePath}
+    return (<Box onClick={handleClose}
+        ref={itemRef} sx={{ marginY: '2px' }}>
+        <Tooltip title={tooltip} arrow placement="left">
+          <Styles.Wrapper 
+            $collapsed={isCollapsed}
+            onClick={handlePath}
+          >
+            <Styles.IconContainer>{startIcon}</Styles.IconContainer>
+            {!isCollapsed &&  <>
+              <>
+                <Box sx={{ width: '100%', marginLeft: '10px' }}>{text}</Box>
+                {endIcon && <Box sx={{ paddingRight: '10px' }}>{endIcon}</Box>}
+              </>
+            </>}
+          </Styles.Wrapper>
+        </Tooltip>
+        {optype === 'drawer' && <Drawer
+          anchor='left'
+          open={openState}
+          onClose={handleClose}
         >
-          <Styles.IconContainer>{startIcon}</Styles.IconContainer>
-          {!isCollapsed &&  <>
-            <>
-              <Box sx={{ width: '100%', marginLeft: '10px' }}>{text}</Box>
-              {endIcon && <Box sx={{ paddingRight: '10px' }}>{endIcon}</Box>}
-            </>
-          </>}
-        </Styles.Wrapper>
-      </Tooltip>
-      {optype === 'drawer' && <Drawer
-        anchor='left'
-        open={openState}
-        onClose={handleClose}
-      >
-        {children}
-      </Drawer>}
-    </Box>
+          {children}
+        </Drawer>}
+      </Box>)
   } else return null;
 }
 

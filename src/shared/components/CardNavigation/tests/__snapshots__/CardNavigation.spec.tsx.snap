@@ -11,7 +11,7 @@ Object {
         type="button"
       >
         <div
-          class="MuiBox-root css-1tfglf5"
+          class="MuiBox-root css-ocvd5t"
         >
           <div
             class="styles__Circle-sc-5tcrvr-0 zTbqV"
@@ -21,21 +21,6 @@ Object {
           >
             Simbora
           </h6>
-          <div
-            class="MuiBox-root css-1a64nw"
-          >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-              data-testid="ChevronRightIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
-              />
-            </svg>
-          </div>
         </div>
         <span
           class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
@@ -50,7 +35,7 @@ Object {
       type="button"
     >
       <div
-        class="MuiBox-root css-1tfglf5"
+        class="MuiBox-root css-ocvd5t"
       >
         <div
           class="styles__Circle-sc-5tcrvr-0 zTbqV"
@@ -60,21 +45,6 @@ Object {
         >
           Simbora
         </h6>
-        <div
-          class="MuiBox-root css-1a64nw"
-        >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-            data-testid="ChevronRightIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
-            />
-          </svg>
-        </div>
       </div>
       <span
         class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"

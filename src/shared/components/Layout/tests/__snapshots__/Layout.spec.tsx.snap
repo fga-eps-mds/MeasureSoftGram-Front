@@ -12,45 +12,172 @@ Object {
           class="styles__SideMenuArea-sc-1vn80o5-1 fVrKpa"
         >
           <div
-            class="styles__Wrapper-sc-b15uhj-0 estNeY"
+            class="styles__Wrapper-sc-b15uhj-0 dOyTpx"
           >
             <img
-              class="styles__Logo-sc-b15uhj-3 fzgZPI"
+              class="styles__Logo-sc-b15uhj-3 hGELmg"
               height="30"
               src="/images/svg/logo.svg"
             />
             <div
-              class="MuiBox-root css-16txn1h"
+              class="MuiBox-root css-1j9oeic"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                data-testid="BusinessIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
+              <div
+                aria-label="Seleção de organização"
+                class="styles__Wrapper-sc-13gge7k-0 fgsa-dA"
+                data-mui-internal-clone-element="true"
               >
-                <path
-                  d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"
-                />
-              </svg>
+                <div
+                  class="styles__IconContainer-sc-13gge7k-1 hPWhSD"
+                >
+                  <div
+                    class="MuiBox-root css-zl7mak"
+                  >
+                    <div
+                      class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-12cgry1-MuiAvatar-root"
+                    >
+                      ?
+                    </div>
+                    <div
+                      class="styles__IconContainer-sc-nul2ic-0 kluvV"
+                    >
+                      <svg
+                        fill="currentColor"
+                        height="1em"
+                        stroke="currentColor"
+                        stroke-width="0"
+                        viewBox="0 0 16 16"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M3 0a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h3v-3.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V16h3a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1H3Zm1 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3.5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5ZM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM7.5 5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5Zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM4.5 8h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5Zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3.5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5Z"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root css-ofjrfz"
+                >
+                  Selecione a organização
+                </div>
+                <div
+                  class="MuiBox-root css-1p2jtab"
+                >
+                  <svg
+                    fill="none"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <polyline
+                      points="17 1 21 5 17 9"
+                    />
+                    <path
+                      d="M3 11V9a4 4 0 0 1 4-4h14"
+                    />
+                    <polyline
+                      points="7 23 3 19 7 15"
+                    />
+                    <path
+                      d="M21 13v2a4 4 0 0 1-4 4H3"
+                    />
+                  </svg>
+                </div>
+              </div>
             </div>
             <div
-              class="MuiBox-root css-1p2zrxa"
+              class="MuiBox-root css-1j9oeic"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                data-testid="ContentPasteIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
+              <div
+                aria-label="Seleção de produto"
+                class="styles__Wrapper-sc-13gge7k-0 fgsa-dA"
+                data-mui-internal-clone-element="true"
               >
-                <path
-                  d="M19 2h-4.18C14.4.84 13.3 0 12 0c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm7 18H5V4h2v3h10V4h2v16z"
-                />
-              </svg>
+                <div
+                  class="styles__IconContainer-sc-13gge7k-1 hPWhSD"
+                >
+                  <div
+                    class="MuiBox-root css-zl7mak"
+                  >
+                    <div
+                      class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-12cgry1-MuiAvatar-root"
+                    >
+                      S
+                    </div>
+                    <div
+                      class="styles__IconContainer-sc-nul2ic-0 kluvV"
+                    >
+                      <svg
+                        fill="none"
+                        height="1em"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"
+                        />
+                        <polyline
+                          points="3.27 6.96 12 12.01 20.73 6.96"
+                        />
+                        <line
+                          x1="12"
+                          x2="12"
+                          y1="22.08"
+                          y2="12"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root css-ofjrfz"
+                >
+                  Selecione Um Produto
+                </div>
+                <div
+                  class="MuiBox-root css-1p2jtab"
+                >
+                  <svg
+                    fill="none"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <polyline
+                      points="17 1 21 5 17 9"
+                    />
+                    <path
+                      d="M3 11V9a4 4 0 0 1 4-4h14"
+                    />
+                    <polyline
+                      points="7 23 3 19 7 15"
+                    />
+                    <path
+                      d="M21 13v2a4 4 0 0 1-4 4H3"
+                    />
+                  </svg>
+                </div>
+              </div>
             </div>
             <div
-              class="styles__CollapseButton-sc-b15uhj-2 kIIPDy"
+              class="styles__CollapseButton-sc-b15uhj-2 pgIhg"
             >
               <svg
                 aria-hidden="true"
@@ -65,13 +192,13 @@ Object {
               </svg>
             </div>
             <hr
-              class="MuiDivider-root MuiDivider-fullWidth css-1k3ucp4-MuiDivider-root"
+              class="MuiDivider-root MuiDivider-fullWidth css-wblo9e-MuiDivider-root"
             />
             <div
-              class="styles__Body-sc-b15uhj-1 kCEOpd"
+              class="styles__ItemContainer-sc-b15uhj-1 kIJeUv"
             />
             <hr
-              class="MuiDivider-root MuiDivider-fullWidth css-1k3ucp4-MuiDivider-root"
+              class="MuiDivider-root MuiDivider-fullWidth css-z005vp-MuiDivider-root"
             />
           </div>
         </div>
@@ -85,11 +212,32 @@ Object {
               class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
             >
               <nav
-                class="MuiTypography-root MuiTypography-body1 MuiBreadcrumbs-root css-63vwl1-MuiTypography-root-MuiBreadcrumbs-root"
+                class="MuiTypography-root MuiTypography-body1 MuiBreadcrumbs-root css-1wnvknb-MuiTypography-root-MuiBreadcrumbs-root"
               >
                 <ol
                   class="MuiBreadcrumbs-ol css-4pdmu4-MuiBreadcrumbs-ol"
                 >
+                  <li
+                    class="MuiBreadcrumbs-li"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1eadpbu-MuiSvgIcon-root"
+                      data-testid="HomeOutlinedIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="m12 5.69 5 4.5V18h-2v-6H9v6H7v-7.81l5-4.5M12 3 2 12h3v8h6v-6h2v6h6v-8h3L12 3z"
+                      />
+                    </svg>
+                  </li>
+                  <li
+                    aria-hidden="true"
+                    class="MuiBreadcrumbs-separator css-1wuw8dw-MuiBreadcrumbs-separator"
+                  >
+                    /
+                  </li>
                   <li
                     class="MuiBreadcrumbs-li"
                   >
@@ -130,45 +278,172 @@ Object {
         class="styles__SideMenuArea-sc-1vn80o5-1 fVrKpa"
       >
         <div
-          class="styles__Wrapper-sc-b15uhj-0 estNeY"
+          class="styles__Wrapper-sc-b15uhj-0 dOyTpx"
         >
           <img
-            class="styles__Logo-sc-b15uhj-3 fzgZPI"
+            class="styles__Logo-sc-b15uhj-3 hGELmg"
             height="30"
             src="/images/svg/logo.svg"
           />
           <div
-            class="MuiBox-root css-16txn1h"
+            class="MuiBox-root css-1j9oeic"
           >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-              data-testid="BusinessIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
+            <div
+              aria-label="Seleção de organização"
+              class="styles__Wrapper-sc-13gge7k-0 fgsa-dA"
+              data-mui-internal-clone-element="true"
             >
-              <path
-                d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"
-              />
-            </svg>
+              <div
+                class="styles__IconContainer-sc-13gge7k-1 hPWhSD"
+              >
+                <div
+                  class="MuiBox-root css-zl7mak"
+                >
+                  <div
+                    class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-12cgry1-MuiAvatar-root"
+                  >
+                    ?
+                  </div>
+                  <div
+                    class="styles__IconContainer-sc-nul2ic-0 kluvV"
+                  >
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 16 16"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M3 0a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h3v-3.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V16h3a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1H3Zm1 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3.5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5ZM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM7.5 5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5Zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM4.5 8h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5Zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3.5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5Z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root css-ofjrfz"
+              >
+                Selecione a organização
+              </div>
+              <div
+                class="MuiBox-root css-1p2jtab"
+              >
+                <svg
+                  fill="none"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <polyline
+                    points="17 1 21 5 17 9"
+                  />
+                  <path
+                    d="M3 11V9a4 4 0 0 1 4-4h14"
+                  />
+                  <polyline
+                    points="7 23 3 19 7 15"
+                  />
+                  <path
+                    d="M21 13v2a4 4 0 0 1-4 4H3"
+                  />
+                </svg>
+              </div>
+            </div>
           </div>
           <div
-            class="MuiBox-root css-1p2zrxa"
+            class="MuiBox-root css-1j9oeic"
           >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-              data-testid="ContentPasteIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
+            <div
+              aria-label="Seleção de produto"
+              class="styles__Wrapper-sc-13gge7k-0 fgsa-dA"
+              data-mui-internal-clone-element="true"
             >
-              <path
-                d="M19 2h-4.18C14.4.84 13.3 0 12 0c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm7 18H5V4h2v3h10V4h2v16z"
-              />
-            </svg>
+              <div
+                class="styles__IconContainer-sc-13gge7k-1 hPWhSD"
+              >
+                <div
+                  class="MuiBox-root css-zl7mak"
+                >
+                  <div
+                    class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-12cgry1-MuiAvatar-root"
+                  >
+                    S
+                  </div>
+                  <div
+                    class="styles__IconContainer-sc-nul2ic-0 kluvV"
+                  >
+                    <svg
+                      fill="none"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"
+                      />
+                      <polyline
+                        points="3.27 6.96 12 12.01 20.73 6.96"
+                      />
+                      <line
+                        x1="12"
+                        x2="12"
+                        y1="22.08"
+                        y2="12"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root css-ofjrfz"
+              >
+                Selecione Um Produto
+              </div>
+              <div
+                class="MuiBox-root css-1p2jtab"
+              >
+                <svg
+                  fill="none"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <polyline
+                    points="17 1 21 5 17 9"
+                  />
+                  <path
+                    d="M3 11V9a4 4 0 0 1 4-4h14"
+                  />
+                  <polyline
+                    points="7 23 3 19 7 15"
+                  />
+                  <path
+                    d="M21 13v2a4 4 0 0 1-4 4H3"
+                  />
+                </svg>
+              </div>
+            </div>
           </div>
           <div
-            class="styles__CollapseButton-sc-b15uhj-2 kIIPDy"
+            class="styles__CollapseButton-sc-b15uhj-2 pgIhg"
           >
             <svg
               aria-hidden="true"
@@ -183,13 +458,13 @@ Object {
             </svg>
           </div>
           <hr
-            class="MuiDivider-root MuiDivider-fullWidth css-1k3ucp4-MuiDivider-root"
+            class="MuiDivider-root MuiDivider-fullWidth css-wblo9e-MuiDivider-root"
           />
           <div
-            class="styles__Body-sc-b15uhj-1 kCEOpd"
+            class="styles__ItemContainer-sc-b15uhj-1 kIJeUv"
           />
           <hr
-            class="MuiDivider-root MuiDivider-fullWidth css-1k3ucp4-MuiDivider-root"
+            class="MuiDivider-root MuiDivider-fullWidth css-z005vp-MuiDivider-root"
           />
         </div>
       </div>
@@ -203,11 +478,32 @@ Object {
             class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
           >
             <nav
-              class="MuiTypography-root MuiTypography-body1 MuiBreadcrumbs-root css-63vwl1-MuiTypography-root-MuiBreadcrumbs-root"
+              class="MuiTypography-root MuiTypography-body1 MuiBreadcrumbs-root css-1wnvknb-MuiTypography-root-MuiBreadcrumbs-root"
             >
               <ol
                 class="MuiBreadcrumbs-ol css-4pdmu4-MuiBreadcrumbs-ol"
               >
+                <li
+                  class="MuiBreadcrumbs-li"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1eadpbu-MuiSvgIcon-root"
+                    data-testid="HomeOutlinedIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="m12 5.69 5 4.5V18h-2v-6H9v6H7v-7.81l5-4.5M12 3 2 12h3v8h6v-6h2v6h6v-8h3L12 3z"
+                    />
+                  </svg>
+                </li>
+                <li
+                  aria-hidden="true"
+                  class="MuiBreadcrumbs-separator css-1wuw8dw-MuiBreadcrumbs-separator"
+                >
+                  /
+                </li>
                 <li
                   class="MuiBreadcrumbs-li"
                 >
