@@ -8,7 +8,7 @@ interface Props {
   children: ReactNode;
 }
 
-interface IProductContext {
+export interface IProductContext {
   currentProduct?: Product;
   setCurrentProduct: (product: Product) => void;
   productsList?: Product[];
