@@ -12,7 +12,7 @@ const { IMAGE_SOURCE } = HEADER.VALUES;
 function Header() {
   return (
     <Styles.Wrapper>
-      <Link href="/products">
+      <Link href="/home">
         <Styles.Logo src={IMAGE_SOURCE} height={30} />
       </Link>
 
