@@ -27,7 +27,8 @@ function OrganizationSelector() {
 
   return (
     <SideMenuItem 
-      type='drawer'
+      optype='drawer'
+      context={'organization'}
       handleClose={handleClose} 
       startIcon={<LetterAvatar name={currentOrganization?.name} icon={<BsFillBuildingFill />} />}
       text={currentOrganization?.name ? currentOrganization.name : 'Selecione a organização'}
