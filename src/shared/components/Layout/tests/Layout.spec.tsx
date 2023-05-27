@@ -5,6 +5,7 @@ import { render } from '@testing-library/react';
 
 import { OrganizationProvider } from '@contexts/OrganizationProvider';
 import { ProductProvider } from '@contexts/ProductProvider';
+import { RepositoryProvider } from '@contexts/RepositoryProvider';
 import Layout from '../Layout';
 
 describe('<Layout />', () => {
@@ -13,7 +14,9 @@ describe('<Layout />', () => {
       const tree = render(
         <OrganizationProvider>
           <ProductProvider>
-            <Layout />
+            <RepositoryProvider>
+              <Layout />
+            </RepositoryProvider>
           </ProductProvider>
         </OrganizationProvider>
       );
