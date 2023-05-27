@@ -6,14 +6,10 @@ import SideMenuItem, { ContextControl } from './SideMenuItem/SideMenuItem';
 import SideMenuWrapper from './SideMenuWrapper';
 import { useProductContext } from '@contexts/ProductProvider';
 import { useRouter } from 'next/router';
-import { useRepositoryContext } from '@contexts/RepositoryProvider';
-import { useOrganizationContext } from '@contexts/OrganizationProvider';
 
 function SideMenu() {
   const { session } = useAuth();
-  const {currentOrganization} = useOrganizationContext();
   const {currentProduct} = useProductContext();
-  const {currentRepository} = useRepositoryContext();
   const router = useRouter();
 
   const MenuItems = [
