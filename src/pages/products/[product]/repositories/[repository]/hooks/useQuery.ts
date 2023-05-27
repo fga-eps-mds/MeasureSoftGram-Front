@@ -95,7 +95,10 @@ export const useQuery = () => {
 
   async function loadHistoricalSqc(organizationId: string, productId: string, repositoryId: string) {
     try {
-      const id = Math.round(Math.random() * LARGE_PRIME_NUMBER);
+      const { crypto } = window;
+      const array = new Uint32Array(1);
+      const randomValue = crypto.getRandomValues(array)[0];
+      const id = Math.round(randomValue * LARGE_PRIME_NUMBER);
       const {
         data: { results }
       } = await repository.getHistorical({

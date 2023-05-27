@@ -1,3 +1,5 @@
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { act } from 'react-dom/test-utils';
@@ -44,8 +46,11 @@ describe('LatestValueTable', () => {
       render(<LatestValueTable title={title} latestValue={latestValue} />, container);
     });
 
+    const createdAtItem1 = format(new Date('2022-12-01T09:12:00.000Z'), 'dd/MM/yyyy HH:MM', { locale: ptBR });
+    const createdAtItem2 = format(new Date('2022-12-02T09:12:00.000Z'), 'dd/MM/yyyy HH:MM', { locale: ptBR });
+
     const received = container.textContent;
-    const expected = 'Título da tabelaÚltimo valorÚltima atualizaçãoitem 112301/12/2022 09:12item 245602/12/2022 09:12';
+    const expected = `Título da tabelaÚltimo valorÚltima atualizaçãoitem 1123${createdAtItem1}item 2456${createdAtItem2}`;
 
     expect(received).toContain(expected);
   });

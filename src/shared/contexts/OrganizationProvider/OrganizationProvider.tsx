@@ -8,7 +8,7 @@ interface Props {
 }
 
 interface IOrganizationContext {
-  currentOrganization: Organization;
+  currentOrganization: Organization | undefined;
   setCurrentOrganization: (organization: Organization) => void;
   organizationList: Organization[];
   setOrganizationList: (organizations: Organization[]) => void;
@@ -18,7 +18,7 @@ const OrganizationContext = createContext<IOrganizationContext | undefined>(unde
 
 export function OrganizationProvider({ children }: Props) {
   const [organizationList, setOrganizationList] = useState<Organization[]>([]);
-  const [currentOrganization, setCurrentOrganization] = useState<Organization>();
+  const [currentOrganization, setCurrentOrganization] = useState<Organization | undefined>();
 
   const loadAllOrganization = async () => {
     try {
