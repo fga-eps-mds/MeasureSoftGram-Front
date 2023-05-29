@@ -14,4 +14,5 @@ export const SideMenuArea = styled.div`
 
 export const MainContentArea = styled.div`
   grid-area: main-content;
+  background-color: #fafafa;
 `;
