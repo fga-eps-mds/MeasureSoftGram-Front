@@ -20,11 +20,11 @@ Object {
               src="/images/svg/logo.svg"
             />
             <div
-              class="MuiBox-root css-1j9oeic"
+              class="MuiBox-root css-51rs0p"
             >
               <div
-                aria-label="Seleção de organização"
-                class="styles__Wrapper-sc-13gge7k-0 fgsa-dA"
+                aria-label="Seleção de Organização"
+                class="styles__Wrapper-sc-13gge7k-0 hGznLi"
                 data-mui-internal-clone-element="true"
               >
                 <div
@@ -60,7 +60,7 @@ Object {
                 <div
                   class="MuiBox-root css-ofjrfz"
                 >
-                  Selecione a organização
+                  Selecione a Organização
                 </div>
                 <div
                   class="MuiBox-root css-1p2jtab"
@@ -93,11 +93,11 @@ Object {
               </div>
             </div>
             <div
-              class="MuiBox-root css-1j9oeic"
+              class="MuiBox-root css-51rs0p"
             >
               <div
-                aria-label="Seleção de produto"
-                class="styles__Wrapper-sc-13gge7k-0 fgsa-dA"
+                aria-label="Seleção de Produto"
+                class="styles__Wrapper-sc-13gge7k-0 hGznLi"
                 data-mui-internal-clone-element="true"
               >
                 <div
@@ -109,7 +109,7 @@ Object {
                     <div
                       class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-12cgry1-MuiAvatar-root"
                     >
-                      S
+                      ?
                     </div>
                     <div
                       class="styles__IconContainer-sc-nul2ic-0 kluvV"
@@ -144,7 +144,7 @@ Object {
                 <div
                   class="MuiBox-root css-ofjrfz"
                 >
-                  Selecione Um Produto
+                  Selecione o Produto
                 </div>
                 <div
                   class="MuiBox-root css-1p2jtab"
@@ -200,10 +200,64 @@ Object {
             <hr
               class="MuiDivider-root MuiDivider-fullWidth css-z005vp-MuiDivider-root"
             />
+            <div
+              class="MuiBox-root css-51rs0p"
+            >
+              <div
+                aria-label="Menu de usuário"
+                class="styles__Wrapper-sc-13gge7k-0 hGznLi"
+                data-mui-internal-clone-element="true"
+              >
+                <div
+                  class="styles__IconContainer-sc-13gge7k-1 hPWhSD"
+                >
+                  <div
+                    class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-382zf-MuiAvatar-root"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiAvatar-fallback css-10mi8st-MuiSvgIcon-root-MuiAvatar-fallback"
+                      data-testid="PersonIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root css-ofjrfz"
+                >
+                  ???
+                </div>
+                <div
+                  class="MuiBox-root css-1p2jtab"
+                >
+                  <svg
+                    fill="none"
+                    font-size="28"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <polyline
+                      points="9 18 15 12 9 6"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div
-          class="styles__MainContentArea-sc-1vn80o5-2 eGdGIN"
+          class="styles__MainContentArea-sc-1vn80o5-2 jLvwee"
         >
           <div
             class="styles__Wrapper-sc-qmak3r-0 ekghrM"
@@ -286,11 +340,11 @@ Object {
             src="/images/svg/logo.svg"
           />
           <div
-            class="MuiBox-root css-1j9oeic"
+            class="MuiBox-root css-51rs0p"
           >
             <div
-              aria-label="Seleção de organização"
-              class="styles__Wrapper-sc-13gge7k-0 fgsa-dA"
+              aria-label="Seleção de Organização"
+              class="styles__Wrapper-sc-13gge7k-0 hGznLi"
               data-mui-internal-clone-element="true"
             >
               <div
@@ -326,7 +380,7 @@ Object {
               <div
                 class="MuiBox-root css-ofjrfz"
               >
-                Selecione a organização
+                Selecione a Organização
               </div>
               <div
                 class="MuiBox-root css-1p2jtab"
@@ -359,11 +413,11 @@ Object {
             </div>
           </div>
           <div
-            class="MuiBox-root css-1j9oeic"
+            class="MuiBox-root css-51rs0p"
           >
             <div
-              aria-label="Seleção de produto"
-              class="styles__Wrapper-sc-13gge7k-0 fgsa-dA"
+              aria-label="Seleção de Produto"
+              class="styles__Wrapper-sc-13gge7k-0 hGznLi"
               data-mui-internal-clone-element="true"
             >
               <div
@@ -375,7 +429,7 @@ Object {
                   <div
                     class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-12cgry1-MuiAvatar-root"
                   >
-                    S
+                    ?
                   </div>
                   <div
                     class="styles__IconContainer-sc-nul2ic-0 kluvV"
@@ -410,7 +464,7 @@ Object {
               <div
                 class="MuiBox-root css-ofjrfz"
               >
-                Selecione Um Produto
+                Selecione o Produto
               </div>
               <div
                 class="MuiBox-root css-1p2jtab"
@@ -466,10 +520,64 @@ Object {
           <hr
             class="MuiDivider-root MuiDivider-fullWidth css-z005vp-MuiDivider-root"
           />
+          <div
+            class="MuiBox-root css-51rs0p"
+          >
+            <div
+              aria-label="Menu de usuário"
+              class="styles__Wrapper-sc-13gge7k-0 hGznLi"
+              data-mui-internal-clone-element="true"
+            >
+              <div
+                class="styles__IconContainer-sc-13gge7k-1 hPWhSD"
+              >
+                <div
+                  class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-382zf-MuiAvatar-root"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiAvatar-fallback css-10mi8st-MuiSvgIcon-root-MuiAvatar-fallback"
+                    data-testid="PersonIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root css-ofjrfz"
+              >
+                ???
+              </div>
+              <div
+                class="MuiBox-root css-1p2jtab"
+              >
+                <svg
+                  fill="none"
+                  font-size="28"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <polyline
+                    points="9 18 15 12 9 6"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div
-        class="styles__MainContentArea-sc-1vn80o5-2 eGdGIN"
+        class="styles__MainContentArea-sc-1vn80o5-2 jLvwee"
       >
         <div
           class="styles__Wrapper-sc-qmak3r-0 ekghrM"
