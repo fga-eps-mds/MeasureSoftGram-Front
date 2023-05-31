@@ -18,6 +18,8 @@ export const AuthContext = createContext<authContextType>(authContextDefaultValu
 
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   const [loading, setLoading] = useState<'loading' | 'loaded'>('loading');
+  const router = useRouter();
+
   const {
     storedValue: session,
     setValue: setSession,
@@ -41,15 +43,17 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     removeToken();
     removeProvider();
   }, [removeProvider, removeSession, removeToken]);
+
   const logout = useCallback(async () => {
     const response = await signOut();
 
     if (response.type === 'success') {
+      router.push('/');
       toast.success('Volte logo para acompanhar seus produtos!');
     }
+
     removeAuthStorage();
-  }, [removeAuthStorage]);
-  const router = useRouter();
+  }, [removeAuthStorage, router]);
 
   const getUser = useCallback(async () => {
     const response = await getUserInfo();
@@ -87,7 +91,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
       if (response.type === 'success') {
         setToken(response?.value?.key);
         toast.success('Login realizado com sucesso!');
-        router.push('/home');// AQUI
+        router.push('/home'); // AQUI
       } else {
         toast.error('Erro ao realizar login');
       }
