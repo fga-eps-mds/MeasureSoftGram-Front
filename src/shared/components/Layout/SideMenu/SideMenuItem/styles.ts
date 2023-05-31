@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div<{ $collapsed?: boolean | null }>`
-  width: ${(props) => (props.$collapsed ? 'auto' : '290px')};
+  width: ${(props) => (props.$collapsed ? 'auto' : '320px')};
   height: 45px;
   border-radius: 10px;
 
