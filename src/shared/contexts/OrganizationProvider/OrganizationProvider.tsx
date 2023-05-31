@@ -1,8 +1,7 @@
-import React, { createContext, useState, useContext, ReactNode, useMemo, useEffect, useCallback } from 'react';
+import React, { createContext, useState, useContext, ReactNode, useMemo, useCallback } from 'react';
 
 import { Organization } from '@customTypes/organization';
 import { organizationQuery } from '@services/organization';
-import { toast } from 'react-toastify';
 import { useRequest } from '@hooks/useRequest';
 
 interface Props {
