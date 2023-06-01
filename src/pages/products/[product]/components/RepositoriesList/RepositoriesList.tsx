@@ -35,7 +35,7 @@ function RepositoriesList() {
             Repositórios
           </Typography>
 
-          <RepositoriesTable maxCount={3} />
+          <RepositoriesTable maxCount={10} />
           <Box display="flex" flexDirection="column" mt="10px" alignItems="center">
             <Button onClick={() => pushToRepositoriesPath()} variant="text">
               VER MAIS...
