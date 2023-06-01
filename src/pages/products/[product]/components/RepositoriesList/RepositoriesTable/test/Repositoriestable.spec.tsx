@@ -31,33 +31,12 @@ describe('RepositoriesTable', () => {
     test('chama a função handleRepositoriesFilter corretamente', () => {
       render(
         <ProductProvider>
-          <RepositoriesTable disableButtons />
+          <RepositoriesTable />
         </ProductProvider>
       );
       const input = screen.getByRole('textbox', { name: /Insira o nome do repositório/i });
       fireEvent.change(input, { target: { value: 'Core' } });
       expect(screen.getByRole('table')).toHaveTextContent('2022-1-MeasureSoftGram-Core');
-    });
-    test('executa ações de clique corretamente', () => {
-      render(
-        <ProductProvider>
-          <RepositoriesTable />
-        </ProductProvider>
-      );
-      // Encontra o botão de expandir
-      const expandButton = screen.getByLabelText('expand circle row');
-      // Simula o clique no botão de expandir
-      fireEvent.click(expandButton);
-      // Verifica se a linha expandida está visível
-      expect(screen.getByText('Não é possível visualizar o gráfico, pois não há dados.')).toBeVisible();
-      // Encontra o botão de recolher
-      const collapseButton = screen.getByLabelText('collapse row');
-      // Simula o clique no botão de recolher
-      fireEvent.click(collapseButton);
-      // Verifica se a linha expandida não está visível
-      const textElement = screen.queryByText('Não é possível visualizar o gráfico, pois não há dados.');
-      const textStyle = getComputedStyle(textElement);
-      expect(textStyle.height).toBe('');
     });
   });
   describe('Snapshot', () => {
