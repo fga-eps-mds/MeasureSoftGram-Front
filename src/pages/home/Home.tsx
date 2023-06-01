@@ -109,7 +109,7 @@ const Home: NextPageWithLayout = () => {
               <ListNavCard navListData={navListData} />
             </Box>
 
-            <Box display="flex" flex="1" minWidth="78%" flexDirection="column" maxHeight="78vh" gap="2rem" sx={{
+            <Box display="flex" flex="1" minWidth="78%" flexDirection="column" maxHeight="74.7vh" gap="2rem" sx={{
               overflowY: "auto",
               scrollbarWidth: "thin",
               paddingRight: ".5rem",
