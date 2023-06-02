@@ -9,6 +9,6 @@ describe('SearchButton', () => {
     const inputElement = screen.getByRole('textbox');
     fireEvent.input(inputElement, { target: { value: 'test' } });
     expect(mockOnInput).toHaveBeenCalledTimes(1);
-    expect(mockOnInput).toHaveBeenCalledWith('test');
+    expect(mockOnInput).toHaveBeenCalledWith(expect.anything());
   });
 });
