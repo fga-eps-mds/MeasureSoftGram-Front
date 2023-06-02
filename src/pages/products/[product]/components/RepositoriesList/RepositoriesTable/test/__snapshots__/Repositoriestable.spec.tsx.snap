@@ -20,12 +20,14 @@ Object {
               <th
                 class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
                 scope="col"
+                style="padding-bottom: 35px;"
               >
                 Nome
               </th>
               <th
                 class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeMedium css-1azl6jz-MuiTableCell-root"
                 scope="col"
+                style="padding-bottom: 35px;"
               >
                 <button
                   aria-label="search"
@@ -160,12 +162,14 @@ Object {
             <th
               class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
               scope="col"
+              style="padding-bottom: 35px;"
             >
               Nome
             </th>
             <th
               class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeMedium css-1azl6jz-MuiTableCell-root"
               scope="col"
+              style="padding-bottom: 35px;"
             >
               <button
                 aria-label="search"

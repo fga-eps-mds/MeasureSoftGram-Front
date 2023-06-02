@@ -190,11 +190,32 @@ Object {
               class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
             >
               <nav
-                class="MuiTypography-root MuiTypography-body1 MuiBreadcrumbs-root css-63vwl1-MuiTypography-root-MuiBreadcrumbs-root"
+                class="MuiTypography-root MuiTypography-body1 MuiBreadcrumbs-root css-1wnvknb-MuiTypography-root-MuiBreadcrumbs-root"
               >
                 <ol
                   class="MuiBreadcrumbs-ol css-4pdmu4-MuiBreadcrumbs-ol"
                 >
+                  <li
+                    class="MuiBreadcrumbs-li"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1eadpbu-MuiSvgIcon-root"
+                      data-testid="HomeOutlinedIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="m12 5.69 5 4.5V18h-2v-6H9v6H7v-7.81l5-4.5M12 3 2 12h3v8h6v-6h2v6h6v-8h3L12 3z"
+                      />
+                    </svg>
+                  </li>
+                  <li
+                    aria-hidden="true"
+                    class="MuiBreadcrumbs-separator css-1wuw8dw-MuiBreadcrumbs-separator"
+                  >
+                    /
+                  </li>
                   <li
                     class="MuiBreadcrumbs-li"
                   >
@@ -416,11 +437,32 @@ Object {
             class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
           >
             <nav
-              class="MuiTypography-root MuiTypography-body1 MuiBreadcrumbs-root css-63vwl1-MuiTypography-root-MuiBreadcrumbs-root"
+              class="MuiTypography-root MuiTypography-body1 MuiBreadcrumbs-root css-1wnvknb-MuiTypography-root-MuiBreadcrumbs-root"
             >
               <ol
                 class="MuiBreadcrumbs-ol css-4pdmu4-MuiBreadcrumbs-ol"
               >
+                <li
+                  class="MuiBreadcrumbs-li"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1eadpbu-MuiSvgIcon-root"
+                    data-testid="HomeOutlinedIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="m12 5.69 5 4.5V18h-2v-6H9v6H7v-7.81l5-4.5M12 3 2 12h3v8h6v-6h2v6h6v-8h3L12 3z"
+                    />
+                  </svg>
+                </li>
+                <li
+                  aria-hidden="true"
+                  class="MuiBreadcrumbs-separator css-1wuw8dw-MuiBreadcrumbs-separator"
+                >
+                  /
+                </li>
                 <li
                   class="MuiBreadcrumbs-li"
                 >
