@@ -31,11 +31,14 @@ export const useQuery = () => {
   }
 
   useEffect(() => {
-    if (query?.product) {
-      const [organizationId, productId] = getPathId(query?.product as string);
-      loadProduct(organizationId, productId);
-      loadRepositories(organizationId, productId);
-    }
+    const fetchData = async () => {
+      if (query?.product) {
+        const [organizationId, productId] = getPathId(query?.product as string);
+        await loadProduct(organizationId, productId);
+        await loadRepositories(organizationId, productId);
+      }
+    };
+    fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query?.product]);
 };

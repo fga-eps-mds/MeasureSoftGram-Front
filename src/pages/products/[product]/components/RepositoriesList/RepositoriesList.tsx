@@ -17,9 +17,9 @@ function RepositoriesList() {
   const { currentOrganization } = useOrganizationContext();
   const router = useRouter();
 
-  const pushToRepositoriesPath = () => {
+  const pushToRepositoriesPath = async () => {
     const repositoriesPath = `/products/${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/repositories`;
-    router.push(repositoriesPath);
+    await router.push(repositoriesPath);
   };
 
   if (!repositoryList) {
@@ -34,7 +34,7 @@ function RepositoriesList() {
             Repositórios
           </Typography>
 
-          <RepositoriesTable maxCount="3" />
+          <RepositoriesTable maxCount={3} />
           <Box display="flex" flexDirection="column" mt="10px" alignItems="center">
             <Button onClick={() => pushToRepositoriesPath()} variant="text">
               VER MAIS...
