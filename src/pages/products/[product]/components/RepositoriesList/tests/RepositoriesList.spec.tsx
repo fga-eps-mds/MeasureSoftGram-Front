@@ -5,7 +5,9 @@ import RepositoriesList from '../RepositoriesList';
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn().mockReturnValue({
-    push: jest.fn()
+    push: jest.fn().mockReturnValue({
+      catch: jest.fn()
+    })
   })
 }));
 
