@@ -36,7 +36,12 @@ function RepositoriesList() {
 
           <RepositoriesTable maxCount={3} />
           <Box display="flex" flexDirection="column" mt="10px" alignItems="center">
-            <Button onClick={() => pushToRepositoriesPath()} variant="text">
+            <Button
+              onClick={async () => {
+                await pushToRepositoriesPath();
+              }}
+              variant="text"
+            >
               VER MAIS...
             </Button>
           </Box>
