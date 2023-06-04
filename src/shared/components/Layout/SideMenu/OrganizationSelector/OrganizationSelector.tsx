@@ -20,7 +20,7 @@ function OrganizationSelector() {
         tooltip="Seleção de Organização"
         onClick={onClick}
       />
-      <SideList values={organizationList} open={isOpen} onClose={onClose} onClickItem={setCurrentOrganization} />
+      <SideList seeMorePath="/products" values={organizationList} open={isOpen} onClose={onClose} onClickItem={setCurrentOrganization} />
     </>
   );
 }
