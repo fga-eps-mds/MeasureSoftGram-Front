@@ -14,17 +14,25 @@ import {
 } from '@mui/material/';
 import { FiArrowLeft, FiPlus } from 'react-icons/fi';
 import LetterAvatar from '@components/LetterAvatar';
+import { useRouter } from 'next/router';
 
 type Props = {
   values: Array<any>;
   open: boolean;
   onClose: () => void;
   onClickItem: (value: any) => void;
+  seeMorePath: string;
 };
 
-const SideList = ({ values, open, onClose, onClickItem }: Props) => {
+const SideList = ({ values, open, onClose, onClickItem, seeMorePath}: Props) => {
   const maxItems = 10;
   const filteredValues = values.slice(0, maxItems);
+  const router = useRouter();
+
+  const pushToPath = () => {
+    console.log(router.basePath, router.locale, router.locales);
+    router.push(seeMorePath);
+  }
 
   return <Drawer anchor="left" open={open} onClose={onClose}>
     <Box sx={{ width: '500px', bgcolor: 'background.paper' }}>
@@ -38,7 +46,7 @@ const SideList = ({ values, open, onClose, onClickItem }: Props) => {
       </Box>
       <List>
         {filteredValues.map((value) => (
-          <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+          <Box key={value.id} display="flex" flexDirection="column" justifyContent="center" alignItems="center">
             <Divider sx={{ width: 'calc(100% - 10px)', border: '1px solid rgba(0, 0, 0, 0.20)' }} />
             <ListItem
               disablePadding
@@ -57,6 +65,15 @@ const SideList = ({ values, open, onClose, onClickItem }: Props) => {
             </ListItem>
           </Box>
         ))}
+        <Button 
+          sx={
+            { marginTop: '5px', minHeight: '10vh', width: 'calc(100% - 10px)'}
+          } 
+          onClick={() => pushToPath() } 
+          variant="text"
+        >
+          VER MAIS...
+        </Button>
       </List>
     </Box>
   </Drawer>
