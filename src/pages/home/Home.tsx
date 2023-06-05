@@ -11,6 +11,13 @@ import { InfoData } from "@customTypes/home";
 
 import { Container, Box, Typography } from "@mui/material";
 
+import CorporateFareIcon from '@mui/icons-material/CorporateFare';
+import TerminalIcon from '@mui/icons-material/Terminal';
+import InventoryIcon from '@mui/icons-material/Inventory';
+import SendTimeExtensionIcon from '@mui/icons-material/SendTimeExtension';
+import PermDataSettingIcon from '@mui/icons-material/PermDataSetting';
+import TuneIcon from '@mui/icons-material/Tune';
+
 import CardInfo from "./components/CardInfo/CardInfo";
 
 import ListNavCard from "./components/ListNavCard/ListNavCard";
@@ -23,14 +30,14 @@ const Home: NextPageWithLayout = () => {
       id: "Organizações e Produtos",
       elements: [
         {
-          imageSrc: "/images/png/organizations.png",
+          imageSrc: <CorporateFareIcon/>,
           title: "Organizações",
-          description: `Organizações são entidades ou empresas que se dedicam à criação, desenvolvimento e manutenção de produtos de software. Elas geralmente têm equipes compostas por engenheiros de software, designers, testadores e outros profissionais envolvidos no ciclo de vida do desenvolvimento de software. Essas organizações seguem práticas e metodologias de engenharia de software para garantir a qualidade e a eficiência do processo de desenvolvimento.`,
+          description: `Organizações são entidades ou empresas que se dedicam à criação, desenvolvimento e manutenção de produtos de software. Elas geralmente têm equipes compostas por engenheiros de software, designers, testadores e outros profissionais envolvidos no ciclo de vida do desenvolvimento de software.`,
         },
         {
-          imageSrc: "/images/png/products.png",
+          imageSrc: <TerminalIcon/>,
           title: "Produtos",
-          description: `Um projeto em "negócio" e ciência é normalmente definido como um empreendimento, frequentemente envolvendo pesquisa ou desenho, que tem como objetivo alcançar um resultado exclusivo`,
+          description: `Produtos de software são soluções de software desenvolvidas para atender a necessidades específicas dos usuários. Eles são criados por meio da codificação de um conjunto de instruções lógicas, conhecidas como código-fonte, que define o comportamento do software. Os produtos de software podem variar desde aplicativos simples para dispositivos móveis até sistemas complexos para empresas. Eles são projetados para serem usados em computadores, servidores, dispositivos móveis ou outros dispositivos eletrônicos.`,
           routeTo: 'products',
         }
       ]
@@ -39,39 +46,50 @@ const Home: NextPageWithLayout = () => {
       id: "Repositórios e Releases",
       elements: [
         {
-          imageSrc: "/images/png/repository.png",
+          imageSrc: <InventoryIcon/>,
           title: "Repositórios",
-          description: `Uma breve explicação sobre os reposotórios.`,
+          description: `Repositórios de código são ambientes onde o código-fonte de um software é armazenado, versionado e gerenciado. Eles permitem que desenvolvedores e equipes colaborem no desenvolvimento de software, controlando as alterações feitas no código ao longo do tempo. Um produto pode ser composto por um ou mais repositórios.`,
         },
         {
-          imageSrc: "/images/png/release.png",
+          imageSrc: <SendTimeExtensionIcon/>,
           title: "Releases",
-          description: `Uma breve explicação sobre as releases.`
+          description: `Releases são versões específicas de um software que são disponibilizadas para os usuários. Uma release pode conter novos recursos, melhorias de desempenho, correções de bugs ou atualizações de segurança. Cada repositório possui suas próprias releases. Existem dois tipos de releases, minor e major, o MeasureSoftGram atua na criação de releases major permitindo pré-configuração, configurações, balanceamento e alteração de pesos e métricas.`
         }
       ]
     },
     {
       id: "Visualização",
+      title: "Visualização",
       elements: [
         {
-          imageSrc: "/images/png/chart_example.png",
-          title: "Visualização",
-          description: `Uma breve explicação sobre os gráficos apresentados no site.`
+          imageSrc: "/images/png/chart_behavior.png",
+          title: "Gráfico Comportamento do Produto",
+          description: `Gráfico de linha que apresenta no eixo X a linha do tempo e no eixo Y escala de valores de qualidade entre 0 e 1. Cada linha representa o desempenho de um repositório quanto ao indíce de qualidade gerado pelo modelo a cada release através do tempo.`
+        },
+        {
+          imageSrc: "/images/png/chart_caracteristics.png",
+          title: "Gráfico Características do Repositório",
+          description: "Gráfico de linha que apresenta no eixo X a linha do tempo e no eixo Y escala de valores de qualidade entre 0 e 1. Cada linha representa o desempenho de uma característica quanto ao indíce de qualidade gerado pelo modelo a cada release através do tempo.",
         }
       ]
     },
     {
-      id: "Configuração e Pré-configuração",
+      id: "Pré-configuração",
       elements: [
         {
-          imageSrc: "/images/png/config.png",
-          title: "Configuração",
-          description: `Uma breve explicação sobre as configurações basicas e a seleção de caracteristicas.`
-        },
-        {
-          imageSrc: "/images/png/pre-config.png",
+          imageSrc: <TuneIcon/>,
           title: "Pré-configuração",
-          description: `Por meio da pré-configuração que é definido quais características, subcaracterísticas e medidas serão consideradas para mensurar a qualidade do software analisado. Na pré-configuração também é definido os pesos de cada uma das entidades definidas.`
+          description: `Pré-configuração de release de cada produto. Por meio da pré-configuração (arquivo msgram.json) que são definidas características, subcaracterísticas e medidas padrões que serão consideradas para mensurar a qualidade do software analisado. Na pré-configuração também é definido os pesos de cada uma das entidades definidas.`
+        }
+      ]
+    },
+    {
+      id: "Configuração",
+      elements: [
+        {
+          imageSrc: <PermDataSettingIcon/>,
+          title: "Configuração",
+          description: `Permite a configuração de uma release estabelecendo valores que serão usados no modelo matemático de qualidade MSGRAM, valores estes: peso de referência para medidas; escolha de características e/ou subcaracterísticas e seus devidos pesos; métricas a serem avaliadas.`
         }
       ]
     }

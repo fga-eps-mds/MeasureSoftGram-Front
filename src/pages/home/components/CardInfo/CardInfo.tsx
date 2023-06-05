@@ -23,6 +23,19 @@ const CardInfo: React.FC<Props> = ({ cardData }) => (
       border: "1px solid #113D4C"
     }}
   >
+    {cardData?.title &&
+      <Box
+        display="flex"
+        justifyContent="center"
+        marginTop="1rem"
+      >
+        <Typography
+          variant="h5"
+        >
+          {cardData?.title}
+        </Typography>
+      </Box>
+    }
     {cardData.elements.map(data => (
       <CardContent
         key={data.title}
@@ -60,24 +73,41 @@ const CardInfo: React.FC<Props> = ({ cardData }) => (
             justifyContent="center"
             width="50%"
           >
-            <CardMedia
-              component="img"
-              image={data.imageSrc}
-              alt="green iguana"
-              sx={{
-                margin: "1rem 1rem 1rem 1rem",
-                maxWidth: "400px",
-                height: "auto",
-                maxHeight: "200px",
-                overflow: "hidden",
-                borderRadius: "30px",
-                transition: "transform .5s ease",
-                ':hover': {
-                  zIndex: "10",
-                  transform: "translateX(5vw) scale(1.5)"
-                }
-              }}
-            />
+            { typeof data.imageSrc === 'string'
+              ?
+                <CardMedia
+                  component="img"
+                  image={data.imageSrc}
+                  alt="green iguana"
+                  sx={{
+                    margin: "1rem 1rem 1rem 1rem",
+                    maxWidth: "400px",
+                    height: "auto",
+                    maxHeight: "200px",
+                    overflow: "hidden",
+                    borderRadius: "30px",
+                    transition: "transform .5s ease",
+                    ':hover': {
+                      zIndex: "10",
+                      transform: "translateX(5vw) scale(1.5)"
+                    }
+                  }}
+                />
+              :
+                <Box
+                  sx={{
+                    maxWidth: "400px",
+                    margin: "1rem 1rem 1rem 1rem",
+                    height: "auto",
+                    maxHeight: "200px",
+                    '> svg': {
+                      fontSize: '150px'
+                    }
+                  }}
+                >
+                  { data.imageSrc }
+                </Box>
+            }
           </Box>
           <Box
             id="texts"
