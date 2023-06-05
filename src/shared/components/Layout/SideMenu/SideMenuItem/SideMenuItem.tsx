@@ -7,21 +7,26 @@ import * as Styles from './styles';
 
 export type ContextControl = 'product' | 'organization' | 'repository';
 
-interface Props {
+export interface SideMenuProps {
   startIcon: React.ReactNode;
   text: string;
   endIcon?: React.ReactNode;
   tooltip: string;
   disable?: boolean;
   onClick?: (event: any) => void;
+  inContext: boolean;
 }
 
-function SideMenuItem({ startIcon, text, endIcon, tooltip, disable, onClick }: Props) {
+function SideMenuItem({ startIcon, text, endIcon, tooltip, disable, onClick, inContext }: SideMenuProps) {
   useQuery();
   const { isCollapsed } = useSideMenuContext();
 
   return (
-    <Box onClick={onClick} sx={{ marginY: '2px', display: disable ? 'none' : 'auto' }}>
+    <Box onClick={onClick} sx={{ 
+      backgroundColor: inContext? '#f5f5f5': 'none',
+      display: disable ? 'none' : 'auto',
+      marginY: '2px', 
+    }}>
       <Tooltip title={tooltip} arrow placement="left">
         <Styles.Wrapper $collapsed={isCollapsed}>
           <Styles.IconContainer>{startIcon}</Styles.IconContainer>
