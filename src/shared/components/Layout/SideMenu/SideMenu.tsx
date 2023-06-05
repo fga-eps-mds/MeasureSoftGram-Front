@@ -5,9 +5,18 @@ import { useProductContext } from '@contexts/ProductProvider';
 import { useRouter } from 'next/router';
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
-import SideMenuItem from './SideMenuItem/SideMenuItem';
+import SideMenuItem, { SideMenuProps } from './SideMenuItem/SideMenuItem';
 import SideMenuWrapper from './SideMenuWrapper';
 import UserMenu from './UserMenu';
+import { last } from 'lodash';
+
+type SideMenuItem = {
+  startIcon: React.ReactElement;
+  text: string;
+  tooltip: string; 
+  path: string;
+  disable: boolean; 
+}
 
 function SideMenu() {
   const { session } = useAuth();
@@ -16,7 +25,7 @@ function SideMenu() {
   const { currentRepository } = useRepositoryContext();
   const router = useRouter();
 
-  const MenuItems = [
+  const MenuItems : SideMenuItem[] = [
     {
       startIcon: <FiBarChart2 fontSize={28} />,
       text: 'Visão Geral',
