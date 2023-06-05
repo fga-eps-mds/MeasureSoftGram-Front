@@ -6,13 +6,13 @@ export const Wrapper = styled.div`
 
   min-height: 100vh;
 
-  background-color: #f5f5f5;
+  background-color: #f5f5fa;
 `;
 
 export const ContentWrapper = styled.div`
-  min-height: calc(100% - 70px);
+  min-height: calc(100% - 73px);
 
-  background-color: #fafafa;
+  background-color: #f5f5fa;
 `;
 
 export const ContentContainer = styled.div`
