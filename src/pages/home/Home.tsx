@@ -37,7 +37,7 @@ const Home: NextPageWithLayout = () => {
         {
           imageSrc: <TerminalIcon/>,
           title: "Produtos",
-          description: `Produtos de software são soluções de software desenvolvidas para atender a necessidades específicas dos usuários. Eles são criados por meio da codificação de um conjunto de instruções lógicas, conhecidas como código-fonte, que define o comportamento do software. Os produtos de software podem variar desde aplicativos simples para dispositivos móveis até sistemas complexos para empresas. Eles são projetados para serem usados em computadores, servidores, dispositivos móveis ou outros dispositivos eletrônicos.`,
+          description: `Produtos de software são soluções de software desenvolvidas para atender a necessidades específicas dos usuários. Eles são criados por meio da codificação de um conjunto de instruções lógicas, conhecidas como código-fonte, que definem o comportamento do software. Os produtos de software podem variar desde aplicativos simples para dispositivos móveis até sistemas complexos para empresas. Eles são projetados para serem usados em computadores, servidores, dispositivos móveis ou outros dispositivos eletrônicos.`,
           routeTo: 'products',
         }
       ]
@@ -79,7 +79,7 @@ const Home: NextPageWithLayout = () => {
         {
           imageSrc: <TuneIcon/>,
           title: "Pré-configuração",
-          description: `Pré-configuração de release de cada produto. Por meio da pré-configuração (arquivo msgram.json) que são definidas características, subcaracterísticas e medidas padrões que serão consideradas para mensurar a qualidade do software analisado. Na pré-configuração também é definido os pesos de cada uma das entidades definidas.`
+          description: `Pré-configuração de release de cada produto. Por meio da pré-configuração (arquivo msgram.json) que são definidas características, subcaracterísticas e medidas padrões que serão consideradas para mensurar a qualidade do software analisado. Na pré-configuração também são definidos os pesos de cada uma das entidades definidas.`
         }
       ]
     },
