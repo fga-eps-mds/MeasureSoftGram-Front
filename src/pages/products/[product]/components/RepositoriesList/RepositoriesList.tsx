@@ -6,6 +6,7 @@ import { useRepositoryContext } from '@contexts/RepositoryProvider';
 import { useProductContext } from '@contexts/ProductProvider';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
 import RepositoriesTable from './RepositoriesTable';
 import Skeleton from './Skeleton';
 
@@ -19,7 +20,7 @@ function RepositoriesList() {
 
   const pushToRepositoriesPath = () => {
     const repositoriesPath = `/products/${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/repositories`;
-    router.push(repositoriesPath);
+    router.push(repositoriesPath).catch((error) => toast.error(error));
   };
 
   if (!repositoryList) {
@@ -34,7 +35,7 @@ function RepositoriesList() {
             Repositórios
           </Typography>
 
-          <RepositoriesTable maxCount="3" />
+          <RepositoriesTable maxCount={3} />
           <Box display="flex" flexDirection="column" mt="10px" alignItems="center">
             <Button onClick={() => pushToRepositoriesPath()} variant="text">
               VER MAIS...
