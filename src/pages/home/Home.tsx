@@ -25,7 +25,7 @@ const Home: NextPageWithLayout = () => {
         {
           imageSrc: "/images/png/organizations.png",
           title: "Organizações",
-          description: `Organização é uma palavra originada do grego "organon", que significa instrumento, utensílio. Em Administração, o termo "organização" pode ter três sentidos: Associação de pessoas que combinam esforços individuais e em equipe com a finalidade de realizar propósitos colectivos`,
+          description: `Organizações são entidades ou empresas que se dedicam à criação, desenvolvimento e manutenção de produtos de software. Elas geralmente têm equipes compostas por engenheiros de software, designers, testadores e outros profissionais envolvidos no ciclo de vida do desenvolvimento de software. Essas organizações seguem práticas e metodologias de engenharia de software para garantir a qualidade e a eficiência do processo de desenvolvimento.`,
         },
         {
           imageSrc: "/images/png/products.png",
@@ -51,11 +51,11 @@ const Home: NextPageWithLayout = () => {
       ]
     },
     {
-      id: "Gráficos",
+      id: "Visualização",
       elements: [
         {
           imageSrc: "/images/png/chart_example.png",
-          title: "Gráficos",
+          title: "Visualização",
           description: `Uma breve explicação sobre os gráficos apresentados no site.`
         }
       ]
@@ -86,8 +86,17 @@ const Home: NextPageWithLayout = () => {
       </Head>
 
       <Container>
-        <Box display="flex" flexDirection="column">
-          <Box display="flex" flexDirection="column" rowGap="1rem" marginY="1rem" alignItems="flex-start">
+        <Box
+          display="flex"
+          flexDirection="column"
+        >
+          <Box
+            display="flex"
+            flexDirection="column"
+            rowGap="1rem"
+            marginY="1rem"
+            alignItems="flex-start"
+          >
             <Box display="flex">
               <Typography variant="h4">
                 Bem vindo
@@ -95,7 +104,9 @@ const Home: NextPageWithLayout = () => {
               <Typography variant="h4">
                 {session?.username ? `, ${session.username}` : ""}
               </Typography>
-              <Typography variant="h4" marginLeft=".4rem">
+              <Typography
+                variant="h4"
+                marginLeft=".4rem">
                 :)
               </Typography>
             </Box>
@@ -104,31 +115,53 @@ const Home: NextPageWithLayout = () => {
             </Typography>
           </Box>
 
-          <Box display="flex" columnGap="1rem" marginTop="3rem" flexWrap="wrap" justifyContent="space-between">
-            <Box display="flex" flex="1" flexDirection="column" minWidth="20%">
+          <Box
+            display="flex"
+            columnGap="1rem"
+            marginTop="3rem"
+            flexWrap="wrap"
+            justifyContent="space-between"
+          >
+            <Box
+              display="flex"
+              flex="1"
+              flexDirection="column"
+              minWidth="20%"
+            >
               <ListNavCard navListData={navListData} />
             </Box>
 
-            <Box display="flex" flex="1" minWidth="78%" flexDirection="column" maxHeight="74.7vh" gap="2rem" sx={{
-              overflowY: "auto",
-              scrollbarWidth: "thin",
-              paddingRight: ".5rem",
-              scrollbarColor: "rgba(0, 0, 0, 0.87)",
-              '::-webkit-scrollbar': {
-                width: "5px",
-              },
-              '::-webkit-scrollbar-track': {
-                background: "transparent",
-                padding: "2px",
-              },
-              '::-webkit-scrollbar-thumb': {
-                backgroundColor: "#C5C5C5",
-                borderRadius: "5px",
-              }
-            }}>
+            <Box
+              display="flex"
+              flex="1"
+              minWidth="78%"
+              flexDirection="column"
+              maxHeight="74.7vh"
+              gap="2rem"
+              sx={{
+                overflowY: "auto",
+                scrollbarWidth: "thin",
+                paddingRight: ".5rem",
+                scrollbarColor: "rgba(0, 0, 0, 0.87)",
+                '::-webkit-scrollbar': {
+                  width: "5px",
+                },
+                '::-webkit-scrollbar-track': {
+                  background: "transparent",
+                  padding: "2px",
+                },
+                '::-webkit-scrollbar-thumb': {
+                  backgroundColor: "#C5C5C5",
+                  borderRadius: "5px",
+                }
+              }}
+            >
               {
                 cardsData.map(cardData => (
-                  <CardInfo key={cardData?.id} cardData={cardData} />
+                  <CardInfo
+                    key={cardData?.id}
+                    cardData={cardData}
+                  />
                 ))
               }
             </Box>
