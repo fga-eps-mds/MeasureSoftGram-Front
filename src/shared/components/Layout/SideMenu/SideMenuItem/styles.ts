@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.div<{ $collapsed?: boolean | null }>`
+export const Wrapper = styled.div<{ $collapsed?: boolean | null; $selected?: boolean | null }>`
   width: ${(props) => (props.$collapsed ? 'auto' : '320px')};
   height: 45px;
   border-radius: 10px;
@@ -19,6 +19,8 @@ export const Wrapper = styled.div<{ $collapsed?: boolean | null }>`
   &:hover {
     background-color: #f5f5f5;
   }
+
+  background-color: ${(props) => (props.$selected ? '#f0f0f0' : 'none')};
 `;
 
 export const IconContainer = styled.div`

@@ -28,10 +28,16 @@ function ProductSelector() {
         text={currentProduct?.name || 'Selecione o Produto'}
         endIcon={<FiRepeat />}
         tooltip="Seleção de Produto"
-        onClick={onClick} 
-        inContext={false}
+        onClick={onClick}
+        selected={false}
       />
-      <SideList seeMorePath="/products" values={productsList || []} open={isOpen} onClose={onClose} onClickItem={onClickItem} />
+      <SideList
+        seeMorePath="/products"
+        values={productsList || []}
+        open={isOpen}
+        onClose={onClose}
+        onClickItem={onClickItem}
+      />
     </>
   );
 }

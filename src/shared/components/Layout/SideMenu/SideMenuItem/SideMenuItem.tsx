@@ -14,21 +14,23 @@ export interface SideMenuProps {
   tooltip: string;
   disable?: boolean;
   onClick?: (_event: any) => void;
-  inContext: boolean;
+  selected: boolean;
 }
 
-function SideMenuItem({ startIcon, text, endIcon, tooltip, disable, onClick, inContext }: SideMenuProps) {
+function SideMenuItem({ startIcon, text, endIcon, tooltip, disable, onClick, selected }: SideMenuProps) {
   useQuery();
   const { isCollapsed } = useSideMenuContext();
 
   return (
-    <Box onClick={onClick} sx={{ 
-      backgroundColor: inContext? '#f5f5f5': 'none',
-      display: disable ? 'none' : 'auto',
-      marginY: '2px', 
-    }}>
+    <Box
+      onClick={onClick}
+      sx={{
+        display: disable ? 'none' : 'auto',
+        marginY: '2px'
+      }}
+    >
       <Tooltip title={tooltip} arrow placement="left">
-        <Styles.Wrapper $collapsed={isCollapsed}>
+        <Styles.Wrapper $collapsed={isCollapsed} $selected={selected}>
           <Styles.IconContainer>{startIcon}</Styles.IconContainer>
           {!isCollapsed && (
             <>
