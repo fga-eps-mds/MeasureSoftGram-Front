@@ -49,6 +49,36 @@ function SideMenu() {
     }
   ];
 
+  const hasAny = (item: string) : boolean => {
+    let ans = false;
+    if (item && item !== undefined) {
+      ['prod', 'repo', 'relea'].forEach((it) => {
+        if(item.toLowerCase().includes(it)) ans = true;
+      })
+    }
+
+    return ans;
+  }
+
+  const compareContext = (item: SideMenuItem) => {
+    let last2routes = router.asPath.split('/').slice(-2)
+    if (last2routes.includes('')) return false;
+    let checks = last2routes.map<boolean>(
+        (it) => {
+          let nameCheck = item.text.toLowerCase().slice(0, 4);
+          if (nameCheck === 'visã') return it.includes('product');
+          return it.includes(nameCheck);
+        });
+    if (checks.includes(true)) {
+      if(last2routes) {
+        if(last2routes.length > 1 && hasAny(last2routes[1]) || hasAny(last2routes[0])) 
+          return true; 
+      }
+    }
+
+    return false;
+  }
+
   return (
     <SideMenuWrapper
       menuItems={
@@ -59,6 +89,7 @@ function SideMenu() {
             onClick={() => {
               router.push(item.path);
             }}
+            inContext={compareContext(item)}
           />
         ))
       }
