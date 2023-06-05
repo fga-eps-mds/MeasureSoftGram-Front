@@ -15,10 +15,10 @@ function ProductSelector() {
   const { value: isOpen, setTrue: onClick, setFalse: onClose } = useBoolean(false);
   const router = useRouter();
 
-  const onClickItem = (value: any) => {
+  const onClickItem = async (value: any) => {
     setCurrentProduct(value);
     onClose();
-    router.push(`/products/${currentOrganization?.id}-${value.id}-${value.name}`);
+    await router.push(`/products/${currentOrganization?.id}-${value.id}-${value.name}`);
   };
 
   return (
@@ -29,6 +29,7 @@ function ProductSelector() {
         endIcon={<FiRepeat />}
         tooltip="Seleção de Produto"
         onClick={onClick} 
+        inContext={false}
       />
       <SideList seeMorePath="/products" values={productsList || []} open={isOpen} onClose={onClose} onClickItem={onClickItem} />
     </>

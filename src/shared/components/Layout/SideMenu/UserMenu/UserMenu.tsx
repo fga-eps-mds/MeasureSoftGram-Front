@@ -22,6 +22,10 @@ function UserMenu({ username }: Props) {
   };
 
   const { logout } = useAuth();
+  
+  const doLogout = async (_ev: React.MouseEvent<HTMLElement>) => {
+    await logout(); 
+  }
 
   return (
     <>
@@ -31,6 +35,7 @@ function UserMenu({ username }: Props) {
         tooltip="Menu de usuário"
         endIcon={<FiChevronRight fontSize={28} />}
         onClick={handleClick}
+        inContext={false}
       />
       <Menu
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
@@ -38,7 +43,7 @@ function UserMenu({ username }: Props) {
         open={open}
         onClose={handleClose}
       >
-        <MenuItem onClick={logout}>
+        <MenuItem onClick={doLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

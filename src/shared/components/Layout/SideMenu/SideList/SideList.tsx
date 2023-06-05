@@ -20,7 +20,7 @@ type Props = {
   values: Array<any>;
   open: boolean;
   onClose: () => void;
-  onClickItem: (value: any) => void;
+  onClickItem: (_value: any) => void;
   seeMorePath: string;
 };
 
@@ -29,9 +29,8 @@ const SideList = ({ values, open, onClose, onClickItem, seeMorePath}: Props) => 
   const filteredValues = values.slice(0, maxItems);
   const router = useRouter();
 
-  const pushToPath = () => {
-    console.log(router.basePath, router.locale, router.locales);
-    router.push(seeMorePath);
+  const pushToPath = async () => {
+    await router.push(seeMorePath);
   }
 
   return <Drawer anchor="left" open={open} onClose={onClose}>

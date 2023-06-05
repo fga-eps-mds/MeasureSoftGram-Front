@@ -5,12 +5,11 @@ import { useProductContext } from '@contexts/ProductProvider';
 import { useRouter } from 'next/router';
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
-import SideMenuItem, { SideMenuProps } from './SideMenuItem/SideMenuItem';
+import SideMenuItem from './SideMenuItem/SideMenuItem';
 import SideMenuWrapper from './SideMenuWrapper';
 import UserMenu from './UserMenu';
-import { last } from 'lodash';
 
-type SideMenuItem = {
+type SideMenuItemType = {
   startIcon: React.ReactElement;
   text: string;
   tooltip: string; 
@@ -25,7 +24,7 @@ function SideMenu() {
   const { currentRepository } = useRepositoryContext();
   const router = useRouter();
 
-  const MenuItems : SideMenuItem[] = [
+  const MenuItems : SideMenuItemType[] = [
     {
       startIcon: <FiBarChart2 fontSize={28} />,
       text: 'Visão Geral',
@@ -60,18 +59,19 @@ function SideMenu() {
     return ans;
   }
 
-  const compareContext = (item: SideMenuItem) => {
-    let last2routes = router.asPath.split('/').slice(-2)
+  const compareContext = (item: SideMenuItemType) => {
+    const last2routes = router.asPath.split('/').slice(-2)
     if (last2routes.includes('')) return false;
-    let checks = last2routes.map<boolean>(
+    const checks = last2routes.map<boolean>(
         (it) => {
-          let nameCheck = item.text.toLowerCase().slice(0, 4);
+          const nameCheck = item.text.toLowerCase().slice(0, 4);
           if (nameCheck === 'visã') return it.includes('product');
           return it.includes(nameCheck);
         });
     if (checks.includes(true)) {
-      if(last2routes) {
-        if(last2routes.length > 1 && hasAny(last2routes[1]) || hasAny(last2routes[0])) 
+      if(last2routes
+        && last2routes.length > 1 
+        && hasAny(last2routes[1]) || hasAny(last2routes[0])) {
           return true; 
       }
     }
@@ -86,8 +86,8 @@ function SideMenu() {
         MenuItems.map((item) => (
           <SideMenuItem
             {...item}
-            onClick={() => {
-              router.push(item.path);
+            onClick={async () => {
+              await router.push(item.path);
             }}
             inContext={compareContext(item)}
           />

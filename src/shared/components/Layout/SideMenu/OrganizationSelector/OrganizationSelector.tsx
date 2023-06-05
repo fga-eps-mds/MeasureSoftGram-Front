@@ -19,6 +19,7 @@ function OrganizationSelector() {
         endIcon={<FiRepeat />}
         tooltip="Seleção de Organização"
         onClick={onClick}
+        inContext={false}
       />
       <SideList seeMorePath="/products" values={organizationList} open={isOpen} onClose={onClose} onClickItem={setCurrentOrganization} />
     </>

@@ -13,7 +13,7 @@ export interface SideMenuProps {
   endIcon?: React.ReactNode;
   tooltip: string;
   disable?: boolean;
-  onClick?: (event: any) => void;
+  onClick?: (_event: any) => void;
   inContext: boolean;
 }
 
