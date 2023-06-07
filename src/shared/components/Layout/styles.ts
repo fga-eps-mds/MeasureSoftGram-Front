@@ -10,7 +10,7 @@ export const Wrapper = styled.div`
 `;
 
 export const ContentWrapper = styled.div`
-  min-height: calc(100% - 60px);
+  min-height: calc(100% - 70px);
 
   background-color: #fafafa;
 `;

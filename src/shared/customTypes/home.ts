@@ -1,5 +1,5 @@
 export type infoDataType = {
-  imageSrc: string,
+  imageSrc: string | JSX.Element,
   title: string,
   description: string,
   routeTo?: string,
@@ -7,5 +7,6 @@ export type infoDataType = {
 
 export interface InfoData {
   id: string,
+  title?: string,
   elements: Array<infoDataType>,
 }
