@@ -14,10 +14,10 @@ export interface SideMenuProps {
   tooltip: string;
   disable?: boolean;
   onClick?: (_event: any) => void;
-  selected: boolean;
+  selected?: boolean;
 }
 
-function SideMenuItem({ startIcon, text, endIcon, tooltip, disable, onClick, selected }: SideMenuProps) {
+function SideMenuItem({ startIcon, text, endIcon, tooltip, disable, onClick, selected = false }: SideMenuProps) {
   useQuery();
   const { isCollapsed } = useSideMenuContext();
 

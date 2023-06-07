@@ -60,7 +60,7 @@ export function ProductProvider({ children }: Props) {
 export function useProductContext() {
   const context = useContext(ProductContext);
 
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useProductContext must be used within a ProductContext');
   }
 
