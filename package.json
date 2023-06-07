@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint -d src",
+    "lint": "next lint",
     "test": "jest src/ --watch --coverage --verbose --onlyChanged --passWithNoTests",
     "ci:test": "jest --passWithNoTests",
     "prettier": "prettier --config .prettierrc 'src/**/*.ts' --write"

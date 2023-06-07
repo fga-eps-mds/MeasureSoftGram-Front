@@ -29,6 +29,11 @@ export function ProductProvider({ children }: Props) {
 
   const loadAllProducts = async () => {
     try {
+      if (!currentOrganization) {
+        updateProductList([]);
+        return;
+      }
+
       const result = await productQuery.getAllProducts(currentOrganization.id);
 
       updateProductList(result.data.results);
