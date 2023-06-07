@@ -15,17 +15,17 @@ function ProductSelector() {
   const { value: isOpen, setTrue: onClick, setFalse: onClose } = useBoolean(false);
   const router = useRouter();
 
-  const onClickItem = async (value: any) => {
+  const onClickItem = (value: any) => {
     setCurrentProduct(value);
     onClose();
-    await router.push(`/products/${currentOrganization?.id}-${value.id}-${value.name}`);
+    router.push(`/products/${currentOrganization?.id}-${value.id}-${value.name}`);
   };
 
   return (
     <>
       <SideMenuItem
-        startIcon={<LetterAvatar name={currentProduct?.name || '?'} icon={<FiBox />} />}
-        text={currentProduct?.name || 'Selecione o Produto'}
+        startIcon={<LetterAvatar name={currentProduct?.name ?? '?'} icon={<FiBox />} />}
+        text={currentProduct?.name ?? 'Selecione o Produto'}
         endIcon={<FiRepeat />}
         tooltip="Seleção de Produto"
         onClick={onClick}
@@ -33,7 +33,7 @@ function ProductSelector() {
       />
       <SideList
         seeMorePath="/products"
-        values={productsList || []}
+        values={productsList ?? []}
         open={isOpen}
         onClose={onClose}
         onClickItem={onClickItem}

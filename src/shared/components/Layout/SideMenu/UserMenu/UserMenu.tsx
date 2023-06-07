@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Avatar, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
 import { useAuth } from '@contexts/Auth';
 import { FiChevronRight } from 'react-icons/fi';
@@ -10,7 +10,7 @@ interface Props {
 }
 
 function UserMenu({ username }: Props) {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -22,20 +22,16 @@ function UserMenu({ username }: Props) {
   };
 
   const { logout } = useAuth();
-  
-  const doLogout = async (_ev: React.MouseEvent<HTMLElement>) => {
-    await logout(); 
-  }
 
   return (
     <>
       <SideMenuItem
         startIcon={<Avatar sx={{ width: 34, height: 34, backgroundColor: '#000' }} />}
-        text={username || '???'}
+        text={username ?? '???'}
         tooltip="Menu de usuário"
         endIcon={<FiChevronRight fontSize={28} />}
         onClick={handleClick}
-        inContext={false}
+        selected={false}
       />
       <Menu
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
@@ -43,7 +39,11 @@ function UserMenu({ username }: Props) {
         open={open}
         onClose={handleClose}
       >
-        <MenuItem onClick={doLogout}>
+        <MenuItem
+          onClick={() => {
+            logout();
+          }}
+        >
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

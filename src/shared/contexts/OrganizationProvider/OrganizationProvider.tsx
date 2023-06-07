@@ -21,7 +21,7 @@ export function OrganizationProvider({ children }: Props) {
 
   const { data } = useRequest<{ results: [Organization] }>(organizationQuery.getAllOrganization());
 
-  const organizationList = useCallback(() => data?.results || [], [data])();
+  const organizationList = useCallback(() => data?.results ?? [], [data])();
 
   const value = useMemo(
     () => ({
