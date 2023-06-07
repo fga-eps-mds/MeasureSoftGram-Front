@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SideMenuProvider should render the SideMenuProvider component with children 1`] = `
+<div>
+  <div>
+    children
+  </div>
+</div>
+`;
