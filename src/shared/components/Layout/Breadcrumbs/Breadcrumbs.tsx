@@ -2,8 +2,9 @@ import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import { Breadcrumbs as BreadcrumbsMUI, Typography } from '@mui/material';
+import { Breadcrumbs as BreadcrumbsMUI, Typography, Box } from '@mui/material';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
 import { TRANSLATION } from './consts';
 
@@ -20,13 +21,13 @@ export function Breadcrumbs() {
     const currentPath: string[] = [];
     const pathArray = asPath.split('/').slice(1);
 
-    return pathArray
+    const paths = pathArray
       .map((path, index) => {
         currentPath.push(path);
 
         if (pathArray[0] === '') {
           return (
-            <Typography color="text.primary" variant="subtitle1" key={path}>
+            <Typography color="text.primary" variant="h6" key={path}>
               Produtos
             </Typography>
           );
@@ -34,25 +35,70 @@ export function Breadcrumbs() {
 
         if (pathArray.length === index + 1)
           return (
-            <Typography color="text.primary" variant="subtitle1" key={path}>
+            <Typography color="text.primary" variant="h6" key={path}>
               {TRANSLATION[path] || getPathName(path)}
             </Typography>
           );
 
         return (
-          <Typography key={path}>
+          <Typography key={path} variant="h6">
             <Link href={`/${currentPath.join('/')}`}>{TRANSLATION[path] || getPathName(path)}</Link>
           </Typography>
         );
       })
       // ?.filter((data) => data.key !== 'releases' && !Number.isNaN(data?.key)); // remove releases key;
+
+    paths.unshift(
+      <Link href="/home">
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center"
+          }}
+        >
+          <HomeOutlinedIcon
+            sx={{
+              cursor: "pointer",
+              fontSize: "30px"
+            }}
+          />
+        </Box>
+      </Link>
+    )
+
+    return paths
   };
 
   return (
-    <BreadcrumbsMUI sx={{ display: "flex", alignItems: "center" }}>
-      <Link href="/home">
-        <HomeOutlinedIcon sx={{ cursor: "pointer", fontSize: "30px" }}/>
-      </Link>
-      {getCrumbs()}
-    </BreadcrumbsMUI>);
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column"
+        }}
+    >
+      <BreadcrumbsMUI
+        separator={ <NavigateNextIcon fontSize="medium" /> }
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: ".1rem",
+          '.MuiBreadcrumbs-separator': {
+            margin: "0px"
+          }
+        }}
+      >
+        {getCrumbs()}
+      </BreadcrumbsMUI>
+      <Box
+        sx={{
+          width: "100%",
+          height: "1px",
+          backgroundColor: "#000000",
+          opacity: "60%",
+          marginTop: "10px",
+          borderRadius: ".5px"
+        }}
+      />
+    </Box>
+);
 }

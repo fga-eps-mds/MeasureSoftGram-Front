@@ -154,7 +154,7 @@ const Home: NextPageWithLayout = () => {
               flex="1"
               minWidth="78%"
               flexDirection="column"
-              maxHeight="74.7vh"
+              maxHeight="70vh"
               gap="2rem"
               sx={{
                 overflowY: "auto",
