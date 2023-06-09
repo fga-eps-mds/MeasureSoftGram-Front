@@ -103,20 +103,17 @@ const RepositoriesTable: React.FC<Props> = ({ disableButtons, maxCount }: Props)
   useEffect(() => {
     if (repositoryList?.length) {
       loaldHistoricalCharacteristics(repositoryList[0].id);
-      if (maxCount) setFilteredRepositories(repositoryList.slice(0, maxCount));
-      else {
-        setFilteredRepositories((prevState) => {
-          const tempRepositoryList = [...repositoryList];
-          const prevString = JSON.stringify(prevState);
-          const currentString = JSON.stringify(tempRepositoryList);
+      setFilteredRepositories((prevState) => {
+        const tempRepositoryList = maxCount != null ? [...repositoryList.splice(0, maxCount)] : [...repositoryList];
+        const prevString = JSON.stringify(prevState);
+        const currentString = JSON.stringify(tempRepositoryList);
 
-          if (prevString !== currentString) {
-            return tempRepositoryList;
-          }
+        if (prevString !== currentString) {
+          return tempRepositoryList;
+        }
 
-          return prevState;
-        });
-      }
+        return prevState;
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [repositoryList]);
@@ -126,8 +123,8 @@ const RepositoriesTable: React.FC<Props> = ({ disableButtons, maxCount }: Props)
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell style={{paddingBottom: '35px'}}>Nome</TableCell>
-            <TableCell align="right" style={{paddingBottom: '35px'}}>
+            <TableCell style={{ paddingBottom: '35px' }}>Nome</TableCell>
+            <TableCell align="right" style={{ paddingBottom: '35px' }}>
               <SearchButton
                 onInput={(e) => handleRepositoriesFilter(e.target.value)}
                 label="Insira o nome do repositório"

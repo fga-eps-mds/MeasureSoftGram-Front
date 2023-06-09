@@ -5,13 +5,13 @@ import { useRepositoryContext } from '@contexts/RepositoryProvider';
 import getLayout from '@components/Layout';
 import GraphicStackedLine from '@components/GraphicStackedLine';
 import useRequireAuth from '@hooks/useRequireAuth';
+import Download from '@components/DownloadButton';
 import Skeleton from './components/Skeleton';
 import HistoricalLatestInfos from './components/HistoricalInfosList';
 import LatestValueTable from './components/LatestValueTable';
 import FilterTreeInfos from './components/FilterTreeInfos';
 import { useQuery as useQueryProduct } from '../../hooks/useQuery';
 import { useQuery } from './hooks/useQuery';
-import Download from '../../../../../shared/components/DownloadButton';
 
 const Repository: NextPageWithLayout = () => {
   useRequireAuth();

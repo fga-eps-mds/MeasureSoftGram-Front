@@ -3,6 +3,7 @@ import capitalizer from '@utils/capitalizer';
 import formatCharacteristicsHistory from '@utils/formatCharacteristicsHistory';
 import formatEntitiesFilter, { FormatEntitiesFilterType } from '@utils/formatEntitiesFilter';
 import formatMeasuresHistoryChartData from '@utils/formatMeasuresHistory';
+import formatMsgramChart from '@utils/formatMsgramChart';
 import formatRepositoriesSqcHistory from '@utils/formatRepositoriesSqcHistory';
 import { getPathId } from '@utils/pathDestructer';
 import undelineRemover from '@utils/undelineRemover';
@@ -164,5 +165,50 @@ describe('Utils', () => {
       const values = formatMeasuresHistoryChartData([MEASURE_MOCKED]);
       expect(values).toMatchObject(MEASURE_GRAPH);
     });
+  });
+
+  describe('formatMsgramChart', () => {
+    test('Deve retornar opções do gráfico com o titulo correto', () => {
+      const chartOptions = formatMsgramChart({
+        historical: [],
+        repositoryName: 'repo-name-teste-123'
+      });
+
+      expect(chartOptions.title.text).toBe('Gráfico MeasureSoftGram - 123');
+    });
+
+    test('Retorna array vazia quando não tem dado histórico', () => {
+      const chartOptions = formatMsgramChart({
+        historical: [],
+        repositoryName: 'repo-name-teste-123'
+      });
+
+      expect(chartOptions.series).toEqual([]);
+    });
+
+    test('returns chart options with correct number of grids, legends, xAxes, and yAxes', () => {
+      const historicalData = [
+        {
+          name: 'Graph1',
+          history: [{ value: 0.5 }, { value: 0.7 }]
+        },
+        {
+          name: 'Graph2',
+          history: [{ value: 0.2 }, { value: 0.9 }]
+        }
+      ];
+
+      const chartOptions = formatMsgramChart({
+        historical: historicalData,
+        repositoryName: 'repo-name-123'
+      });
+
+      expect(chartOptions.grid).toHaveLength(2);
+      expect(chartOptions.legend).toHaveLength(2);
+      expect(chartOptions.xAxis).toHaveLength(2);
+      expect(chartOptions.yAxis).toHaveLength(2);
+    });
+
+    // Add more test cases to cover different scenarios and edge cases
   });
 });
