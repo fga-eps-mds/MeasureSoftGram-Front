@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import { ProductProvider } from '@contexts/ProductProvider';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -27,15 +27,17 @@ jest.mock('next/router', () => require('next-router-mock'));
 
 describe('RepositoriesTable', () => {
   describe('Functions', () => {
-    test('chama a função handleRepositoriesFilter corretamente', () => {
-      render(
+    test('chama a função handleRepositoriesFilter corretamente', async () => {
+      const { queryByTestId } = render(
         <ProductProvider>
           <RepositoriesTable />
         </ProductProvider>
       );
       const input = screen.getByRole('textbox', { name: /Insira o nome do repositório/i });
-      fireEvent.change(input, { target: { value: 'Core' } });
-      expect(screen.getByRole('table')).toHaveTextContent(repositoryName);
+      fireEvent.input(input, { target: { value: 'Core' } });
+      await waitFor(() => {
+        expect(queryByTestId('repository-row')).toHaveTextContent(repositoryName);
+      });
     });
 
     test('Chama a função handleClickRedirects corretamente', () => {
