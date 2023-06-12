@@ -4,11 +4,15 @@ import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
 import { ProductProvider } from '@contexts/ProductProvider';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import mockRouter from 'next-router-mock';
 import RepositoriesTable from '../RepositoriesTable';
+
+const repositoryName = '2022-1-MeasureSoftGram-Core';
 
 jest.mock('@contexts/RepositoryProvider', () => ({
   useRepositoryContext: () => ({
-    repositoryList: [{ id: 19, name: '2022-1-MeasureSoftGram-Core' }]
+    repositoryList: [{ id: 19, name: repositoryName }]
   })
 }));
 
@@ -18,13 +22,8 @@ jest.mock('@contexts/OrganizationProvider', () => ({
   })
 }));
 
-const mockPush = jest.fn();
-
-jest.mock('next/router', () => ({
-  useRouter: () => ({
-    push: mockPush
-  })
-}));
+// eslint-disable-next-line import/no-extraneous-dependencies, global-require
+jest.mock('next/router', () => require('next-router-mock'));
 
 describe('RepositoriesTable', () => {
   describe('Functions', () => {
@@ -36,7 +35,20 @@ describe('RepositoriesTable', () => {
       );
       const input = screen.getByRole('textbox', { name: /Insira o nome do repositório/i });
       fireEvent.change(input, { target: { value: 'Core' } });
-      expect(screen.getByRole('table')).toHaveTextContent('2022-1-MeasureSoftGram-Core');
+      expect(screen.getByRole('table')).toHaveTextContent(repositoryName);
+    });
+
+    test('Chama a função handleClickRedirects corretamente', () => {
+      const { getByText } = render(
+        <ProductProvider>
+          <RepositoriesTable />
+        </ProductProvider>
+      );
+
+      const repositoryRow = getByText(repositoryName);
+      fireEvent.click(repositoryRow);
+
+      expect(mockRouter.asPath).toEqual('/products/1-undefined-undefined/repositories/19-2022-1-MeasureSoftGram-Core');
     });
   });
   describe('Snapshot', () => {
