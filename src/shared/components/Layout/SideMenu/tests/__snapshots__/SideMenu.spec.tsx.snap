@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SideMenuItem should render the SideMenuItem component 1`] = `
+<div>
+  <div
+    data-testid="mocked-wrapper"
+  >
+    <p>
+      Null element
+    </p>
+    <p>
+      Null element
+    </p>
+  </div>
+</div>
+`;
+
+exports[`SideMenuItem should render the SideMenuItem component with endIcon 1`] = `
+<div>
+  <div
+    data-testid="mocked-wrapper"
+  >
+    <p>
+      Null element
+    </p>
+    <p>
+      Null element
+    </p>
+  </div>
+</div>
+`;

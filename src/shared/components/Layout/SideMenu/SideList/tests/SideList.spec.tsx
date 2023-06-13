@@ -1,4 +1,5 @@
-import { render, fireEvent, getByText } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
+import Router, { useRouter } from 'next/router';
 import React, { ReactNode } from 'react';
 import { RepositoryProvider } from '@contexts/RepositoryProvider';
 import { OrganizationProvider } from '@contexts/OrganizationProvider';
@@ -26,6 +27,12 @@ describe('SideMenuItem', () => {
     {id: 'prodtest', name: 'prodname', description: 'proddesc', github_url: 'https://test.github.com', created_at: '2022-01-01', updated_at: '2022-01-02'},
     {id: 'prodtest2', name: 'prodname2', description: 'proddesc2', github_url: 'https://test.github.com/proj2', created_at: '2022-02-01', updated_at: '2022-02-02'}
   ];
+
+  jest.mock('next/router', () => ({
+    __esModule: true,
+    useRouter: jest.fn()
+  }));
+
   it('should render the SideMenuItem component', () => {
     const onClose = jest.fn();
     const onClick = jest.fn();
@@ -48,34 +55,19 @@ describe('SideMenuItem', () => {
     expect(onClose).toHaveBeenCalled();
   });
 
-  // it('should render the SideMenuItem component with selected', () => {
-  //   const { container } = render(
-  //     <SideMenuItem startIcon={<FiAlertTriangle />} text="Text" tooltip="Tooltip Text" selected />,
-  //     { wrapper: AllTheProviders }
-  //   );
+  it('should access the \"VER MAIS\" page', () => {
+    const onClose = jest.fn();
+    const onClick = jest.fn();
 
-  //   expect(container).toMatchSnapshot();
-  // });
+    const mockRouter = { push: jest.fn() };
+    (useRouter as jest.Mock).mockReturnValue(mockRouter);
+    
+    const { getAllByText } = render(<SideList values={products} onClose={onClose} onClickItem={onClick} open={true} seeMorePath="path/test"/>,
+      { wrapper: AllTheProviders });
 
-  // it('should render the SideMenuItem component with disable', () => {
-  //   const { container } = render(
-  //     <SideMenuItem startIcon={<FiAlertTriangle />} text="Text" tooltip="Tooltip Text" disable />,
-  //     { wrapper: AllTheProviders }
-  //   );
+    const btnToPage = getAllByText(/VER MAIS.../i);
+    btnToPage.forEach((btn) => {fireEvent.click(btn);});
+    expect(mockRouter.push).toHaveBeenCalledWith('path/test');
+  });
 
-  //   expect(container).toMatchSnapshot();
-  // });
-
-  // it('should render the SideMenuItem component with onClick', () => {
-  //   const onClickHandle = jest.fn();
-  //   const { container } = render(
-  //     <SideMenuItem startIcon={<FiAlertTriangle />} text="Text" tooltip="Tooltip Text" onClick={onClickHandle} />,
-  //     { wrapper: AllTheProviders }
-  //   );
-
-  //   fireEvent.click(container.firstChild as HTMLElement);
-
-  //   expect(onClickHandle).toHaveBeenCalled();
-  //   expect(container).toMatchSnapshot();
-  // });
-});
+  });

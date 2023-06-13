@@ -15,7 +15,7 @@ export interface IProductContext {
   updateProductList: (products: Product[]) => void;
 }
 
-const ProductContext = createContext<IProductContext | undefined>(undefined);
+export const ProductContext = createContext<IProductContext | undefined>(undefined);
 
 export function ProductProvider({ children }: Props) {
   const [currentProduct, setCurrentProduct] = useState<Product | undefined>();

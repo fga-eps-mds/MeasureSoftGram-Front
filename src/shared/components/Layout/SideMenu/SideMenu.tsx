@@ -9,7 +9,7 @@ import SideMenuItem from './SideMenuItem/SideMenuItem';
 import SideMenuWrapper from './SideMenuWrapper';
 import UserMenu from './UserMenu';
 
-type SideMenuItemType = {
+export type SideMenuItemType = {
   startIcon: React.ReactElement;
   text: string;
   tooltip: string;
