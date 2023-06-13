@@ -15,10 +15,10 @@ function ProductSelector() {
   const { value: isOpen, setTrue: onClick, setFalse: onClose } = useBoolean(false);
   const router = useRouter();
 
-  const onClickItem = async (value: any) => {
+  const onClickItem = (value: any) => {
     setCurrentProduct(value);
     onClose();
-    await router.push(`/products/${currentOrganization?.id}-${value.id}-${value.name}`);
+    void router.push(`/products/${currentOrganization?.id}-${value.id}-${value.name}`);
   };
 
   return (

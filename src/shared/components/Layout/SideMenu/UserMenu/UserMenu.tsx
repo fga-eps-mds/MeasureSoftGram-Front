@@ -41,7 +41,7 @@ function UserMenu({ username }: Props) {
       >
         <MenuItem
           onClick={() => {
-            logout();
+            void logout();
           }}
         >
           <ListItemIcon>

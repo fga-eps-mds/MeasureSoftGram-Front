@@ -37,9 +37,9 @@ const RepositoriesTable: React.FC<Props> = ({ disableButtons, maxCount }: Props)
   const [open, setOpen] = useState({});
   const [filteredRepositories, setFilteredRepositories] = useState<Repository[]>([]);
 
-  const handleClickRedirects = async(id: string) => {
+  const handleClickRedirects = (id: string) => {
     const path = `/products/${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/repositories/${id}`;
-    await router.push(path);
+    void router.push(path);
   };
 
   const [historicalCharacteristics, setHistoricalCharacteristics] = useState<Historical[]>([]);
@@ -136,14 +136,14 @@ const RepositoriesTable: React.FC<Props> = ({ disableButtons, maxCount }: Props)
           {filteredRepositories?.map((repo) => (
             <React.Fragment key={repo.id}>
               <TableRow hover style={{ cursor: 'pointer' }} data-testid="repository-row">
-                <TableCell onClick={() => handleClickRedirects(`${repo.id}-${repo.name}`)}>{repo.name}</TableCell>
+                <TableCell onClick={() => void handleClickRedirects(`${repo.id}-${repo.name}`)}>{repo.name}</TableCell>
                 {disableButtons ? (
                   <TableCell />
                 ) : (
                   <TableCell align="right">
                     <ArrowCircleRight
                       aria-label="expand row"
-                      onClick={() => handleClickRedirects(`${repo.id}-${repo.name}`)}
+                      onClick={() => void handleClickRedirects(`${repo.id}-${repo.name}`)}
                     />
                     {open[repo.id] ? (
                       <RemoveCircle aria-label="collapse row" onClick={() => handleClickCollapse(repo.id)} />

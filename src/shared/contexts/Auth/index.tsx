@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
       toast.success('Volte logo para acompanhar seus produtos!');
     }
 
-    removeAuthStorage();
+    await removeAuthStorage();
   }, [removeAuthStorage, router]);
 
   const getUser = useCallback(async () => {
@@ -64,7 +64,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
         toast.success(`Bem vindo ao MeasureSoftGram ${response?.value?.username}!`);
       }
     } else {
-      removeAuthStorage();
+      await removeAuthStorage();
     }
 
     setLoading('loaded');

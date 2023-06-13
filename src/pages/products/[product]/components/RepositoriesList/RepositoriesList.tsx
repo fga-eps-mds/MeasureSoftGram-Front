@@ -18,9 +18,9 @@ function RepositoriesList() {
   const { currentOrganization } = useOrganizationContext();
   const router = useRouter();
 
-  const pushToRepositoriesPath = async() => {
+  const pushToRepositoriesPath = () => {
     const repositoriesPath = `/products/${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/repositories`;
-    await router.push(repositoriesPath).catch((error) => toast.error(error));
+    router.push(repositoriesPath).then(() => {console.debug('Success!');}).catch((error: any) => toast.error(error));
   };
 
   if (!repositoryList) {
@@ -37,7 +37,7 @@ function RepositoriesList() {
 
           <RepositoriesTable maxCount={3} />
           <Box display="flex" flexDirection="column" mt="10px" alignItems="center">
-            <Button onClick={() => pushToRepositoriesPath()} variant="text">
+            <Button onClick={() => void pushToRepositoriesPath()} variant="text">
               VER MAIS...
             </Button>
           </Box>

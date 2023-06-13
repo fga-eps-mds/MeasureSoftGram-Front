@@ -32,8 +32,8 @@ const Auth: NextPageWithLayout = () => {
                   fullWidth
                   variant="outlined"
                   startIcon={<GitHub />}
-                  onClick={async() => {
-                    await router.push(getGithubAuthUrl(), undefined, { shallow: true });
+                  onClick={() => {
+                    void router.push(getGithubAuthUrl(), undefined, { shallow: true });
                     setProvider('github');
                   }}
                 >

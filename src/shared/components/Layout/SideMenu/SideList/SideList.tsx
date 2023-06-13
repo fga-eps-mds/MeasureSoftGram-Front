@@ -65,8 +65,8 @@ const SideList = ({ values, open, onClose, onClickItem, seeMorePath }: Props) =>
           ))}
           <Button
             sx={{ marginTop: '5px', minHeight: '10vh', width: 'calc(100% - 10px)' }}
-            onClick={async() => {
-              await router.push(seeMorePath);
+            onClick={() => {
+              void router.push(seeMorePath);
             }}
             variant="text"
           >

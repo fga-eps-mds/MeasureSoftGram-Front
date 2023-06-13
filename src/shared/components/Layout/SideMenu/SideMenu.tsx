@@ -59,8 +59,8 @@ function SideMenu() {
         MenuItems.map((item) => (
           <SideMenuItem
             {...item}
-            onClick={async() => {
-              await router.push(item.path);
+            onClick={() => {
+              void router.push(item.path);
             }}
           />
         ))
