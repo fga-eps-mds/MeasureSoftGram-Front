@@ -20,7 +20,7 @@ function RepositoriesList() {
 
   const pushToRepositoriesPath = () => {
     const repositoriesPath = `/products/${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/repositories`;
-    router.push(repositoriesPath).then(() => {console.debug('Success!');}).catch((error: any) => toast.error(error));
+    void router.push(repositoriesPath).catch((error: any) => toast.error(error));
   };
 
   if (!repositoryList) {
