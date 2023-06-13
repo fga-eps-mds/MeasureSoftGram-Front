@@ -37,9 +37,9 @@ const RepositoriesTable: React.FC<Props> = ({ disableButtons, maxCount }: Props)
   const [open, setOpen] = useState({});
   const [filteredRepositories, setFilteredRepositories] = useState<Repository[]>([]);
 
-  const handleClickRedirects = (id: string) => {
+  const handleClickRedirects = async(id: string) => {
     const path = `/products/${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/repositories/${id}`;
-    router.push(path);
+    await router.push(path);
   };
 
   const [historicalCharacteristics, setHistoricalCharacteristics] = useState<Historical[]>([]);

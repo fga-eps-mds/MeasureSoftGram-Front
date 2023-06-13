@@ -18,8 +18,8 @@ function ReleasesTable({ releaseList }: ReleasesTableProps) {
 
   const router = useRouter();
 
-  const handleClickCell = (path: string) => {
-    router.push(`${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/${path}`);
+  const handleClickCell = async(path: string) => {
+    await router.push(`${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/${path}`);
   };
 
   return (

@@ -18,9 +18,9 @@ function RepositoriesList() {
   const { currentOrganization } = useOrganizationContext();
   const router = useRouter();
 
-  const pushToRepositoriesPath = () => {
+  const pushToRepositoriesPath = async() => {
     const repositoriesPath = `/products/${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/repositories`;
-    router.push(repositoriesPath).catch((error) => toast.error(error));
+    await router.push(repositoriesPath).catch((error) => toast.error(error));
   };
 
   if (!repositoryList) {
