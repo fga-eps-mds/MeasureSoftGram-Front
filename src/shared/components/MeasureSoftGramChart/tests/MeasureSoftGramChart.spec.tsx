@@ -1,25 +1,70 @@
 import React from 'react';
-import { render, act } from '@testing-library/react';
-import formatMsgramChart from '@utils/formatMsgramChart';
+import { render } from '@testing-library/react';
 import MeasureSoftGramChart from '../MeasureSoftGramChart';
 
-jest.mock('@utils/formatMsgramChart');
+jest.mock('@utils/formatMsgramChart', () => ({
+  __esModule: true,
+  default: jest.fn().mockReturnValue({
+    title: {
+      text: 'title',
+      subtextStyle: {
+        color: '#000',
+        fontSize: '12px'
+      }
+    },
 
-describe('MeasureSoftGramChart formatGraph', () => {
-  beforeEach(() => {
-    formatMsgramChart.mockReturnValue({});
-  });
+    tooltip: {
+      trigger: 'axis'
+    },
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+    grid: [
+      {
+        left: 0,
+        right: 0,
+        height: '80px',
+        x: 0,
+        y: 0,
+        containLabel: true
+      }
+    ],
 
-  it('should call formatMsgramChart with the correct arguments', () => {
-    const historical = [{ date: '2021-01-01', value: 10 }];
-    const repositoryName = 'test-repo';
-    act(() => {
-      render(<MeasureSoftGramChart historical={historical} repositoryName={repositoryName} />);
-    });
-    expect(formatMsgramChart).toHaveBeenCalledWith({ historical, repositoryName });
+    legend: [
+      {
+        data: ['Reability']
+      }
+    ],
+    xAxis: [
+      {
+        type: 'category',
+        gridIndex: 0,
+        show: true
+      }
+    ],
+    yAxis: [
+      {
+        max: 1,
+        min: 0,
+        type: 'value',
+        gridIndex: 0
+      }
+    ],
+
+    series: [
+      {
+        name: 'Reability',
+        type: 'line',
+        data: [0, 0.2, 0.3, 0.35, 0.3, 0.36, 0.3],
+        xAxisIndex: 0,
+        yAxisIndex: 0
+      }
+    ]
+  })
+}));
+
+describe('<MeasureSoftGramChart/>', () => {
+  test('Should render MeasureSoftGramChart', () => {
+    const { container } = render(<MeasureSoftGramChart historical={[]} />);
+    container.firstChild?.setAttribute('_echarts_instance_', 'ec_123');
+    expect(container).toMatchSnapshot();
   });
 });
