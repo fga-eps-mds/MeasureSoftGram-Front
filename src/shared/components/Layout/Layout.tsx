@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { SideMenuProvider } from '@contexts/SidebarProvider/SideMenuProvider';
 import SideMenu from './SideMenu';
 import Breadcrumbs from './Breadcrumbs';
 
@@ -9,15 +9,20 @@ interface Props {
   children?: React.ReactNode;
 }
 
-const Layout: React.FC<Props> = ({ children }) => (
-  <Styles.Wrapper>
-    <SideMenu />
-
-    <Styles.ContentContainer>
-      <Breadcrumbs />
-      <Styles.ContentWrapper>{children}</Styles.ContentWrapper>
-    </Styles.ContentContainer>
-  </Styles.Wrapper>
-);
+function Layout({ children }: Props) {
+  return (
+    <Styles.LayoutGrid>
+      <Styles.SideMenuArea>
+        <SideMenuProvider>
+          <SideMenu />
+        </SideMenuProvider>
+      </Styles.SideMenuArea>
+      <Styles.MainContentArea>
+        <Breadcrumbs />
+        {children}
+      </Styles.MainContentArea>
+    </Styles.LayoutGrid>
+  );
+}
 
 export default Layout;

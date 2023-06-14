@@ -18,6 +18,8 @@ export const AuthContext = createContext<authContextType>(authContextDefaultValu
 
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   const [loading, setLoading] = useState<'loading' | 'loaded'>('loading');
+  const router = useRouter();
+
   const {
     storedValue: session,
     setValue: setSession,
@@ -36,31 +38,33 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     removeValue: removeProvider
   } = useLocalStorage<Providers | null>('provider', null);
 
-  const removeAuthStorage = useCallback(() => {
+  const removeAuthStorage = useCallback(async() => {
     removeSession();
     removeToken();
     removeProvider();
   }, [removeProvider, removeSession, removeToken]);
+
   const logout = useCallback(async () => {
     const response = await signOut();
 
     if (response.type === 'success') {
+      await router.push('/');
       toast.success('Volte logo para acompanhar seus produtos!');
     }
-    removeAuthStorage();
-  }, [removeAuthStorage]);
-  const router = useRouter();
+
+    await removeAuthStorage();
+  }, [removeAuthStorage, router]);
 
   const getUser = useCallback(async () => {
     const response = await getUserInfo();
     if (response.type === 'success') {
       setSession(response.value);
       if (router?.pathname === '/') {
-        router.push('/home');
+        await router.push('/home');
         toast.success(`Bem vindo ao MeasureSoftGram ${response?.value?.username}!`);
       }
     } else {
-      removeAuthStorage();
+      await removeAuthStorage();
     }
 
     setLoading('loaded');
@@ -87,7 +91,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
       if (response.type === 'success') {
         setToken(response?.value?.key);
         toast.success('Login realizado com sucesso!');
-        router.push('/home');// AQUI
+        await router.push('/home'); // AQUI
       } else {
         toast.error('Erro ao realizar login');
       }

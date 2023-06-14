@@ -35,6 +35,7 @@
     "react/jsx-props-no-spreading": "off",
     "consistent-return": "off",
     "no-use-before-define": "off",
-    "no-undef": "off"
+    "no-undef": "off",
+    "no-void": "off"
   }
 }
