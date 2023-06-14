@@ -78,7 +78,7 @@ export function CreateReleaseProvider({
       const releaseId = response?.data?.id;
 
       if (releaseId) {
-        router.push(
+        await router.push(
           `/products/${organizationId}-${productId}-${currentProduct.name.toLowerCase()}/releases/${releaseId}`
         );
         setSuccessOnCreation('success');

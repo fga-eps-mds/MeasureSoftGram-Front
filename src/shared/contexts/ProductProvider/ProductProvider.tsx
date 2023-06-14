@@ -8,14 +8,14 @@ interface Props {
   children: ReactNode;
 }
 
-interface IProductContext {
+export interface IProductContext {
   currentProduct?: Product;
   setCurrentProduct: (product: Product) => void;
   productsList?: Product[];
   updateProductList: (products: Product[]) => void;
 }
 
-const ProductContext = createContext<IProductContext | undefined>(undefined);
+export const ProductContext = createContext<IProductContext | undefined>(undefined);
 
 export function ProductProvider({ children }: Props) {
   const [currentProduct, setCurrentProduct] = useState<Product | undefined>();
@@ -29,6 +29,11 @@ export function ProductProvider({ children }: Props) {
 
   const loadAllProducts = async () => {
     try {
+      if (!currentOrganization) {
+        updateProductList([]);
+        return;
+      }
+
       const result = await productQuery.getAllProducts(currentOrganization.id);
 
       updateProductList(result.data.results);
@@ -60,7 +65,7 @@ export function ProductProvider({ children }: Props) {
 export function useProductContext() {
   const context = useContext(ProductContext);
 
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useProductContext must be used within a ProductContext');
   }
 

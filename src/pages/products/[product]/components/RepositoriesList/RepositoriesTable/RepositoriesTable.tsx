@@ -23,7 +23,7 @@ const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
 
   const handleClickRedirects = (id: string) => {
     const path = `/products/${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/repositories/${id}`;
-    router.push(path);
+    void router.push(path);
   };
 
   const handleRepositoriesFilter = (name: string) => {

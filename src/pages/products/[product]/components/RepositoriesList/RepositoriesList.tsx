@@ -20,7 +20,7 @@ function RepositoriesList() {
 
   const pushToRepositoriesPath = () => {
     const repositoriesPath = `/products/${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/repositories`;
-    router.push(repositoriesPath).catch((error) => toast.error(error));
+    void router.push(repositoriesPath).catch((error: any) => toast.error(error));
   };
 
   if (!repositoryList) {
@@ -37,7 +37,7 @@ function RepositoriesList() {
 
           <RepositoriesTable maxCount={10} />
           <Box display="flex" flexDirection="column" mt="10px" alignItems="center">
-            <Button onClick={() => pushToRepositoriesPath()} variant="text">
+            <Button onClick={() => void pushToRepositoriesPath()} variant="text">
               VER MAIS...
             </Button>
           </Box>

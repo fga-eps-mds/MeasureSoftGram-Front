@@ -19,7 +19,7 @@ function ReleasesTable({ releaseList }: ReleasesTableProps) {
   const router = useRouter();
 
   const handleClickCell = (path: string) => {
-    router.push(`${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/${path}`);
+    void router.push(`${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/${path}`);
   };
 
   return (
@@ -38,7 +38,7 @@ function ReleasesTable({ releaseList }: ReleasesTableProps) {
             <TableRow
               key={release.id}
               hover
-              onClick={() => handleClickCell(`releases/${release?.id}`)}
+              onClick={() => void handleClickCell(`releases/${release?.id}`)}
               style={{ cursor: 'pointer' }}
               data-testid="repository-row"
             >
