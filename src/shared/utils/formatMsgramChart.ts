@@ -2,16 +2,11 @@ import { Historical } from '@customTypes/repository';
 import _ from 'lodash';
 
 interface Props {
-  historical?: Historical[];
+  historical: Historical[];
 }
 
 const formatMsgramChart = ({ historical }: Props) => {
-  const newHistorical = historical?.filter((h) => {
-    if (h?.history) return h;
-    return null;
-  });
-
-  const legendData = newHistorical?.map((h) => h.name);
+  const legendData = _.map(historical, 'name');
 
   const numberOfGraphs = legendData?.length ?? 0;
 
@@ -49,7 +44,7 @@ const formatMsgramChart = ({ historical }: Props) => {
     }
   }));
 
-  const series = newHistorical?.map((h, i) => ({
+  const series = historical?.map((h, i) => ({
     name: h.name,
     type: 'line',
     data: h.history.map(({ value }) => ({
@@ -61,7 +56,7 @@ const formatMsgramChart = ({ historical }: Props) => {
 
   return {
     title: {
-      text: `Comportamento das Característitcas da Release Atual`,
+      text: `Característitcas da Release Atual`,
       subtextStyle: {
         color: '#4461A5',
         fontSize: 14
