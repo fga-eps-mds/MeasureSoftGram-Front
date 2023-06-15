@@ -11,15 +11,19 @@ function CurrentReleaseCharacteristicsChart({ repositoryId }: Props) {
   const { data, error, isLoading } = useHistoricalCharacteristics(repositoryId);
 
   if (isLoading) {
-    return <Skeleton variant="rectangular" width="100%" height="300px" />;
-  }
-
-  if (error || !data) {
-    return <Typography variant="h6">Não há dados</Typography>;
+    return (
+      <Skeleton
+        data-testid="current-release-characteristics-chart-loading"
+        variant="rectangular"
+        width="100%"
+        height="300px"
+      />
+    );
   }
 
   return (
     <Box
+      data-testid="current-release-characteristics-chart"
       height={`${data.length * 82 + 80}px`}
       bgcolor="white"
       borderRadius="20px"
@@ -28,7 +32,7 @@ function CurrentReleaseCharacteristicsChart({ repositoryId }: Props) {
       marginBottom="10px"
     >
       <MeasureSoftGramChart historical={data} />
-      teste
+      {error && <Typography variant="h6">Não existem dados para serem exibidos</Typography>}
     </Box>
   );
 }
