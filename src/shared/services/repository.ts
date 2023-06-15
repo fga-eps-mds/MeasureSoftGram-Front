@@ -1,11 +1,10 @@
 /* eslint-disable class-methods-use-this */
-import { Historical } from '@customTypes/repository';
 import api from './api';
 
 interface HistoricalCharacteristicsProps {
-  organizationId: string;
-  productId: string | undefined;
-  repositoryId: string | undefined;
+  organizationId?: string;
+  productId?: string;
+  repositoryId?: string;
   entity: string;
 }
 
