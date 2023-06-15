@@ -165,7 +165,7 @@ describe('Utils', () => {
         repositoryName: 'repo-name-teste-123'
       });
 
-      expect(chartOptions.title.text).toBe('Comportamento das Característitcas da Release Atual');
+      expect(chartOptions.title.text).toBe('Característitcas da Release Atual');
     });
 
     test('Retorna array vazia quando não tem dado histórico', () => {
