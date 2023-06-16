@@ -16,7 +16,8 @@ function CurrentReleaseCharacteristicsChart({ repositoryId }: Props) {
         data-testid="current-release-characteristics-chart-loading"
         variant="rectangular"
         width="100%"
-        height="300px"
+        height="250px"
+        sx={{ borderRadius: '20px' }}
       />
     );
   }

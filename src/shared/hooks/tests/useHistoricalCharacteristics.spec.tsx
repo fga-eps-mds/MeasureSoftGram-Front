@@ -16,7 +16,7 @@ const AllTheProviders = ({ children }: any) => (
 
 describe('useHistoricalCharacteristics', () => {
   it('should return an array of historical characteristics', async () => {
-    jest.spyOn(api, 'get').mockResolvedValueOnce({
+    jest.spyOn(api, 'get').mockResolvedValue({
       status: 200,
       statusText: 'OK',
       data: {
@@ -51,11 +51,17 @@ describe('useHistoricalCharacteristics', () => {
       }
     });
 
-    const { result } = renderHook(async () => useHistoricalCharacteristics('1'), {
+    const { result, rerender } = renderHook(async () => useHistoricalCharacteristics('1'), {
       wrapper: AllTheProviders
     });
 
-    await waitFor(async () => (await result.current.isLoading) === false);
-    expect(await result.current).toMatchSnapshot();
+    expect(api.get).toHaveBeenCalledTimes(1);
+    await waitFor(() => result.current.isLoading === true);
+    rerender();
+    await waitFor(() => result.current.isLoading === false);
+    rerender();
+    await waitFor(() => result.current.isLoading === false);
+    rerender();
+    await expect(result.current).resolves.toMatchSnapshot();
   });
 });
