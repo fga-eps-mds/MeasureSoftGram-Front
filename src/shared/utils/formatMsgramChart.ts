@@ -1,4 +1,5 @@
 import { Historical } from '@customTypes/repository';
+import { format } from 'date-fns';
 import _ from 'lodash';
 
 interface Props {
@@ -7,28 +8,30 @@ interface Props {
 
 const formatMsgramChart = ({ historical }: Props) => {
   const legendData = _.map(historical, 'name');
+  const historicalData = _.map(historical, 'history');
+  const xAxisData = _.uniq(historicalData.flat(1).map((h) => format(new Date(h.created_at), 'dd/MM/yyyy HH:mm')));
 
   const numberOfGraphs = legendData?.length ?? 0;
 
   const grid = _.times(numberOfGraphs, (i) => ({
-    left: 0,
-    right: 0,
-    height: '82px',
-    x: 0,
-    y: `${82 * i + 60}px`,
+    left: '120px',
+    right: '4%',
+    height: '60px',
+    y: `${60 * i + 60}px`,
     containLabel: true
   }));
 
   const legend = _.times(numberOfGraphs, (i) => ({
-    x: '20px',
-    y: `${82 * i + 49}px`,
+    x: 0,
+    y: `${60 * i + 69}px`,
     data: [legendData?.[i] ?? '-']
   }));
 
   const xAxis = _.times(numberOfGraphs, (i) => ({
     show: i === numberOfGraphs - 1,
     gridIndex: i,
-    type: 'category'
+    type: 'category',
+    data: xAxisData
   }));
 
   const yAxis = _.times(numberOfGraphs, (i) => ({
@@ -36,7 +39,7 @@ const formatMsgramChart = ({ historical }: Props) => {
     min: 0,
     type: 'value',
     gridIndex: i,
-    splitNumber: 5,
+    splitNumber: 1,
     splitLine: {
       lineStyle: {
         width: 2
@@ -54,9 +57,17 @@ const formatMsgramChart = ({ historical }: Props) => {
     yAxisIndex: i
   }));
 
+  const dataZoom = [
+    {
+      type: 'slider',
+      y: `${60 * numberOfGraphs + 60}px`,
+      xAxisIndex: _.times(numberOfGraphs, (i) => i)
+    }
+  ];
+
   return {
     title: {
-      text: `Característitcas da Release Atual`,
+      text: `Gráfico MeasureSoftGram`,
       subtextStyle: {
         color: '#4461A5',
         fontSize: 14
@@ -65,6 +76,7 @@ const formatMsgramChart = ({ historical }: Props) => {
     tooltip: {
       trigger: 'axis'
     },
+    dataZoom,
     grid,
     xAxis,
     yAxis,

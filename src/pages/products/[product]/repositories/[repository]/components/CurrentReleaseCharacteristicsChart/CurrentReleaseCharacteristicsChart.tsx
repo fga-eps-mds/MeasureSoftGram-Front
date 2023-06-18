@@ -25,7 +25,7 @@ function CurrentReleaseCharacteristicsChart({ repositoryId }: Props) {
   return (
     <Box
       data-testid="current-release-characteristics-chart"
-      height={`${data.length * 82 + 80}px`}
+      height={`${data.length * 82 + 85}px`}
       bgcolor="white"
       borderRadius="20px"
       paddingX="20px"
