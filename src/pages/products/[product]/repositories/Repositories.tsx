@@ -35,7 +35,7 @@ const Repositories: NextPageWithLayout = () => {
           padding="20px"
           style={{ backgroundColor: 'white', border: '1px solid #113d4c80', borderRadius: '10px' }}
         >
-          <RepositoriesTable disableButtons />
+          <RepositoriesTable />
         </Box>
       </Container>
     </>
