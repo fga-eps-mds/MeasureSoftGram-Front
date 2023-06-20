@@ -27,7 +27,7 @@ export function Breadcrumbs() {
 
         if (pathArray[0] === '') {
           return (
-            <Typography color="text.primary" variant="h6" key={path}>
+            <Typography color="text.primary" variant="subtitle1" key={path}>
               Produtos
             </Typography>
           );
@@ -35,13 +35,13 @@ export function Breadcrumbs() {
 
         if (pathArray.length === index + 1)
           return (
-            <Typography color="text.primary" variant="h6" key={path}>
+            <Typography color="text.primary" variant="subtitle1" key={path}>
               {TRANSLATION[path] || getPathName(path)}
             </Typography>
           );
 
         return (
-          <Typography key={path} variant="h6">
+          <Typography key={path} variant="subtitle1">
             <Link href={`/${currentPath.join('/')}`}>{TRANSLATION[path] || getPathName(path)}</Link>
           </Typography>
         );
@@ -59,7 +59,7 @@ export function Breadcrumbs() {
           <HomeOutlinedIcon
             sx={{
               cursor: "pointer",
-              fontSize: "30px"
+              fontSize: "25px"
             }}
           />
         </Box>
@@ -77,7 +77,7 @@ export function Breadcrumbs() {
         }}
     >
       <BreadcrumbsMUI
-        separator={ <NavigateNextIcon fontSize="medium" /> }
+        separator={ <NavigateNextIcon fontSize="small" /> }
         sx={{
           display: "flex",
           alignItems: "center",
@@ -95,7 +95,7 @@ export function Breadcrumbs() {
           height: "1px",
           backgroundColor: "#000000",
           opacity: "60%",
-          marginTop: "10px",
+          marginTop: "5px",
           borderRadius: ".5px"
         }}
       />
