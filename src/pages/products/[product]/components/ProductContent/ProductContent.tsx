@@ -73,7 +73,7 @@ const ProductContent: React.FC<Props> = ({ repositoriesSqcHistory }) => {
 
       <Box display="flex" justifyContent="end">
         <Button onClick={handleOpenCreateRelease} variant="contained">
-          Definir release
+          Planejar release
         </Button>
       </Box>
 

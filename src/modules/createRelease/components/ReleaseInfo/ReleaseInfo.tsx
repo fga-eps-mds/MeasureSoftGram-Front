@@ -17,7 +17,7 @@ function ReleaseInfo() {
   return (
     <>
       <Styles.Header>
-        <h1>Definir Meta de Qualidade (planejada)</h1>
+        <h1>Planejar Release</h1>
         <p>Mini explicação sobre as configurações basicas e a seleção de caracteristicas</p>
       </Styles.Header>
 
