@@ -5,7 +5,7 @@ import { ProductProvider } from '@contexts/ProductProvider';
 import { RepositoryProvider } from '@contexts/RepositoryProvider';
 import api from '@services/api';
 import { get } from 'lodash';
-import CurrentReleaseCharacteristicsChart from '../CurrentReleaseCharacteristicsChart';
+import MSGChart from '../MSGChart';
 
 const AllTheProviders = ({ children }: any) => (
   <OrganizationProvider>
@@ -15,7 +15,7 @@ const AllTheProviders = ({ children }: any) => (
   </OrganizationProvider>
 );
 
-describe('<CurrentReleaseCharacteristicsChart />', () => {
+describe('<MSGChart />', () => {
   jest.spyOn(api, 'get').mockResolvedValueOnce({
     status: 200,
     statusText: 'OK',
@@ -52,7 +52,7 @@ describe('<CurrentReleaseCharacteristicsChart />', () => {
   });
 
   it('should render correctly with data', async () => {
-    const { container } = render(<CurrentReleaseCharacteristicsChart repositoryId="1" />, {
+    const { container } = render(<MSGChart repositoryId="1" />, {
       wrapper: AllTheProviders
     });
 

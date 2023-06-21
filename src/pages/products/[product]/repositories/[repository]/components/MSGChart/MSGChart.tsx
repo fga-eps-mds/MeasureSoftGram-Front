@@ -7,7 +7,7 @@ interface Props {
   repositoryId: string;
 }
 
-function CurrentReleaseCharacteristicsChart({ repositoryId }: Props) {
+function MSGChart({ repositoryId }: Props) {
   const { data, error, isLoading } = useHistoricalCharacteristics(repositoryId);
 
   if (isLoading) {
@@ -37,4 +37,4 @@ function CurrentReleaseCharacteristicsChart({ repositoryId }: Props) {
   );
 }
 
-export default CurrentReleaseCharacteristicsChart;
+export default MSGChart;

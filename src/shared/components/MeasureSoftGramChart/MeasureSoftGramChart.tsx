@@ -21,7 +21,7 @@ const MeasureSoftGramChart = ({ historical, showErrorMessage = false }: Props) =
       option={{
         ...chartOption,
         title: {
-          text: `Gráfico MeasureSoftGram`,
+          text: `Histórico das características`,
           subtext: showErrorMessage && 'Não foi possível carregar os dados do gráfico',
           subtextStyle: {
             color: '#ff0000',
