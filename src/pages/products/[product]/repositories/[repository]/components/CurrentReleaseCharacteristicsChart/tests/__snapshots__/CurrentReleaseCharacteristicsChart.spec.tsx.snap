@@ -3,7 +3,7 @@
 exports[`<CurrentReleaseCharacteristicsChart /> should render correctly with data 1`] = `
 <div>
   <div
-    class="MuiBox-root css-qos7on"
+    class="MuiBox-root css-1ubd3ab"
     data-testid="current-release-characteristics-chart"
   >
     <div
@@ -14,7 +14,14 @@ exports[`<CurrentReleaseCharacteristicsChart /> should render correctly with dat
     >
       <div
         style="position: relative; width: 0px; height: 300px; padding: 0px; margin: 0px; border-width: 0px;"
-      />
+      >
+        <canvas
+          data-zr-dom-id="zr_0"
+          height="300"
+          style="position: absolute; left: 0px; top: 0px; width: 0px; height: 300px; webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"
+          width="0"
+        />
+      </div>
       <object
         class="size-sensor-object"
         data="about:blank"
