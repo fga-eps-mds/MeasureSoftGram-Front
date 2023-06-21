@@ -66,13 +66,6 @@ const formatMsgramChart = ({ historical }: Props) => {
   ];
 
   return {
-    title: {
-      text: `Gráfico MeasureSoftGram`,
-      subtextStyle: {
-        color: '#4461A5',
-        fontSize: 14
-      }
-    },
     tooltip: {
       trigger: 'axis'
     },

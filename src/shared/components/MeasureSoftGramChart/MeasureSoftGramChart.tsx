@@ -5,9 +5,10 @@ import { Historical } from '@customTypes/repository';
 
 interface Props {
   historical: Historical[];
+  showErrorMessage?: boolean;
 }
 
-const MeasureSoftGramChart = ({ historical }: Props) => {
+const MeasureSoftGramChart = ({ historical, showErrorMessage = false }: Props) => {
   const [chartOption, setChartOption] = useState<EChartsOption>({});
 
   useEffect(() => {
@@ -15,7 +16,21 @@ const MeasureSoftGramChart = ({ historical }: Props) => {
     setChartOption(formatedOptions);
   }, [historical]);
 
-  return <ReactEcharts option={chartOption} />;
+  return (
+    <ReactEcharts
+      option={{
+        ...chartOption,
+        title: {
+          text: `Gráfico MeasureSoftGram`,
+          subtext: showErrorMessage && 'Não foi possível carregar os dados do gráfico',
+          subtextStyle: {
+            color: '#ff0000',
+            fontSize: 16
+          }
+        }
+      }}
+    />
+  );
 };
 
 export default MeasureSoftGramChart;

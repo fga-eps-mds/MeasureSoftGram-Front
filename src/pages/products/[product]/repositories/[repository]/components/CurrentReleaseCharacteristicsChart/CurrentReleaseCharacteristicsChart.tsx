@@ -1,6 +1,6 @@
 import MeasureSoftGramChart from '@components/MeasureSoftGramChart/MeasureSoftGramChart';
 import { useHistoricalCharacteristics } from '@hooks/useHistoricalCharacteristics';
-import { Box, Skeleton, Typography } from '@mui/material';
+import { Box, Skeleton } from '@mui/material';
 import React from 'react';
 
 interface Props {
@@ -32,8 +32,7 @@ function CurrentReleaseCharacteristicsChart({ repositoryId }: Props) {
       paddingY="10px"
       marginBottom="10px"
     >
-      <MeasureSoftGramChart historical={data} />
-      {error && <Typography variant="h6">Não existem dados para serem exibidos</Typography>}
+      <MeasureSoftGramChart historical={data} showErrorMessage={error} />
     </Box>
   );
 }
