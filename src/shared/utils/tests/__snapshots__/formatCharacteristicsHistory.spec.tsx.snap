@@ -9,6 +9,12 @@ Object {
       "start": 0,
       "type": "slider",
     },
+    Object {
+      "end": 1,
+      "show": true,
+      "start": 0,
+      "type": "inside",
+    },
   ],
   "grid": Object {
     "bottom": "17%",
