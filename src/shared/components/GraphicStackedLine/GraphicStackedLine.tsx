@@ -1,60 +1,55 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactEcharts, { EChartsOption } from 'echarts-for-react';
 
 import formatCharacteristicsHistory from '@utils/formatCharacteristicsHistory';
-import { Historical } from '@customTypes/repository';
-
-import * as Styles from './styles';
-
-interface OptionCheckedProps {
-  [key: string]: boolean;
-}
+import { Alert, Box, Fade, Skeleton } from '@mui/material';
+import { useRequestHistoricalValues } from '@hooks/useRequestHistoricalValues';
 
 interface Prop {
-  historical?: Historical[];
-  checkedOptions: OptionCheckedProps;
   title: string;
-  getDates?: (startDate: string, endDate: string) => void;
-  selected?: (arg: any) => boolean;
+  value: 'characteristics' | 'subcharacteristics' | 'measures' | 'metrics';
 }
 
-const GraphicStackedLine = ({ historical, checkedOptions, title, getDates, selected }: Prop) => {
-  const chartRef = useRef<ReactEcharts>(null);
-  const [chartOption, setChartOption] = useState<EChartsOption>({});
+const GraphicStackedLine = ({ title, value }: Prop) => {
+  const { data: historical, error, isLoading, isEmpty } = useRequestHistoricalValues(value);
+  const [echartsOption, setEchartsOption] = useState<EChartsOption>({});
 
   useEffect(() => {
-    const formatedOptions = formatCharacteristicsHistory({ historical, checkedOptions, title, selected });
-    setChartOption(formatedOptions);
-  }, [historical, checkedOptions, title, selected]);
-
-  useEffect(() => {
-    const formatedOptions = formatCharacteristicsHistory({ historical, checkedOptions, title, selected });
-    if (getDates) {
-      getDates(formatedOptions.xAxis.data[0], formatedOptions.xAxis.data[formatedOptions.xAxis.data.length - 1]);
+    if (!isLoading && historical) {
+      setEchartsOption(formatCharacteristicsHistory({ historical, title, isEmpty: error || isEmpty }));
     }
-  }, [checkedOptions, selected]);
+  }, [historical, isLoading, title]);
 
-  const onDateZoom = useCallback(() => {
-    if (chartRef.current) {
-      const option = chartRef.current.getEchartsInstance().getOption();
-      const data = option.dataZoom as any;
-      const { startValue, endValue } = data[0];
-      const dates = chartOption.xAxis.data;
-
-      if (getDates) {
-        getDates(dates[startValue], dates[endValue]);
-      }
-    }
-  }, [chartRef.current]);
-
-  const onEvents = {
-    dataZoom: onDateZoom
-  };
-
-  return (
-    <Styles.GraphicContainer>
-      <Styles.StackedLineStyled ref={chartRef} option={chartOption} onEvents={onEvents} />
-    </Styles.GraphicContainer>
+  return isLoading ? (
+    <Skeleton variant="rectangular" height="300px" />
+  ) : (
+    <>
+      <Box
+        bgcolor="white"
+        borderRadius="4px"
+        boxShadow="0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)"
+        paddingX="20px"
+        paddingY="10px"
+        width="100%"
+        height={error || isEmpty ? '50px' : 'auto'}
+        marginTop="20px"
+        zIndex={-1}
+      >
+        <ReactEcharts option={echartsOption} />
+      </Box>
+      {error && (
+        <Fade in>
+          <Alert severity="error">Ocorreu um erro ao tentar carregar as informações</Alert>
+        </Fade>
+      )}
+      {isEmpty && (
+        <Fade in>
+          <Alert variant="standard" severity="warning">
+            Não há dados para serem exibidos
+          </Alert>
+        </Fade>
+      )}
+    </>
   );
 };
 
