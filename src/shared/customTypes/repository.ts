@@ -9,12 +9,6 @@ export interface Historical {
   key: string;
   name: string;
   history: Array<SqcHistory>;
-}
-
-export interface Latest {
-  id: number;
-  key: string;
-  name: string;
   latest: Result;
 }
 

@@ -28,7 +28,7 @@ const Repository: NextPageWithLayout = () => {
             {currentRepository?.description}
           </Typography>
         </Box>
-        <GraphicStackedLine title="Caracteríticas" value="characteristics" />
+        <GraphicStackedLine title="Caracteríticas" value="characteristics" addHistoricalSQC />
         <LatestValueTable title="Caracteríticas" value="characteristics" />
         <GraphicStackedLine title="Sub-Caracteríticas" value="subcharacteristics" />
         <LatestValueTable title="Sub-Caracteríticas" value="subcharacteristics" />

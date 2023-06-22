@@ -15,8 +15,8 @@ import {
   Skeleton
 } from '@mui/material';
 
-import { useRequestLatestValues } from '@hooks/useRequestLatestValues';
 import _ from 'lodash';
+import { useRequestValues } from '@hooks/useRequestValues';
 
 interface Prop {
   title: string;
@@ -24,7 +24,7 @@ interface Prop {
 }
 
 function LatestValueTable({ title, value }: Prop) {
-  const { data, error, isLoading, isEmpty } = useRequestLatestValues(value);
+  const { data, error, isLoading, isEmpty } = useRequestValues({ type: 'latest-values', value });
   const tableRows: { name: string; latestValue: number; latestData: string }[] = [];
 
   _.forEach(data, (item) => {

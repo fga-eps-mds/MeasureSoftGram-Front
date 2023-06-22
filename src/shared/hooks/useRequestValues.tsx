@@ -1,23 +1,29 @@
-import useSWR from 'swr';
-import api from '@services/api';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import { useProductContext } from '@contexts/ProductProvider';
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
-import { Latest } from '@customTypes/repository';
+import useSWR from 'swr';
+import { Historical } from '@customTypes/repository';
+import api from '@services/api';
 import useBoolean from './useBoolean';
 
-export function useRequestLatestValues(value: 'characteristics' | 'subcharacteristics' | 'measures' | 'metrics') {
+interface Props {
+  type: 'historical-values' | 'latest-values';
+  value: 'characteristics' | 'subcharacteristics' | 'measures' | 'metrics';
+  addHistoricalSQC?: boolean;
+}
+
+export function useRequestValues({ type, value, addHistoricalSQC = false }: Props) {
   const { currentOrganization } = useOrganizationContext();
   const { currentProduct } = useProductContext();
-  const { currentRepository } = useRepositoryContext();
+  const { currentRepository, historicalSQC } = useRepositoryContext();
 
   const { value: isLoading, setFalse: setIsLoadingEnd } = useBoolean(true);
 
-  const { data, error, isValidating } = useSWR<{ results: Latest[] }>(
+  const { data, error, isValidating } = useSWR<{ results: Historical[] }>(
     `organizations/${currentOrganization?.id}` +
       `/products/${currentProduct?.id}` +
       `/repositories/${currentRepository?.id}` +
-      `/latest-values/${value}/`,
+      `/${type}/${value}/`,
     (url) =>
       api
         .get(url)
@@ -27,6 +33,10 @@ export function useRequestLatestValues(value: 'characteristics' | 'subcharacteri
         }),
     { revalidateOnFocus: false }
   );
+
+  if (addHistoricalSQC) {
+    data?.results?.push(historicalSQC);
+  }
 
   return {
     data: data?.results ?? [],

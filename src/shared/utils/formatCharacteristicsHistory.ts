@@ -5,7 +5,7 @@ import _ from 'lodash';
 export interface FormatCharacteristicsHistoryType {
   historical?: Historical[];
   title: string;
-  isEmpty?: boolean;
+  isEmpty: boolean;
 }
 
 const formatCharacteristicsHistory = ({ historical, title, isEmpty = false }: FormatCharacteristicsHistoryType) => {
@@ -37,6 +37,12 @@ const formatCharacteristicsHistory = ({ historical, title, isEmpty = false }: Fo
         type: 'slider',
         start: 0,
         end: 100
+      },
+      {
+        show: !isEmpty,
+        type: 'inside',
+        start: 0,
+        end: xAxisData.length - 1
       }
     ],
     legend: {

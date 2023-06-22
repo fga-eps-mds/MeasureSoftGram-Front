@@ -1,24 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ReactEcharts, { EChartsOption } from 'echarts-for-react';
 
 import formatCharacteristicsHistory from '@utils/formatCharacteristicsHistory';
 import { Alert, Box, Fade, Skeleton } from '@mui/material';
-import { useRequestHistoricalValues } from '@hooks/useRequestHistoricalValues';
+import { useRequestValues } from '@hooks/useRequestValues';
 
 interface Prop {
   title: string;
   value: 'characteristics' | 'subcharacteristics' | 'measures' | 'metrics';
+  addHistoricalSQC?: boolean;
 }
 
-const GraphicStackedLine = ({ title, value }: Prop) => {
-  const { data: historical, error, isLoading, isEmpty } = useRequestHistoricalValues(value);
-  const [echartsOption, setEchartsOption] = useState<EChartsOption>({});
+const GraphicStackedLine = ({ title, value, addHistoricalSQC = false }: Prop) => {
+  const {
+    data: historical,
+    error,
+    isLoading,
+    isEmpty
+  } = useRequestValues({ type: 'historical-values', value, addHistoricalSQC });
+
+  const echartsOptionRef = useRef<EChartsOption>({});
 
   useEffect(() => {
-    if (!isLoading && historical) {
-      setEchartsOption(formatCharacteristicsHistory({ historical, title, isEmpty: error || isEmpty }));
-    }
-  }, [historical, isLoading, title]);
+    echartsOptionRef.current = formatCharacteristicsHistory({ historical, title, isEmpty: !!error || isEmpty });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [historical, isEmpty, error]);
 
   return isLoading ? (
     <Skeleton variant="rectangular" height="300px" />
@@ -35,7 +41,7 @@ const GraphicStackedLine = ({ title, value }: Prop) => {
         marginTop="20px"
         zIndex={-1}
       >
-        <ReactEcharts option={echartsOption} />
+        <ReactEcharts option={echartsOptionRef.current} />
       </Box>
       {error && (
         <Fade in>
