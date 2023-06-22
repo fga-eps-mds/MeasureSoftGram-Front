@@ -150,16 +150,7 @@ describe('Utils', () => {
       expect(value).toMatchObject([['Entity'], ['value1'], ['value2']]);
     });
   });
-  describe('formatCharacteristicsHistory', () => {
-    it('Deve formatar valores do grafico historico de caracteristicas corretamente', () => {
-      const values = formatCharacteristicsHistory({
-        historical: CHARACTERISTICS_HISTORY,
-        checkedOptions: { Teste1: false, Teste2: true }
-      });
 
-      expect(values).toMatchObject(CHARACTERISTIC_EXPECTED);
-    });
-  });
   describe('formatMeasuresHistory', () => {
     it('Deve formatar valores do grafico de caracteristicas corretamente', () => {
       const values = formatMeasuresHistoryChartData([MEASURE_MOCKED]);

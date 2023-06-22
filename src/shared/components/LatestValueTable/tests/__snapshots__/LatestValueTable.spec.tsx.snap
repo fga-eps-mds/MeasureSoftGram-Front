@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LatestValueTable /> Should render the LatestValueTable component 1`] = `
+<div>
+  <span
+    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1f4rdup-MuiSkeleton-root"
+  />
+</div>
+`;
