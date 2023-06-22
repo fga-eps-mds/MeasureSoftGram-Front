@@ -36,7 +36,7 @@ export default function useEqualizer(selectedCharacteristics: string[]) {
   );
 
   const equalize = useCallback(
-    (characteristicName: string, val: number) => {
+    (characteristicName: string, val: number, allowDynamicBalance: boolean) => {
       const updatedCharacteristics = characteristics.map((item) => item);
 
       const characteristic = updatedCharacteristics.find((c) => c.key === characteristicName);
@@ -45,7 +45,10 @@ export default function useEqualizer(selectedCharacteristics: string[]) {
       const delta = val - value;
 
       characteristic!.value = val;
-
+      if (allowDynamicBalance) {
+        setCharacteristics(updatedCharacteristics);
+        return;
+      }
       correlations['+'].forEach((characteristicKey) => {
         const correlatedCharacteristic = updatedCharacteristics.find((item) => item.key === characteristicKey);
 

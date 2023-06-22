@@ -63,7 +63,7 @@ export default function ReleaseGoals() {
           </p>
         </div>
 
-        <Equalizer selectedCharacteristics={characteristics} />
+        <Equalizer selectedCharacteristics={characteristics} allowDynamicBalance={allowDynamicBalance} />
       </Styles.Body>
     </>
   );

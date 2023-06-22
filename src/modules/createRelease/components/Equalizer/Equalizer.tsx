@@ -9,9 +9,10 @@ import * as Styles from './styles';
 
 interface EquilizerProps {
   selectedCharacteristics: string[];
+  allowDynamicBalance: boolean;
 }
 
-export default function Equalizer({ selectedCharacteristics }: EquilizerProps) {
+export default function Equalizer({ selectedCharacteristics, allowDynamicBalance }: EquilizerProps) {
   const { characteristics, equalize, addDeltaToChanges, changes } = useEqualizer(selectedCharacteristics);
 
   const { preConfigCharacteristics, handleChangeForm } = useCreateReleaseContext();
@@ -39,7 +40,7 @@ export default function Equalizer({ selectedCharacteristics }: EquilizerProps) {
               name={undelineRemover(item)}
               value={characteristicValue}
               disabled={!selectedCharacteristics.includes(item)}
-              onChange={(newValue) => equalize(item, newValue)}
+              onChange={(newValue) => equalize(item, newValue, allowDynamicBalance)}
               onChangeCommitted={(newValue) => handleChangeCommitted(item, newValue)}
             />
           );
