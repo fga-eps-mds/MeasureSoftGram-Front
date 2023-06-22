@@ -4,7 +4,6 @@ import { useRepositoryContext } from '@contexts/RepositoryProvider';
 import useSWR from 'swr';
 import { Historical } from '@customTypes/repository';
 import api from '@services/api';
-import { useRef } from 'react';
 import _, { isEmpty } from 'lodash';
 import useBoolean from './useBoolean';
 
@@ -42,7 +41,7 @@ export function useRequestValues({ type, value, addHistoricalSQC = false }: Prop
     }
   );
 
-  if (addHistoricalSQC && !isEmpty && !_.find(data?.results, { key: 'SQC' })) {
+  if (addHistoricalSQC && !_.find(data?.results, { key: 'SQC' })) {
     data?.results?.push(historicalSQC);
   }
 

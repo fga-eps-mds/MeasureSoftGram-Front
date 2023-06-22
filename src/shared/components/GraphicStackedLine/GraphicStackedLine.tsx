@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import ReactEcharts, { EChartsOption } from 'echarts-for-react';
+import React from 'react';
+import ReactEcharts from 'echarts-for-react';
 
 import formatCharacteristicsHistory from '@utils/formatCharacteristicsHistory';
 import { Alert, Box, Fade, Skeleton } from '@mui/material';

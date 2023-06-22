@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import { NextPageWithLayout } from '@pages/_app.next';
 import getLayout from '@components/Layout';
 import useRequireAuth from '@hooks/useRequireAuth';
