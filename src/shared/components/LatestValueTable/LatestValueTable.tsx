@@ -39,33 +39,35 @@ function LatestValueTable({ title, value }: Prop) {
   });
 
   return isLoading ? (
-    <Skeleton sx={{ width: '100%', minWidth: 400, height: '215px' }} />
+    <Skeleton sx={{ width: '100%', minWidth: 400, height: '215px', marginTop: '12px' }} />
   ) : (
     <Box marginTop="12px">
-      <TableContainer component={Paper} sx={{ minWidth: 350, maxHeight: '215px' }}>
-        <Table stickyHeader aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>{title}</TableCell>
-              <TableCell align="right">Último valor</TableCell>
-              <TableCell align="right">Última medição</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {tableRows.map((row) => (
-              <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="right">{row.latestValue.toFixed(2)}</TableCell>
-                <TableCell align="right" sx={{ width: '250px' }}>
-                  {row.latestData}
-                </TableCell>
+      <Fade in timeout={1000}>
+        <TableContainer component={Paper} sx={{ minWidth: 350, maxHeight: '215px' }}>
+          <Table stickyHeader aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>{title}</TableCell>
+                <TableCell align="right">Último valor</TableCell>
+                <TableCell align="right">Última medição</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {tableRows.map((row) => (
+                <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                  <TableCell component="th" scope="row">
+                    {row.name}
+                  </TableCell>
+                  <TableCell align="right">{row.latestValue.toFixed(2)}</TableCell>
+                  <TableCell align="right" sx={{ width: '250px' }}>
+                    {row.latestData}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Fade>
       {error && (
         <Fade in>
           <Alert variant="standard" severity="error">
