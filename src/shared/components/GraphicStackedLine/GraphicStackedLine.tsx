@@ -35,6 +35,7 @@ const GraphicStackedLine = ({ title, value, addHistoricalSQC = false }: Prop) =>
           marginTop="20px"
         >
           <ReactEcharts
+            data-testid="graphic-stacked-line"
             option={formatCharacteristicsHistory({
               historical,
               title,

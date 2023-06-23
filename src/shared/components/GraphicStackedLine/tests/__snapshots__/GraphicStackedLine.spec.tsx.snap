@@ -1,0 +1,210 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<GraphicStackedLine /> should render correctly 1`] = `
+<div>
+  <div
+    class="MuiBox-root css-vgdffj"
+    style="opacity: 1; webkit-transition: opacity 2000ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 2000ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+  >
+    <div
+      _echarts_instance_="ec_123"
+      class="echarts-for-react "
+      size-sensor-id="1"
+      style="height: 300px; webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;"
+    >
+      <div
+        style="position: relative; width: 0px; height: 300px; padding: 0px; margin: 0px; border-width: 0px;"
+      >
+        <canvas
+          data-zr-dom-id="zr_0"
+          height="300"
+          style="position: absolute; left: 0px; top: 0px; width: 0px; height: 300px; webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"
+          width="0"
+        />
+      </div>
+      <div
+        class=""
+      />
+      <object
+        class="size-sensor-object"
+        data="about:blank"
+        style="display: block; position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; overflow: hidden; pointer-events: none; z-index: -1; opacity: 0;"
+        tabindex="-1"
+        type="text/html"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<GraphicStackedLine /> should render correctly with empty data 1`] = `
+<div>
+  <div
+    class="MuiBox-root css-4yxkoc"
+    style="opacity: 1; webkit-transition: opacity 2000ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 2000ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+  >
+    <div
+      _echarts_instance_="ec_123"
+      class="echarts-for-react "
+      size-sensor-id="3"
+      style="height: 300px; webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;"
+    >
+      <div
+        style="position: relative; width: 0px; height: 300px; padding: 0px; margin: 0px; border-width: 0px;"
+      >
+        <canvas
+          data-zr-dom-id="zr_0"
+          height="300"
+          style="position: absolute; left: 0px; top: 0px; width: 0px; height: 300px; webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"
+          width="0"
+        />
+      </div>
+      <div
+        class=""
+      />
+      <object
+        class="size-sensor-object"
+        data="about:blank"
+        style="display: block; position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; overflow: hidden; pointer-events: none; z-index: -1; opacity: 0;"
+        tabindex="-1"
+        type="text/html"
+      />
+    </div>
+  </div>
+  <div
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-standardWarning MuiAlert-standard css-rob5aa-MuiPaper-root-MuiAlert-root"
+    role="alert"
+    style="opacity: 1; webkit-transition: opacity 1000ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 1000ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+  >
+    <div
+      class="MuiAlert-icon css-1ytlwq5-MuiAlert-icon"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+        data-testid="ReportProblemOutlinedIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M12 5.99L19.53 19H4.47L12 5.99M12 2L1 21h22L12 2zm1 14h-2v2h2v-2zm0-6h-2v4h2v-4z"
+        />
+      </svg>
+    </div>
+    <div
+      class="MuiAlert-message css-1pxa9xg-MuiAlert-message"
+    >
+      Não há dados para serem exibidos
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<GraphicStackedLine /> should render correctly with error 1`] = `
+<div>
+  <div
+    class="MuiBox-root css-4yxkoc"
+    style="opacity: 1; webkit-transition: opacity 2000ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 2000ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+  >
+    <div
+      _echarts_instance_="ec_123"
+      class="echarts-for-react "
+      size-sensor-id="4"
+      style="height: 300px; webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;"
+    >
+      <div
+        style="position: relative; width: 0px; height: 300px; padding: 0px; margin: 0px; border-width: 0px;"
+      >
+        <canvas
+          data-zr-dom-id="zr_0"
+          height="300"
+          style="position: absolute; left: 0px; top: 0px; width: 0px; height: 300px; webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"
+          width="0"
+        />
+      </div>
+      <div
+        class=""
+      />
+      <object
+        class="size-sensor-object"
+        data="about:blank"
+        style="display: block; position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; overflow: hidden; pointer-events: none; z-index: -1; opacity: 0;"
+        tabindex="-1"
+        type="text/html"
+      />
+    </div>
+  </div>
+  <div
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-standardError MuiAlert-standard css-xilmwd-MuiPaper-root-MuiAlert-root"
+    role="alert"
+    style="opacity: 1; webkit-transition: opacity 1000ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 1000ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+  >
+    <div
+      class="MuiAlert-icon css-1ytlwq5-MuiAlert-icon"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+        data-testid="ErrorOutlineIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+        />
+      </svg>
+    </div>
+    <div
+      class="MuiAlert-message css-1pxa9xg-MuiAlert-message"
+    >
+      Ocorreu um erro ao tentar carregar as informações
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<GraphicStackedLine /> should render correctly with historical SQC 1`] = `
+<div>
+  <div
+    class="MuiBox-root css-vgdffj"
+    style="opacity: 1; webkit-transition: opacity 2000ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 2000ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+  >
+    <div
+      _echarts_instance_="ec_123"
+      class="echarts-for-react "
+      size-sensor-id="2"
+      style="height: 300px; webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;"
+    >
+      <div
+        style="position: relative; width: 0px; height: 300px; padding: 0px; margin: 0px; border-width: 0px;"
+      >
+        <canvas
+          data-zr-dom-id="zr_0"
+          height="300"
+          style="position: absolute; left: 0px; top: 0px; width: 0px; height: 300px; webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"
+          width="0"
+        />
+      </div>
+      <div
+        class=""
+      />
+      <object
+        class="size-sensor-object"
+        data="about:blank"
+        style="display: block; position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; overflow: hidden; pointer-events: none; z-index: -1; opacity: 0;"
+        tabindex="-1"
+        type="text/html"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<GraphicStackedLine /> should render correctly with loading 1`] = `
+<div>
+  <span
+    class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-h0eff9-MuiSkeleton-root"
+    style="height: 300px;"
+  />
+</div>
+`;
