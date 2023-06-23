@@ -4,7 +4,7 @@ import { useRepositoryContext } from '@contexts/RepositoryProvider';
 import useSWR from 'swr';
 import { Historical } from '@customTypes/repository';
 import api from '@services/api';
-import _, { isEmpty } from 'lodash';
+import _ from 'lodash';
 import useBoolean from './useBoolean';
 
 interface Props {
