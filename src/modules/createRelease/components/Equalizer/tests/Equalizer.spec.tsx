@@ -36,8 +36,13 @@ describe('<Equalizer />', () => {
     jest.clearAllMocks();
   });
 
-  const renderEqualizer = () =>
-    render(<Equalizer selectedCharacteristics={['usability', 'compatibility', 'security']} />);
+  const renderEqualizer = (allowDynamicBalance: boolean = false) =>
+    render(
+      <Equalizer
+        selectedCharacteristics={['usability', 'compatibility', 'security']}
+        allowDynamicBalance={allowDynamicBalance}
+      />
+    );
 
   describe('Snapshot', () => {
     it('Deve corresponder ao Snapshot', () => {
@@ -47,7 +52,19 @@ describe('<Equalizer />', () => {
   });
 
   describe('Comportamento', () => {
-    it('Deve chamar onChange ao movimnetar o slider', () => {
+    it('Deve chamar onChange ao movimnetar o slider permitindo balanceamento dinâmico', () => {
+      const { getAllByTestId } = renderEqualizer(true);
+
+      const sliders = getAllByTestId('single-slider');
+      const labels = getAllByTestId('label');
+
+      fireEvent.change(sliders[0], { target: { value: 10 } });
+      fireEvent.input(sliders[0], { target: { value: 70 } });
+
+      expect(sliders.length).toBe(2);
+      expect(labels.length).toBe(2);
+    });
+    it('Deve chamar onChange ao movimnetar o slider sem permitir balanceamento dinâmico', () => {
       const { getAllByTestId } = renderEqualizer();
 
       const sliders = getAllByTestId('single-slider');

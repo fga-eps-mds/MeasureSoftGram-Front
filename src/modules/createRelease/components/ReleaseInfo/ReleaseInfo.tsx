@@ -17,8 +17,11 @@ function ReleaseInfo() {
   return (
     <>
       <Styles.Header>
-        <h1>Definir Meta de Qualidade (planejada)</h1>
-        <p>Mini explicação sobre as configurações basicas e a seleção de caracteristicas</p>
+        <h1>Planejar Release</h1>
+        <p>
+          Na etapa inicial do planejamento da release, é possível definir a data e o nome da release, bem como
+          selecionar as características a serem observadas durante o período planejado.
+        </p>
       </Styles.Header>
 
       <Styles.Body>
