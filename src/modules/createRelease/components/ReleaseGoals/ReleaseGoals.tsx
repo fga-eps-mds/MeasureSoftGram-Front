@@ -3,7 +3,17 @@ import React, { useState } from 'react';
 import Equalizer from '@modules/createRelease/components/Equalizer';
 
 import { useCreateReleaseContext } from '@modules/createRelease/context/useCreateRelease';
-import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Checkbox,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Link,
+  Typography
+} from '@mui/material';
 import * as Styles from './styles';
 
 export default function ReleaseGoals() {
@@ -12,7 +22,7 @@ export default function ReleaseGoals() {
   const [allowDynamicBalance, setAllowDynamicBalance] = useState(false);
   const [open, setOpen] = useState(false);
 
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleChange() {
     if (allowDynamicBalance) {
       setAllowDynamicBalance(false);
     } else {
@@ -44,23 +54,29 @@ export default function ReleaseGoals() {
         </p>
         <Box>
           <Typography color="#FF4646">
-            {' '}
-            <Checkbox checked={allowDynamicBalance} onChange={handleChange} /> Permitir o balanceamento dinâmico{' '}
+            <Checkbox checked={allowDynamicBalance} onChange={() => handleChange()} /> Permitir o balanceamento dinâmico{' '}
           </Typography>
         </Box>
-        <Dialog open={open} onClose={handleClose}>
+        <Dialog open={open} onClose={() => handleClose()}>
           <DialogTitle>Permitir o balanceamento dinâmico</DialogTitle>
           <DialogContent>
             <Typography color="#FF4646">
-              {' '}
               O balanceamento das metas funciona com base em uma matriz de relacionamento entre as características de
-              qualidade (link). Ao permitir o balanceamento dinâmico, o sistema faz com que essas relações sejam
-              ignoradas, dessa forma, alguns objetivos definidos podem ser inalcançáveis. Deseja continuar mesmo assim?{' '}
+              qualidade{' '}
+              <Link
+                href="https://www.sce.carleton.ca/faculty/wainer/papers/art%253A10.1007%252Fs13198-016-0546-8.pdf"
+                underline="hover"
+                target="_blank"
+              >
+                (link)
+              </Link>
+              . Ao permitir o balanceamento dinâmico, o sistema faz com que essas relações sejam ignoradas, dessa forma,
+              alguns objetivos definidos podem ser inalcançáveis. Deseja continuar mesmo assim?
             </Typography>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Cancelar</Button>
-            <Button onClick={handleConfirm} color="primary">
+            <Button onClick={() => handleClose()}>Cancelar</Button>
+            <Button onClick={() => handleConfirm()} color="primary">
               Confirmar
             </Button>
           </DialogActions>

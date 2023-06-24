@@ -6,7 +6,7 @@ Object {
   "baseElement": <body>
     <div>
       <div
-        class="styles__Wrapper-sc-1vn80o5-0 cgfCVM"
+        class="styles__LayoutGrid-sc-1vn80o5-0 hmgQEE"
       >
         <div
           class="styles__SideMenuArea-sc-1vn80o5-1 fVrKpa"
@@ -351,16 +351,13 @@ Object {
               </div>
             </div>
           </div>
-          <div
-            class="styles__ContentWrapper-sc-1vn80o5-1 fOEzRi"
-          />
         </div>
       </div>
     </div>
   </body>,
   "container": <div>
     <div
-      class="styles__Wrapper-sc-1vn80o5-0 cgfCVM"
+      class="styles__LayoutGrid-sc-1vn80o5-0 hmgQEE"
     >
       <div
         class="styles__SideMenuArea-sc-1vn80o5-1 fVrKpa"
@@ -705,9 +702,6 @@ Object {
             </div>
           </div>
         </div>
-        <div
-          class="styles__ContentWrapper-sc-1vn80o5-1 fOEzRi"
-        />
       </div>
     </div>
   </div>,

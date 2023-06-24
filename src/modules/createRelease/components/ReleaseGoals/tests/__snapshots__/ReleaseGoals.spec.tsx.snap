@@ -12,8 +12,44 @@ Object {
           Balancear a Meta de Qualidade
         </h1>
         <p>
-          Mini explicação como funciona as metas da release (Configuração das caracteristicas, valor de uma caracteristica pode influenciar em outra, etc)
+          Nesta etapa, é possível estabelecer metas para as características que serão observadas na release. É importante ressaltar que essas características de qualidade estão inter-relacionadas, ou seja, ao modificar a meta de uma característica, as demais também serão afetadas.
         </p>
+        <p>
+          Ao clicar em 'Permitir o balanceamento dinâmico', as alterações feitas em uma característica não afetarão automaticamente as demais, permitindo uma flexibilidade maior no planejamento da release.
+        </p>
+        <div
+          class="MuiBox-root css-0"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-1psv697-MuiTypography-root"
+          >
+            <span
+              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+            >
+              <input
+                class="PrivateSwitchBase-input css-1m9pwf3"
+                data-indeterminate="false"
+                type="checkbox"
+              />
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="CheckBoxOutlineBlankIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                />
+              </svg>
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </span>
+             Permitir o balanceamento dinâmico
+             
+          </p>
+        </div>
       </div>
       <div
         class="styles__Body-sc-ki0fgv-1 dEJEjT"
@@ -49,8 +85,44 @@ Object {
         Balancear a Meta de Qualidade
       </h1>
       <p>
-        Mini explicação como funciona as metas da release (Configuração das caracteristicas, valor de uma caracteristica pode influenciar em outra, etc)
+        Nesta etapa, é possível estabelecer metas para as características que serão observadas na release. É importante ressaltar que essas características de qualidade estão inter-relacionadas, ou seja, ao modificar a meta de uma característica, as demais também serão afetadas.
       </p>
+      <p>
+        Ao clicar em 'Permitir o balanceamento dinâmico', as alterações feitas em uma característica não afetarão automaticamente as demais, permitindo uma flexibilidade maior no planejamento da release.
+      </p>
+      <div
+        class="MuiBox-root css-0"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body1 css-1psv697-MuiTypography-root"
+        >
+          <span
+            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+          >
+            <input
+              class="PrivateSwitchBase-input css-1m9pwf3"
+              data-indeterminate="false"
+              type="checkbox"
+            />
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="CheckBoxOutlineBlankIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+              />
+            </svg>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </span>
+           Permitir o balanceamento dinâmico
+           
+        </p>
+      </div>
     </div>
     <div
       class="styles__Body-sc-ki0fgv-1 dEJEjT"
