@@ -3,20 +3,19 @@ import React, { useState } from 'react';
 import Equalizer from '@modules/createRelease/components/Equalizer';
 
 import { useCreateReleaseContext } from '@modules/createRelease/context/useCreateRelease';
-import * as Styles from './styles';
 import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
+import * as Styles from './styles';
 
 export default function ReleaseGoals() {
   const { releaseInfoForm } = useCreateReleaseContext();
   const { characteristics, endDate, name, startDate } = releaseInfoForm;
-  const [ allowDynamicBalance, setAllowDynamicBalance ] = useState(false);
-  const [ open, setOpen ] = useState(false);
+  const [allowDynamicBalance, setAllowDynamicBalance] = useState(false);
+  const [open, setOpen] = useState(false);
 
-  function handleChange (event: React.ChangeEvent<HTMLInputElement>){
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     if (allowDynamicBalance) {
       setAllowDynamicBalance(false);
-    }
-    else {
+    } else {
       setOpen(true);
     }
   }
@@ -35,16 +34,29 @@ export default function ReleaseGoals() {
       <Styles.Header>
         <h1>Balancear a Meta de Qualidade</h1>
         <p>
-          Mini explicação como funciona as metas da release (Configuração das caracteristicas, valor de uma
-          caracteristica pode influenciar em outra, etc)
+          Nesta etapa, é possível estabelecer metas para as características que serão observadas na release. É
+          importante ressaltar que essas características de qualidade estão inter-relacionadas, ou seja, ao modificar a
+          meta de uma característica, as demais também serão afetadas.
+        </p>
+        <p>
+          Ao clicar em 'Permitir o balanceamento dinâmico', as alterações feitas em uma característica não afetarão
+          automaticamente as demais, permitindo uma flexibilidade maior no planejamento da release.
         </p>
         <Box>
-          <Typography color="#FF4646"> <Checkbox checked={allowDynamicBalance} onChange={handleChange}/> Permitir o balanceamento dinâmico </Typography>
+          <Typography color="#FF4646">
+            {' '}
+            <Checkbox checked={allowDynamicBalance} onChange={handleChange} /> Permitir o balanceamento dinâmico{' '}
+          </Typography>
         </Box>
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle>Permitir o balanceamento dinâmico</DialogTitle>
-           <DialogContent>
-            <Typography color="#FF4646"> O balanceamento das metas funciona com base em uma matriz de relacionamento entre as características de qualidade (link). Ao permitir o balanceamento dinâmico, o sistema faz com que essas relações sejam ignoradas, dessa forma, alguns objetivos definidos podem ser inalcançáveis. Deseja continuar mesmo assim? </Typography>
+          <DialogContent>
+            <Typography color="#FF4646">
+              {' '}
+              O balanceamento das metas funciona com base em uma matriz de relacionamento entre as características de
+              qualidade (link). Ao permitir o balanceamento dinâmico, o sistema faz com que essas relações sejam
+              ignoradas, dessa forma, alguns objetivos definidos podem ser inalcançáveis. Deseja continuar mesmo assim?{' '}
+            </Typography>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancelar</Button>
