@@ -29,6 +29,7 @@ Object {
               <input
                 class="PrivateSwitchBase-input css-1m9pwf3"
                 data-indeterminate="false"
+                name="allowDynamicBalanceCheckbox"
                 type="checkbox"
               />
               <svg
@@ -46,8 +47,7 @@ Object {
                 class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
               />
             </span>
-             Permitir o balanceamento dinâmico
-             
+            Permitir o balanceamento dinâmico
           </p>
         </div>
       </div>
@@ -102,6 +102,7 @@ Object {
             <input
               class="PrivateSwitchBase-input css-1m9pwf3"
               data-indeterminate="false"
+              name="allowDynamicBalanceCheckbox"
               type="checkbox"
             />
             <svg
@@ -119,8 +120,7 @@ Object {
               class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
             />
           </span>
-           Permitir o balanceamento dinâmico
-           
+          Permitir o balanceamento dinâmico
         </p>
       </div>
     </div>

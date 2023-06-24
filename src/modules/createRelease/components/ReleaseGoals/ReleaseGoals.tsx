@@ -15,29 +15,12 @@ import {
   Typography
 } from '@mui/material';
 import * as Styles from './styles';
+import useDynamicBalance from './hook/useDynamicBalance';
 
 export default function ReleaseGoals() {
   const { releaseInfoForm } = useCreateReleaseContext();
   const { characteristics, endDate, name, startDate } = releaseInfoForm;
-  const [allowDynamicBalance, setAllowDynamicBalance] = useState(false);
-  const [open, setOpen] = useState(false);
-
-  function handleChange() {
-    if (allowDynamicBalance) {
-      setAllowDynamicBalance(false);
-    } else {
-      setOpen(true);
-    }
-  }
-
-  function handleClose(): void {
-    setOpen(false);
-  }
-
-  function handleConfirm(): void {
-    setOpen(false);
-    setAllowDynamicBalance(true);
-  }
+  const { open, allowDynamicBalance, handleChange, handleClose, handleConfirm } = useDynamicBalance();
 
   return (
     <>
@@ -54,10 +37,11 @@ export default function ReleaseGoals() {
         </p>
         <Box>
           <Typography color="#FF4646">
-            <Checkbox checked={allowDynamicBalance} onChange={() => handleChange()} /> Permitir o balanceamento dinâmico{' '}
+            <Checkbox checked={allowDynamicBalance} onChange={handleChange} name="allowDynamicBalanceCheckbox" />
+            Permitir o balanceamento dinâmico
           </Typography>
         </Box>
-        <Dialog open={open} onClose={() => handleClose()}>
+        <Dialog open={open} onClose={handleClose}>
           <DialogTitle>Permitir o balanceamento dinâmico</DialogTitle>
           <DialogContent>
             <Typography color="#FF4646">
@@ -75,8 +59,8 @@ export default function ReleaseGoals() {
             </Typography>
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => handleClose()}>Cancelar</Button>
-            <Button onClick={() => handleConfirm()} color="primary">
+            <Button onClick={handleClose}>Cancelar</Button>
+            <Button onClick={handleConfirm} color="primary" name="confirmButton">
               Confirmar
             </Button>
           </DialogActions>
