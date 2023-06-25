@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`useRequestValues should return an array of historical characteristics 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "description": null,
+      "history": Array [
+        Object {
+          "characteristic_id": 1,
+          "created_at": "2023-01-21T23:43:00-03:00",
+          "id": 165,
+          "value": 0.8841939928977373,
+        },
+        Object {
+          "characteristic_id": 1,
+          "created_at": "2023-01-31T14:49:00-03:00",
+          "id": 167,
+          "value": 0.8841939928977373,
+        },
+        Object {
+          "characteristic_id": 1,
+          "created_at": "2023-02-04T01:04:00-03:00",
+          "id": 169,
+          "value": 0.8841939928977373,
+        },
+      ],
+      "id": 1,
+      "key": "reliability",
+      "name": "Reliability",
+    },
+  ],
+  "error": undefined,
+  "isEmpty": false,
+  "isLoading": false,
+  "isValidating": false,
+}
+`;

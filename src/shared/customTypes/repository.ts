@@ -9,6 +9,7 @@ export interface Historical {
   key: string;
   name: string;
   history: Array<SqcHistory>;
+  latest: Result;
 }
 
 export interface HistoricalCharacteristicsProps {
