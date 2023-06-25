@@ -21,9 +21,11 @@ import TuneIcon from '@mui/icons-material/Tune';
 import CardInfo from "./components/CardInfo/CardInfo";
 
 import ListNavCard from "./components/ListNavCard/ListNavCard";
+import useRequireAuth from "@hooks/useRequireAuth";
 
 const Home: NextPageWithLayout = () => {
   const { session } = useAuth();
+  useRequireAuth();
 
   const cardsData: Array<InfoData> = [
     {
