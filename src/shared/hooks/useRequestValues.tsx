@@ -43,6 +43,9 @@ export function useRequestValues({ type, value, addHistoricalSQC = false }: Prop
 
   if (addHistoricalSQC && !_.find(data?.results, { key: 'SQC' })) {
     data?.results?.push(historicalSQC);
+  } else if (!addHistoricalSQC) {
+    const index: number = _.findIndex(data?.results, { key: 'SQC' });
+    if (index !== -1) data?.results?.splice(index);
   }
 
   return {
