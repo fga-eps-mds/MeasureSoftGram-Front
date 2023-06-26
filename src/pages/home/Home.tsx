@@ -18,12 +18,15 @@ import SendTimeExtensionIcon from '@mui/icons-material/SendTimeExtension';
 import PermDataSettingIcon from '@mui/icons-material/PermDataSetting';
 import TuneIcon from '@mui/icons-material/Tune';
 
+import useRequireAuth from "@hooks/useRequireAuth";
+
 import CardInfo from "./components/CardInfo/CardInfo";
 
 import ListNavCard from "./components/ListNavCard/ListNavCard";
 
 const Home: NextPageWithLayout = () => {
   const { session } = useAuth();
+  useRequireAuth();
 
   const cardsData: Array<InfoData> = [
     {
