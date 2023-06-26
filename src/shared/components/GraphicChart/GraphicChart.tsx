@@ -3,27 +3,35 @@ import ReactEcharts from 'echarts-for-react';
 
 import formatCharacteristicsHistory from '@utils/formatCharacteristicsHistory';
 import formatMsgramChart from '@utils/formatMsgramChart';
+import formatRadarChart from '@utils/formatRadarChart'
 import { Alert, Box, Fade, Skeleton } from '@mui/material';
 import { useRequestValues } from '@hooks/useRequestValues';
 
 interface Prop {
   title: string;
-  type: 'line' | 'msg';
+  type: 'line' | 'msg' | 'radar';
   value: 'characteristics' | 'subcharacteristics' | 'measures' | 'metrics';
+  valueType?: 'historical-values' | 'latest-values';
   addHistoricalSQC?: boolean;
 }
 
-const GraphicChart = ({ title, type, value, addHistoricalSQC = false }: Prop) => {
+type formatFunctionType = {
+  [key: string]: Function;
+}
+
+const chartOption: formatFunctionType = {
+  'line': formatCharacteristicsHistory,
+  'msg': formatMsgramChart,
+  'radar': formatRadarChart,
+}
+
+const GraphicChart = ({ title, type, value, valueType = 'historical-values', addHistoricalSQC = false }: Prop) => {
   const {
     data: historical,
     error,
     isLoading,
     isEmpty,
-  } = useRequestValues({ type: 'historical-values', value, addHistoricalSQC });
-
-  const chartOption: Function = type === 'line'
-    ? formatCharacteristicsHistory
-    : formatMsgramChart;
+  } = useRequestValues({ type: valueType, value, addHistoricalSQC });
 
   let chartBoxHeight: string = 'auto';
   if (error || isEmpty) {
@@ -49,7 +57,7 @@ const GraphicChart = ({ title, type, value, addHistoricalSQC = false }: Prop) =>
         >
           <ReactEcharts
             data-testid="graphic-stacked-line"
-            option={chartOption({
+            option={chartOption[type]({
               historical,
               title,
               isEmpty: !!error || isEmpty

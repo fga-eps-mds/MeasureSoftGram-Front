@@ -17,8 +17,6 @@ const Repository: NextPageWithLayout = () => {
   useRequireAuth();
   useQuery();
 
-
-
   return (
     <Box display="flex" width="100%" flexDirection="row" marginTop="40px" marginBottom="24px">
       <Container sx={{ marginBottom: '150px' }}>
@@ -34,6 +32,18 @@ const Repository: NextPageWithLayout = () => {
           tabPanelItems={[
             <GraphicChart title="Histórico das Características" type='msg' value='characteristics' />,
             <GraphicChart title="Histórico das Características" type='line' value="characteristics" addHistoricalSQC />
+          ]}
+        />
+
+        <CustomTabs
+          tabId='tab2'
+          orientation='vertical'
+          tabHeaderItems={[
+            <SsidChartIcon sx={{fontSize: "21px"}}/>,
+            <LineAxisIcon sx={{fontSize: "21px"}}/>
+          ]}
+          tabPanelItems={[
+            <GraphicChart title="Cénario atual das Características" type='radar' value='characteristics' valueType='latest-values' />,
           ]}
         />
 
