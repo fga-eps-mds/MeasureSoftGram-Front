@@ -8,7 +8,7 @@ import { useRequestValues } from '@hooks/useRequestValues';
 
 interface Prop {
   title: string;
-  type: 'line' | 'msg',
+  type: 'line' | 'msg';
   value: 'characteristics' | 'subcharacteristics' | 'measures' | 'metrics';
   addHistoricalSQC?: boolean;
 }

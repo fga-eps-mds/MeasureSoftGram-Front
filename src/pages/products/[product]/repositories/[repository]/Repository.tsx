@@ -5,13 +5,12 @@ import getLayout from '@components/Layout';
 import useRequireAuth from '@hooks/useRequireAuth';
 import GraphicChart from '@components/GraphicChart'
 import LatestValueTable from '@components/LatestValueTable';
-import RadarIcon from '@mui/icons-material/Radar';
-import SpeedIcon from '@mui/icons-material/Speed';
+import SsidChartIcon from '@mui/icons-material/SsidChart';
+import LineAxisIcon from '@mui/icons-material/LineAxis';
 import CustomTabs from "./components/CustomTabs";
 
 import Headers from './components/Header';
 import { useQuery } from './hooks/useQuery';
-
 
 
 const Repository: NextPageWithLayout = () => {
@@ -29,12 +28,12 @@ const Repository: NextPageWithLayout = () => {
           tabId='tab1'
           orientation='vertical'
           tabHeaderItems={[
-            <RadarIcon sx={{fontSize: "27px"}}/>,
-            <SpeedIcon sx={{fontSize: "27px"}}/>
+            <SsidChartIcon sx={{fontSize: "21px"}}/>,
+            <LineAxisIcon sx={{fontSize: "21px"}}/>
           ]}
           tabPanelItems={[
-            <GraphicChart title="Histórico das Características" type='line' value="characteristics" addHistoricalSQC />,
-            <GraphicChart title="Histórico das Características" type='msg' value='characteristics' />
+            <GraphicChart title="Histórico das Características" type='msg' value='characteristics' />,
+            <GraphicChart title="Histórico das Características" type='line' value="characteristics" addHistoricalSQC />
           ]}
         />
 

@@ -24,12 +24,14 @@ function CustomTabs({ tabId, orientation, tabHeaderItems, tabPanelItems }: Props
     });
 
     return tabHeaderItems?.map((item, idx) => {
+      const style = { minWidth: '50px' }  as const;
+
       if (item) {
         if (typeof item === 'string')
-          return <Tab key={tabId + idx.toString()} icon={item} label={item} {...allyProps(tabId, idx)}/>
+          return <Tab sx={style} key={tabId + idx.toString()} label={item} {...allyProps(tabId, idx)}/>
 
         if (React.isValidElement(item))
-          return <Tab key={tabId + idx.toString()} icon={item} {...allyProps(tabId, idx)}/>
+          return <Tab sx={style} key={tabId + idx.toString()} icon={item} {...allyProps(tabId, idx)}/>
       }
 
       return <Box key={tabId + idx.toString()}/>
@@ -42,7 +44,7 @@ function CustomTabs({ tabId, orientation, tabHeaderItems, tabPanelItems }: Props
         orientation={orientation}
         value={value}
         onChange={handleTabChange}
-        sx={{ borderRight: 1}}
+        sx={{ borderRight: '1px solid #B8B8B8', boxShadow: '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)' }}
       >
         {TabHeaderItems()}
       </Tabs>
