@@ -4,12 +4,13 @@ import ReactEcharts from 'echarts-for-react';
 import formatCharacteristicsHistory from '@utils/formatCharacteristicsHistory';
 import formatMsgramChart from '@utils/formatMsgramChart';
 import formatRadarChart from '@utils/formatRadarChart'
+import formatGaugeChart from '@utils/formatGaugeChart';
 import { Alert, Box, Fade, Skeleton } from '@mui/material';
 import { useRequestValues } from '@hooks/useRequestValues';
 
 interface Prop {
   title: string;
-  type: 'line' | 'msg' | 'radar';
+  type: 'line' | 'msg' | 'radar' | 'gauge';
   value: 'characteristics' | 'subcharacteristics' | 'measures' | 'metrics';
   valueType?: 'historical-values' | 'latest-values';
   addHistoricalSQC?: boolean;
@@ -23,6 +24,7 @@ const chartOption: formatFunctionType = {
   'line': formatCharacteristicsHistory,
   'msg': formatMsgramChart,
   'radar': formatRadarChart,
+  'gauge': formatGaugeChart
 }
 
 const GraphicChart = ({ title, type, value, valueType = 'historical-values', addHistoricalSQC = false }: Prop) => {

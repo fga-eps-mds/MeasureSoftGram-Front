@@ -1,17 +1,23 @@
 import React from 'react';
-import { Box, Container } from '@mui/material';
+
 import { NextPageWithLayout } from '@pages/_app.next';
-import getLayout from '@components/Layout';
-import useRequireAuth from '@hooks/useRequireAuth';
-import GraphicChart from '@components/GraphicChart'
-import LatestValueTable from '@components/LatestValueTable';
+
+import { Box, Container } from '@mui/material';
 import SsidChartIcon from '@mui/icons-material/SsidChart';
 import LineAxisIcon from '@mui/icons-material/LineAxis';
-import CustomTabs from "./components/CustomTabs";
+import RadarIcon from '@mui/icons-material/Radar';
+import SpeedIcon from '@mui/icons-material/Speed';
+
+import useRequireAuth from '@hooks/useRequireAuth';
+
+import getLayout from '@components/Layout';
+import GraphicChart from '@components/GraphicChart'
+import LatestValueTable from '@components/LatestValueTable';
 
 import Headers from './components/Header';
-import { useQuery } from './hooks/useQuery';
+import CustomTabs from "./components/CustomTabs";
 
+import { useQuery } from './hooks/useQuery';
 
 const Repository: NextPageWithLayout = () => {
   useRequireAuth();
@@ -26,12 +32,12 @@ const Repository: NextPageWithLayout = () => {
           tabId='tab1'
           orientation='vertical'
           tabHeaderItems={[
-            <SsidChartIcon sx={{fontSize: "21px"}}/>,
-            <LineAxisIcon sx={{fontSize: "21px"}}/>
+            <SsidChartIcon key='tab1-0' sx={{fontSize: "21px"}}/>,
+            <LineAxisIcon key='tab1-1' sx={{fontSize: "21px"}}/>
           ]}
           tabPanelItems={[
-            <GraphicChart title="Histórico das Características" type='msg' value='characteristics' />,
-            <GraphicChart title="Histórico das Características" type='line' value="characteristics" addHistoricalSQC />
+            <GraphicChart key='tab1-0-0' title="Histórico das Características" type='msg' value='characteristics' />,
+            <GraphicChart key='tab1-1-1' title="Histórico das Características" type='line' value="characteristics" addHistoricalSQC />
           ]}
         />
 
@@ -39,11 +45,12 @@ const Repository: NextPageWithLayout = () => {
           tabId='tab2'
           orientation='vertical'
           tabHeaderItems={[
-            <SsidChartIcon sx={{fontSize: "21px"}}/>,
-            <LineAxisIcon sx={{fontSize: "21px"}}/>
+            <RadarIcon key='tab2-0' sx={{fontSize: "21px"}}/>,
+            <SpeedIcon key='tab2-1' sx={{fontSize: "21px"}}/>
           ]}
           tabPanelItems={[
-            <GraphicChart title="Cénario atual das Características" type='radar' value='characteristics' valueType='latest-values' />,
+            <GraphicChart key='tab2-0-1' title="Cénario atual das Características" type='gauge' value='characteristics' valueType='latest-values' />,
+            <GraphicChart key='tab2-0-0' title="Cénario atual das Características" type='radar' value='characteristics' valueType='latest-values' />
           ]}
         />
 
