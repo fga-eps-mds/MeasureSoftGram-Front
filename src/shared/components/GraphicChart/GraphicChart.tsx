@@ -3,7 +3,7 @@ import ReactEcharts from 'echarts-for-react';
 
 import formatCharacteristicsHistory from '@utils/formatCharacteristicsHistory';
 import formatMsgramChart from '@utils/formatMsgramChart';
-import formatRadarChart from '@utils/formatRadarChart'
+import formatRadarChart from '@utils/formatRadarChart';
 import formatGaugeChart from '@utils/formatGaugeChart';
 import { Alert, Box, Fade, Skeleton } from '@mui/material';
 import { useRequestValues } from '@hooks/useRequestValues';
@@ -18,28 +18,28 @@ interface Prop {
 
 type formatFunctionType = {
   [key: string]: Function;
-}
+};
 
 const chartOption: formatFunctionType = {
-  'line': formatCharacteristicsHistory,
-  'msg': formatMsgramChart,
-  'radar': formatRadarChart,
-  'gauge': formatGaugeChart
-}
+  line: formatCharacteristicsHistory,
+  msg: formatMsgramChart,
+  radar: formatRadarChart,
+  gauge: formatGaugeChart
+};
 
 const GraphicChart = ({ title, type, value, valueType = 'historical-values', addHistoricalSQC = false }: Prop) => {
   const {
     data: historical,
     error,
     isLoading,
-    isEmpty,
+    isEmpty
   } = useRequestValues({ type: valueType, value, addHistoricalSQC });
 
   let chartBoxHeight: string = 'auto';
   if (error || isEmpty) {
     chartBoxHeight = '50px';
   } else if (type === 'msg') {
-    chartBoxHeight = `${historical.length * 82 + 85}px`
+    chartBoxHeight = `${historical.length * 82 + 85}px`;
   }
 
   return isLoading ? (
