@@ -3,7 +3,7 @@
 exports[`<LatestValueTable /> should render correctly 1`] = `
 <div>
   <div
-    class="MuiBox-root css-1hw29i9"
+    class="MuiBox-root css-10khgmf"
   >
     <div
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-18s8wze-MuiPaper-root-MuiTableContainer-root"
@@ -92,7 +92,7 @@ exports[`<LatestValueTable /> should render correctly 1`] = `
 exports[`<LatestValueTable /> should render correctly with empty data 1`] = `
 <div>
   <div
-    class="MuiBox-root css-1hw29i9"
+    class="MuiBox-root css-10khgmf"
   >
     <div
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-18s8wze-MuiPaper-root-MuiTableContainer-root"
@@ -166,7 +166,7 @@ exports[`<LatestValueTable /> should render correctly with empty data 1`] = `
 exports[`<LatestValueTable /> should render correctly with error 1`] = `
 <div>
   <div
-    class="MuiBox-root css-1hw29i9"
+    class="MuiBox-root css-10khgmf"
   >
     <div
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-18s8wze-MuiPaper-root-MuiTableContainer-root"
