@@ -18,20 +18,22 @@ export function useRequestValues({ type, value, addHistoricalSQC = false }: Prop
   const { currentProduct } = useProductContext();
   const { currentRepository, historicalSQC } = useRepositoryContext();
 
-  const { value: isLoading, setFalse: setIsLoadingEnd } = useBoolean(true);
+  const { value: isLoading, setTrue: setLoading, setFalse: setIsLoadingEnd } = useBoolean(false);
 
   const { data, error, isValidating } = useSWR<{ results: Historical[] }>(
     `organizations/${currentOrganization?.id}` +
       `/products/${currentProduct?.id}` +
       `/repositories/${currentRepository?.id}` +
       `/${type}/${value}/`,
-    (url) =>
-      api
+    (url) => {
+      setLoading();
+      return api
         .get(url)
         .then((response) => response.data)
         .finally(() => {
           setIsLoadingEnd();
-        }),
+        });
+    },
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
