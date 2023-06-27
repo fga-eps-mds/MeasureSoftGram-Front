@@ -49,7 +49,7 @@ export function Breadcrumbs() {
       // ?.filter((data) => data.key !== 'releases' && !Number.isNaN(data?.key)); // remove releases key;
 
     paths.unshift(
-      <Link href="/home">
+      <Link key="/home" href="/home">
         <Box
           sx={{
             display: "flex",

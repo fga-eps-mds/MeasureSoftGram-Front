@@ -153,9 +153,9 @@ const Products: NextPageWithLayout = () => {
 
               <Box display="flex" flexWrap="wrap" marginTop="60px" justifyContent="space-around">
                 {filteredProducts?.map((product, index) => (
-                  <Box key={product.id} display="flex" flexDirection="row" paddingRight="20px" paddingBottom="20px">
+                  <Box key={product.id + index.toString()} display="flex" flexDirection="row" paddingRight="20px" paddingBottom="20px">
                     <CardNavigation
-                      key={product.id}
+                      key={product.id+ index.toString()}
                       id={product.id}
                       name={product.name}
                       url={`/products/${currentOrganization?.id}-${product?.id}-${product?.name}`}
@@ -166,7 +166,7 @@ const Products: NextPageWithLayout = () => {
                     </IconButton>
                     <Menu
                       id="basic-menu"
-                      key={product?.id}
+                      key={product?.id ?? + index.toString()}
                       anchorEl={anchorEl[index]}
                       open={Boolean(anchorEl[index])}
                       onClick={(event) => handleCloseMenu(event, index)}
@@ -174,7 +174,7 @@ const Products: NextPageWithLayout = () => {
                         'aria-labelledby': 'basic-button'
                       }}
                     >
-                      <MenuItem key={product?.id} onClick={handleOpenConfig(product)}>
+                      <MenuItem key={product?.id ?? + index.toString()} onClick={handleOpenConfig(product)}>
                         Definir pesos para uma configuração
                       </MenuItem>
                     </Menu>

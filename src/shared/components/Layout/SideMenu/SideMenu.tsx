@@ -58,6 +58,7 @@ function SideMenu() {
         currentProduct &&
         MenuItems.map((item) => (
           <SideMenuItem
+            key={item.text}
             {...item}
             onClick={() => {
               void router.push(item.path);
