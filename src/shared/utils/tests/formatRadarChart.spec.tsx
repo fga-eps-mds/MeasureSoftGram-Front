@@ -39,4 +39,16 @@ describe('formatGaugeChart', () => {
 
     expect(values).toMatchSnapshot();
   });
+
+  it('should return an default object when historical param is empty', () => {
+    const params: FormatRadarChartType = {
+      historical: [],
+      title: 'title-test',
+      isEmpty: false
+    }
+
+    const values = formatRadarChart(params);
+
+    expect(values).toMatchSnapshot();
+  });
 });

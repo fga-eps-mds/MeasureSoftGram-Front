@@ -1,5 +1,41 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`formatGaugeChart should return an default object when historical param is empty 1`] = `
+Object {
+  "legend": Object {
+    "data": Array [
+      "Valores atuais",
+      "Valores esperado",
+    ],
+    "show": true,
+  },
+  "radar": Object {
+    "indicator": Array [],
+    "shape": "circle",
+    "show": true,
+  },
+  "series": Array [
+    Object {
+      "data": Array [
+        Object {
+          "name": "Valores atuais",
+          "value": Array [],
+        },
+        Object {
+          "name": "Valores esperado",
+          "value": Array [],
+        },
+      ],
+      "show": true,
+      "type": "radar",
+    },
+  ],
+  "title": Object {
+    "text": "title-test",
+  },
+}
+`;
+
 exports[`formatGaugeChart should return an default object when historical param undefined 1`] = `
 Object {
   "legend": Object {

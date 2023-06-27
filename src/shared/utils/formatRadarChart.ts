@@ -26,7 +26,7 @@ const formatRadarChart = ({ historical, title, isEmpty }: FormatRadarChartType) 
   }
 
   const legendData = ['Valores atuais', 'Valores esperado'];
-  const radarIndicator = _.map(historical, item => ({ name: item.name, max: 1 })) ?? [];
+  const radarIndicator = _.map(historical, item => ({ name: item.name, max: 1 }));
 
   const series = [
     {
@@ -35,11 +35,11 @@ const formatRadarChart = ({ historical, title, isEmpty }: FormatRadarChartType) 
       data: [
         {
           name: 'Valores atuais',
-          value: _.map(historical, item => item.latest.value.toFixed(2)) ?? []
+          value: _.map(historical, item => item.latest.value.toFixed(2))
         },
         {
           name: 'Valores esperado',
-          value: _.map(historical, () => 1) ?? []
+          value: _.map(historical, () => 1)
         }
       ]
     }
