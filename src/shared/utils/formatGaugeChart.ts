@@ -8,7 +8,7 @@ export interface FormatGaugeChartType {
 
 const formatGaugeChart = ({ historical, title, isEmpty }: FormatGaugeChartType) => {
   const maxSeriesItems:number = 6;
-  const historicalLength: number = (historical?.length || 0) > maxSeriesItems ? maxSeriesItems : historical?.length || 0;
+  const historicalLength: number = (historical?.length ?? 0) > maxSeriesItems ? maxSeriesItems : historical?.length ?? 0;
   const halfHistoricalLength:number = historicalLength / 2;
   let counter:number = halfHistoricalLength * -1;
 
@@ -26,7 +26,7 @@ const formatGaugeChart = ({ historical, title, isEmpty }: FormatGaugeChartType) 
         offsetCenter: [offsetCenterX, '95%']
       }
     }
-  }) || [];
+  }) ?? [];
 
   return {
     title: {

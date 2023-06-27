@@ -51,6 +51,7 @@ function CustomTabs({ tabId, orientation, tabHeaderItems, tabPanelItems }: Props
 
       {tabPanelItems.map((item, idx) =>
         <Box
+          key={tabId + idx.toString()}
           role="tabpanel"
           height="auto"
           hidden={value !== idx}
