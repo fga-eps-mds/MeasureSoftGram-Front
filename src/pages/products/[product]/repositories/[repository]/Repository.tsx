@@ -5,8 +5,9 @@ import { NextPageWithLayout } from '@pages/_app.next';
 import { Box, Container } from '@mui/material';
 import SsidChartIcon from '@mui/icons-material/SsidChart';
 import LineAxisIcon from '@mui/icons-material/LineAxis';
-import RadarIcon from '@mui/icons-material/Radar';
 import SpeedIcon from '@mui/icons-material/Speed';
+
+import { AiOutlineRadarChart } from 'react-icons/ai';
 
 import useRequireAuth from '@hooks/useRequireAuth';
 
@@ -51,8 +52,8 @@ const Repository: NextPageWithLayout = () => {
           tabId="tab2"
           orientation="vertical"
           tabHeaderItems={[
-            <RadarIcon key="tab2-0" sx={{ fontSize: '21px' }} />,
-            <SpeedIcon key="tab2-1" sx={{ fontSize: '21px' }} />
+            <SpeedIcon key="tab2-1" sx={{ fontSize: '21px' }} />,
+            <AiOutlineRadarChart key="tab2-0" fontSize="22px" />
           ]}
           tabPanelItems={[
             <GraphicChart

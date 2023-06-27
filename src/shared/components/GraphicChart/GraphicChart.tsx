@@ -55,7 +55,6 @@ const GraphicChart = ({ title, type, value, valueType = 'historical-values', add
           paddingY="10px"
           width="100%"
           height={chartBoxHeight}
-          marginTop="20px"
         >
           <ReactEcharts
             data-testid="graphic-stacked-line"

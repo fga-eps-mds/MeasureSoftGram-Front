@@ -41,7 +41,7 @@ function LatestValueTable({ title, value }: Prop) {
   return isLoading ? (
     <Skeleton sx={{ width: '100%', minWidth: 400, height: '215px', marginTop: '12px' }} />
   ) : (
-    <Box marginTop="12px">
+    <Box marginY="12px">
       <Fade in timeout={1000}>
         <TableContainer component={Paper} sx={{ minWidth: 350, maxHeight: '215px' }}>
           <Table stickyHeader aria-label="simple table">
