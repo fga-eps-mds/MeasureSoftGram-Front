@@ -35,6 +35,8 @@ function CustomTabs({ tabId, orientation, tabHeaderItems, tabPanelItems }: Props
     });
   };
 
+  const displayState = (idx: number):string => value === idx ? 'show' : 'none';
+
   return (
     <Box sx={{ display: 'flex', flexGrow: 1, margin: '1rem 0', backgroundColor: 'white' }}>
       <Tabs
@@ -56,12 +58,12 @@ function CustomTabs({ tabId, orientation, tabHeaderItems, tabPanelItems }: Props
           key={tabId + idx.toString()}
           role="tabpanel"
           height="auto"
-          hidden={value !== idx}
+          display={displayState(idx)}
           width="100%"
           id={`vertical-tabpanel-${idx}`}
           aria-labelledby={`vertical-tab-${idx}`}
         >
-          {value === idx && item}
+          {item}
         </Box>
       ))}
     </Box>

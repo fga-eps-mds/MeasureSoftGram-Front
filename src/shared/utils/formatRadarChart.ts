@@ -8,21 +8,38 @@ export interface FormatRadarChartType {
 }
 
 const formatRadarChart = ({ historical, title, isEmpty }: FormatRadarChartType) => {
-  const legendData = ['Valores atuais', 'Valores esperado'];
-  const radarIndicator = _.map(historical, item => ({ name: item.name, max: 1 }));
+  if (!historical) {
+    return {
+      title: {
+        text: title,
+      },
+      legend: {
+        show: false
+      },
+      radar: {
+        show: false,
+        shape: 'circle',
+        indicator: [],
+      },
+      series: []
+    }
+  }
 
-  const serA = [
+  const legendData = ['Valores atuais', 'Valores esperado'];
+  const radarIndicator = _.map(historical, item => ({ name: item.name, max: 1 })) ?? [];
+
+  const series = [
     {
       show: !isEmpty,
       type: 'radar',
       data: [
         {
           name: 'Valores atuais',
-          value: _.map(historical, item => item.latest.value.toFixed(2))
+          value: _.map(historical, item => item.latest.value.toFixed(2)) ?? []
         },
         {
           name: 'Valores esperado',
-          value: _.map(historical, () => 1)
+          value: _.map(historical, () => 1) ?? []
         }
       ]
     }
@@ -41,7 +58,7 @@ const formatRadarChart = ({ historical, title, isEmpty }: FormatRadarChartType) 
       shape: 'circle',
       indicator: radarIndicator,
     },
-    series: serA
+    series
   }
 }
 

@@ -52,21 +52,21 @@ const Repository: NextPageWithLayout = () => {
           tabId="tab2"
           orientation="vertical"
           tabHeaderItems={[
-            <SpeedIcon key="tab2-1" sx={{ fontSize: '21px' }} />,
-            <AiOutlineRadarChart key="tab2-0" fontSize="22px" />
+            <AiOutlineRadarChart key="tab2-0" fontSize="22px" />,
+            <SpeedIcon key="tab2-1" sx={{ fontSize: '21px' }} />
           ]}
           tabPanelItems={[
-            <GraphicChart
-              key="tab2-0-1"
-              title="Cénario atual das Características"
-              type="gauge"
-              value="characteristics"
-              valueType="latest-values"
-            />,
             <GraphicChart
               key="tab2-0-0"
               title="Cénario atual das Características"
               type="radar"
+              value="characteristics"
+              valueType="latest-values"
+            />,
+            <GraphicChart
+              key="tab2-0-1"
+              title="Cénario atual das Características"
+              type="gauge"
               value="characteristics"
               valueType="latest-values"
             />
