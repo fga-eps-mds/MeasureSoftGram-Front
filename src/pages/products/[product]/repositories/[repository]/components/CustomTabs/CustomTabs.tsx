@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Box, Tabs, Tab } from "@mui/material";
-import TabPanel from "../TabPanel/TabPanel";
 
 interface Props {
   tabId: string,
@@ -24,17 +23,18 @@ function CustomTabs({ tabId, orientation, tabHeaderItems, tabPanelItems }: Props
     });
 
     return tabHeaderItems?.map((item, idx) => {
-      const style = { minWidth: '50px' }  as const;
+      const style = { minWidth: '50px' } as const;
+      const key: string = tabId + idx.toString();
 
       if (item) {
         if (typeof item === 'string')
-          return <Tab sx={style} key={tabId + idx.toString()} label={item} {...allyProps(tabId, idx)}/>
+          return <Tab sx={style} key={key} label={item} {...allyProps(tabId, idx)}/>
 
         if (React.isValidElement(item))
-          return <Tab sx={style} key={tabId + idx.toString()} icon={item} {...allyProps(tabId, idx)}/>
+          return <Tab sx={style} key={key} icon={item} {...allyProps(tabId, idx)}/>
       }
 
-      return <Box key={tabId + idx.toString()}/>
+      return <Box key={key}/>
     })
   }
 
@@ -49,7 +49,18 @@ function CustomTabs({ tabId, orientation, tabHeaderItems, tabPanelItems }: Props
         {TabHeaderItems()}
       </Tabs>
 
-      {tabPanelItems.map((item, idx) => <TabPanel key={tabId + idx.toString()} value={value} index={idx} >{item}</TabPanel>)}
+      {tabPanelItems.map((item, idx) =>
+        <Box
+          role="tabpanel"
+          height="auto"
+          hidden={value !== idx}
+          width="100%"
+          id={`vertical-tabpanel-${idx}`}
+          aria-labelledby={`vertical-tab-${idx}`}
+        >
+          {value === idx && item}
+        </Box>
+      )}
     </Box>);
 }
 
