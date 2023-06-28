@@ -26,9 +26,9 @@ const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
     void router.push(path);
   };
 
-  const handleRepositoriesFilter = (name: string) => {
+  function handleRepositoriesFilter(name: string) {
     if ((name == null || name === '') && repositoryList?.length) {
-      setFilteredRepositories(maxCount ? repositoryList.slice(0, maxCount) : repositoryList);
+      setFilteredRepositories([...repositoryList]);
       return;
     }
     const repositoriesWithName =
@@ -36,14 +36,14 @@ const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
         currentRepository.name.toLowerCase().includes(name.toLowerCase())
       ) ?? [];
 
-    setFilteredRepositories(maxCount ? repositoriesWithName.slice(0, maxCount) : repositoriesWithName);
-  };
+    setFilteredRepositories([...repositoriesWithName]);
+  }
 
   // update historicalCharacteristics if repositoryList changes
   useEffect(() => {
     if (repositoryList?.length) {
       setFilteredRepositories((prevState) => {
-        const tempRepositoryList = maxCount != null ? [...repositoryList.splice(0, maxCount)] : [...repositoryList];
+        const tempRepositoryList = [...repositoryList];
         const prevString = JSON.stringify(prevState);
         const currentString = JSON.stringify(tempRepositoryList);
 
@@ -72,7 +72,7 @@ const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {filteredRepositories?.map((repo) => (
+          {filteredRepositories?.slice(0, maxCount ?? filteredRepositories.length).map((repo) => (
             <React.Fragment key={repo.id}>
               <TableRow hover style={{ cursor: 'pointer' }} data-testid="repository-row">
                 <TableCell colSpan={2} onClick={() => handleClickRedirects(`${repo.id}-${repo.name}`)}>
