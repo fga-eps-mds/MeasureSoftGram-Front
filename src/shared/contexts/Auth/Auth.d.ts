@@ -9,6 +9,7 @@ type authContextType = {
 };
 
 interface User {
+  [x: string]: any;
   username: string;
   first_name: string;
   last_name: string;
