@@ -14,7 +14,7 @@ import ReleasesList from './components/ReleasesList';
 
 const Product: NextPageWithLayout = () => {
   useRequireAuth();
-  const { repositoriesSqcHistory } = useQuery();
+  const { repositoriesTsqmiHistory } = useQuery();
 
   return (
     <>
@@ -22,7 +22,7 @@ const Product: NextPageWithLayout = () => {
         <title>PRODUCT NAME</title>
       </Head>
 
-      <ProductContent repositoriesSqcHistory={repositoriesSqcHistory} />
+      <ProductContent repositoriesTsqmiHistory={repositoriesTsqmiHistory} />
       <RepositoriesList />
       <ReleasesList />
     </>

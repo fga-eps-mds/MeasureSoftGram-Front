@@ -1,38 +1,38 @@
-import { MeasuresHistoryResult, RepositoriesSqcHistory } from '@customTypes/product';
+import { MeasuresHistoryResult, RepositoriesTsqmiHistory } from '@customTypes/product';
 import capitalizer from '@utils/capitalizer';
 import formatCharacteristicsHistory from '@utils/formatCharacteristicsHistory';
 import formatEntitiesFilter, { FormatEntitiesFilterType } from '@utils/formatEntitiesFilter';
 import formatMeasuresHistoryChartData from '@utils/formatMeasuresHistory';
 import formatMsgramChart from '@utils/formatMsgramChart';
-import formatRepositoriesSqcHistory from '@utils/formatRepositoriesSqcHistory';
+import formatRepositoriesTsqmiHistory from '@utils/formatRepositoriesTsqmiHistory';
 import { getPathId } from '@utils/pathDestructer';
 import undelineRemover from '@utils/undelineRemover';
 
 const LOWER_STRING_WITHOUT_UNDERLINE = 'test utils';
 const LOWER_STRING = 'test_utils';
 const CAPITAL_STRING = 'Test_utils';
-const SQC_HISTORY_MOCKED: RepositoriesSqcHistory = {
+const TSQMI_HISTORY_MOCKED: RepositoriesTsqmiHistory = {
   count: 1,
   results: [
     {
       history: [{ created_at: '2022-09-05T17:33:14', value: 50, id: 1 }],
       id: 1,
       url: 'URL',
-      name: 'SQC_NAME',
-      key: 'SQC_KEY',
-      description: 'SQC_DESCRIPTION',
+      name: 'TSQMI_NAME',
+      key: 'TSQMI_KEY',
+      description: 'TSQMI_DESCRIPTION',
       product: 'PRODUCT_NAME'
     }
   ]
 };
-const EXPECTED_SQC_GRAPH = {
+const EXPECTED_TSQMI_GRAPH = {
   dataZoom: [
     { end: 2000, start: 0, type: 'inside' },
     { end: 2000, start: 0 }
   ],
   grid: { bottom: '12%', containLabel: true, left: '3%', right: '4%', top: '25%' },
-  legend: { data: ['SQC_NAME', 'SQC_NAME'], top: 40 },
-  series: [{ animationDuration: 1200, name: 'SQC_NAME', type: 'line' }],
+  legend: { data: ['TSQMI_NAME', 'TSQMI_NAME'], top: 40 },
+  series: [{ animationDuration: 1200, name: 'TSQMI_NAME', type: 'line' }],
   title: { text: 'Comportamento observado do produto' },
   toolbox: { feature: { dataZoom: { yAxisIndex: 'none' }, restore: {}, saveAsImage: {} } },
   tooltip: { trigger: 'axis' },
@@ -59,7 +59,7 @@ const FILTER_CONST: FormatEntitiesFilterType = [
 const CHARACTERISTICS_HISTORY = [
   {
     id: 1,
-    key: 'SQC',
+    key: 'TSQMI',
     name: 'Name',
     history: [{ created_at: '2022-09-05T17:33:14', id: 1, value: 50 }]
   },
@@ -138,10 +138,10 @@ describe('Utils', () => {
       });
     });
   });
-  describe('formatRepositoriesSqcHistory', () => {
-    it('Deve formatar valores do grafico SQC corretamente', () => {
-      const graph = formatRepositoriesSqcHistory(SQC_HISTORY_MOCKED);
-      expect(graph).toMatchObject(EXPECTED_SQC_GRAPH);
+  describe('formatRepositoriesTsqmiHistory', () => {
+    it('Deve formatar valores do grafico TSQMI corretamente', () => {
+      const graph = formatRepositoriesTsqmiHistory(TSQMI_HISTORY_MOCKED);
+      expect(graph).toMatchObject(EXPECTED_TSQMI_GRAPH);
     });
   });
   describe('formatEntitiesFilter', () => {

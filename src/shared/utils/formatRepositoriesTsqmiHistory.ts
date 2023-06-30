@@ -1,8 +1,8 @@
-import { RepositoriesSqcHistory } from '@customTypes/product';
+import { RepositoriesTsqmiHistory } from '@customTypes/product';
 
 const formatTwoDecimalPlaces = (value: number) => Math.round(value * 100) / 100;
 
-const formatRepositoriesSqcHistory = (history: RepositoriesSqcHistory) => {
+const formatRepositoriesTsqmiHistory = (history: RepositoriesTsqmiHistory) => {
   const legendData: string[] = [];
 
   const series = history.results.map((item) => {
@@ -71,4 +71,4 @@ const formatRepositoriesSqcHistory = (history: RepositoriesSqcHistory) => {
   };
 };
 
-export default formatRepositoriesSqcHistory;
+export default formatRepositoriesTsqmiHistory;

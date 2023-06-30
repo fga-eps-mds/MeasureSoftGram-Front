@@ -8,16 +8,16 @@ import { useRequestValues } from '@hooks/useRequestValues';
 interface Prop {
   title: string;
   value: 'characteristics' | 'subcharacteristics' | 'measures' | 'metrics';
-  addHistoricalSQC?: boolean;
+  addHistoricalTSQMI?: boolean;
 }
 
-const GraphicStackedLine = ({ title, value, addHistoricalSQC = false }: Prop) => {
+const GraphicStackedLine = ({ title, value, addHistoricalTSQMI = false }: Prop) => {
   const {
     data: historical,
     error,
     isLoading,
     isEmpty
-  } = useRequestValues({ type: 'historical-values', value, addHistoricalSQC });
+  } = useRequestValues({ type: 'historical-values', value, addHistoricalTSQMI });
 
   return isLoading ? (
     <Skeleton variant="rectangular" height="300px" sx={{ marginTop: '20px' }} />

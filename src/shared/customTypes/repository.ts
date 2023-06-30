@@ -1,4 +1,4 @@
-export interface SqcHistory {
+export interface TsqmiHistory {
   id: number;
   value: number;
   created_at: Date;
@@ -8,7 +8,7 @@ export interface Historical {
   id: number;
   key: string;
   name: string;
-  history: Array<SqcHistory>;
+  history: Array<TsqmiHistory>;
   latest: Result;
 }
 
@@ -37,7 +37,7 @@ interface RepositoryResults {
   measures: string;
   subcharacteristics: string;
   characteristics: string;
-  sqc: string;
+  tsqmi: string;
 }
 
 export interface Repository {

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { RepositoriesSqcHistory } from '@customTypes/product';
+import { RepositoriesTsqmiHistory } from '@customTypes/product';
 import { productQuery } from '@services/product';
 
 import { useProductContext } from '@contexts/ProductProvider';
@@ -13,7 +13,7 @@ import { getPathId } from '@utils/pathDestructer';
 export const useQuery = () => {
   const { setCurrentProduct } = useProductContext();
   const { setRepositoryList } = useRepositoryContext();
-  const [repositoriesSqcHistory, setRepositoriesSqcHistory] = useState<RepositoriesSqcHistory>();
+  const [repositoriesTsqmiHistory, setRepositoriesTsqmiHistory] = useState<RepositoriesTsqmiHistory>();
 
   const { query } = useRouter();
 
@@ -27,10 +27,10 @@ export const useQuery = () => {
     }
   }
 
-  async function loadRepositoriesSqcHistory(organizationId: string, productId: string) {
+  async function loadRepositoriesTsqmiHistory(organizationId: string, productId: string) {
     try {
-      const result = await productQuery.getProductRepositoriesSqcHistory(organizationId, productId as string);
-      setRepositoriesSqcHistory(result.data);
+      const result = await productQuery.getProductRepositoriesTsqmiHistory(organizationId, productId as string);
+      setRepositoriesTsqmiHistory(result.data);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
@@ -52,11 +52,11 @@ export const useQuery = () => {
       const [organizationId, productId] = getPathId(query?.product as string);
 
       loadProduct(organizationId, productId);
-      loadRepositoriesSqcHistory(organizationId, productId);
+      loadRepositoriesTsqmiHistory(organizationId, productId);
       loadRepositories(organizationId, productId);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query?.product]);
 
-  return { repositoriesSqcHistory };
+  return { repositoriesTsqmiHistory };
 };
