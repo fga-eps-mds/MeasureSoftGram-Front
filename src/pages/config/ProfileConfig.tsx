@@ -4,13 +4,23 @@ import Head from 'next/head';
 import { getLayout } from '@components/Layout/getLayout';
 import { Container, TextField, InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getAccessToken } from '@services/Auth';
 
 const ProfileConfig: NextPageWithLayout = () => {
   useRequireAuth();
 
   const [tokenVisible, setTokenVisible] = useState(false);
-  const apiToken = 'YourAPIToken'; // replace with your actual token
+  const [apiToken, setApiToken] = useState('');
+
+  useEffect(() => {
+    getAccessToken().then((res) => {
+      if (res.type === 'success') {
+        setApiToken(res.value.key);
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleToggleVisibility = () => {
     setTokenVisible(!tokenVisible);
