@@ -16,7 +16,7 @@ const ProfileConfig: NextPageWithLayout = () => {
   useEffect(() => {
     getAccessToken().then((res) => {
       if (res.type === 'success') {
-        setApiToken('Token ' + res.value.key);
+        setApiToken(`Token ${res.value.key}`); // Changed to use template literals
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
