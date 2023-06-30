@@ -163,7 +163,7 @@ exports[`<GraphicStackedLine /> should render correctly with error 1`] = `
 </div>
 `;
 
-exports[`<GraphicStackedLine /> should render correctly with historical SQC 1`] = `
+exports[`<GraphicStackedLine /> should render correctly with historical TSQMI 1`] = `
 <div>
   <div
     class="MuiBox-root css-vgdffj"

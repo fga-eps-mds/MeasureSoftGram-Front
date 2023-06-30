@@ -15,7 +15,7 @@ import { LatestValues, CompareGoalAccomplished } from '@customTypes/product';
 import { LARGE_PRIME_NUMBER } from './const';
 
 export const useQuery = () => {
-  const { setCurrentRepository, setCharacteristics, setSubCharacteristics, setMeasures, setMetrics, setHistoricalSQC } =
+  const { setCurrentRepository, setCharacteristics, setSubCharacteristics, setMeasures, setMetrics, setHistoricalTSQMI } =
     useRepositoryContext();
 
   const [repositoryHistoricalCharacteristics, setRepositoryHistoricalCharacteristics] = useState<Historical[]>([]);
@@ -93,7 +93,7 @@ export const useQuery = () => {
     }
   }
 
-  async function loadHistoricalSqc(organizationId: string, productId: string, repositoryId: string) {
+  async function loadHistoricalTsqmi(organizationId: string, productId: string, repositoryId: string) {
     try {
       const { crypto } = window;
       const array = new Uint32Array(1);
@@ -105,10 +105,10 @@ export const useQuery = () => {
         organizationId,
         productId,
         repositoryId,
-        entity: 'sqc'
+        entity: 'tsqmi'
       });
 
-      setHistoricalSQC({ id, key: 'SQC', name: 'SQC', history: results });
+      setHistoricalTSQMI({ id, key: 'TSQMI', name: 'TSQMI', history: results });
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
@@ -130,7 +130,7 @@ export const useQuery = () => {
     try {
       await Promise.all([
         loadRepository(organizationId, productId, repositoryId),
-        loadHistoricalSqc(organizationId, productId, repositoryId),
+        loadHistoricalTsqmi(organizationId, productId, repositoryId),
         loadRepositorySupportedEntities(organizationId, productId, repositoryId),
         loadHistoricalCharacteristics(organizationId, productId, repositoryId),
         loadLatestValueCharacteristics(organizationId, productId, repositoryId)

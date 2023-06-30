@@ -4,7 +4,7 @@ import {
   CurrentPreConfig,
   MeasuresHistory,
   ReleaseGoal,
-  RepositoriesSqcHistory,
+  RepositoriesTsqmiHistory,
   EntitiesMetrics,
   LatestValues,
 } from '@customTypes/product';
@@ -75,9 +75,9 @@ class ProductQuery {
     return api.get(url, { params: releaseId && { release_id: releaseId } });
   }
 
-  async getProductRepositoriesSqcHistory(organizationId: string, productId: string) {
-    const url = `organizations/${organizationId}/products/${productId}/repositories-sqc-historical-values/`;
-    return api.get<RepositoriesSqcHistory>(url);
+  async getProductRepositoriesTsqmiHistory(organizationId: string, productId: string) {
+    const url = `organizations/${organizationId}/products/${productId}/repositories-tsqmi-historical-values/`;
+    return api.get<RepositoriesTsqmiHistory>(url);
   }
 
   getReleaseList(organizationId: string, productId: string, releaseId?: number): AxiosRequestConfig {

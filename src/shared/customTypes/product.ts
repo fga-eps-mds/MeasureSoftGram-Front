@@ -94,7 +94,7 @@ export interface ButtonType extends Omit<Partial<ButtonProps>, 'color'> {
   variant?: ButtonProps['variant'];
 }
 
-interface SqcValue {
+interface TsqmiValue {
   id: number;
   value: number;
   created_at: string;
@@ -109,13 +109,13 @@ export interface Repositories {
   product: string;
 }
 
-interface RepositoriesSqcHistoryResult {
-  history: Array<SqcValue>;
+interface RepositoriesTsqmiHistoryResult {
+  history: Array<TsqmiValue>;
 }
 
-export interface RepositoriesSqcHistory {
+export interface RepositoriesTsqmiHistory {
   count: number;
-  results: Array<RepositoriesSqcHistoryResult & Repositories>;
+  results: Array<RepositoriesTsqmiHistoryResult & Repositories>;
 }
 
 export interface CollectedMetric {
