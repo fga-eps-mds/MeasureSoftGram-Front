@@ -3,33 +3,14 @@
 exports[`formatGaugeChart should return an default object when historical param is empty 1`] = `
 Object {
   "legend": Object {
-    "data": Array [
-      "Valores atuais",
-      "Valores esperado",
-    ],
-    "show": true,
+    "show": false,
   },
   "radar": Object {
     "indicator": Array [],
     "shape": "circle",
-    "show": true,
+    "show": false,
   },
-  "series": Array [
-    Object {
-      "data": Array [
-        Object {
-          "name": "Valores atuais",
-          "value": Array [],
-        },
-        Object {
-          "name": "Valores esperado",
-          "value": Array [],
-        },
-      ],
-      "show": true,
-      "type": "radar",
-    },
-  ],
+  "series": Array [],
   "title": Object {
     "text": "title-test",
   },
@@ -55,13 +36,6 @@ Object {
 
 exports[`formatGaugeChart should return an object with the correct format 1`] = `
 Object {
-  "legend": Object {
-    "data": Array [
-      "Valores atuais",
-      "Valores esperado",
-    ],
-    "show": true,
-  },
   "radar": Object {
     "indicator": Array [
       Object {
@@ -76,15 +50,8 @@ Object {
     Object {
       "data": Array [
         Object {
-          "name": "Valores atuais",
           "value": Array [
             "32.00",
-          ],
-        },
-        Object {
-          "name": "Valores esperado",
-          "value": Array [
-            1,
           ],
         },
       ],

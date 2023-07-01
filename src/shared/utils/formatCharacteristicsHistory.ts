@@ -19,7 +19,7 @@ const formatCharacteristicsHistory = ({ historical, title, isEmpty = false }: Fo
     type: 'line',
     data: _.map(item.history, (history) => history.value.toFixed(2)),
     lineStyle: {
-      width: item.key.includes('SQC') ? 5 : 2
+      width: item.key.includes('TSQMI') ? 5 : 2
     }
   }));
 

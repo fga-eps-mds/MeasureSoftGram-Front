@@ -13,7 +13,7 @@ interface Prop {
   type: 'line' | 'msg' | 'radar' | 'gauge';
   value: 'characteristics' | 'subcharacteristics' | 'measures' | 'metrics';
   valueType?: 'historical-values' | 'latest-values';
-  addHistoricalSQC?: boolean;
+  addHistoricalTSQMI?: boolean;
 }
 
 type formatFunctionType = {
@@ -27,13 +27,13 @@ const chartOption: formatFunctionType = {
   gauge: formatGaugeChart
 };
 
-const GraphicChart = ({ title, type, value, valueType = 'historical-values', addHistoricalSQC = false }: Prop) => {
+const GraphicChart = ({ title, type, value, valueType = 'historical-values', addHistoricalTSQMI = false }: Prop) => {
   const {
     data: historical,
     error,
     isLoading,
     isEmpty
-  } = useRequestValues({ type: valueType, value, addHistoricalSQC });
+  } = useRequestValues({ type: valueType, value, addHistoricalTSQMI });
 
   let chartBoxHeight: string = 'auto';
   if (error || isEmpty) {
@@ -43,7 +43,7 @@ const GraphicChart = ({ title, type, value, valueType = 'historical-values', add
   }
 
   return isLoading ? (
-    <Skeleton variant="rectangular" height="300px" sx={{ marginTop: '20px' }} />
+    <Skeleton variant="rectangular" height="300px" />
   ) : (
     <>
       <Fade in timeout={2000}>

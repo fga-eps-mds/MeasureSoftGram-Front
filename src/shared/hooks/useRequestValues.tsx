@@ -10,13 +10,13 @@ import useBoolean from './useBoolean';
 interface Props {
   type: 'historical-values' | 'latest-values';
   value: 'characteristics' | 'subcharacteristics' | 'measures' | 'metrics';
-  addHistoricalSQC?: boolean;
+  addHistoricalTSQMI?: boolean;
 }
 
-export function useRequestValues({ type, value, addHistoricalSQC = false }: Props) {
+export function useRequestValues({ type, value, addHistoricalTSQMI = false }: Props) {
   const { currentOrganization } = useOrganizationContext();
   const { currentProduct } = useProductContext();
-  const { currentRepository, historicalSQC } = useRepositoryContext();
+  const { currentRepository, historicalTSQMI } = useRepositoryContext();
 
   const { value: isLoading, setTrue: setLoading, setFalse: setIsLoadingEnd } = useBoolean(false);
 
@@ -43,15 +43,13 @@ export function useRequestValues({ type, value, addHistoricalSQC = false }: Prop
     }
   );
 
-  if (addHistoricalSQC && !_.find(data?.results, { key: 'SQC' })) {
-    data?.results?.push(historicalSQC);
-  } else if (!addHistoricalSQC) {
-    const index: number = _.findIndex(data?.results, { key: 'SQC' });
-    if (index !== -1) data?.results?.splice(index);
+  const returnData = _.cloneDeep(data?.results ?? []);
+  if (addHistoricalTSQMI && !_.isEmpty(returnData) && !_.find(returnData, { key: 'TSQMI' })) {
+    returnData.push(historicalTSQMI);
   }
 
   return {
-    data: data?.results ?? [],
+    data: returnData,
     error,
     isLoading,
     isValidating,

@@ -20,20 +20,22 @@ jest.mock('@contexts/RepositoryProvider', () => ({
 
 jest.mock('next/router', () => ({
   useRouter: () => ({
-    push: () => jest.fn(),
+    push: () => jest.fn()
   })
 }));
 
-describe('Repository', () => {
-  describe('Snapshot', () => {
-    it('Deve corresponder ao Snapshot', () => {
-      const tree = render(
-        <OrganizationProvider>
-          <Repository />
-        </OrganizationProvider>
-      );
+describe('<Repository />', () => {
+  it('Should render correctly', () => {
+    const { container } = render(
+      <OrganizationProvider>
+        <Repository />
+      </OrganizationProvider>
+    );
 
-      expect(tree).toMatchSnapshot();
+    Array.from(container.getElementsByClassName('echarts-for-react')).forEach((chart) => {
+      chart.setAttribute('_echarts_instance_', 'ec_123');
     });
+
+    expect(container).toMatchSnapshot();
   });
 });

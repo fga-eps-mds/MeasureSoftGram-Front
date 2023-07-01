@@ -43,7 +43,7 @@ const Repository: NextPageWithLayout = () => {
               title="Histórico das Características"
               type="line"
               value="characteristics"
-              addHistoricalSQC
+              addHistoricalTSQMI
             />
           ]}
         />

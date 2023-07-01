@@ -2,7 +2,7 @@ import React from 'react';
 import { OrganizationProvider } from '@contexts/OrganizationProvider';
 import { ProductProvider } from '@contexts/ProductProvider';
 import { RepositoryProvider } from '@contexts/RepositoryProvider';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { useRequestValues } from '@hooks/useRequestValues';
 import GraphicChart from '../GraphicChart';
 
@@ -85,7 +85,7 @@ describe('<GraphicChart />', () => {
     expect(container).toMatchSnapshot();
   });
 
-  it('should render correctly with historical SQC', () => {
+  it('should render correctly with historical TSQMI', () => {
     useRequestValues.mockReturnValue({
       data,
       error: undefined,
@@ -94,9 +94,12 @@ describe('<GraphicChart />', () => {
       isEmpty: false
     });
 
-    const { container } = render(<GraphicChart type="line" title="title" value="characteristics" addHistoricalSQC />, {
-      wrapper: AllTheProviders
-    });
+    const { container } = render(
+      <GraphicChart type="line" title="title" value="characteristics" addHistoricalTSQMI />,
+      {
+        wrapper: AllTheProviders
+      }
+    );
 
     container.firstChild?.firstChild?.setAttribute('_echarts_instance_', 'ec_123');
     expect(container).toMatchSnapshot();
