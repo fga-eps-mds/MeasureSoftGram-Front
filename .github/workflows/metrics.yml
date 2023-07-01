@@ -5,7 +5,7 @@ on:
     branches: [main, develop]
     types: [closed]
   push:
-    branches: [main, develop, ci/use-new-action]
+    branches: [main, develop]
     tags:
       - "v*"
 
@@ -17,11 +17,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Criar diretório
-        run: mkdir analytics-raw-data
-
       - name: Msgram Helper Action
-        uses: fga-eps-mds/2023-1-MeasureSoftGram-Helper-Action@v0.1.2-alpha
+        uses: fga-eps-mds/2023-1-MeasureSoftGram-Helper-Action@v0.1.4-alpha
         id: msgram
         with:
           githubToken: ${{ secrets.API_TOKEN_DOC }}
