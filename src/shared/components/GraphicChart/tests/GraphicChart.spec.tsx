@@ -85,6 +85,23 @@ describe('<GraphicChart />', () => {
     expect(container).toMatchSnapshot();
   });
 
+  it('should render correctly with autoGrid', () => {
+    useRequestValues.mockReturnValue({
+      data,
+      error: undefined,
+      isLoading: false,
+      isValidating: false,
+      isEmpty: false
+    });
+
+    const { container } = render(<GraphicChart type="line" title="title" value="characteristics" autoGrid />, {
+      wrapper: AllTheProviders
+    });
+
+    container.firstChild?.firstChild?.setAttribute('_echarts_instance_', 'ec_123');
+    expect(container).toMatchSnapshot();
+  });
+
   it('should render correctly with historical TSQMI', () => {
     useRequestValues.mockReturnValue({
       data,

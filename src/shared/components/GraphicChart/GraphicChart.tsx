@@ -7,12 +7,14 @@ import formatRadarChart from '@utils/formatRadarChart';
 import formatGaugeChart from '@utils/formatGaugeChart';
 import { Alert, Box, Fade, Skeleton } from '@mui/material';
 import { useRequestValues } from '@hooks/useRequestValues';
+import { Historical } from '@customTypes/repository';
 
 interface Prop {
   title: string;
   type: 'line' | 'msg' | 'radar' | 'gauge';
   value: 'characteristics' | 'subcharacteristics' | 'measures' | 'metrics';
   valueType?: 'historical-values' | 'latest-values';
+  autoGrid?: boolean;
   addHistoricalTSQMI?: boolean;
 }
 
@@ -27,7 +29,7 @@ const chartOption: formatFunctionType = {
   gauge: formatGaugeChart
 };
 
-const GraphicChart = ({ title, type, value, valueType = 'historical-values', addHistoricalTSQMI = false }: Prop) => {
+const GraphicChart = ({ title, type, value, valueType = 'historical-values', autoGrid = false, addHistoricalTSQMI = false }: Prop) => {
   const {
     data: historical,
     error,
@@ -35,11 +37,29 @@ const GraphicChart = ({ title, type, value, valueType = 'historical-values', add
     isEmpty
   } = useRequestValues({ type: valueType, value, addHistoricalTSQMI });
 
+  const historicalLength:number = historical?.length ?? 0;
+  const numChartsPerLine: number = 3;
+
+  const numChartRows = ():number => {
+    if (!autoGrid) return 1;
+
+    const numLines:number = historicalLength / numChartsPerLine;
+    return Math.ceil(numLines);
+  }
+
+  const sliceHistorical = (rowIdx: number): Historical[] => {
+    if (!autoGrid) return historical;
+
+    return historical.slice(numChartsPerLine*rowIdx, numChartsPerLine*(rowIdx+1));
+  }
+
+  const numLines:number = numChartRows();
+
   let chartBoxHeight: string = 'auto';
   if (error || isEmpty) {
     chartBoxHeight = '50px';
   } else if (type === 'msg') {
-    chartBoxHeight = `${historical.length * 82 + 85}px`;
+    chartBoxHeight = `${historicalLength * 82 + 85}px`;
   }
 
   return isLoading ? (
@@ -56,14 +76,16 @@ const GraphicChart = ({ title, type, value, valueType = 'historical-values', add
           width="100%"
           height={chartBoxHeight}
         >
-          <ReactEcharts
-            data-testid="graphic-stacked-line"
-            option={chartOption[type]({
-              historical,
-              title,
-              isEmpty: !!error || isEmpty
-            })}
-          />
+          {Array.from({length: numLines}, (_,i) => i).map((i) =>
+            <ReactEcharts
+              data-testid="graphic-stacked-line"
+              option={chartOption[type]({
+                historical: sliceHistorical(i),
+                title: i === 0 ? title : '',
+                isEmpty: !!error || isEmpty,
+              })}
+            />)
+          }
         </Box>
       </Fade>
       {error && (

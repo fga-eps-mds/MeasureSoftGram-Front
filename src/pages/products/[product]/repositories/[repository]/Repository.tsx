@@ -67,6 +67,7 @@ const Repository: NextPageWithLayout = () => {
               key="tab2-0-1"
               title="Cénario atual das Características"
               type="gauge"
+              autoGrid
               value="characteristics"
               valueType="latest-values"
             />
