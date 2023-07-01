@@ -2,6 +2,8 @@ import { Historical } from '@customTypes/repository';
 import formatGaugeChart, { FormatGaugeChartType } from '@utils/formatGaugeChart';
 
 describe('formatGaugeChart', () => {
+
+  const chartTitle:string = 'title-test';
   it('should return an object with the correct format', () => {
     const historic: Historical = {
       id: 1,
@@ -18,12 +20,11 @@ describe('formatGaugeChart', () => {
       historic,
       historic,
       historic,
-      historic
     ];
 
     const params: FormatGaugeChartType = {
       historical,
-      title: 'title-test',
+      title: chartTitle,
       isEmpty: false
     }
 
@@ -32,7 +33,7 @@ describe('formatGaugeChart', () => {
     expect(values).toMatchSnapshot();
   });
 
-  it('should return an object with the correct format when historical is greater than 6', () => {
+  it('should return an object with the correct format when historical length is even', () => {
     const historic: Historical = {
       id: 1,
       key: 'reliability',
@@ -47,16 +48,11 @@ describe('formatGaugeChart', () => {
     const historical: Historical[] = [
       historic,
       historic,
-      historic,
-      historic,
-      historic,
-      historic,
-      historic
     ];
 
     const params: FormatGaugeChartType = {
       historical,
-      title: 'title-test',
+      title: chartTitle,
       isEmpty: false
     }
 
@@ -69,7 +65,7 @@ describe('formatGaugeChart', () => {
 
     const params: FormatGaugeChartType = {
       historical: undefined,
-      title: 'title-test',
+      title: 'chartTitle',
       isEmpty: false
     }
 

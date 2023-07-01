@@ -2,304 +2,277 @@
 
 exports[`formatGaugeChart should return an object considering empty historic 1`] = `
 Object {
-  "series": Object {
-    "anchor": Object {
-      "itemStyle": Object {
-        "color": "#FAC858",
-      },
-      "show": true,
-      "showAbove": true,
-      "size": 18,
-    },
-    "axisLine": Object {
-      "roundCap": true,
-    },
-    "data": Array [],
-    "detail": Object {
-      "backgroundColor": "inherit",
-      "borderRadius": 3,
-      "color": "#fff",
-      "fontSize": 18,
-      "height": 14,
-      "width": 20,
-    },
-    "max": 1,
-    "min": 0,
-    "pointer": Object {
-      "icon": "path://M2.9,0.7L2.9,0.7c1.4,0,2.6,1.2,2.6,2.6v115c0,1.4-1.2,2.6-2.6,2.6l0,0c-1.4,0-2.6-1.2-2.6-2.6V3.3C0.3,1.9,1.4,0.7,2.9,0.7z",
-      "length": "80%",
-      "offsetCenter": Array [
-        0,
-        "8%",
-      ],
-      "width": 8,
-    },
-    "progress": Object {
-      "overlap": true,
-      "roundCap": true,
-      "show": true,
-    },
-    "show": true,
-    "type": "gauge",
-  },
+  "series": Array [],
   "title": Object {
-    "text": "title-test",
+    "text": "chartTitle",
   },
 }
 `;
 
 exports[`formatGaugeChart should return an object with the correct format 1`] = `
 Object {
-  "series": Object {
-    "anchor": Object {
-      "itemStyle": Object {
-        "color": "#FAC858",
+  "series": Array [
+    Object {
+      "anchor": Object {
+        "itemStyle": Object {
+          "color": "#FAC858",
+        },
+        "show": true,
+        "showAbove": true,
+        "size": 18,
       },
-      "show": true,
-      "showAbove": true,
-      "size": 18,
-    },
-    "axisLine": Object {
-      "roundCap": true,
-    },
-    "data": Array [
-      Object {
-        "detail": Object {
-          "offsetCenter": Array [
-            "-160%",
-            "95%",
-          ],
-        },
-        "name": "Reliability",
-        "title": Object {
-          "offsetCenter": Array [
-            "-160%",
-            "80%",
-          ],
-        },
-        "value": "32.00",
+      "axisLine": Object {
+        "roundCap": true,
       },
-      Object {
-        "detail": Object {
-          "offsetCenter": Array [
-            "-80%",
-            "95%",
-          ],
-        },
-        "name": "Reliability",
-        "title": Object {
-          "offsetCenter": Array [
-            "-80%",
-            "80%",
-          ],
-        },
-        "value": "32.00",
-      },
-      Object {
-        "detail": Object {
-          "offsetCenter": Array [
-            "80%",
-            "95%",
-          ],
-        },
-        "name": "Reliability",
-        "title": Object {
-          "offsetCenter": Array [
-            "80%",
-            "80%",
-          ],
-        },
-        "value": "32.00",
-      },
-      Object {
-        "detail": Object {
-          "offsetCenter": Array [
-            "160%",
-            "95%",
-          ],
-        },
-        "name": "Reliability",
-        "title": Object {
-          "offsetCenter": Array [
-            "160%",
-            "80%",
-          ],
-        },
-        "value": "32.00",
-      },
-    ],
-    "detail": Object {
-      "backgroundColor": "inherit",
-      "borderRadius": 3,
-      "color": "#fff",
-      "fontSize": 18,
-      "height": 14,
-      "width": 20,
-    },
-    "max": 1,
-    "min": 0,
-    "pointer": Object {
-      "icon": "path://M2.9,0.7L2.9,0.7c1.4,0,2.6,1.2,2.6,2.6v115c0,1.4-1.2,2.6-2.6,2.6l0,0c-1.4,0-2.6-1.2-2.6-2.6V3.3C0.3,1.9,1.4,0.7,2.9,0.7z",
-      "length": "80%",
-      "offsetCenter": Array [
-        0,
-        "8%",
+      "center": Array [
+        "25%",
+        "57%",
       ],
-      "width": 8,
-    },
-    "progress": Object {
-      "overlap": true,
-      "roundCap": true,
+      "data": Array [
+        Object {
+          "name": "Reliability",
+          "value": "32.00",
+        },
+      ],
+      "detail": Object {
+        "backgroundColor": "inherit",
+        "borderRadius": 3,
+        "color": "#fff",
+        "fontSize": 18,
+        "height": 14,
+        "width": 20,
+      },
+      "max": 1,
+      "min": 0,
+      "name": "Reliability",
+      "pointer": Object {
+        "icon": "path://M2.9,0.7L2.9,0.7c1.4,0,2.6,1.2,2.6,2.6v115c0,1.4-1.2,2.6-2.6,2.6l0,0c-1.4,0-2.6-1.2-2.6-2.6V3.3C0.3,1.9,1.4,0.7,2.9,0.7z",
+        "length": "80%",
+        "offsetCenter": Array [
+          0,
+          "8%",
+        ],
+        "width": 8,
+      },
+      "progress": Object {
+        "overlap": true,
+        "roundCap": true,
+        "show": true,
+      },
       "show": true,
+      "type": "gauge",
     },
-    "show": true,
-    "type": "gauge",
-  },
+    Object {
+      "anchor": Object {
+        "itemStyle": Object {
+          "color": "#FAC858",
+        },
+        "show": true,
+        "showAbove": true,
+        "size": 18,
+      },
+      "axisLine": Object {
+        "roundCap": true,
+      },
+      "center": Array [
+        "50%",
+        "57%",
+      ],
+      "data": Array [
+        Object {
+          "name": "Reliability",
+          "value": "32.00",
+        },
+      ],
+      "detail": Object {
+        "backgroundColor": "inherit",
+        "borderRadius": 3,
+        "color": "#fff",
+        "fontSize": 18,
+        "height": 14,
+        "width": 20,
+      },
+      "max": 1,
+      "min": 0,
+      "name": "Reliability",
+      "pointer": Object {
+        "icon": "path://M2.9,0.7L2.9,0.7c1.4,0,2.6,1.2,2.6,2.6v115c0,1.4-1.2,2.6-2.6,2.6l0,0c-1.4,0-2.6-1.2-2.6-2.6V3.3C0.3,1.9,1.4,0.7,2.9,0.7z",
+        "length": "80%",
+        "offsetCenter": Array [
+          0,
+          "8%",
+        ],
+        "width": 8,
+      },
+      "progress": Object {
+        "overlap": true,
+        "roundCap": true,
+        "show": true,
+      },
+      "show": true,
+      "type": "gauge",
+    },
+    Object {
+      "anchor": Object {
+        "itemStyle": Object {
+          "color": "#FAC858",
+        },
+        "show": true,
+        "showAbove": true,
+        "size": 18,
+      },
+      "axisLine": Object {
+        "roundCap": true,
+      },
+      "center": Array [
+        "75%",
+        "57%",
+      ],
+      "data": Array [
+        Object {
+          "name": "Reliability",
+          "value": "32.00",
+        },
+      ],
+      "detail": Object {
+        "backgroundColor": "inherit",
+        "borderRadius": 3,
+        "color": "#fff",
+        "fontSize": 18,
+        "height": 14,
+        "width": 20,
+      },
+      "max": 1,
+      "min": 0,
+      "name": "Reliability",
+      "pointer": Object {
+        "icon": "path://M2.9,0.7L2.9,0.7c1.4,0,2.6,1.2,2.6,2.6v115c0,1.4-1.2,2.6-2.6,2.6l0,0c-1.4,0-2.6-1.2-2.6-2.6V3.3C0.3,1.9,1.4,0.7,2.9,0.7z",
+        "length": "80%",
+        "offsetCenter": Array [
+          0,
+          "8%",
+        ],
+        "width": 8,
+      },
+      "progress": Object {
+        "overlap": true,
+        "roundCap": true,
+        "show": true,
+      },
+      "show": true,
+      "type": "gauge",
+    },
+  ],
   "title": Object {
     "text": "title-test",
   },
 }
 `;
 
-exports[`formatGaugeChart should return an object with the correct format when historical is greater than 6 1`] = `
+exports[`formatGaugeChart should return an object with the correct format when historical length is even 1`] = `
 Object {
-  "series": Object {
-    "anchor": Object {
-      "itemStyle": Object {
-        "color": "#FAC858",
+  "series": Array [
+    Object {
+      "anchor": Object {
+        "itemStyle": Object {
+          "color": "#FAC858",
+        },
+        "show": true,
+        "showAbove": true,
+        "size": 18,
       },
-      "show": true,
-      "showAbove": true,
-      "size": 18,
-    },
-    "axisLine": Object {
-      "roundCap": true,
-    },
-    "data": Array [
-      Object {
-        "detail": Object {
-          "offsetCenter": Array [
-            "-240%",
-            "95%",
-          ],
-        },
-        "name": "Reliability",
-        "title": Object {
-          "offsetCenter": Array [
-            "-240%",
-            "80%",
-          ],
-        },
-        "value": "32.00",
+      "axisLine": Object {
+        "roundCap": true,
       },
-      Object {
-        "detail": Object {
-          "offsetCenter": Array [
-            "-160%",
-            "95%",
-          ],
-        },
-        "name": "Reliability",
-        "title": Object {
-          "offsetCenter": Array [
-            "-160%",
-            "80%",
-          ],
-        },
-        "value": "32.00",
-      },
-      Object {
-        "detail": Object {
-          "offsetCenter": Array [
-            "-80%",
-            "95%",
-          ],
-        },
-        "name": "Reliability",
-        "title": Object {
-          "offsetCenter": Array [
-            "-80%",
-            "80%",
-          ],
-        },
-        "value": "32.00",
-      },
-      Object {
-        "detail": Object {
-          "offsetCenter": Array [
-            "80%",
-            "95%",
-          ],
-        },
-        "name": "Reliability",
-        "title": Object {
-          "offsetCenter": Array [
-            "80%",
-            "80%",
-          ],
-        },
-        "value": "32.00",
-      },
-      Object {
-        "detail": Object {
-          "offsetCenter": Array [
-            "160%",
-            "95%",
-          ],
-        },
-        "name": "Reliability",
-        "title": Object {
-          "offsetCenter": Array [
-            "160%",
-            "80%",
-          ],
-        },
-        "value": "32.00",
-      },
-      Object {
-        "detail": Object {
-          "offsetCenter": Array [
-            "240%",
-            "95%",
-          ],
-        },
-        "name": "Reliability",
-        "title": Object {
-          "offsetCenter": Array [
-            "240%",
-            "80%",
-          ],
-        },
-        "value": "32.00",
-      },
-    ],
-    "detail": Object {
-      "backgroundColor": "inherit",
-      "borderRadius": 3,
-      "color": "#fff",
-      "fontSize": 18,
-      "height": 14,
-      "width": 20,
-    },
-    "max": 1,
-    "min": 0,
-    "pointer": Object {
-      "icon": "path://M2.9,0.7L2.9,0.7c1.4,0,2.6,1.2,2.6,2.6v115c0,1.4-1.2,2.6-2.6,2.6l0,0c-1.4,0-2.6-1.2-2.6-2.6V3.3C0.3,1.9,1.4,0.7,2.9,0.7z",
-      "length": "80%",
-      "offsetCenter": Array [
-        0,
-        "8%",
+      "center": Array [
+        "25%",
+        "57%",
       ],
-      "width": 8,
-    },
-    "progress": Object {
-      "overlap": true,
-      "roundCap": true,
+      "data": Array [
+        Object {
+          "name": "Reliability",
+          "value": "32.00",
+        },
+      ],
+      "detail": Object {
+        "backgroundColor": "inherit",
+        "borderRadius": 3,
+        "color": "#fff",
+        "fontSize": 18,
+        "height": 14,
+        "width": 20,
+      },
+      "max": 1,
+      "min": 0,
+      "name": "Reliability",
+      "pointer": Object {
+        "icon": "path://M2.9,0.7L2.9,0.7c1.4,0,2.6,1.2,2.6,2.6v115c0,1.4-1.2,2.6-2.6,2.6l0,0c-1.4,0-2.6-1.2-2.6-2.6V3.3C0.3,1.9,1.4,0.7,2.9,0.7z",
+        "length": "80%",
+        "offsetCenter": Array [
+          0,
+          "8%",
+        ],
+        "width": 8,
+      },
+      "progress": Object {
+        "overlap": true,
+        "roundCap": true,
+        "show": true,
+      },
       "show": true,
+      "type": "gauge",
     },
-    "show": true,
-    "type": "gauge",
-  },
+    Object {
+      "anchor": Object {
+        "itemStyle": Object {
+          "color": "#FAC858",
+        },
+        "show": true,
+        "showAbove": true,
+        "size": 18,
+      },
+      "axisLine": Object {
+        "roundCap": true,
+      },
+      "center": Array [
+        "75%",
+        "57%",
+      ],
+      "data": Array [
+        Object {
+          "name": "Reliability",
+          "value": "32.00",
+        },
+      ],
+      "detail": Object {
+        "backgroundColor": "inherit",
+        "borderRadius": 3,
+        "color": "#fff",
+        "fontSize": 18,
+        "height": 14,
+        "width": 20,
+      },
+      "max": 1,
+      "min": 0,
+      "name": "Reliability",
+      "pointer": Object {
+        "icon": "path://M2.9,0.7L2.9,0.7c1.4,0,2.6,1.2,2.6,2.6v115c0,1.4-1.2,2.6-2.6,2.6l0,0c-1.4,0-2.6-1.2-2.6-2.6V3.3C0.3,1.9,1.4,0.7,2.9,0.7z",
+        "length": "80%",
+        "offsetCenter": Array [
+          0,
+          "8%",
+        ],
+        "width": 8,
+      },
+      "progress": Object {
+        "overlap": true,
+        "roundCap": true,
+        "show": true,
+      },
+      "show": true,
+      "type": "gauge",
+    },
+  ],
   "title": Object {
     "text": "title-test",
   },

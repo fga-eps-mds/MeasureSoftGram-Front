@@ -7,36 +7,29 @@ export interface FormatGaugeChartType {
 }
 
 const formatGaugeChart = ({ historical, title, isEmpty }: FormatGaugeChartType) => {
-  const maxSeriesItems:number = 6;
-  const historicalLength: number = (historical?.length ?? 0) > maxSeriesItems ? maxSeriesItems : historical?.length ?? 0;
-  const halfHistoricalLength:number = historicalLength / 2;
-  let counter:number = halfHistoricalLength * -1;
+  const vertical:string = `57%`;
 
-  const seriesData = historical?.slice(0, maxSeriesItems).map((item) => {
-    if (counter === 0) counter = 1;
-    const offsetCenterX = `${counter * 80 }%`;
-    counter += 1;
+  const historicalLength:number = historical?.length ?? 1;
+
+  let incrementX:number = 25;
+  if (historicalLength % 2 === 0) {
+    incrementX = 50;
+  }
+
+  const seriesData = historical?.map((item, index) => {
+
+    const horizontal:string = `${25 + (index) * incrementX}%`
+
     return {
-      value: item.latest.value.toFixed(2),
       name: item.name,
-      title: {
-        offsetCenter: [offsetCenterX, '80%']
-      },
-      detail: {
-        offsetCenter: [offsetCenterX, '95%']
-      }
-    }
-  }) ?? [];
-
-  return {
-    title: {
-      text: title
-    },
-    series: {
       show: !isEmpty,
+      center: [horizontal, vertical],
       min: 0,
       max: 1,
-      data: seriesData,
+      data: [{
+        value: item.latest.value.toFixed(2),
+        name: item.name,
+      }],
       type: 'gauge',
       anchor: {
         show: true,
@@ -69,8 +62,15 @@ const formatGaugeChart = ({ historical, title, isEmpty }: FormatGaugeChartType) 
         borderRadius: 3,
       }
     }
+  }) ?? [];
 
+  return {
+    title: {
+      text: title
+    },
+    series: seriesData
   }
+
 };
 
 export default formatGaugeChart;
