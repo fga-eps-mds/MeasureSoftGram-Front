@@ -9,6 +9,7 @@ import { Alert, Box, Fade, Skeleton } from '@mui/material';
 import { useRequestValues } from '@hooks/useRequestValues';
 import { Historical } from '@customTypes/repository';
 import _ from 'lodash';
+import { useProductConfigFilterContext } from '@contexts/ProductConfigFilterProvider/ProductConfigFilterProvider';
 
 interface Prop {
   title: string;
@@ -44,6 +45,7 @@ const GraphicChart = ({
     isLoading,
     isEmpty
   } = useRequestValues({ type: valueType, value, addHistoricalTSQMI });
+  const { configFilter, hasKey } = useProductConfigFilterContext();
 
   const sliceHistorical = (rowIdx: number): Historical[] => {
     if (!autoGrid) return historical;
@@ -66,15 +68,23 @@ const GraphicChart = ({
 
   const chartsOption = useMemo(
     () =>
-      _.range(numLines).map((i) =>
-        chartOption[type]({
-          historical: sliceHistorical(i),
-          title: i === 0 ? title : '',
-          isEmpty
-        })
-      ),
+      _.range(numLines).map((i) => {
+        const filterHistorical = _.filter(sliceHistorical(i), (item) => hasKey(item.key));
+        return (
+          <ReactEcharts
+            notMerge
+            lazyUpdate
+            style={chartStyle}
+            option={chartOption[type]({
+              historical: filterHistorical,
+              title: i === 0 ? title : '',
+              isEmpty: isEmpty || error
+            })}
+          />
+        );
+      }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [historical, title, isEmpty]
+    [configFilter, historical]
   );
 
   return isLoading ? (
@@ -91,9 +101,7 @@ const GraphicChart = ({
           width="100%"
           height={chartBoxHeight}
         >
-          {chartsOption.map((option) => (
-            <ReactEcharts style={chartStyle} option={option} />
-          ))}
+          {chartsOption.map((option) => ({ ...option }))}
         </Box>
       </Fade>
       {error && (

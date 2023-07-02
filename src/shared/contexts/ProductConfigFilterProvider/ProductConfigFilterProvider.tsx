@@ -21,14 +21,11 @@ export default function ProductConfigFilterProvider({ children }: Props) {
   const hasKey = (key: string) => configFilter.includes(key);
 
   const value = useMemo(
-    () => {
-      console.log('ProductConfigFilterProvider: useMemo');
-      return {
-        configFilter,
-        setConfigFilter,
-        hasKey
-      };
-    },
+    () => ({
+      configFilter,
+      setConfigFilter,
+      hasKey
+    }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [configFilter, setConfigFilter]
   );
