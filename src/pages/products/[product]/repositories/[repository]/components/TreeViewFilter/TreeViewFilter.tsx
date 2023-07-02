@@ -6,6 +6,7 @@ import KeyboardArrowRightRoundedIcon from '@mui/icons-material/KeyboardArrowRigh
 import { useProductCurrentPreConfig } from '@hooks/useProductCurrentPreConfig';
 import _ from 'lodash';
 import { Characteristic } from '@customTypes/preConfig';
+import { useProductConfigFilterContext } from '@contexts/ProductConfigFilterProvider/ProductConfigFilterProvider';
 
 interface Node {
   id: string;
@@ -49,12 +50,13 @@ function formatData(rawData: Characteristic[]) {
 export default function TreeViewFilter() {
   const [selectedNodes, setSelectedNodes] = useState<string[]>([]);
   const { data: rawData } = useProductCurrentPreConfig();
+  const { setConfigFilter } = useProductConfigFilterContext();
 
   const data = useMemo(() => formatData(rawData ?? []), [rawData]);
 
   useEffect(() => {
-    console.log('Selected Nodes:');
-    console.log(JSON.stringify(selectedNodes, null, 4));
+    setConfigFilter(selectedNodes);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedNodes]);
 
   function getAllIds(node: Node, idList: string[] = []) {
