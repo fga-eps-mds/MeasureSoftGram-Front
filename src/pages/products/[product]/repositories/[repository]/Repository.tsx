@@ -16,7 +16,7 @@ const Repository: NextPageWithLayout = () => {
     <Box display="flex" width="100%" flexDirection="row" marginTop="40px" marginBottom="24px">
       <Container sx={{ marginBottom: '150px' }}>
         <Headers />
-        <GraphicStackedLine title="Caracteríticas" value="characteristics" addHistoricalSQC />
+        <GraphicStackedLine title="Caracteríticas" value="characteristics" addHistoricalTSQMI />
         <LatestValueTable title="Caracteríticas" value="characteristics" />
         <GraphicStackedLine title="Sub-Caracteríticas" value="subcharacteristics" />
         <LatestValueTable title="Sub-Caracteríticas" value="subcharacteristics" />

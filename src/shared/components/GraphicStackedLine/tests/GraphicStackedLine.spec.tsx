@@ -85,7 +85,7 @@ describe('<GraphicStackedLine />', () => {
     expect(container).toMatchSnapshot();
   });
 
-  it('should render correctly with historical SQC', () => {
+  it('should render correctly with historical TSQMI', () => {
     useRequestValues.mockReturnValue({
       data,
       error: undefined,
@@ -94,7 +94,7 @@ describe('<GraphicStackedLine />', () => {
       isEmpty: false
     });
 
-    const { container } = render(<GraphicStackedLine title="title" value="characteristics" addHistoricalSQC />, {
+    const { container } = render(<GraphicStackedLine title="title" value="characteristics" addHistoricalTSQMI />, {
       wrapper: AllTheProviders
     });
 

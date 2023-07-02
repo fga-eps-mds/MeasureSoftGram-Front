@@ -10,13 +10,13 @@ import useBoolean from './useBoolean';
 interface Props {
   type: 'historical-values' | 'latest-values';
   value: 'characteristics' | 'subcharacteristics' | 'measures' | 'metrics';
-  addHistoricalSQC?: boolean;
+  addHistoricalTSQMI?: boolean;
 }
 
-export function useRequestValues({ type, value, addHistoricalSQC = false }: Props) {
+export function useRequestValues({ type, value, addHistoricalTSQMI = false }: Props) {
   const { currentOrganization } = useOrganizationContext();
   const { currentProduct } = useProductContext();
-  const { currentRepository, historicalSQC } = useRepositoryContext();
+  const { currentRepository, historicalTSQMI } = useRepositoryContext();
 
   const { value: isLoading, setFalse: setIsLoadingEnd } = useBoolean(true);
 
@@ -41,8 +41,8 @@ export function useRequestValues({ type, value, addHistoricalSQC = false }: Prop
     }
   );
 
-  if (addHistoricalSQC && !_.find(data?.results, { key: 'SQC' })) {
-    data?.results?.push(historicalSQC);
+  if (addHistoricalTSQMI && !_.find(data?.results, { key: 'TSQMI' })) {
+    data?.results?.push(historicalTSQMI);
   }
 
   return {
