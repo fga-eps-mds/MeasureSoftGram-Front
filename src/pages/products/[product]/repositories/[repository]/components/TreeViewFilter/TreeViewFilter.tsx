@@ -1,39 +1,32 @@
 import { TreeItem, TreeView } from '@mui/lab';
 import { Checkbox } from '@mui/material';
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import KeyboardArrowRightRoundedIcon from '@mui/icons-material/KeyboardArrowRightRounded';
 import { useProductCurrentPreConfig } from '@hooks/useProductCurrentPreConfig';
 import _ from 'lodash';
 import { Characteristic } from '@customTypes/preConfig';
 
-interface Nodes {
+interface Node {
   id: string;
   name: string;
   parent?: string;
-  children?: Nodes[];
+  children?: Node[];
 }
 
-function bfsSearch(
-  graph: {
-    id: string;
-    name: string;
-    children: { id: string; name: string; parent: string; children: { id: string; name: string; parent: string }[] }[];
-  }[],
-  targetId: string
-) {
+function bfsSearch(graph: Node[], targetId: string) {
   const queue = [...graph];
 
   while (queue.length > 0) {
     const currNode = queue.shift();
-    if (currNode.id === targetId) {
+    if (currNode?.id === targetId) {
       return currNode;
     }
-    if (currNode.children) {
+    if (currNode?.children) {
       queue.push(...currNode.children);
     }
   }
-  return [];
+  return undefined;
 }
 
 function formatData(rawData: Characteristic[]) {
@@ -54,17 +47,17 @@ function formatData(rawData: Characteristic[]) {
 }
 
 export default function TreeViewFilter() {
-  const [selectedNodes, setSelectedNodes] = useState([]);
+  const [selectedNodes, setSelectedNodes] = useState<string[]>([]);
   const { data: rawData } = useProductCurrentPreConfig();
 
-  const data = useMemo(() => formatData(rawData), [rawData]);
+  const data = useMemo(() => formatData(rawData ?? []), [rawData]);
 
   useEffect(() => {
     console.log('Selected Nodes:');
     console.log(JSON.stringify(selectedNodes, null, 4));
   }, [selectedNodes]);
 
-  function getAllIds(node: { id: any; children: any[] }, idList = []) {
+  function getAllIds(node: Node, idList: string[] = []) {
     idList.push(node.id);
     if (node.children) {
       node.children.forEach((child: any) => getAllIds(child, idList));
@@ -72,28 +65,29 @@ export default function TreeViewFilter() {
     return idList;
   }
 
-  const getAllChild = (id: string) => getAllIds(bfsSearch(data, id));
-
-  const getAllFathers = (id: string, list = []) => {
+  function getAllChild(id: string) {
     const node = bfsSearch(data, id);
-    if (node.parent) {
-      list.push(node.parent);
+    return node ? getAllIds(node) : [];
+  }
 
+  function getAllFathers(id: string, list: string[] = []) {
+    const node = bfsSearch(data, id);
+    if (node?.parent) {
+      list.push(node.parent);
       return getAllFathers(node.parent, list);
     }
-
     return list;
-  };
+  }
 
-  function isAllChildrenChecked(node: { id: string }, list: ConcatArray<never>) {
+  function isAllChildrenChecked(node: Node | undefined, list: ConcatArray<string>) {
+    if (!node) return [];
     const allChild = getAllChild(node.id);
     const nodeIdIndex = allChild.indexOf(node.id);
     allChild.splice(nodeIdIndex, 1);
-
-    return allChild.every((nodeId) => selectedNodes.concat(list).includes(nodeId));
+    return _.every(allChild, (nodeId) => selectedNodes.concat(list).includes(nodeId));
   }
 
-  const handleNodeSelect = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, nodeId: string) => {
+  function handleNodeSelect(event: React.MouseEvent<HTMLButtonElement, MouseEvent>, nodeId: string) {
     event.stopPropagation();
     const allChild = getAllChild(nodeId);
     const fathers = getAllFathers(nodeId);
@@ -102,23 +96,23 @@ export default function TreeViewFilter() {
       setSelectedNodes((prevSelectedNodes) => prevSelectedNodes.filter((id) => !allChild.concat(fathers).includes(id)));
     } else {
       const ToBeChecked = allChild;
-      for (let i = 0; i < fathers.length; ++i) {
+      for (let i = 0; i < fathers.length; i += 1) {
         if (isAllChildrenChecked(bfsSearch(data, fathers[i]), ToBeChecked)) {
           ToBeChecked.push(fathers[i]);
         }
       }
       setSelectedNodes((prevSelectedNodes) => [...prevSelectedNodes].concat(ToBeChecked));
     }
-  };
+  }
 
-  const renderTree = (nodes: Nodes) => (
+  const renderTree = (nodes: Node) => (
     <TreeItem
       key={nodes.id}
       nodeId={nodes.id}
       label={
         <>
           <Checkbox
-            checked={selectedNodes.indexOf(nodes.id) !== -1}
+            checked={_.indexOf(selectedNodes, nodes.id) !== -1}
             tabIndex={-1}
             disableRipple
             onClick={(event) => handleNodeSelect(event, nodes.id)}
