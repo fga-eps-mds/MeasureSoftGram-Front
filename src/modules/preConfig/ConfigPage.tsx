@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 
 import { Alert, Snackbar, Typography } from '@mui/material';
 
-import DrawerMenu from '@components/DrawerMenu';
 import { productQuery } from '@services/product';
 
 import { Characteristic } from '@customTypes/preConfig';
-import { ButtonType } from '@customTypes/product';
 
+import { useCreateReleaseContext } from '@modules/createRelease/context/useCreateRelease';
 import ConfigsForm from './components/ConfigsForm';
 import { useQuery } from './hooks/useQuery';
 import CONFIG_PAGE from './consts';
+import * as Styles from './styles';
 
 const { TITLE, SUB_TITLE, DEFAULT_MESSAGE, ERROR_MESSAGE } = CONFIG_PAGE;
 
@@ -20,33 +20,48 @@ interface ConfigPageProps {
   repoName?: string;
   organizationId: string;
   productId: string;
+  page: number;
+  filteredCharacteristics: string[];
+  title: string;
 }
 
-const ConfigPage = ({ isOpen, onClose, repoName = '', organizationId, productId }: ConfigPageProps) => {
+const ConfigPage = ({
+  repoName = '',
+  organizationId,
+  productId,
+  page,
+  filteredCharacteristics,
+  title
+}: ConfigPageProps) => {
   const request = useQuery();
+  const { setCurrentConfig, configPageData } = useCreateReleaseContext();
+  const {
+    characteristicCheckbox,
+    setCharacteristicCheckbox,
+    characteristicData,
+    setSubcharacterCheckbox,
+    subcharacterCheckbox,
+    setMeasureCheckbox,
+    measureCheckbox
+  } = configPageData;
 
-  const [data, setData] = useState(request?.data.characteristics);
-  const [characterCheckbox, setCharacterCheckbox] = useState<string[]>([]);
-  const [subcharacterCheckbox, setSubcharacterCheckbox] = useState<string[]>([]);
-  const [measureCheckbox, setMeasureheckbox] = useState<string[]>([]);
-  const [page, setPage] = useState(0);
+  const [data, setData] = useState(
+    characteristicData.length
+      ? characteristicData
+      : request?.data.characteristics.filter((c: Characteristic) => filteredCharacteristics.includes(c.key))
+  );
+
   const [isValuesValid, setIsValuesValid] = useState(false);
   const [error, setError] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
-    setPage(0);
-    setData(clearRequest(data));
-
-    setCharacterCheckbox([]);
-    setSubcharacterCheckbox([]);
-    setMeasureheckbox([]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
     setIsValuesValid(false);
   }, [page]);
+
+  useEffect(() => {
+    setCurrentConfig(data);
+  }, [data]);
 
   useEffect(() => {}, []);
 
@@ -59,13 +74,15 @@ const ConfigPage = ({ isOpen, onClose, repoName = '', organizationId, productId 
   const isArrayNull = (array: Array<any>) => array.length === 0;
 
   const isFormCompleted = () => {
-    if (isArrayNull(characterCheckbox) && page === 0) return true;
+    if (isArrayNull(characteristicCheckbox) && page === 0) return true;
     if (isArrayNull(subcharacterCheckbox) && page === 1) return true;
     if (isArrayNull(measureCheckbox) && page === 2) return true;
   };
 
   const sendJson = () => {
-    const responseCharacterFiltered = data?.filter((charcterValue) => characterCheckbox.includes(charcterValue.key));
+    const responseCharacterFiltered = data?.filter((charcterValue) =>
+      characteristicCheckbox.includes(charcterValue.key)
+    );
     const responseSubcharacterFiltered = responseCharacterFiltered?.map((charcterValue) => ({
       ...charcterValue,
       subcharacteristics: charcterValue.subcharacteristics.filter((subcharcterValue) =>
@@ -88,52 +105,6 @@ const ConfigPage = ({ isOpen, onClose, repoName = '', organizationId, productId 
       });
   };
 
-  const renderNextOrEndButton = (): ButtonType => {
-    let label = 'Avançar';
-    let onClick = () => {
-      const nextPage = page <= 2 ? page + 1 : 0;
-      setPage(nextPage);
-    };
-    if (page === 2) {
-      label = 'Finalizar';
-      onClick = () => {
-        onClose(false);
-        sendJson();
-      };
-    }
-    return {
-      label,
-      onClick,
-      disabled: isFormCompleted() || !isValuesValid,
-      backgroundColor: 'white',
-      color: 'black',
-      variant: 'outlined'
-    };
-  };
-
-  const buttons: Array<ButtonType> = [
-    {
-      label: 'Cancelar',
-      onClick: () => {
-        setData(clearRequest(data));
-        onClose(false);
-      },
-      backgroundColor: 'black',
-      color: 'white'
-    },
-    {
-      label: 'Retornar',
-      onClick: () => {
-        const previousPage = page >= 0 ? page - 1 : 2;
-        setPage(previousPage);
-      },
-      backgroundColor: 'gray',
-      disabled: page === 0,
-      color: 'white'
-    },
-    renderNextOrEndButton()
-  ];
-
   const renderPage = () => {
     const genericProps = { onChange: setData, setIsValuesValid, data };
     const subtitle = 'Definir os pesos das';
@@ -143,8 +114,8 @@ const ConfigPage = ({ isOpen, onClose, repoName = '', organizationId, productId 
           {...genericProps}
           subtitle={`${subtitle} caracteristicas`}
           type="characteristic"
-          checkboxValues={characterCheckbox}
-          setCheckboxValues={setCharacterCheckbox}
+          checkboxValues={characteristicCheckbox}
+          setCheckboxValues={setCharacteristicCheckbox}
         />
       );
     }
@@ -152,7 +123,7 @@ const ConfigPage = ({ isOpen, onClose, repoName = '', organizationId, productId 
       return (
         <ConfigsForm
           {...genericProps}
-          tabs={characterCheckbox}
+          tabs={characteristicCheckbox}
           type="subcharacteristic"
           subtitle={`${subtitle} subcaracteristicas`}
           checkboxValues={subcharacterCheckbox}
@@ -167,33 +138,20 @@ const ConfigPage = ({ isOpen, onClose, repoName = '', organizationId, productId 
         subtitle={`${subtitle} medidas`}
         type="measure"
         checkboxValues={measureCheckbox}
-        setCheckboxValues={setMeasureheckbox}
+        setCheckboxValues={setMeasureCheckbox}
       />
     );
   };
 
   return (
     <>
-      <DrawerMenu open={isOpen} buttons={buttons} title={TITLE} subtitle={SUB_TITLE}>
-        <>
-          <Typography variant="h6" mt="24px">
-            {repoName}
-          </Typography>
-          {renderPage()}
-        </>
-      </DrawerMenu>
-      <Snackbar
-        open={showAlert}
-        autoHideDuration={6000}
-        onClose={() => {
-          setShowAlert(false);
-          setError(false);
-        }}
-      >
-        <Alert severity={error ? 'error' : 'success'} sx={{ width: '100%' }}>
-          {error ? ERROR_MESSAGE : DEFAULT_MESSAGE}
-        </Alert>
-      </Snackbar>
+      <Styles.Header>
+        <h1>{title}</h1>
+      </Styles.Header>
+      <Styles.Body>
+        <p>{SUB_TITLE}</p>
+      </Styles.Body>
+      {renderPage()}
     </>
   );
 };

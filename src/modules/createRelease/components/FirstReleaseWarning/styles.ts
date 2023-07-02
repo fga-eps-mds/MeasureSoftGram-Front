@@ -15,13 +15,12 @@ export const Header = styled.div`
 `;
 
 export const Body = styled.div`
-  max-width: 600px;
-  h2 {
-    font-size: 22px;
-    font-weight: normal;
-  }
-
+  width: 600px;
   & > div:first-child {
-    margin-bottom: 56px;
+    display: flex;
+
+    & > p {
+      margin: 40px;
+    }
   }
 `;

@@ -13,15 +13,3 @@ export const Header = styled.div`
     font-size: 16px;
   }
 `;
-
-export const Body = styled.div`
-  max-width: 600px;
-  h2 {
-    font-size: 22px;
-    font-weight: normal;
-  }
-
-  & > div:first-child {
-    margin-bottom: 56px;
-  }
-`;

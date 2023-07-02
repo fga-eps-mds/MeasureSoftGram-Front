@@ -4,6 +4,7 @@ import { Changes, Product } from '@customTypes/product';
 import { addDays, format } from 'date-fns';
 import { mutate } from 'swr';
 import { useRouter } from 'next/router';
+import { Characteristic } from '@customTypes/preConfig';
 
 interface CreateReleaseProviderProps {
   children: ReactNode;
@@ -20,17 +21,31 @@ interface ReleaseInfoForm {
   changes: Changes[];
 }
 
+interface ConfigPageData {
+  characteristicCheckbox: string[];
+  setCharacteristicCheckbox: (characteristicCheckbox: string[]) => void;
+  subcharacterCheckbox: string[];
+  setSubcharacterCheckbox: (subcharacterCheckbox: string[]) => void;
+  measureCheckbox: string[];
+  setMeasureCheckbox: (measureCheckbox: string[]) => void;
+  characteristicData: Characteristic[];
+}
+
 interface CreateReleaseContextData {
   releaseInfoForm: ReleaseInfoForm;
   successOnCreation: string;
   preConfigCharacteristics: string[] | undefined;
+  productId: string;
+  organizationId: string;
+  configPageData: ConfigPageData;
   // eslint-disable-next-line no-unused-vars
   handleChangeForm: (field: string, value: string | Changes[]) => void;
   // eslint-disable-next-line no-unused-vars
   handleSelectCharacteristics: (characteristic: string) => void;
   createProductReleaseGoal: () => void;
-  goToGoalsStep: () => boolean;
+  goToNextStep: () => boolean;
   closeAlert: () => void;
+  setCurrentConfig: (data: Characteristic[]) => void;
 }
 
 const CreateReleaseContext = createContext({} as CreateReleaseContextData);
@@ -50,6 +65,10 @@ export function CreateReleaseProvider({
     endDate: defaultEndDate,
     startDate: defaulStartDate
   } as ReleaseInfoForm);
+  const [characteristicData, setCharacteristicData] = useState<Characteristic[]>([]);
+  const [characteristicCheckbox, setCharacteristicCheckbox] = useState<string[]>([]);
+  const [subcharacterCheckbox, setSubcharacterCheckbox] = useState<string[]>([]);
+  const [measureCheckbox, setMeasureCheckbox] = useState<string[]>([]);
 
   const router = useRouter();
 
@@ -108,7 +127,7 @@ export function CreateReleaseProvider({
     handleChangeForm('characteristics', selectedCharacteristics);
   }
 
-  function goToGoalsStep() {
+  function goToNextStep() {
     const { characteristics, name } = releaseInfoForm;
     return !!characteristics?.length && !!name;
   }
@@ -124,6 +143,10 @@ export function CreateReleaseProvider({
     });
   }
 
+  function setCurrentConfig(configData: Characteristic[]) {
+    setCharacteristicData(configData);
+  }
+
   useEffect(() => {
     loadCurrentPreConfig();
   }, [productId]);
@@ -136,8 +159,20 @@ export function CreateReleaseProvider({
     handleChangeForm,
     handleSelectCharacteristics,
     createProductReleaseGoal,
-    goToGoalsStep,
-    closeAlert
+    goToNextStep,
+    closeAlert,
+    productId,
+    organizationId,
+    setCurrentConfig,
+    configPageData: {
+      characteristicCheckbox,
+      setCharacteristicCheckbox,
+      subcharacterCheckbox,
+      setSubcharacterCheckbox,
+      characteristicData,
+      setMeasureCheckbox,
+      measureCheckbox
+    }
   };
 
   return <CreateReleaseContext.Provider value={value}>{children}</CreateReleaseContext.Provider>;
