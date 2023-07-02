@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Alert, Snackbar, Typography } from '@mui/material';
+import { Alert, Box, Checkbox, Snackbar, Switch, Typography } from '@mui/material';
 
 import { productQuery } from '@services/product';
 
@@ -34,7 +34,14 @@ const ConfigPage = ({
   title
 }: ConfigPageProps) => {
   const request = useQuery();
-  const { setCurrentConfig, configPageData } = useCreateReleaseContext();
+  const {
+    setCurrentConfig,
+    configPageData,
+    changeThreshold,
+    toggleChangeThreshold,
+    allowChangeConfig,
+    toggleAllowChangeConfig
+  } = useCreateReleaseContext();
   const {
     characteristicCheckbox,
     setCharacteristicCheckbox,
@@ -114,6 +121,7 @@ const ConfigPage = ({
           {...genericProps}
           subtitle={`${subtitle} caracteristicas`}
           type="characteristic"
+          disable={!allowChangeConfig}
           checkboxValues={characteristicCheckbox}
           setCheckboxValues={setCharacteristicCheckbox}
         />
@@ -125,6 +133,7 @@ const ConfigPage = ({
           {...genericProps}
           tabs={characteristicCheckbox}
           type="subcharacteristic"
+          disable={!allowChangeConfig}
           subtitle={`${subtitle} subcaracteristicas`}
           checkboxValues={subcharacterCheckbox}
           setCheckboxValues={setSubcharacterCheckbox}
@@ -132,14 +141,26 @@ const ConfigPage = ({
       );
     }
     return (
-      <ConfigsForm
-        {...genericProps}
-        tabs={subcharacterCheckbox}
-        subtitle={`${subtitle} medidas`}
-        type="measure"
-        checkboxValues={measureCheckbox}
-        setCheckboxValues={setMeasureCheckbox}
-      />
+      <Box display="flex" flexDirection="column">
+        <ConfigsForm
+          {...genericProps}
+          tabs={subcharacterCheckbox}
+          subtitle={`${subtitle} medidas`}
+          type="measure"
+          disable={!allowChangeConfig}
+          checkboxValues={measureCheckbox}
+          setCheckboxValues={setMeasureCheckbox}
+        />
+        <Typography color="#FF4646" marginTop="40px">
+          <Checkbox
+            checked={changeThreshold}
+            onChange={toggleChangeThreshold}
+            disabled={!allowChangeConfig}
+            name="changeThresholdCheckbox"
+          />
+          Modificar valores de referência mínimo e máximo
+        </Typography>
+      </Box>
     );
   };
 
@@ -150,6 +171,10 @@ const ConfigPage = ({
       </Styles.Header>
       <Styles.Body>
         <p>{SUB_TITLE}</p>
+        <p>
+          <Switch checked={allowChangeConfig} onChange={toggleAllowChangeConfig} />
+          Editar configurações
+        </p>
       </Styles.Body>
       {renderPage()}
     </>

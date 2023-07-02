@@ -15,6 +15,7 @@ import PreConfigTabs from '../PreConfigTabs';
 interface PreConfigTypes {
   data: Characteristic[];
   type: iteratorType;
+  disable: boolean;
   onChange: Function;
   subtitle: string;
   setCheckboxValues: Function;
@@ -30,6 +31,7 @@ const ConfigForm = ({
   onChange,
   data,
   type,
+  disable,
   checkboxValues,
   setCheckboxValues,
   setIsValuesValid,
@@ -162,6 +164,7 @@ const ConfigForm = ({
           key={value.key}
           label={value.key}
           weight={value.weight}
+          disable={disable}
           onChange={setWeight(value.key, tabName)}
         />
       );

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import Equalizer from '@modules/createRelease/components/Equalizer';
 
