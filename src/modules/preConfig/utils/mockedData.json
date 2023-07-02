@@ -13,7 +13,12 @@
             "measures": [
               {
                 "key": "passed_tests",
-                "weight": 33
+                "weight": 33,
+                "threshold_name": "Testes passados",
+                "min_fixed": true,
+                "max_fixed": true,
+                "min": 0,
+                "max": 1
               },
               {
                 "key": "test_builds",

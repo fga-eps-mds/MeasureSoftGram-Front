@@ -3,10 +3,14 @@ import { Alert, Container, Snackbar } from '@mui/material';
 
 import DrawerMenu from '@components/DrawerMenu';
 import { ButtonType, Product } from '@customTypes/product';
+import ConfigPage from '@modules/preConfig/ConfigPage';
 import ReleaseInfo from './components/ReleaseInfo';
 import ReleaseGoals from './components/ReleaseGoals';
 
 import { CreateReleaseProvider, useCreateReleaseContext } from './context/useCreateRelease';
+import FirstReleaseWarning from './components/FirstReleaseWarning';
+import ReleaseConfigSelector from './components/ReleaseConfigSelector/ReleaseConfigSelector';
+import ThresholdConfig from './components/ThresholdConfig/ThresholdConfig';
 
 interface CreateReleaseProps {
   open: boolean;
@@ -23,13 +27,51 @@ interface CreateReleaseContainerProps {
 
 function CreateRelease({ open, handleClose }: CreateReleaseProps) {
   const [activeStep, setActiveStep] = useState(0);
+  const [configPage, setConfigPage] = useState(0);
+  const [configPageTitle, setConfigPageTitle] = useState<string>('');
+  const configPageTitles = [
+    'Definir peso das características',
+    'Definir peso das subcaracterísticas',
+    'Definir peso das medidas'
+  ];
 
-  const { successOnCreation, closeAlert, goToGoalsStep, createProductReleaseGoal } = useCreateReleaseContext();
+  const {
+    successOnCreation,
+    closeAlert,
+    goToNextStep,
+    createProductReleaseGoal,
+    organizationId,
+    productId,
+    releaseInfoForm,
+    configPageData
+  } = useCreateReleaseContext();
 
   const renderStep = () =>
     ({
       0: <ReleaseInfo />,
-      1: <ReleaseGoals />
+      1: <FirstReleaseWarning />,
+      2: <ReleaseConfigSelector />,
+      3: (
+        <ConfigPage
+          page={configPage}
+          isOpen
+          onClose={handleClose}
+          organizationId={organizationId}
+          filteredCharacteristics={releaseInfoForm?.characteristics}
+          productId={productId}
+          title={configPageTitle}
+        />
+      ),
+      4: (
+        <ThresholdConfig
+          onChange={() => {}}
+          data={configPageData.characteristicData}
+          tabs={configPageData.subcharacterCheckbox}
+          checkboxValues={configPageData.measureCheckbox}
+          setCheckboxValues={configPageData.setMeasureCheckbox}
+        />
+      ),
+      5: <ReleaseGoals />
     }[activeStep]);
 
   const handleCloseModal = () => {
@@ -37,11 +79,30 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
     closeAlert();
   };
 
-  const handleGoToGoalsStep = () => (goToGoalsStep() ? setActiveStep(1) : () => {});
+  const handleGoToNextStep = () => {
+    if (!goToNextStep()) return;
 
-  const handleBackButton = () => (activeStep ? setActiveStep(0) : handleCloseModal());
+    if (activeStep === 3 && configPage === 2) {
+      setActiveStep(activeStep + 1);
+    } else if (activeStep === 3) {
+      setConfigPage(configPage + 1);
+    } else setActiveStep(activeStep + 1);
+  };
 
-  const handleNextButton = () => (activeStep ? createProductReleaseGoal() : handleGoToGoalsStep());
+  const handleBackButton = () => {
+    if (activeStep === 0) handleCloseModal();
+    else if (activeStep === 3 && configPage === 0) {
+      setActiveStep(activeStep - 1);
+    } else if (activeStep === 3) {
+      setConfigPage(configPage - 1);
+    } else setActiveStep(activeStep - 1);
+  };
+
+  useEffect(() => {
+    setConfigPageTitle(configPageTitles[configPage]);
+  }, [configPage]);
+
+  const handleNextButton = () => (activeStep === 4 ? createProductReleaseGoal() : handleGoToNextStep());
 
   const BUTTONS: Array<ButtonType> = [
     {
@@ -52,7 +113,7 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
       variant: 'outlined'
     },
     {
-      label: activeStep ? 'Finalizar' : 'Continuar',
+      label: activeStep === 4 ? 'Finalizar' : 'Continuar',
       onClick: handleNextButton,
       backgroundColor: '#113D4C',
       color: '#fff',

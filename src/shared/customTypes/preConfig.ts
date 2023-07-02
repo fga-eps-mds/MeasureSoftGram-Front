@@ -1,6 +1,8 @@
 export interface Measure {
   key: string;
   weight: number;
+  min: number | undefined;
+  max: number | undefined;
 }
 
 export interface Subcharacteristic {

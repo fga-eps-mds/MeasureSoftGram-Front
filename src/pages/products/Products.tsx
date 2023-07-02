@@ -98,13 +98,6 @@ const Products: NextPageWithLayout = () => {
       </Head>
 
       <Container>
-        <ConfigPage
-          isOpen={openConfig}
-          onClose={setOpenConfig}
-          repoName={selectedProduct?.name}
-          productId={selectedProduct?.id ?? '-1'}
-          organizationId={getOrganizationId(selectedProduct)}
-        />
         <Box display="flex" flexDirection="column">
           <Typography variant="h4" color="#000000cc" fontWeight="semibold" marginTop="30px">
             Organizações
@@ -160,24 +153,6 @@ const Products: NextPageWithLayout = () => {
                       name={product.name}
                       url={`/products/${currentOrganization?.id}-${product?.id}-${product?.name}`}
                     />
-
-                    <IconButton color="primary" onClick={(e) => handleOpenMenu(e, index)}>
-                      <MoreVert />
-                    </IconButton>
-                    <Menu
-                      id="basic-menu"
-                      key={product?.id}
-                      anchorEl={anchorEl[index]}
-                      open={Boolean(anchorEl[index])}
-                      onClick={(event) => handleCloseMenu(event, index)}
-                      MenuListProps={{
-                        'aria-labelledby': 'basic-button'
-                      }}
-                    >
-                      <MenuItem key={product?.id} onClick={handleOpenConfig(product)}>
-                        Definir pesos para uma configuração
-                      </MenuItem>
-                    </Menu>
                   </Box>
                 ))}
               </Box>

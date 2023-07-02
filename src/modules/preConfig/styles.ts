@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Header = styled.div`
-  margin-bottom: 64px;
+  margin-bottom: 32px;
   width: 600px;
 
   & > h1 {
@@ -15,13 +15,17 @@ export const Header = styled.div`
 `;
 
 export const Body = styled.div`
-  max-width: 600px;
-  h2 {
-    font-size: 22px;
-    font-weight: normal;
-  }
+  width: 600px;
 
   & > div:first-child {
-    margin-bottom: 56px;
+    display: flex;
+
+    & > p {
+      margin: 0 0 0 16px;
+    }
+  }
+
+  & > div:nth-child(2) {
+    margin: 40px 0;
   }
 `;
