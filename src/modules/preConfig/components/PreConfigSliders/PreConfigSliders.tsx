@@ -9,9 +9,10 @@ interface PreConfigSlidersProps {
   label: string;
   onChange: Function;
   weight: number;
+  disable: boolean;
 }
 
-const PreConfigSliders = ({ label, onChange, weight }: PreConfigSlidersProps) => (
+const PreConfigSliders = ({ label, onChange, weight, disable }: PreConfigSlidersProps) => (
   <Grid spacing={3} container columns={16}>
     <Grid item xs={3}>
       <Typography textAlign="start">
@@ -23,6 +24,7 @@ const PreConfigSliders = ({ label, onChange, weight }: PreConfigSlidersProps) =>
         data-testid={PRE_CONFIG_SLIDERS.TEST_ID.CONFIG_SLIDER}
         value={weight}
         onChange={onChange as SliderProps['onChange']}
+        disabled={disable}
       />
     </Grid>
     <Grid item xs={4}>
@@ -31,6 +33,7 @@ const PreConfigSliders = ({ label, onChange, weight }: PreConfigSlidersProps) =>
         sx={{ width: '96px', top: -4 }}
         variant="standard"
         value={weight}
+        disabled={disable}
         onChange={onChange as TextFieldProps['onChange']}
         InputProps={{ endAdornment: <InputAdornment position="end">%</InputAdornment> }}
       />

@@ -11,6 +11,7 @@ import { CreateReleaseProvider, useCreateReleaseContext } from './context/useCre
 import FirstReleaseWarning from './components/FirstReleaseWarning';
 import ReleaseConfigSelector from './components/ReleaseConfigSelector/ReleaseConfigSelector';
 import ThresholdConfig from './components/ThresholdConfig/ThresholdConfig';
+import { CREATE_RELEASE_STEP } from './consts';
 
 interface CreateReleaseProps {
   open: boolean;
@@ -43,15 +44,17 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
     organizationId,
     productId,
     releaseInfoForm,
-    configPageData
+    configPageData,
+    getNextStep,
+    getPreviousStep,
+    isFirstRelease
   } = useCreateReleaseContext();
 
   const renderStep = () =>
     ({
       0: <ReleaseInfo />,
-      1: <FirstReleaseWarning />,
-      2: <ReleaseConfigSelector />,
-      3: (
+      1: isFirstRelease ? <FirstReleaseWarning /> : <ReleaseConfigSelector setActiveStep={setActiveStep} />,
+      2: (
         <ConfigPage
           page={configPage}
           isOpen
@@ -62,7 +65,7 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
           title={configPageTitle}
         />
       ),
-      4: (
+      3: (
         <ThresholdConfig
           onChange={() => {}}
           data={configPageData.characteristicData}
@@ -71,7 +74,7 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
           setCheckboxValues={configPageData.setMeasureCheckbox}
         />
       ),
-      5: <ReleaseGoals />
+      4: <ReleaseGoals />
     }[activeStep]);
 
   const handleCloseModal = () => {
@@ -82,27 +85,32 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
   const handleGoToNextStep = () => {
     if (!goToNextStep()) return;
 
-    if (activeStep === 3 && configPage === 2) {
-      setActiveStep(activeStep + 1);
-    } else if (activeStep === 3) {
+    const newActiveStep = getNextStep(activeStep, configPage);
+    if (activeStep === newActiveStep && newActiveStep === CREATE_RELEASE_STEP.CharacteristicStep) {
       setConfigPage(configPage + 1);
-    } else setActiveStep(activeStep + 1);
+    }
+    setActiveStep(newActiveStep);
   };
 
   const handleBackButton = () => {
-    if (activeStep === 0) handleCloseModal();
-    else if (activeStep === 3 && configPage === 0) {
-      setActiveStep(activeStep - 1);
-    } else if (activeStep === 3) {
+    if (activeStep === CREATE_RELEASE_STEP.ReleaseInfoStep) {
+      handleCloseModal();
+      return;
+    }
+
+    const newActiveStep = getPreviousStep(activeStep, configPage);
+    if (activeStep === newActiveStep && newActiveStep === CREATE_RELEASE_STEP.CharacteristicStep) {
       setConfigPage(configPage - 1);
-    } else setActiveStep(activeStep - 1);
+    }
+    setActiveStep(newActiveStep);
   };
 
   useEffect(() => {
     setConfigPageTitle(configPageTitles[configPage]);
   }, [configPage]);
 
-  const handleNextButton = () => (activeStep === 4 ? createProductReleaseGoal() : handleGoToNextStep());
+  const handleNextButton = () =>
+    activeStep === CREATE_RELEASE_STEP.ReleaseGoalStep ? createProductReleaseGoal() : handleGoToNextStep();
 
   const BUTTONS: Array<ButtonType> = [
     {
@@ -113,11 +121,12 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
       variant: 'outlined'
     },
     {
-      label: activeStep === 4 ? 'Finalizar' : 'Continuar',
+      label: activeStep === CREATE_RELEASE_STEP.ReleaseGoalStep ? 'Finalizar' : 'Continuar',
       onClick: handleNextButton,
       backgroundColor: '#113D4C',
       color: '#fff',
-      variant: 'outlined'
+      variant: 'outlined',
+      disabled: activeStep === CREATE_RELEASE_STEP.ReleaseSelectorStep && !isFirstRelease
     }
   ];
 

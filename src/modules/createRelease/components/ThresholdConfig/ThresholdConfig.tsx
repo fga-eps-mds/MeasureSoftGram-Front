@@ -6,6 +6,7 @@ import CheckboxButton from '@components/CheckboxButton/CheckboxButton';
 import undelineRemover from '@utils/undelineRemover';
 
 import { useCreateReleaseContext } from '@modules/createRelease/context/useCreateRelease';
+import getThresholdInfo from '@modules/createRelease/utils/getThresholdInfo';
 import { componentIterator } from '../../../preConfig/utils/componentIterator';
 
 import PreConfigTabs from '../../../preConfig/components/PreConfigTabs';
@@ -50,13 +51,35 @@ const ThresholdConfig = ({ onChange, data, checkboxValues, setCheckboxValues, ta
   );
 
   const onChangeTest = (min: number, max: number, key: string) => {
+    const thresholdInfo = getThresholdInfo(key);
+
+    const isOutOfRange = (thresholdInfo?.range[0] ?? 0) > min || (thresholdInfo?.range[1] ?? Infinity) < max;
+
+    if (isOutOfRange || max < min) {
+      return;
+    }
+
+    const mapMeasureValue = (measureValue: Measure) => {
+      if (measureValue.key !== key) {
+        return measureValue;
+      }
+
+      const { minFixed, maxFixed } = thresholdInfo ?? {};
+      const newMin = minFixed ? measureValue.min : min;
+      const newMax = maxFixed ? measureValue.max : max;
+
+      return {
+        ...measureValue,
+        min: newMin,
+        max: newMax
+      };
+    };
+
     const tempData = data.map((charValue) => ({
       ...charValue,
       subcharacteristics: charValue.subcharacteristics.map((subCharValue) => ({
         ...subCharValue,
-        measures: subCharValue.measures.map((measureValue) =>
-          measureValue.key === key ? { ...measureValue, min, max } : measureValue
-        )
+        measures: subCharValue.measures.map(mapMeasureValue)
       }))
     }));
     console.log(tempData);
@@ -145,6 +168,18 @@ const ThresholdConfig = ({ onChange, data, checkboxValues, setCheckboxValues, ta
       </Typography>
       {renderTabs()}
       {renderCheckBoxes()}
+      <Grid container columns={2}>
+        <Grid item xs={1}>
+          <Typography variant="body1" textAlign="start">
+            Min
+          </Typography>
+        </Grid>
+        <Grid item xs={1}>
+          <Typography variant="body1" textAlign="end">
+            Max
+          </Typography>
+        </Grid>
+      </Grid>
       {renderSliders()}
     </Box>
   );
