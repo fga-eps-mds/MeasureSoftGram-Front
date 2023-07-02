@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import ReactEcharts from 'echarts-for-react';
 
 import formatCharacteristicsHistory from '@utils/formatCharacteristicsHistory';
@@ -8,6 +8,7 @@ import formatGaugeChart from '@utils/formatGaugeChart';
 import { Alert, Box, Fade, Skeleton } from '@mui/material';
 import { useRequestValues } from '@hooks/useRequestValues';
 import { Historical } from '@customTypes/repository';
+import _ from 'lodash';
 
 interface Prop {
   title: string;
@@ -29,7 +30,14 @@ const chartOption: formatFunctionType = {
   gauge: formatGaugeChart
 };
 
-const GraphicChart = ({ title, type, value, valueType = 'historical-values', autoGrid = false, addHistoricalTSQMI = false }: Prop) => {
+const GraphicChart = ({
+  title,
+  type,
+  value,
+  valueType = 'historical-values',
+  autoGrid = false,
+  addHistoricalTSQMI = false
+}: Prop) => {
   const {
     data: historical,
     error,
@@ -37,30 +45,37 @@ const GraphicChart = ({ title, type, value, valueType = 'historical-values', aut
     isEmpty
   } = useRequestValues({ type: valueType, value, addHistoricalTSQMI });
 
-  const historicalLength:number = historical?.length ?? 0;
-  const numChartsPerLine: number = 3;
-
-  const numChartRows = ():number => {
-    if (!autoGrid) return 1;
-
-    const numLines:number = historicalLength / numChartsPerLine;
-    return Math.ceil(numLines);
-  }
-
   const sliceHistorical = (rowIdx: number): Historical[] => {
     if (!autoGrid) return historical;
+    return historical.slice(numChartsPerLine * rowIdx, numChartsPerLine * (rowIdx + 1));
+  };
 
-    return historical.slice(numChartsPerLine*rowIdx, numChartsPerLine*(rowIdx+1));
-  }
-
-  const numLines:number = numChartRows();
+  const historicalLength: number = historical?.length ?? 0;
+  const numChartsPerLine: number = 3;
+  const numLines: number = !autoGrid ? 1 : Math.ceil(historicalLength / numChartsPerLine);
 
   let chartBoxHeight: string = 'auto';
+  let chartStyle: React.CSSProperties = {};
+
   if (error || isEmpty) {
     chartBoxHeight = '50px';
   } else if (type === 'msg') {
     chartBoxHeight = `${historicalLength * 82 + 85}px`;
+    chartStyle = { height: chartBoxHeight };
   }
+
+  const chartsOption = useMemo(
+    () =>
+      _.range(numLines).map((i) =>
+        chartOption[type]({
+          historical: sliceHistorical(i),
+          title: i === 0 ? title : '',
+          isEmpty
+        })
+      ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [historical, title, isEmpty]
+  );
 
   return isLoading ? (
     <Skeleton variant="rectangular" height="300px" />
@@ -76,16 +91,9 @@ const GraphicChart = ({ title, type, value, valueType = 'historical-values', aut
           width="100%"
           height={chartBoxHeight}
         >
-          {Array.from({length: numLines}, (_,i) => i).map((i) =>
-            <ReactEcharts
-              data-testid="graphic-stacked-line"
-              option={chartOption[type]({
-                historical: sliceHistorical(i),
-                title: i === 0 ? title : '',
-                isEmpty: !!error || isEmpty,
-              })}
-            />)
-          }
+          {chartsOption.map((option) => (
+            <ReactEcharts style={chartStyle} option={option} />
+          ))}
         </Box>
       </Fade>
       {error && (

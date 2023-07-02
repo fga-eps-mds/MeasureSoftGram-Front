@@ -45,7 +45,7 @@ const formatRadarChart = ({ historical, title, isEmpty }: FormatRadarChartType) 
     },
     radar: {
       show: !isEmpty,
-      shape: 'circle',
+      shape: historical.length < 3 ? 'circle' : 'polygon',
       indicator: radarIndicator
     },
     series
