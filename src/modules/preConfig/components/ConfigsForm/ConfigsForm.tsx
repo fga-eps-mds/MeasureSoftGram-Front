@@ -119,6 +119,8 @@ const ConfigForm = ({
           <CheckboxButton
             label={undelineRemover(value.key)}
             checked={isChecked}
+            backgroundColor="#113d4c"
+            colorHover="#113d4c"
             style={{ marginRight: '8px' }}
             onClick={() => {
               if (!isChecked) {
@@ -139,7 +141,7 @@ const ConfigForm = ({
   };
 
   const renderCheckBoxes = () => (
-    <Grid container marginBottom="64px" columns={4}>
+    <Grid container marginBottom="15px" columns={4}>
       {componentIterator[type](data, checkBoxCallback)}
     </Grid>
   );
@@ -183,7 +185,7 @@ const ConfigForm = ({
   };
 
   return (
-    <Box display="flex" flexDirection="column" mt="10vh">
+    <Box display="flex" flexDirection="column" mt="5vh">
       <Typography variant="h6" sx={{ marginBottom: '16px' }}>
         {subtitle}
       </Typography>

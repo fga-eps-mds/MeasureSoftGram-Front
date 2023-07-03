@@ -21,13 +21,31 @@ export default function ReleaseConfigSelector({ setActiveStep }: ReleaseConfigSe
       <Styles.Header>
         <h1>Planejar Release</h1>
       </Styles.Header>
-      <Box display="flex" flexDirection="column">
-        <Button variant="contained" color="secondary" style={{ marginBottom: '20px' }} onClick={useLastConfig}>
+      <Box display="flex" flexDirection="column" marginTop="30%">
+        <Button variant="outlined" onClick={useLastConfig}
+          sx={{
+            backgroundColor: "#fff",
+            color: "#113d4c",
+            '&:hover': {
+              backgroundColor: "#73bfb8",
+              color: "#fff"
+            },
+            padding: '20px',
+            marginBottom: '20px'
+          }}>
           Seguir última configuração
         </Button>
-        <Button variant="outlined" onClick={() => setActiveStep(CREATE_RELEASE_STEP.CharacteristicStep)}>
-          Alterar configuração
-        </Button>
+        <Button variant="outlined" onClick={() => setActiveStep(CREATE_RELEASE_STEP.CharacteristicStep)}
+          sx={{
+            backgroundColor: "#fff",
+            color: "#113d4c",
+            '&:hover': {
+              backgroundColor: "#73bfb8",
+              color: "#fff"
+            },
+            padding: '20px'
+          }}>
+          Alterar configuração</Button>
       </Box>
     </>
   );

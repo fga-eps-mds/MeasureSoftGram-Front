@@ -92,6 +92,7 @@ export interface ButtonType extends Omit<Partial<ButtonProps>, 'color'> {
   backgroundColor: string;
   color: string;
   variant?: ButtonProps['variant'];
+  hover?: string;
 }
 
 interface TsqmiValue {
