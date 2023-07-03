@@ -8,11 +8,10 @@ import { Characteristic } from '@customTypes/preConfig';
 
 import { useCreateReleaseContext } from '@modules/createRelease/context/useCreateRelease';
 import ConfigsForm from './components/ConfigsForm';
-import { useQuery } from './hooks/useQuery';
 import CONFIG_PAGE from './consts';
 import * as Styles from './styles';
 
-const { TITLE, SUB_TITLE, DEFAULT_MESSAGE, ERROR_MESSAGE } = CONFIG_PAGE;
+const { SUB_TITLE, DEFAULT_MESSAGE, ERROR_MESSAGE } = CONFIG_PAGE;
 
 interface ConfigPageProps {
   isOpen: boolean;
@@ -33,7 +32,6 @@ const ConfigPage = ({
   filteredCharacteristics,
   title
 }: ConfigPageProps) => {
-  const request = useQuery();
   const {
     setCurrentConfig,
     configPageData,
@@ -52,12 +50,6 @@ const ConfigPage = ({
     measureCheckbox
   } = configPageData;
 
-  const [data, setData] = useState(
-    characteristicData.length
-      ? characteristicData
-      : request?.data.characteristics.filter((c: Characteristic) => filteredCharacteristics.includes(c.key))
-  );
-
   const [isValuesValid, setIsValuesValid] = useState(false);
   const [error, setError] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -65,12 +57,6 @@ const ConfigPage = ({
   useEffect(() => {
     setIsValuesValid(false);
   }, [page]);
-
-  useEffect(() => {
-    setCurrentConfig(data);
-  }, [data]);
-
-  useEffect(() => { }, []);
 
   const clearRequest = (jsonValue: Characteristic[]): Characteristic[] => {
     const jsonString = JSON.stringify(jsonValue);
@@ -87,7 +73,7 @@ const ConfigPage = ({
   };
 
   const sendJson = () => {
-    const responseCharacterFiltered = data?.filter((charcterValue) =>
+    const responseCharacterFiltered = characteristicData?.filter((charcterValue) =>
       characteristicCheckbox.includes(charcterValue.key)
     );
     const responseSubcharacterFiltered = responseCharacterFiltered?.map((charcterValue) => ({
@@ -113,7 +99,7 @@ const ConfigPage = ({
   };
 
   const renderPage = () => {
-    const genericProps = { onChange: setData, setIsValuesValid, data };
+    const genericProps = { onChange: setCurrentConfig, setIsValuesValid, data: characteristicData };
     const subtitle = 'Definir os pesos das';
     if (page === 0) {
       return (
