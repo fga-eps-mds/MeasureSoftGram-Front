@@ -98,11 +98,10 @@ const ThresholdConfig = ({ onChange, data, checkboxValues, setCheckboxValues, ta
           <CheckboxButton
             label={undelineRemover(value.key)}
             checked={isChecked}
-            style={{ marginRight: '8px' }}
+            backgroundColor="#113d4c"
+            colorHover="#113d4c"
+            style={{ marginRight: '8px', marginBottom: '10px' }}
             onClick={() => {
-              if (!isChecked) {
-                onChange();
-              }
               checkboxValue(value.key);
               const index = keyGetter(limiters).indexOf(value.key);
               if (!(index < 0)) {
@@ -118,7 +117,7 @@ const ThresholdConfig = ({ onChange, data, checkboxValues, setCheckboxValues, ta
   };
 
   const renderCheckBoxes = () => (
-    <Grid container marginBottom="64px" columns={4}>
+    <Grid container marginBottom="15px" columns={4}>
       {componentIterator.measure(data, checkBoxCallback)}
     </Grid>
   );
@@ -146,7 +145,7 @@ const ThresholdConfig = ({ onChange, data, checkboxValues, setCheckboxValues, ta
     }
   };
 
-  const renderSliders = () => <Box>{componentIterator.measure(data, renderSliderCallback)}</Box>;
+  const renderSliders = () => <Box marginBottom="30px">{componentIterator.measure(data, renderSliderCallback)}</Box>;
 
   const setTab = (_e: any, newValue: string) => {
     setTabValue(newValue);

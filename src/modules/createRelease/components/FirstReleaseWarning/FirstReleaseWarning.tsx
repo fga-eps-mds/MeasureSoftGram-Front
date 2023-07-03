@@ -4,11 +4,11 @@ import * as Styles from './styles';
 export default function FirstReleaseWarning() {
   return (
     <>
-      <Styles.Header>
+      <Styles.Header style={{marginBottom: '20px'}}>
         <h1>Planejar Release</h1>
       </Styles.Header>
       <Styles.Body>
-        <p>
+        <p style={{marginBottom: '2px'}}>
           Por ser a primeira release do seu projeto, será disponibilizada a seguir uma pré-configuração base gerada pelo
           sistema.
         </p>{' '}

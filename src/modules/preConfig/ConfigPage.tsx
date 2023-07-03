@@ -70,7 +70,7 @@ const ConfigPage = ({
     setCurrentConfig(data);
   }, [data]);
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   const clearRequest = (jsonValue: Characteristic[]): Characteristic[] => {
     const jsonString = JSON.stringify(jsonValue);

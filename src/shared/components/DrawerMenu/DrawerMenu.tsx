@@ -29,6 +29,9 @@ const DrawerMenu = ({ children, open, buttons, title, subtitle }: DrawerMenuProp
               sx={{
                 backgroundColor: button.backgroundColor,
                 color: button.color,
+                '&:hover': {
+                  backgroundColor: button.hover
+                },
                 padding: '9px 20px',
                 marginRight: '16px'
               }}

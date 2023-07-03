@@ -51,31 +51,31 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
   } = useCreateReleaseContext();
 
   const renderStep = () =>
-    ({
-      0: <ReleaseInfo />,
-      1: isFirstRelease ? <FirstReleaseWarning /> : <ReleaseConfigSelector setActiveStep={setActiveStep} />,
-      2: (
-        <ConfigPage
-          page={configPage}
-          isOpen
-          onClose={handleClose}
-          organizationId={organizationId}
-          filteredCharacteristics={releaseInfoForm?.characteristics}
-          productId={productId}
-          title={configPageTitle}
-        />
-      ),
-      3: (
-        <ThresholdConfig
-          onChange={() => {}}
-          data={configPageData.characteristicData}
-          tabs={configPageData.subcharacterCheckbox}
-          checkboxValues={configPageData.measureCheckbox}
-          setCheckboxValues={configPageData.setMeasureCheckbox}
-        />
-      ),
-      4: <ReleaseGoals />
-    }[activeStep]);
+  ({
+    0: <ReleaseInfo />,
+    1: isFirstRelease ? <FirstReleaseWarning /> : <ReleaseConfigSelector setActiveStep={setActiveStep} />,
+    2: (
+      <ConfigPage
+        page={configPage}
+        isOpen
+        onClose={handleClose}
+        organizationId={organizationId}
+        filteredCharacteristics={releaseInfoForm?.characteristics}
+        productId={productId}
+        title={configPageTitle}
+      />
+    ),
+    3: (
+      <ThresholdConfig
+        onChange={() => { }}
+        data={configPageData.characteristicData}
+        tabs={configPageData.subcharacterCheckbox}
+        checkboxValues={configPageData.measureCheckbox}
+        setCheckboxValues={configPageData.setMeasureCheckbox}
+      />
+    ),
+    4: <ReleaseGoals />
+  }[activeStep]);
 
   const handleCloseModal = () => {
     handleClose();
@@ -118,14 +118,14 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
       onClick: handleBackButton,
       backgroundColor: '#FFF',
       color: '#113D4C',
-      variant: 'outlined'
+      variant: 'outlined',
     },
     {
       label: activeStep === CREATE_RELEASE_STEP.ReleaseGoalStep ? 'Finalizar' : 'Continuar',
       onClick: handleNextButton,
       backgroundColor: '#113D4C',
       color: '#fff',
-      variant: 'outlined',
+      variant: 'contained',
       disabled: activeStep === CREATE_RELEASE_STEP.ReleaseSelectorStep && !isFirstRelease
     }
   ];
