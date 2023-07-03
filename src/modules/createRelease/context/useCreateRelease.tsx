@@ -4,7 +4,7 @@ import { Changes, Product } from '@customTypes/product';
 import { addDays, format } from 'date-fns';
 import { mutate } from 'swr';
 import { useRouter } from 'next/router';
-import { Characteristic } from '@customTypes/preConfig';
+import { Characteristic, Measure, PreConfigRoot, Subcharacteristic } from '@customTypes/preConfig';
 import { CREATE_RELEASE_STEP } from '../consts';
 
 interface CreateReleaseProviderProps {
@@ -166,7 +166,28 @@ export function CreateReleaseProvider({
   }
 
   function setCurrentConfig(configData: Characteristic[]) {
+    if (configData.length !== characteristicData.length && configData.length) {
+      setCharacteristicCheckbox(configData.filter((c => c.weight > 0)).map((c: Characteristic) => c.key))
+      const subCharacteristics = configData.flatMap((c: Characteristic) => c.subcharacteristics)
+      setSubcharacterCheckbox(subCharacteristics.filter((sc => sc.weight > 0)).map((sc: Subcharacteristic) => sc.key))
+      const measures = subCharacteristics.flatMap((sc: Subcharacteristic) => sc.measures)
+      setMeasureCheckbox(measures.filter((m => m.weight > 0)).map((m: Measure) => m.key))
+    }
     setCharacteristicData(configData);
+  }
+
+  async function loadCurrentConfig() {
+    try {
+      if (currentProduct) {
+        const result = (await productQuery.getProductCurrentPreConfig(
+          organizationId,
+          productId
+        )) as unknown as PreConfigRoot;
+        setCurrentConfig(result.data.data.characteristics);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   function toggleChangeThreshold() {
@@ -203,6 +224,7 @@ export function CreateReleaseProvider({
 
   useEffect(() => {
     loadCurrentPreConfig();
+    loadCurrentConfig();
     checkForFirstRelease();
   }, [productId]);
 

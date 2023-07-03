@@ -42,6 +42,10 @@ const ConfigForm = ({
   const [limiters, setLimiters] = useState<limiterType[]>([]);
 
   useEffect(() => {
+    console.log(data)
+  }, [])
+
+  useEffect(() => {
     if (limiters) setLimiters([]);
   }, [type]);
 
@@ -121,6 +125,7 @@ const ConfigForm = ({
             checked={isChecked}
             backgroundColor="#113d4c"
             colorHover="#113d4c"
+            disabled={disable}
             style={{ marginRight: '8px' }}
             onClick={() => {
               if (!isChecked) {
