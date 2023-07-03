@@ -39,7 +39,9 @@ export function useRequestValues({ type, value, addHistoricalTSQMI = false }: Pr
       revalidateOnReconnect: false,
       refreshWhenOffline: false,
       refreshWhenHidden: false,
-      refreshInterval: 0
+      dedupingInterval: 0,
+      errorRetryInterval: 0,
+      errorRetryCount: 0
     }
   );
 

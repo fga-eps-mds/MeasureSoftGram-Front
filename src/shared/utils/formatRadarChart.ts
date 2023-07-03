@@ -13,9 +13,6 @@ const formatRadarChart = ({ historical, title, isEmpty }: FormatRadarChartType) 
       title: {
         text: title
       },
-      legend: {
-        show: false
-      },
       radar: {
         show: false,
         shape: 'circle',

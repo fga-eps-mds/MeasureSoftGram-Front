@@ -70,18 +70,18 @@ const GraphicChart = ({
         chartOption[type]({
           historical: sliceHistorical(i),
           title: i === 0 ? title : '',
-          isEmpty
+          isEmpty: isEmpty || error
         })
       ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [historical, title, isEmpty]
+    [historical, title, isEmpty, error]
   );
 
   return isLoading ? (
     <Skeleton variant="rectangular" height="300px" />
   ) : (
     <>
-      <Fade in timeout={2000}>
+      <Fade in timeout={1500}>
         <Box
           bgcolor="white"
           borderRadius="4px"
@@ -92,7 +92,7 @@ const GraphicChart = ({
           height={chartBoxHeight}
         >
           {chartsOption.map((option) => (
-            <ReactEcharts style={chartStyle} option={option} />
+            <ReactEcharts notMerge lazyUpdate style={chartStyle} option={option} />
           ))}
         </Box>
       </Fade>
