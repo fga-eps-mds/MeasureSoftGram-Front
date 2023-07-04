@@ -1,5 +1,5 @@
 import { TreeItem, TreeView } from '@mui/lab';
-import { Checkbox } from '@mui/material';
+import { Box, Checkbox, Typography } from '@mui/material';
 import React, { useState, useEffect, useMemo } from 'react';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import KeyboardArrowRightRoundedIcon from '@mui/icons-material/KeyboardArrowRightRounded';
@@ -7,10 +7,12 @@ import { useProductCurrentPreConfig } from '@hooks/useProductCurrentPreConfig';
 import _ from 'lodash';
 import { Characteristic } from '@customTypes/preConfig';
 import { useProductConfigFilterContext } from '@contexts/ProductConfigFilterProvider/ProductConfigFilterProvider';
+import SearchButton from '@components/SearchButton/SearchButton';
 
 interface Node {
   id: string;
   name: string;
+  description?: string;
   parent?: string;
   children?: Node[];
 }
@@ -31,28 +33,53 @@ function bfsSearch(graph: Node[], targetId: string) {
 }
 
 function formatData(rawData: Characteristic[]) {
-  return _.map(rawData, (characteristic) => ({
-    id: characteristic.key,
-    name: characteristic.key,
-    children: _.map(characteristic.subcharacteristics, (subcharacteristic) => ({
-      id: subcharacteristic.key,
-      name: subcharacteristic.key,
-      parent: characteristic.key,
-      children: _.map(subcharacteristic.measures, (measure) => ({
-        id: measure.key,
-        name: measure.key,
-        parent: subcharacteristic.key
+  return [
+    {
+      id: 'root',
+      name: 'root',
+      children: _.map(rawData, (characteristic) => ({
+        id: characteristic.key,
+        name: _.capitalize(characteristic.key.replace(/_/g, ' ')),
+        description: 'Característica',
+        parent: 'root',
+        children: _.map(characteristic.subcharacteristics, (subcharacteristic) => ({
+          id: subcharacteristic.key,
+          name: _.capitalize(subcharacteristic.key.replace(/_/g, ' ')),
+          description: 'Sub-Característica',
+          parent: characteristic.key,
+          children: _.map(subcharacteristic.measures, (measure) => ({
+            id: measure.key,
+            name: _.capitalize(measure.key.replace(/_/g, ' ')),
+            description: 'Medida',
+            parent: subcharacteristic.key,
+            children: _.map(measure.metrics, (metric) => ({
+              id: metric.key,
+              name: _.capitalize(measure.key.replace(/_/g, ' ')),
+              description: 'Métrica',
+              parent: measure.key
+            }))
+          }))
+        }))
       }))
-    }))
-  }));
+    }
+  ];
 }
 
 export default function TreeViewFilter() {
   const [selectedNodes, setSelectedNodes] = useState<string[]>([]);
+  const [expandedNodes, setExpandedNodes] = useState<string[]>([]);
   const { data: rawData } = useProductCurrentPreConfig();
   const { setConfigFilter } = useProductConfigFilterContext();
 
   const data = useMemo(() => formatData(rawData ?? []), [rawData]);
+
+  useMemo(() => {
+    if (data.length > 0) {
+      setSelectedNodes(getAllIds(data[0]));
+      setExpandedNodes(getAllIds(data[0]));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   useEffect(() => {
     setConfigFilter(selectedNodes);
@@ -107,20 +134,29 @@ export default function TreeViewFilter() {
     }
   }
 
+  function handleSearch(search: string) {
+    // TODO: Implementar busca
+  }
+
   const renderTree = (nodes: Node) => (
     <TreeItem
       key={nodes.id}
       nodeId={nodes.id}
       label={
-        <>
+        <Box display="flex" flexDirection="row" alignItems="center">
           <Checkbox
             checked={_.indexOf(selectedNodes, nodes.id) !== -1}
             tabIndex={-1}
             disableRipple
             onClick={(event) => handleNodeSelect(event, nodes.id)}
           />
-          {nodes.name}
-        </>
+          <Box display="flex" flexDirection="column">
+            <Typography variant="body1">{nodes.name}</Typography>
+            <Typography variant="caption" color="gray" mt="-6px">
+              {nodes.description}
+            </Typography>
+          </Box>
+        </Box>
       }
     >
       {Array.isArray(nodes.children) ? nodes.children.map((node) => renderTree(node)) : null}
@@ -128,13 +164,15 @@ export default function TreeViewFilter() {
   );
 
   return (
-    <TreeView
-      multiSelect
-      defaultCollapseIcon={<KeyboardArrowDownRoundedIcon />}
-      defaultExpandIcon={<KeyboardArrowRightRoundedIcon />}
-      selected={selectedNodes}
-    >
-      {data.map((node) => renderTree(node))}
-    </TreeView>
+    <Box>
+      <SearchButton onInput={(e) => handleSearch(e.target.value)} label="Pesquisar" />
+      <TreeView
+        defaultExpanded={expandedNodes}
+        defaultCollapseIcon={<KeyboardArrowDownRoundedIcon />}
+        defaultExpandIcon={<KeyboardArrowRightRoundedIcon />}
+      >
+        {data[0].children.map((node) => renderTree(node))}
+      </TreeView>
+    </Box>
   );
 }

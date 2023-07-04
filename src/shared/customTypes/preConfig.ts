@@ -1,6 +1,12 @@
+export interface Metrics {
+  key: string;
+  weight: number;
+}
+
 export interface Measure {
   key: string;
   weight: number;
+  metrics: Metrics[];
 }
 
 export interface Subcharacteristic {

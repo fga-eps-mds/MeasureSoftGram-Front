@@ -16,7 +16,7 @@ const formatMsgramChart = ({ historical, title, isEmpty = false }: Props) => {
   const numberOfGraphs = legendData?.length ?? 0;
 
   const grid = _.times(numberOfGraphs, (i) => ({
-    show: !isEmpty,
+    show: false,
     left: '120px',
     right: '4%',
     height: '60px',
@@ -26,6 +26,7 @@ const formatMsgramChart = ({ historical, title, isEmpty = false }: Props) => {
 
   const legend = _.times(numberOfGraphs, (i) => ({
     show: !isEmpty,
+    selectedMode: false,
     x: 0,
     y: `${60 * i + 69}px`,
     data: [legendData?.[i] ?? '-']

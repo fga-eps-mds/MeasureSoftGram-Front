@@ -18,7 +18,7 @@ interface Props {
 
 export default function ProductConfigFilterProvider({ children }: Props) {
   const [configFilter, setConfigFilter] = useState<string[]>([]);
-  const hasKey = (key: string) => configFilter.includes(key);
+  const hasKey = (key: string) => configFilter.includes(key) || key === 'TSQMI';
 
   const value = useMemo(
     () => ({
