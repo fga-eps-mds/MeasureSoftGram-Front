@@ -5,10 +5,11 @@ import getThresholdInfo from '@modules/createRelease/utils/getThresholdInfo';
 interface PreConfigSlidersProps {
   label: string;
   onChange: (min: number, max: number, key: string) => void;
-  weight: number[];
+  min: number;
+  max: number;
 }
 
-const ThresholdSlider = ({ label, onChange, weight }: PreConfigSlidersProps) => {
+const ThresholdSlider = ({ label, onChange, min, max }: PreConfigSlidersProps) => {
   function changeSlider(e: Event) {
     const value = e.target!.value as unknown as number[];
     onChange(value[0], value[1], label);
@@ -29,14 +30,14 @@ const ThresholdSlider = ({ label, onChange, weight }: PreConfigSlidersProps) => 
             sx={{ top: -4 }}
             type="number"
             variant="standard"
-            value={weight[0]}
-            onChange={(e) => onChange(e.target.value as unknown as number, weight[1], label)}
+            value={min.toFixed(1)}
+            onChange={(e) => onChange(e.target.value as unknown as number, max, label)}
           />
         </Grid>
         <Grid item xs={12}>
           {(thresholdInfo?.range[1] ?? undefined) !== undefined && (
             <Slider
-              value={weight}
+              value={[min, max]}
               onChange={(e) => changeSlider(e)}
               min={thresholdInfo?.range[0] ?? 0}
               max={thresholdInfo?.range[1] ?? 100}
@@ -50,12 +51,12 @@ const ThresholdSlider = ({ label, onChange, weight }: PreConfigSlidersProps) => 
             sx={{ top: -4 }}
             variant="standard"
             type="number"
-            value={weight[1]}
-            onChange={(e) => onChange(weight[0], e.target.value as unknown as number, label)}
+            value={max.toFixed(1)}
+            onChange={(e) => onChange(min, e.target.value as unknown as number, label)}
           />
         </Grid>
       </Grid>
-    </Box>
+    </Box >
   );
 };
 
