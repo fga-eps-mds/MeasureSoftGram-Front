@@ -42,11 +42,22 @@ const ConfigForm = ({
   const [limiters, setLimiters] = useState<limiterType[]>([]);
 
   useEffect(() => {
-    console.log(data)
-  }, [])
+    let newLimiters: limiterType[] = []
 
-  useEffect(() => {
-    if (limiters) setLimiters([]);
+    componentIterator[type](data, (
+      value: Measure | Characteristic | Subcharacteristic,
+      previousValue?: Characteristic | Subcharacteristic) => {
+
+      if (checkboxValues.includes(value.key)) {
+        const tabName = previousValue?.key;
+        if (keyGetter(newLimiters).indexOf(value.key) === -1) {
+          const sliderValue: limiterType = { tabName, data: { key: value.key, weight: value.weight } };
+          newLimiters = [...newLimiters, sliderValue];
+        }
+      }
+    })
+
+    setLimiters(newLimiters)
   }, [type]);
 
   useEffect(() => {
@@ -80,15 +91,9 @@ const ConfigForm = ({
     const currentWeight = toPercentage(event.target.value);
 
     let weightSumExeceptCurrent = 0;
-    let isAnyWeight = false;
-    let totalValue = 0;
 
     limiters.forEach((limiter) => {
-      if (limiter.tabName === tabName) {
-        if (limiter.data.key !== key) weightSumExeceptCurrent += limiter.data.weight;
-        if (limiter.data.weight === 0) isAnyWeight = true;
-        totalValue += limiter.data.weight;
-      }
+      if (limiter.tabName === tabName && limiter.data.key !== key) weightSumExeceptCurrent += limiter.data.weight;
     });
 
     const limit = PERCENTAGE - weightSumExeceptCurrent;
@@ -159,13 +164,6 @@ const ConfigForm = ({
 
     if (checkboxValues.includes(value.key) && (!previousValue || previousValue.key === tabValue)) {
       const tabName = previousValue?.key;
-
-      // if don't find the key in the limiters array, add it
-      if (keyGetter(limiters).indexOf(value.key) === -1) {
-        const sliderValue: limiterType = { tabName, data: { key: value.key, weight: value.weight } };
-        const newLimiterValue: limiterType[] = [...limiters, sliderValue];
-        setLimiters(newLimiterValue);
-      }
       return (
         <PreConfigSliders
           key={value.key}

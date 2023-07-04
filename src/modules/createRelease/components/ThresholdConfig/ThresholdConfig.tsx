@@ -14,7 +14,6 @@ import ThresholdSlider from '../ThresholdSlider/ThresholdSlider';
 
 interface ThresholdConfigProrps {
   data: Characteristic[];
-  onChange: Function;
   setCheckboxValues: Function;
   checkboxValues: string[];
   tabs: string[];
@@ -22,20 +21,12 @@ interface ThresholdConfigProrps {
 
 type limiterType = { tabName?: string; data: { key: string; weight: number } };
 
-const ThresholdConfig = ({ onChange, data, checkboxValues, setCheckboxValues, tabs }: ThresholdConfigProrps) => {
+const ThresholdConfig = ({ data, checkboxValues, setCheckboxValues, tabs }: ThresholdConfigProrps) => {
   const [tabValue, setTabValue] = useState<string>(tabs[0]);
   const [limiters, setLimiters] = useState<limiterType[]>([]);
   const { setCurrentConfig } = useCreateReleaseContext();
 
   const keyGetter = (objectArray: limiterType[]) => objectArray.map((object) => object.data.key);
-
-  const weightArrayHandler = (key: string, weight: number) => {
-    const newLimiters = limiters;
-    const index = keyGetter(limiters).indexOf(key);
-    newLimiters[index].data.weight = weight;
-
-    setLimiters(newLimiters);
-  };
 
   const checkboxValue = useCallback(
     (key: string) => {
@@ -59,19 +50,19 @@ const ThresholdConfig = ({ onChange, data, checkboxValues, setCheckboxValues, ta
       return;
     }
 
-    const mapMeasureValue = (measureValue: Measure) => {
+    const mapMeasureValue = (measureValue: Measure): Measure => {
       if (measureValue.key !== key) {
         return measureValue;
       }
 
       const { minFixed, maxFixed } = thresholdInfo ?? {};
-      const newMin = minFixed ? measureValue.min : min;
-      const newMax = maxFixed ? measureValue.max : max;
+      const newMin = minFixed ? measureValue.min_threshold : min;
+      const newMax = maxFixed ? measureValue.max_threshold : max;
 
       return {
         ...measureValue,
-        min: newMin,
-        max: newMax
+        min_threshold: newMin,
+        max_threshold: newMax
       };
     };
 
@@ -82,7 +73,6 @@ const ThresholdConfig = ({ onChange, data, checkboxValues, setCheckboxValues, ta
         measures: subCharValue.measures.map(mapMeasureValue)
       }))
     }));
-    console.log(tempData);
 
     setCurrentConfig(tempData);
   };
@@ -123,8 +113,6 @@ const ThresholdConfig = ({ onChange, data, checkboxValues, setCheckboxValues, ta
   );
 
   const renderSliderCallback = (value: Measure, previousValue: Subcharacteristic) => {
-    // if user clicks on border of slider, the value to maxium possible
-
     if (checkboxValues.includes(value.key) && (!previousValue || previousValue.key === tabValue)) {
       const tabName = previousValue?.key;
 
@@ -138,7 +126,8 @@ const ThresholdConfig = ({ onChange, data, checkboxValues, setCheckboxValues, ta
         <ThresholdSlider
           key={value.key}
           label={value.key}
-          weight={[value.min ?? 0, value.max ?? 100]}
+          min={value.min_threshold}
+          max={value.max_threshold}
           onChange={onChangeTest}
         />
       );

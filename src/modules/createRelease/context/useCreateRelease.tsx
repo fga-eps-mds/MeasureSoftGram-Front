@@ -6,6 +6,7 @@ import { mutate } from 'swr';
 import { useRouter } from 'next/router';
 import { Characteristic, Measure, PreConfigRoot, Subcharacteristic } from '@customTypes/preConfig';
 import { CREATE_RELEASE_STEP } from '../consts';
+import mockedData from '../../preConfig/utils/mockedData.json'
 
 interface CreateReleaseProviderProps {
   children: ReactNode;
@@ -30,11 +31,12 @@ interface ConfigPageData {
   measureCheckbox: string[];
   setMeasureCheckbox: (measureCheckbox: string[]) => void;
   characteristicData: Characteristic[];
+  setCharacteristicValuesValid: (value: boolean) => void;
 }
 
 interface CreateReleaseContextData {
   releaseInfoForm: ReleaseInfoForm;
-  successOnCreation: string;
+  alertMessage: string;
   preConfigCharacteristics: string[] | undefined;
   productId: string;
   organizationId: string;
@@ -45,7 +47,7 @@ interface CreateReleaseContextData {
   // eslint-disable-next-line no-unused-vars
   handleSelectCharacteristics: (characteristic: string) => void;
   createProductReleaseGoal: () => void;
-  goToNextStep: () => boolean;
+  goToNextStep: (activeStep: number) => boolean;
   closeAlert: () => void;
   setCurrentConfig: (data: Characteristic[]) => void;
   changeThreshold: boolean;
@@ -69,10 +71,13 @@ export function CreateReleaseProvider({
   currentProduct
 }: CreateReleaseProviderProps) {
   const [preConfigCharacteristics, setPreConfigCharacteristics] = useState<string[]>();
-  const [successOnCreation, setSuccessOnCreation] = useState('');
+  const [alertMessage, setAlertMessage] = useState('');
   const [releaseInfoForm, setReleaseInfoForm] = useState<ReleaseInfoForm>({
     endDate: defaultEndDate,
-    startDate: defaulStartDate
+    startDate: defaulStartDate,
+    changes: [],
+    characteristics: [],
+    name: ''
   } as ReleaseInfoForm);
   const [characteristicData, setCharacteristicData] = useState<Characteristic[]>([]);
   const [characteristicCheckbox, setCharacteristicCheckbox] = useState<string[]>([]);
@@ -82,6 +87,7 @@ export function CreateReleaseProvider({
   const [allowChangeConfig, setAllowChangeConfig] = useState<boolean>(false);
   const [useLastConfig, setUseLastConfig] = useState<boolean>(false);
   const [isFirstRelease, setIsFirstRelease] = useState<boolean>(false);
+  const [characteristicValuesValid, setCharacteristicValuesValid] = useState<boolean>(false)
 
   const router = useRouter();
 
@@ -122,10 +128,10 @@ export function CreateReleaseProvider({
         await router.push(
           `/products/${organizationId}-${productId}-${currentProduct.name.toLowerCase()}/releases/${releaseId}`
         );
-        setSuccessOnCreation('success');
+        setAlertMessage('successOnCreation');
       }
     } catch (error) {
-      setSuccessOnCreation('error');
+      setAlertMessage('errorOnCreation');
       console.error(error);
     }
   }
@@ -149,20 +155,27 @@ export function CreateReleaseProvider({
     handleChangeForm('characteristics', selectedCharacteristics);
   }
 
-  function goToNextStep() {
-    const { characteristics, name } = releaseInfoForm;
-    return !!characteristics?.length && !!name;
+  function goToNextStep(currentStep: number) {
+    if (currentStep === CREATE_RELEASE_STEP.ReleaseInfoStep) {
+      const { characteristics, name } = releaseInfoForm;
+      if (!characteristics.length) {
+        setAlertMessage('noCharacteristicSelected');
+        return false
+      }
+      if (!name) {
+        setAlertMessage('fillName');
+        return false
+      }
+    }
+    if (currentStep === CREATE_RELEASE_STEP.CharacteristicStep && !characteristicValuesValid) {
+      setAlertMessage('characteristicValuesInvalid')
+      return false;
+    }
+    return true;
   }
 
   function closeAlert() {
-    setSuccessOnCreation('');
-    setReleaseInfoForm({
-      endDate: defaultEndDate,
-      startDate: defaulStartDate,
-      name: '',
-      characteristics: [],
-      changes: []
-    });
+    setAlertMessage('');
   }
 
   function setCurrentConfig(configData: Characteristic[]) {
@@ -182,8 +195,8 @@ export function CreateReleaseProvider({
         const result = (await productQuery.getProductCurrentPreConfig(
           organizationId,
           productId
-        )) as unknown as PreConfigRoot;
-        setCurrentConfig(result.data.data.characteristics);
+        )).data as unknown as PreConfigRoot;
+        setCurrentConfig(result?.data?.characteristics ?? mockedData.data.characteristics);
       }
     } catch (error) {
       console.error(error);
@@ -231,7 +244,7 @@ export function CreateReleaseProvider({
   // eslint-disable-next-line react/jsx-no-constructed-context-values
   const value = {
     releaseInfoForm,
-    successOnCreation,
+    alertMessage,
     preConfigCharacteristics,
     handleChangeForm,
     handleSelectCharacteristics,
@@ -249,7 +262,8 @@ export function CreateReleaseProvider({
       setSubcharacterCheckbox,
       characteristicData,
       setMeasureCheckbox,
-      measureCheckbox
+      measureCheckbox,
+      setCharacteristicValuesValid
     },
     changeThreshold,
     toggleChangeThreshold,

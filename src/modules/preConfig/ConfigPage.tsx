@@ -47,30 +47,13 @@ const ConfigPage = ({
     setSubcharacterCheckbox,
     subcharacterCheckbox,
     setMeasureCheckbox,
-    measureCheckbox
+    measureCheckbox,
+    setCharacteristicValuesValid
   } = configPageData;
 
-  const [isValuesValid, setIsValuesValid] = useState(false);
-  const [error, setError] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
-
   useEffect(() => {
-    setIsValuesValid(false);
+    setCharacteristicValuesValid(false);
   }, [page]);
-
-  const clearRequest = (jsonValue: Characteristic[]): Characteristic[] => {
-    const jsonString = JSON.stringify(jsonValue);
-    const jsonStringReplaced = jsonString?.replace(/\d+/g, '0');
-    return JSON?.parse(jsonStringReplaced) as Characteristic[];
-  };
-
-  const isArrayNull = (array: Array<any>) => array.length === 0;
-
-  const isFormCompleted = () => {
-    if (isArrayNull(characteristicCheckbox) && page === 0) return true;
-    if (isArrayNull(subcharacterCheckbox) && page === 1) return true;
-    if (isArrayNull(measureCheckbox) && page === 2) return true;
-  };
 
   const sendJson = () => {
     const responseCharacterFiltered = characteristicData?.filter((charcterValue) =>
@@ -90,16 +73,14 @@ const ConfigPage = ({
       }))
     })) as Characteristic[];
 
-    setShowAlert(true);
     productQuery
       .postPreConfig(organizationId, productId, { name: repoName, data: { characteristics: finalData } })
       .catch(() => {
-        setError(true);
       });
   };
 
   const renderPage = () => {
-    const genericProps = { onChange: setCurrentConfig, setIsValuesValid, data: characteristicData };
+    const genericProps = { onChange: setCurrentConfig, setIsValuesValid: setCharacteristicValuesValid, data: characteristicData };
     const subtitle = 'Definir os pesos das';
     if (page === 0) {
       return (

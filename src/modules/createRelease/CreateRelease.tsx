@@ -37,7 +37,7 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
   ];
 
   const {
-    successOnCreation,
+    alertMessage,
     closeAlert,
     goToNextStep,
     createProductReleaseGoal,
@@ -67,7 +67,6 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
     ),
     3: (
       <ThresholdConfig
-        onChange={() => { }}
         data={configPageData.characteristicData}
         tabs={configPageData.subcharacterCheckbox}
         checkboxValues={configPageData.measureCheckbox}
@@ -83,7 +82,7 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
   };
 
   const handleGoToNextStep = () => {
-    if (!goToNextStep()) return;
+    if (!goToNextStep(activeStep)) return;
 
     const newActiveStep = getNextStep(activeStep, configPage);
     if (activeStep === newActiveStep && newActiveStep === CREATE_RELEASE_STEP.CharacteristicStep) {
@@ -131,21 +130,24 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
   ];
 
   const ALERTS = {
-    success: <Alert severity="success">Release criada com sucesso!</Alert>,
-    error: <Alert severity="error">Ocorreu um erro durante a criação da release.</Alert>
+    successOnCreation: <Alert severity="success">Release criada com sucesso!</Alert>,
+    errorOnCreation: <Alert severity="error">Ocorreu um erro durante a criação da release.</Alert>,
+    noCharacteristicSelected: <Alert severity='warning'>Ao menos uma característica deve ser selecionada</Alert>,
+    fillName: <Alert severity='warning'>Preencha o nome da release</Alert>,
+    characteristicValuesInvalid: <Alert severity='warning'>A soma de todos os valores preenchidos deve ser igual a 100</Alert>,
   };
   const handleOnCloseAlert = () => {
-    if (successOnCreation === 'success') {
+    if (alertMessage === 'successOnCreation') {
       handleClose();
       setActiveStep(0);
     }
 
-    setTimeout(closeAlert, 3000);
+    setTimeout(closeAlert, 5000);
   };
 
   useEffect(() => {
-    if (successOnCreation === 'success') handleOnCloseAlert();
-  }, [successOnCreation]);
+    if (alertMessage) handleOnCloseAlert();
+  }, [alertMessage]);
 
   return (
     <>
@@ -155,10 +157,10 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
 
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        open={!!successOnCreation}
+        open={!!alertMessage}
         onClose={handleOnCloseAlert}
       >
-        {ALERTS[successOnCreation as keyof typeof ALERTS]}
+        {ALERTS[alertMessage as keyof typeof ALERTS]}
       </Snackbar>
     </>
   );
