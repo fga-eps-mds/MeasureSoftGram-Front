@@ -40,14 +40,12 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
     alertMessage,
     closeAlert,
     goToNextStep,
-    createProductReleaseGoal,
-    organizationId,
-    productId,
-    releaseInfoForm,
+    finishReleasePlanning,
     configPageData,
     getNextStep,
     getPreviousStep,
-    isFirstRelease
+    isFirstRelease,
+    resetStates
   } = useCreateReleaseContext();
 
   const renderStep = () =>
@@ -57,11 +55,6 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
     2: (
       <ConfigPage
         page={configPage}
-        isOpen
-        onClose={handleClose}
-        organizationId={organizationId}
-        filteredCharacteristics={releaseInfoForm?.characteristics}
-        productId={productId}
         title={configPageTitle}
       />
     ),
@@ -108,8 +101,12 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
     setConfigPageTitle(configPageTitles[configPage]);
   }, [configPage]);
 
+  useEffect(() => {
+    if (open) resetStates();
+  }, [open])
+
   const handleNextButton = () =>
-    activeStep === CREATE_RELEASE_STEP.ReleaseGoalStep ? createProductReleaseGoal() : handleGoToNextStep();
+    activeStep === CREATE_RELEASE_STEP.ReleaseGoalStep ? finishReleasePlanning() : handleGoToNextStep();
 
   const BUTTONS: Array<ButtonType> = [
     {

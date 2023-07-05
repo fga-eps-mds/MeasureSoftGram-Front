@@ -58,7 +58,7 @@ const ConfigForm = ({
     })
 
     setLimiters(newLimiters)
-  }, [type]);
+  }, [type, checkboxValues]);
 
   useEffect(() => {
     if (tabs) setTabValue(tabs[0]);

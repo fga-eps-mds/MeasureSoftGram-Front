@@ -1,8 +1,8 @@
 export interface Measure {
   key: string;
   weight: number;
-  min_threshold: number;
-  max_threshold: number;
+  min_threshold?: number;
+  max_threshold?: number;
 }
 
 export interface Subcharacteristic {
