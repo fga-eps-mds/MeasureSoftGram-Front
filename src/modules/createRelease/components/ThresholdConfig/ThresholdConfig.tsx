@@ -115,6 +115,9 @@ const ThresholdConfig = ({ data, checkboxValues, setCheckboxValues, tabs }: Thre
   const renderSliderCallback = (value: Measure, previousValue: Subcharacteristic) => {
     if (checkboxValues.includes(value.key) && (!previousValue || previousValue.key === tabValue)) {
       const tabName = previousValue?.key;
+      const thresholdInfo = getThresholdInfo(value.key);
+      const minThreshold = value.min_threshold ?? thresholdInfo?.range[0] ?? 0
+      const maxThreshold = value.max_threshold ?? thresholdInfo?.range[1] ?? 100
 
       // if don't find the key in the limiters array, add it
       if (keyGetter(limiters).indexOf(value.key) === -1) {
@@ -126,8 +129,8 @@ const ThresholdConfig = ({ data, checkboxValues, setCheckboxValues, tabs }: Thre
         <ThresholdSlider
           key={value.key}
           label={value.key}
-          min={value.min_threshold}
-          max={value.max_threshold}
+          min={minThreshold}
+          max={maxThreshold}
           onChange={onChangeTest}
         />
       );

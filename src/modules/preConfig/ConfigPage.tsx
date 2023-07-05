@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
-import { Alert, Box, Checkbox, Snackbar, Switch, Typography } from '@mui/material';
+import { Box, Checkbox, Switch, Typography } from '@mui/material';
 
 import { productQuery } from '@services/product';
 
@@ -11,26 +11,16 @@ import ConfigsForm from './components/ConfigsForm';
 import CONFIG_PAGE from './consts';
 import * as Styles from './styles';
 
-const { SUB_TITLE, DEFAULT_MESSAGE, ERROR_MESSAGE } = CONFIG_PAGE;
+const { SUB_TITLE } = CONFIG_PAGE;
 
 interface ConfigPageProps {
-  isOpen: boolean;
-  onClose: Function;
-  repoName?: string;
-  organizationId: string;
-  productId: string;
   page: number;
-  filteredCharacteristics: string[];
   title: string;
 }
 
 const ConfigPage = ({
-  repoName = '',
-  organizationId,
-  productId,
   page,
-  filteredCharacteristics,
-  title
+  title,
 }: ConfigPageProps) => {
   const {
     setCurrentConfig,
@@ -54,30 +44,6 @@ const ConfigPage = ({
   useEffect(() => {
     setCharacteristicValuesValid(false);
   }, [page]);
-
-  const sendJson = () => {
-    const responseCharacterFiltered = characteristicData?.filter((charcterValue) =>
-      characteristicCheckbox.includes(charcterValue.key)
-    );
-    const responseSubcharacterFiltered = responseCharacterFiltered?.map((charcterValue) => ({
-      ...charcterValue,
-      subcharacteristics: charcterValue.subcharacteristics.filter((subcharcterValue) =>
-        subcharacterCheckbox.includes(subcharcterValue.key)
-      )
-    }));
-    const finalData = responseSubcharacterFiltered?.map((charcterValue) => ({
-      ...charcterValue,
-      subcharacteristics: charcterValue.subcharacteristics.map((subcharcterValue) => ({
-        ...subcharcterValue,
-        measures: subcharcterValue.measures.filter((measureValue) => measureCheckbox.includes(measureValue.key))
-      }))
-    })) as Characteristic[];
-
-    productQuery
-      .postPreConfig(organizationId, productId, { name: repoName, data: { characteristics: finalData } })
-      .catch(() => {
-      });
-  };
 
   const renderPage = () => {
     const genericProps = { onChange: setCurrentConfig, setIsValuesValid: setCharacteristicValuesValid, data: characteristicData };

@@ -40,13 +40,14 @@ interface CreateReleaseContextData {
   preConfigCharacteristics: string[] | undefined;
   productId: string;
   organizationId: string;
+  currentProduct: Product;
   isFirstRelease: boolean;
   configPageData: ConfigPageData;
   // eslint-disable-next-line no-unused-vars
   handleChangeForm: (field: string, value: string | Changes[]) => void;
   // eslint-disable-next-line no-unused-vars
   handleSelectCharacteristics: (characteristic: string) => void;
-  createProductReleaseGoal: () => void;
+  finishReleasePlanning: () => void;
   goToNextStep: (activeStep: number) => boolean;
   closeAlert: () => void;
   setCurrentConfig: (data: Characteristic[]) => void;
@@ -57,6 +58,7 @@ interface CreateReleaseContextData {
   allowChangeConfig: boolean;
   toggleAllowChangeConfig: () => void;
   setUseLastConfig: (value: boolean) => void;
+  resetStates: () => void
 }
 
 const CreateReleaseContext = createContext({} as CreateReleaseContextData);
@@ -110,29 +112,24 @@ export function CreateReleaseProvider({
   }
 
   async function createProductReleaseGoal() {
-    try {
-      const data = {
-        release_name: releaseInfoForm.name,
-        start_at: releaseInfoForm.startDate,
-        end_at: releaseInfoForm.endDate,
-        changes: releaseInfoForm.changes
-      };
+    const data = {
+      release_name: releaseInfoForm.name,
+      start_at: releaseInfoForm.startDate,
+      end_at: releaseInfoForm.endDate,
+      changes: releaseInfoForm.changes
+    };
 
-      const response = await productQuery.createProductReleaseGoal(organizationId, productId, data);
-      await mutate(
-        JSON.stringify({ url: `organizations/${organizationId}/products/${productId}/release/`, method: 'get' })
+    const response = await productQuery.createProductReleaseGoal(organizationId, productId, data);
+    await mutate(
+      JSON.stringify({ url: `organizations/${organizationId}/products/${productId}/release/`, method: 'get' })
+    );
+    const releaseId = response?.data?.id;
+
+    if (releaseId) {
+      await router.push(
+        `/products/${organizationId}-${productId}-${currentProduct.name.toLowerCase()}/releases/${releaseId}`
       );
-      const releaseId = response?.data?.id;
-
-      if (releaseId) {
-        await router.push(
-          `/products/${organizationId}-${productId}-${currentProduct.name.toLowerCase()}/releases/${releaseId}`
-        );
-        setAlertMessage('successOnCreation');
-      }
-    } catch (error) {
-      setAlertMessage('errorOnCreation');
-      console.error(error);
+      setAlertMessage('successOnCreation');
     }
   }
 
@@ -235,10 +232,50 @@ export function CreateReleaseProvider({
     return activeStep - 1;
   }
 
-  useEffect(() => {
+  async function sendConfigJson() {
+    const responseCharacterFiltered = characteristicData?.filter((charcterValue) =>
+      characteristicCheckbox.includes(charcterValue.key)
+    );
+    const responseSubcharacterFiltered = responseCharacterFiltered?.map((charcterValue) => ({
+      ...charcterValue,
+      subcharacteristics: charcterValue.subcharacteristics.filter((subcharcterValue) =>
+        subcharacterCheckbox.includes(subcharcterValue.key)
+      )
+    }));
+    const finalData = responseSubcharacterFiltered?.map((charcterValue) => ({
+      ...charcterValue,
+      subcharacteristics: charcterValue.subcharacteristics.map((subcharcterValue) => ({
+        ...subcharcterValue,
+        measures: subcharcterValue.measures.filter((measureValue) => measureCheckbox.includes(measureValue.key))
+      }))
+    })) as Characteristic[];
+
+    await productQuery
+      .postPreConfig(organizationId, productId, { name: currentProduct?.name ?? '', data: { characteristics: finalData } })
+  };
+
+  function finishReleasePlanning() {
+    sendConfigJson().then(() => setAlertMessage('successOnCreation')).catch(() => setAlertMessage('errorOnCreation'))
+    createProductReleaseGoal().catch(() => setAlertMessage('errorOnCreation'))
+  }
+
+  function resetStates() {
+    setReleaseInfoForm({
+      endDate: defaultEndDate,
+      startDate: defaulStartDate,
+      changes: [],
+      characteristics: [],
+      name: ''
+    } as ReleaseInfoForm)
+    setAllowChangeConfig(false);
+    setChangeThreshold(false);
     loadCurrentPreConfig();
     loadCurrentConfig();
     checkForFirstRelease();
+  }
+
+  useEffect(() => {
+    resetStates()
   }, [productId]);
 
   // eslint-disable-next-line react/jsx-no-constructed-context-values
@@ -248,11 +285,12 @@ export function CreateReleaseProvider({
     preConfigCharacteristics,
     handleChangeForm,
     handleSelectCharacteristics,
-    createProductReleaseGoal,
+    finishReleasePlanning,
     goToNextStep,
     closeAlert,
     productId,
     organizationId,
+    currentProduct,
     isFirstRelease,
     setCurrentConfig,
     configPageData: {
@@ -271,7 +309,8 @@ export function CreateReleaseProvider({
     getPreviousStep,
     allowChangeConfig,
     toggleAllowChangeConfig,
-    setUseLastConfig
+    setUseLastConfig,
+    resetStates
   };
 
   return <CreateReleaseContext.Provider value={value}>{children}</CreateReleaseContext.Provider>;
