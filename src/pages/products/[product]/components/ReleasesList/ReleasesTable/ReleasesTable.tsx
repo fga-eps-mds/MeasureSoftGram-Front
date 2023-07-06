@@ -45,9 +45,7 @@ function ReleasesTable({ releaseList }: ReleasesTableProps) {
               <TableCell>{release?.release_name}</TableCell>
               <TableCell>{formatDate(release?.start_at)}</TableCell>
               <TableCell>{formatDate(release?.end_at)}</TableCell>
-              <TableCell align="right">
-                <ArrowCircleRightIcon />
-              </TableCell>
+              <TableCell />
             </TableRow>
           ))}
         </TableBody>

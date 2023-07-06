@@ -189,7 +189,7 @@ const ConfigForm = ({
 
   return (
     <Box display="flex" flexDirection="column" mt="5vh">
-      <Typography variant="h6" sx={{ marginBottom: '16px' }}>
+      <Typography variant="h6" sx={{ marginBottom: '16px', color: '#538BA3', fontWeight: '500' }}>
         {subtitle}
       </Typography>
       {renderTabs()}

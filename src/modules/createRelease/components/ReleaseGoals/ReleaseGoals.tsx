@@ -25,7 +25,7 @@ export default function ReleaseGoals() {
   return (
     <>
       <Styles.Header>
-        <h1>Balancear a Meta de Qualidade</h1>
+        <h1 style={{ color: '#33568E', fontWeight: '500' }}>Balancear a Meta de Qualidade</h1>
         <p>
           Nesta etapa, é possível estabelecer metas para as características que serão observadas na release. É
           importante ressaltar que essas características de qualidade estão inter-relacionadas, ou seja, ao modificar a
@@ -37,7 +37,7 @@ export default function ReleaseGoals() {
         </p>
         <Box>
           <Typography color="#FF4646">
-            <Checkbox checked={allowDynamicBalance} onChange={handleChange} name="allowDynamicBalanceCheckbox" />
+            <Checkbox checked={allowDynamicBalance} onChange={handleChange} name="allowDynamicBalanceCheckbox" color="secondary" />
             Permitir o balanceamento dinâmico
           </Typography>
         </Box>

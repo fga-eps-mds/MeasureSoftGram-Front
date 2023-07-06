@@ -150,7 +150,7 @@ const ThresholdConfig = ({ data, checkboxValues, setCheckboxValues, tabs }: Thre
 
   return (
     <Box display="flex" flexDirection="column" maxWidth="600px">
-      <Typography variant="h4" sx={{ marginBottom: '16px' }}>
+      <Typography variant="h4" sx={{ marginBottom: '16px', color: '#33568E', fontWeight: '500' }}>
         Definir os valores de referência mínimo e máximo
       </Typography>
       <Typography variant="body1" sx={{ marginBottom: '16px' }}>

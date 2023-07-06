@@ -24,7 +24,7 @@ function ReleasesList() {
     <Box display="flex" flexDirection="column" mt="42px">
       <Styles.Wrapper>
         <Container>
-          <Typography variant="h5" marginRight="10px" mb="32px">
+          <Typography variant="h5" marginRight="10px" mb="32px" color="#538BA3" fontWeight="500">
             Releases
           </Typography>
 
