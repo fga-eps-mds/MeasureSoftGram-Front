@@ -3,12 +3,22 @@ import '@testing-library/jest-dom';
 import React, { useEffect } from 'react';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 
+import { PreConfigEntitiesRelationship, Product, ReleaseGoal } from '@customTypes/product';
 import { CreateReleaseProvider, useCreateReleaseContext } from '../useCreateRelease';
 
 jest.mock('@services/product', () => ({
   productQuery: {
-    getProductCurrentPreConfig: () => ({data: {"id":25,"name":"3","data":{"characteristics":[{"key":"reliability","weight":50,"subcharacteristics":[{"key":"testing_status","weight":100,"measures":[{"key":"passed_tests","weight":33},{"key":"test_builds","weight":33},{"key":"test_coverage","weight":34}]}]},{"key":"maintainability","weight":50,"subcharacteristics":[{"key":"modifiability","weight":100,"measures":[{"key":"non_complex_file_density","weight":33},{"key":"commented_file_density","weight":33},{"key":"duplication_absense","weight":34}]}]}]},"created_at":"2022-09-15T18:56:57-03:00"}}),
-    createProductReleaseGoal: () => ({})
+    getProductCurrentPreConfig: () => ({ data: { "id": 25, "name": "3", "data": { "characteristics": [{ "key": "reliability", "weight": 50, "subcharacteristics": [{ "key": "testing_status", "weight": 100, "measures": [{ "key": "passed_tests", "weight": 33 }, { "key": "test_builds", "weight": 33 }, { "key": "test_coverage", "weight": 34 }] }] }, { "key": "maintainability", "weight": 50, "subcharacteristics": [{ "key": "modifiability", "weight": 100, "measures": [{ "key": "non_complex_file_density", "weight": 33 }, { "key": "commented_file_density", "weight": 33 }, { "key": "duplication_absense", "weight": 34 }] }] }] }, "created_at": "2022-09-15T18:56:57-03:00" } }),
+    getPreConfigEntitiesRelationship: () => ({
+      data: [{
+        key: 'reliability',
+        id: 1,
+        name: 'Confiabilidade',
+        description: '',
+        subcharacteristics: []
+      }]
+    }),
+    getReleaseGoalList: () => ({ data: [{ id: 1, release_name: 'r1', start_at: '', end_at: '', changes: [] }] })
   }
 }));
 
@@ -17,8 +27,9 @@ const TestingComponent = () => {
     handleChangeForm,
     handleSelectCharacteristics,
     closeAlert,
-    goToGoalsStep,
-    createProductReleaseGoal
+    goToNextStep,
+    finishReleasePlanning,
+    setCurrentConfig
   } = useCreateReleaseContext();
 
   useEffect(() => {
@@ -26,6 +37,7 @@ const TestingComponent = () => {
     handleChangeForm('startDate', '30/08/2022')
     handleChangeForm('name', 'aoba')
     handleSelectCharacteristics('aoba')
+    setCurrentConfig([])
   }, [])
 
   return (
@@ -39,16 +51,25 @@ const TestingComponent = () => {
       <button
         type='submit'
         data-testid="goal-step"
-        onClick={goToGoalsStep}
+        onClick={() => goToNextStep(0)}
       >Denifir pesos</button>
       <button
         type='submit'
-        data-testid="create-release-goal"
-        onClick={createProductReleaseGoal}
+        data-testid="finish-release-planning"
+        onClick={finishReleasePlanning}
       >Cria metas</button>
     </>
   );
 };
+
+const product: Product = {
+  id: "1",
+  name: "MeasureSoftGram",
+  description: '',
+  github_url: '',
+  created_at: '',
+  updated_at: ''
+}
 
 describe('<CreateReleaseProvider />', () => {
   beforeEach(() => {
@@ -59,10 +80,11 @@ describe('<CreateReleaseProvider />', () => {
     it('Deve corresponder ao Snapshot', () => {
       const tree = render(
         <CreateReleaseProvider
+          currentProduct={product}
           organizationId='1'
           productId='3'
         >
-          <TestingComponent/>
+          <TestingComponent />
         </CreateReleaseProvider>
       )
 
@@ -80,8 +102,9 @@ describe('<CreateReleaseProvider />', () => {
         <CreateReleaseProvider
           organizationId='1'
           productId='3'
+          currentProduct={product}
         >
-          <TestingComponent/>
+          <TestingComponent />
         </CreateReleaseProvider>
       )
 
@@ -91,7 +114,7 @@ describe('<CreateReleaseProvider />', () => {
 
       fireEvent.click(tree.getByTestId('close-alert'));
       fireEvent.click(tree.getByTestId('goal-step'));
-      fireEvent.click(tree.getByTestId('create-release-goal'));
+      fireEvent.click(tree.getByTestId('finish-release-planning'));
     });
   });
 });

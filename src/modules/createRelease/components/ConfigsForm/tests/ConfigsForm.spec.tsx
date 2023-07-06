@@ -15,8 +15,8 @@ const CHECKBOX_VALUES_MEASURE = ['passed_tests', 'test_builds'];
 describe('<ConfigsForm />', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    jest.spyOn(console, 'error').mockImplementation(() => {});
-    jest.spyOn(console, 'log').mockImplementation(() => {});
+    jest.spyOn(console, 'error').mockImplementation(() => { });
+    jest.spyOn(console, 'log').mockImplementation(() => { });
   });
 
   describe('Snapshot', () => {
@@ -30,6 +30,7 @@ describe('<ConfigsForm />', () => {
           subtitle={SUBTITLE_TEST}
           checkboxValues={CHECKBOX_VALUES_CHAR}
           data={DATA}
+          disable={false}
         />
       );
       expect(tree).toMatchSnapshot();
@@ -45,6 +46,7 @@ describe('<ConfigsForm />', () => {
           data={DATA}
           setIsValuesValid={jest.fn()}
           subtitle={SUBTITLE_TEST}
+          disable={false}
         />
       );
       expect(tree).toMatchSnapshot();
@@ -60,6 +62,7 @@ describe('<ConfigsForm />', () => {
           data={DATA}
           setIsValuesValid={jest.fn()}
           subtitle={SUBTITLE_TEST}
+          disable={false}
         />
       );
       expect(tree).toMatchSnapshot();
@@ -79,6 +82,7 @@ describe('<ConfigsForm />', () => {
           subtitle={SUBTITLE_TEST}
           checkboxValues={CHECKBOX_VALUES_CHAR}
           data={DATA}
+          disable={false}
         />
       );
       const button = getByText('reliability');
@@ -95,6 +99,7 @@ describe('<ConfigsForm />', () => {
           subtitle={SUBTITLE_TEST}
           checkboxValues={[CHECKBOX_VALUES_CHAR[1]]}
           data={DATA}
+          disable={false}
         />
       );
       fireEvent.click(button);

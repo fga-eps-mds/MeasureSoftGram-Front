@@ -2,12 +2,9 @@ import React, { useEffect } from 'react';
 
 import { Box, Checkbox, Switch, Typography } from '@mui/material';
 
-import { productQuery } from '@services/product';
-
-import { Characteristic } from '@customTypes/preConfig';
 
 import { useCreateReleaseContext } from '@modules/createRelease/context/useCreateRelease';
-import ConfigsForm from './components/ConfigsForm';
+import ConfigsForm from '../ConfigsForm';
 import CONFIG_PAGE from './consts';
 import * as Styles from './styles';
 

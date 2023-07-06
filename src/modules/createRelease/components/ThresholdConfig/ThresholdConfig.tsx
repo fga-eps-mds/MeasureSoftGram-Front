@@ -7,10 +7,10 @@ import undelineRemover from '@utils/undelineRemover';
 
 import { useCreateReleaseContext } from '@modules/createRelease/context/useCreateRelease';
 import getThresholdInfo from '@modules/createRelease/utils/getThresholdInfo';
-import { componentIterator } from '../../../preConfig/utils/componentIterator';
+import { componentIterator } from '../../utils/componentIterator';
 
-import PreConfigTabs from '../../../preConfig/components/PreConfigTabs';
-import ThresholdSlider from '../ThresholdSlider/ThresholdSlider';
+import PreConfigTabs from '../PreConfigTabs';
+import ThresholdSlider from '../ThresholdSlider';
 
 interface ThresholdConfigProrps {
   data: Characteristic[];
@@ -41,7 +41,7 @@ const ThresholdConfig = ({ data, checkboxValues, setCheckboxValues, tabs }: Thre
     [checkboxValues, setCheckboxValues]
   );
 
-  const onChangeTest = (min: number, max: number, key: string) => {
+  const onChange = (min: number, max: number, key: string) => {
     const thresholdInfo = getThresholdInfo(key);
 
     const isOutOfRange = (thresholdInfo?.range[0] ?? 0) > min || (thresholdInfo?.range[1] ?? Infinity) < max;
@@ -131,7 +131,7 @@ const ThresholdConfig = ({ data, checkboxValues, setCheckboxValues, tabs }: Thre
           label={value.key}
           min={minThreshold}
           max={maxThreshold}
-          onChange={onChangeTest}
+          onChange={onChange}
         />
       );
     }

@@ -3,14 +3,14 @@ import { Alert, Container, Snackbar } from '@mui/material';
 
 import DrawerMenu from '@components/DrawerMenu';
 import { ButtonType, Product } from '@customTypes/product';
-import ConfigPage from '@modules/preConfig/ConfigPage';
+import ConfigPage from './components/ConfigPage';
 import ReleaseInfo from './components/ReleaseInfo';
 import ReleaseGoals from './components/ReleaseGoals';
 
 import { CreateReleaseProvider, useCreateReleaseContext } from './context/useCreateRelease';
 import FirstReleaseWarning from './components/FirstReleaseWarning';
-import ReleaseConfigSelector from './components/ReleaseConfigSelector/ReleaseConfigSelector';
-import ThresholdConfig from './components/ThresholdConfig/ThresholdConfig';
+import ReleaseConfigSelector from './components/ReleaseConfigSelector';
+import ThresholdConfig from './components/ThresholdConfig';
 import { CREATE_RELEASE_STEP } from './consts';
 
 interface CreateReleaseProps {
@@ -115,6 +115,7 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
       backgroundColor: '#FFF',
       color: '#113D4C',
       variant: 'outlined',
+      dataTestId: 'back-button'
     },
     {
       label: activeStep === CREATE_RELEASE_STEP.ReleaseGoalStep ? 'Finalizar' : 'Continuar',
@@ -122,7 +123,8 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
       backgroundColor: '#113D4C',
       color: '#fff',
       variant: 'contained',
-      disabled: activeStep === CREATE_RELEASE_STEP.ReleaseSelectorStep && !isFirstRelease
+      disabled: activeStep === CREATE_RELEASE_STEP.ReleaseSelectorStep && !isFirstRelease,
+      dataTestId: 'next-button'
     }
   ];
 

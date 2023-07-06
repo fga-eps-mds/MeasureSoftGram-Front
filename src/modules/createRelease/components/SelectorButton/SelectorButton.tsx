@@ -6,7 +6,7 @@ interface SelectorButtonProps {
   label: string
 }
 
-export const SelectorButton = ({ onClick, label }: SelectorButtonProps) => (
+const SelectorButton = ({ onClick, label }: SelectorButtonProps) => (
   <Button variant="outlined" onClick={onClick}
     sx={{
       backgroundColor: "#fff",
@@ -21,3 +21,5 @@ export const SelectorButton = ({ onClick, label }: SelectorButtonProps) => (
     {label}
   </Button>
 )
+
+export default SelectorButton;

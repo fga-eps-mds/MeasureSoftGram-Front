@@ -5,7 +5,7 @@ import { Characteristic, Measure, Subcharacteristic } from '@customTypes/preConf
 import CheckboxButton from '@components/CheckboxButton/CheckboxButton';
 import undelineRemover from '@utils/undelineRemover';
 
-import { componentIterator } from '../../utils/componentIterator';
+import { componentIterator } from '../../utils/componentIterator'
 import { iterator, iteratorType } from '../../utils/iterators';
 import toPercentage from '../../utils/toPercentage';
 
