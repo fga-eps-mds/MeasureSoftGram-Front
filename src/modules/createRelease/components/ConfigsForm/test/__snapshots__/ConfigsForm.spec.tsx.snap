@@ -6,7 +6,7 @@ Object {
   "baseElement": <body>
     <div>
       <div
-        class="MuiBox-root css-1spiuho"
+        class="MuiBox-root css-2c3mdi"
       >
         <h6
           class="MuiTypography-root MuiTypography-h6 css-1mo68eo-MuiTypography-root"
@@ -14,7 +14,7 @@ Object {
           SUBTITLE
         </h6>
         <div
-          class="MuiGrid-root MuiGrid-container css-1ruddsm-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-container css-s3g6yz-MuiGrid-root"
         >
           <div
             class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
@@ -29,7 +29,7 @@ Object {
                 type="checkbox"
               />
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-15pg8bh-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1cfee4v-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
                 type="button"
               >
@@ -53,7 +53,7 @@ Object {
                 type="checkbox"
               />
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-15pg8bh-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1cfee4v-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
                 type="button"
               >
@@ -86,7 +86,7 @@ Object {
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
             >
               <span
-                class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-187mznn-MuiSlider-root"
+                class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-ivbxey-MuiSlider-root"
                 data-testid="CONFIG_SLIDER_TEST_ID"
               >
                 <span
@@ -166,7 +166,7 @@ Object {
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
             >
               <span
-                class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-187mznn-MuiSlider-root"
+                class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-ivbxey-MuiSlider-root"
                 data-testid="CONFIG_SLIDER_TEST_ID"
               >
                 <span
@@ -234,7 +234,7 @@ Object {
   </body>,
   "container": <div>
     <div
-      class="MuiBox-root css-1spiuho"
+      class="MuiBox-root css-2c3mdi"
     >
       <h6
         class="MuiTypography-root MuiTypography-h6 css-1mo68eo-MuiTypography-root"
@@ -242,7 +242,7 @@ Object {
         SUBTITLE
       </h6>
       <div
-        class="MuiGrid-root MuiGrid-container css-1ruddsm-MuiGrid-root"
+        class="MuiGrid-root MuiGrid-container css-s3g6yz-MuiGrid-root"
       >
         <div
           class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
@@ -257,7 +257,7 @@ Object {
               type="checkbox"
             />
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-15pg8bh-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1cfee4v-MuiButtonBase-root-MuiButton-root"
               tabindex="0"
               type="button"
             >
@@ -281,7 +281,7 @@ Object {
               type="checkbox"
             />
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-15pg8bh-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1cfee4v-MuiButtonBase-root-MuiButton-root"
               tabindex="0"
               type="button"
             >
@@ -314,7 +314,7 @@ Object {
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
           >
             <span
-              class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-187mznn-MuiSlider-root"
+              class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-ivbxey-MuiSlider-root"
               data-testid="CONFIG_SLIDER_TEST_ID"
             >
               <span
@@ -394,7 +394,7 @@ Object {
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
           >
             <span
-              class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-187mznn-MuiSlider-root"
+              class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-ivbxey-MuiSlider-root"
               data-testid="CONFIG_SLIDER_TEST_ID"
             >
               <span
@@ -519,7 +519,7 @@ Object {
   "baseElement": <body>
     <div>
       <div
-        class="MuiBox-root css-1spiuho"
+        class="MuiBox-root css-2c3mdi"
       >
         <h6
           class="MuiTypography-root MuiTypography-h6 css-1mo68eo-MuiTypography-root"
@@ -570,7 +570,7 @@ Object {
           </div>
         </div>
         <div
-          class="MuiGrid-root MuiGrid-container css-1ruddsm-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-container css-s3g6yz-MuiGrid-root"
         >
           <div
             class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
@@ -585,7 +585,7 @@ Object {
                 type="checkbox"
               />
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-15pg8bh-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1cfee4v-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
                 type="button"
               >
@@ -609,7 +609,7 @@ Object {
                 type="checkbox"
               />
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-15pg8bh-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1cfee4v-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
                 type="button"
               >
@@ -632,7 +632,7 @@ Object {
                 type="checkbox"
               />
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1g55nxw-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-cjtmh9-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
                 type="button"
               >
@@ -665,7 +665,7 @@ Object {
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
             >
               <span
-                class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-187mznn-MuiSlider-root"
+                class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-ivbxey-MuiSlider-root"
                 data-testid="CONFIG_SLIDER_TEST_ID"
               >
                 <span
@@ -745,7 +745,7 @@ Object {
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
             >
               <span
-                class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-187mznn-MuiSlider-root"
+                class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-ivbxey-MuiSlider-root"
                 data-testid="CONFIG_SLIDER_TEST_ID"
               >
                 <span
@@ -813,7 +813,7 @@ Object {
   </body>,
   "container": <div>
     <div
-      class="MuiBox-root css-1spiuho"
+      class="MuiBox-root css-2c3mdi"
     >
       <h6
         class="MuiTypography-root MuiTypography-h6 css-1mo68eo-MuiTypography-root"
@@ -864,7 +864,7 @@ Object {
         </div>
       </div>
       <div
-        class="MuiGrid-root MuiGrid-container css-1ruddsm-MuiGrid-root"
+        class="MuiGrid-root MuiGrid-container css-s3g6yz-MuiGrid-root"
       >
         <div
           class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
@@ -879,7 +879,7 @@ Object {
               type="checkbox"
             />
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-15pg8bh-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1cfee4v-MuiButtonBase-root-MuiButton-root"
               tabindex="0"
               type="button"
             >
@@ -903,7 +903,7 @@ Object {
               type="checkbox"
             />
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-15pg8bh-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1cfee4v-MuiButtonBase-root-MuiButton-root"
               tabindex="0"
               type="button"
             >
@@ -926,7 +926,7 @@ Object {
               type="checkbox"
             />
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1g55nxw-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-cjtmh9-MuiButtonBase-root-MuiButton-root"
               tabindex="0"
               type="button"
             >
@@ -959,7 +959,7 @@ Object {
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
           >
             <span
-              class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-187mznn-MuiSlider-root"
+              class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-ivbxey-MuiSlider-root"
               data-testid="CONFIG_SLIDER_TEST_ID"
             >
               <span
@@ -1039,7 +1039,7 @@ Object {
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
           >
             <span
-              class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-187mznn-MuiSlider-root"
+              class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-ivbxey-MuiSlider-root"
               data-testid="CONFIG_SLIDER_TEST_ID"
             >
               <span
@@ -1164,7 +1164,7 @@ Object {
   "baseElement": <body>
     <div>
       <div
-        class="MuiBox-root css-1spiuho"
+        class="MuiBox-root css-2c3mdi"
       >
         <h6
           class="MuiTypography-root MuiTypography-h6 css-1mo68eo-MuiTypography-root"
@@ -1215,7 +1215,7 @@ Object {
           </div>
         </div>
         <div
-          class="MuiGrid-root MuiGrid-container css-1ruddsm-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-container css-s3g6yz-MuiGrid-root"
         >
           <div
             class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
@@ -1230,7 +1230,7 @@ Object {
                 type="checkbox"
               />
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-15pg8bh-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1cfee4v-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
                 type="button"
               >
@@ -1263,7 +1263,7 @@ Object {
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
             >
               <span
-                class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-187mznn-MuiSlider-root"
+                class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-ivbxey-MuiSlider-root"
                 data-testid="CONFIG_SLIDER_TEST_ID"
               >
                 <span
@@ -1331,7 +1331,7 @@ Object {
   </body>,
   "container": <div>
     <div
-      class="MuiBox-root css-1spiuho"
+      class="MuiBox-root css-2c3mdi"
     >
       <h6
         class="MuiTypography-root MuiTypography-h6 css-1mo68eo-MuiTypography-root"
@@ -1382,7 +1382,7 @@ Object {
         </div>
       </div>
       <div
-        class="MuiGrid-root MuiGrid-container css-1ruddsm-MuiGrid-root"
+        class="MuiGrid-root MuiGrid-container css-s3g6yz-MuiGrid-root"
       >
         <div
           class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
@@ -1397,7 +1397,7 @@ Object {
               type="checkbox"
             />
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-15pg8bh-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1cfee4v-MuiButtonBase-root-MuiButton-root"
               tabindex="0"
               type="button"
             >
@@ -1430,7 +1430,7 @@ Object {
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
           >
             <span
-              class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-187mznn-MuiSlider-root"
+              class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-ivbxey-MuiSlider-root"
               data-testid="CONFIG_SLIDER_TEST_ID"
             >
               <span

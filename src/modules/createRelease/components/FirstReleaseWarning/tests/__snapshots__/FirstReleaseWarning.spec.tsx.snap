@@ -1,55 +1,49 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<CreateReleaseProvider /> Snapshot Deve corresponder ao Snapshot 1`] = `
+exports[`<FirstReleaseWarning /> Deve corresponder ao snapshot 1`] = `
 Object {
   "asFragment": [Function],
   "baseElement": <body>
     <div>
-      <h1>
-        Aoba
-      </h1>
-      <button
-        data-testid="close-alert"
-        type="submit"
+      <div
+        class="styles__Header-sc-1eodkkx-0 eTclVL"
       >
-        Fechar alerta
-      </button>
-      <button
-        data-testid="goal-step"
-        type="submit"
+        <h1>
+          Planejar Release
+        </h1>
+      </div>
+      <div
+        class="styles__Body-sc-1eodkkx-1 fVtKFn"
       >
-        Denifir pesos
-      </button>
-      <button
-        data-testid="finish-release-planning"
-        type="submit"
-      >
-        Cria metas
-      </button>
+        <p>
+          Por ser a primeira release do seu projeto, será disponibilizada a seguir uma pré-configuração base gerada pelo sistema.
+        </p>
+         
+        <p>
+          Caso deseje, existe a opção de fazer alterações em cada tela, utilizando o botão correspondente para ativar ou desativar a edição daquela configuração específica. Dessa forma, é possível personalizar a pré-configuração de acordo com suas necessidades.
+        </p>
+      </div>
     </div>
   </body>,
   "container": <div>
-    <h1>
-      Aoba
-    </h1>
-    <button
-      data-testid="close-alert"
-      type="submit"
+    <div
+      class="styles__Header-sc-1eodkkx-0 eTclVL"
     >
-      Fechar alerta
-    </button>
-    <button
-      data-testid="goal-step"
-      type="submit"
+      <h1>
+        Planejar Release
+      </h1>
+    </div>
+    <div
+      class="styles__Body-sc-1eodkkx-1 fVtKFn"
     >
-      Denifir pesos
-    </button>
-    <button
-      data-testid="finish-release-planning"
-      type="submit"
-    >
-      Cria metas
-    </button>
+      <p>
+        Por ser a primeira release do seu projeto, será disponibilizada a seguir uma pré-configuração base gerada pelo sistema.
+      </p>
+       
+      <p>
+        Caso deseje, existe a opção de fazer alterações em cada tela, utilizando o botão correspondente para ativar ou desativar a edição daquela configuração específica. Dessa forma, é possível personalizar a pré-configuração de acordo com suas necessidades.
+      </p>
+    </div>
   </div>,
   "debug": [Function],
   "findAllByAltText": [Function],

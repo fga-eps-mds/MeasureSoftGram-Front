@@ -1,54 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<CreateReleaseProvider /> Snapshot Deve corresponder ao Snapshot 1`] = `
+exports[`<Selector Button /> Snapshot Deve corresponder ao snapshot 1`] = `
 Object {
   "asFragment": [Function],
   "baseElement": <body>
     <div>
-      <h1>
-        Aoba
-      </h1>
       <button
-        data-testid="close-alert"
-        type="submit"
+        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-8gvteo-MuiButtonBase-root-MuiButton-root"
+        tabindex="0"
+        type="button"
       >
-        Fechar alerta
-      </button>
-      <button
-        data-testid="goal-step"
-        type="submit"
-      >
-        Denifir pesos
-      </button>
-      <button
-        data-testid="finish-release-planning"
-        type="submit"
-      >
-        Cria metas
+        label
+        <span
+          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
       </button>
     </div>
   </body>,
   "container": <div>
-    <h1>
-      Aoba
-    </h1>
     <button
-      data-testid="close-alert"
-      type="submit"
+      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-8gvteo-MuiButtonBase-root-MuiButton-root"
+      tabindex="0"
+      type="button"
     >
-      Fechar alerta
-    </button>
-    <button
-      data-testid="goal-step"
-      type="submit"
-    >
-      Denifir pesos
-    </button>
-    <button
-      data-testid="finish-release-planning"
-      type="submit"
-    >
-      Cria metas
+      label
+      <span
+        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
     </button>
   </div>,
   "debug": [Function],

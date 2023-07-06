@@ -37,6 +37,7 @@ const DrawerMenu = ({ children, open, buttons, title, subtitle }: DrawerMenuProp
               }}
               disabled={button.disabled}
               onClick={button.onClick}
+              data-testid={button.dataTestId}
             >
               {button.label}
             </Button>

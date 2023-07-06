@@ -42,6 +42,7 @@ const ThresholdSlider = ({ label, onChange, min, max }: PreConfigSlidersProps) =
               min={thresholdInfo?.range[0] ?? 0}
               max={thresholdInfo?.range[1] ?? 100}
               step={thresholdInfo?.step}
+              data-testid="threshold-slider"
             />
           )}
         </Grid>
@@ -53,6 +54,7 @@ const ThresholdSlider = ({ label, onChange, min, max }: PreConfigSlidersProps) =
             type="number"
             value={max}
             onChange={(e) => onChange(min, Number(e.target.value), label)}
+            data-testid="threshold-slider-max"
           />
         </Grid>
       </Grid>

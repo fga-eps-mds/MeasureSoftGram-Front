@@ -6,7 +6,7 @@ import { mutate } from 'swr';
 import { useRouter } from 'next/router';
 import { Characteristic, Measure, PreConfigRoot, Subcharacteristic } from '@customTypes/preConfig';
 import { CREATE_RELEASE_STEP } from '../consts';
-import mockedData from '../../preConfig/utils/mockedData.json'
+import mockedData from '../utils/mockedData.json'
 
 interface CreateReleaseProviderProps {
   children: ReactNode;

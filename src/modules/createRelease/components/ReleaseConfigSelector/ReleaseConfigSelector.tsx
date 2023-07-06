@@ -2,7 +2,7 @@ import React from 'react';
 import { useCreateReleaseContext } from '@modules/createRelease/context/useCreateRelease';
 import { CREATE_RELEASE_STEP } from '@modules/createRelease/consts';
 import * as Styles from './styles';
-import { SelectorButton } from '../SelectorButton/SelectorButton';
+import SelectorButton from '../SelectorButton';
 
 interface ReleaseConfigSelectorProps {
   setActiveStep: (step: number) => void;
