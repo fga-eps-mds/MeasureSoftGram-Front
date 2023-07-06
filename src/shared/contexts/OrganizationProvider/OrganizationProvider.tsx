@@ -27,10 +27,11 @@ export function OrganizationProvider({ children }: Props) {
   const organizationList = useCallback(() => data?.results ?? [], [data])();
 
   const value = useMemo(() => {
+    const regex = /[0-9]+/g;
     const queryProduct = router.query?.product as string;
-    if (!currentOrganization && organizationList.length > 0 && queryProduct) {
-      const organizationIndex = queryProduct.match(/\d+/);
-      if (organizationIndex) setCurrentOrganization(organizationList[parseInt(organizationIndex[0], 10) - 1]);
+    const organizationIndex = regex.exec(queryProduct);
+    if (!currentOrganization && organizationList.length > 0 && queryProduct && organizationIndex) {
+      setCurrentOrganization(organizationList[parseInt(organizationIndex[0], 10) - 1]);
     }
     return { currentOrganization, setCurrentOrganization, organizationList };
     // eslint-disable-next-line react-hooks/exhaustive-deps
