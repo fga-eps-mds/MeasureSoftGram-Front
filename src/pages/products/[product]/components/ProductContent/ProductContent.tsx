@@ -60,7 +60,7 @@ const ProductContent: React.FC<Props> = ({ repositoriesTsqmiHistory }) => {
               <Typography variant="h4" marginRight="10px">
                 Overview
               </Typography>
-              <Typography variant="h4" fontWeight="300">
+              <Typography variant="h4" fontWeight="500" color="#33568E">
                 {currentProduct?.name}
               </Typography>
             </Box>

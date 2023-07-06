@@ -52,7 +52,7 @@ const ConfigPage = ({
       return (
         <ConfigsForm
           {...genericProps}
-          subtitle={`${subtitle} caracteristicas`}
+          subtitle={`${subtitle} características`}
           type="characteristic"
           disable={!allowChangeConfig}
           checkboxValues={characteristicCheckbox}
@@ -67,7 +67,7 @@ const ConfigPage = ({
           tabs={characteristicCheckbox}
           type="subcharacteristic"
           disable={!allowChangeConfig}
-          subtitle={`${subtitle} subcaracteristicas`}
+          subtitle={`${subtitle} subcaracterísticas`}
           checkboxValues={subcharacterCheckbox}
           setCheckboxValues={setSubcharacterCheckbox}
         />
@@ -90,6 +90,7 @@ const ConfigPage = ({
             onChange={toggleChangeThreshold}
             disabled={!allowChangeConfig}
             name="changeThresholdCheckbox"
+            color="secondary"
           />
           Modificar valores de referência mínimo e máximo
         </Typography>
@@ -100,12 +101,12 @@ const ConfigPage = ({
   return (
     <>
       <Styles.Header>
-        <h1>{title}</h1>
+        <h1 style={{ color: '#33568E', fontWeight: '500' }}>{title}</h1>
       </Styles.Header>
       <Styles.Body>
         <p>{SUB_TITLE}</p>
         <p>
-          <Switch checked={allowChangeConfig} onChange={toggleAllowChangeConfig} />
+          <Switch checked={allowChangeConfig} onChange={toggleAllowChangeConfig} color="secondary" />
           Editar configurações
         </p>
       </Styles.Body>

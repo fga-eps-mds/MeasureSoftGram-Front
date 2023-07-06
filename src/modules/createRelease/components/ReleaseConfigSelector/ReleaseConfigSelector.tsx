@@ -19,7 +19,7 @@ export default function ReleaseConfigSelector({ setActiveStep }: ReleaseConfigSe
   return (
     <>
       <Styles.Header>
-        <h1>Planejar Release</h1>
+        <h1 style={{ color: '#33568E', fontWeight: '500' }}>Planejar Release</h1>
       </Styles.Header>
       <Styles.Body>
         <SelectorButton onClick={useLastConfig} label='Seguir última configuração' />
