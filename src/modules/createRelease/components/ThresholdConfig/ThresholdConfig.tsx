@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography, Link } from '@mui/material';
 
 import { Characteristic, Measure, Subcharacteristic } from '@customTypes/preConfig';
 import CheckboxButton from '@components/CheckboxButton/CheckboxButton';
@@ -155,7 +155,14 @@ const ThresholdConfig = ({ data, checkboxValues, setCheckboxValues, tabs }: Thre
       </Typography>
       <Typography variant="body1" sx={{ marginBottom: '16px' }}>
         Os valores de referência afetam como algumas medidas são calculadas. Aluns deles não podem ser modificados. Para
-        mais detalhes veja a documentação disponível em Link
+        mais detalhes veja a documentação disponível em{' '}
+        <Link
+          href="https://fga-eps-mds.github.io/2023-1-MeasureSoftGram-Doc/manual-de-uso/cli/#2311-thresholds"
+          underline="hover"
+          target="_blank"
+        >
+          (link)
+        </Link>
       </Typography>
       {renderTabs()}
       {renderCheckBoxes()}
