@@ -25,7 +25,7 @@ const PreConfigSliders = ({ label, onChange, weight, disable }: PreConfigSliders
         value={weight}
         onChange={onChange as SliderProps['onChange']}
         disabled={disable}
-        sx={{ marginLeft: '10px', marginRight: '10px' }}
+        sx={{ marginLeft: '10px', marginRight: '10px', color: '#7f7f7f', '&.Mui-checked': { color: '#7f7f7f', }, }}
       />
     </Grid>
     <Grid item xs={4}>

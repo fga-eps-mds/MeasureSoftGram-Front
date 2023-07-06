@@ -90,7 +90,7 @@ function ReleaseInfo() {
                     inputProps={{
                       'data-testid': 'characteristic-release'
                     }}
-                    color="secondary"
+                    color='default'
                   />
                 }
                 label={undelineRemover(item)}

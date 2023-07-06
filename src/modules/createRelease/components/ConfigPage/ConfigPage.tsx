@@ -87,7 +87,12 @@ const ConfigPage = ({
             onChange={toggleChangeThreshold}
             disabled={!allowChangeConfig}
             name="changeThresholdCheckbox"
-            color="secondary"
+            sx={{
+              color: '#474747',
+              '&.Mui-checked': {
+                color: '#474747',
+              },
+            }}
           />
           Modificar valores de referência mínimo e máximo
         </Typography>
@@ -102,10 +107,12 @@ const ConfigPage = ({
       </Styles.Header>
       <Styles.Body>
         <p>{SUB_TITLE}</p>
-        <p>
-          <Switch checked={allowChangeConfig} onChange={toggleAllowChangeConfig} color="secondary" />
-          Editar configurações
-        </p>
+        <Switch
+          checked={allowChangeConfig}
+          onChange={toggleAllowChangeConfig}
+          color='default'
+        />
+        Editar configurações
       </Styles.Body>
       {renderPage()}
     </>

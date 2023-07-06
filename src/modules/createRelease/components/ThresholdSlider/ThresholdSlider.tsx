@@ -43,6 +43,12 @@ const ThresholdSlider = ({ label, onChange, min, max }: PreConfigSlidersProps) =
               max={thresholdInfo?.range[1] ?? 100}
               step={thresholdInfo?.step}
               data-testid="threshold-slider"
+              sx={{
+                color: '#7f7f7f',
+                '&.Mui-checked': {
+                  color: '#7f7f7f',
+                },
+              }}
             />
           )}
         </Grid>

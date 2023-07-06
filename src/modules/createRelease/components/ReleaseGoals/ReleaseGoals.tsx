@@ -37,7 +37,13 @@ export default function ReleaseGoals() {
         </p>
         <Box>
           <Typography color="#FF4646">
-            <Checkbox checked={allowDynamicBalance} onChange={handleChange} name="allowDynamicBalanceCheckbox" color="secondary" />
+            <Checkbox checked={allowDynamicBalance} onChange={handleChange} name="allowDynamicBalanceCheckbox"
+              sx={{
+                color: '#474747',
+                '&.Mui-checked': {
+                  color: '#474747',
+                },
+              }} />
             Permitir o balanceamento dinâmico
           </Typography>
         </Box>
