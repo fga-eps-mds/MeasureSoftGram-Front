@@ -154,13 +154,17 @@ export function CreateReleaseProvider({
 
   function goToNextStep(currentStep: number) {
     if (currentStep === CREATE_RELEASE_STEP.ReleaseInfoStep) {
-      const { characteristics, name } = releaseInfoForm;
+      const { characteristics, name, startDate, endDate } = releaseInfoForm;
       if (!characteristics.length) {
         setAlertMessage('noCharacteristicSelected');
         return false
       }
       if (!name) {
         setAlertMessage('fillName');
+        return false
+      }
+      if (Date.parse(startDate) > Date.parse(endDate)) {
+        setAlertMessage('invalidDate');
         return false
       }
     }
