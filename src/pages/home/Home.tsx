@@ -4,19 +4,11 @@ import { NextPageWithLayout } from "@pages/_app.next";
 
 import getLayout from "@components/Layout";
 
-import { useAuth } from '@contexts/Auth';
 import Head from "next/head";
 
 import { InfoData } from "@customTypes/home";
 
 import { Container, Box, Typography } from "@mui/material";
-
-import CorporateFareIcon from '@mui/icons-material/CorporateFare';
-import TerminalIcon from '@mui/icons-material/Terminal';
-import InventoryIcon from '@mui/icons-material/Inventory';
-import SendTimeExtensionIcon from '@mui/icons-material/SendTimeExtension';
-import PermDataSettingIcon from '@mui/icons-material/PermDataSetting';
-import TuneIcon from '@mui/icons-material/Tune';
 
 import useRequireAuth from "@hooks/useRequireAuth";
 
@@ -25,7 +17,6 @@ import CardInfo from "./components/CardInfo/CardInfo";
 import ListNavCard from "./components/ListNavCard/ListNavCard";
 
 const Home: NextPageWithLayout = () => {
-  const { session } = useAuth();
   useRequireAuth();
 
   const cardsData: Array<InfoData> = [
@@ -36,12 +27,12 @@ const Home: NextPageWithLayout = () => {
           imageSrc: "/images/png/structure.png",
           title: "Organizações",
           description: "Organizações são entidades ou empresas que se dedicam à criação, desenvolvimento e manutenção de produtos de software. Elas geralmente têm equipes compostas por engenheiros de software, designers, testadores e outros profissionais envolvidos no ciclo de vida do desenvolvimento de software.",
+          routeTo: 'products',
         },
         {
           imageSrc: "/images/png/development.png",
           title: "Produtos",
           description: `Produtos de software são soluções de software desenvolvidas para atender a necessidades específicas dos usuários. Eles são criados por meio da codificação de um conjunto de instruções lógicas, conhecidas como código-fonte, que definem o comportamento do software. Os produtos de software podem variar desde aplicativos simples para dispositivos móveis até sistemas complexos para empresas. Eles são projetados para serem usados em computadores, servidores, dispositivos móveis ou outros dispositivos eletrônicos.`,
-          routeTo: 'products',
         }
       ]
     },

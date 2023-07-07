@@ -53,11 +53,7 @@ const CardInfo: React.FC<Props> = ({ cardData }) => (
             '@media screen and (max-device-width:1170px), screen and (max-width:1170px)': {
               flexDirection: 'column',
               '#images': {
-                width: '100%',
-                '> img:hover': {
-                    zIndex: "10",
-                    transform: "translateY(3vw) scale(1.5)!important"
-                }
+                width: '100%'
               },
               '#texts': {
                 maxWidth: '100%'
@@ -131,28 +127,28 @@ const CardInfo: React.FC<Props> = ({ cardData }) => (
             >
               {data.description}
             </Typography>
+            <Box
+            display="flex"
+            flexDirection="row"
+            justifyContent="center"
+            >
+            {data?.routeTo
+              ? <Box
+                  display="flex"
+                  margin="1rem"
+                  justifyContent="start"
+                >
+                  <Link href="/products">
+                    <Button variant="contained" fullWidth>
+                      Visualizar Organizações e Produtos
+                    </Button>
+                  </Link>
+                </Box>
+              : ''}
+            </Box>
           </Box>
         </Box>
-        <Box
-          display="flex"
-          flexDirection="row"
-          justifyContent="center"
-        >
-          {data?.routeTo
-            ? <Box
-                display="flex"
-                margin="1rem"
-                justifyContent="start"
-                width="300px"
-              >
-                <Link href="/products">
-                  <Button variant="contained" fullWidth>
-                    Ir para
-                  </Button>
-                </Link>
-              </Box>
-            : ''}
-        </Box>
+
       </CardContent>
     ))}
   </Card>
