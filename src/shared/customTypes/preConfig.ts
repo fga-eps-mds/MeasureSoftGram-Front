@@ -27,3 +27,5 @@ export interface PreConfigRoot {
   created_at: Date;
   data: Data;
 }
+
+export type PreConfigAttribute = Measure | Subcharacteristic | Characteristic;

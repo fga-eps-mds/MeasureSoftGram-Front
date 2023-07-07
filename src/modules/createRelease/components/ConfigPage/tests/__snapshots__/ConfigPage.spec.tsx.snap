@@ -8,7 +8,9 @@ Object {
       <div
         class="styles__Header-sc-vaumvh-0 bzwHPl"
       >
-        <h1>
+        <h1
+          style="color: rgb(51, 86, 142); font-weight: 500;"
+        >
           REPO_TITLE
         </h1>
       </div>
@@ -18,68 +20,11 @@ Object {
         <p>
           Por meio da pré-configuração que é definido quais características, subcaracterísticas e medidas serão consideradas para mensurar a qualidade do software analisado. Na pré-configuração também é definido os pesos de cada uma das entidades definidas.
         </p>
-        <p>
-          <span
-            class="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
-          >
-            <span
-              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase"
-            >
-              <input
-                class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
-                type="checkbox"
-              />
-              <span
-                class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
-              />
-              <span
-                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-              />
-            </span>
-            <span
-              class="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
-            />
-          </span>
-          Editar configurações
-        </p>
-      </div>
-      <div
-        class="MuiBox-root css-2c3mdi"
-      >
-        <h6
-          class="MuiTypography-root MuiTypography-h6 css-1mo68eo-MuiTypography-root"
-        >
-          Definir os pesos das caracteristicas
-        </h6>
-        <div
-          class="MuiGrid-root MuiGrid-container css-s3g6yz-MuiGrid-root"
-        />
-        <div
-          class="MuiBox-root css-0"
-        />
-      </div>
-    </div>
-  </body>,
-  "container": <div>
-    <div
-      class="styles__Header-sc-vaumvh-0 bzwHPl"
-    >
-      <h1>
-        REPO_TITLE
-      </h1>
-    </div>
-    <div
-      class="styles__Body-sc-vaumvh-1 cBkRoe"
-    >
-      <p>
-        Por meio da pré-configuração que é definido quais características, subcaracterísticas e medidas serão consideradas para mensurar a qualidade do software analisado. Na pré-configuração também é definido os pesos de cada uma das entidades definidas.
-      </p>
-      <p>
         <span
           class="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
         >
           <span
-            class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase"
+            class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorDefault PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorDefault css-1i8lvs-MuiButtonBase-root-MuiSwitch-switchBase"
           >
             <input
               class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
@@ -97,15 +42,70 @@ Object {
           />
         </span>
         Editar configurações
+      </div>
+      <div
+        class="MuiBox-root css-2c3mdi"
+      >
+        <h6
+          class="MuiTypography-root MuiTypography-h6 css-1xs8bbc-MuiTypography-root"
+        >
+          Definir os pesos das características
+        </h6>
+        <div
+          class="MuiGrid-root MuiGrid-container css-s3g6yz-MuiGrid-root"
+        />
+        <div
+          class="MuiBox-root css-0"
+        />
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="styles__Header-sc-vaumvh-0 bzwHPl"
+    >
+      <h1
+        style="color: rgb(51, 86, 142); font-weight: 500;"
+      >
+        REPO_TITLE
+      </h1>
+    </div>
+    <div
+      class="styles__Body-sc-vaumvh-1 cBkRoe"
+    >
+      <p>
+        Por meio da pré-configuração que é definido quais características, subcaracterísticas e medidas serão consideradas para mensurar a qualidade do software analisado. Na pré-configuração também é definido os pesos de cada uma das entidades definidas.
       </p>
+      <span
+        class="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
+      >
+        <span
+          class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorDefault PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorDefault css-1i8lvs-MuiButtonBase-root-MuiSwitch-switchBase"
+        >
+          <input
+            class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
+            type="checkbox"
+          />
+          <span
+            class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
+          />
+          <span
+            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          />
+        </span>
+        <span
+          class="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
+        />
+      </span>
+      Editar configurações
     </div>
     <div
       class="MuiBox-root css-2c3mdi"
     >
       <h6
-        class="MuiTypography-root MuiTypography-h6 css-1mo68eo-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-h6 css-1xs8bbc-MuiTypography-root"
       >
-        Definir os pesos das caracteristicas
+        Definir os pesos das características
       </h6>
       <div
         class="MuiGrid-root MuiGrid-container css-s3g6yz-MuiGrid-root"

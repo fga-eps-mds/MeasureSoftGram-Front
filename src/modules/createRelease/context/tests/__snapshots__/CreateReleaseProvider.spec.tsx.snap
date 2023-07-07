@@ -26,6 +26,30 @@ Object {
       >
         Cria metas
       </button>
+      <button
+        data-testid="test-previous-step"
+        type="submit"
+      >
+        PreviousStep
+      </button>
+      <button
+        data-testid="test-next-step"
+        type="submit"
+      >
+        NextStep
+      </button>
+      <button
+        data-testid="test-use-last-config"
+        type="submit"
+      >
+        UseLastConfig
+      </button>
+      <button
+        data-testid="test-change-threshold"
+        type="submit"
+      >
+        ToggleChangeThreshold
+      </button>
     </div>
   </body>,
   "container": <div>
@@ -49,6 +73,30 @@ Object {
       type="submit"
     >
       Cria metas
+    </button>
+    <button
+      data-testid="test-previous-step"
+      type="submit"
+    >
+      PreviousStep
+    </button>
+    <button
+      data-testid="test-next-step"
+      type="submit"
+    >
+      NextStep
+    </button>
+    <button
+      data-testid="test-use-last-config"
+      type="submit"
+    >
+      UseLastConfig
+    </button>
+    <button
+      data-testid="test-change-threshold"
+      type="submit"
+    >
+      ToggleChangeThreshold
     </button>
   </div>,
   "debug": [Function],

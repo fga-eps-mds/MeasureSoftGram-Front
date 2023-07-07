@@ -9,14 +9,22 @@ Object {
         class="MuiBox-root css-1i9whfo"
       >
         <h4
-          class="MuiTypography-root MuiTypography-h4 css-pxw7rc-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-h4 css-6ksrlm-MuiTypography-root"
         >
           Definir os valores de referência mínimo e máximo
         </h4>
         <p
           class="MuiTypography-root MuiTypography-body1 css-z2eky3-MuiTypography-root"
         >
-          Os valores de referência afetam como algumas medidas são calculadas. Aluns deles não podem ser modificados. Para mais detalhes veja a documentação disponível em Link
+          Os valores de referência afetam como algumas medidas são calculadas. Aluns deles não podem ser modificados. Para mais detalhes veja a documentação disponível em
+           
+          <a
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-17dcqu8-MuiTypography-root-MuiLink-root"
+            href="https://fga-eps-mds.github.io/2023-1-MeasureSoftGram-Doc/manual-de-uso/cli/#2311-thresholds"
+            target="_blank"
+          >
+            (link)
+          </a>
         </p>
         <div
           class="MuiTabs-root css-1ujnqem-MuiTabs-root"
@@ -140,14 +148,22 @@ Object {
       class="MuiBox-root css-1i9whfo"
     >
       <h4
-        class="MuiTypography-root MuiTypography-h4 css-pxw7rc-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-h4 css-6ksrlm-MuiTypography-root"
       >
         Definir os valores de referência mínimo e máximo
       </h4>
       <p
         class="MuiTypography-root MuiTypography-body1 css-z2eky3-MuiTypography-root"
       >
-        Os valores de referência afetam como algumas medidas são calculadas. Aluns deles não podem ser modificados. Para mais detalhes veja a documentação disponível em Link
+        Os valores de referência afetam como algumas medidas são calculadas. Aluns deles não podem ser modificados. Para mais detalhes veja a documentação disponível em
+         
+        <a
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-17dcqu8-MuiTypography-root-MuiLink-root"
+          href="https://fga-eps-mds.github.io/2023-1-MeasureSoftGram-Doc/manual-de-uso/cli/#2311-thresholds"
+          target="_blank"
+        >
+          (link)
+        </a>
       </p>
       <div
         class="MuiTabs-root css-1ujnqem-MuiTabs-root"

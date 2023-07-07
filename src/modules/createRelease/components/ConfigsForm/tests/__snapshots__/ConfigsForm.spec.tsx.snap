@@ -9,7 +9,7 @@ Object {
         class="MuiBox-root css-2c3mdi"
       >
         <h6
-          class="MuiTypography-root MuiTypography-h6 css-1mo68eo-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-h6 css-1xs8bbc-MuiTypography-root"
         >
           SUBTITLE
         </h6>
@@ -86,7 +86,7 @@ Object {
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
             >
               <span
-                class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-ivbxey-MuiSlider-root"
+                class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-pt81qq-MuiSlider-root"
                 data-testid="CONFIG_SLIDER_TEST_ID"
               >
                 <span
@@ -166,7 +166,7 @@ Object {
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
             >
               <span
-                class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-ivbxey-MuiSlider-root"
+                class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-pt81qq-MuiSlider-root"
                 data-testid="CONFIG_SLIDER_TEST_ID"
               >
                 <span
@@ -237,7 +237,7 @@ Object {
       class="MuiBox-root css-2c3mdi"
     >
       <h6
-        class="MuiTypography-root MuiTypography-h6 css-1mo68eo-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-h6 css-1xs8bbc-MuiTypography-root"
       >
         SUBTITLE
       </h6>
@@ -314,7 +314,7 @@ Object {
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
           >
             <span
-              class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-ivbxey-MuiSlider-root"
+              class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-pt81qq-MuiSlider-root"
               data-testid="CONFIG_SLIDER_TEST_ID"
             >
               <span
@@ -394,7 +394,7 @@ Object {
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
           >
             <span
-              class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-ivbxey-MuiSlider-root"
+              class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-pt81qq-MuiSlider-root"
               data-testid="CONFIG_SLIDER_TEST_ID"
             >
               <span
@@ -522,7 +522,7 @@ Object {
         class="MuiBox-root css-2c3mdi"
       >
         <h6
-          class="MuiTypography-root MuiTypography-h6 css-1mo68eo-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-h6 css-1xs8bbc-MuiTypography-root"
         >
           SUBTITLE
         </h6>
@@ -665,7 +665,7 @@ Object {
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
             >
               <span
-                class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-ivbxey-MuiSlider-root"
+                class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-pt81qq-MuiSlider-root"
                 data-testid="CONFIG_SLIDER_TEST_ID"
               >
                 <span
@@ -745,7 +745,7 @@ Object {
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
             >
               <span
-                class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-ivbxey-MuiSlider-root"
+                class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-pt81qq-MuiSlider-root"
                 data-testid="CONFIG_SLIDER_TEST_ID"
               >
                 <span
@@ -816,7 +816,7 @@ Object {
       class="MuiBox-root css-2c3mdi"
     >
       <h6
-        class="MuiTypography-root MuiTypography-h6 css-1mo68eo-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-h6 css-1xs8bbc-MuiTypography-root"
       >
         SUBTITLE
       </h6>
@@ -959,7 +959,7 @@ Object {
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
           >
             <span
-              class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-ivbxey-MuiSlider-root"
+              class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-pt81qq-MuiSlider-root"
               data-testid="CONFIG_SLIDER_TEST_ID"
             >
               <span
@@ -1039,7 +1039,7 @@ Object {
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
           >
             <span
-              class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-ivbxey-MuiSlider-root"
+              class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-pt81qq-MuiSlider-root"
               data-testid="CONFIG_SLIDER_TEST_ID"
             >
               <span
@@ -1167,7 +1167,7 @@ Object {
         class="MuiBox-root css-2c3mdi"
       >
         <h6
-          class="MuiTypography-root MuiTypography-h6 css-1mo68eo-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-h6 css-1xs8bbc-MuiTypography-root"
         >
           SUBTITLE
         </h6>
@@ -1263,7 +1263,7 @@ Object {
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
             >
               <span
-                class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-ivbxey-MuiSlider-root"
+                class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-pt81qq-MuiSlider-root"
                 data-testid="CONFIG_SLIDER_TEST_ID"
               >
                 <span
@@ -1334,7 +1334,7 @@ Object {
       class="MuiBox-root css-2c3mdi"
     >
       <h6
-        class="MuiTypography-root MuiTypography-h6 css-1mo68eo-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-h6 css-1xs8bbc-MuiTypography-root"
       >
         SUBTITLE
       </h6>
@@ -1430,7 +1430,7 @@ Object {
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
           >
             <span
-              class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-ivbxey-MuiSlider-root"
+              class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-pt81qq-MuiSlider-root"
               data-testid="CONFIG_SLIDER_TEST_ID"
             >
               <span

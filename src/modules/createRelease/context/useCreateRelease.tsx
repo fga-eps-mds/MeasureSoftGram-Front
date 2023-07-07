@@ -61,7 +61,7 @@ interface CreateReleaseContextData {
   resetStates: () => void
 }
 
-const CreateReleaseContext = createContext({} as CreateReleaseContextData);
+export const CreateReleaseContext = createContext({} as CreateReleaseContextData);
 
 const defaultEndDate = format(addDays(new Date(), 7), 'yyyy-MM-dd');
 const defaulStartDate = format(new Date(), 'yyyy-MM-dd');

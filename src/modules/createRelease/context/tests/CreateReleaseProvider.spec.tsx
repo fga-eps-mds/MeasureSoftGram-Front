@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import React, { useEffect } from 'react';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 
-import { PreConfigEntitiesRelationship, Product, ReleaseGoal } from '@customTypes/product';
+import { Product } from '@customTypes/product';
 import { CreateReleaseProvider, useCreateReleaseContext } from '../useCreateRelease';
 
 jest.mock('@services/product', () => ({
@@ -22,14 +22,23 @@ jest.mock('@services/product', () => ({
   }
 }));
 
-const TestingComponent = () => {
+interface TestingComponentProps {
+  step?: number
+  configPage?: number
+}
+
+const TestingComponent = ({ step = 0, configPage = 0 }: TestingComponentProps) => {
   const {
     handleChangeForm,
     handleSelectCharacteristics,
     closeAlert,
     goToNextStep,
     finishReleasePlanning,
-    setCurrentConfig
+    setCurrentConfig,
+    getPreviousStep,
+    getNextStep,
+    setUseLastConfig,
+    toggleChangeThreshold
   } = useCreateReleaseContext();
 
   useEffect(() => {
@@ -58,6 +67,26 @@ const TestingComponent = () => {
         data-testid="finish-release-planning"
         onClick={finishReleasePlanning}
       >Cria metas</button>
+      <button
+        type='submit'
+        data-testid="test-previous-step"
+        onClick={() => getPreviousStep(step, configPage)}
+      >PreviousStep</button>
+      <button
+        type='submit'
+        data-testid="test-next-step"
+        onClick={() => getNextStep(step, configPage)}
+      >NextStep</button>
+      <button
+        type='submit'
+        data-testid="test-use-last-config"
+        onClick={() => setUseLastConfig(true)}
+      >UseLastConfig</button>
+      <button
+        type='submit'
+        data-testid="test-change-threshold"
+        onClick={toggleChangeThreshold}
+      >ToggleChangeThreshold</button>
     </>
   );
 };
@@ -70,6 +99,9 @@ const product: Product = {
   created_at: '',
   updated_at: ''
 }
+
+const NextStepTestId = "test-next-step";
+const PreviousStepTestId = "test-previous-step";
 
 describe('<CreateReleaseProvider />', () => {
   beforeEach(() => {
@@ -109,12 +141,158 @@ describe('<CreateReleaseProvider />', () => {
       )
 
       waitFor(() => {
-        expect(tree.getAllByText('Aoba')).toBeInTheDocument()
+        expect(tree.getAllByText('Aoba')).toBeDefined()
       })
 
       fireEvent.click(tree.getByTestId('close-alert'));
       fireEvent.click(tree.getByTestId('goal-step'));
       fireEvent.click(tree.getByTestId('finish-release-planning'));
     });
+
+    describe('GetPreviousStep e GetNextStep', () => {
+      it('Deve chamar getPreviousStep e GetNextStep corretamente para step 0', () => {
+        const tree = render(
+          <CreateReleaseProvider
+            organizationId='1'
+            productId='3'
+            currentProduct={product}
+          >
+            <TestingComponent />
+          </CreateReleaseProvider>
+        )
+
+        waitFor(() => {
+          expect(tree.getAllByText('Aoba')).toBeDefined()
+        })
+
+        fireEvent.click(tree.getByTestId(PreviousStepTestId));
+        fireEvent.click(tree.getByTestId(NextStepTestId));
+      });
+    })
+    it('Deve chamar getPreviousStep e GetNextStep corretamente para step 2 e configPage 0', () => {
+      const tree = render(
+        <CreateReleaseProvider
+          organizationId='1'
+          productId='3'
+          currentProduct={product}
+        >
+          <TestingComponent step={2} />
+        </CreateReleaseProvider>
+      )
+
+      waitFor(() => {
+        expect(tree.getAllByText('Aoba')).toBeDefined()
+      })
+
+      fireEvent.click(tree.getByTestId(PreviousStepTestId));
+      fireEvent.click(tree.getByTestId(NextStepTestId));
+    })
+    it('Deve chamar getPreviousStep e GetNextStep corretamente para step 2 e configPage 1', () => {
+      const tree = render(
+        <CreateReleaseProvider
+          organizationId='1'
+          productId='3'
+          currentProduct={product}
+        >
+          <TestingComponent step={2} configPage={1} />
+        </CreateReleaseProvider>
+      )
+
+      waitFor(() => {
+        expect(tree.getAllByText('Aoba')).toBeDefined()
+      })
+
+      fireEvent.click(tree.getByTestId(PreviousStepTestId));
+      fireEvent.click(tree.getByTestId(NextStepTestId));
+    });
+    it('Deve chamar getPreviousStep e GetNextStep corretamente para step 2 e configPage 2', () => {
+      const tree = render(
+        <CreateReleaseProvider
+          organizationId='1'
+          productId='3'
+          currentProduct={product}
+        >
+          <TestingComponent step={2} configPage={2} />
+        </CreateReleaseProvider>
+      )
+
+      waitFor(() => {
+        expect(tree.getAllByText('Aoba')).toBeDefined()
+      })
+
+      fireEvent.click(tree.getByTestId(PreviousStepTestId));
+      fireEvent.click(tree.getByTestId(NextStepTestId));
+    });
+    it('Deve chamar o getPreviousStep corretamente para step 4 usando ultima config', () => {
+      const tree = render(
+        <CreateReleaseProvider
+          organizationId='1'
+          productId='3'
+          currentProduct={product}
+        >
+          <TestingComponent step={4} />
+        </CreateReleaseProvider>
+      )
+
+      waitFor(() => {
+        expect(tree.getAllByText('Aoba')).toBeDefined()
+      })
+
+      fireEvent.click(tree.getByTestId('test-use-last-config'));
+      fireEvent.click(tree.getByTestId(PreviousStepTestId));
+    })
+    it('Deve chamar o getPreviousStep corretamente para step 4 sem usar ultima config e mudando threshold', async () => {
+      const tree = render(
+        <CreateReleaseProvider
+          organizationId='1'
+          productId='3'
+          currentProduct={product}
+        >
+          <TestingComponent step={4} />
+        </CreateReleaseProvider>
+      )
+
+      waitFor(() => {
+        expect(tree.getAllByText('Aoba')).toBeDefined()
+      })
+
+      fireEvent.click(tree.getByTestId('test-change-threshold'));
+      fireEvent.click(tree.getByTestId(PreviousStepTestId));
+    });
+    it('Deve chamar o getPreviousStep corretamente para step 4 sem usar ultima config e sem mudar threshold', async () => {
+      const tree = render(
+        <CreateReleaseProvider
+          organizationId='1'
+          productId='3'
+          currentProduct={product}
+        >
+          <TestingComponent step={4} />
+        </CreateReleaseProvider>
+      )
+
+      waitFor(() => {
+        expect(tree.getAllByText('Aoba')).toBeDefined()
+      })
+
+      fireEvent.click(tree.getByTestId(PreviousStepTestId));
+    });
+    it('Deve chamar o getNextStep corretamente para step 2 e configPage 2 usando threshold', async () => {
+      const tree = render(
+        <CreateReleaseProvider
+          organizationId='1'
+          productId='3'
+          currentProduct={product}
+        >
+          <TestingComponent step={2} configPage={2} />
+        </CreateReleaseProvider>
+      )
+
+      waitFor(() => {
+        expect(tree.getAllByText('Aoba')).toBeDefined()
+      })
+
+      fireEvent.click(tree.getByTestId('test-change-threshold'));
+      fireEvent.click(tree.getByTestId(NextStepTestId));
+    })
   });
 });

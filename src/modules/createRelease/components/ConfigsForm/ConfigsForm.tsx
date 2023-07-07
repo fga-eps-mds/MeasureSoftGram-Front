@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Box, Grid, Typography } from '@mui/material';
 
-import { Characteristic, Measure, Subcharacteristic } from '@customTypes/preConfig';
+import { Characteristic, Measure, PreConfigAttribute, Subcharacteristic } from '@customTypes/preConfig';
 import CheckboxButton from '@components/CheckboxButton/CheckboxButton';
 import undelineRemover from '@utils/undelineRemover';
 
@@ -118,7 +118,7 @@ const ConfigForm = ({
   );
 
   const checkBoxCallback = (
-    value: Measure | Characteristic | Subcharacteristic,
+    value: PreConfigAttribute,
     previousValue: Characteristic | Subcharacteristic
   ) => {
     if (previousValue?.key === tabValue || !previousValue) {
@@ -138,7 +138,7 @@ const ConfigForm = ({
               }
               checkboxValue(value.key);
               const index = keyGetter(limiters).indexOf(value.key);
-              if (!(index < 0)) {
+              if (index >= 0) {
                 limiters.splice(index, 1);
                 const newLimiterValue = limiters;
                 setLimiters(newLimiterValue);
@@ -157,7 +157,7 @@ const ConfigForm = ({
   );
 
   const renderSliderCallback = (
-    value: Measure | Characteristic | Subcharacteristic,
+    value: PreConfigAttribute,
     previousValue: Characteristic | Subcharacteristic
   ) => {
     // if user clicks on border of slider, the value to maxium possible

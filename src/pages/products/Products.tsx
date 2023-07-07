@@ -24,8 +24,6 @@ const Products: NextPageWithLayout = () => {
 
   const { organizationList, currentOrganization, setCurrentOrganization } = useOrganizationContext();
   const { productsList } = useProductContext();
-  const [anchorEl, setAnchorEl] = useState<HTMLElement[]>([]);
-  const [selectedProduct, setSelectedProduct] = useState<Product>();
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(productsList ?? []);
 
   useEffect(() => {

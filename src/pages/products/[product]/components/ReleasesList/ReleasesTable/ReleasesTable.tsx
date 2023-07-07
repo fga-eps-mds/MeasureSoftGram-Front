@@ -2,7 +2,6 @@ import React from 'react';
 import { useRouter } from 'next/router';
 
 import { TableContainer, Table, TableCell, TableHead, TableRow, TableBody } from '@mui/material';
-import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 
 import { useProductContext } from '@contexts/ProductProvider';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';

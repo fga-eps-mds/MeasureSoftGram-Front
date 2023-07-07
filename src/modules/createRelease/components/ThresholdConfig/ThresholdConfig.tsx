@@ -94,7 +94,7 @@ const ThresholdConfig = ({ data, checkboxValues, setCheckboxValues, tabs }: Thre
             onClick={() => {
               checkboxValue(value.key);
               const index = keyGetter(limiters).indexOf(value.key);
-              if (!(index < 0)) {
+              if (index >= 0) {
                 limiters.splice(index, 1);
                 const newLimiterValue = limiters;
                 setLimiters(newLimiterValue);

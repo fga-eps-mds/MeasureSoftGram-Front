@@ -12,7 +12,7 @@ exports[`<ReleasesList /> renders without crashing 1`] = `
         class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
       >
         <h5
-          class="MuiTypography-root MuiTypography-h5 css-slgf20-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-h5 css-3ta6hh-MuiTypography-root"
         >
           Releases
         </h5>
