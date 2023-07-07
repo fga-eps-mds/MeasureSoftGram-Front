@@ -16,11 +16,10 @@ const CardInfo: React.FC<Props> = ({ cardData }) => (
     sx={{
       overflow: "visible",
       borderShadow: "none",
-      borderRadius: "30px",
+      borderRadius: "5px",
       display: "flex",
       flexDirection: "column",
-      flex: "1",
-      border: "1px solid #113D4C"
+      flex: "1"
     }}
   >
     {cardData?.title &&
@@ -81,16 +80,13 @@ const CardInfo: React.FC<Props> = ({ cardData }) => (
                   alt="green iguana"
                   sx={{
                     margin: "1rem 1rem 1rem 1rem",
-                    maxWidth: "400px",
+                    maxWidth: "150px",
                     height: "auto",
-                    maxHeight: "200px",
+                    maxHeight: "150px",
                     overflow: "hidden",
-                    borderRadius: "30px",
+                    borderRadius: "5px",
                     transition: "transform .5s ease",
-                    ':hover': {
-                      zIndex: "10",
-                      transform: "translateX(5vw) scale(1.5)"
-                    }
+
                   }}
                 />
               :
@@ -124,12 +120,14 @@ const CardInfo: React.FC<Props> = ({ cardData }) => (
               variant="h5"
               component="div"
               align="center"
+              color= "#33568E"
+              fontWeight= "bold"
             >
               {data.title}
             </Typography>
             <Typography
               variant="body1"
-              textAlign="center"
+              textAlign="justify"
             >
               {data.description}
             </Typography>
