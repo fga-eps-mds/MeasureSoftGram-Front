@@ -119,21 +119,16 @@ const Home: NextPageWithLayout = () => {
             alignItems="flex-start"
           >
             <Box display="flex">
-              <Typography variant="h4">
-                Bem vindo
-              </Typography>
-              <Typography variant="h4">
-                {session?.username ? `, ${session.username}` : ""}
-              </Typography>
-              <Typography
-                variant="h4"
-                marginLeft=".4rem">
-                :)
+              <Typography variant="h4" style={{color: "#33568E", fontWeight: 600 }}>
+                Página inicial
               </Typography>
             </Box>
-            <Typography variant="h5">
-              Aqui você irá entender como funciona nosso produto!
-            </Typography>
+            <Box style={{width: "30%"}}>
+              <Typography style={{fontSize: "18px"}}>
+              Aqui você poderá obter algumas informações sobre nosso produto.
+              </Typography>
+            </Box>
+
           </Box>
 
           <Box
