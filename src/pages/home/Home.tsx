@@ -97,7 +97,7 @@ const Home: NextPageWithLayout = () => {
         <title> Tela inicial MeasureSoftGram </title>
       </Head>
 
-      <Container style={{padding: "0", margin: "0"}}>
+      <Container>
         <Box
           display="flex"
           flexDirection="row"
@@ -180,5 +180,6 @@ const Home: NextPageWithLayout = () => {
 };
 
 Home.getLayout = getLayout;
+Home.disableBreadcrumb = true;
 
 export default Home;
