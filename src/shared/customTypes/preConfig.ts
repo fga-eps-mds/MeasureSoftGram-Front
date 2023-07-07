@@ -1,6 +1,8 @@
 export interface Measure {
   key: string;
   weight: number;
+  min_threshold?: number;
+  max_threshold?: number;
 }
 
 export interface Subcharacteristic {
@@ -25,3 +27,5 @@ export interface PreConfigRoot {
   created_at: Date;
   data: Data;
 }
+
+export type PreConfigAttribute = Measure | Subcharacteristic | Characteristic;

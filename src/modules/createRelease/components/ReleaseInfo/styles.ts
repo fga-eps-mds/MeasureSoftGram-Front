@@ -15,6 +15,7 @@ export const Header = styled.div`
 `;
 
 export const Body = styled.div`
+  max-width: 600px;
   h2 {
     font-size: 22px;
     font-weight: normal;
