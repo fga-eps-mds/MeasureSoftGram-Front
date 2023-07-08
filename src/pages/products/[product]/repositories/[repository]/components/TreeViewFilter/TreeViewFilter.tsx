@@ -127,11 +127,11 @@ export default function TreeViewFilter() {
       setSelectedNodes((prevSelectedNodes) => prevSelectedNodes.filter((id) => !allChild.concat(fathers).includes(id)));
     } else {
       const ToBeChecked = allChild;
-      for (let i = 0; i < fathers.length; i += 1) {
-        if (isAllChildrenChecked(bfsSearch(data, fathers[i]), ToBeChecked)) {
-          ToBeChecked.push(fathers[i]);
+      _.forEach(fathers, (father) => {
+        if (isAllChildrenChecked(bfsSearch(data, father), ToBeChecked)) {
+          ToBeChecked.push(father);
         }
-      }
+      });
       setSelectedNodes((prevSelectedNodes) => [...prevSelectedNodes].concat(ToBeChecked));
     }
   }

@@ -72,6 +72,7 @@ const GraphicChart = ({
         const filterHistorical = _.filter(sliceHistorical(i), (item) => hasKey(item.key));
         return (
           <ReactEcharts
+            key={i}
             notMerge
             lazyUpdate
             style={chartStyle}
