@@ -1,5 +1,5 @@
 import { TreeItem, TreeView } from '@mui/lab';
-import { Box, Checkbox, Typography } from '@mui/material';
+import { Box, Checkbox, Divider, Typography } from '@mui/material';
 import React, { useState, useEffect, useMemo } from 'react';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import KeyboardArrowRightRoundedIcon from '@mui/icons-material/KeyboardArrowRightRounded';
@@ -54,7 +54,7 @@ function formatData(rawData: Characteristic[]) {
             parent: subcharacteristic.key,
             children: _.map(measure.metrics, (metric) => ({
               id: metric.key,
-              name: _.capitalize(measure.key.replace(/_/g, ' ')),
+              name: _.capitalize(metric.key.replace(/_/g, ' ')),
               description: 'Métrica',
               parent: measure.key
             }))
@@ -149,7 +149,8 @@ export default function TreeViewFilter() {
     while (queue.length > 0) {
       const currNode = queue.shift();
       if (currNode?.name.toLowerCase().includes(search.toLowerCase())) {
-        result.push(currNode);
+        const nodeIndex = _.findIndex(result, (node) => node.id === currNode.id);
+        if (nodeIndex === -1) result.push(currNode);
       }
       if (currNode?.children) {
         queue.push(...currNode.children);
@@ -186,8 +187,21 @@ export default function TreeViewFilter() {
   );
 
   return (
-    <Box>
-      <SearchButton onInput={(e) => handleSearch(e.target.value)} label="Pesquisar" />
+    <Box
+      position="fixed"
+      width="420px"
+      height="100vh"
+      top={0}
+      right={0}
+      bgcolor="white"
+      zIndex={3}
+      paddingX="5px"
+      sx={{ filter: 'drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.25))', overflowY: 'auto' }}
+    >
+      <Box width="100%" position="sticky" top={0} bgcolor="white" zIndex={4} paddingTop="5px">
+        <SearchButton onInput={(e) => handleSearch(e.target.value)} label="Pesquisar" />
+        <Divider sx={{ width: '100%', mt: '5px', border: '1px solid rgba(0, 0, 0, 0.20)' }} />
+      </Box>
       <TreeView
         expanded={expandedNodes}
         onNodeToggle={(event, nodeIds) => setExpandedNodes(nodeIds)}
