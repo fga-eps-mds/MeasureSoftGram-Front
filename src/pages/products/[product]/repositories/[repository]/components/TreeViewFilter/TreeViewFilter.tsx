@@ -68,6 +68,7 @@ function formatData(rawData: Characteristic[]) {
 export default function TreeViewFilter() {
   const [selectedNodes, setSelectedNodes] = useState<string[]>([]);
   const [expandedNodes, setExpandedNodes] = useState<string[]>([]);
+  const [searchNodes, setSearchNodes] = useState<Node[]>([]);
   const { data: rawData } = useProductCurrentPreConfig();
   const { setConfigFilter } = useProductConfigFilterContext();
 
@@ -75,8 +76,9 @@ export default function TreeViewFilter() {
 
   useMemo(() => {
     if (data.length > 0) {
-      setSelectedNodes(getAllIds(data[0]));
-      setExpandedNodes(getAllIds(data[0]));
+      const allIds = getAllIds(data[0]);
+      setSelectedNodes(allIds);
+      // setExpandedNodes(allIds);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
@@ -135,7 +137,27 @@ export default function TreeViewFilter() {
   }
 
   function handleSearch(search: string) {
-    // TODO: Implementar busca
+    if (search === '' || search.length < 3) {
+      setSearchNodes([]);
+      return;
+    }
+
+    const dataClone = _.cloneDeep(data);
+    const queue: Node[] = dataClone[0].children ?? [];
+    const result: Node[] = [];
+
+    while (queue.length > 0) {
+      const currNode = queue.shift();
+      if (currNode?.name.toLowerCase().includes(search.toLowerCase())) {
+        result.push(currNode);
+      }
+      if (currNode?.children) {
+        queue.push(...currNode.children);
+      }
+    }
+
+    setSearchNodes(result);
+    setExpandedNodes([]);
   }
 
   const renderTree = (nodes: Node) => (
@@ -167,11 +189,14 @@ export default function TreeViewFilter() {
     <Box>
       <SearchButton onInput={(e) => handleSearch(e.target.value)} label="Pesquisar" />
       <TreeView
-        defaultExpanded={expandedNodes}
+        expanded={expandedNodes}
+        onNodeToggle={(event, nodeIds) => setExpandedNodes(nodeIds)}
         defaultCollapseIcon={<KeyboardArrowDownRoundedIcon />}
         defaultExpandIcon={<KeyboardArrowRightRoundedIcon />}
       >
-        {data[0].children.map((node) => renderTree(node))}
+        {searchNodes.length > 0
+          ? searchNodes.map((node) => renderTree(node))
+          : data[0].children.map((node) => renderTree(node))}
       </TreeView>
     </Box>
   );
