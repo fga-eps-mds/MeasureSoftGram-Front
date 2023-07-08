@@ -1,0 +1,154 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TreeViewFilter /> should render correctly 1`] = `
+<div>
+  <div
+    class="MuiBox-root css-svis6c"
+  >
+    <div
+      class="MuiBox-root css-10jlyc6"
+    >
+      <button
+        aria-label="search"
+        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+        tabindex="0"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+          data-testid="SearchIcon"
+          focusable="false"
+          style="fill: #113d4c;"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+          />
+        </svg>
+        <span
+          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
+      </button>
+      <div
+        class="MuiFormControl-root MuiTextField-root text css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+      >
+        <label
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1pysi21-MuiFormLabel-root-MuiInputLabel-root"
+          data-shrink="false"
+          for="search-bar"
+          id="search-bar-label"
+        >
+          Pesquisar
+        </label>
+        <div
+          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+        >
+          <input
+            aria-invalid="false"
+            class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
+            id="search-bar"
+            placeholder="Buscar..."
+            type="text"
+            value=""
+          />
+          <fieldset
+            aria-hidden="true"
+            class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              class="css-yjsfm1"
+            >
+              <span>
+                Pesquisar
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+      <hr
+        class="MuiDivider-root MuiDivider-fullWidth css-oc5vjb-MuiDivider-root"
+      />
+    </div>
+    <ul
+      aria-multiselectable="false"
+      class="MuiTreeView-root css-161j9ok-MuiTreeView-root"
+      id=":r1:"
+      role="tree"
+      tabindex="0"
+    >
+      <li
+        aria-expanded="false"
+        class="MuiTreeItem-root css-16alkdk-MuiTreeItem-root"
+        id=":r1:-reliability"
+        role="treeitem"
+        tabindex="-1"
+      >
+        <div
+          class="css-1g86id8-MuiTreeItem-content MuiTreeItem-content"
+        >
+          <div
+            class="MuiTreeItem-iconContainer"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="KeyboardArrowRightRoundedIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M9.29 15.88 13.17 12 9.29 8.12a.9959.9959 0 0 1 0-1.41c.39-.39 1.02-.39 1.41 0l4.59 4.59c.39.39.39 1.02 0 1.41L10.7 17.3c-.39.39-1.02.39-1.41 0-.38-.39-.39-1.03 0-1.42z"
+              />
+            </svg>
+          </div>
+          <div
+            class="MuiTreeItem-label"
+          >
+            <div
+              class="MuiBox-root css-u4p24i"
+            >
+              <span
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary css-355xbt-MuiButtonBase-root-MuiCheckbox-root"
+              >
+                <input
+                  checked=""
+                  class="PrivateSwitchBase-input css-1m9pwf3"
+                  data-indeterminate="false"
+                  tabindex="-1"
+                  type="checkbox"
+                />
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                  data-testid="CheckBoxIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                  />
+                </svg>
+              </span>
+              <div
+                class="MuiBox-root css-j7qwjs"
+              >
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                >
+                  Reliability
+                </p>
+                <span
+                  class="MuiTypography-root MuiTypography-caption css-1g4cs0l-MuiTypography-root"
+                >
+                  Característica
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+`;

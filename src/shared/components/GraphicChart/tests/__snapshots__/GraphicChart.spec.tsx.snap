@@ -10,20 +10,10 @@ exports[`<GraphicChart /> should render correctly 1`] = `
       _echarts_instance_="ec_123"
       class="echarts-for-react "
       size-sensor-id="1"
-      style="height: 300px; webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;"
+      style="height: 300px; webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"
     >
       <div
         style="position: relative; width: 0px; height: 300px; padding: 0px; margin: 0px; border-width: 0px;"
-      >
-        <canvas
-          data-zr-dom-id="zr_0"
-          height="300"
-          style="position: absolute; left: 0px; top: 0px; width: 0px; height: 300px; webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"
-          width="0"
-        />
-      </div>
-      <div
-        class=""
       />
       <object
         class="size-sensor-object"
@@ -47,20 +37,10 @@ exports[`<GraphicChart /> should render correctly with autoGrid 1`] = `
       _echarts_instance_="ec_123"
       class="echarts-for-react "
       size-sensor-id="2"
-      style="height: 300px; webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;"
+      style="height: 300px; webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"
     >
       <div
         style="position: relative; width: 0px; height: 300px; padding: 0px; margin: 0px; border-width: 0px;"
-      >
-        <canvas
-          data-zr-dom-id="zr_0"
-          height="300"
-          style="position: absolute; left: 0px; top: 0px; width: 0px; height: 300px; webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"
-          width="0"
-        />
-      </div>
-      <div
-        class=""
       />
       <object
         class="size-sensor-object"
@@ -84,20 +64,10 @@ exports[`<GraphicChart /> should render correctly with empty data 1`] = `
       _echarts_instance_="ec_123"
       class="echarts-for-react "
       size-sensor-id="4"
-      style="height: 300px; webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;"
+      style="height: 300px; webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"
     >
       <div
         style="position: relative; width: 0px; height: 300px; padding: 0px; margin: 0px; border-width: 0px;"
-      >
-        <canvas
-          data-zr-dom-id="zr_0"
-          height="300"
-          style="position: absolute; left: 0px; top: 0px; width: 0px; height: 300px; webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"
-          width="0"
-        />
-      </div>
-      <div
-        class=""
       />
       <object
         class="size-sensor-object"
@@ -147,20 +117,10 @@ exports[`<GraphicChart /> should render correctly with error 1`] = `
       _echarts_instance_="ec_123"
       class="echarts-for-react "
       size-sensor-id="5"
-      style="height: 300px; webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;"
+      style="height: 300px; webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"
     >
       <div
         style="position: relative; width: 0px; height: 300px; padding: 0px; margin: 0px; border-width: 0px;"
-      >
-        <canvas
-          data-zr-dom-id="zr_0"
-          height="300"
-          style="position: absolute; left: 0px; top: 0px; width: 0px; height: 300px; webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"
-          width="0"
-        />
-      </div>
-      <div
-        class=""
       />
       <object
         class="size-sensor-object"
@@ -210,20 +170,10 @@ exports[`<GraphicChart /> should render correctly with historical TSQMI 1`] = `
       _echarts_instance_="ec_123"
       class="echarts-for-react "
       size-sensor-id="3"
-      style="height: 300px; webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;"
+      style="height: 300px; webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"
     >
       <div
         style="position: relative; width: 0px; height: 300px; padding: 0px; margin: 0px; border-width: 0px;"
-      >
-        <canvas
-          data-zr-dom-id="zr_0"
-          height="300"
-          style="position: absolute; left: 0px; top: 0px; width: 0px; height: 300px; webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"
-          width="0"
-        />
-      </div>
-      <div
-        class=""
       />
       <object
         class="size-sensor-object"
