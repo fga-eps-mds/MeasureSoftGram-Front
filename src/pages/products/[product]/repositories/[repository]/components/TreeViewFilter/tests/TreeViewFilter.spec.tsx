@@ -1,9 +1,9 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import { OrganizationProvider } from "@contexts/OrganizationProvider";
 import { ProductProvider } from "@contexts/ProductProvider";
 import { RepositoryProvider } from "@contexts/RepositoryProvider";
-import ProductConfigFilterProvider, { useProductConfigFilterContext } from "@contexts/ProductConfigFilterProvider/ProductConfigFilterProvider";
+import ProductConfigFilterProvider from "@contexts/ProductConfigFilterProvider";
 import { useProductCurrentPreConfig } from "@hooks/useProductCurrentPreConfig";
 import TreeViewFilter from "../TreeViewFilter";
 
@@ -88,6 +88,48 @@ describe('<TreeViewFilter />', () => {
       wrapper: AllTheProviders
     });
 
+    expect(container).toMatchSnapshot();
+  });
+
+  it("should render correctly with selected nodes", () => {
+    useProductCurrentPreConfig.mockReturnValue({
+      data,
+    })
+
+    const { container, rerender } = render(<TreeViewFilter />, {
+      wrapper: AllTheProviders
+    });
+
+    fireEvent.click(container.querySelector('input[type="checkbox"]') as Element);
+    rerender();
+    expect(container).toMatchSnapshot();
+  });
+
+  it("should render correctly with selected nodes and expanded nodes", () => {
+    useProductCurrentPreConfig.mockReturnValue({
+      data,
+    })
+
+    const { container, rerender } = render(<TreeViewFilter />, {
+      wrapper: AllTheProviders
+    });
+
+    fireEvent.click(container.querySelector('div[class="MuiTreeItem-label"]') as Element);
+    rerender();
+    expect(container).toMatchSnapshot();
+  });
+
+  it("should render correctly with input search", () => {
+    useProductCurrentPreConfig.mockReturnValue({
+      data,
+    })
+
+    const { container, rerender } = render(<TreeViewFilter />, {
+      wrapper: AllTheProviders
+    });
+
+    fireEvent.change(container.querySelector('input[type="text"]') as Element, { target: { value: 'test' } });
+    rerender();
     expect(container).toMatchSnapshot();
   });
 });

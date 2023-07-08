@@ -152,3 +152,9 @@ exports[`<TreeViewFilter /> should render correctly 1`] = `
   </div>
 </div>
 `;
+
+exports[`<TreeViewFilter /> should render correctly with input search 1`] = `<div />`;
+
+exports[`<TreeViewFilter /> should render correctly with selected nodes 1`] = `<div />`;
+
+exports[`<TreeViewFilter /> should render correctly with selected nodes and expanded nodes 1`] = `<div />`;
