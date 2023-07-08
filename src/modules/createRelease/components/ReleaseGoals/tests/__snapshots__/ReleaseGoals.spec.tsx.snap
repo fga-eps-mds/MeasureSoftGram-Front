@@ -8,7 +8,9 @@ Object {
       <div
         class="styles__Header-sc-ki0fgv-0 hAZQDu"
       >
-        <h1>
+        <h1
+          style="color: rgb(51, 86, 142); font-weight: 500;"
+        >
           Balancear a Meta de Qualidade
         </h1>
         <p>
@@ -24,7 +26,7 @@ Object {
             class="MuiTypography-root MuiTypography-body1 css-1psv697-MuiTypography-root"
           >
             <span
-              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary css-12cb8cj-MuiButtonBase-root-MuiCheckbox-root"
             >
               <input
                 class="PrivateSwitchBase-input css-1m9pwf3"
@@ -81,7 +83,9 @@ Object {
     <div
       class="styles__Header-sc-ki0fgv-0 hAZQDu"
     >
-      <h1>
+      <h1
+        style="color: rgb(51, 86, 142); font-weight: 500;"
+      >
         Balancear a Meta de Qualidade
       </h1>
       <p>
@@ -97,7 +101,7 @@ Object {
           class="MuiTypography-root MuiTypography-body1 css-1psv697-MuiTypography-root"
         >
           <span
-            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary css-12cb8cj-MuiButtonBase-root-MuiCheckbox-root"
           >
             <input
               class="PrivateSwitchBase-input css-1m9pwf3"

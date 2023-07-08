@@ -7,7 +7,7 @@ const palette: ThemeOptions = {
     },
     secondary: {
       main: '#43285B'
-    }
+    },
   }
 };
 

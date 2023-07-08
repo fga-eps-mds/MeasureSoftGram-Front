@@ -17,16 +17,16 @@ function ReleaseInfo() {
   return (
     <>
       <Styles.Header>
-        <h1>Planejar Release</h1>
+        <h1 style={{ color: '#33568E', fontWeight: '500' }}>Planejar Release</h1>
         <p>
-          Na etapa inicial do planejamento da release, é possível definir a data e o nome da release, bem como
+          Na etapa inicial do planejamento da release é possível definir seu nome e as datas de início e fim, bem como
           selecionar as características a serem observadas durante o período planejado.
         </p>
       </Styles.Header>
 
       <Styles.Body>
         <Box>
-          <h2>Configurações básicas</h2>
+          <h2 style={{ color: '#538BA3', fontWeight: '500' }}>Configurações básicas</h2>
 
           <TextField
             label="Apelido da release"
@@ -75,7 +75,7 @@ function ReleaseInfo() {
         </Box>
 
         <Box>
-          <h2>Caracteristicas a serem observadas no release</h2>
+          <h2 style={{ color: '#538BA3', fontWeight: '500' }}>Características a serem observadas no release</h2>
 
           <FormGroup onChange={(e) => handleSelectCharacteristics((e.target as HTMLInputElement).value)}>
             {preConfigCharacteristics.map((item) => (
@@ -90,6 +90,7 @@ function ReleaseInfo() {
                     inputProps={{
                       'data-testid': 'characteristic-release'
                     }}
+                    color='default'
                   />
                 }
                 label={undelineRemover(item)}

@@ -23,7 +23,7 @@ const Repositories: NextPageWithLayout = () => {
         <Box display="flex" flexDirection="column">
           <Box display="flex" gap="1rem" marginTop="40px" marginBottom="36px">
             <Box display="flex" alignItems="center">
-              <Typography variant="h4" marginRight="10px">
+              <Typography variant="h4" marginRight="10px" color="#33568E" fontWeight="500">
                 Repositórios
               </Typography>
             </Box>
