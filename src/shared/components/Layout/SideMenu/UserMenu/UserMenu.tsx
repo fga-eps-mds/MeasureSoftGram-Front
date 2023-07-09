@@ -3,10 +3,10 @@ import { Avatar, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/materia
 import { useAuth } from '@contexts/Auth';
 import { FiChevronRight } from 'react-icons/fi';
 import { Logout } from '@mui/icons-material';
-import SideMenuItem from '../SideMenuItem/SideMenuItem';
 import { useRouter } from 'next/router';
 // import { FaGear } from 'react-icons/fa6';
 import { FaCog } from 'react-icons/fa';
+import SideMenuItem from '../SideMenuItem';
 
 interface Props {
   username: string | undefined;
