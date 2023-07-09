@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { NextPageWithLayout } from '@pages/_app.next';
 
-import { Box, Container } from '@mui/material';
+import { Box, Button, Container } from '@mui/material';
 import SsidChartIcon from '@mui/icons-material/SsidChart';
 import LineAxisIcon from '@mui/icons-material/LineAxis';
 import SpeedIcon from '@mui/icons-material/Speed';
@@ -26,13 +26,20 @@ const Repository: NextPageWithLayout = () => {
   useRequireAuth();
   useQuery();
 
+  const [showFilter, setShowFilter] = useState<boolean>(false);
+
   return (
     <Box display="flex" width="100%" flexDirection="row" marginTop="40px" marginBottom="24px">
       <ProductConfigFilterProvider>
         <Container sx={{ marginBottom: '150px', maxWidth: '100%' }}>
           <Headers />
 
-          <TreeViewFilter />
+          <Box display="flex" justifyContent="flex-end">
+            <Button variant="contained" onClick={() => { setShowFilter(prev => !prev) }}>
+              Controlar Exibição
+            </Button>
+          </Box>
+          <TreeViewFilter show={showFilter} setShow={setShowFilter} />
 
           <CustomTabs
             tabId="tab1"
@@ -87,7 +94,7 @@ const Repository: NextPageWithLayout = () => {
           <LatestValueTable title="Métricas" value="metrics" />
         </Container>
       </ProductConfigFilterProvider>
-    </Box>
+    </Box >
   );
 };
 

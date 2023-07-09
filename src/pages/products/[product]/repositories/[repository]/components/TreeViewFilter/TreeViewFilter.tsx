@@ -1,5 +1,5 @@
 import { TreeItem, TreeView } from '@mui/lab';
-import { Box, Checkbox, Divider, Typography } from '@mui/material';
+import { Box, Checkbox, Divider, Fade, IconButton, Typography } from '@mui/material';
 import React, { useState, useEffect, useMemo } from 'react';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import KeyboardArrowRightRoundedIcon from '@mui/icons-material/KeyboardArrowRightRounded';
@@ -8,6 +8,7 @@ import _ from 'lodash';
 import { Characteristic } from '@customTypes/preConfig';
 import { useProductConfigFilterContext } from '@contexts/ProductConfigFilterProvider/ProductConfigFilterProvider';
 import SearchButton from '@components/SearchButton/SearchButton';
+import { FiArrowRight } from 'react-icons/fi';
 
 interface Node {
   id: string;
@@ -65,7 +66,12 @@ function formatData(rawData: Characteristic[]) {
   ];
 }
 
-export default function TreeViewFilter() {
+interface TreeViewFilterProps {
+  show: boolean;
+  setShow: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function TreeViewFilter({ show, setShow }: TreeViewFilterProps) {
   const [selectedNodes, setSelectedNodes] = useState<string[]>([]);
   const [expandedNodes, setExpandedNodes] = useState<string[]>([]);
   const [searchNodes, setSearchNodes] = useState<Node[]>([]);
@@ -78,7 +84,6 @@ export default function TreeViewFilter() {
     if (data.length > 0) {
       const allIds = getAllIds(data[0]);
       setSelectedNodes(allIds);
-      // setExpandedNodes(allIds);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
@@ -187,31 +192,40 @@ export default function TreeViewFilter() {
   );
 
   return (
-    <Box
-      position="fixed"
-      width="420px"
-      height="100vh"
-      top={0}
-      right={0}
-      bgcolor="white"
-      zIndex={3}
-      paddingX="5px"
-      sx={{ filter: 'drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.25))', overflowY: 'auto' }}
-    >
-      <Box width="100%" position="sticky" top={0} bgcolor="white" zIndex={4} paddingTop="5px">
-        <SearchButton onInput={(e) => handleSearch(e.target.value)} label="Pesquisar" />
-        <Divider sx={{ width: '100%', mt: '5px', border: '1px solid rgba(0, 0, 0, 0.20)' }} />
-      </Box>
-      <TreeView
-        expanded={expandedNodes}
-        onNodeToggle={(event, nodeIds) => setExpandedNodes(nodeIds)}
-        defaultCollapseIcon={<KeyboardArrowDownRoundedIcon />}
-        defaultExpandIcon={<KeyboardArrowRightRoundedIcon />}
+    <Fade in={show}>
+      <Box
+        display={show ? 'auto' : 'none'}
+        position="fixed"
+        height="100vh"
+        top={0}
+        right={0}
+        bgcolor="white"
+        zIndex={3}
+        paddingX="5px"
+        sx={{ filter: 'drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.25))', overflowY: 'auto' }}
       >
-        {searchNodes.length > 0
-          ? searchNodes.map((node) => renderTree(node))
-          : data[0].children.map((node) => renderTree(node))}
-      </TreeView>
-    </Box>
+        <Box width="100%" position="sticky" top={0} bgcolor="white" zIndex={4}>
+          <Box display="flex" flexDirection="row" alignItems="center" paddingY="15px">
+            <SearchButton onInput={(e) => handleSearch(e.target.value)} label="Pesquisar" />
+            <IconButton onClick={() => { setShow(prev => !prev) }}>
+              <FiArrowRight fontSize={30} />
+            </IconButton>
+          </Box>
+          <Divider sx={{ width: '100%', mt: '5px', border: '1px solid rgba(0, 0, 0, 0.20)' }} />
+        </Box>
+        <Box marginTop="15px">
+          <TreeView
+            expanded={expandedNodes}
+            onNodeToggle={(event, nodeIds) => setExpandedNodes(nodeIds)}
+            defaultCollapseIcon={<KeyboardArrowDownRoundedIcon />}
+            defaultExpandIcon={<KeyboardArrowRightRoundedIcon />}
+          >
+            {searchNodes.length > 0
+              ? searchNodes.map((node) => renderTree(node))
+              : data[0].children.map((node) => renderTree(node))}
+          </TreeView>
+        </Box>
+      </Box>
+    </Fade>
   );
 }
