@@ -47,7 +47,7 @@ function SideMenu() {
       text: 'Releases',
       tooltip: 'Releases de cada repositório',
       path: `/products/${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/releases`,
-      disable: !currentRepository,
+      disable: !currentProduct,
       selected: router.query?.release !== undefined
     }
   ];
