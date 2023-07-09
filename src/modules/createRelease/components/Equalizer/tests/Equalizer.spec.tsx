@@ -8,8 +8,53 @@ import Equalizer from '../Equalizer';
 jest.mock('@modules/createRelease/context/useCreateRelease', () => ({
   useCreateReleaseContext: () => ({
     preConfigCharacteristics: ['usability', 'maintainability'],
-    handleChangeForm: () => {}
+    handleChangeForm: () => { }
   })
+}));
+
+jest.mock('@modules/createRelease/components/Equalizer/hook/useEqualizer', () => (() => ({
+  characteristics: [
+    {
+      id: 1,
+      key: 'reliability',
+      value: 50,
+      correlations: {
+        '+': ['maintainability'],
+        '-': []
+      }
+    },
+    {
+      id: 2,
+      key: 'maintainability',
+      value: 50,
+      correlations: {
+        '+': ['reliability'],
+        '-': []
+      }
+    }
+  ],
+  equalize: jest.fn(),
+  addDeltaToChanges: jest.fn(),
+  changes: []
+})));
+
+jest.mock('@services/balanceMatrix', () => ({
+  balanceMatrixService: {
+    getBalanceMatrix: () => (Promise.resolve({
+      data: {
+        result: {
+          reliability: {
+            '+': ['maintainability'],
+            '-': []
+          },
+          maintainability: {
+            '+': ['reliability'],
+            '-': []
+          }
+        }
+      }
+    }))
+  }
 }));
 
 jest.mock('@mui/material', () => ({
@@ -39,7 +84,7 @@ describe('<Equalizer />', () => {
   const renderEqualizer = (allowDynamicBalance: boolean = false) =>
     render(
       <Equalizer
-        selectedCharacteristics={['usability', 'compatibility', 'security']}
+        selectedCharacteristics={['reliability', 'maintainability']}
         allowDynamicBalance={allowDynamicBalance}
       />
     );
@@ -52,7 +97,7 @@ describe('<Equalizer />', () => {
   });
 
   describe('Comportamento', () => {
-    it('Deve chamar onChange ao movimnetar o slider permitindo balanceamento dinâmico', () => {
+    it('Deve chamar onChange ao movimnetar o slider permitindo balanceamento dinâmico', async () => {
       const { getAllByTestId } = renderEqualizer(true);
 
       const sliders = getAllByTestId('single-slider');
@@ -64,7 +109,7 @@ describe('<Equalizer />', () => {
       expect(sliders.length).toBe(2);
       expect(labels.length).toBe(2);
     });
-    it('Deve chamar onChange ao movimnetar o slider sem permitir balanceamento dinâmico', () => {
+    it('Deve chamar onChange ao movimnetar o slider sem permitir balanceamento dinâmico', async () => {
       const { getAllByTestId } = renderEqualizer();
 
       const sliders = getAllByTestId('single-slider');
