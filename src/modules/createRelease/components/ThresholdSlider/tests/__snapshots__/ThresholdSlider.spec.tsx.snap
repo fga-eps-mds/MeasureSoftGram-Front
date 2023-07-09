@@ -1,0 +1,146 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ThresholdSlider /> Snapshot Deve corresponder ao snapshot 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="MuiBox-root css-j7qwjs"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body1 css-1uwgr7b-MuiTypography-root"
+        >
+          <strong>
+            Linhas duplicadas
+          </strong>
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body1 css-1uwgr7b-MuiTypography-root"
+        >
+          min fixo em 0, max entre 0-100
+        </p>
+        <div
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-zow5z4-MuiGrid-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2 css-1duidt6-MuiGrid-root"
+          >
+            <input
+              data-testid="threshold-textfield"
+            />
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1qpzhgb-MuiGrid-root"
+          >
+            <input
+              data-testid="threshold-slider"
+            />
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2 css-1duidt6-MuiGrid-root"
+          >
+            <input
+              data-testid="threshold-textfield"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="MuiBox-root css-j7qwjs"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-1uwgr7b-MuiTypography-root"
+      >
+        <strong>
+          Linhas duplicadas
+        </strong>
+      </p>
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-1uwgr7b-MuiTypography-root"
+      >
+        min fixo em 0, max entre 0-100
+      </p>
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-zow5z4-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2 css-1duidt6-MuiGrid-root"
+        >
+          <input
+            data-testid="threshold-textfield"
+          />
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1qpzhgb-MuiGrid-root"
+        >
+          <input
+            data-testid="threshold-slider"
+          />
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2 css-1duidt6-MuiGrid-root"
+        >
+          <input
+            data-testid="threshold-textfield"
+          />
+        </div>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

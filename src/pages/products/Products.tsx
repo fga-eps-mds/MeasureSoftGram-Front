@@ -1,11 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 
-import { Box, Button, Container, Grid, IconButton, Menu, MenuItem, Typography } from '@mui/material';
-import MoreVert from '@mui/icons-material/MoreVert';
+import { Box, Button, Container, Grid, Typography } from '@mui/material';
 
 import { NextPageWithLayout } from '@pages/_app.next';
-import ConfigPage from '@modules/preConfig/ConfigPage';
 
 import { useProductContext } from '@contexts/ProductProvider';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
@@ -26,43 +24,11 @@ const Products: NextPageWithLayout = () => {
 
   const { organizationList, currentOrganization, setCurrentOrganization } = useOrganizationContext();
   const { productsList } = useProductContext();
-  const [openConfig, setOpenConfig] = useState(false);
-  const [anchorEl, setAnchorEl] = useState<HTMLElement[]>([]);
-  const [selectedProduct, setSelectedProduct] = useState<Product>();
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(productsList ?? []);
 
   useEffect(() => {
     if (productsList !== undefined) setFilteredProducts(productsList!);
   }, [productsList]);
-
-  const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>, index: number) => {
-    anchorEl[index] = event.currentTarget;
-    setAnchorEl([...anchorEl]);
-  };
-
-  const handleCloseMenu = (event: any, idx: number) => {
-    const array = [...anchorEl];
-    array.splice(idx, 1);
-    setAnchorEl(array);
-  };
-
-  const handleOpenConfig = useCallback(
-    (product: Product) => () => {
-      setSelectedProduct(product);
-      setOpenConfig(true);
-      setAnchorEl([]);
-    },
-    []
-  );
-
-  const getOrganizationId = (product?: Product) => {
-    if (product) {
-      const url = product.organization[0];
-      const urlArray = url.split('/');
-      return urlArray.at(-2);
-    }
-    return '-1';
-  };
 
   const handleProductFilter = (name: string) => {
     if (name == null || name === '') {
@@ -98,13 +64,6 @@ const Products: NextPageWithLayout = () => {
       </Head>
 
       <Container>
-        <ConfigPage
-          isOpen={openConfig}
-          onClose={setOpenConfig}
-          repoName={selectedProduct?.name}
-          productId={selectedProduct?.id ?? '-1'}
-          organizationId={getOrganizationId(selectedProduct)}
-        />
         <Box display="flex" flexDirection="column">
           <Typography variant="h4" color="#000000cc" fontWeight="semibold" marginTop="30px">
             Organizações
@@ -155,29 +114,11 @@ const Products: NextPageWithLayout = () => {
                 {filteredProducts?.map((product, index) => (
                   <Box key={product.id + index.toString()} display="flex" flexDirection="row" paddingRight="20px" paddingBottom="20px">
                     <CardNavigation
-                      key={product.id+ index.toString()}
+                      key={product.id + index.toString()}
                       id={product.id}
                       name={product.name}
                       url={`/products/${currentOrganization?.id}-${product?.id}-${product?.name}`}
                     />
-
-                    <IconButton color="primary" onClick={(e) => handleOpenMenu(e, index)}>
-                      <MoreVert />
-                    </IconButton>
-                    <Menu
-                      id="basic-menu"
-                      key={product?.id ?? + index.toString()}
-                      anchorEl={anchorEl[index]}
-                      open={Boolean(anchorEl[index])}
-                      onClick={(event) => handleCloseMenu(event, index)}
-                      MenuListProps={{
-                        'aria-labelledby': 'basic-button'
-                      }}
-                    >
-                      <MenuItem key={product?.id ?? + index.toString()} onClick={handleOpenConfig(product)}>
-                        Definir pesos para uma configuração
-                      </MenuItem>
-                    </Menu>
                   </Box>
                 ))}
               </Box>

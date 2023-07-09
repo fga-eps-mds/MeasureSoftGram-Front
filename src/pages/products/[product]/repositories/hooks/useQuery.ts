@@ -38,6 +38,7 @@ export const useQuery = () => {
         await loadRepositories(organizationId, productId);
       }
     };
+    // eslint-disable-next-line no-console
     fetchData().catch((error) => console.error(error));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query?.product]);

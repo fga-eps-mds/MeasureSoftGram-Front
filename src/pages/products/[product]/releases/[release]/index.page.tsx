@@ -72,7 +72,7 @@ const Release: NextPageWithLayout = ({ release, organizationId, productId }: Rel
               <Typography fontSize="32px" fontWeight="400">
                 Release
               </Typography>
-              <Typography fontSize="32px" fontWeight="400" color="GrayText">
+              <Typography fontSize="32px" fontWeight="500" color="#33568E">
                 {release?.release_name}
               </Typography>
             </Box>

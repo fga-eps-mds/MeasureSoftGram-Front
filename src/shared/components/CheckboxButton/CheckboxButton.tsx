@@ -6,13 +6,16 @@ interface CheckboxButtonType {
   checked?: boolean;
   onClick?: () => void;
   style?: CSSProperties;
+  backgroundColor?: string;
+  colorHover?: string;
+  disabled?: boolean;
 }
 
-const CheckboxButton = ({ label, checked = false, onClick, style }: CheckboxButtonType) => {
+const CheckboxButton = ({ label, checked = false, onClick, style, backgroundColor, colorHover, disabled }: CheckboxButtonType) => {
   const [internalChecked, setChecked] = useState(checked);
 
-  const labelColor = internalChecked ? '#FFF' : '#000';
-  const buttonColor = !internalChecked ? '#FFF' : '#000';
+  const labelColor = internalChecked ? '#FFF' : backgroundColor ?? '#000';
+  const buttonColor = !internalChecked ? '#FFF' : backgroundColor ?? '#000';
 
   return (
     <div style={style}>
@@ -27,11 +30,21 @@ const CheckboxButton = ({ label, checked = false, onClick, style }: CheckboxButt
       />
       <Button
         variant="outlined"
-        sx={{ backgroundColor: buttonColor, color: labelColor }}
+        sx={{
+          backgroundColor: buttonColor, color: labelColor,
+          '&:hover': {
+            color: colorHover
+          },
+          '&:disabled': {
+            color: labelColor,
+            opacity: '70%',
+          }
+        }}
         onClick={() => {
           if (onClick) onClick();
           setChecked(!internalChecked);
         }}
+        disabled={disabled ?? false}
       >
         {label}
       </Button>

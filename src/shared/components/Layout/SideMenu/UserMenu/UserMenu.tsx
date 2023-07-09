@@ -4,6 +4,9 @@ import { useAuth } from '@contexts/Auth';
 import { FiChevronRight } from 'react-icons/fi';
 import { Logout } from '@mui/icons-material';
 import SideMenuItem from '../SideMenuItem/SideMenuItem';
+import { useRouter } from 'next/router';
+// import { FaGear } from 'react-icons/fa6';
+import { FaCog } from 'react-icons/fa';
 
 interface Props {
   username: string | undefined;
@@ -22,7 +25,7 @@ function UserMenu({ username }: Props) {
   };
 
   const { logout } = useAuth();
-
+  const router = useRouter();
   return (
     <>
       <SideMenuItem
@@ -39,6 +42,17 @@ function UserMenu({ username }: Props) {
         open={open}
         onClose={handleClose}
       >
+        <MenuItem
+          onClick={() => {
+            router.push('/config');
+          }}
+        >
+          <ListItemIcon>
+            <FaCog fontSize="small" />
+          </ListItemIcon>
+          <ListItemText> Configurações </ListItemText>
+        </MenuItem>
+
         <MenuItem
           onClick={() => {
             void logout();

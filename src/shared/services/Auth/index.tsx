@@ -56,5 +56,16 @@ export const getUserInfo = async (): Promise<Result<User>> => {
   }
 };
 
+export const getAccessToken = async (): Promise<Result<User>> => {
+  try {
+    const response = await api.get('/accounts/access-token');
+
+    return { type: 'success', value: response?.data };
+  } catch (err) {
+    const error = err as AxiosError;
+    return { type: 'error', error };
+  }
+};
+
 export const getGithubAuthUrl = () =>
   `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${process.env.LOGIN_REDIRECT_URL}`;
