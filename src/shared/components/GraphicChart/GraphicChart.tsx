@@ -17,6 +17,7 @@ interface Prop {
   valueType?: 'historical-values' | 'latest-values';
   autoGrid?: boolean;
   addHistoricalTSQMI?: boolean;
+  addCurrentGoal?: boolean;
 }
 
 type formatFunctionType = {
@@ -36,14 +37,15 @@ const GraphicChart = ({
   value,
   valueType = 'historical-values',
   autoGrid = false,
-  addHistoricalTSQMI = false
+  addHistoricalTSQMI = false,
+  addCurrentGoal = false,
 }: Prop) => {
   const {
     data: historical,
     error,
     isLoading,
     isEmpty
-  } = useRequestValues({ type: valueType, value, addHistoricalTSQMI });
+  } = useRequestValues({ type: valueType, value, addHistoricalTSQMI, addCurrentGoal });
 
   const sliceHistorical = (rowIdx: number): Historical[] => {
     if (!autoGrid) return historical;

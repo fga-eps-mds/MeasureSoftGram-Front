@@ -62,6 +62,7 @@ const Repository: NextPageWithLayout = () => {
               type="radar"
               value="characteristics"
               valueType="latest-values"
+              addCurrentGoal
             />,
             <GraphicChart
               key="tab2-0-1"
@@ -70,6 +71,7 @@ const Repository: NextPageWithLayout = () => {
               autoGrid
               value="characteristics"
               valueType="latest-values"
+              addCurrentGoal
             />
           ]}
         />
