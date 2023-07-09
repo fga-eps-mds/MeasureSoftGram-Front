@@ -28,10 +28,31 @@ const formatGaugeChart = ({ historical, title, isEmpty }: FormatGaugeChartType) 
         data: [
           {
             value: item.latest.value.toFixed(2),
-            name: item.name
+            name: item.name,
+            title: {
+              offsetCenter: ['-60%', '70%']
+            },
+            detail: {
+              offsetCenter: ['-60%', '95%']
+            },
+          },
+          {
+            value: ((item?.goal ?? 1) / 100)?.toFixed(2),
+            name: 'Valor esperado',
+            title: {
+              offsetCenter: ['60%', '70%']
+            },
+            detail: {
+              offsetCenter: ['60%', '95%']
+            },
+            itemStyle: {
+              color: '#f1c40f'
+            }
           }
         ],
         type: 'gauge',
+        startAngle: 210,
+        endAngle: -30,
         anchor: {
           show: true,
           showAbove: true,
