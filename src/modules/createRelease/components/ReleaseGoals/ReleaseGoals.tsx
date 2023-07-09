@@ -18,13 +18,13 @@ import * as Styles from './styles';
 import useDynamicBalance from './hook/useDynamicBalance';
 
 export default function ReleaseGoals() {
-  const { releaseInfoForm } = useCreateReleaseContext();
+  const { releaseInfoForm, setAllowDynamicBalance } = useCreateReleaseContext();
   const { characteristics, endDate, name, startDate } = releaseInfoForm;
   const { open, allowDynamicBalance, handleChange, handleClose, handleConfirm } = useDynamicBalance();
 
   useEffect(() => {
-    console.log('characteristics', characteristics);
-  }, [characteristics])
+    setAllowDynamicBalance(allowDynamicBalance);
+  }, [allowDynamicBalance]);
 
   return (
     <>

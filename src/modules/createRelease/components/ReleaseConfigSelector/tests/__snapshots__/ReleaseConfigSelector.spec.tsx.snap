@@ -22,16 +22,46 @@ Object {
           tabindex="0"
           type="button"
         >
+          <span
+            class="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="SkipNextIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="m6 18 8.5-6L6 6v12zM16 6v12h2V6h-2z"
+              />
+            </svg>
+          </span>
           Seguir última configuração
           <span
             class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
           />
         </button>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-8gvteo-MuiButtonBase-root-MuiButton-root"
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1ilm8pg-MuiButtonBase-root-MuiButton-root"
           tabindex="0"
           type="button"
         >
+          <span
+            class="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="TuneIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"
+              />
+            </svg>
+          </span>
           Alterar configuração
           <span
             class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
@@ -58,16 +88,46 @@ Object {
         tabindex="0"
         type="button"
       >
+        <span
+          class="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="SkipNextIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="m6 18 8.5-6L6 6v12zM16 6v12h2V6h-2z"
+            />
+          </svg>
+        </span>
         Seguir última configuração
         <span
           class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
         />
       </button>
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-8gvteo-MuiButtonBase-root-MuiButton-root"
+        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1ilm8pg-MuiButtonBase-root-MuiButton-root"
         tabindex="0"
         type="button"
       >
+        <span
+          class="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="TuneIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"
+            />
+          </svg>
+        </span>
         Alterar configuração
         <span
           class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"

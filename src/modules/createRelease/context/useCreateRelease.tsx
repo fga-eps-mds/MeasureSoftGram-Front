@@ -59,7 +59,8 @@ interface CreateReleaseContextData {
   toggleAllowChangeConfig: () => void;
   setUseLastConfig: (value: boolean) => void;
   resetStates: () => void
-  lastGoal?: Goal | undefined;
+  lastGoal?: Goal;
+  setAllowDynamicBalance: (value: boolean) => void;
 }
 
 export const CreateReleaseContext = createContext({} as CreateReleaseContextData);
@@ -92,6 +93,7 @@ export function CreateReleaseProvider({
   const [characteristicValuesValid, setCharacteristicValuesValid] = useState<boolean>(false)
   const [entityRelationshipTree, setEntityRelationshipTree] = useState<PreConfigEntitiesRelationship[]>([]);
   const [lastGoal, setLastGoal] = useState<Goal | undefined>(undefined);
+  const [allowDynamicBalance, setAllowDynamicBalance] = useState<boolean>(false)
 
   const router = useRouter();
 
@@ -110,7 +112,8 @@ export function CreateReleaseProvider({
       release_name: releaseInfoForm.name,
       start_at: releaseInfoForm.startDate,
       end_at: releaseInfoForm.endDate,
-      changes: releaseInfoForm.changes
+      changes: releaseInfoForm.changes,
+      allow_dynamic: allowDynamicBalance
     };
 
     const response = await productQuery.createProductReleaseGoal(organizationId, productId, data);
@@ -243,15 +246,15 @@ export function CreateReleaseProvider({
 
   function finishReleasePlanning() {
     const isSameReleaseGoal = lastGoal &&
-      releaseInfoForm.startDate === (lastGoal!.start_at as string).slice(0, 10) &&
-      releaseInfoForm.endDate === (lastGoal!.end_at as string).slice(0, 10) &&
+      releaseInfoForm.startDate === (lastGoal.start_at as string).slice(0, 10) &&
+      releaseInfoForm.endDate === (lastGoal.end_at as string).slice(0, 10) &&
       releaseInfoForm.name === lastGoal?.release_name
 
     if (isSameReleaseGoal) {
       setAlertMessage('sameReleaseGoal');
       return;
     }
-    sendConfigJson().then(() => setAlertMessage('successOnCreation')).catch(() => setAlertMessage('errorOnCreation'))
+    sendConfigJson().catch(() => setAlertMessage('errorOnCreation'))
     createProductReleaseGoal().catch(() => setAlertMessage('errorOnCreation'))
   }
 
@@ -315,7 +318,8 @@ export function CreateReleaseProvider({
     toggleAllowChangeConfig,
     setUseLastConfig,
     resetStates,
-    lastGoal
+    lastGoal,
+    setAllowDynamicBalance
   };
 
   return <CreateReleaseContext.Provider value={value}>{children}</CreateReleaseContext.Provider>;

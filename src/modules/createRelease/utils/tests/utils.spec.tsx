@@ -3,12 +3,17 @@ import { Characteristic } from '@customTypes/preConfig';
 import { iterator, iteratorType } from '@modules/createRelease/utils/iterators';
 import { componentIterator, componentIteratorType } from '@modules/createRelease/utils/componentIterator';
 import toPercentage from '@modules/createRelease/utils/toPercentage';
+import { PreConfigEntitiesRelationship } from '@customTypes/product';
+import { mergeCharacteristicData } from '../mergeCharacteristicData';
 
 const CHARACTERISTIC_KEY = 'Test-Char';
 const SUBHARACTERISTIC_KEY = 'Test-Subchar';
 const MEASURE_KEY = 'Test-Measure';
 const WEIGHT = 100;
 const GENERIC_KEY = 'generic_key';
+const CHARACTERISTIC_KEY_2 = 'Test-Char2';
+const SUBCHARACTERISTIC_KEY_2 = 'Test-Subchar2';
+const MEASURE_KEY_2 = 'Test-Measure2';
 
 const mockedCharacteristic: Characteristic[] = [
   {
@@ -78,6 +83,73 @@ describe('Utils', () => {
       expect(toPercentage(50)).toBe(50);
       expect(toPercentage('50')).toBe(50);
       expect(toPercentage(NaN)).toBe(0);
+    });
+  });
+
+  describe('mergeCharacteristicData', () => {
+    it('Deve mesclar dados de caracteristicas', () => {
+      const PreConfigEntitiesRelationship: PreConfigEntitiesRelationship[] = [
+        {
+          id: 0,
+          key: CHARACTERISTIC_KEY,
+          name: CHARACTERISTIC_KEY,
+          description: CHARACTERISTIC_KEY,
+          subcharacteristics: [
+            {
+              id: 0,
+              key: SUBHARACTERISTIC_KEY,
+              name: SUBHARACTERISTIC_KEY,
+              description: SUBHARACTERISTIC_KEY,
+              measures: [
+                {
+                  id: 0,
+                  key: MEASURE_KEY,
+                  name: MEASURE_KEY,
+                  description: MEASURE_KEY,
+                }
+              ]
+            }
+          ]
+        },
+        {
+          id: 1,
+          key: CHARACTERISTIC_KEY_2,
+          name: CHARACTERISTIC_KEY_2,
+          description: CHARACTERISTIC_KEY_2,
+          subcharacteristics: [
+            {
+              id: 1,
+              key: SUBCHARACTERISTIC_KEY_2,
+              name: SUBCHARACTERISTIC_KEY_2,
+              description: SUBCHARACTERISTIC_KEY_2,
+              measures: [
+                {
+                  id: 1,
+                  key: MEASURE_KEY_2,
+                  name: MEASURE_KEY_2,
+                  description: MEASURE_KEY_2,
+                }
+              ]
+            }
+          ]
+        }
+      ];
+      const characteristicDataMerged = mergeCharacteristicData(mockedCharacteristic, PreConfigEntitiesRelationship)
+      expect(characteristicDataMerged).toEqual([...mockedCharacteristic, {
+        key: CHARACTERISTIC_KEY_2,
+        subcharacteristics: [{
+          key: SUBCHARACTERISTIC_KEY_2,
+          measures: [{
+            key: MEASURE_KEY_2,
+            weight: 0,
+            min_threshold: 0,
+            max_threshold: 100
+          }],
+          weight: 0,
+        }],
+        weight: 0,
+      }])
+
     });
   });
 });

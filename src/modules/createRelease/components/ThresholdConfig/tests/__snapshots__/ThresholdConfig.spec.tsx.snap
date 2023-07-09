@@ -16,7 +16,7 @@ Object {
         <p
           class="MuiTypography-root MuiTypography-body1 css-z2eky3-MuiTypography-root"
         >
-          Os valores de referência afetam como algumas medidas são calculadas. Aluns deles não podem ser modificados. Para mais detalhes veja a documentação disponível em
+          Os valores de referência afetam como algumas medidas são calculadas. Alguns deles não podem ser modificados. Para mais detalhes veja a documentação disponível em
            
           <a
             class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-17dcqu8-MuiTypography-root-MuiLink-root"
@@ -155,7 +155,7 @@ Object {
       <p
         class="MuiTypography-root MuiTypography-body1 css-z2eky3-MuiTypography-root"
       >
-        Os valores de referência afetam como algumas medidas são calculadas. Aluns deles não podem ser modificados. Para mais detalhes veja a documentação disponível em
+        Os valores de referência afetam como algumas medidas são calculadas. Alguns deles não podem ser modificados. Para mais detalhes veja a documentação disponível em
          
         <a
           class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-17dcqu8-MuiTypography-root-MuiLink-root"

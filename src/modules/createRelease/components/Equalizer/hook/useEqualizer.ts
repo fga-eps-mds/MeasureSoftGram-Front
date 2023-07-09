@@ -1,28 +1,32 @@
 /* eslint-disable camelcase */
 import { useCallback, useEffect, useState } from 'react';
-import getCharacteristicsWithBalanceMatrix from '@utils/getCharacteristicsWithBalanceMatrix';
+import getCharacteristicsWithBalanceMatrix, { BalanceMatrix } from '@utils/getCharacteristicsWithBalanceMatrix';
 import { Changes, CharacteristicWithBalanceMatrix, Goal, ValuesCommitted } from '@customTypes/product';
 import { balanceMatrixService } from '@services/balanceMatrix';
 
 export default function useEqualizer(selectedCharacteristics: string[], lastGoal?: Goal) {
   const [characteristics, setCharacteristics] = useState<CharacteristicWithBalanceMatrix[]>([]);
   const [valuesCommitted, setValuesCommitted] = useState<ValuesCommitted>({});
+  const [balanceMatrix, setBalanceMatrix] = useState<BalanceMatrix>({});
   const [changes, setChanges] = useState<Changes[]>([]);
 
   const getBalanceMatrix = () => {
     balanceMatrixService.getBalanceMatrix().then((response) => {
-      const { data } = response;
-
-      const updatedCharacteristics = getCharacteristicsWithBalanceMatrix(
-        selectedCharacteristics,
-        data.result,
-        lastGoal?.data
-      );
-      const initialValuesCommited = updatedCharacteristics.reduce((acc, item) => ({ ...acc, [item.key]: 50 }), {});
-
-      setCharacteristics(updatedCharacteristics);
-      setValuesCommitted(initialValuesCommited);
+      setBalanceMatrix(response.data.result);
+      updateCharacteristicsWithBalanceMatrix();
     });
+  };
+
+  const updateCharacteristicsWithBalanceMatrix = () => {
+    const updatedCharacteristics = getCharacteristicsWithBalanceMatrix(
+      selectedCharacteristics,
+      balanceMatrix,
+      lastGoal?.data
+    );
+    const updatedValuesCommited = updatedCharacteristics.reduce((acc, item) => ({ ...acc, [item.key]: 50 }), {});
+
+    setCharacteristics(updatedCharacteristics);
+    setValuesCommitted(updatedValuesCommited);
   };
 
   const addDeltaToChanges = useCallback(
@@ -33,6 +37,8 @@ export default function useEqualizer(selectedCharacteristics: string[], lastGoal
       const value = valuesCommitted[characteristicDragged];
 
       const delta = newValue - value;
+
+      console.log('newChanges', [...changes, { characteristic_key: characteristicDragged, delta }]);
 
       setChanges((prevChanges) => [...prevChanges, { characteristic_key: characteristicDragged, delta }]);
 
@@ -85,11 +91,17 @@ export default function useEqualizer(selectedCharacteristics: string[], lastGoal
     getBalanceMatrix();
   }, []);
 
+  const reset = () => {
+    updateCharacteristicsWithBalanceMatrix();
+    setChanges([]);
+  };
+
   return {
     changes,
     characteristics,
     equalize,
     addDeltaToChanges,
-    getBalanceMatrix
+    getBalanceMatrix,
+    reset
   };
 }

@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import EqualizerSingleSlider from '@modules/createRelease/components/EqualizerSingleSlider';
 import { Box } from '@mui/material';
-import { Characteristics } from '@customTypes/product';
 import { useCreateReleaseContext } from '@modules/createRelease/context/useCreateRelease';
 import undelineRemover from '@utils/undelineRemover';
 import useEqualizer from './hook/useEqualizer';
@@ -15,12 +14,19 @@ interface EquilizerProps {
 
 export default function Equalizer({ selectedCharacteristics, allowDynamicBalance }: EquilizerProps) {
   const { lastGoal, handleChangeForm } = useCreateReleaseContext();
-  const { characteristics, equalize, addDeltaToChanges, changes } = useEqualizer(selectedCharacteristics, lastGoal);
+  const { characteristics, equalize, addDeltaToChanges, changes, reset } = useEqualizer(selectedCharacteristics, lastGoal);
 
   const handleChangeCommitted = (characteristicName: string, newValue: number) => {
     addDeltaToChanges(characteristicName, newValue);
-    handleChangeForm('changes', changes);
   };
+
+  useMemo(() => {
+    reset();
+  }, [allowDynamicBalance]);
+
+  useMemo(() => {
+    handleChangeForm('changes', changes);
+  }, [changes]);
 
   return (
     <Box justifyContent="space-around" display="flex">

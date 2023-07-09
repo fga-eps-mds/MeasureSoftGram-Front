@@ -5,7 +5,7 @@ type BalanceMatrixRow = {
   '-': string[];
 };
 
-type BalanceMatrix = {
+export type BalanceMatrix = {
   [key: string]: BalanceMatrixRow;
 };
 
