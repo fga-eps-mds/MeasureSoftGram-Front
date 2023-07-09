@@ -14,9 +14,8 @@ function ReleaseInfo() {
     <>
       <Styles.Header>
         <h1 style={{ color: '#33568E', fontWeight: '500' }}>Planejar Release</h1>
-        <p>
-          Na etapa inicial do planejamento da release é possível definir seu nome e as datas de início e fim, bem como
-          selecionar as características a serem observadas durante o período planejado.
+        <p style={{ marginTop: '60px' }}>
+          Na etapa inicial do planejamento da release é possível definir seu nome e as datas de início e fim.
         </p>
       </Styles.Header>
 

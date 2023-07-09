@@ -31,7 +31,7 @@ export default function ReleaseGoals() {
       <Styles.Header>
         <h1 style={{ color: '#33568E', fontWeight: '500' }}>Balancear a Meta de Qualidade</h1>
         <p>
-          Nesta etapa, é possível estabelecer metas para as características que serão observadas na release. É
+          Nesta etapa é possível estabelecer metas para as características que serão observadas na release. É
           importante ressaltar que essas características de qualidade estão inter-relacionadas, ou seja, ao modificar a
           meta de uma característica, as demais também serão afetadas.
         </p>
