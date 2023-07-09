@@ -14,7 +14,7 @@ jobs:
           fetch-depth: 0
 
       - name: Msgram Helper Action
-        uses: fga-eps-mds/2023-1-MeasureSoftGram-Helper-Action@v0.1.4-alpha
+        uses: fga-eps-mds/2023-1-MeasureSoftGram-Helper-Action@v0.1.5-alpha
         id: msgram
         with:
           githubToken: ${{ secrets.API_TOKEN_DOC }}
