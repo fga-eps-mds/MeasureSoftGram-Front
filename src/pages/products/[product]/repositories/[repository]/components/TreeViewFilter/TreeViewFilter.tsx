@@ -1,5 +1,5 @@
 import { TreeItem, TreeView } from '@mui/lab';
-import { Box, Checkbox, Divider, Fade, IconButton, Typography } from '@mui/material';
+import { Box, Checkbox, Divider, IconButton, Tooltip, Typography } from '@mui/material';
 import React, { useState, useEffect, useMemo } from 'react';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import KeyboardArrowRightRoundedIcon from '@mui/icons-material/KeyboardArrowRightRounded';
@@ -8,7 +8,11 @@ import _ from 'lodash';
 import { Characteristic } from '@customTypes/preConfig';
 import { useProductConfigFilterContext } from '@contexts/ProductConfigFilterProvider/ProductConfigFilterProvider';
 import SearchButton from '@components/SearchButton/SearchButton';
-import { FiArrowRight } from 'react-icons/fi';
+import NavigateBeforeRoundedIcon from '@mui/icons-material/NavigateBeforeRounded';
+import NavigateNextRoundedIcon from '@mui/icons-material/NavigateNextRounded';
+
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import * as Styled from './styles';
 
 interface Node {
   id: string;
@@ -66,17 +70,13 @@ function formatData(rawData: Characteristic[]) {
   ];
 }
 
-interface TreeViewFilterProps {
-  show: boolean;
-  setShow: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-export default function TreeViewFilter({ show, setShow }: TreeViewFilterProps) {
+export default function TreeViewFilter() {
   const [selectedNodes, setSelectedNodes] = useState<string[]>([]);
   const [expandedNodes, setExpandedNodes] = useState<string[]>([]);
   const [searchNodes, setSearchNodes] = useState<Node[]>([]);
   const { data: rawData } = useProductCurrentPreConfig();
   const { setConfigFilter } = useProductConfigFilterContext();
+  const [show, setShow] = useState<boolean>(true);
 
   const data = useMemo(() => formatData(rawData ?? []), [rawData]);
 
@@ -179,8 +179,8 @@ export default function TreeViewFilter({ show, setShow }: TreeViewFilterProps) {
             onClick={(event) => handleNodeSelect(event, nodes.id)}
           />
           <Box display="flex" flexDirection="column">
-            <Typography variant="body1">{nodes.name}</Typography>
-            <Typography variant="caption" color="gray" mt="-6px">
+            <Typography variant="body1" whiteSpace="nowrap">{nodes.name}</Typography>
+            <Typography variant="caption" whiteSpace="nowrap" color="gray" mt="-6px">
               {nodes.description}
             </Typography>
           </Box>
@@ -192,40 +192,36 @@ export default function TreeViewFilter({ show, setShow }: TreeViewFilterProps) {
   );
 
   return (
-    <Fade in={show}>
-      <Box
-        display={show ? 'auto' : 'none'}
-        position="fixed"
-        height="100vh"
-        top={0}
-        right={0}
-        bgcolor="white"
-        zIndex={3}
-        paddingX="5px"
-        sx={{ filter: 'drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.25))', overflowY: 'auto' }}
-      >
-        <Box width="100%" position="sticky" top={0} bgcolor="white" zIndex={4}>
-          <Box display="flex" flexDirection="row" alignItems="center" paddingY="15px">
-            <SearchButton onInput={(e) => handleSearch(e.target.value)} label="Pesquisar" />
+    <Styled.Wrapper>
+      <Box minWidth={show ? "300px" : "29px"}>
+        <Styled.CollapseButton>
+          <Tooltip title={show ? "Ocultar Filtros" : "Exibir Filtros"} placement="left">
             <IconButton onClick={() => { setShow(prev => !prev) }}>
-              <FiArrowRight fontSize={30} />
+              {show ? <NavigateNextRoundedIcon fontSize="large" /> : <NavigateBeforeRoundedIcon fontSize="large" />}
             </IconButton>
+          </Tooltip>
+        </Styled.CollapseButton>
+        <Box display={show ? "auto" : "none"}>
+          <Box width="100%" position="sticky" top={0} zIndex={4}>
+            <Box display="flex" flexDirection="row" alignItems="center" paddingBottom="6px" paddingTop="10px">
+              <SearchButton onInput={(e) => handleSearch(e.target.value)} label="Pesquisar" />
+            </Box>
+            <Divider sx={{ width: '100%', mt: '5px', border: '1px solid rgba(0, 0, 0, 0.20)' }} />
           </Box>
-          <Divider sx={{ width: '100%', mt: '5px', border: '1px solid rgba(0, 0, 0, 0.20)' }} />
-        </Box>
-        <Box marginTop="15px">
-          <TreeView
-            expanded={expandedNodes}
-            onNodeToggle={(event, nodeIds) => setExpandedNodes(nodeIds)}
-            defaultCollapseIcon={<KeyboardArrowDownRoundedIcon />}
-            defaultExpandIcon={<KeyboardArrowRightRoundedIcon />}
-          >
-            {searchNodes.length > 0
-              ? searchNodes.map((node) => renderTree(node))
-              : data[0].children.map((node) => renderTree(node))}
-          </TreeView>
+          <Box marginTop="15px" marginLeft="22px">
+            <TreeView
+              expanded={expandedNodes}
+              onNodeToggle={(event, nodeIds) => setExpandedNodes(nodeIds)}
+              defaultCollapseIcon={<KeyboardArrowDownRoundedIcon />}
+              defaultExpandIcon={<KeyboardArrowRightRoundedIcon />}
+            >
+              {searchNodes.length > 0
+                ? searchNodes.map((node) => renderTree(node))
+                : data[0].children.map((node) => renderTree(node))}
+            </TreeView>
+          </Box>
         </Box>
       </Box>
-    </Fade>
+    </Styled.Wrapper >
   );
 }
