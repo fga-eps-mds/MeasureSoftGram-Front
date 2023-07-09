@@ -1,6 +1,7 @@
 import React from 'react';
 import EqualizerSingleSlider from '@modules/createRelease/components/EqualizerSingleSlider';
 import { Box } from '@mui/material';
+import { Characteristics } from '@customTypes/product';
 import { useCreateReleaseContext } from '@modules/createRelease/context/useCreateRelease';
 import undelineRemover from '@utils/undelineRemover';
 import useEqualizer from './hook/useEqualizer';
@@ -13,9 +14,8 @@ interface EquilizerProps {
 }
 
 export default function Equalizer({ selectedCharacteristics, allowDynamicBalance }: EquilizerProps) {
-  const { characteristics, equalize, addDeltaToChanges, changes } = useEqualizer(selectedCharacteristics);
-
-  const { preConfigCharacteristics, handleChangeForm } = useCreateReleaseContext();
+  const { lastGoal, handleChangeForm } = useCreateReleaseContext();
+  const { characteristics, equalize, addDeltaToChanges, changes } = useEqualizer(selectedCharacteristics, lastGoal);
 
   const handleChangeCommitted = (characteristicName: string, newValue: number) => {
     addDeltaToChanges(characteristicName, newValue);
@@ -25,9 +25,9 @@ export default function Equalizer({ selectedCharacteristics, allowDynamicBalance
   return (
     <Box justifyContent="space-around" display="flex">
       <Box gap="24px" display="flex">
-        {preConfigCharacteristics?.map((item, index) => {
+        {selectedCharacteristics?.map((item, index) => {
           const char = characteristics.find((i) => i.key === item);
-          let characteristicValue = 50; // Valor inicial do slider;
+          let characteristicValue = 50 // Valor inicial do slider;
 
           if (char) {
             characteristicValue = char.value;
@@ -48,7 +48,7 @@ export default function Equalizer({ selectedCharacteristics, allowDynamicBalance
       </Box>
 
       <Styles.Labels>
-        {preConfigCharacteristics?.map((item, index) => (
+        {selectedCharacteristics?.map((item, index) => (
           <p key={item} data-testid="label">
             C{index + 1}: {undelineRemover(item)}
           </p>

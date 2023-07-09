@@ -1,18 +1,14 @@
 import React from 'react';
 
-import { Box, Checkbox, FormControlLabel, FormGroup, TextField } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 import { useCreateReleaseContext } from '@modules/createRelease/context/useCreateRelease';
-import undelineRemover from '@utils/undelineRemover';
 import * as Styles from './styles';
-import Skeleton from './Skeleton';
 
 function ReleaseInfo() {
-  const { releaseInfoForm, preConfigCharacteristics, handleChangeForm, handleSelectCharacteristics } =
+  const { releaseInfoForm, handleChangeForm, } =
     useCreateReleaseContext();
 
-  if (!preConfigCharacteristics) return <Skeleton />;
-
-  const { endDate, name, characteristics, startDate } = releaseInfoForm;
+  const { endDate, name, startDate } = releaseInfoForm;
 
   return (
     <>
@@ -72,31 +68,6 @@ function ReleaseInfo() {
               sx={{ flex: 1 }}
             />
           </Box>
-        </Box>
-
-        <Box>
-          <h2 style={{ color: '#538BA3', fontWeight: '500' }}>Características a serem observadas no release</h2>
-
-          <FormGroup onChange={(e) => handleSelectCharacteristics((e.target as HTMLInputElement).value)}>
-            {preConfigCharacteristics.map((item) => (
-              <FormControlLabel
-                key={item}
-                control={
-                  <Checkbox
-                    value={item}
-                    name={item}
-                    id={item}
-                    checked={characteristics?.includes(item)}
-                    inputProps={{
-                      'data-testid': 'characteristic-release'
-                    }}
-                    color='default'
-                  />
-                }
-                label={undelineRemover(item)}
-              />
-            ))}
-          </FormGroup>
         </Box>
       </Styles.Body>
     </>

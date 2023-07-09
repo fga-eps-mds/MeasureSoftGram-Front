@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import Equalizer from '@modules/createRelease/components/Equalizer';
 
@@ -21,6 +21,10 @@ export default function ReleaseGoals() {
   const { releaseInfoForm } = useCreateReleaseContext();
   const { characteristics, endDate, name, startDate } = releaseInfoForm;
   const { open, allowDynamicBalance, handleChange, handleClose, handleConfirm } = useDynamicBalance();
+
+  useEffect(() => {
+    console.log('characteristics', characteristics);
+  }, [characteristics])
 
   return (
     <>

@@ -164,8 +164,8 @@ export interface LatestValues {
 }
 
 export interface Characteristics {
-  reliability: number;
-  maintainability: number;
+  reliability?: number;
+  maintainability?: number;
 }
 
 export interface Goal {

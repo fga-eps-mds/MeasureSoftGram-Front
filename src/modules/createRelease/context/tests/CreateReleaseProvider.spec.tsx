@@ -30,7 +30,6 @@ interface TestingComponentProps {
 const TestingComponent = ({ step = 0, configPage = 0 }: TestingComponentProps) => {
   const {
     handleChangeForm,
-    handleSelectCharacteristics,
     closeAlert,
     goToNextStep,
     finishReleasePlanning,
@@ -45,7 +44,6 @@ const TestingComponent = ({ step = 0, configPage = 0 }: TestingComponentProps) =
     handleChangeForm('endDate', '30/08/2022')
     handleChangeForm('startDate', '30/08/2022')
     handleChangeForm('name', 'aoba')
-    handleSelectCharacteristics('aoba')
     setCurrentConfig([])
   }, [])
 

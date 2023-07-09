@@ -20,6 +20,12 @@ jest.mock('@modules/createRelease/context/useCreateRelease', () => ({
     resetStates: () => { },
     goToNextStep: () => true,
     finishReleasePlanning: () => { },
+    releaseInfoForm: {
+      characteristics: ['reliability', 'maintainability'],
+      endDate: '2022-09-25',
+      name: 'asdasd',
+      startDate: '2022-09-18'
+    },
     alertMessage: 'successOnCreation',
     getNextStep: jest.fn((step: number) => step + 1),
     getPreviousStep: jest.fn((step: number) => step - 1),

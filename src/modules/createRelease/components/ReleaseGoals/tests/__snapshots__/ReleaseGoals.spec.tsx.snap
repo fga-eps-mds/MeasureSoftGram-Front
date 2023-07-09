@@ -71,10 +71,122 @@ Object {
         >
           <div
             class="MuiBox-root css-t0lfuy"
-          />
+          >
+            <div
+              class="MuiBox-root css-xi606m"
+            >
+              <div
+                class="MuiBox-root css-vycneo"
+              >
+                <span
+                  class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium MuiSlider-vertical css-y50uh2-MuiSlider-root"
+                  data-testid="single-slider"
+                >
+                  <span
+                    class="MuiSlider-rail css-qx5f9e-MuiSlider-rail"
+                  />
+                  <span
+                    class="MuiSlider-track css-ada0pd-MuiSlider-track"
+                    style="bottom: 0%; height: 50%;"
+                  />
+                  <span
+                    class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-y35fuw-MuiSlider-thumb"
+                    data-focusvisible="false"
+                    data-index="0"
+                    style="bottom: 50%;"
+                  >
+                    <input
+                      aria-orientation="vertical"
+                      aria-valuemax="100"
+                      aria-valuemin="0"
+                      aria-valuenow="50"
+                      data-index="0"
+                      max="100"
+                      min="0"
+                      step="1"
+                      style="border: 0px; height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
+                      type="range"
+                      value="50"
+                    />
+                  </span>
+                </span>
+              </div>
+              <p
+                class=""
+                data-mui-internal-clone-element="true"
+              >
+                C
+                1
+              </p>
+            </div>
+            <div
+              class="MuiBox-root css-xi606m"
+            >
+              <div
+                class="MuiBox-root css-vycneo"
+              >
+                <span
+                  class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium MuiSlider-vertical css-y50uh2-MuiSlider-root"
+                  data-testid="single-slider"
+                >
+                  <span
+                    class="MuiSlider-rail css-qx5f9e-MuiSlider-rail"
+                  />
+                  <span
+                    class="MuiSlider-track css-ada0pd-MuiSlider-track"
+                    style="bottom: 0%; height: 50%;"
+                  />
+                  <span
+                    class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-y35fuw-MuiSlider-thumb"
+                    data-focusvisible="false"
+                    data-index="0"
+                    style="bottom: 50%;"
+                  >
+                    <input
+                      aria-orientation="vertical"
+                      aria-valuemax="100"
+                      aria-valuemin="0"
+                      aria-valuenow="50"
+                      data-index="0"
+                      max="100"
+                      min="0"
+                      step="1"
+                      style="border: 0px; height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
+                      type="range"
+                      value="50"
+                    />
+                  </span>
+                </span>
+              </div>
+              <p
+                class=""
+                data-mui-internal-clone-element="true"
+              >
+                C
+                2
+              </p>
+            </div>
+          </div>
           <div
             class="styles__Labels-sc-duigeu-0 zNSqE"
-          />
+          >
+            <p
+              data-testid="label"
+            >
+              C
+              1
+              : 
+              reliability
+            </p>
+            <p
+              data-testid="label"
+            >
+              C
+              2
+              : 
+              maintainability
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -146,10 +258,122 @@ Object {
       >
         <div
           class="MuiBox-root css-t0lfuy"
-        />
+        >
+          <div
+            class="MuiBox-root css-xi606m"
+          >
+            <div
+              class="MuiBox-root css-vycneo"
+            >
+              <span
+                class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium MuiSlider-vertical css-y50uh2-MuiSlider-root"
+                data-testid="single-slider"
+              >
+                <span
+                  class="MuiSlider-rail css-qx5f9e-MuiSlider-rail"
+                />
+                <span
+                  class="MuiSlider-track css-ada0pd-MuiSlider-track"
+                  style="bottom: 0%; height: 50%;"
+                />
+                <span
+                  class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-y35fuw-MuiSlider-thumb"
+                  data-focusvisible="false"
+                  data-index="0"
+                  style="bottom: 50%;"
+                >
+                  <input
+                    aria-orientation="vertical"
+                    aria-valuemax="100"
+                    aria-valuemin="0"
+                    aria-valuenow="50"
+                    data-index="0"
+                    max="100"
+                    min="0"
+                    step="1"
+                    style="border: 0px; height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
+                    type="range"
+                    value="50"
+                  />
+                </span>
+              </span>
+            </div>
+            <p
+              class=""
+              data-mui-internal-clone-element="true"
+            >
+              C
+              1
+            </p>
+          </div>
+          <div
+            class="MuiBox-root css-xi606m"
+          >
+            <div
+              class="MuiBox-root css-vycneo"
+            >
+              <span
+                class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium MuiSlider-vertical css-y50uh2-MuiSlider-root"
+                data-testid="single-slider"
+              >
+                <span
+                  class="MuiSlider-rail css-qx5f9e-MuiSlider-rail"
+                />
+                <span
+                  class="MuiSlider-track css-ada0pd-MuiSlider-track"
+                  style="bottom: 0%; height: 50%;"
+                />
+                <span
+                  class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-y35fuw-MuiSlider-thumb"
+                  data-focusvisible="false"
+                  data-index="0"
+                  style="bottom: 50%;"
+                >
+                  <input
+                    aria-orientation="vertical"
+                    aria-valuemax="100"
+                    aria-valuemin="0"
+                    aria-valuenow="50"
+                    data-index="0"
+                    max="100"
+                    min="0"
+                    step="1"
+                    style="border: 0px; height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
+                    type="range"
+                    value="50"
+                  />
+                </span>
+              </span>
+            </div>
+            <p
+              class=""
+              data-mui-internal-clone-element="true"
+            >
+              C
+              2
+            </p>
+          </div>
+        </div>
         <div
           class="styles__Labels-sc-duigeu-0 zNSqE"
-        />
+        >
+          <p
+            data-testid="label"
+          >
+            C
+            1
+            : 
+            reliability
+          </p>
+          <p
+            data-testid="label"
+          >
+            C
+            2
+            : 
+            maintainability
+          </p>
+        </div>
       </div>
     </div>
   </div>,

@@ -1,10 +1,10 @@
 /* eslint-disable camelcase */
 import { useCallback, useEffect, useState } from 'react';
 import getCharacteristicsWithBalanceMatrix from '@utils/getCharacteristicsWithBalanceMatrix';
-import { Changes, CharacteristicWithBalanceMatrix, ValuesCommitted } from '@customTypes/product';
+import { Changes, CharacteristicWithBalanceMatrix, Goal, ValuesCommitted } from '@customTypes/product';
 import { balanceMatrixService } from '@services/balanceMatrix';
 
-export default function useEqualizer(selectedCharacteristics: string[]) {
+export default function useEqualizer(selectedCharacteristics: string[], lastGoal?: Goal) {
   const [characteristics, setCharacteristics] = useState<CharacteristicWithBalanceMatrix[]>([]);
   const [valuesCommitted, setValuesCommitted] = useState<ValuesCommitted>({});
   const [changes, setChanges] = useState<Changes[]>([]);
@@ -13,7 +13,11 @@ export default function useEqualizer(selectedCharacteristics: string[]) {
     balanceMatrixService.getBalanceMatrix().then((response) => {
       const { data } = response;
 
-      const updatedCharacteristics = getCharacteristicsWithBalanceMatrix(selectedCharacteristics, data.result);
+      const updatedCharacteristics = getCharacteristicsWithBalanceMatrix(
+        selectedCharacteristics,
+        data.result,
+        lastGoal?.data
+      );
       const initialValuesCommited = updatedCharacteristics.reduce((acc, item) => ({ ...acc, [item.key]: 50 }), {});
 
       setCharacteristics(updatedCharacteristics);

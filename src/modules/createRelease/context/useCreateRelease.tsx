@@ -1,12 +1,14 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { productQuery } from '@services/product';
-import { Changes, Product } from '@customTypes/product';
+import { Changes, Goal, PreConfigEntitiesRelationship, Product } from '@customTypes/product';
 import { addDays, format } from 'date-fns';
 import { mutate } from 'swr';
 import { useRouter } from 'next/router';
 import { Characteristic, Measure, PreConfigRoot, Subcharacteristic } from '@customTypes/preConfig';
+import { entityRelationshipTreeService } from '@services/entityRelationshipTree';
 import { CREATE_RELEASE_STEP } from '../consts';
 import mockedData from '../utils/mockedData.json'
+import { mergeCharacteristicData } from '../utils/mergeCharacteristicData';
 
 interface CreateReleaseProviderProps {
   children: ReactNode;
@@ -37,7 +39,6 @@ interface ConfigPageData {
 interface CreateReleaseContextData {
   releaseInfoForm: ReleaseInfoForm;
   alertMessage: string;
-  preConfigCharacteristics: string[] | undefined;
   productId: string;
   organizationId: string;
   currentProduct: Product;
@@ -46,7 +47,6 @@ interface CreateReleaseContextData {
   // eslint-disable-next-line no-unused-vars
   handleChangeForm: (field: string, value: string | Changes[]) => void;
   // eslint-disable-next-line no-unused-vars
-  handleSelectCharacteristics: (characteristic: string) => void;
   finishReleasePlanning: () => void;
   goToNextStep: (activeStep: number) => boolean;
   closeAlert: () => void;
@@ -59,6 +59,7 @@ interface CreateReleaseContextData {
   toggleAllowChangeConfig: () => void;
   setUseLastConfig: (value: boolean) => void;
   resetStates: () => void
+  lastGoal?: Goal | undefined;
 }
 
 export const CreateReleaseContext = createContext({} as CreateReleaseContextData);
@@ -72,7 +73,6 @@ export function CreateReleaseProvider({
   organizationId,
   currentProduct
 }: CreateReleaseProviderProps) {
-  const [preConfigCharacteristics, setPreConfigCharacteristics] = useState<string[]>();
   const [alertMessage, setAlertMessage] = useState('');
   const [releaseInfoForm, setReleaseInfoForm] = useState<ReleaseInfoForm>({
     endDate: defaultEndDate,
@@ -90,22 +90,16 @@ export function CreateReleaseProvider({
   const [useLastConfig, setUseLastConfig] = useState<boolean>(false);
   const [isFirstRelease, setIsFirstRelease] = useState<boolean>(false);
   const [characteristicValuesValid, setCharacteristicValuesValid] = useState<boolean>(false)
+  const [entityRelationshipTree, setEntityRelationshipTree] = useState<PreConfigEntitiesRelationship[]>([]);
+  const [lastGoal, setLastGoal] = useState<Goal | undefined>(undefined);
 
   const router = useRouter();
 
-  async function loadCurrentPreConfig() {
-    try {
-      const result = await productQuery.getPreConfigEntitiesRelationship(organizationId, productId);
-      setPreConfigCharacteristics(result.data.map((item) => item.key));
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   async function checkForFirstRelease() {
     try {
-      const result = await productQuery.getReleaseGoalList(organizationId, productId);
-      if (!result.data.length) setIsFirstRelease(true);
+      const result = await productQuery.getCurrentGoal(organizationId, productId);
+      if (!result.data) setIsFirstRelease(true);
+      setLastGoal(result.data as unknown as Goal);
     } catch (error) {
       console.error(error);
     }
@@ -140,25 +134,9 @@ export function CreateReleaseProvider({
     }));
   }
 
-  function handleSelectCharacteristics(characteristic: string) {
-    const selectedCharacteristics = [...(releaseInfoForm.characteristics || [])];
-
-    if (!selectedCharacteristics.includes(characteristic)) {
-      selectedCharacteristics.push(characteristic);
-    } else {
-      selectedCharacteristics.splice(selectedCharacteristics.indexOf(characteristic), 1);
-    }
-
-    handleChangeForm('characteristics', selectedCharacteristics);
-  }
-
   function goToNextStep(currentStep: number) {
     if (currentStep === CREATE_RELEASE_STEP.ReleaseInfoStep) {
-      const { characteristics, name, startDate, endDate } = releaseInfoForm;
-      if (!characteristics.length) {
-        setAlertMessage('noCharacteristicSelected');
-        return false
-      }
+      const { name, startDate, endDate } = releaseInfoForm;
       if (!name) {
         setAlertMessage('fillName');
         return false
@@ -180,6 +158,7 @@ export function CreateReleaseProvider({
   }
 
   function setCurrentConfig(configData: Characteristic[]) {
+    const newConfigData = mergeCharacteristicData(configData, entityRelationshipTree);
     if (configData.length !== characteristicData.length && configData.length) {
       setCharacteristicCheckbox(configData.filter((c => c.weight > 0)).map((c: Characteristic) => c.key))
       const subCharacteristics = configData.flatMap((c: Characteristic) => c.subcharacteristics)
@@ -187,7 +166,11 @@ export function CreateReleaseProvider({
       const measures = subCharacteristics.flatMap((sc: Subcharacteristic) => sc.measures)
       setMeasureCheckbox(measures.filter((m => m.weight > 0)).map((m: Measure) => m.key))
     }
-    setCharacteristicData(configData);
+    setReleaseInfoForm((form) => ({
+      ...form,
+      characteristics: configData.map((c: Characteristic) => c.key)
+    }))
+    setCharacteristicData(newConfigData);
   }
 
   async function loadCurrentConfig() {
@@ -259,8 +242,27 @@ export function CreateReleaseProvider({
   };
 
   function finishReleasePlanning() {
+    const isSameReleaseGoal = lastGoal &&
+      releaseInfoForm.startDate === (lastGoal!.start_at as string).slice(0, 10) &&
+      releaseInfoForm.endDate === (lastGoal!.end_at as string).slice(0, 10) &&
+      releaseInfoForm.name === lastGoal?.release_name
+
+    if (isSameReleaseGoal) {
+      setAlertMessage('sameReleaseGoal');
+      return;
+    }
     sendConfigJson().then(() => setAlertMessage('successOnCreation')).catch(() => setAlertMessage('errorOnCreation'))
     createProductReleaseGoal().catch(() => setAlertMessage('errorOnCreation'))
+  }
+
+  async function loadEntityRelationshipTree() {
+    try {
+      const entityRelationshipTreeResult = (await entityRelationshipTreeService.getEntityRelationshipTree())
+        .data as unknown as PreConfigEntitiesRelationship[];
+      setEntityRelationshipTree(entityRelationshipTreeResult);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   function resetStates() {
@@ -273,7 +275,7 @@ export function CreateReleaseProvider({
     } as ReleaseInfoForm)
     setAllowChangeConfig(false);
     setChangeThreshold(false);
-    loadCurrentPreConfig();
+    loadEntityRelationshipTree();
     loadCurrentConfig();
     checkForFirstRelease();
   }
@@ -286,9 +288,7 @@ export function CreateReleaseProvider({
   const value = {
     releaseInfoForm,
     alertMessage,
-    preConfigCharacteristics,
     handleChangeForm,
-    handleSelectCharacteristics,
     finishReleasePlanning,
     goToNextStep,
     closeAlert,
@@ -314,7 +314,8 @@ export function CreateReleaseProvider({
     allowChangeConfig,
     toggleAllowChangeConfig,
     setUseLastConfig,
-    resetStates
+    resetStates,
+    lastGoal
   };
 
   return <CreateReleaseContext.Provider value={value}>{children}</CreateReleaseContext.Provider>;
