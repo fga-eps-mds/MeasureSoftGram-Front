@@ -1,20 +1,25 @@
 /* eslint-disable camelcase */
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import getCharacteristicsWithBalanceMatrix from '@utils/getCharacteristicsWithBalanceMatrix';
 import { Changes, CharacteristicWithBalanceMatrix, ValuesCommitted } from '@customTypes/product';
+import { balanceMatrixService } from '@services/balanceMatrix';
 
 export default function useEqualizer(selectedCharacteristics: string[]) {
-  const characteristicWithBalanceMatrix = getCharacteristicsWithBalanceMatrix(selectedCharacteristics);
-  const INITIAL_VALUES_COMMITTED = characteristicWithBalanceMatrix.reduce(
-    (acc, item) => ({ ...acc, [item.key]: 50 }),
-    {}
-  );
-
-  const [characteristics, setCharacteristics] = useState<CharacteristicWithBalanceMatrix[]>(
-    characteristicWithBalanceMatrix
-  );
-  const [valuesCommitted, setValuesCommitted] = useState<ValuesCommitted>(INITIAL_VALUES_COMMITTED);
+  const [characteristics, setCharacteristics] = useState<CharacteristicWithBalanceMatrix[]>([]);
+  const [valuesCommitted, setValuesCommitted] = useState<ValuesCommitted>({});
   const [changes, setChanges] = useState<Changes[]>([]);
+
+  const getBalanceMatrix = () => {
+    balanceMatrixService.getBalanceMatrix().then((response) => {
+      const { data } = response;
+
+      const updatedCharacteristics = getCharacteristicsWithBalanceMatrix(selectedCharacteristics, data.result);
+      const initialValuesCommited = updatedCharacteristics.reduce((acc, item) => ({ ...acc, [item.key]: 50 }), {});
+
+      setCharacteristics(updatedCharacteristics);
+      setValuesCommitted(initialValuesCommited);
+    });
+  };
 
   const addDeltaToChanges = useCallback(
     (characteristicName: string, newValue: number) => {
@@ -72,10 +77,15 @@ export default function useEqualizer(selectedCharacteristics: string[]) {
     [characteristics]
   );
 
+  useEffect(() => {
+    getBalanceMatrix();
+  }, []);
+
   return {
     changes,
     characteristics,
     equalize,
-    addDeltaToChanges
+    addDeltaToChanges,
+    getBalanceMatrix
   };
 }
