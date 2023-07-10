@@ -70,14 +70,14 @@ const GraphicChart = ({
 
   const chartsOption = useMemo(
     () =>
-      _.range(numLines).map((i) => {
-        const filterHistorical = _.filter(sliceHistorical(i), (item) => hasKey(item.key));
-        return chartOption[type]({
-          historical: filterHistorical,
+      _.range(numLines).map((i) => ({
+        ...chartOption[type]({
+          historical: _.filter(sliceHistorical(i), (item) => hasKey(item.key)),
           title: i === 0 ? title : '',
           isEmpty: isEmpty || error
-        })
-      }
+        }),
+        key: `graphic-chart-${i}`
+      })
       ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [historical, title, isEmpty, error]
@@ -98,7 +98,7 @@ const GraphicChart = ({
           height={chartBoxHeight}
         >
           {chartsOption.map((option) => (
-            <ReactEcharts notMerge lazyUpdate style={chartStyle} option={option} />
+            <ReactEcharts key={option.key} notMerge lazyUpdate style={chartStyle} option={option} />
           ))}
         </Box>
       </Fade>
