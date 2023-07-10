@@ -7,9 +7,10 @@ import * as Styles from './styles';
 
 interface Props {
   children?: React.ReactNode;
+  disableBreadcrumb?: boolean;
 }
 
-function Layout({ children }: Props) {
+function Layout({ children, disableBreadcrumb = false }: Props) {
   return (
     <Styles.LayoutGrid>
       <Styles.SideMenuArea>
@@ -18,7 +19,7 @@ function Layout({ children }: Props) {
         </SideMenuProvider>
       </Styles.SideMenuArea>
       <Styles.MainContentArea>
-        <Breadcrumbs />
+        {!disableBreadcrumb && <Breadcrumbs />}
         {children}
       </Styles.MainContentArea>
     </Styles.LayoutGrid>

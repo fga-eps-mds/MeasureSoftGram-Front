@@ -16,11 +16,10 @@ const CardInfo: React.FC<Props> = ({ cardData }) => (
     sx={{
       overflow: "visible",
       borderShadow: "none",
-      borderRadius: "30px",
+      borderRadius: "5px",
       display: "flex",
       flexDirection: "column",
-      flex: "1",
-      border: "1px solid #113D4C"
+      flex: "1"
     }}
   >
     {cardData?.title &&
@@ -54,11 +53,7 @@ const CardInfo: React.FC<Props> = ({ cardData }) => (
             '@media screen and (max-device-width:1170px), screen and (max-width:1170px)': {
               flexDirection: 'column',
               '#images': {
-                width: '100%',
-                '> img:hover': {
-                    zIndex: "10",
-                    transform: "translateY(3vw) scale(1.5)!important"
-                }
+                width: '100%'
               },
               '#texts': {
                 maxWidth: '100%'
@@ -81,16 +76,13 @@ const CardInfo: React.FC<Props> = ({ cardData }) => (
                   alt="green iguana"
                   sx={{
                     margin: "1rem 1rem 1rem 1rem",
-                    maxWidth: "400px",
+                    maxWidth: "150px",
                     height: "auto",
-                    maxHeight: "200px",
+                    maxHeight: "150px",
                     overflow: "hidden",
-                    borderRadius: "30px",
+                    borderRadius: "5px",
                     transition: "transform .5s ease",
-                    ':hover': {
-                      zIndex: "10",
-                      transform: "translateX(5vw) scale(1.5)"
-                    }
+
                   }}
                 />
               :
@@ -124,37 +116,39 @@ const CardInfo: React.FC<Props> = ({ cardData }) => (
               variant="h5"
               component="div"
               align="center"
+              color= "#33568E"
+              fontWeight= "bold"
             >
               {data.title}
             </Typography>
             <Typography
               variant="body1"
-              textAlign="center"
+              textAlign="justify"
             >
               {data.description}
             </Typography>
+            <Box
+            display="flex"
+            flexDirection="row"
+            justifyContent="center"
+            >
+            {data?.routeTo
+              ? <Box
+                  display="flex"
+                  margin="1rem"
+                  justifyContent="start"
+                >
+                  <Link href="/products">
+                    <Button variant="contained" fullWidth>
+                      Visualizar Organizações e Produtos
+                    </Button>
+                  </Link>
+                </Box>
+              : ''}
+            </Box>
           </Box>
         </Box>
-        <Box
-          display="flex"
-          flexDirection="row"
-          justifyContent="center"
-        >
-          {data?.routeTo
-            ? <Box
-                display="flex"
-                margin="1rem"
-                justifyContent="start"
-                width="300px"
-              >
-                <Link href="/products">
-                  <Button variant="contained" fullWidth>
-                    Ir para
-                  </Button>
-                </Link>
-              </Box>
-            : ''}
-        </Box>
+
       </CardContent>
     ))}
   </Card>
