@@ -143,6 +143,15 @@ describe('ProductQuery', () => {
     expect(productQuery.getReleaseList(organizationId, productId)).toEqual(expectedResult);
   });
 
+  it('getCurrentReleaseGoal should call api.get with the right URL', async () => {
+    const organizationId = '1';
+    const productId = '2';
+    await productQuery.getCurrentReleaseGoal(organizationId, productId);
+    expect(api.get).toHaveBeenCalledWith(
+      `organizations/${organizationId}/products/${productId}/current/goal/`
+    );
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });

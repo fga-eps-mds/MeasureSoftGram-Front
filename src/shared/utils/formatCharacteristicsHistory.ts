@@ -11,7 +11,7 @@ export interface FormatCharacteristicsHistoryType {
 const formatCharacteristicsHistory = ({ historical, title, isEmpty = false }: FormatCharacteristicsHistoryType) => {
   const legendData = _.map(historical, 'name');
   const historicalData = _.map(historical, 'history');
-  const xAxisData = _.uniq(historicalData.flat(1).map((h) => format(new Date(h.created_at), 'dd/MM/yyyy HH:mm')));
+  const xAxisData = _.uniq(historicalData.flat(1).map((h) => format(new Date(h?.created_at), 'dd/MM/yyyy HH:mm')));
 
   const series = _.map(historical, (item) => ({
     show: !isEmpty,

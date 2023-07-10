@@ -76,6 +76,11 @@ class ProductQuery {
     return api.get(url, { params: releaseId && { release_id: releaseId } });
   }
 
+  async getCurrentReleaseGoal(organizationId: string, productId: string) {
+    const url = `organizations/${organizationId}/products/${productId}/current/goal/`;
+    return api.get(url);
+  }
+
   async getProductRepositoriesTsqmiHistory(organizationId: string, productId: string) {
     const url = `organizations/${organizationId}/products/${productId}/repositories-tsqmi-historical-values/`;
     return api.get<RepositoriesTsqmiHistory>(url);

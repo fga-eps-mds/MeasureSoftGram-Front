@@ -2,9 +2,9 @@ import React from 'react';
 import { OrganizationProvider } from '@contexts/OrganizationProvider';
 import { ProductProvider } from '@contexts/ProductProvider';
 import { RepositoryProvider } from '@contexts/RepositoryProvider';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { useRequestValues } from '@hooks/useRequestValues';
-import GraphicStackedLine from '../GraphicStackedLine';
+import GraphicChart from '../GraphicChart';
 
 interface Props {
   children: React.ReactNode;
@@ -67,7 +67,7 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
-describe('<GraphicStackedLine />', () => {
+describe('<GraphicChart />', () => {
   it('should render correctly', () => {
     useRequestValues.mockReturnValue({
       data,
@@ -77,7 +77,24 @@ describe('<GraphicStackedLine />', () => {
       isEmpty: false
     });
 
-    const { container } = render(<GraphicStackedLine title="title" value="characteristics" />, {
+    const { container } = render(<GraphicChart type="line" title="title" value="characteristics" />, {
+      wrapper: AllTheProviders
+    });
+
+    container.firstChild?.firstChild?.setAttribute('_echarts_instance_', 'ec_123');
+    expect(container).toMatchSnapshot();
+  });
+
+  it('should render correctly with autoGrid', () => {
+    useRequestValues.mockReturnValue({
+      data,
+      error: undefined,
+      isLoading: false,
+      isValidating: false,
+      isEmpty: false
+    });
+
+    const { container } = render(<GraphicChart type="line" title="title" value="characteristics" autoGrid />, {
       wrapper: AllTheProviders
     });
 
@@ -94,9 +111,12 @@ describe('<GraphicStackedLine />', () => {
       isEmpty: false
     });
 
-    const { container } = render(<GraphicStackedLine title="title" value="characteristics" addHistoricalTSQMI />, {
-      wrapper: AllTheProviders
-    });
+    const { container } = render(
+      <GraphicChart type="line" title="title" value="characteristics" addHistoricalTSQMI />,
+      {
+        wrapper: AllTheProviders
+      }
+    );
 
     container.firstChild?.firstChild?.setAttribute('_echarts_instance_', 'ec_123');
     expect(container).toMatchSnapshot();
@@ -111,7 +131,7 @@ describe('<GraphicStackedLine />', () => {
       isEmpty: true
     });
 
-    const { container } = render(<GraphicStackedLine title="title" value="characteristics" />, {
+    const { container } = render(<GraphicChart type="line" title="title" value="characteristics" />, {
       wrapper: AllTheProviders
     });
 
@@ -128,7 +148,7 @@ describe('<GraphicStackedLine />', () => {
       isEmpty: false
     });
 
-    const { container } = render(<GraphicStackedLine title="title" value="characteristics" />, {
+    const { container } = render(<GraphicChart type="line" title="title" value="characteristics" />, {
       wrapper: AllTheProviders
     });
 
@@ -145,7 +165,7 @@ describe('<GraphicStackedLine />', () => {
       isEmpty: false
     });
 
-    const { container } = render(<GraphicStackedLine title="title" value="characteristics" />, {
+    const { container } = render(<GraphicChart type="msg" title="title" value="characteristics" />, {
       wrapper: AllTheProviders
     });
 

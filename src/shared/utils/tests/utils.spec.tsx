@@ -159,15 +159,6 @@ describe('Utils', () => {
   });
 
   describe('formatMsgramChart', () => {
-    test('Deve retornar opções do gráfico com o titulo correto', () => {
-      const chartOptions = formatMsgramChart({
-        historical: [],
-        repositoryName: 'repo-name-teste-123'
-      });
-
-      expect(chartOptions.title.text).toBe('Gráfico MeasureSoftGram - 123');
-    });
-
     test('Retorna array vazia quando não tem dado histórico', () => {
       const chartOptions = formatMsgramChart({
         historical: [],
@@ -180,18 +171,49 @@ describe('Utils', () => {
     test('returns chart options with correct number of grids, legends, xAxes, and yAxes', () => {
       const historicalData = [
         {
-          name: 'Graph1',
-          history: [{ value: 0.5 }, { value: 0.7 }]
+          id: 1,
+          key: 'reliability',
+          name: 'Reliability',
+          description: null,
+          history: [
+            {
+              id: 121,
+              characteristic_id: 1,
+              value: 0.8349978922934486,
+              created_at: '2023-01-05T21:40:00-03:00'
+            },
+            {
+              id: 123,
+              characteristic_id: 1,
+              value: 0.8349978922934486,
+              created_at: '2023-01-06T00:01:00-03:00'
+            }
+          ]
         },
         {
-          name: 'Graph2',
-          history: [{ value: 0.2 }, { value: 0.9 }]
+          id: 2,
+          key: 'maintainability',
+          name: 'Maintainability',
+          description: null,
+          history: [
+            {
+              id: 122,
+              characteristic_id: 2,
+              value: 0.6719556280564845,
+              created_at: '2023-01-05T21:40:00-03:00'
+            },
+            {
+              id: 124,
+              characteristic_id: 2,
+              value: 0.6719556280564845,
+              created_at: '2023-01-06T00:01:00-03:00'
+            }
+          ]
         }
       ];
 
       const chartOptions = formatMsgramChart({
-        historical: historicalData,
-        repositoryName: 'repo-name-123'
+        historical: historicalData
       });
 
       expect(chartOptions.grid).toHaveLength(2);
