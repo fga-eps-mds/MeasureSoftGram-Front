@@ -154,7 +154,7 @@ const ThresholdConfig = ({ data, checkboxValues, setCheckboxValues, tabs }: Thre
         Definir os valores de referência mínimo e máximo
       </Typography>
       <Typography variant="body1" sx={{ marginBottom: '16px' }}>
-        Os valores de referência afetam como algumas medidas são calculadas. Aluns deles não podem ser modificados. Para
+        Os valores de referência afetam como algumas medidas são calculadas. Alguns deles não podem ser modificados. Para
         mais detalhes veja a documentação disponível em{' '}
         <Link
           href="https://fga-eps-mds.github.io/2023-1-MeasureSoftGram-Doc/manual-de-uso/cli/#2311-thresholds"

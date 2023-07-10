@@ -135,6 +135,7 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
     fillName: <Alert severity='warning'>Preencha o nome da release</Alert>,
     characteristicValuesInvalid: <Alert severity='warning'>A soma de todos os valores preenchidos deve ser igual a 100</Alert>,
     invalidDate: <Alert severity='warning'>A data de início deve ser anterior a data de fim</Alert>,
+    sameReleaseGoal: <Alert severity='warning'>As informações da release devem ser diferentes da última release</Alert>,
   };
   const handleOnCloseAlert = () => {
     if (alertMessage === 'successOnCreation') {

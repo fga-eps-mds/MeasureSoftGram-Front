@@ -1,6 +1,6 @@
 import { MeasuresHistoryResult, RepositoriesTsqmiHistory } from '@customTypes/product';
 import capitalizer from '@utils/capitalizer';
-import formatCharacteristicsHistory from '@utils/formatCharacteristicsHistory';
+import getCharacteristicsWithBalanceMatrix from '@utils/getCharacteristicsWithBalanceMatrix';
 import formatEntitiesFilter, { FormatEntitiesFilterType } from '@utils/formatEntitiesFilter';
 import formatMeasuresHistoryChartData from '@utils/formatMeasuresHistory';
 import formatMsgramChart from '@utils/formatMsgramChart';

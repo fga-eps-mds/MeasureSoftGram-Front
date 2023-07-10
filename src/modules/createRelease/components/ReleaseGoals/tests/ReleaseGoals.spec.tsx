@@ -14,21 +14,11 @@ jest.mock('@modules/createRelease/context/useCreateRelease', () => ({
       endDate: '2022-09-25',
       name: 'asdasd',
       startDate: '2022-09-18'
-    }
+    },
+    handleChangeForm: jest.fn(),
+    setAllowDynamicBalance: jest.fn(),
   })
 }));
-
-// jest.mock('@mui/material', () => ({
-//   ...jest.requireActual('@mui/material'),
-//   Dialog: jest.fn(({ open, onClose }) => (
-//     <div data-testid="mock-dialog">
-//       Mock Dialog
-//       <button data-testid="confirmButton" type="button">
-//         Confirmar
-//       </button>
-//     </div>
-//   ))
-// }));
 
 describe('<ReleaseGoals />', () => {
   beforeEach(() => {

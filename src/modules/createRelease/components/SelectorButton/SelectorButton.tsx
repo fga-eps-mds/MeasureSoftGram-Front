@@ -1,12 +1,14 @@
-import { Button } from "@mui/material"
+import { Button, SxProps } from "@mui/material"
 import React from 'react';
 
 interface SelectorButtonProps {
   onClick: () => void;
-  label: string
+  label: string;
+  startIcon?: React.ReactNode;
+  sx?: SxProps;
 }
 
-const SelectorButton = ({ onClick, label }: SelectorButtonProps) => (
+const SelectorButton = ({ onClick, label, startIcon, sx }: SelectorButtonProps) => (
   <Button variant="outlined" onClick={onClick}
     sx={{
       backgroundColor: "#fff",
@@ -16,8 +18,9 @@ const SelectorButton = ({ onClick, label }: SelectorButtonProps) => (
         color: "#fff"
       },
       padding: '20px',
-      marginBottom: '30px'
-    }}>
+      ...sx
+    }}
+    startIcon={startIcon}>
     {label}
   </Button>
 )

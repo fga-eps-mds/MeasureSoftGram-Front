@@ -6,7 +6,8 @@ import {
   ReleaseGoal,
   RepositoriesTsqmiHistory,
   EntitiesMetrics,
-  LatestValues
+  LatestValues,
+  Goal
 } from '@customTypes/product';
 import { Data } from '@customTypes/preConfig';
 
@@ -85,9 +86,9 @@ class ProductQuery {
     return api.get<RepositoriesTsqmiHistory>(url);
   }
 
-  async getReleaseGoalList(organizationId: string, productId: string) {
-    const url = `organizations/${organizationId}/products/${productId}/release/`;
-    return api.get<ReleaseGoal[]>(url);
+  async getCurrentGoal(organizationId: string, productId: string, releaseId?: number) {
+    const url = `organizations/${organizationId}/products/${productId}/current/goal/`;
+    return api.get<Goal>(url, { params: releaseId && { release_id: releaseId } });
   }
 
   getReleaseList(organizationId: string, productId: string, releaseId?: number): AxiosRequestConfig {

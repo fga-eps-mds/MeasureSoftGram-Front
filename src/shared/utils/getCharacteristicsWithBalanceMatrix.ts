@@ -1,17 +1,18 @@
-import { CharacteristicWithBalanceMatrix } from '@customTypes/product';
+import { CharacteristicWithBalanceMatrix, Characteristics } from '@customTypes/product';
 
 type BalanceMatrixRow = {
   '+': string[];
   '-': string[];
 };
 
-type BalanceMatrix = {
+export type BalanceMatrix = {
   [key: string]: BalanceMatrixRow;
 };
 
 const getCharacteristicsWithBalanceMatrix = (
   characteristics: string[],
-  balanceMatrix: BalanceMatrix
+  balanceMatrix: BalanceMatrix,
+  lastGoalCharacteristics?: Characteristics
 ): CharacteristicWithBalanceMatrix[] =>
   characteristics.reduce(
     (acc: CharacteristicWithBalanceMatrix[], item: string, index: number): CharacteristicWithBalanceMatrix[] => [
@@ -19,7 +20,7 @@ const getCharacteristicsWithBalanceMatrix = (
       {
         key: item,
         id: index,
-        value: 50,
+        value: lastGoalCharacteristics ? lastGoalCharacteristics[item as keyof Characteristics] ?? 50 : 50,
         correlations: balanceMatrix[item as keyof typeof balanceMatrix]
       }
     ],
