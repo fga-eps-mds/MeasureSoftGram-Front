@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import Head from 'next/head';
 
-import { Box, Container, Pagination, Skeleton, Stack, TextField, Typography } from '@mui/material';
+import { Box, Container, Pagination, Skeleton, Stack, TextField, Typography, Tooltip } from '@mui/material';
 
 import { NextPageWithLayout } from '@pages/_app.next';
 
@@ -49,37 +49,41 @@ const Releases: NextPageWithLayout = () => {
         </Box>
         <Box display="flex" flexDirection="column" padding="20px"
           style={{ backgroundColor: 'white', border: '1px solid #113d4c80', borderRadius: '10px' }}>
-          <Box display="flex" justifyContent="space-evenly">
+          <Box display="flex" justifyContent="space-between" marginBottom='30px'>
             <Box>
               <Typography color="#538BA3">
                 Início da release
               </Typography>
-              <TextField
-                type="date"
-                required
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-                inputProps={{
-                  'data-testid': 'inicio-release'
-                }}
-                size='small'
-              />
+              <Tooltip title='Ao selecionar uma data, são apresentadas todas as releases com datas iniciais exatamente iguais e posteriores às da selecionada'>
+                <TextField
+                  type="date"
+                  required
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                  inputProps={{
+                    'data-testid': 'inicio-release'
+                  }}
+                  size='small'
+                />
+              </Tooltip>
             </Box>
 
             <Box>
               <Typography color="#538BA3">
                 Fim da release
               </Typography>
-              <TextField
-                type="date"
-                required
-                size='small'
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-                inputProps={{
-                  'data-testid': 'fim-release'
-                }}
-              />
+              <Tooltip title='Ao selecionar uma data, são apresentadas todas as releases com datas finais exatamente iguais e anteriores às da selecionada'>
+                <TextField
+                  type="date"
+                  required
+                  size='small'
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                  inputProps={{
+                    'data-testid': 'fim-release'
+                  }}
+                />
+              </Tooltip>
             </Box>
             <Box marginTop="16px">
               <SearchButton
