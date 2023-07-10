@@ -1,6 +1,8 @@
 import React from 'react';
 import { useCreateReleaseContext } from '@modules/createRelease/context/useCreateRelease';
 import { CREATE_RELEASE_STEP } from '@modules/createRelease/consts';
+import SkipNextIcon from '@mui/icons-material/SkipNext';
+import TuneIcon from '@mui/icons-material/Tune';
 import * as Styles from './styles';
 import SelectorButton from '../SelectorButton';
 
@@ -22,8 +24,8 @@ export default function ReleaseConfigSelector({ setActiveStep }: ReleaseConfigSe
         <h1 style={{ color: '#33568E', fontWeight: '500' }}>Planejar Release</h1>
       </Styles.Header>
       <Styles.Body>
-        <SelectorButton onClick={useLastConfig} label='Seguir última configuração' />
-        <SelectorButton onClick={() => setActiveStep(CREATE_RELEASE_STEP.CharacteristicStep)} label='Alterar configuração' />
+        <SelectorButton onClick={useLastConfig} label='Seguir última configuração' startIcon={<SkipNextIcon />} sx={{ marginBottom: '30px' }} />
+        <SelectorButton onClick={() => setActiveStep(CREATE_RELEASE_STEP.CharacteristicStep)} label='Alterar configuração' startIcon={<TuneIcon />} />
       </Styles.Body>
     </>
   );

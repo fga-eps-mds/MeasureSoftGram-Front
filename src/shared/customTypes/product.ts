@@ -84,6 +84,7 @@ export interface ReleaseGoal {
   start_at: string;
   end_at: string;
   changes: Changes[];
+  allow_dynamic: boolean;
 }
 
 export interface ButtonType extends Omit<Partial<ButtonProps>, 'color'> {
@@ -164,8 +165,8 @@ export interface LatestValues {
 }
 
 export interface Characteristics {
-  reliability: number;
-  maintainability: number;
+  reliability?: number;
+  maintainability?: number;
 }
 
 export interface Goal {

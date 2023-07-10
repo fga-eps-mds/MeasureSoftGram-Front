@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import Equalizer from '@modules/createRelease/components/Equalizer';
 
@@ -18,16 +18,20 @@ import * as Styles from './styles';
 import useDynamicBalance from './hook/useDynamicBalance';
 
 export default function ReleaseGoals() {
-  const { releaseInfoForm } = useCreateReleaseContext();
+  const { releaseInfoForm, setAllowDynamicBalance } = useCreateReleaseContext();
   const { characteristics, endDate, name, startDate } = releaseInfoForm;
   const { open, allowDynamicBalance, handleChange, handleClose, handleConfirm } = useDynamicBalance();
+
+  useEffect(() => {
+    setAllowDynamicBalance(allowDynamicBalance);
+  }, [allowDynamicBalance]);
 
   return (
     <>
       <Styles.Header>
         <h1 style={{ color: '#33568E', fontWeight: '500' }}>Balancear a Meta de Qualidade</h1>
         <p>
-          Nesta etapa, é possível estabelecer metas para as características que serão observadas na release. É
+          Nesta etapa é possível estabelecer metas para as características que serão observadas na release. É
           importante ressaltar que essas características de qualidade estão inter-relacionadas, ou seja, ao modificar a
           meta de uma característica, as demais também serão afetadas.
         </p>

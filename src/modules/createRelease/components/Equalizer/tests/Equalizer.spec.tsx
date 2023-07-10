@@ -35,7 +35,8 @@ jest.mock('@modules/createRelease/components/Equalizer/hook/useEqualizer', () =>
   ],
   equalize: jest.fn(),
   addDeltaToChanges: jest.fn(),
-  changes: []
+  changes: [],
+  reset: jest.fn()
 })));
 
 jest.mock('@services/balanceMatrix', () => ({

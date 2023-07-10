@@ -50,6 +50,18 @@ Object {
       >
         ToggleChangeThreshold
       </button>
+      <button
+        data-testid="test-set-characteristic-values-valid"
+        type="submit"
+      >
+        SetIsValuesInvalid
+      </button>
+      <button
+        data-testid="test-set-invalid-date"
+        type="submit"
+      >
+        SetInvalidDate
+      </button>
     </div>
   </body>,
   "container": <div>
@@ -97,6 +109,18 @@ Object {
       type="submit"
     >
       ToggleChangeThreshold
+    </button>
+    <button
+      data-testid="test-set-characteristic-values-valid"
+      type="submit"
+    >
+      SetIsValuesInvalid
+    </button>
+    <button
+      data-testid="test-set-invalid-date"
+      type="submit"
+    >
+      SetInvalidDate
     </button>
   </div>,
   "debug": [Function],

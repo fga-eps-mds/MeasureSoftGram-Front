@@ -1,9 +1,10 @@
 import '@testing-library/jest-dom';
 
-import React, { useEffect } from 'react';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import React, { ReactNode, useEffect } from 'react';
+import { act, fireEvent, render, renderHook, waitFor } from '@testing-library/react';
 
 import { Product } from '@customTypes/product';
+import { productQuery } from '@services/product';
 import { CreateReleaseProvider, useCreateReleaseContext } from '../useCreateRelease';
 
 jest.mock('@services/product', () => ({
@@ -18,19 +19,29 @@ jest.mock('@services/product', () => ({
         subcharacteristics: []
       }]
     }),
-    getReleaseGoalList: () => ({ data: [{ id: 1, release_name: 'r1', start_at: '', end_at: '', changes: [] }] })
+    getReleaseGoalList: () => ({ data: [{ id: 1, release_name: 'r1', start_at: '', end_at: '', changes: [] }] }),
+    getCurrentGoal: () => ({ data: { id: 1, release_name: 'r1', start_at: '', end_at: '', changes: [] } }),
+    createProductReleaseGoal: () => ({ data: { id: 1 } })
   }
 }));
 
 interface TestingComponentProps {
   step?: number
   configPage?: number
+  startDate?: string
+  endDate?: string
 }
 
-const TestingComponent = ({ step = 0, configPage = 0 }: TestingComponentProps) => {
+interface Props {
+  children: ReactNode;
+}
+
+const Provider = ({ children }: Props) => <CreateReleaseProvider organizationId='1' productId='3' currentProduct={product}>{children}</CreateReleaseProvider>;
+
+
+const TestingComponent = ({ step = 0, configPage = 0, startDate = '30/08/2022', endDate = '30/08/2022' }: TestingComponentProps) => {
   const {
     handleChangeForm,
-    handleSelectCharacteristics,
     closeAlert,
     goToNextStep,
     finishReleasePlanning,
@@ -38,14 +49,14 @@ const TestingComponent = ({ step = 0, configPage = 0 }: TestingComponentProps) =
     getPreviousStep,
     getNextStep,
     setUseLastConfig,
-    toggleChangeThreshold
+    toggleChangeThreshold,
+    configPageData,
   } = useCreateReleaseContext();
 
   useEffect(() => {
-    handleChangeForm('endDate', '30/08/2022')
-    handleChangeForm('startDate', '30/08/2022')
+    handleChangeForm('endDate', endDate)
+    handleChangeForm('startDate', startDate)
     handleChangeForm('name', 'aoba')
-    handleSelectCharacteristics('aoba')
     setCurrentConfig([])
   }, [])
 
@@ -60,7 +71,7 @@ const TestingComponent = ({ step = 0, configPage = 0 }: TestingComponentProps) =
       <button
         type='submit'
         data-testid="goal-step"
-        onClick={() => goToNextStep(0)}
+        onClick={() => goToNextStep(step)}
       >Denifir pesos</button>
       <button
         type='submit'
@@ -87,6 +98,20 @@ const TestingComponent = ({ step = 0, configPage = 0 }: TestingComponentProps) =
         data-testid="test-change-threshold"
         onClick={toggleChangeThreshold}
       >ToggleChangeThreshold</button>
+      <button
+        type='submit'
+        data-testid="test-set-characteristic-values-valid"
+        onClick={() => configPageData.setCharacteristicValuesValid(false)}
+      >SetIsValuesInvalid</button>
+      <button
+        type='submit'
+        data-testid="test-set-invalid-date"
+        onClick={() => {
+          handleChangeForm('startDate', '30/08/2022')
+          handleChangeForm('endDate', '29/08/2022')
+          handleChangeForm('name', 'aoba')
+        }}
+      >SetInvalidDate</button>
     </>
   );
 };
@@ -276,6 +301,7 @@ describe('<CreateReleaseProvider />', () => {
 
       fireEvent.click(tree.getByTestId(PreviousStepTestId));
     });
+
     it('Deve chamar o getNextStep corretamente para step 2 e configPage 2 usando threshold', async () => {
       const tree = render(
         <CreateReleaseProvider
@@ -294,5 +320,124 @@ describe('<CreateReleaseProvider />', () => {
       fireEvent.click(tree.getByTestId('test-change-threshold'));
       fireEvent.click(tree.getByTestId(NextStepTestId));
     })
+
+    it('Deve chamar o goToNextStep para o step de característica com valores inválidos', async () => {
+      const tree = render(
+        <CreateReleaseProvider
+          organizationId='1'
+          productId='3'
+          currentProduct={product}
+        >
+          <TestingComponent step={2} />
+        </CreateReleaseProvider>
+      )
+
+      waitFor(() => {
+        expect(tree.getAllByText('Aoba')).toBeDefined()
+      })
+      fireEvent.click(tree.getByTestId('test-change-threshold'));
+      fireEvent.click(tree.getByTestId('goal-step'));
+    })
+
+    it('Deve chamar o finishReleasePlanning passando o mesmo releaseGoal', async () => {
+      jest.spyOn(productQuery, 'getCurrentGoal').mockResolvedValueOnce({
+        data: {
+          id: 1,
+          release_name: 'aoba',
+          start_at: '2022-08-30',
+          end_at: '2022-08-30'
+        }
+      })
+      const tree = render(
+        <CreateReleaseProvider
+          organizationId='1'
+          productId='3'
+          currentProduct={product}
+        >
+          <TestingComponent />
+        </CreateReleaseProvider>
+      )
+
+      waitFor(() => {
+        expect(tree.getAllByText('Aoba')).toBeDefined()
+      })
+
+      fireEvent.click(tree.getByTestId('finish-release-planning'));
+    })
+
+    it('Deve chamar o finishReleasePlanning passando um novo releaseGoal', async () => {
+      jest.spyOn(productQuery, 'createProductReleaseGoal').mockResolvedValueOnce({
+        data: {
+          id: 1
+        }
+      } as any)
+      const tree = render(
+        <CreateReleaseProvider
+          organizationId='1'
+          productId='3'
+          currentProduct={product}
+        >
+          <TestingComponent />
+        </CreateReleaseProvider>
+      )
+
+      waitFor(() => {
+        expect(tree.getAllByText('Aoba')).toBeDefined()
+      })
+
+      fireEvent.click(tree.getByTestId('finish-release-planning'));
+      expect(productQuery.createProductReleaseGoal).toHaveBeenCalled()
+    })
+
+    it('Deve chamar o goToNextStep com datas inválidas', async () => {
+      const { result } = renderHook(() => useCreateReleaseContext(), { wrapper: Provider });
+
+      act(() => {
+        result.current.handleChangeForm('startDate', '2022-08-30')
+        result.current.handleChangeForm('endDate', '2022-08-29')
+        result.current.handleChangeForm('name', 'aoba')
+      })
+
+      act(() => {
+        result.current.goToNextStep(0)
+      })
+
+      expect(result.current.alertMessage).toBe('invalidDate')
+    });
+
+    it('Deve setar isFirstRelease como true quando não tiver release', async () => {
+      jest.spyOn(productQuery, 'getCurrentGoal').mockResolvedValueOnce({
+        data: null
+      } as any)
+
+      const { result } = renderHook(() => useCreateReleaseContext(), { wrapper: Provider });
+
+      await waitFor(() => {
+        expect(result.current.isFirstRelease).toBeTruthy()
+      })
+    });
+
+
+    it('Deve setar lastgoal corretamente quando tiver release', async () => {
+      jest.spyOn(productQuery, 'getCurrentGoal').mockResolvedValueOnce({
+        data: {
+          id: 1,
+          release_name: 'aoba',
+          start_at: '2022-08-30',
+          end_at: '2022-08-30'
+        }
+      } as any)
+
+      const { result } = renderHook(() => useCreateReleaseContext(), { wrapper: Provider });
+
+      await waitFor(() => {
+        expect(result.current.lastGoal).toEqual({
+          id: 1,
+          release_name: 'aoba',
+          start_at: '2022-08-30',
+          end_at: '2022-08-30'
+        })
+      })
+    });
   });
 });
