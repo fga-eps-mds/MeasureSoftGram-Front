@@ -12,7 +12,7 @@ function Header() {
         <Typography variant="h4" marginRight="10px">
           Repositório
         </Typography>
-        <Typography variant="h4" fontWeight="300">
+        <Typography variant="h4" fontWeight="500" color="#33568E">
           {currentRepository?.name}
         </Typography>
       </Box>

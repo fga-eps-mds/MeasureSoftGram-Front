@@ -3,7 +3,6 @@ import { FiBarChart2, FiGitBranch, FiPaperclip } from 'react-icons/fi';
 import { useAuth } from '@contexts/Auth';
 import { useProductContext } from '@contexts/ProductProvider';
 import { useRouter } from 'next/router';
-import { useRepositoryContext } from '@contexts/RepositoryProvider';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import SideMenuItem from './SideMenuItem/SideMenuItem';
 import SideMenuWrapper from './SideMenuWrapper';
@@ -22,7 +21,6 @@ function SideMenu() {
   const { session } = useAuth();
   const { currentOrganization } = useOrganizationContext();
   const { currentProduct } = useProductContext();
-  const { currentRepository } = useRepositoryContext();
   const router = useRouter();
 
   const MenuItems: SideMenuItemType[] = [
@@ -47,7 +45,7 @@ function SideMenu() {
       text: 'Releases',
       tooltip: 'Releases de cada repositório',
       path: `/products/${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/releases`,
-      disable: !currentRepository,
+      disable: !currentProduct,
       selected: router.query?.release !== undefined
     }
   ];
