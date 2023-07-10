@@ -10,6 +10,7 @@ export interface Historical {
   name: string;
   history: Array<TsqmiHistory>;
   latest: Result;
+  goal?: number;
 }
 
 export interface HistoricalCharacteristicsProps {

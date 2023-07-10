@@ -18,6 +18,7 @@ interface Prop {
   valueType?: 'historical-values' | 'latest-values';
   autoGrid?: boolean;
   addHistoricalTSQMI?: boolean;
+  addCurrentGoal?: boolean;
 }
 
 type formatFunctionType = {
@@ -37,15 +38,16 @@ const GraphicChart = ({
   value,
   valueType = 'historical-values',
   autoGrid = false,
-  addHistoricalTSQMI = false
+  addHistoricalTSQMI = false,
+  addCurrentGoal = false,
 }: Prop) => {
   const {
     data: historical,
     error,
     isLoading,
     isEmpty
-  } = useRequestValues({ type: valueType, value, addHistoricalTSQMI });
-  const { configFilter, hasKey } = useProductConfigFilterContext();
+  } = useRequestValues({ type: valueType, value, addHistoricalTSQMI, addCurrentGoal });
+  const { hasKey } = useProductConfigFilterContext();
 
   const sliceHistorical = (rowIdx: number): Historical[] => {
     if (!autoGrid) return historical;
@@ -70,29 +72,22 @@ const GraphicChart = ({
     () =>
       _.range(numLines).map((i) => {
         const filterHistorical = _.filter(sliceHistorical(i), (item) => hasKey(item.key));
-        return (
-          <ReactEcharts
-            key={i}
-            notMerge
-            lazyUpdate
-            style={chartStyle}
-            option={chartOption[type]({
-              historical: filterHistorical,
-              title: i === 0 ? title : '',
-              isEmpty: isEmpty || error
-            })}
-          />
-        );
-      }),
+        return chartOption[type]({
+          historical: filterHistorical,
+          title: i === 0 ? title : '',
+          isEmpty: isEmpty || error
+        })
+      }
+      ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [configFilter, historical]
+    [historical, title, isEmpty, error]
   );
 
   return isLoading ? (
     <Skeleton variant="rectangular" height="300px" />
   ) : (
     <>
-      <Fade in timeout={2000}>
+      <Fade in timeout={1500}>
         <Box
           bgcolor="white"
           borderRadius="4px"
@@ -102,7 +97,9 @@ const GraphicChart = ({
           width="100%"
           height={chartBoxHeight}
         >
-          {chartsOption.map((option) => ({ ...option }))}
+          {chartsOption.map((option) => (
+            <ReactEcharts notMerge lazyUpdate style={chartStyle} option={option} />
+          ))}
         </Box>
       </Fade>
       {error && (

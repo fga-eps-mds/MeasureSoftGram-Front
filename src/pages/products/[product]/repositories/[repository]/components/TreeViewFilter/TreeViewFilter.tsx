@@ -11,7 +11,6 @@ import SearchButton from '@components/SearchButton/SearchButton';
 import NavigateBeforeRoundedIcon from '@mui/icons-material/NavigateBeforeRounded';
 import NavigateNextRoundedIcon from '@mui/icons-material/NavigateNextRounded';
 
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import * as Styled from './styles';
 
 interface Node {

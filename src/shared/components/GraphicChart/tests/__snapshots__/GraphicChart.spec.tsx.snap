@@ -4,7 +4,7 @@ exports[`<GraphicChart /> should render correctly 1`] = `
 <div>
   <div
     class="MuiBox-root css-13kcqfm"
-    style="opacity: 1; webkit-transition: opacity 2000ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 2000ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    style="opacity: 1; webkit-transition: opacity 1500ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 1500ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
   >
     <div
       _echarts_instance_="ec_123"
@@ -31,7 +31,7 @@ exports[`<GraphicChart /> should render correctly with autoGrid 1`] = `
 <div>
   <div
     class="MuiBox-root css-13kcqfm"
-    style="opacity: 1; webkit-transition: opacity 2000ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 2000ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    style="opacity: 1; webkit-transition: opacity 1500ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 1500ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
   >
     <div
       _echarts_instance_="ec_123"
@@ -58,7 +58,7 @@ exports[`<GraphicChart /> should render correctly with empty data 1`] = `
 <div>
   <div
     class="MuiBox-root css-apmjdx"
-    style="opacity: 1; webkit-transition: opacity 2000ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 2000ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    style="opacity: 1; webkit-transition: opacity 1500ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 1500ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
   >
     <div
       _echarts_instance_="ec_123"
@@ -111,7 +111,7 @@ exports[`<GraphicChart /> should render correctly with error 1`] = `
 <div>
   <div
     class="MuiBox-root css-apmjdx"
-    style="opacity: 1; webkit-transition: opacity 2000ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 2000ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    style="opacity: 1; webkit-transition: opacity 1500ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 1500ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
   >
     <div
       _echarts_instance_="ec_123"
@@ -164,7 +164,7 @@ exports[`<GraphicChart /> should render correctly with historical TSQMI 1`] = `
 <div>
   <div
     class="MuiBox-root css-13kcqfm"
-    style="opacity: 1; webkit-transition: opacity 2000ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 2000ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    style="opacity: 1; webkit-transition: opacity 1500ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 1500ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
   >
     <div
       _echarts_instance_="ec_123"

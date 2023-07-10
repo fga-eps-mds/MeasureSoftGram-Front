@@ -114,7 +114,7 @@ const Products: NextPageWithLayout = () => {
                 {filteredProducts?.map((product) => (
                   <Box key={product.id} display="flex" flexDirection="row" paddingRight="20px" paddingBottom="20px">
                     <CardNavigation
-                      key={product.id + index.toString()}
+                      key={product.id}
                       id={product.id}
                       name={product.name}
                       url={`/products/${currentOrganization?.id}-${product?.id}-${product?.name}`}
