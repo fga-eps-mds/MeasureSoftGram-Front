@@ -51,9 +51,7 @@ export function useRequestValues({ type, value, addHistoricalTSQMI = false, addC
       revalidateOnReconnect: false,
       refreshWhenOffline: false,
       refreshWhenHidden: false,
-      dedupingInterval: 0,
-      errorRetryInterval: 0,
-      errorRetryCount: 0
+      shouldRetryOnError: false
     }
   );
 

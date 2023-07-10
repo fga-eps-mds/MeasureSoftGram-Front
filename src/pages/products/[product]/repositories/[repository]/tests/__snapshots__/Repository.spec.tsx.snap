@@ -6,7 +6,7 @@ exports[`<Repository /> Should render correctly 1`] = `
     class="MuiBox-root css-vb578k"
   >
     <div
-      class="MuiContainer-root MuiContainer-maxWidthLg css-1l9e1ux-MuiContainer-root"
+      class="MuiContainer-root MuiContainer-maxWidthLg css-1j2rs73-MuiContainer-root"
     >
       <div
         class="MuiBox-root css-j7qwjs"

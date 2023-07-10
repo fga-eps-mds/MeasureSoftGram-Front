@@ -11,10 +11,12 @@ import { AiOutlineRadarChart } from 'react-icons/ai';
 
 import useRequireAuth from '@hooks/useRequireAuth';
 
-import getLayout from '@components/Layout';
 import GraphicChart from '@components/GraphicChart';
 import LatestValueTable from '@components/LatestValueTable';
 
+import Layout from '@components/Layout/Layout';
+import ProductConfigFilterProvider from '@contexts/ProductConfigFilterProvider/ProductConfigFilterProvider';
+import TreeViewFilter from './components/TreeViewFilter';
 import Headers from './components/Header';
 import CustomTabs from './components/CustomTabs';
 
@@ -86,12 +88,18 @@ const Repository: NextPageWithLayout = () => {
           <LatestValueTable title="Medidas" value="measures" />
           <GraphicChart title="Métricas" type="line" value="metrics" />
           <LatestValueTable title="Métricas" value="metrics" />
-        </Box>
-      </Container>
-    </Box>
+        </Box >
+      </Container >
+    </Box >
   );
 };
 
-Repository.getLayout = getLayout;
+Repository.getLayout = function getLayout(page) {
+  return (
+    <ProductConfigFilterProvider>
+      <Layout rightSide={<TreeViewFilter />}> {page}</Layout >
+    </ProductConfigFilterProvider >
+  );
+}
 
 export default Repository;

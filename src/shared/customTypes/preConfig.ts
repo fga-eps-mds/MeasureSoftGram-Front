@@ -1,6 +1,12 @@
+export interface Metrics {
+  key: string;
+  weight: number;
+}
+
 export interface Measure {
   key: string;
   weight: number;
+  metrics: Metrics[];
   min_threshold?: number;
   max_threshold?: number;
 }

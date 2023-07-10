@@ -9,6 +9,7 @@ import { Alert, Box, Fade, Skeleton } from '@mui/material';
 import { useRequestValues } from '@hooks/useRequestValues';
 import { Historical } from '@customTypes/repository';
 import _ from 'lodash';
+import { useProductConfigFilterContext } from '@contexts/ProductConfigFilterProvider/ProductConfigFilterProvider';
 
 interface Prop {
   title: string;
@@ -46,6 +47,7 @@ const GraphicChart = ({
     isLoading,
     isEmpty
   } = useRequestValues({ type: valueType, value, addHistoricalTSQMI, addCurrentGoal });
+  const { hasKey } = useProductConfigFilterContext();
 
   const sliceHistorical = (rowIdx: number): Historical[] => {
     if (!autoGrid) return historical;
@@ -70,7 +72,7 @@ const GraphicChart = ({
     () =>
       _.range(numLines).map((i) => ({
         ...chartOption[type]({
-          historical: sliceHistorical(i),
+          historical: _.filter(sliceHistorical(i), (item) => hasKey(item.key)),
           title: i === 0 ? title : '',
           isEmpty: isEmpty || error
         }),
