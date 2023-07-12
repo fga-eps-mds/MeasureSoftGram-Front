@@ -13,7 +13,6 @@ export default function useEqualizer(selectedCharacteristics: string[], lastGoal
   const getBalanceMatrix = () => {
     balanceMatrixService.getBalanceMatrix().then((response) => {
       setBalanceMatrix(response.data.result);
-      updateCharacteristicsWithBalanceMatrix();
     });
   };
 
@@ -37,8 +36,6 @@ export default function useEqualizer(selectedCharacteristics: string[], lastGoal
       const value = valuesCommitted[characteristicDragged];
 
       const delta = newValue - value;
-
-      console.log('newChanges', [...changes, { characteristic_key: characteristicDragged, delta }]);
 
       setChanges((prevChanges) => [...prevChanges, { characteristic_key: characteristicDragged, delta }]);
 
@@ -90,6 +87,10 @@ export default function useEqualizer(selectedCharacteristics: string[], lastGoal
   useEffect(() => {
     getBalanceMatrix();
   }, []);
+
+  useEffect(() => {
+    updateCharacteristicsWithBalanceMatrix();
+  }, [balanceMatrix]);
 
   const reset = () => {
     updateCharacteristicsWithBalanceMatrix();
