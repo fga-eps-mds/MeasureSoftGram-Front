@@ -105,5 +105,25 @@ describe('<ConfigsForm />', () => {
       fireEvent.click(button);
       expect(setCheckboxValues).toBeCalledTimes(2);
     });
+
+    it('Deve chamar o onChange quando o tab não estiver incluso', () => {
+      const onChange = jest.fn();
+
+      render(
+        <ConfigsForm
+          type="subcharacteristic"
+          setCheckboxValues={jest.fn()}
+          onChange={onChange}
+          setIsValuesValid={jest.fn()}
+          subtitle={SUBTITLE_TEST}
+          checkboxValues={CHECKBOX_VALUES_SUBCHAR}
+          tabs={[CHECKBOX_VALUES_CHAR[1]]}
+          data={DATA}
+          disable={false}
+        />
+      );
+
+      expect(onChange).toBeCalled();
+    });
   });
 });

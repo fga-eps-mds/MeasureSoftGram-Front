@@ -48,6 +48,11 @@ const ConfigForm = ({
       value: Measure | Characteristic | Subcharacteristic,
       previousValue?: Characteristic | Subcharacteristic) => {
 
+      if (tabs && !tabs.includes(previousValue?.key || '')) {
+        onChange(iterator[type]({ data, key: value.key, weight: 0 }));
+        return;
+      }
+
       if (checkboxValues.includes(value.key)) {
         const tabName = previousValue?.key;
         if (keyGetter(newLimiters).indexOf(value.key) === -1) {
@@ -61,7 +66,20 @@ const ConfigForm = ({
   }, [type, checkboxValues]);
 
   useEffect(() => {
-    if (tabs) setTabValue(tabs[0]);
+    if (tabs) {
+      setTabValue(tabs[0])
+      const newCheckboxValues = checkboxValues;
+      componentIterator[type](data, (
+        value: Measure | Characteristic | Subcharacteristic,
+        previousValue?: Characteristic | Subcharacteristic) => {
+
+        if (!tabs.includes(previousValue?.key || '') && checkboxValues.includes(value.key)) {
+          newCheckboxValues.splice(newCheckboxValues.indexOf(value.key), 1);
+        }
+
+      })
+      setCheckboxValues(newCheckboxValues);
+    };
   }, [tabs]);
 
   useEffect(() => {

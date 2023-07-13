@@ -171,7 +171,7 @@ export function CreateReleaseProvider({
     }
     setReleaseInfoForm((form) => ({
       ...form,
-      characteristics: configData.map((c: Characteristic) => c.key)
+      characteristics: configData.filter((c: Characteristic) => c.weight > 0).map((c: Characteristic) => c.key)
     }))
     setCharacteristicData(newConfigData);
   }
