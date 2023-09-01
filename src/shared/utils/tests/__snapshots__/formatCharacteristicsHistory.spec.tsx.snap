@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`formatCharacteristicsHistory should return an object with the correct format 1`] = `
+Object {
+  "dataZoom": Array [
+    Object {
+      "end": 100,
+      "show": true,
+      "start": 0,
+      "type": "slider",
+    },
+    Object {
+      "end": 1,
+      "show": true,
+      "start": 0,
+      "type": "inside",
+    },
+  ],
+  "grid": Object {
+    "bottom": "17%",
+    "containLabel": true,
+    "left": "3%",
+    "right": "4%",
+    "show": true,
+  },
+  "legend": Object {
+    "data": Array [
+      "Reliability",
+    ],
+    "selectedMode": false,
+    "show": true,
+    "type": "scroll",
+    "width": "80%",
+  },
+  "series": Array [
+    Object {
+      "data": Array [
+        "0.83",
+        "0.83",
+      ],
+      "lineStyle": Object {
+        "width": 2,
+      },
+      "name": "Reliability",
+      "show": true,
+      "type": "line",
+    },
+  ],
+  "title": Object {
+    "text": "title-test",
+  },
+  "tooltip": Object {
+    "show": true,
+    "trigger": "axis",
+  },
+  "xAxis": Object {
+    "boundaryGap": false,
+    "data": Array [
+      "05/01/2023 21:40",
+      "06/01/2023 00:01",
+    ],
+    "show": true,
+    "type": "category",
+  },
+  "yAxis": Object {
+    "minInterval": 0.1,
+    "scale": true,
+    "show": true,
+    "type": "value",
+  },
+}
+`;

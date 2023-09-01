@@ -1,49 +1,27 @@
-import { CharacteristicWithBalanceMatrix } from '@customTypes/product';
+import { CharacteristicWithBalanceMatrix, Characteristics } from '@customTypes/product';
 
-const BALANCE_MATRIX = {
-  functional_suitability: {
-    '+': ['usability', 'reliability', 'maintainability'],
-    '-': ['performance_efficiency', 'security']
-  },
-  performance_efficiency: {
-    '+': [],
-    '-': ['functional_suitability', 'usability', 'compatibility', 'security', 'maintainability', 'portability']
-  },
-  usability: {
-    '+': ['functional_suitability', 'reliability'],
-    '-': ['performance_efficiency']
-  },
-  compatibility: {
-    '+': ['portability'],
-    '-': ['security']
-  },
-  reliability: {
-    '+': ['functional_suitability', 'usability', 'maintainability'],
-    '-': []
-  },
-  security: {
-    '+': ['reliability'],
-    '-': ['performance_efficiency', 'usability', 'compatibility']
-  },
-  maintainability: {
-    '+': ['functional_suitability', 'compatibility', 'reliability', 'portability'],
-    '-': ['performance_efficiency']
-  },
-  portability: {
-    '+': ['compatibility', 'maintainability'],
-    '-': ['performance_efficiency']
-  }
+type BalanceMatrixRow = {
+  '+': string[];
+  '-': string[];
 };
 
-const getCharacteristicsWithBalanceMatrix = (characteristics: string[]): CharacteristicWithBalanceMatrix[] =>
+export type BalanceMatrix = {
+  [key: string]: BalanceMatrixRow;
+};
+
+const getCharacteristicsWithBalanceMatrix = (
+  characteristics: string[],
+  balanceMatrix: BalanceMatrix,
+  lastGoalCharacteristics?: Characteristics
+): CharacteristicWithBalanceMatrix[] =>
   characteristics.reduce(
-    (acc, item, index) => [
+    (acc: CharacteristicWithBalanceMatrix[], item: string, index: number): CharacteristicWithBalanceMatrix[] => [
       ...acc,
       {
         key: item,
         id: index,
-        value: 50,
-        correlations: BALANCE_MATRIX[item as keyof typeof BALANCE_MATRIX]
+        value: lastGoalCharacteristics ? lastGoalCharacteristics[item as keyof Characteristics] ?? 50 : 50,
+        correlations: balanceMatrix[item as keyof typeof balanceMatrix]
       }
     ],
     []

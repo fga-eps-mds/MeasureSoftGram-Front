@@ -11,24 +11,13 @@ Object {
         <div
           class="MuiBox-root css-j7qwjs"
         >
-          <div
-            class="MuiBox-root css-1k2nw5y"
+          <h4
+            class="MuiTypography-root MuiTypography-h4 css-ebmdmk-MuiTypography-root"
           >
-            <div
-              class="MuiBox-root css-70qvj9"
-            >
-              <h4
-                class="MuiTypography-root MuiTypography-h4 css-obdthj-MuiTypography-root"
-              >
-                Hi
-              </h4>
-              <h4
-                class="MuiTypography-root MuiTypography-h4 css-1yvpk5c-MuiTypography-root"
-              />
-            </div>
-          </div>
+            Organizações
+          </h4>
           <div
-            class="MuiBox-root css-2imjyh"
+            class="MuiBox-root css-1r2gscq"
           />
         </div>
       </div>
@@ -41,24 +30,13 @@ Object {
       <div
         class="MuiBox-root css-j7qwjs"
       >
-        <div
-          class="MuiBox-root css-1k2nw5y"
+        <h4
+          class="MuiTypography-root MuiTypography-h4 css-ebmdmk-MuiTypography-root"
         >
-          <div
-            class="MuiBox-root css-70qvj9"
-          >
-            <h4
-              class="MuiTypography-root MuiTypography-h4 css-obdthj-MuiTypography-root"
-            >
-              Hi
-            </h4>
-            <h4
-              class="MuiTypography-root MuiTypography-h4 css-1yvpk5c-MuiTypography-root"
-            />
-          </div>
-        </div>
+          Organizações
+        </h4>
         <div
-          class="MuiBox-root css-2imjyh"
+          class="MuiBox-root css-1r2gscq"
         />
       </div>
     </div>

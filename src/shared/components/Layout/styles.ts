@@ -1,22 +1,22 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-
+export const LayoutGrid = styled.div`
+  display: grid;
+  grid-template-columns: min-content 1fr min-content;
+  grid-template-rows: 1fr;
+  grid-template-areas: 'side-menu main-content right-side';
   min-height: 100vh;
-
-  background-color: #f5f5f5;
 `;
 
-export const ContentWrapper = styled.div`
-  min-height: calc(100% - 60px);
+export const SideMenuArea = styled.div`
+  grid-area: side-menu;
+`;
 
+export const MainContentArea = styled.div`
+  grid-area: main-content;
   background-color: #fafafa;
 `;
 
-export const ContentContainer = styled.div`
-  margin-left: 318px;
-  width: 100%;
-  padding: 0;
+export const RightSideArea = styled.div`
+  grid-area: right-side;
 `;

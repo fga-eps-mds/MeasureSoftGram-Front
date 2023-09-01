@@ -21,10 +21,46 @@ Object {
         Denifir pesos
       </button>
       <button
-        data-testid="create-release-goal"
+        data-testid="finish-release-planning"
         type="submit"
       >
         Cria metas
+      </button>
+      <button
+        data-testid="test-previous-step"
+        type="submit"
+      >
+        PreviousStep
+      </button>
+      <button
+        data-testid="test-next-step"
+        type="submit"
+      >
+        NextStep
+      </button>
+      <button
+        data-testid="test-use-last-config"
+        type="submit"
+      >
+        UseLastConfig
+      </button>
+      <button
+        data-testid="test-change-threshold"
+        type="submit"
+      >
+        ToggleChangeThreshold
+      </button>
+      <button
+        data-testid="test-set-characteristic-values-valid"
+        type="submit"
+      >
+        SetIsValuesInvalid
+      </button>
+      <button
+        data-testid="test-set-invalid-date"
+        type="submit"
+      >
+        SetInvalidDate
       </button>
     </div>
   </body>,
@@ -45,10 +81,46 @@ Object {
       Denifir pesos
     </button>
     <button
-      data-testid="create-release-goal"
+      data-testid="finish-release-planning"
       type="submit"
     >
       Cria metas
+    </button>
+    <button
+      data-testid="test-previous-step"
+      type="submit"
+    >
+      PreviousStep
+    </button>
+    <button
+      data-testid="test-next-step"
+      type="submit"
+    >
+      NextStep
+    </button>
+    <button
+      data-testid="test-use-last-config"
+      type="submit"
+    >
+      UseLastConfig
+    </button>
+    <button
+      data-testid="test-change-threshold"
+      type="submit"
+    >
+      ToggleChangeThreshold
+    </button>
+    <button
+      data-testid="test-set-characteristic-values-valid"
+      type="submit"
+    >
+      SetIsValuesInvalid
+    </button>
+    <button
+      data-testid="test-set-invalid-date"
+      type="submit"
+    >
+      SetInvalidDate
     </button>
   </div>,
   "debug": [Function],

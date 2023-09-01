@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`formatGaugeChart should return an default object when historical param is empty 1`] = `
+Object {
+  "radar": Object {
+    "indicator": Array [],
+    "shape": "circle",
+    "show": false,
+  },
+  "series": Array [],
+  "title": Object {
+    "text": "title-test",
+  },
+}
+`;
+
+exports[`formatGaugeChart should return an default object when historical param undefined 1`] = `
+Object {
+  "radar": Object {
+    "indicator": Array [],
+    "shape": "circle",
+    "show": false,
+  },
+  "series": Array [],
+  "title": Object {
+    "text": "title-test",
+  },
+}
+`;
+
+exports[`formatGaugeChart should return an object with the correct format 1`] = `
+Object {
+  "legend": Object {
+    "data": Array [
+      "Valor alcançado",
+      "Valor esperado",
+    ],
+    "right": 0,
+  },
+  "radar": Object {
+    "indicator": Array [
+      Object {
+        "color": "#000000",
+        "max": 1,
+        "name": "Reliability",
+      },
+    ],
+    "shape": "circle",
+    "show": true,
+  },
+  "series": Array [
+    Object {
+      "data": Array [
+        Object {
+          "name": "Valor alcançado",
+          "value": Array [
+            "32.00",
+          ],
+        },
+        Object {
+          "itemStyle": Object {
+            "color": "#f1c40f",
+          },
+          "name": "Valor esperado",
+          "value": Array [
+            "0.01",
+          ],
+        },
+      ],
+      "show": true,
+      "type": "radar",
+    },
+  ],
+  "title": Object {
+    "text": "title-test",
+  },
+}
+`;

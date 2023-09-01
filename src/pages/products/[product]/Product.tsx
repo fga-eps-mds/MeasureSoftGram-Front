@@ -4,6 +4,7 @@ import Head from 'next/head';
 import { NextPageWithLayout } from '@pages/_app.next';
 
 import getLayout from '@components/Layout';
+import useRequireAuth from '@hooks/useRequireAuth';
 
 import { useQuery } from './hooks/useQuery';
 import ProductContent from './components/ProductContent';
@@ -12,7 +13,8 @@ import RepositoriesList from './components/RepositoriesList';
 import ReleasesList from './components/ReleasesList';
 
 const Product: NextPageWithLayout = () => {
-  const { repositoriesSqcHistory } = useQuery();
+  useRequireAuth();
+  const { repositoriesTsqmiHistory } = useQuery();
 
   return (
     <>
@@ -20,7 +22,7 @@ const Product: NextPageWithLayout = () => {
         <title>PRODUCT NAME</title>
       </Head>
 
-      <ProductContent repositoriesSqcHistory={repositoriesSqcHistory} />
+      <ProductContent repositoriesTsqmiHistory={repositoriesTsqmiHistory} />
       <RepositoriesList />
       <ReleasesList />
     </>

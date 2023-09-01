@@ -1,11 +1,13 @@
-/* eslint-disable class-methods-use-this */
-import api from './api';
+import { AxiosRequestConfig } from 'axios';
 
-class Organization {
-  getAllOrganization() {
-    return api.get(`organizations/`);
+/* eslint-disable class-methods-use-this */
+class OrganizationQuery {
+  getAllOrganization(): AxiosRequestConfig {
+    return {
+      url: 'organizations/'
+    };
   }
 }
 
-export const organization = new Organization();
-Object.freeze(organization);
+export const organizationQuery = new OrganizationQuery();
+Object.freeze(organizationQuery);

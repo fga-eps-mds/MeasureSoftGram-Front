@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`useProductCurrentPreConfig should return the current pre config 1`] = `
+Object {
+  "current": Object {
+    "data": Array [
+      Object {
+        "key": "reliability",
+        "subcharacteristics": Array [
+          Object {
+            "key": "testing_status",
+            "measures": Array [
+              Object {
+                "key": "passed_tests",
+                "metrics": Array [
+                  Object {
+                    "key": "tests",
+                  },
+                  Object {
+                    "key": "test_failures",
+                  },
+                  Object {
+                    "key": "test_errors",
+                  },
+                ],
+                "weight": 33,
+              },
+              Object {
+                "key": "test_builds",
+                "max_threshold": 300000,
+                "metrics": Array [
+                  Object {
+                    "key": "test_execution_time",
+                  },
+                  Object {
+                    "key": "tests",
+                  },
+                ],
+                "weight": 20,
+              },
+              Object {
+                "key": "test_coverage",
+                "metrics": Array [
+                  Object {
+                    "key": "coverage",
+                  },
+                ],
+                "min_threshold": 70,
+                "weight": 47,
+              },
+            ],
+            "weight": 100,
+          },
+        ],
+        "weight": 50,
+      },
+    ],
+    "error": undefined,
+    "isEmpty": true,
+    "isLoading": false,
+    "isValidating": false,
+  },
+}
+`;

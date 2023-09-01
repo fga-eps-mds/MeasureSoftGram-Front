@@ -12,9 +12,9 @@ exports[`<ReleasesList /> renders without crashing 1`] = `
         class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
       >
         <h5
-          class="MuiTypography-root MuiTypography-h5 css-slgf20-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-h5 css-3ta6hh-MuiTypography-root"
         >
-          Releases
+          Última Release criada
         </h5>
         <div
           class="MuiTableContainer-root css-rorn0c-MuiTableContainer-root"
@@ -46,16 +46,26 @@ exports[`<ReleasesList /> renders without crashing 1`] = `
                 >
                   Fim da release
                 </th>
-                <th
-                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
-                  scope="col"
-                />
               </tr>
             </thead>
             <tbody
               class="MuiTableBody-root css-apqrd9-MuiTableBody-root"
             />
           </table>
+        </div>
+        <div
+          class="MuiBox-root css-1aobbod"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            VER MAIS...
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
         </div>
       </div>
     </div>

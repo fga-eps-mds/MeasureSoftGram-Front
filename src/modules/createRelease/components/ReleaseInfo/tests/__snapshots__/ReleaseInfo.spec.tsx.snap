@@ -8,20 +8,26 @@ Object {
       <div
         class="styles__Header-sc-1xrutlg-0 jlUPbi"
       >
-        <h1>
-          Definir Meta de Qualidade (planejada)
+        <h1
+          style="color: rgb(51, 86, 142); font-weight: 500;"
+        >
+          Planejar Release
         </h1>
-        <p>
-          Mini explicação sobre as configurações basicas e a seleção de caracteristicas
+        <p
+          style="margin-top: 60px;"
+        >
+          Na etapa inicial do planejamento da release é possível definir seu nome e as datas de início e fim.
         </p>
       </div>
       <div
-        class="styles__Body-sc-1xrutlg-1 htXrWP"
+        class="styles__Body-sc-1xrutlg-1 htLsRD"
       >
         <div
           class="MuiBox-root css-0"
         >
-          <h2>
+          <h2
+            style="color: rgb(83, 139, 163); font-weight: 500;"
+          >
             Configurações básicas
           </h2>
           <div
@@ -169,91 +175,6 @@ Object {
             </div>
           </div>
         </div>
-        <div
-          class="MuiBox-root css-0"
-        >
-          <h2>
-            Caracteristicas a serem observadas no release
-          </h2>
-          <div
-            class="MuiFormGroup-root css-dmmspl-MuiFormGroup-root"
-          >
-            <label
-              class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
-            >
-              <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
-              >
-                <input
-                  checked=""
-                  class="PrivateSwitchBase-input css-1m9pwf3"
-                  data-indeterminate="false"
-                  data-testid="characteristic-release"
-                  id="reliability"
-                  name="reliability"
-                  type="checkbox"
-                  value="reliability"
-                />
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                  data-testid="CheckBoxIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
-                  />
-                </svg>
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
-              </span>
-              <span
-                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
-              >
-                reliability
-              </span>
-            </label>
-            <label
-              class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
-            >
-              <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
-              >
-                <input
-                  checked=""
-                  class="PrivateSwitchBase-input css-1m9pwf3"
-                  data-indeterminate="false"
-                  data-testid="characteristic-release"
-                  id="maintainability"
-                  name="maintainability"
-                  type="checkbox"
-                  value="maintainability"
-                />
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                  data-testid="CheckBoxIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
-                  />
-                </svg>
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
-              </span>
-              <span
-                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
-              >
-                maintainability
-              </span>
-            </label>
-          </div>
-        </div>
       </div>
     </div>
   </body>,
@@ -261,20 +182,26 @@ Object {
     <div
       class="styles__Header-sc-1xrutlg-0 jlUPbi"
     >
-      <h1>
-        Definir Meta de Qualidade (planejada)
+      <h1
+        style="color: rgb(51, 86, 142); font-weight: 500;"
+      >
+        Planejar Release
       </h1>
-      <p>
-        Mini explicação sobre as configurações basicas e a seleção de caracteristicas
+      <p
+        style="margin-top: 60px;"
+      >
+        Na etapa inicial do planejamento da release é possível definir seu nome e as datas de início e fim.
       </p>
     </div>
     <div
-      class="styles__Body-sc-1xrutlg-1 htXrWP"
+      class="styles__Body-sc-1xrutlg-1 htLsRD"
     >
       <div
         class="MuiBox-root css-0"
       >
-        <h2>
+        <h2
+          style="color: rgb(83, 139, 163); font-weight: 500;"
+        >
           Configurações básicas
         </h2>
         <div
@@ -420,91 +347,6 @@ Object {
               </fieldset>
             </div>
           </div>
-        </div>
-      </div>
-      <div
-        class="MuiBox-root css-0"
-      >
-        <h2>
-          Caracteristicas a serem observadas no release
-        </h2>
-        <div
-          class="MuiFormGroup-root css-dmmspl-MuiFormGroup-root"
-        >
-          <label
-            class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
-          >
-            <span
-              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
-            >
-              <input
-                checked=""
-                class="PrivateSwitchBase-input css-1m9pwf3"
-                data-indeterminate="false"
-                data-testid="characteristic-release"
-                id="reliability"
-                name="reliability"
-                type="checkbox"
-                value="reliability"
-              />
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                data-testid="CheckBoxIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
-                />
-              </svg>
-              <span
-                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-              />
-            </span>
-            <span
-              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
-            >
-              reliability
-            </span>
-          </label>
-          <label
-            class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
-          >
-            <span
-              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
-            >
-              <input
-                checked=""
-                class="PrivateSwitchBase-input css-1m9pwf3"
-                data-indeterminate="false"
-                data-testid="characteristic-release"
-                id="maintainability"
-                name="maintainability"
-                type="checkbox"
-                value="maintainability"
-              />
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                data-testid="CheckBoxIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
-                />
-              </svg>
-              <span
-                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-              />
-            </span>
-            <span
-              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
-            >
-              maintainability
-            </span>
-          </label>
         </div>
       </div>
     </div>

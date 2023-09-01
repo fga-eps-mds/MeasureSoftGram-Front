@@ -84,6 +84,7 @@ export interface ReleaseGoal {
   start_at: string;
   end_at: string;
   changes: Changes[];
+  allow_dynamic: boolean;
 }
 
 export interface ButtonType extends Omit<Partial<ButtonProps>, 'color'> {
@@ -92,9 +93,11 @@ export interface ButtonType extends Omit<Partial<ButtonProps>, 'color'> {
   backgroundColor: string;
   color: string;
   variant?: ButtonProps['variant'];
+  hover?: string;
+  dataTestId?: string;
 }
 
-interface SqcValue {
+interface TsqmiValue {
   id: number;
   value: number;
   created_at: string;
@@ -109,13 +112,13 @@ export interface Repositories {
   product: string;
 }
 
-interface RepositoriesSqcHistoryResult {
-  history: Array<SqcValue>;
+interface RepositoriesTsqmiHistoryResult {
+  history: Array<TsqmiValue>;
 }
 
-export interface RepositoriesSqcHistory {
+export interface RepositoriesTsqmiHistory {
   count: number;
-  results: Array<RepositoriesSqcHistoryResult & Repositories>;
+  results: Array<RepositoriesTsqmiHistoryResult & Repositories>;
 }
 
 export interface CollectedMetric {
@@ -162,8 +165,8 @@ export interface LatestValues {
 }
 
 export interface Characteristics {
-  reliability: number;
-  maintainability: number;
+  reliability?: number;
+  maintainability?: number;
 }
 
 export interface Goal {

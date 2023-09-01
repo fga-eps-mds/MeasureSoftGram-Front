@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useEffect, useMemo } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { getUserInfo, signInCredentials, signInGithub, signOut } from '@services/Auth';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
@@ -6,6 +6,7 @@ import { useLocalStorage } from '@hooks/useLocalStorage';
 
 export const authContextDefaultValues: authContextType = {
   session: null,
+  loading: 'loading',
   signInWithGithub: async () => ({} as Result<User>),
   signInWithCredentials: async () => ({} as Result<User>),
   logout: async () => ({} as Promise<void>),
@@ -16,6 +17,9 @@ export const authContextDefaultValues: authContextType = {
 export const AuthContext = createContext<authContextType>(authContextDefaultValues);
 
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
+  const [loading, setLoading] = useState<'loading' | 'loaded'>('loading');
+  const router = useRouter();
+
   const {
     storedValue: session,
     setValue: setSession,
@@ -34,32 +38,36 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     removeValue: removeProvider
   } = useLocalStorage<Providers | null>('provider', null);
 
-  const removeAuthStorage = useCallback(() => {
+  const removeAuthStorage = useCallback(async() => {
     removeSession();
     removeToken();
     removeProvider();
   }, [removeProvider, removeSession, removeToken]);
+
   const logout = useCallback(async () => {
     const response = await signOut();
 
     if (response.type === 'success') {
+      await router.push('/');
       toast.success('Volte logo para acompanhar seus produtos!');
     }
-    removeAuthStorage();
-  }, [removeAuthStorage]);
-  const router = useRouter();
+
+    await removeAuthStorage();
+  }, [removeAuthStorage, router]);
 
   const getUser = useCallback(async () => {
     const response = await getUserInfo();
     if (response.type === 'success') {
       setSession(response.value);
       if (router?.pathname === '/') {
-        router.push('/products/');
+        await router.push('/home');
         toast.success(`Bem vindo ao MeasureSoftGram ${response?.value?.username}!`);
       }
     } else {
-      removeAuthStorage();
+      await removeAuthStorage();
     }
+
+    setLoading('loaded');
   }, [removeAuthStorage, router, setSession]);
 
   const signInWithGithub = useCallback(
@@ -83,7 +91,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
       if (response.type === 'success') {
         setToken(response?.value?.key);
         toast.success('Login realizado com sucesso!');
-        router.push('/products');
+        await router.push('/home'); // AQUI
       } else {
         toast.error('Erro ao realizar login');
       }
@@ -99,7 +107,10 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   }, [provider, router?.query?.code, signInWithGithub]);
 
   useEffect(() => {
+    setLoading('loading');
+
     if (token) getUser();
+    else setLoading('loaded');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
@@ -110,9 +121,10 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
       signInWithCredentials,
       signInWithGithub,
       provider,
-      setProvider
+      setProvider,
+      loading
     }),
-    [logout, provider, session, setProvider, signInWithCredentials, signInWithGithub]
+    [logout, provider, session, setProvider, signInWithCredentials, signInWithGithub, loading]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

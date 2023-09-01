@@ -8,12 +8,50 @@ Object {
       <div
         class="styles__Header-sc-ki0fgv-0 hAZQDu"
       >
-        <h1>
+        <h1
+          style="color: rgb(51, 86, 142); font-weight: 500;"
+        >
           Balancear a Meta de Qualidade
         </h1>
         <p>
-          Mini explicação como funciona as metas da release (Configuração das caracteristicas, valor de uma caracteristica pode influenciar em outra, etc)
+          Nesta etapa é possível estabelecer metas para as características que serão observadas na release. É importante ressaltar que essas características de qualidade estão inter-relacionadas, ou seja, ao modificar a meta de uma característica, as demais também serão afetadas.
         </p>
+        <p>
+          Ao clicar em 'Permitir o balanceamento dinâmico', as alterações feitas em uma característica não afetarão automaticamente as demais, permitindo uma flexibilidade maior no planejamento da release.
+        </p>
+        <div
+          class="MuiBox-root css-0"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-1psv697-MuiTypography-root"
+          >
+            <span
+              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary css-12cb8cj-MuiButtonBase-root-MuiCheckbox-root"
+            >
+              <input
+                class="PrivateSwitchBase-input css-1m9pwf3"
+                data-indeterminate="false"
+                name="allowDynamicBalanceCheckbox"
+                type="checkbox"
+              />
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="CheckBoxOutlineBlankIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                />
+              </svg>
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </span>
+            Permitir o balanceamento dinâmico
+          </p>
+        </div>
       </div>
       <div
         class="styles__Body-sc-ki0fgv-1 dEJEjT"
@@ -33,10 +71,122 @@ Object {
         >
           <div
             class="MuiBox-root css-t0lfuy"
-          />
+          >
+            <div
+              class="MuiBox-root css-xi606m"
+            >
+              <div
+                class="MuiBox-root css-vycneo"
+              >
+                <span
+                  class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium MuiSlider-vertical css-y50uh2-MuiSlider-root"
+                  data-testid="single-slider"
+                >
+                  <span
+                    class="MuiSlider-rail css-qx5f9e-MuiSlider-rail"
+                  />
+                  <span
+                    class="MuiSlider-track css-ada0pd-MuiSlider-track"
+                    style="bottom: 0%; height: 50%;"
+                  />
+                  <span
+                    class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-y35fuw-MuiSlider-thumb"
+                    data-focusvisible="false"
+                    data-index="0"
+                    style="bottom: 50%;"
+                  >
+                    <input
+                      aria-orientation="vertical"
+                      aria-valuemax="100"
+                      aria-valuemin="0"
+                      aria-valuenow="50"
+                      data-index="0"
+                      max="100"
+                      min="0"
+                      step="1"
+                      style="border: 0px; height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
+                      type="range"
+                      value="50"
+                    />
+                  </span>
+                </span>
+              </div>
+              <p
+                class=""
+                data-mui-internal-clone-element="true"
+              >
+                C
+                1
+              </p>
+            </div>
+            <div
+              class="MuiBox-root css-xi606m"
+            >
+              <div
+                class="MuiBox-root css-vycneo"
+              >
+                <span
+                  class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium MuiSlider-vertical css-y50uh2-MuiSlider-root"
+                  data-testid="single-slider"
+                >
+                  <span
+                    class="MuiSlider-rail css-qx5f9e-MuiSlider-rail"
+                  />
+                  <span
+                    class="MuiSlider-track css-ada0pd-MuiSlider-track"
+                    style="bottom: 0%; height: 50%;"
+                  />
+                  <span
+                    class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-y35fuw-MuiSlider-thumb"
+                    data-focusvisible="false"
+                    data-index="0"
+                    style="bottom: 50%;"
+                  >
+                    <input
+                      aria-orientation="vertical"
+                      aria-valuemax="100"
+                      aria-valuemin="0"
+                      aria-valuenow="50"
+                      data-index="0"
+                      max="100"
+                      min="0"
+                      step="1"
+                      style="border: 0px; height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
+                      type="range"
+                      value="50"
+                    />
+                  </span>
+                </span>
+              </div>
+              <p
+                class=""
+                data-mui-internal-clone-element="true"
+              >
+                C
+                2
+              </p>
+            </div>
+          </div>
           <div
             class="styles__Labels-sc-duigeu-0 zNSqE"
-          />
+          >
+            <p
+              data-testid="label"
+            >
+              C
+              1
+              : 
+              reliability
+            </p>
+            <p
+              data-testid="label"
+            >
+              C
+              2
+              : 
+              maintainability
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -45,12 +195,50 @@ Object {
     <div
       class="styles__Header-sc-ki0fgv-0 hAZQDu"
     >
-      <h1>
+      <h1
+        style="color: rgb(51, 86, 142); font-weight: 500;"
+      >
         Balancear a Meta de Qualidade
       </h1>
       <p>
-        Mini explicação como funciona as metas da release (Configuração das caracteristicas, valor de uma caracteristica pode influenciar em outra, etc)
+        Nesta etapa é possível estabelecer metas para as características que serão observadas na release. É importante ressaltar que essas características de qualidade estão inter-relacionadas, ou seja, ao modificar a meta de uma característica, as demais também serão afetadas.
       </p>
+      <p>
+        Ao clicar em 'Permitir o balanceamento dinâmico', as alterações feitas em uma característica não afetarão automaticamente as demais, permitindo uma flexibilidade maior no planejamento da release.
+      </p>
+      <div
+        class="MuiBox-root css-0"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body1 css-1psv697-MuiTypography-root"
+        >
+          <span
+            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary css-12cb8cj-MuiButtonBase-root-MuiCheckbox-root"
+          >
+            <input
+              class="PrivateSwitchBase-input css-1m9pwf3"
+              data-indeterminate="false"
+              name="allowDynamicBalanceCheckbox"
+              type="checkbox"
+            />
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="CheckBoxOutlineBlankIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+              />
+            </svg>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </span>
+          Permitir o balanceamento dinâmico
+        </p>
+      </div>
     </div>
     <div
       class="styles__Body-sc-ki0fgv-1 dEJEjT"
@@ -70,10 +258,122 @@ Object {
       >
         <div
           class="MuiBox-root css-t0lfuy"
-        />
+        >
+          <div
+            class="MuiBox-root css-xi606m"
+          >
+            <div
+              class="MuiBox-root css-vycneo"
+            >
+              <span
+                class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium MuiSlider-vertical css-y50uh2-MuiSlider-root"
+                data-testid="single-slider"
+              >
+                <span
+                  class="MuiSlider-rail css-qx5f9e-MuiSlider-rail"
+                />
+                <span
+                  class="MuiSlider-track css-ada0pd-MuiSlider-track"
+                  style="bottom: 0%; height: 50%;"
+                />
+                <span
+                  class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-y35fuw-MuiSlider-thumb"
+                  data-focusvisible="false"
+                  data-index="0"
+                  style="bottom: 50%;"
+                >
+                  <input
+                    aria-orientation="vertical"
+                    aria-valuemax="100"
+                    aria-valuemin="0"
+                    aria-valuenow="50"
+                    data-index="0"
+                    max="100"
+                    min="0"
+                    step="1"
+                    style="border: 0px; height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
+                    type="range"
+                    value="50"
+                  />
+                </span>
+              </span>
+            </div>
+            <p
+              class=""
+              data-mui-internal-clone-element="true"
+            >
+              C
+              1
+            </p>
+          </div>
+          <div
+            class="MuiBox-root css-xi606m"
+          >
+            <div
+              class="MuiBox-root css-vycneo"
+            >
+              <span
+                class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium MuiSlider-vertical css-y50uh2-MuiSlider-root"
+                data-testid="single-slider"
+              >
+                <span
+                  class="MuiSlider-rail css-qx5f9e-MuiSlider-rail"
+                />
+                <span
+                  class="MuiSlider-track css-ada0pd-MuiSlider-track"
+                  style="bottom: 0%; height: 50%;"
+                />
+                <span
+                  class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-y35fuw-MuiSlider-thumb"
+                  data-focusvisible="false"
+                  data-index="0"
+                  style="bottom: 50%;"
+                >
+                  <input
+                    aria-orientation="vertical"
+                    aria-valuemax="100"
+                    aria-valuemin="0"
+                    aria-valuenow="50"
+                    data-index="0"
+                    max="100"
+                    min="0"
+                    step="1"
+                    style="border: 0px; height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
+                    type="range"
+                    value="50"
+                  />
+                </span>
+              </span>
+            </div>
+            <p
+              class=""
+              data-mui-internal-clone-element="true"
+            >
+              C
+              2
+            </p>
+          </div>
+        </div>
         <div
           class="styles__Labels-sc-duigeu-0 zNSqE"
-        />
+        >
+          <p
+            data-testid="label"
+          >
+            C
+            1
+            : 
+            reliability
+          </p>
+          <p
+            data-testid="label"
+          >
+            C
+            2
+            : 
+            maintainability
+          </p>
+        </div>
       </div>
     </div>
   </div>,

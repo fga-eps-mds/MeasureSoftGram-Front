@@ -1,5 +1,6 @@
 type authContextType = {
   session: User | null;
+  loading: 'loading' | string;
   signInWithGithub: (code: string) => Promise<Result<User>>;
   signInWithCredentials: (data: LoginFormData) => Promise<Result<User>>;
   logout: () => Promise<void>;
@@ -8,6 +9,7 @@ type authContextType = {
 };
 
 interface User {
+  [x: string]: any;
   username: string;
   first_name: string;
   last_name: string;

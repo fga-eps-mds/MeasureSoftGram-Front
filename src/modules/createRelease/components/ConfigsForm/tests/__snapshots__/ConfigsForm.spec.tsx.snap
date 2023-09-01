@@ -1,0 +1,1550 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ConfigsForm /> Snapshot Deve corresponder ao Snapshot de characteristic 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="MuiBox-root css-2c3mdi"
+      >
+        <h6
+          class="MuiTypography-root MuiTypography-h6 css-1xs8bbc-MuiTypography-root"
+        >
+          SUBTITLE
+        </h6>
+        <div
+          class="MuiGrid-root MuiGrid-container css-s3g6yz-MuiGrid-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+          >
+            <div
+              style="margin-right: 8px;"
+            >
+              <input
+                checked=""
+                name="reliability"
+                style="position: absolute; opacity: 0;"
+                type="checkbox"
+              />
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1cfee4v-MuiButtonBase-root-MuiButton-root"
+                tabindex="0"
+                type="button"
+              >
+                reliability
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+          >
+            <div
+              style="margin-right: 8px;"
+            >
+              <input
+                checked=""
+                name="maintainability"
+                style="position: absolute; opacity: 0;"
+                type="checkbox"
+              />
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1cfee4v-MuiButtonBase-root-MuiButton-root"
+                tabindex="0"
+                type="button"
+              >
+                maintainability
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiBox-root css-0"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-zow5z4-MuiGrid-root"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3 css-12qstyp-MuiGrid-root"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-1v2d8t3-MuiTypography-root"
+              >
+                <strong>
+                  Reliability
+                </strong>
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
+            >
+              <span
+                class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-pt81qq-MuiSlider-root"
+                data-testid="CONFIG_SLIDER_TEST_ID"
+              >
+                <span
+                  class="MuiSlider-rail css-14pt78w-MuiSlider-rail"
+                />
+                <span
+                  class="MuiSlider-track css-1gv0vcd-MuiSlider-track"
+                  style="left: 0%; width: 50%;"
+                />
+                <span
+                  class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-eg0mwd-MuiSlider-thumb"
+                  data-focusvisible="false"
+                  data-index="0"
+                  style="left: 50%;"
+                >
+                  <input
+                    aria-orientation="horizontal"
+                    aria-valuemax="100"
+                    aria-valuemin="0"
+                    aria-valuenow="50"
+                    data-index="0"
+                    max="100"
+                    min="0"
+                    step="1"
+                    style="border: 0px; height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
+                    type="range"
+                    value="50"
+                  />
+                </span>
+              </span>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-1equabv-MuiGrid-root"
+            >
+              <div
+                class="MuiFormControl-root MuiTextField-root css-rtrmyr-MuiFormControl-root-MuiTextField-root"
+                data-testid="CONFIG_INPUT_TEST_ID"
+              >
+                <div
+                  class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
+                >
+                  <input
+                    aria-invalid="false"
+                    class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
+                    id=":r0:"
+                    type="text"
+                    value="50"
+                  />
+                  <div
+                    class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-1pnmrwp-MuiTypography-root"
+                    >
+                      %
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-zow5z4-MuiGrid-root"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3 css-12qstyp-MuiGrid-root"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-1v2d8t3-MuiTypography-root"
+              >
+                <strong>
+                  Maintainability
+                </strong>
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
+            >
+              <span
+                class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-pt81qq-MuiSlider-root"
+                data-testid="CONFIG_SLIDER_TEST_ID"
+              >
+                <span
+                  class="MuiSlider-rail css-14pt78w-MuiSlider-rail"
+                />
+                <span
+                  class="MuiSlider-track css-1gv0vcd-MuiSlider-track"
+                  style="left: 0%; width: 50%;"
+                />
+                <span
+                  class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-eg0mwd-MuiSlider-thumb"
+                  data-focusvisible="false"
+                  data-index="0"
+                  style="left: 50%;"
+                >
+                  <input
+                    aria-orientation="horizontal"
+                    aria-valuemax="100"
+                    aria-valuemin="0"
+                    aria-valuenow="50"
+                    data-index="0"
+                    max="100"
+                    min="0"
+                    step="1"
+                    style="border: 0px; height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
+                    type="range"
+                    value="50"
+                  />
+                </span>
+              </span>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-1equabv-MuiGrid-root"
+            >
+              <div
+                class="MuiFormControl-root MuiTextField-root css-rtrmyr-MuiFormControl-root-MuiTextField-root"
+                data-testid="CONFIG_INPUT_TEST_ID"
+              >
+                <div
+                  class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
+                >
+                  <input
+                    aria-invalid="false"
+                    class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
+                    id=":r1:"
+                    type="text"
+                    value="50"
+                  />
+                  <div
+                    class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-1pnmrwp-MuiTypography-root"
+                    >
+                      %
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="MuiBox-root css-2c3mdi"
+    >
+      <h6
+        class="MuiTypography-root MuiTypography-h6 css-1xs8bbc-MuiTypography-root"
+      >
+        SUBTITLE
+      </h6>
+      <div
+        class="MuiGrid-root MuiGrid-container css-s3g6yz-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+        >
+          <div
+            style="margin-right: 8px;"
+          >
+            <input
+              checked=""
+              name="reliability"
+              style="position: absolute; opacity: 0;"
+              type="checkbox"
+            />
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1cfee4v-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
+              type="button"
+            >
+              reliability
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+        >
+          <div
+            style="margin-right: 8px;"
+          >
+            <input
+              checked=""
+              name="maintainability"
+              style="position: absolute; opacity: 0;"
+              type="checkbox"
+            />
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1cfee4v-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
+              type="button"
+            >
+              maintainability
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiBox-root css-0"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-zow5z4-MuiGrid-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3 css-12qstyp-MuiGrid-root"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 css-1v2d8t3-MuiTypography-root"
+            >
+              <strong>
+                Reliability
+              </strong>
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
+          >
+            <span
+              class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-pt81qq-MuiSlider-root"
+              data-testid="CONFIG_SLIDER_TEST_ID"
+            >
+              <span
+                class="MuiSlider-rail css-14pt78w-MuiSlider-rail"
+              />
+              <span
+                class="MuiSlider-track css-1gv0vcd-MuiSlider-track"
+                style="left: 0%; width: 50%;"
+              />
+              <span
+                class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-eg0mwd-MuiSlider-thumb"
+                data-focusvisible="false"
+                data-index="0"
+                style="left: 50%;"
+              >
+                <input
+                  aria-orientation="horizontal"
+                  aria-valuemax="100"
+                  aria-valuemin="0"
+                  aria-valuenow="50"
+                  data-index="0"
+                  max="100"
+                  min="0"
+                  step="1"
+                  style="border: 0px; height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
+                  type="range"
+                  value="50"
+                />
+              </span>
+            </span>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-1equabv-MuiGrid-root"
+          >
+            <div
+              class="MuiFormControl-root MuiTextField-root css-rtrmyr-MuiFormControl-root-MuiTextField-root"
+              data-testid="CONFIG_INPUT_TEST_ID"
+            >
+              <div
+                class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
+              >
+                <input
+                  aria-invalid="false"
+                  class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
+                  id=":r0:"
+                  type="text"
+                  value="50"
+                />
+                <div
+                  class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-1pnmrwp-MuiTypography-root"
+                  >
+                    %
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-zow5z4-MuiGrid-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3 css-12qstyp-MuiGrid-root"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 css-1v2d8t3-MuiTypography-root"
+            >
+              <strong>
+                Maintainability
+              </strong>
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
+          >
+            <span
+              class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-pt81qq-MuiSlider-root"
+              data-testid="CONFIG_SLIDER_TEST_ID"
+            >
+              <span
+                class="MuiSlider-rail css-14pt78w-MuiSlider-rail"
+              />
+              <span
+                class="MuiSlider-track css-1gv0vcd-MuiSlider-track"
+                style="left: 0%; width: 50%;"
+              />
+              <span
+                class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-eg0mwd-MuiSlider-thumb"
+                data-focusvisible="false"
+                data-index="0"
+                style="left: 50%;"
+              >
+                <input
+                  aria-orientation="horizontal"
+                  aria-valuemax="100"
+                  aria-valuemin="0"
+                  aria-valuenow="50"
+                  data-index="0"
+                  max="100"
+                  min="0"
+                  step="1"
+                  style="border: 0px; height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
+                  type="range"
+                  value="50"
+                />
+              </span>
+            </span>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-1equabv-MuiGrid-root"
+          >
+            <div
+              class="MuiFormControl-root MuiTextField-root css-rtrmyr-MuiFormControl-root-MuiTextField-root"
+              data-testid="CONFIG_INPUT_TEST_ID"
+            >
+              <div
+                class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
+              >
+                <input
+                  aria-invalid="false"
+                  class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
+                  id=":r1:"
+                  type="text"
+                  value="50"
+                />
+                <div
+                  class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-1pnmrwp-MuiTypography-root"
+                  >
+                    %
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
+
+exports[`<ConfigsForm /> Snapshot Deve corresponder ao Snapshot de measure 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="MuiBox-root css-2c3mdi"
+      >
+        <h6
+          class="MuiTypography-root MuiTypography-h6 css-1xs8bbc-MuiTypography-root"
+        >
+          SUBTITLE
+        </h6>
+        <div
+          class="MuiTabs-root css-1ujnqem-MuiTabs-root"
+          style="margin-bottom: 24px;"
+        >
+          <div
+            class="MuiTabs-scroller MuiTabs-fixed css-jpln7h-MuiTabs-scroller"
+            style="overflow: hidden; margin-bottom: 0px;"
+          >
+            <div
+              class="MuiTabs-flexContainer css-heg063-MuiTabs-flexContainer"
+              role="tablist"
+            >
+              <button
+                aria-selected="true"
+                class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected css-1h9z7r5-MuiButtonBase-root-MuiTab-root"
+                role="tab"
+                tabindex="0"
+                type="button"
+              >
+                testing status
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+              <button
+                aria-selected="false"
+                class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-1h9z7r5-MuiButtonBase-root-MuiTab-root"
+                role="tab"
+                tabindex="-1"
+                type="button"
+              >
+                modifiability
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+            <span
+              class="MuiTabs-indicator css-1aquho2-MuiTabs-indicator"
+              style="left: 0px; width: 0px;"
+            />
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-container css-s3g6yz-MuiGrid-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+          >
+            <div
+              style="margin-right: 8px;"
+            >
+              <input
+                checked=""
+                name="passed tests"
+                style="position: absolute; opacity: 0;"
+                type="checkbox"
+              />
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1cfee4v-MuiButtonBase-root-MuiButton-root"
+                tabindex="0"
+                type="button"
+              >
+                passed tests
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+          >
+            <div
+              style="margin-right: 8px;"
+            >
+              <input
+                checked=""
+                name="test builds"
+                style="position: absolute; opacity: 0;"
+                type="checkbox"
+              />
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1cfee4v-MuiButtonBase-root-MuiButton-root"
+                tabindex="0"
+                type="button"
+              >
+                test builds
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+          >
+            <div
+              style="margin-right: 8px;"
+            >
+              <input
+                name="test coverage"
+                style="position: absolute; opacity: 0;"
+                type="checkbox"
+              />
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-cjtmh9-MuiButtonBase-root-MuiButton-root"
+                tabindex="0"
+                type="button"
+              >
+                test coverage
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiBox-root css-0"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-zow5z4-MuiGrid-root"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3 css-12qstyp-MuiGrid-root"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-1v2d8t3-MuiTypography-root"
+              >
+                <strong>
+                  Passed tests
+                </strong>
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
+            >
+              <span
+                class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-pt81qq-MuiSlider-root"
+                data-testid="CONFIG_SLIDER_TEST_ID"
+              >
+                <span
+                  class="MuiSlider-rail css-14pt78w-MuiSlider-rail"
+                />
+                <span
+                  class="MuiSlider-track css-1gv0vcd-MuiSlider-track"
+                  style="left: 0%; width: 33%;"
+                />
+                <span
+                  class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-eg0mwd-MuiSlider-thumb"
+                  data-focusvisible="false"
+                  data-index="0"
+                  style="left: 33%;"
+                >
+                  <input
+                    aria-orientation="horizontal"
+                    aria-valuemax="100"
+                    aria-valuemin="0"
+                    aria-valuenow="33"
+                    data-index="0"
+                    max="100"
+                    min="0"
+                    step="1"
+                    style="border: 0px; height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
+                    type="range"
+                    value="33"
+                  />
+                </span>
+              </span>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-1equabv-MuiGrid-root"
+            >
+              <div
+                class="MuiFormControl-root MuiTextField-root css-rtrmyr-MuiFormControl-root-MuiTextField-root"
+                data-testid="CONFIG_INPUT_TEST_ID"
+              >
+                <div
+                  class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
+                >
+                  <input
+                    aria-invalid="false"
+                    class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
+                    id=":r3:"
+                    type="text"
+                    value="33"
+                  />
+                  <div
+                    class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-1pnmrwp-MuiTypography-root"
+                    >
+                      %
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-zow5z4-MuiGrid-root"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3 css-12qstyp-MuiGrid-root"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-1v2d8t3-MuiTypography-root"
+              >
+                <strong>
+                  Test builds
+                </strong>
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
+            >
+              <span
+                class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-pt81qq-MuiSlider-root"
+                data-testid="CONFIG_SLIDER_TEST_ID"
+              >
+                <span
+                  class="MuiSlider-rail css-14pt78w-MuiSlider-rail"
+                />
+                <span
+                  class="MuiSlider-track css-1gv0vcd-MuiSlider-track"
+                  style="left: 0%; width: 33%;"
+                />
+                <span
+                  class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-eg0mwd-MuiSlider-thumb"
+                  data-focusvisible="false"
+                  data-index="0"
+                  style="left: 33%;"
+                >
+                  <input
+                    aria-orientation="horizontal"
+                    aria-valuemax="100"
+                    aria-valuemin="0"
+                    aria-valuenow="33"
+                    data-index="0"
+                    max="100"
+                    min="0"
+                    step="1"
+                    style="border: 0px; height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
+                    type="range"
+                    value="33"
+                  />
+                </span>
+              </span>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-1equabv-MuiGrid-root"
+            >
+              <div
+                class="MuiFormControl-root MuiTextField-root css-rtrmyr-MuiFormControl-root-MuiTextField-root"
+                data-testid="CONFIG_INPUT_TEST_ID"
+              >
+                <div
+                  class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
+                >
+                  <input
+                    aria-invalid="false"
+                    class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
+                    id=":r4:"
+                    type="text"
+                    value="33"
+                  />
+                  <div
+                    class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-1pnmrwp-MuiTypography-root"
+                    >
+                      %
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="MuiBox-root css-2c3mdi"
+    >
+      <h6
+        class="MuiTypography-root MuiTypography-h6 css-1xs8bbc-MuiTypography-root"
+      >
+        SUBTITLE
+      </h6>
+      <div
+        class="MuiTabs-root css-1ujnqem-MuiTabs-root"
+        style="margin-bottom: 24px;"
+      >
+        <div
+          class="MuiTabs-scroller MuiTabs-fixed css-jpln7h-MuiTabs-scroller"
+          style="overflow: hidden; margin-bottom: 0px;"
+        >
+          <div
+            class="MuiTabs-flexContainer css-heg063-MuiTabs-flexContainer"
+            role="tablist"
+          >
+            <button
+              aria-selected="true"
+              class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected css-1h9z7r5-MuiButtonBase-root-MuiTab-root"
+              role="tab"
+              tabindex="0"
+              type="button"
+            >
+              testing status
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+            <button
+              aria-selected="false"
+              class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-1h9z7r5-MuiButtonBase-root-MuiTab-root"
+              role="tab"
+              tabindex="-1"
+              type="button"
+            >
+              modifiability
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+          </div>
+          <span
+            class="MuiTabs-indicator css-1aquho2-MuiTabs-indicator"
+            style="left: 0px; width: 0px;"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-container css-s3g6yz-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+        >
+          <div
+            style="margin-right: 8px;"
+          >
+            <input
+              checked=""
+              name="passed tests"
+              style="position: absolute; opacity: 0;"
+              type="checkbox"
+            />
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1cfee4v-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
+              type="button"
+            >
+              passed tests
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+        >
+          <div
+            style="margin-right: 8px;"
+          >
+            <input
+              checked=""
+              name="test builds"
+              style="position: absolute; opacity: 0;"
+              type="checkbox"
+            />
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1cfee4v-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
+              type="button"
+            >
+              test builds
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+        >
+          <div
+            style="margin-right: 8px;"
+          >
+            <input
+              name="test coverage"
+              style="position: absolute; opacity: 0;"
+              type="checkbox"
+            />
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-cjtmh9-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
+              type="button"
+            >
+              test coverage
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiBox-root css-0"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-zow5z4-MuiGrid-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3 css-12qstyp-MuiGrid-root"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 css-1v2d8t3-MuiTypography-root"
+            >
+              <strong>
+                Passed tests
+              </strong>
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
+          >
+            <span
+              class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-pt81qq-MuiSlider-root"
+              data-testid="CONFIG_SLIDER_TEST_ID"
+            >
+              <span
+                class="MuiSlider-rail css-14pt78w-MuiSlider-rail"
+              />
+              <span
+                class="MuiSlider-track css-1gv0vcd-MuiSlider-track"
+                style="left: 0%; width: 33%;"
+              />
+              <span
+                class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-eg0mwd-MuiSlider-thumb"
+                data-focusvisible="false"
+                data-index="0"
+                style="left: 33%;"
+              >
+                <input
+                  aria-orientation="horizontal"
+                  aria-valuemax="100"
+                  aria-valuemin="0"
+                  aria-valuenow="33"
+                  data-index="0"
+                  max="100"
+                  min="0"
+                  step="1"
+                  style="border: 0px; height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
+                  type="range"
+                  value="33"
+                />
+              </span>
+            </span>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-1equabv-MuiGrid-root"
+          >
+            <div
+              class="MuiFormControl-root MuiTextField-root css-rtrmyr-MuiFormControl-root-MuiTextField-root"
+              data-testid="CONFIG_INPUT_TEST_ID"
+            >
+              <div
+                class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
+              >
+                <input
+                  aria-invalid="false"
+                  class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
+                  id=":r3:"
+                  type="text"
+                  value="33"
+                />
+                <div
+                  class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-1pnmrwp-MuiTypography-root"
+                  >
+                    %
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-zow5z4-MuiGrid-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3 css-12qstyp-MuiGrid-root"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 css-1v2d8t3-MuiTypography-root"
+            >
+              <strong>
+                Test builds
+              </strong>
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
+          >
+            <span
+              class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-pt81qq-MuiSlider-root"
+              data-testid="CONFIG_SLIDER_TEST_ID"
+            >
+              <span
+                class="MuiSlider-rail css-14pt78w-MuiSlider-rail"
+              />
+              <span
+                class="MuiSlider-track css-1gv0vcd-MuiSlider-track"
+                style="left: 0%; width: 33%;"
+              />
+              <span
+                class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-eg0mwd-MuiSlider-thumb"
+                data-focusvisible="false"
+                data-index="0"
+                style="left: 33%;"
+              >
+                <input
+                  aria-orientation="horizontal"
+                  aria-valuemax="100"
+                  aria-valuemin="0"
+                  aria-valuenow="33"
+                  data-index="0"
+                  max="100"
+                  min="0"
+                  step="1"
+                  style="border: 0px; height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
+                  type="range"
+                  value="33"
+                />
+              </span>
+            </span>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-1equabv-MuiGrid-root"
+          >
+            <div
+              class="MuiFormControl-root MuiTextField-root css-rtrmyr-MuiFormControl-root-MuiTextField-root"
+              data-testid="CONFIG_INPUT_TEST_ID"
+            >
+              <div
+                class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
+              >
+                <input
+                  aria-invalid="false"
+                  class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
+                  id=":r4:"
+                  type="text"
+                  value="33"
+                />
+                <div
+                  class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-1pnmrwp-MuiTypography-root"
+                  >
+                    %
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
+
+exports[`<ConfigsForm /> Snapshot Deve corresponder ao Snapshot de subcharacteristic 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="MuiBox-root css-2c3mdi"
+      >
+        <h6
+          class="MuiTypography-root MuiTypography-h6 css-1xs8bbc-MuiTypography-root"
+        >
+          SUBTITLE
+        </h6>
+        <div
+          class="MuiTabs-root css-1ujnqem-MuiTabs-root"
+          style="margin-bottom: 24px;"
+        >
+          <div
+            class="MuiTabs-scroller MuiTabs-fixed css-jpln7h-MuiTabs-scroller"
+            style="overflow: hidden; margin-bottom: 0px;"
+          >
+            <div
+              class="MuiTabs-flexContainer css-heg063-MuiTabs-flexContainer"
+              role="tablist"
+            >
+              <button
+                aria-selected="true"
+                class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected css-1h9z7r5-MuiButtonBase-root-MuiTab-root"
+                role="tab"
+                tabindex="0"
+                type="button"
+              >
+                reliability
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+              <button
+                aria-selected="false"
+                class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-1h9z7r5-MuiButtonBase-root-MuiTab-root"
+                role="tab"
+                tabindex="-1"
+                type="button"
+              >
+                maintainability
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+            <span
+              class="MuiTabs-indicator css-1aquho2-MuiTabs-indicator"
+              style="left: 0px; width: 0px;"
+            />
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-container css-s3g6yz-MuiGrid-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+          >
+            <div
+              style="margin-right: 8px;"
+            >
+              <input
+                checked=""
+                name="testing status"
+                style="position: absolute; opacity: 0;"
+                type="checkbox"
+              />
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1cfee4v-MuiButtonBase-root-MuiButton-root"
+                tabindex="0"
+                type="button"
+              >
+                testing status
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiBox-root css-0"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-zow5z4-MuiGrid-root"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3 css-12qstyp-MuiGrid-root"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-1v2d8t3-MuiTypography-root"
+              >
+                <strong>
+                  Testing status
+                </strong>
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
+            >
+              <span
+                class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-pt81qq-MuiSlider-root"
+                data-testid="CONFIG_SLIDER_TEST_ID"
+              >
+                <span
+                  class="MuiSlider-rail css-14pt78w-MuiSlider-rail"
+                />
+                <span
+                  class="MuiSlider-track css-1gv0vcd-MuiSlider-track"
+                  style="left: 0%; width: 100%;"
+                />
+                <span
+                  class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-eg0mwd-MuiSlider-thumb"
+                  data-focusvisible="false"
+                  data-index="0"
+                  style="left: 100%;"
+                >
+                  <input
+                    aria-orientation="horizontal"
+                    aria-valuemax="100"
+                    aria-valuemin="0"
+                    aria-valuenow="100"
+                    data-index="0"
+                    max="100"
+                    min="0"
+                    step="1"
+                    style="border: 0px; height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
+                    type="range"
+                    value="100"
+                  />
+                </span>
+              </span>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-1equabv-MuiGrid-root"
+            >
+              <div
+                class="MuiFormControl-root MuiTextField-root css-rtrmyr-MuiFormControl-root-MuiTextField-root"
+                data-testid="CONFIG_INPUT_TEST_ID"
+              >
+                <div
+                  class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
+                >
+                  <input
+                    aria-invalid="false"
+                    class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
+                    id=":r2:"
+                    type="text"
+                    value="100"
+                  />
+                  <div
+                    class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-1pnmrwp-MuiTypography-root"
+                    >
+                      %
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="MuiBox-root css-2c3mdi"
+    >
+      <h6
+        class="MuiTypography-root MuiTypography-h6 css-1xs8bbc-MuiTypography-root"
+      >
+        SUBTITLE
+      </h6>
+      <div
+        class="MuiTabs-root css-1ujnqem-MuiTabs-root"
+        style="margin-bottom: 24px;"
+      >
+        <div
+          class="MuiTabs-scroller MuiTabs-fixed css-jpln7h-MuiTabs-scroller"
+          style="overflow: hidden; margin-bottom: 0px;"
+        >
+          <div
+            class="MuiTabs-flexContainer css-heg063-MuiTabs-flexContainer"
+            role="tablist"
+          >
+            <button
+              aria-selected="true"
+              class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected css-1h9z7r5-MuiButtonBase-root-MuiTab-root"
+              role="tab"
+              tabindex="0"
+              type="button"
+            >
+              reliability
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+            <button
+              aria-selected="false"
+              class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-1h9z7r5-MuiButtonBase-root-MuiTab-root"
+              role="tab"
+              tabindex="-1"
+              type="button"
+            >
+              maintainability
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+          </div>
+          <span
+            class="MuiTabs-indicator css-1aquho2-MuiTabs-indicator"
+            style="left: 0px; width: 0px;"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-container css-s3g6yz-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+        >
+          <div
+            style="margin-right: 8px;"
+          >
+            <input
+              checked=""
+              name="testing status"
+              style="position: absolute; opacity: 0;"
+              type="checkbox"
+            />
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1cfee4v-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
+              type="button"
+            >
+              testing status
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiBox-root css-0"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-zow5z4-MuiGrid-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3 css-12qstyp-MuiGrid-root"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 css-1v2d8t3-MuiTypography-root"
+            >
+              <strong>
+                Testing status
+              </strong>
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-trcag1-MuiGrid-root"
+          >
+            <span
+              class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium css-pt81qq-MuiSlider-root"
+              data-testid="CONFIG_SLIDER_TEST_ID"
+            >
+              <span
+                class="MuiSlider-rail css-14pt78w-MuiSlider-rail"
+              />
+              <span
+                class="MuiSlider-track css-1gv0vcd-MuiSlider-track"
+                style="left: 0%; width: 100%;"
+              />
+              <span
+                class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-eg0mwd-MuiSlider-thumb"
+                data-focusvisible="false"
+                data-index="0"
+                style="left: 100%;"
+              >
+                <input
+                  aria-orientation="horizontal"
+                  aria-valuemax="100"
+                  aria-valuemin="0"
+                  aria-valuenow="100"
+                  data-index="0"
+                  max="100"
+                  min="0"
+                  step="1"
+                  style="border: 0px; height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
+                  type="range"
+                  value="100"
+                />
+              </span>
+            </span>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-1equabv-MuiGrid-root"
+          >
+            <div
+              class="MuiFormControl-root MuiTextField-root css-rtrmyr-MuiFormControl-root-MuiTextField-root"
+              data-testid="CONFIG_INPUT_TEST_ID"
+            >
+              <div
+                class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
+              >
+                <input
+                  aria-invalid="false"
+                  class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
+                  id=":r2:"
+                  type="text"
+                  value="100"
+                />
+                <div
+                  class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-1pnmrwp-MuiTypography-root"
+                  >
+                    %
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

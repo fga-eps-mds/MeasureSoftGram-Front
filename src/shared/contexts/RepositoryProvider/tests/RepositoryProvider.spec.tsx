@@ -29,8 +29,8 @@ describe('RepositoryContext', () => {
         setMeasures,
         metrics,
         setMetrics,
-        historicalSQC,
-        setHistoricalSQC
+        historicalTSQMI,
+        setHistoricalTSQMI
       } = useRepositoryContext();
 
       return (
@@ -41,7 +41,7 @@ describe('RepositoryContext', () => {
           <p data-testid="subCharacteristics">{subCharacteristics}</p>
           <p data-testid="measures">{measures}</p>
           <p data-testid="metrics">{metrics}</p>
-          <p data-testid="historicalSQC">{historicalSQC}</p>
+          <p data-testid="historicalTSQMI">{historicalTSQMI}</p>
         </div>
       );
     };
@@ -58,6 +58,6 @@ describe('RepositoryContext', () => {
     expect(getByTestId('subCharacteristics').textContent).toBe('');
     expect(getByTestId('measures').textContent).toBe('');
     expect(getByTestId('metrics').textContent).toBe('');
-    expect(getByTestId('historicalSQC').textContent).toBe('');
+    expect(getByTestId('historicalTSQMI').textContent).toBe('');
   });
 });

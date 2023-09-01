@@ -5,10 +5,10 @@ import { ptBR } from 'date-fns/locale';
 
 import { Box, Button, Typography, Container } from '@mui/material';
 
-import { RepositoriesSqcHistory } from '@customTypes/product';
+import { RepositoriesTsqmiHistory } from '@customTypes/product';
 
 import CreateRelease from '@modules/createRelease';
-import GraphicRepositoriesSqcHistory from '@components/GraphicRepositoriesSqcHistory';
+import GraphicRepositoriesTsqmiHistory from '@components/GraphicRepositoriesTsqmiHistory';
 
 import { useProductContext } from '@contexts/ProductProvider';
 
@@ -17,10 +17,10 @@ import { useRouter } from 'next/router';
 import Skeleton from './Skeleton';
 
 interface Props {
-  repositoriesSqcHistory?: RepositoriesSqcHistory;
+  repositoriesTsqmiHistory?: RepositoriesTsqmiHistory;
 }
 
-const ProductContent: React.FC<Props> = ({ repositoriesSqcHistory }) => {
+const ProductContent: React.FC<Props> = ({ repositoriesTsqmiHistory }) => {
   const { currentProduct } = useProductContext();
 
   const [openCreateRelease, setOpenCreateRelease] = useState(false);
@@ -43,7 +43,7 @@ const ProductContent: React.FC<Props> = ({ repositoriesSqcHistory }) => {
       locale: ptBR
     });
 
-  if (!currentProduct || !repositoriesSqcHistory) {
+  if (!currentProduct || !repositoriesTsqmiHistory) {
     return (
       <Container>
         <Skeleton />
@@ -60,7 +60,7 @@ const ProductContent: React.FC<Props> = ({ repositoriesSqcHistory }) => {
               <Typography variant="h4" marginRight="10px">
                 Overview
               </Typography>
-              <Typography variant="h4" fontWeight="300">
+              <Typography variant="h4" fontWeight="500" color="#33568E">
                 {currentProduct?.name}
               </Typography>
             </Box>
@@ -73,11 +73,11 @@ const ProductContent: React.FC<Props> = ({ repositoriesSqcHistory }) => {
 
       <Box display="flex" justifyContent="end">
         <Button onClick={handleOpenCreateRelease} variant="contained">
-          Definir release
+          Planejar release
         </Button>
       </Box>
 
-      <GraphicRepositoriesSqcHistory history={repositoriesSqcHistory} />
+      <GraphicRepositoriesTsqmiHistory history={repositoriesTsqmiHistory} />
 
       <CreateRelease
         open={openCreateRelease}

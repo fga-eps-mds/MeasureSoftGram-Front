@@ -15,7 +15,8 @@ import type {} from '@mui/lab/themeAugmentation';
 import { AuthProvider } from '@contexts/Auth';
 
 export type NextPageWithLayout = NextPage & {
-  getLayout?: (page: ReactElement) => typeof page;
+  getLayout?: (page: ReactElement, disableBreadcrumb?: boolean) => typeof page;
+  disableBreadcrumb?: boolean;
 };
 
 type AppPropsWithLayout = AppProps & {
@@ -24,6 +25,7 @@ type AppPropsWithLayout = AppProps & {
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
+  const disableBreadcrumb = Component.disableBreadcrumb ?? false;
 
   return (
     <AuthProvider>
@@ -42,7 +44,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         />
         <RepositoryProvider>
           <ProductProvider>
-            <Theme>{getLayout(<Component {...pageProps} />)}</Theme>
+            <Theme>{getLayout(<Component {...pageProps} />, disableBreadcrumb)}</Theme>
           </ProductProvider>
         </RepositoryProvider>
       </OrganizationProvider>

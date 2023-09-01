@@ -1,0 +1,862 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home Snapshot Deve corresponder ao Snapshot 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
+      >
+        <div
+          class="MuiBox-root css-1xhj18k"
+        >
+          <div
+            class="MuiBox-root css-bb2sw8"
+          >
+            <div
+              class="MuiBox-root css-k008qs"
+            >
+              <h4
+                class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+                style="color: rgb(51, 86, 142); font-weight: bold;"
+              >
+                Página inicial
+              </h4>
+            </div>
+            <div
+              class="MuiBox-root css-0"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                style="font-size: 16px;"
+              >
+                Aqui você poderá obter algumas informações sobre nosso produto.
+              </p>
+            </div>
+            <div
+              class="MuiBox-root css-1n8etdr"
+            >
+              <nav
+                class="MuiList-root MuiList-padding css-h4y409-MuiList-root"
+              >
+                <div
+                  class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters Mui-selected MuiListItemButton-root MuiListItemButton-gutters Mui-selected css-llb1ir-MuiButtonBase-root-MuiListItemButton-root"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="MuiBox-root css-sjfhw0"
+                  >
+                    <div
+                      class="MuiBox-root css-1g9x5we"
+                    >
+                      <div
+                        class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                          data-testid="EastOutlinedIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="m15 5-1.41 1.41L18.17 11H2v2h16.17l-4.59 4.59L15 19l7-7-7-7z"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 button-text css-1ixorw4-MuiTypography-root"
+                    >
+                      Organizações e Produtos
+                    </p>
+                  </div>
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </div>
+                <div
+                  class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-yzx94z-MuiButtonBase-root-MuiListItemButton-root"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="MuiBox-root css-sjfhw0"
+                  >
+                    <div
+                      class="MuiBox-root css-1g9x5we"
+                    />
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 button-text css-1ixorw4-MuiTypography-root"
+                    >
+                      Repositórios e Releases
+                    </p>
+                  </div>
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </div>
+                <div
+                  class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-yzx94z-MuiButtonBase-root-MuiListItemButton-root"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="MuiBox-root css-sjfhw0"
+                  >
+                    <div
+                      class="MuiBox-root css-1g9x5we"
+                    />
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 button-text css-1ixorw4-MuiTypography-root"
+                    >
+                      Pré-configuração
+                    </p>
+                  </div>
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </div>
+                <div
+                  class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-yzx94z-MuiButtonBase-root-MuiListItemButton-root"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="MuiBox-root css-sjfhw0"
+                  >
+                    <div
+                      class="MuiBox-root css-1g9x5we"
+                    />
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 button-text css-1ixorw4-MuiTypography-root"
+                    >
+                      Configuração
+                    </p>
+                  </div>
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </div>
+              </nav>
+            </div>
+          </div>
+          <div
+            class="MuiBox-root css-euotp0"
+          >
+            <div
+              class="MuiBox-root css-1mwjrl3"
+            >
+              <div
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-18vk9q-MuiPaper-root-MuiCard-root"
+                id="Organizações e Produtos"
+              >
+                <div
+                  class="MuiCardContent-root css-1hpgiqs-MuiCardContent-root"
+                >
+                  <div
+                    class="MuiBox-root css-1glkofm"
+                  >
+                    <div
+                      class="MuiBox-root css-pw8lt9"
+                      id="images"
+                    >
+                      <img
+                        alt="green iguana"
+                        class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-14x8w58-MuiCardMedia-root"
+                        src="/images/png/structure.png"
+                      />
+                    </div>
+                    <div
+                      class="MuiBox-root css-s4ej5b"
+                      id="texts"
+                    >
+                      <div
+                        class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter MuiTypography-gutterBottom css-1g00ex-MuiTypography-root"
+                      >
+                        Organizações
+                      </div>
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 css-1oetjkv-MuiTypography-root"
+                      >
+                        Na página de organizações, você pode encontrar uma lista de todas as organizações que estão utilizando o MeasureSoftGram, além de encontrar também todos os seus produtos cadastrados.
+                      </p>
+                      <div
+                        class="MuiBox-root css-1vp8jwk"
+                      >
+                        <div
+                          class="MuiBox-root css-pb7e80"
+                        >
+                          <button
+                            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth css-1fu7jd5-MuiButtonBase-root-MuiButton-root"
+                            tabindex="0"
+                            type="button"
+                          >
+                            Visualizar Organizações e Produtos
+                            <span
+                              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                            />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="MuiCardContent-root css-1hpgiqs-MuiCardContent-root"
+                >
+                  <div
+                    class="MuiBox-root css-1glkofm"
+                  >
+                    <div
+                      class="MuiBox-root css-pw8lt9"
+                      id="images"
+                    >
+                      <img
+                        alt="green iguana"
+                        class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-14x8w58-MuiCardMedia-root"
+                        src="/images/png/development.png"
+                      />
+                    </div>
+                    <div
+                      class="MuiBox-root css-s4ej5b"
+                      id="texts"
+                    >
+                      <div
+                        class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter MuiTypography-gutterBottom css-1g00ex-MuiTypography-root"
+                      >
+                        Produtos
+                      </div>
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 css-1oetjkv-MuiTypography-root"
+                      >
+                        Os produtos são softwares que pertencem à alguma organização e que possuem algum cliente. Por conta de sua natureza, um mesmo produto pode possuir vários repositórios associados à ele, o que permite uma implementação continua em mais de uma frente de trabalho.
+                      </p>
+                      <div
+                        class="MuiBox-root css-1vp8jwk"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-18vk9q-MuiPaper-root-MuiCard-root"
+                id="Repositórios e Releases"
+              >
+                <div
+                  class="MuiCardContent-root css-1hpgiqs-MuiCardContent-root"
+                >
+                  <div
+                    class="MuiBox-root css-1glkofm"
+                  >
+                    <div
+                      class="MuiBox-root css-pw8lt9"
+                      id="images"
+                    >
+                      <img
+                        alt="green iguana"
+                        class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-14x8w58-MuiCardMedia-root"
+                        src="/images/png/folders.png"
+                      />
+                    </div>
+                    <div
+                      class="MuiBox-root css-s4ej5b"
+                      id="texts"
+                    >
+                      <div
+                        class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter MuiTypography-gutterBottom css-1g00ex-MuiTypography-root"
+                      >
+                        Repositórios
+                      </div>
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 css-1oetjkv-MuiTypography-root"
+                      >
+                        Repositórios são espaços de armazenamento de pacotes de software. Esses pacotes podem ser acessados e instalados por qualquer um que tenha aceso à eles, porém, o repositório armazena apenas modificações de quem é autorizado para isso. Tal característica permite que um único produto possua diversos repositórios, sendo que cada um possui as próprias modificações, permitindo o desenvolvimento simultâneo de funcionalidades diferentes.
+                      </p>
+                      <div
+                        class="MuiBox-root css-1vp8jwk"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="MuiCardContent-root css-1hpgiqs-MuiCardContent-root"
+                >
+                  <div
+                    class="MuiBox-root css-1glkofm"
+                  >
+                    <div
+                      class="MuiBox-root css-pw8lt9"
+                      id="images"
+                    >
+                      <img
+                        alt="green iguana"
+                        class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-14x8w58-MuiCardMedia-root"
+                        src="/images/png/new-offer.png"
+                      />
+                    </div>
+                    <div
+                      class="MuiBox-root css-s4ej5b"
+                      id="texts"
+                    >
+                      <div
+                        class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter MuiTypography-gutterBottom css-1g00ex-MuiTypography-root"
+                      >
+                        Releases
+                      </div>
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 css-1oetjkv-MuiTypography-root"
+                      >
+                        Releases representam as versões de lançamentos de um produto. Um produto, sistema computacional e seus subsistemas pode ter seu código-fonte centralizado em um repositório ou distribuído em múltiplos. No caso de múltiplos repositórios cada um possui suas respectivas releases. Além disso, existem dois tipos de releases, as majors e minors. O MeasureSoftGram atua no planejamento das releases majors utilizando a pré-configuração e suas subsequentes configurações.
+                      </p>
+                      <div
+                        class="MuiBox-root css-1vp8jwk"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-18vk9q-MuiPaper-root-MuiCard-root"
+                id="Pré-configuração"
+              >
+                <div
+                  class="MuiCardContent-root css-1hpgiqs-MuiCardContent-root"
+                >
+                  <div
+                    class="MuiBox-root css-1glkofm"
+                  >
+                    <div
+                      class="MuiBox-root css-pw8lt9"
+                      id="images"
+                    >
+                      <img
+                        alt="green iguana"
+                        class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-14x8w58-MuiCardMedia-root"
+                        src="/images/png/setting.png"
+                      />
+                    </div>
+                    <div
+                      class="MuiBox-root css-s4ej5b"
+                      id="texts"
+                    >
+                      <div
+                        class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter MuiTypography-gutterBottom css-1g00ex-MuiTypography-root"
+                      >
+                        Pré-configuração
+                      </div>
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 css-1oetjkv-MuiTypography-root"
+                      >
+                         A Pré-configuração representa o setup do modelo. Ela traz habilitada todas as métricas, medidas e seus valores de referência, subcaracterísticas, características, calculadas pelo modelo. Também há uma pré-definição dos pesos relativos para as medidas, subcaracterísticas e características, que são distribuídos de forma proporcional às respectivas quantidades.  Ao planejar a primeira release do produto, a  pré-configuração “deixa de existir” e passam haver as configurações. É definida no arquivo msgram.json.
+                      </p>
+                      <div
+                        class="MuiBox-root css-1vp8jwk"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-18vk9q-MuiPaper-root-MuiCard-root"
+                id="Configuração"
+              >
+                <div
+                  class="MuiCardContent-root css-1hpgiqs-MuiCardContent-root"
+                >
+                  <div
+                    class="MuiBox-root css-1glkofm"
+                  >
+                    <div
+                      class="MuiBox-root css-pw8lt9"
+                      id="images"
+                    >
+                      <img
+                        alt="green iguana"
+                        class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-14x8w58-MuiCardMedia-root"
+                        src="/images/png/web-management.png"
+                      />
+                    </div>
+                    <div
+                      class="MuiBox-root css-s4ej5b"
+                      id="texts"
+                    >
+                      <div
+                        class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter MuiTypography-gutterBottom css-1g00ex-MuiTypography-root"
+                      >
+                        Configuração
+                      </div>
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 css-1oetjkv-MuiTypography-root"
+                      >
+                        Uma configuração representa o resultado do planejamento dos objetivos de medição da qualidade de um release. Esse planejamento envolve a definição de qual(ais) características da qualidade que serão observadas durante o período de desenvolvimento de um release. Assim, é possível escolher e configurar os parâmetros das métricas, medidas e indicadores, em  todos os níveis do modelo. É possível definir valores de pesos, matriz da relação das características, valores de referência das medidas e escolha de características, sub-características, métricas e medidas a a serem observadas.
+                      </p>
+                      <div
+                        class="MuiBox-root css-1vp8jwk"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
+    >
+      <div
+        class="MuiBox-root css-1xhj18k"
+      >
+        <div
+          class="MuiBox-root css-bb2sw8"
+        >
+          <div
+            class="MuiBox-root css-k008qs"
+          >
+            <h4
+              class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+              style="color: rgb(51, 86, 142); font-weight: bold;"
+            >
+              Página inicial
+            </h4>
+          </div>
+          <div
+            class="MuiBox-root css-0"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+              style="font-size: 16px;"
+            >
+              Aqui você poderá obter algumas informações sobre nosso produto.
+            </p>
+          </div>
+          <div
+            class="MuiBox-root css-1n8etdr"
+          >
+            <nav
+              class="MuiList-root MuiList-padding css-h4y409-MuiList-root"
+            >
+              <div
+                class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters Mui-selected MuiListItemButton-root MuiListItemButton-gutters Mui-selected css-llb1ir-MuiButtonBase-root-MuiListItemButton-root"
+                role="button"
+                tabindex="0"
+              >
+                <div
+                  class="MuiBox-root css-sjfhw0"
+                >
+                  <div
+                    class="MuiBox-root css-1g9x5we"
+                  >
+                    <div
+                      class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                        data-testid="EastOutlinedIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="m15 5-1.41 1.41L18.17 11H2v2h16.17l-4.59 4.59L15 19l7-7-7-7z"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 button-text css-1ixorw4-MuiTypography-root"
+                  >
+                    Organizações e Produtos
+                  </p>
+                </div>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </div>
+              <div
+                class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-yzx94z-MuiButtonBase-root-MuiListItemButton-root"
+                role="button"
+                tabindex="0"
+              >
+                <div
+                  class="MuiBox-root css-sjfhw0"
+                >
+                  <div
+                    class="MuiBox-root css-1g9x5we"
+                  />
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 button-text css-1ixorw4-MuiTypography-root"
+                  >
+                    Repositórios e Releases
+                  </p>
+                </div>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </div>
+              <div
+                class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-yzx94z-MuiButtonBase-root-MuiListItemButton-root"
+                role="button"
+                tabindex="0"
+              >
+                <div
+                  class="MuiBox-root css-sjfhw0"
+                >
+                  <div
+                    class="MuiBox-root css-1g9x5we"
+                  />
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 button-text css-1ixorw4-MuiTypography-root"
+                  >
+                    Pré-configuração
+                  </p>
+                </div>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </div>
+              <div
+                class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-yzx94z-MuiButtonBase-root-MuiListItemButton-root"
+                role="button"
+                tabindex="0"
+              >
+                <div
+                  class="MuiBox-root css-sjfhw0"
+                >
+                  <div
+                    class="MuiBox-root css-1g9x5we"
+                  />
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 button-text css-1ixorw4-MuiTypography-root"
+                  >
+                    Configuração
+                  </p>
+                </div>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </div>
+            </nav>
+          </div>
+        </div>
+        <div
+          class="MuiBox-root css-euotp0"
+        >
+          <div
+            class="MuiBox-root css-1mwjrl3"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-18vk9q-MuiPaper-root-MuiCard-root"
+              id="Organizações e Produtos"
+            >
+              <div
+                class="MuiCardContent-root css-1hpgiqs-MuiCardContent-root"
+              >
+                <div
+                  class="MuiBox-root css-1glkofm"
+                >
+                  <div
+                    class="MuiBox-root css-pw8lt9"
+                    id="images"
+                  >
+                    <img
+                      alt="green iguana"
+                      class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-14x8w58-MuiCardMedia-root"
+                      src="/images/png/structure.png"
+                    />
+                  </div>
+                  <div
+                    class="MuiBox-root css-s4ej5b"
+                    id="texts"
+                  >
+                    <div
+                      class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter MuiTypography-gutterBottom css-1g00ex-MuiTypography-root"
+                    >
+                      Organizações
+                    </div>
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-1oetjkv-MuiTypography-root"
+                    >
+                      Na página de organizações, você pode encontrar uma lista de todas as organizações que estão utilizando o MeasureSoftGram, além de encontrar também todos os seus produtos cadastrados.
+                    </p>
+                    <div
+                      class="MuiBox-root css-1vp8jwk"
+                    >
+                      <div
+                        class="MuiBox-root css-pb7e80"
+                      >
+                        <button
+                          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth css-1fu7jd5-MuiButtonBase-root-MuiButton-root"
+                          tabindex="0"
+                          type="button"
+                        >
+                          Visualizar Organizações e Produtos
+                          <span
+                            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                          />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiCardContent-root css-1hpgiqs-MuiCardContent-root"
+              >
+                <div
+                  class="MuiBox-root css-1glkofm"
+                >
+                  <div
+                    class="MuiBox-root css-pw8lt9"
+                    id="images"
+                  >
+                    <img
+                      alt="green iguana"
+                      class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-14x8w58-MuiCardMedia-root"
+                      src="/images/png/development.png"
+                    />
+                  </div>
+                  <div
+                    class="MuiBox-root css-s4ej5b"
+                    id="texts"
+                  >
+                    <div
+                      class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter MuiTypography-gutterBottom css-1g00ex-MuiTypography-root"
+                    >
+                      Produtos
+                    </div>
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-1oetjkv-MuiTypography-root"
+                    >
+                      Os produtos são softwares que pertencem à alguma organização e que possuem algum cliente. Por conta de sua natureza, um mesmo produto pode possuir vários repositórios associados à ele, o que permite uma implementação continua em mais de uma frente de trabalho.
+                    </p>
+                    <div
+                      class="MuiBox-root css-1vp8jwk"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-18vk9q-MuiPaper-root-MuiCard-root"
+              id="Repositórios e Releases"
+            >
+              <div
+                class="MuiCardContent-root css-1hpgiqs-MuiCardContent-root"
+              >
+                <div
+                  class="MuiBox-root css-1glkofm"
+                >
+                  <div
+                    class="MuiBox-root css-pw8lt9"
+                    id="images"
+                  >
+                    <img
+                      alt="green iguana"
+                      class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-14x8w58-MuiCardMedia-root"
+                      src="/images/png/folders.png"
+                    />
+                  </div>
+                  <div
+                    class="MuiBox-root css-s4ej5b"
+                    id="texts"
+                  >
+                    <div
+                      class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter MuiTypography-gutterBottom css-1g00ex-MuiTypography-root"
+                    >
+                      Repositórios
+                    </div>
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-1oetjkv-MuiTypography-root"
+                    >
+                      Repositórios são espaços de armazenamento de pacotes de software. Esses pacotes podem ser acessados e instalados por qualquer um que tenha aceso à eles, porém, o repositório armazena apenas modificações de quem é autorizado para isso. Tal característica permite que um único produto possua diversos repositórios, sendo que cada um possui as próprias modificações, permitindo o desenvolvimento simultâneo de funcionalidades diferentes.
+                    </p>
+                    <div
+                      class="MuiBox-root css-1vp8jwk"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiCardContent-root css-1hpgiqs-MuiCardContent-root"
+              >
+                <div
+                  class="MuiBox-root css-1glkofm"
+                >
+                  <div
+                    class="MuiBox-root css-pw8lt9"
+                    id="images"
+                  >
+                    <img
+                      alt="green iguana"
+                      class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-14x8w58-MuiCardMedia-root"
+                      src="/images/png/new-offer.png"
+                    />
+                  </div>
+                  <div
+                    class="MuiBox-root css-s4ej5b"
+                    id="texts"
+                  >
+                    <div
+                      class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter MuiTypography-gutterBottom css-1g00ex-MuiTypography-root"
+                    >
+                      Releases
+                    </div>
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-1oetjkv-MuiTypography-root"
+                    >
+                      Releases representam as versões de lançamentos de um produto. Um produto, sistema computacional e seus subsistemas pode ter seu código-fonte centralizado em um repositório ou distribuído em múltiplos. No caso de múltiplos repositórios cada um possui suas respectivas releases. Além disso, existem dois tipos de releases, as majors e minors. O MeasureSoftGram atua no planejamento das releases majors utilizando a pré-configuração e suas subsequentes configurações.
+                    </p>
+                    <div
+                      class="MuiBox-root css-1vp8jwk"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-18vk9q-MuiPaper-root-MuiCard-root"
+              id="Pré-configuração"
+            >
+              <div
+                class="MuiCardContent-root css-1hpgiqs-MuiCardContent-root"
+              >
+                <div
+                  class="MuiBox-root css-1glkofm"
+                >
+                  <div
+                    class="MuiBox-root css-pw8lt9"
+                    id="images"
+                  >
+                    <img
+                      alt="green iguana"
+                      class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-14x8w58-MuiCardMedia-root"
+                      src="/images/png/setting.png"
+                    />
+                  </div>
+                  <div
+                    class="MuiBox-root css-s4ej5b"
+                    id="texts"
+                  >
+                    <div
+                      class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter MuiTypography-gutterBottom css-1g00ex-MuiTypography-root"
+                    >
+                      Pré-configuração
+                    </div>
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-1oetjkv-MuiTypography-root"
+                    >
+                       A Pré-configuração representa o setup do modelo. Ela traz habilitada todas as métricas, medidas e seus valores de referência, subcaracterísticas, características, calculadas pelo modelo. Também há uma pré-definição dos pesos relativos para as medidas, subcaracterísticas e características, que são distribuídos de forma proporcional às respectivas quantidades.  Ao planejar a primeira release do produto, a  pré-configuração “deixa de existir” e passam haver as configurações. É definida no arquivo msgram.json.
+                    </p>
+                    <div
+                      class="MuiBox-root css-1vp8jwk"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-18vk9q-MuiPaper-root-MuiCard-root"
+              id="Configuração"
+            >
+              <div
+                class="MuiCardContent-root css-1hpgiqs-MuiCardContent-root"
+              >
+                <div
+                  class="MuiBox-root css-1glkofm"
+                >
+                  <div
+                    class="MuiBox-root css-pw8lt9"
+                    id="images"
+                  >
+                    <img
+                      alt="green iguana"
+                      class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-14x8w58-MuiCardMedia-root"
+                      src="/images/png/web-management.png"
+                    />
+                  </div>
+                  <div
+                    class="MuiBox-root css-s4ej5b"
+                    id="texts"
+                  >
+                    <div
+                      class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter MuiTypography-gutterBottom css-1g00ex-MuiTypography-root"
+                    >
+                      Configuração
+                    </div>
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-1oetjkv-MuiTypography-root"
+                    >
+                      Uma configuração representa o resultado do planejamento dos objetivos de medição da qualidade de um release. Esse planejamento envolve a definição de qual(ais) características da qualidade que serão observadas durante o período de desenvolvimento de um release. Assim, é possível escolher e configurar os parâmetros das métricas, medidas e indicadores, em  todos os níveis do modelo. É possível definir valores de pesos, matriz da relação das características, valores de referência das medidas e escolha de características, sub-características, métricas e medidas a a serem observadas.
+                    </p>
+                    <div
+                      class="MuiBox-root css-1vp8jwk"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

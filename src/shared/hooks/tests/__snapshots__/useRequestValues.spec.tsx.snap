@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`useRequestValues should return an array of historical characteristics 1`] = `
+Object {
+  "data": Array [],
+  "error": undefined,
+  "isEmpty": false,
+  "isLoading": false,
+  "isValidating": true,
+}
+`;

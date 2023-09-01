@@ -1,29 +1,27 @@
 import React from 'react';
 
-import { Box, Checkbox, FormControlLabel, FormGroup, TextField } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 import { useCreateReleaseContext } from '@modules/createRelease/context/useCreateRelease';
-import undelineRemover from '@utils/undelineRemover';
 import * as Styles from './styles';
-import Skeleton from './Skeleton';
 
 function ReleaseInfo() {
-  const { releaseInfoForm, preConfigCharacteristics, handleChangeForm, handleSelectCharacteristics } =
+  const { releaseInfoForm, handleChangeForm, } =
     useCreateReleaseContext();
 
-  if (!preConfigCharacteristics) return <Skeleton />;
-
-  const { endDate, name, characteristics, startDate } = releaseInfoForm;
+  const { endDate, name, startDate } = releaseInfoForm;
 
   return (
     <>
       <Styles.Header>
-        <h1>Definir Meta de Qualidade (planejada)</h1>
-        <p>Mini explicação sobre as configurações basicas e a seleção de caracteristicas</p>
+        <h1 style={{ color: '#33568E', fontWeight: '500' }}>Planejar Release</h1>
+        <p style={{ marginTop: '60px' }}>
+          Na etapa inicial do planejamento da release é possível definir seu nome e as datas de início e fim.
+        </p>
       </Styles.Header>
 
       <Styles.Body>
         <Box>
-          <h2>Configurações básicas</h2>
+          <h2 style={{ color: '#538BA3', fontWeight: '500' }}>Configurações básicas</h2>
 
           <TextField
             label="Apelido da release"
@@ -69,30 +67,6 @@ function ReleaseInfo() {
               sx={{ flex: 1 }}
             />
           </Box>
-        </Box>
-
-        <Box>
-          <h2>Caracteristicas a serem observadas no release</h2>
-
-          <FormGroup onChange={(e) => handleSelectCharacteristics((e.target as HTMLInputElement).value)}>
-            {preConfigCharacteristics.map((item) => (
-              <FormControlLabel
-                key={item}
-                control={
-                  <Checkbox
-                    value={item}
-                    name={item}
-                    id={item}
-                    checked={characteristics?.includes(item)}
-                    inputProps={{
-                      'data-testid': 'characteristic-release'
-                    }}
-                  />
-                }
-                label={undelineRemover(item)}
-              />
-            ))}
-          </FormGroup>
         </Box>
       </Styles.Body>
     </>

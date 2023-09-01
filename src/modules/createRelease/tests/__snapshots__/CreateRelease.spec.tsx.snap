@@ -69,16 +69,175 @@ Object {
               class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
             >
               <div
-                class="MuiBox-root css-0"
+                class="styles__Header-sc-1xrutlg-0 jlUPbi"
               >
-                <span
-                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
-                  style="width: 300px; height: 64px;"
-                />
-                <span
-                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
-                  style="width: 600px; height: 32px;"
-                />
+                <h1
+                  style="color: rgb(51, 86, 142); font-weight: 500;"
+                >
+                  Planejar Release
+                </h1>
+                <p
+                  style="margin-top: 60px;"
+                >
+                  Na etapa inicial do planejamento da release é possível definir seu nome e as datas de início e fim.
+                </p>
+              </div>
+              <div
+                class="styles__Body-sc-1xrutlg-1 htLsRD"
+              >
+                <div
+                  class="MuiBox-root css-0"
+                >
+                  <h2
+                    style="color: rgb(83, 139, 163); font-weight: 500;"
+                  >
+                    Configurações básicas
+                  </h2>
+                  <div
+                    class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+                    style="margin-bottom: 24px;"
+                  >
+                    <label
+                      class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
+                      data-shrink="true"
+                      for=":r0:"
+                      id=":r0:-label"
+                    >
+                      Apelido da release
+                      <span
+                        aria-hidden="true"
+                        class="MuiFormLabel-asterisk MuiInputLabel-asterisk css-wgai2y-MuiFormLabel-asterisk"
+                      >
+                         
+                        *
+                      </span>
+                    </label>
+                    <div
+                      class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
+                    >
+                      <input
+                        aria-invalid="false"
+                        class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+                        data-testid="apelido-release"
+                        id=":r0:"
+                        required=""
+                        type="text"
+                        value="asdasd"
+                      />
+                      <fieldset
+                        aria-hidden="true"
+                        class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                      >
+                        <legend
+                          class="css-14lo706"
+                        >
+                          <span>
+                            Apelido da release
+                             
+                            *
+                          </span>
+                        </legend>
+                      </fieldset>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root css-k008qs"
+                  >
+                    <div
+                      class="MuiFormControl-root MuiTextField-root css-1vs1jgp-MuiFormControl-root-MuiTextField-root"
+                      style="margin-right: 16px;"
+                    >
+                      <label
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
+                        data-shrink="true"
+                        for=":r1:"
+                        id=":r1:-label"
+                      >
+                        Data de ínicio da release
+                        <span
+                          aria-hidden="true"
+                          class="MuiFormLabel-asterisk MuiInputLabel-asterisk css-wgai2y-MuiFormLabel-asterisk"
+                        >
+                           
+                          *
+                        </span>
+                      </label>
+                      <div
+                        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+                      >
+                        <input
+                          aria-invalid="false"
+                          class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+                          data-testid="inicio-release"
+                          id=":r1:"
+                          required=""
+                          type="date"
+                          value="2022-09-18"
+                        />
+                        <fieldset
+                          aria-hidden="true"
+                          class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                        >
+                          <legend
+                            class="css-14lo706"
+                          >
+                            <span>
+                              Data de ínicio da release
+                               
+                              *
+                            </span>
+                          </legend>
+                        </fieldset>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiFormControl-root MuiTextField-root css-1vs1jgp-MuiFormControl-root-MuiTextField-root"
+                    >
+                      <label
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
+                        data-shrink="true"
+                        for=":r2:"
+                        id=":r2:-label"
+                      >
+                        Data de fim da release
+                        <span
+                          aria-hidden="true"
+                          class="MuiFormLabel-asterisk MuiInputLabel-asterisk css-wgai2y-MuiFormLabel-asterisk"
+                        >
+                           
+                          *
+                        </span>
+                      </label>
+                      <div
+                        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+                      >
+                        <input
+                          aria-invalid="false"
+                          class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+                          data-testid="fim-release"
+                          id=":r2:"
+                          required=""
+                          type="date"
+                          value="2022-09-25"
+                        />
+                        <fieldset
+                          aria-hidden="true"
+                          class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                        >
+                          <legend
+                            class="css-14lo706"
+                          >
+                            <span>
+                              Data de fim da release
+                               
+                              *
+                            </span>
+                          </legend>
+                        </fieldset>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -86,7 +245,8 @@ Object {
             class="MuiBox-root css-1yuhvjn"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1mxmpgj-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1iy6m51-MuiButtonBase-root-MuiButton-root"
+              data-testid="back-button"
               tabindex="0"
               type="button"
             >
@@ -96,7 +256,8 @@ Object {
               />
             </button>
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1bjby6n-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-8jrlok-MuiButtonBase-root-MuiButton-root"
+              data-testid="next-button"
               tabindex="0"
               type="button"
             >
