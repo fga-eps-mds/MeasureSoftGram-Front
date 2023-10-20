@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   Box,
   Button,
@@ -38,7 +37,13 @@ const SideList = ({ values, open, onClose, onClickItem, seeMorePath }: Props) =>
           <IconButton onClick={onClose}>
             <FiArrowLeft fontSize={30} />
           </IconButton>
-          <Button variant="contained" startIcon={<FiPlus />}>
+          <Button
+            variant="contained"
+            startIcon={<FiPlus />}
+            onClick={() => {
+              void router.push("/organizations/");
+            }}
+          >
             Adicionar Organização
           </Button>
         </Box>
