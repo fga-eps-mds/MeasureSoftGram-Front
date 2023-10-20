@@ -23,6 +23,11 @@ function SideMenu() {
   const { currentProduct } = useProductContext();
   const router = useRouter();
 
+  useEffect(() => {
+    console.log('Current Organization:', currentOrganization);
+    console.log('Current Product:', currentProduct);
+  }, [currentOrganization, currentProduct]);
+
   const MenuItems: SideMenuItemType[] = [
     {
       startIcon: <FiBarChart2 fontSize={28} />,

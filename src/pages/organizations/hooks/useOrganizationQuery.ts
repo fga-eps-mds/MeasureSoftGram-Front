@@ -2,16 +2,41 @@ import { useEffect } from 'react';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import { toast } from 'react-toastify';
 import { organizationQuery, OrganizationFormData, Result } from '@services/organization';
+import { Organization } from '@customTypes/organization';
+
+interface CurrentOrganizationType extends Organization {
+  id: string;
+}
 
 export const useOrganizationQuery = () => {
-  const { currentOrganization, setCurrentOrganization } = useOrganizationContext();
+  const { currentOrganizations, setCurrentOrganizations } = useOrganizationContext();
 
-  const loadCurrentOrganization = async () => {
+  const loadCurrentOrganizations = async () => {
+    console.log("loadCurrentOrganizations foi chamada");
     try {
       const response = await organizationQuery.getAllOrganization();
-      setCurrentOrganization(response.data);
+      console.log("Dados da organização: ", response);
+
+      if (response.type === 'success') {
+        console.log('Response Value:', response.value);
+
+        if (response.value && response.value.results && Array.isArray(response.value.results)) {
+          const organizations = response.value.results.map(item => ({
+            ...item,
+            id: 'fake-id'  // ou item.id se a resposta contém um ID
+          })) as CurrentOrganizationType[];
+
+          setCurrentOrganizations(organizations);
+          console.log('Organizações carregadas:', organizations);
+        } else {
+          console.error('Response Value results is not an array or is missing:', response.value);
+        }
+      } else {
+        console.error("Erro ao recuperar os dados da organização: ", response.error);
+      }
     } catch (error) {
-      toast.error(`Erro ao carregar organização: ${error}`);
+      console.error("Erro detalhado:", error);
+      toast.error(`Erro ao carregar organizações: ${error}`);
     }
   };
 
@@ -32,10 +57,10 @@ export const useOrganizationQuery = () => {
   };
 
   useEffect(() => {
-    if (!currentOrganization) {
-      loadCurrentOrganization();
+    if (!currentOrganizations || currentOrganizations.length === 0) {
+      loadCurrentOrganizations();
     }
-  }, []);
+  }, [currentOrganizations]);
 
   return {
     createOrganization,

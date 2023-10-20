@@ -2,7 +2,7 @@ import React, { createContext, useState, useContext, ReactNode, useMemo, useCall
 
 import { Organization } from '@customTypes/organization';
 import { organizationQuery } from '@services/organization';
-import { useRequest } from '@hooks/useRequest';
+import { useRequest, GetRequest } from '@hooks/useRequest';
 import { useRouter } from 'next/router';
 
 interface Props {
@@ -10,8 +10,8 @@ interface Props {
 }
 
 interface IOrganizationContext {
-  currentOrganization: Organization | undefined;
-  setCurrentOrganization: (organization: Organization) => void;
+  currentOrganizations: Organization[];
+  setCurrentOrganizations: (organizations: Organization[]) => void;
   organizationList: Organization[];
 }
 
@@ -20,22 +20,30 @@ const OrganizationContext = createContext<IOrganizationContext | undefined>(unde
 export function OrganizationProvider({ children }: Props) {
   const router = useRouter();
 
-  const [currentOrganization, setCurrentOrganization] = useState<Organization | undefined>();
+  const [currentOrganizations, setCurrentOrganizations] = useState<Organization[]>([]);
 
-  const { data } = useRequest<{ results: [Organization] }>(organizationQuery.getAllOrganization());
+  const { data } = useRequest<{ results: Organization[] }>(
+    organizationQuery.getAllOrganization() as unknown as GetRequest
+  );
 
-  const organizationList = useCallback(() => data?.results ?? [], [data])();
+
+  const organizationList = data?.results ?? [];
 
   const value = useMemo(() => {
     const regex = /\d+/g;
     const queryProduct = router.query?.product as string;
     const organizationIndex = regex.exec(queryProduct);
-    if (!currentOrganization && organizationList.length > 0 && queryProduct && organizationIndex) {
-      setCurrentOrganization(organizationList[parseInt(organizationIndex[0], 10) - 1]);
+
+    if (currentOrganizations.length === 0 && organizationList.length > 0 && queryProduct && organizationIndex) {
+      setCurrentOrganizations([organizationList[parseInt(organizationIndex[0], 10) - 1]]);
     }
-    return { currentOrganization, setCurrentOrganization, organizationList };
+
+    return { currentOrganizations, setCurrentOrganizations, organizationList };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentOrganization, organizationList]);
+  }, [currentOrganizations, organizationList]);
+
+  console.log('Dados da organização atualizada:', currentOrganizations);
+  console.log('Lista de organizações atualizada:', organizationList);
 
   return <OrganizationContext.Provider value={value}>{children}</OrganizationContext.Provider>;
 }
@@ -44,7 +52,7 @@ export function useOrganizationContext() {
   const context = useContext(OrganizationContext);
 
   if (context === undefined) {
-    throw new Error('OrganizationContext must be used within a OrganizationContext');
+    throw new Error('OrganizationContext must be used within a OrganizationProvider');
   }
 
   return context;

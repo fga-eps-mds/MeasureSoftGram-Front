@@ -20,6 +20,9 @@ class OrganizationQuery {
     if (tokenResult.type === 'error' || !tokenResult.value.key) {
       return null;
     }
+
+    console.log('Token de Autenticação:', `Token ${tokenResult.value.key}`);
+
     return { Authorization: `Token ${tokenResult.value.key}` };
   }
 
@@ -30,9 +33,11 @@ class OrganizationQuery {
         throw new Error('Token de acesso não encontrado.');
       }
       const response = await api.post('/organizations/', data, { headers });
+      console.log('Criando organização com os dados:', data);
       return { type: 'success', value: response?.data };
     } catch (err) {
       const error = err as AxiosError;
+      console.log('Criando organização com os dados:', err);
       return { type: 'error', error };
     }
   }
@@ -51,15 +56,20 @@ class OrganizationQuery {
     }
   }
 
-  async getAllOrganization(): Promise<Result<OrganizationFormData[]>> {
-      try {
-        const response = await api.get('/organizations/');
-        return { type: 'success', value: response?.data };
-      } catch (err) {
-        const error = err as AxiosError;
-        return { type: 'error', error };
+  async getAllOrganization(): Promise<Result<{count: number, next: null, previous: null, results: OrganizationFormData[] }>> {
+    try {
+      const response = await api.get('/organizations/');
+      if (response?.data?.results && Array.isArray(response.data.results)) {
+        return { type: 'success', value: response.data };
+      } else {
+        throw new Error('A estrutura da resposta não é como esperado');
       }
+    } catch (err) {
+      const error = err as AxiosError;
+      return { type: 'error', error };
+    }
   }
+
 
   async updateOrganization(id: string, data: OrganizationFormData): Promise<Result<void>> {
     try {

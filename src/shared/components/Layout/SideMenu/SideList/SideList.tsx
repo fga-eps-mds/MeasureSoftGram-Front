@@ -28,6 +28,11 @@ const SideList = ({ values, open, onClose, onClickItem, seeMorePath }: Props) =>
   const filteredValues = values.slice(0, maxItems);
   const router = useRouter();
 
+  useEffect(() => {
+    console.log('Values:', values);
+    console.log('Open:', open);
+  }, [values, open]);
+
   return (
     <Drawer anchor="left" open={open} onClose={onClose}>
       <Box sx={{ width: '500px', bgcolor: 'background.paper' }}>
