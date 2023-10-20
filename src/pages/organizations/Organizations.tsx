@@ -21,7 +21,7 @@ const Organizations: OrganizationsType = () => {
 
   const carregarMembrosDaOrganizacao = async () => {
     const result = await getAllUsers();
-    console.log("Resultado da chamada de usuários:", result);
+    console.log("Resultado da chamada de usuários: ", result);
 
     if (result.type === 'success' && Array.isArray(result.value)) {
       setUsers(result.value);
