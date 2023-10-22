@@ -24,13 +24,16 @@ type Result<T> = ResultSuccess<T> | ResultError;
 export const getAllUsers = async (): Promise<Result<UserResult>> => {
   try {
     const tokenResult = await getAccessToken();
-    console.log(tokenResult);
+    console.log("Token Result:", tokenResult);
 
     if (tokenResult.type === 'error' || !tokenResult.value.key) {
+      console.error("Erro ao obter o token de acesso");
       return { type: 'error', error: new Error('Token de acesso não encontrado.') as AxiosError };
     }
 
     const token = tokenResult.value.key;
+
+    console.log("Token:", token);
 
     const response = await api.get('/accounts/users/', {
       headers: {
@@ -38,9 +41,12 @@ export const getAllUsers = async (): Promise<Result<UserResult>> => {
       }
     });
 
+    console.log("Resposta da API:", response);
+
     return { type: 'success', value: response.data };
   } catch (err) {
     const error = err as AxiosError;
+    console.error("Erro ao chamar a API:", error, error.response, error.message);
     return { type: 'error', error };
   }
 };

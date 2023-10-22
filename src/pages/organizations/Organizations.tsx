@@ -23,8 +23,9 @@ const Organizations: OrganizationsType = () => {
     const result = await getAllUsers();
     console.log("Resultado da chamada de usuários: ", result);
 
-    if (result.type === 'success' && Array.isArray(result.value)) {
-      setUsers(result.value);
+    if (result.type === 'success' && Array.isArray(result.value.results)) {
+      setUsers(result.value.results);
+      console.log('Usuários definidos no estado:', result.value.results);
     } else {
       toast.error('Erro ao carregar os usuários.');
     }
@@ -118,12 +119,16 @@ const Organizations: OrganizationsType = () => {
         <Box sx={{ flex: '1', marginLeft: 3 }}>
           <FormControl fullWidth variant="outlined" sx={{ mb: 2, height: 200 }}>
             <List>
-              {Array.isArray(users) && users.map((user) => (
-                <ListItem key={user.id} button onClick={() => handleToggleUser(user.username)}>
-                  <Checkbox checked={membros.indexOf(user.username) > -1} />
-                  {user.first_name} {user.last_name} ({user.username})
-                </ListItem>
-              ))}
+              {Array.isArray(users) && users.length > 0 ? (
+                users.map((user) => (
+                  <ListItem key={user.id} button onClick={() => handleToggleUser(user.username)}>
+                    <Checkbox checked={membros.indexOf(user.username) > -1} />
+                    {user.first_name} {user.last_name} ({user.username})
+                  </ListItem>
+                ))
+              ) : (
+                <Typography>Nenhum usuário disponível</Typography>
+              )}
             </List>
           </FormControl>
         </Box>
