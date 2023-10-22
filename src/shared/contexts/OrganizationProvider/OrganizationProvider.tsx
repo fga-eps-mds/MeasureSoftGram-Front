@@ -39,27 +39,26 @@ export function OrganizationProvider({ children }: Props) {
   }, []);
 
   const { data, error } = useRequest<any>(requestConfig);
-
   const organizationList = data?.results || [];
 
   useEffect(() => {
     console.log('Data from API:', data);
     console.log('API Error:', error);
 
-    if (organizationList.length > 0 && !currentOrganization) {
-      setCurrentOrganization(organizationList[0]);
+    if (organizationList.length > 0 && currentOrganizations.length === 0) {
+      setCurrentOrganizations([organizationList[0]]);
     }
-  }, [organizationList, currentOrganization, data, error]);
+  }, [organizationList, currentOrganizations, data, error]);
+
+  useEffect(() => {
+    if (currentOrganizations.length > 0) {
+      setCurrentOrganization(currentOrganizations[0]);
+    } else {
+      setCurrentOrganization(null);
+    }
+  }, [currentOrganizations]);
 
   const value = useMemo(() => {
-    const regex = /\d+/g;
-    const queryProduct = router.query?.product as string;
-    const organizationIndex = regex.exec(queryProduct);
-
-    if (currentOrganizations.length === 0 && organizationList.length > 0 && queryProduct && organizationIndex) {
-      setCurrentOrganizations([organizationList[parseInt(organizationIndex[0], 10) - 1]]);
-    }
-
     return {
       currentOrganization,
       currentOrganizations,

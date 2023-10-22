@@ -23,16 +23,34 @@ const Products: NextPageWithLayout = () => {
   useRequireAuth();
 
   const { organizationList, currentOrganization, setCurrentOrganizations } = useOrganizationContext();
-
   const { productsList } = useProductContext();
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(productsList ?? []);
+
+  useEffect(() => {
+    console.log('Organização atual:', currentOrganization);
+  }, [currentOrganization]);
 
   useEffect(() => {
     if (productsList !== undefined) setFilteredProducts(productsList);
   }, [productsList]);
 
-  const onClickItem = (organizationId: string) => {
+  const handleSelectedOrganization = (organizationId: string) => {
     console.log('Organization Selected:', organizationId);
+
+    if (currentOrganization?.id === organizationId) {
+      setCurrentOrganizations([]);
+      console.log('Desmarcando a organização atual');
+    } else if (organizationList?.length) {
+      const selectedOrganization = organizationList.find((organization) => organization.id === organizationId);
+      if (selectedOrganization) {
+        setCurrentOrganizations([selectedOrganization]);
+        console.log('Definindo a nova organização atual:', selectedOrganization.name);
+      } else {
+        console.log('Organização não encontrada');
+      }
+    } else {
+      console.log('Lista de organizações não disponível');
+    }
   };
 
   const handleProductFilter = (name: string) => {
@@ -40,23 +58,10 @@ const Products: NextPageWithLayout = () => {
       setFilteredProducts(productsList!);
       return;
     }
-    const productsWithName =
-      productsList?.filter((product: Product) => product.name.toLowerCase().includes(name.toLowerCase())) ?? [];
-
-    setFilteredProducts(productsWithName);
-  };
-
-  const handleSelectedOrganization = (organizationId: string) => {
-    onClickItem(organizationId);
-
-    if (currentOrganization?.id === organizationId) {
-      setCurrentOrganizations([]);
-    } else if (organizationList?.length) {
-      const selectedOrganization = organizationList.find((organization) => organization.id === organizationId);
-      if (selectedOrganization) {
-        setCurrentOrganizations([selectedOrganization]);
-      }
-    }
+    const filtered = productsList?.filter((product) =>
+      product.name.toLowerCase().includes(name.toLowerCase())
+    ) ?? [];
+    setFilteredProducts(filtered);
   };
 
   if (!productsList) {
@@ -66,6 +71,8 @@ const Products: NextPageWithLayout = () => {
       </Container>
     );
   }
+
+  console.log('Organização Atual na Renderização:', currentOrganization);
 
   return (
     <>
@@ -109,6 +116,9 @@ const Products: NextPageWithLayout = () => {
               padding="36px"
               style={{ backgroundColor: 'white', border: '1px solid #113d4c', borderRadius: '10px' }}
             >
+              <Typography variant="h5">
+                Organização Atual: {currentOrganization.name}
+              </Typography>
               <Box display="flex" gap="1rem" flexDirection="row">
                 <Typography variant="h5" color="#626264cc" fontWeight="semibold">
                   Produtos
@@ -136,6 +146,7 @@ const Products: NextPageWithLayout = () => {
       </Container>
     </>
   );
+
 };
 
 Products.getLayout = getLayout;
