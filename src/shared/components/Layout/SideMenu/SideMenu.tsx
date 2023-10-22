@@ -8,7 +8,6 @@ import SideMenuItem from './SideMenuItem/SideMenuItem';
 import SideMenuWrapper from './SideMenuWrapper';
 import UserMenu from './UserMenu';
 
-
 export type SideMenuItemType = {
   startIcon: React.ReactElement;
   text: string;
@@ -58,6 +57,7 @@ function SideMenu() {
 
   return (
     <SideMenuWrapper
+      key={`${currentOrganization?.id}-${currentProduct?.id}`}  // This key will force a re-render when organization or product changes
       menuItems={
         currentProduct &&
         MenuItems.map((item) => (
