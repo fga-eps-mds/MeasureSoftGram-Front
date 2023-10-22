@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FiBarChart2, FiGitBranch, FiPaperclip } from 'react-icons/fi';
 import { useAuth } from '@contexts/Auth';
 import { useProductContext } from '@contexts/ProductProvider';
@@ -7,6 +7,7 @@ import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import SideMenuItem from './SideMenuItem/SideMenuItem';
 import SideMenuWrapper from './SideMenuWrapper';
 import UserMenu from './UserMenu';
+
 
 export type SideMenuItemType = {
   startIcon: React.ReactElement;

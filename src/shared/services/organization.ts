@@ -56,19 +56,18 @@ class OrganizationQuery {
     }
   }
 
-  async getAllOrganization(): Promise<Result<{count: number, next: null, previous: null, results: OrganizationFormData[] }>> {
-    try {
-      const response = await api.get('/organizations/');
-      if (response?.data?.results && Array.isArray(response.data.results)) {
-        return { type: 'success', value: response.data };
-      } else {
-        throw new Error('A estrutura da resposta não é como esperado');
-      }
-    } catch (err) {
-      const error = err as AxiosError;
-      return { type: 'error', error };
+async getAllOrganization(): Promise<AxiosRequestConfig> {
+    const headers = await this.getAuthHeaders();
+    if (!headers) {
+        throw new Error('Token de acesso não encontrado.');
     }
-  }
+
+    return {
+        method: 'GET',
+        url: '/organizations/',
+        headers
+    };
+}
 
 
   async updateOrganization(id: string, data: OrganizationFormData): Promise<Result<void>> {

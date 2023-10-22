@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Box,
   Button,
@@ -19,7 +19,7 @@ type Props = {
   values: Array<any>;
   open: boolean;
   onClose: () => void;
-  onClickItem: (_value: any) => void;
+  onClickItem?: (_value: any) => void;
   seeMorePath: string;
 };
 
@@ -60,7 +60,12 @@ const SideList = ({ values, open, onClose, onClickItem, seeMorePath }: Props) =>
                 disablePadding
                 key={value.id}
                 onClick={() => {
-                  onClickItem(value);
+                  console.log('onClickItem function:', onClickItem);
+                  if (typeof onClickItem === 'function') {
+                    onClickItem(value);
+                  } else {
+                    console.error('onClickItem is not a function', onClickItem);
+                  }
                   onClose();
                 }}
               >

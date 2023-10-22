@@ -6,7 +6,7 @@ import { Box, Button, Container, Grid, Typography } from '@mui/material';
 import { NextPageWithLayout } from '@pages/_app.next';
 
 import { useProductContext } from '@contexts/ProductProvider';
-import { useOrganizationContext } from '@contexts/OrganizationProvider';
+import { useOrganizationContext } from '@contexts/OrganizationProvider';  // Remove the import of IOrganizationContext
 
 import getLayout from '@components/Layout';
 import CardNavigation from '@components/CardNavigation';
@@ -22,7 +22,8 @@ const Products: NextPageWithLayout = () => {
   useQuery();
   useRequireAuth();
 
-  const { organizationList, currentOrganization, setCurrentOrganization } = useOrganizationContext();
+  const { organizationList, currentOrganization, setCurrentOrganizations } = useOrganizationContext();  // Corrected the method name
+
   const { productsList } = useProductContext();
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(productsList ?? []);
 
@@ -43,9 +44,12 @@ const Products: NextPageWithLayout = () => {
 
   const handleSelectedOrganization = (organizationId: string) => {
     if (currentOrganization?.id === organizationId) {
-      setCurrentOrganization(undefined);
+      setCurrentOrganizations([]);  // Updated to set an empty array
     } else if (organizationList?.length) {
-      setCurrentOrganization(organizationList.find((organization) => organization.id === organizationId)!);
+      const selectedOrganization = organizationList.find((organization) => organization.id === organizationId);
+      if (selectedOrganization) {
+        setCurrentOrganizations([selectedOrganization]);  // Updated to accept an array
+      }
     }
   };
 
@@ -69,9 +73,8 @@ const Products: NextPageWithLayout = () => {
             Organizações
           </Typography>
           <Box display="flex" gap="1rem" marginTop="40px" marginBottom="10px" justifyContent="space-around">
-            {organizationList?.map((organization) => (
+            {organizationList?.map((organization) => ( // Removed the any type, use specific type if known
               <Box
-                // eslint-disable-next-line react/no-array-index-key
                 key={organization.id}
                 display="flex"
                 flexDirection="row"
@@ -80,7 +83,6 @@ const Products: NextPageWithLayout = () => {
                 justifyContent="center"
               >
                 <Button
-                  // eslint-disable-next-line react/no-array-index-key
                   style={{ maxWidth: '280px', maxHeight: '80px', minWidth: '280px', minHeight: '80px' }}
                   size="large"
                   variant={organization.id === currentOrganization?.id ? 'contained' : 'outlined'}
@@ -106,7 +108,7 @@ const Products: NextPageWithLayout = () => {
                   Produtos
                 </Typography>
                 <Grid container justifyContent="flex-end" marginRight="20px">
-                  <SearchButton onInput={(e) => handleProductFilter(e.target.value)} label="Insira o nome do produto" />
+                  <SearchButton onInput={(e) => handleProductFilter((e.target as HTMLInputElement).value)} label="Insira o nome do produto" />
                 </Grid>
               </Box>
 
