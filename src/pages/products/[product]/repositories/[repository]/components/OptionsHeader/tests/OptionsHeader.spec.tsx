@@ -7,10 +7,11 @@ import '@testing-library/jest-dom';
 describe('OptionsHeader', () => {
 
   it('should render the title', () => {
+    const isOpen = true;
     const { getByText } = render(
       <OptionsHeader
         title="Teste"
-        isHistoricOpen={true}
+        isHistoricOpen={isOpen}
         setIsHistoricOpen={() => { }}
       />
     );
@@ -46,10 +47,11 @@ describe('OptionsHeader', () => {
   });
 
   it('"Histórico" button should render with class "contained" when isHistoricOpen is true', () => {
+    const isOpen = true;
     const { getByText } = render(
       <OptionsHeader
         title="Teste"
-        isHistoricOpen={true}
+        isHistoricOpen={isOpen}
         setIsHistoricOpen={() => { }}
       />
     );
