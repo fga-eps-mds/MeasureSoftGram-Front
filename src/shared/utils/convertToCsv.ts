@@ -10,7 +10,7 @@ function convertToCsv(data: any[]): string {
     'history_created_at'
   ];
   const csvData = data.flatMap((item: any) =>
-    item.history.map((historyItem: any) => ({
+    item.history?.map((historyItem: any) => ({
       id: item.id,
       key: item.key,
       name: item.name,
