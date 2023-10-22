@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Tabs, Tab } from '@mui/material';
 
 interface Props {
@@ -10,6 +10,12 @@ interface Props {
 
 function CustomTabs({ tabId, orientation, tabHeaderItems, tabPanelItems }: Props) {
   const [value, setValue] = useState<number>(0);
+
+  useEffect(() => {
+    if (tabPanelItems.length === 1) {
+      setValue(0);
+    }
+  })
 
   const handleTabChange = (_: React.SyntheticEvent, newValue: number): void => {
     setValue(newValue);
@@ -35,7 +41,7 @@ function CustomTabs({ tabId, orientation, tabHeaderItems, tabPanelItems }: Props
     });
   };
 
-  const displayState = (idx: number):string => value === idx ? 'show' : 'none';
+  const displayState = (idx: number): string => value === idx ? 'show' : 'none';
 
   return (
     <Box sx={{ display: 'flex', flexGrow: 1, margin: '1rem 0', backgroundColor: 'white' }}>

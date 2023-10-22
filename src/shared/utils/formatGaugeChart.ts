@@ -37,7 +37,7 @@ const formatGaugeChart = ({ historical, title, isEmpty }: FormatGaugeChartType) 
             }
           },
           {
-            value: ((item?.goal ?? 1) / 100)?.toFixed(2),
+            value: ((item?.goal ?? 100) / 100)?.toFixed(2),
             name: 'Valor esperado',
             title: {
               offsetCenter: ['80%', '20%']
