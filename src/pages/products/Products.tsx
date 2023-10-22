@@ -6,7 +6,7 @@ import { Box, Button, Container, Grid, Typography } from '@mui/material';
 import { NextPageWithLayout } from '@pages/_app.next';
 
 import { useProductContext } from '@contexts/ProductProvider';
-import { useOrganizationContext } from '@contexts/OrganizationProvider';  // Remove the import of IOrganizationContext
+import { useOrganizationContext } from '@contexts/OrganizationProvider';
 
 import getLayout from '@components/Layout';
 import CardNavigation from '@components/CardNavigation';
@@ -22,14 +22,18 @@ const Products: NextPageWithLayout = () => {
   useQuery();
   useRequireAuth();
 
-  const { organizationList, currentOrganization, setCurrentOrganizations } = useOrganizationContext();  // Corrected the method name
+  const { organizationList, currentOrganization, setCurrentOrganizations } = useOrganizationContext();
 
   const { productsList } = useProductContext();
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(productsList ?? []);
 
   useEffect(() => {
-    if (productsList !== undefined) setFilteredProducts(productsList!);
+    if (productsList !== undefined) setFilteredProducts(productsList);
   }, [productsList]);
+
+  const onClickItem = (organizationId: string) => {
+    console.log('Organization Selected:', organizationId);
+  };
 
   const handleProductFilter = (name: string) => {
     if (name == null || name === '') {
@@ -43,12 +47,14 @@ const Products: NextPageWithLayout = () => {
   };
 
   const handleSelectedOrganization = (organizationId: string) => {
+    onClickItem(organizationId);
+
     if (currentOrganization?.id === organizationId) {
-      setCurrentOrganizations([]);  // Updated to set an empty array
+      setCurrentOrganizations([]);
     } else if (organizationList?.length) {
       const selectedOrganization = organizationList.find((organization) => organization.id === organizationId);
       if (selectedOrganization) {
-        setCurrentOrganizations([selectedOrganization]);  // Updated to accept an array
+        setCurrentOrganizations([selectedOrganization]);
       }
     }
   };
@@ -73,7 +79,7 @@ const Products: NextPageWithLayout = () => {
             Organizações
           </Typography>
           <Box display="flex" gap="1rem" marginTop="40px" marginBottom="10px" justifyContent="space-around">
-            {organizationList?.map((organization) => ( // Removed the any type, use specific type if known
+            {organizationList?.map((organization) => (
               <Box
                 key={organization.id}
                 display="flex"

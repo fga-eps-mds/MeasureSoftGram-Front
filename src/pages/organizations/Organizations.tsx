@@ -47,8 +47,15 @@ const Organizations: OrganizationsType = () => {
     setMembros(newMembros);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+
+    console.log('handleSubmit is being called');
+
+    console.log('Nome:', nome);
+    console.log('Chave:', chave);
+    console.log('Descricao:', descricao);
+    console.log('Membros:', membros);
+
     const novaOrganizacao = {
       name: nome,
       key: chave,
@@ -56,11 +63,18 @@ const Organizations: OrganizationsType = () => {
       members: membros,
     };
 
+    console.log('Nova Organizacao:', novaOrganizacao);
+
     const result = await createOrganization(novaOrganizacao);
+
+    console.log('API response:', result);
+
     if (result.type === 'success') {
+      console.log('Organização criada com sucesso!');
       toast.success('Organização criada com sucesso!');
-      router.push('/organizations/list');
+      router.push('/home');
     } else {
+      console.log('Erro ao criar a organização!');
       toast.error('Erro ao criar a organização!');
     }
   };
@@ -115,7 +129,12 @@ const Organizations: OrganizationsType = () => {
         </Box>
       </Box>
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
-        <Button type="submit" variant="contained" color="primary">
+        <Button
+          type="button"
+          variant="contained"
+          color="primary"
+          onClick={handleSubmit}
+        >
           Criar
         </Button>
       </Box>
