@@ -1,4 +1,4 @@
-# 2023-1 MeasureSoftGram Frontend
+# 2023-2 MeasureSoftGram Frontend
 
 Frontend repository of MeasureSoftGram application.
 
