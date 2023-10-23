@@ -55,7 +55,7 @@ const GraphicChart = ({
   };
 
   const historicalLength: number = historical?.length ?? 0;
-  const numChartsPerLine: number = 3;
+  const numChartsPerLine: number = 2;
   const numLines: number = !autoGrid ? 1 : Math.ceil(historicalLength / numChartsPerLine);
 
   let chartBoxHeight: string = 'auto';
