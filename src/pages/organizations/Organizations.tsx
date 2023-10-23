@@ -49,9 +49,7 @@ const Organizations: OrganizationsType = () => {
   };
 
   const handleSubmit = async () => {
-
     console.log('handleSubmit is being called');
-
     console.log('Nome:', nome);
     console.log('Chave:', chave);
     console.log('Descricao:', descricao);
@@ -117,8 +115,11 @@ const Organizations: OrganizationsType = () => {
           />
         </Box>
         <Box sx={{ flex: '1', marginLeft: 3 }}>
-          <FormControl fullWidth variant="outlined" sx={{ mb: 2, height: 200 }}>
-            <List>
+          <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
+            Membros
+          </Typography>
+          <FormControl fullWidth variant="outlined" sx={{ mb: 2 }}>
+            <List sx={{ maxHeight: 200, overflowY: 'auto' }}>
               {Array.isArray(users) && users.length > 0 ? (
                 users.map((user) => (
                   <ListItem key={user.id} button onClick={() => handleToggleUser(user.username)}>
