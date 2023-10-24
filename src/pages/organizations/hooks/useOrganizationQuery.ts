@@ -56,9 +56,14 @@ export const useOrganizationQuery = () => {
     return organizationQuery.updateOrganization(id, data);
   };
 
-  const deleteOrganization = async (id: string): Promise<Result<void>> => {
-    return organizationQuery.deleteOrganization(id);
-  };
+const deleteOrganization = async (id: string): Promise<Result<void>> => {
+    const result = await organizationQuery.deleteOrganization(id);
+    if (result.type === 'success') {
+        setUpdate((prev: number) => prev + 1);
+    }
+    return result;
+};
+
 
   useEffect(() => {
     if (!currentOrganizations || currentOrganizations.length === 0 || update > 0) {
