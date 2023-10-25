@@ -27,7 +27,7 @@ exports[`<Releases /> Deve corresponder ao snapshot 1`] = `
       style="background-color: white; border: 1px solid #113d4c80; border-radius: 10px;"
     >
       <div
-        class="MuiBox-root css-102lqhp"
+        class="MuiBox-root css-1tds0zl"
       >
         <div
           class="MuiBox-root css-0"
@@ -38,7 +38,9 @@ exports[`<Releases /> Deve corresponder ao snapshot 1`] = `
             Início da release
           </p>
           <div
+            aria-label="Ao selecionar uma data, são apresentadas todas as releases com datas iniciais exatamente iguais e posteriores às da selecionada"
             class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+            data-mui-internal-clone-element="true"
           >
             <div
               class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
@@ -47,7 +49,7 @@ exports[`<Releases /> Deve corresponder ao snapshot 1`] = `
                 aria-invalid="false"
                 class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
                 data-testid="inicio-release"
-                id=":r0:"
+                id=":r1:"
                 required=""
                 type="date"
                 value=""
@@ -78,7 +80,9 @@ exports[`<Releases /> Deve corresponder ao snapshot 1`] = `
             Fim da release
           </p>
           <div
+            aria-label="Ao selecionar uma data, são apresentadas todas as releases com datas finais exatamente iguais e anteriores às da selecionada"
             class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+            data-mui-internal-clone-element="true"
           >
             <div
               class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
@@ -87,7 +91,7 @@ exports[`<Releases /> Deve corresponder ao snapshot 1`] = `
                 aria-invalid="false"
                 class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
                 data-testid="fim-release"
-                id=":r1:"
+                id=":r3:"
                 required=""
                 type="date"
                 value=""

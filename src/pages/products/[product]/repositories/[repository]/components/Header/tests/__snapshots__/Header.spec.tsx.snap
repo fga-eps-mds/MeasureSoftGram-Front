@@ -14,7 +14,7 @@ exports[`Header should render correctly 1`] = `
         Repositório
       </h4>
       <h4
-        class="MuiTypography-root MuiTypography-h4 css-1yvpk5c-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-h4 css-r2wbd1-MuiTypography-root"
       />
     </div>
     <span
