@@ -10,8 +10,6 @@ import { useRequestValues } from '@hooks/useRequestValues';
 import { Historical } from '@customTypes/repository';
 import _ from 'lodash';
 import { useProductConfigFilterContext } from '@contexts/ProductConfigFilterProvider/ProductConfigFilterProvider';
-import { AiOutlineCloudDownload } from 'react-icons/ai';
-import convertToCsv from '@utils/convertToCsv';
 
 interface Prop {
   title: string;
@@ -54,21 +52,6 @@ const GraphicChart = ({
   const sliceHistorical = (rowIdx: number): Historical[] => {
     if (!autoGrid) return historical;
     return historical.slice(numChartsPerLine * rowIdx, numChartsPerLine * (rowIdx + 1));
-  };
-
-
-  const handleExportCsv = () => {
-    if (historical) {
-      const csvContent = convertToCsv(historical);
-
-      const blob = new Blob([csvContent], { type: 'text/csv' });
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'dados.csv';
-      a.click();
-      window.URL.revokeObjectURL(url);
-    }
   };
 
   const historicalLength: number = historical?.length ?? 0;
@@ -116,15 +99,6 @@ const GraphicChart = ({
         >
           {chartsOption.map((option) => (
             <>
-              <Box sx={{
-                display: "flex",
-                justifyContent: "flex-end",
-                marginTop: "10px"
-              }}>
-                <IconButton color="primary" onClick={handleExportCsv}>
-                  <AiOutlineCloudDownload />
-                </IconButton>
-              </Box>
               <ReactEcharts key={option.key} notMerge lazyUpdate style={chartStyle} option={option} />
             </>
           ))}
