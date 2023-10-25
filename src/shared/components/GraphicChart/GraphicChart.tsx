@@ -5,7 +5,7 @@ import formatCharacteristicsHistory from '@utils/formatCharacteristicsHistory';
 import formatMsgramChart from '@utils/formatMsgramChart';
 import formatRadarChart from '@utils/formatRadarChart';
 import formatGaugeChart from '@utils/formatGaugeChart';
-import { Alert, Box, Fade, IconButton, Skeleton } from '@mui/material';
+import { Alert, Box, Fade, Skeleton } from '@mui/material';
 import { useRequestValues } from '@hooks/useRequestValues';
 import { Historical } from '@customTypes/repository';
 import _ from 'lodash';
