@@ -49,6 +49,16 @@ Object {
   "title": Object {
     "text": "title-test",
   },
+  "toolbox": Object {
+    "feature": Object {
+      "myCustomTool": Object {
+        "icon": "image:///images/png/iconCsv.png",
+        "onclick": [Function],
+        "show": true,
+        "title": "Export CSV",
+      },
+    },
+  },
   "tooltip": Object {
     "show": true,
     "trigger": "axis",

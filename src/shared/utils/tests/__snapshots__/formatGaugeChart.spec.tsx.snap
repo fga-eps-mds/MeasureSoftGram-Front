@@ -6,6 +6,16 @@ Object {
   "title": Object {
     "text": "chartTitle",
   },
+  "toolbox": Object {
+    "feature": Object {
+      "myCustomTool": Object {
+        "icon": "image:///images/png/iconCsv.png",
+        "onclick": [Function],
+        "show": true,
+        "title": "Export CSV",
+      },
+    },
+  },
 }
 `;
 
@@ -352,6 +362,16 @@ Object {
   "title": Object {
     "text": "title-test",
   },
+  "toolbox": Object {
+    "feature": Object {
+      "myCustomTool": Object {
+        "icon": "image:///images/png/iconCsv.png",
+        "onclick": [Function],
+        "show": true,
+        "title": "Export CSV",
+      },
+    },
+  },
 }
 `;
 
@@ -585,6 +605,16 @@ Object {
   ],
   "title": Object {
     "text": "title-test",
+  },
+  "toolbox": Object {
+    "feature": Object {
+      "myCustomTool": Object {
+        "icon": "image:///images/png/iconCsv.png",
+        "onclick": [Function],
+        "show": true,
+        "title": "Export CSV",
+      },
+    },
   },
 }
 `;
