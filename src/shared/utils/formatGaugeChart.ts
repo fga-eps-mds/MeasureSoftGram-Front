@@ -1,3 +1,4 @@
+import convertToCsv from './convertToCsv';
 import { Historical } from '@customTypes/repository';
 
 export interface FormatGaugeChartType {
@@ -14,6 +15,20 @@ const formatGaugeChart = ({ historical, title, isEmpty }: FormatGaugeChartType) 
   if (historicalLength % 2 === 0) {
     incrementX = 50;
   }
+
+  const handleExportCsv = () => {
+    if (historical) {
+      const csvContent = convertToCsv(historical);
+
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'dados.csv';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }
+  };
 
   const seriesData =
     historical?.map((item, index) => {
@@ -111,6 +126,18 @@ const formatGaugeChart = ({ historical, title, isEmpty }: FormatGaugeChartType) 
   return {
     title: {
       text: title
+    },
+    toolbox: {
+      feature: {
+        myCustomTool: {
+          show: true,
+          title: 'Export CSV',
+          icon: 'image:///images/png/iconCsv.png',
+          onclick: () => {
+            handleExportCsv();
+          },
+        }
+      }
     },
     series: seriesData
   };

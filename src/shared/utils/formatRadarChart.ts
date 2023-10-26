@@ -1,3 +1,4 @@
+import convertToCsv from './convertToCsv';
 import { Historical } from '@customTypes/repository';
 import _ from 'lodash';
 
@@ -26,7 +27,7 @@ const formatRadarChart = ({ historical, title, isEmpty }: FormatRadarChartType) 
 
   const legend = {
     data: ['Valor alcançado', 'Valor esperado'],
-    right: 0,
+    right: 25,
   }
 
   const series = [
@@ -49,6 +50,20 @@ const formatRadarChart = ({ historical, title, isEmpty }: FormatRadarChartType) 
     }
   ];
 
+  const handleExportCsv = () => {
+    if (historical) {
+      const csvContent = convertToCsv(historical);
+
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'dados.csv';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }
+  };
+
   return {
     title: {
       text: title
@@ -57,6 +72,18 @@ const formatRadarChart = ({ historical, title, isEmpty }: FormatRadarChartType) 
       show: !isEmpty,
       shape: historical.length < 3 ? 'circle' : 'polygon',
       indicator: radarIndicator
+    },
+    toolbox: {
+      feature: {
+        myCustomTool: {
+          show: true,
+          title: 'Export CSV',
+          icon: 'image:///images/png/iconCsv.png',
+          onclick: () => {
+            handleExportCsv();
+          },
+        }
+      }
     },
     legend,
     series

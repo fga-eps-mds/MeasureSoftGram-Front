@@ -98,7 +98,9 @@ const GraphicChart = ({
           height={chartBoxHeight}
         >
           {chartsOption.map((option) => (
-            <ReactEcharts key={option.key} notMerge lazyUpdate style={chartStyle} option={option} />
+            <>
+              <ReactEcharts key={option.key} notMerge lazyUpdate style={chartStyle} option={option} />
+            </>
           ))}
         </Box>
       </Fade>

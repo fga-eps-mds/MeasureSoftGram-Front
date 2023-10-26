@@ -1,0 +1,185 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`formatMsgramChart should return the correct chart configuration with empty historical data 1`] = `
+Object {
+  "dataZoom": Array [
+    Object {
+      "show": false,
+      "type": "slider",
+      "xAxisIndex": Array [],
+      "y": "60px",
+    },
+  ],
+  "grid": Array [],
+  "legend": Array [],
+  "series": Array [],
+  "title": Object {
+    "text": "title-test",
+  },
+  "toolbox": Object {
+    "feature": Object {
+      "myCustomTool": Object {
+        "icon": "image:///images/png/iconCsv.png",
+        "onclick": [Function],
+        "show": true,
+        "title": "Export CSV",
+      },
+    },
+  },
+  "tooltip": Object {
+    "show": false,
+    "trigger": "axis",
+  },
+  "xAxis": Array [],
+  "yAxis": Array [],
+}
+`;
+
+exports[`formatMsgramChart should return the correct chart configuration with non-empty historical data 1`] = `
+Object {
+  "dataZoom": Array [
+    Object {
+      "show": true,
+      "type": "slider",
+      "xAxisIndex": Array [
+        0,
+        1,
+      ],
+      "y": "180px",
+    },
+  ],
+  "grid": Array [
+    Object {
+      "containLabel": true,
+      "height": "60px",
+      "left": "120px",
+      "right": "4%",
+      "show": false,
+      "y": "60px",
+    },
+    Object {
+      "containLabel": true,
+      "height": "60px",
+      "left": "120px",
+      "right": "4%",
+      "show": false,
+      "y": "120px",
+    },
+  ],
+  "legend": Array [
+    Object {
+      "data": Array [
+        "Reliability",
+      ],
+      "selectedMode": false,
+      "show": true,
+      "x": 0,
+      "y": "69px",
+    },
+    Object {
+      "data": Array [
+        "Maintainability",
+      ],
+      "selectedMode": false,
+      "show": true,
+      "x": 0,
+      "y": "129px",
+    },
+  ],
+  "series": Array [
+    Object {
+      "data": Array [
+        Object {
+          "value": "10.000",
+        },
+        Object {
+          "value": "20.000",
+        },
+      ],
+      "name": "Reliability",
+      "show": true,
+      "type": "line",
+      "xAxisIndex": 0,
+      "yAxisIndex": 0,
+    },
+    Object {
+      "data": Array [
+        Object {
+          "value": "30.000",
+        },
+        Object {
+          "value": "40.000",
+        },
+      ],
+      "name": "Maintainability",
+      "show": true,
+      "type": "line",
+      "xAxisIndex": 1,
+      "yAxisIndex": 1,
+    },
+  ],
+  "title": Object {
+    "text": "title-test",
+  },
+  "toolbox": Object {
+    "feature": Object {
+      "myCustomTool": Object {
+        "icon": "image:///images/png/iconCsv.png",
+        "onclick": [Function],
+        "show": true,
+        "title": "Export CSV",
+      },
+    },
+  },
+  "tooltip": Object {
+    "show": true,
+    "trigger": "axis",
+  },
+  "xAxis": Array [
+    Object {
+      "data": Array [
+        "25/10/2023 12:47",
+      ],
+      "gridIndex": 0,
+      "show": false,
+      "type": "category",
+    },
+    Object {
+      "data": Array [
+        "25/10/2023 12:47",
+      ],
+      "gridIndex": 1,
+      "show": true,
+      "type": "category",
+    },
+  ],
+  "yAxis": Array [
+    Object {
+      "gridIndex": 0,
+      "max": 1,
+      "min": 0,
+      "show": true,
+      "splitLine": Object {
+        "lineStyle": Object {
+          "width": 2,
+        },
+      },
+      "splitNumber": 1,
+      "type": "value",
+    },
+    Object {
+      "gridIndex": 1,
+      "max": 1,
+      "min": 0,
+      "show": true,
+      "splitLine": Object {
+        "lineStyle": Object {
+          "width": 2,
+        },
+      },
+      "splitNumber": 1,
+      "type": "value",
+    },
+  ],
+}
+`;
