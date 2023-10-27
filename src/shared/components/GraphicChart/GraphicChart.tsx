@@ -61,9 +61,7 @@ const GraphicChart = ({
   let chartBoxHeight: string = 'auto';
   let chartStyle: React.CSSProperties = {};
 
-  if (error || isEmpty) {
-    chartBoxHeight = '50px';
-  } else if (type === 'msg') {
+  if (type === 'msg') {
     chartBoxHeight = `${historicalLength * 82 + 85}px`;
     chartStyle = { height: chartBoxHeight };
   }
@@ -105,7 +103,7 @@ const GraphicChart = ({
         </Box>
       </Fade>
       {error && (
-        <Fade in timeout={1000}>
+        <Fade in timeout={2000}>
           <Alert severity="error">Ocorreu um erro ao tentar carregar as informações</Alert>
         </Fade>
       )}
