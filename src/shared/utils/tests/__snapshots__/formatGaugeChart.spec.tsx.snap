@@ -6,6 +6,16 @@ Object {
   "title": Object {
     "text": "chartTitle",
   },
+  "toolbox": Object {
+    "feature": Object {
+      "myCustomTool": Object {
+        "icon": "image:///images/png/iconCsv.png",
+        "onclick": [Function],
+        "show": true,
+        "title": "Export CSV",
+      },
+    },
+  },
 }
 `;
 
@@ -15,32 +25,56 @@ Object {
     Object {
       "anchor": Object {
         "itemStyle": Object {
-          "color": "#FAC858",
+          "color": "#171717",
         },
         "show": true,
         "showAbove": true,
         "size": 18,
       },
+      "axisLabel": Object {
+        "distance": 0,
+        "formatter": [Function],
+        "rotate": "tangential",
+      },
       "axisLine": Object {
-        "roundCap": true,
+        "lineStyle": Object {
+          "color": Array [
+            Array [
+              0.33,
+              "#e74c3c",
+            ],
+            Array [
+              0.66,
+              "#f1c40f",
+            ],
+            Array [
+              1,
+              "#07bc0c",
+            ],
+          ],
+          "width": 40,
+        },
+      },
+      "axisTick": Object {
+        "length": 0,
       },
       "center": Array [
         "25%",
-        "57%",
+        "70%",
       ],
       "data": Array [
         Object {
           "detail": Object {
             "offsetCenter": Array [
-              "-60%",
-              "95%",
+              "-80%",
+              "37%",
             ],
           },
           "name": "Reliability",
           "title": Object {
             "offsetCenter": Array [
-              "-60%",
-              "70%",
+              "-80%",
+              "20%",
             ],
           },
           "value": "32.00",
@@ -48,21 +82,24 @@ Object {
         Object {
           "detail": Object {
             "offsetCenter": Array [
-              "60%",
-              "95%",
+              "80%",
+              "37%",
             ],
           },
           "itemStyle": Object {
             "color": "#f1c40f",
           },
           "name": "Valor esperado",
+          "pointer": Object {
+            "width": 0,
+          },
           "title": Object {
             "offsetCenter": Array [
-              "60%",
-              "70%",
+              "80%",
+              "20%",
             ],
           },
-          "value": "0.01",
+          "value": "1.00",
         },
       ],
       "detail": Object {
@@ -73,57 +110,83 @@ Object {
         "height": 14,
         "width": 20,
       },
-      "endAngle": -30,
+      "endAngle": 360,
       "max": 1,
       "min": 0,
       "name": "Reliability",
       "pointer": Object {
         "icon": "path://M2.9,0.7L2.9,0.7c1.4,0,2.6,1.2,2.6,2.6v115c0,1.4-1.2,2.6-2.6,2.6l0,0c-1.4,0-2.6-1.2-2.6-2.6V3.3C0.3,1.9,1.4,0.7,2.9,0.7z",
-        "length": "80%",
+        "itemStyle": Object {
+          "color": "#171717",
+        },
+        "length": "90%",
         "offsetCenter": Array [
           0,
           "8%",
         ],
         "width": 8,
       },
-      "progress": Object {
-        "overlap": true,
-        "roundCap": true,
-        "show": true,
-      },
+      "radius": "90%",
       "show": true,
-      "startAngle": 210,
+      "splitLine": Object {
+        "length": 0,
+      },
+      "startAngle": 180,
       "type": "gauge",
     },
     Object {
       "anchor": Object {
         "itemStyle": Object {
-          "color": "#FAC858",
+          "color": "#171717",
         },
         "show": true,
         "showAbove": true,
         "size": 18,
       },
+      "axisLabel": Object {
+        "distance": 0,
+        "formatter": [Function],
+        "rotate": "tangential",
+      },
       "axisLine": Object {
-        "roundCap": true,
+        "lineStyle": Object {
+          "color": Array [
+            Array [
+              0.33,
+              "#e74c3c",
+            ],
+            Array [
+              0.66,
+              "#f1c40f",
+            ],
+            Array [
+              1,
+              "#07bc0c",
+            ],
+          ],
+          "width": 40,
+        },
+      },
+      "axisTick": Object {
+        "length": 0,
       },
       "center": Array [
         "50%",
-        "57%",
+        "70%",
       ],
       "data": Array [
         Object {
           "detail": Object {
             "offsetCenter": Array [
-              "-60%",
-              "95%",
+              "-80%",
+              "37%",
             ],
           },
           "name": "Reliability",
           "title": Object {
             "offsetCenter": Array [
-              "-60%",
-              "70%",
+              "-80%",
+              "20%",
             ],
           },
           "value": "32.00",
@@ -131,21 +194,24 @@ Object {
         Object {
           "detail": Object {
             "offsetCenter": Array [
-              "60%",
-              "95%",
+              "80%",
+              "37%",
             ],
           },
           "itemStyle": Object {
             "color": "#f1c40f",
           },
           "name": "Valor esperado",
+          "pointer": Object {
+            "width": 0,
+          },
           "title": Object {
             "offsetCenter": Array [
-              "60%",
-              "70%",
+              "80%",
+              "20%",
             ],
           },
-          "value": "0.01",
+          "value": "1.00",
         },
       ],
       "detail": Object {
@@ -156,57 +222,83 @@ Object {
         "height": 14,
         "width": 20,
       },
-      "endAngle": -30,
+      "endAngle": 360,
       "max": 1,
       "min": 0,
       "name": "Reliability",
       "pointer": Object {
         "icon": "path://M2.9,0.7L2.9,0.7c1.4,0,2.6,1.2,2.6,2.6v115c0,1.4-1.2,2.6-2.6,2.6l0,0c-1.4,0-2.6-1.2-2.6-2.6V3.3C0.3,1.9,1.4,0.7,2.9,0.7z",
-        "length": "80%",
+        "itemStyle": Object {
+          "color": "#171717",
+        },
+        "length": "90%",
         "offsetCenter": Array [
           0,
           "8%",
         ],
         "width": 8,
       },
-      "progress": Object {
-        "overlap": true,
-        "roundCap": true,
-        "show": true,
-      },
+      "radius": "90%",
       "show": true,
-      "startAngle": 210,
+      "splitLine": Object {
+        "length": 0,
+      },
+      "startAngle": 180,
       "type": "gauge",
     },
     Object {
       "anchor": Object {
         "itemStyle": Object {
-          "color": "#FAC858",
+          "color": "#171717",
         },
         "show": true,
         "showAbove": true,
         "size": 18,
       },
+      "axisLabel": Object {
+        "distance": 0,
+        "formatter": [Function],
+        "rotate": "tangential",
+      },
       "axisLine": Object {
-        "roundCap": true,
+        "lineStyle": Object {
+          "color": Array [
+            Array [
+              0.33,
+              "#e74c3c",
+            ],
+            Array [
+              0.66,
+              "#f1c40f",
+            ],
+            Array [
+              1,
+              "#07bc0c",
+            ],
+          ],
+          "width": 40,
+        },
+      },
+      "axisTick": Object {
+        "length": 0,
       },
       "center": Array [
         "75%",
-        "57%",
+        "70%",
       ],
       "data": Array [
         Object {
           "detail": Object {
             "offsetCenter": Array [
-              "-60%",
-              "95%",
+              "-80%",
+              "37%",
             ],
           },
           "name": "Reliability",
           "title": Object {
             "offsetCenter": Array [
-              "-60%",
-              "70%",
+              "-80%",
+              "20%",
             ],
           },
           "value": "32.00",
@@ -214,21 +306,24 @@ Object {
         Object {
           "detail": Object {
             "offsetCenter": Array [
-              "60%",
-              "95%",
+              "80%",
+              "37%",
             ],
           },
           "itemStyle": Object {
             "color": "#f1c40f",
           },
           "name": "Valor esperado",
+          "pointer": Object {
+            "width": 0,
+          },
           "title": Object {
             "offsetCenter": Array [
-              "60%",
-              "70%",
+              "80%",
+              "20%",
             ],
           },
-          "value": "0.01",
+          "value": "1.00",
         },
       ],
       "detail": Object {
@@ -239,31 +334,43 @@ Object {
         "height": 14,
         "width": 20,
       },
-      "endAngle": -30,
+      "endAngle": 360,
       "max": 1,
       "min": 0,
       "name": "Reliability",
       "pointer": Object {
         "icon": "path://M2.9,0.7L2.9,0.7c1.4,0,2.6,1.2,2.6,2.6v115c0,1.4-1.2,2.6-2.6,2.6l0,0c-1.4,0-2.6-1.2-2.6-2.6V3.3C0.3,1.9,1.4,0.7,2.9,0.7z",
-        "length": "80%",
+        "itemStyle": Object {
+          "color": "#171717",
+        },
+        "length": "90%",
         "offsetCenter": Array [
           0,
           "8%",
         ],
         "width": 8,
       },
-      "progress": Object {
-        "overlap": true,
-        "roundCap": true,
-        "show": true,
-      },
+      "radius": "90%",
       "show": true,
-      "startAngle": 210,
+      "splitLine": Object {
+        "length": 0,
+      },
+      "startAngle": 180,
       "type": "gauge",
     },
   ],
   "title": Object {
     "text": "title-test",
+  },
+  "toolbox": Object {
+    "feature": Object {
+      "myCustomTool": Object {
+        "icon": "image:///images/png/iconCsv.png",
+        "onclick": [Function],
+        "show": true,
+        "title": "Export CSV",
+      },
+    },
   },
 }
 `;
@@ -274,32 +381,56 @@ Object {
     Object {
       "anchor": Object {
         "itemStyle": Object {
-          "color": "#FAC858",
+          "color": "#171717",
         },
         "show": true,
         "showAbove": true,
         "size": 18,
       },
+      "axisLabel": Object {
+        "distance": 0,
+        "formatter": [Function],
+        "rotate": "tangential",
+      },
       "axisLine": Object {
-        "roundCap": true,
+        "lineStyle": Object {
+          "color": Array [
+            Array [
+              0.33,
+              "#e74c3c",
+            ],
+            Array [
+              0.66,
+              "#f1c40f",
+            ],
+            Array [
+              1,
+              "#07bc0c",
+            ],
+          ],
+          "width": 40,
+        },
+      },
+      "axisTick": Object {
+        "length": 0,
       },
       "center": Array [
         "25%",
-        "57%",
+        "70%",
       ],
       "data": Array [
         Object {
           "detail": Object {
             "offsetCenter": Array [
-              "-60%",
-              "95%",
+              "-80%",
+              "37%",
             ],
           },
           "name": "Reliability",
           "title": Object {
             "offsetCenter": Array [
-              "-60%",
-              "70%",
+              "-80%",
+              "20%",
             ],
           },
           "value": "32.00",
@@ -307,21 +438,24 @@ Object {
         Object {
           "detail": Object {
             "offsetCenter": Array [
-              "60%",
-              "95%",
+              "80%",
+              "37%",
             ],
           },
           "itemStyle": Object {
             "color": "#f1c40f",
           },
           "name": "Valor esperado",
+          "pointer": Object {
+            "width": 0,
+          },
           "title": Object {
             "offsetCenter": Array [
-              "60%",
-              "70%",
+              "80%",
+              "20%",
             ],
           },
-          "value": "0.01",
+          "value": "1.00",
         },
       ],
       "detail": Object {
@@ -332,57 +466,83 @@ Object {
         "height": 14,
         "width": 20,
       },
-      "endAngle": -30,
+      "endAngle": 360,
       "max": 1,
       "min": 0,
       "name": "Reliability",
       "pointer": Object {
         "icon": "path://M2.9,0.7L2.9,0.7c1.4,0,2.6,1.2,2.6,2.6v115c0,1.4-1.2,2.6-2.6,2.6l0,0c-1.4,0-2.6-1.2-2.6-2.6V3.3C0.3,1.9,1.4,0.7,2.9,0.7z",
-        "length": "80%",
+        "itemStyle": Object {
+          "color": "#171717",
+        },
+        "length": "90%",
         "offsetCenter": Array [
           0,
           "8%",
         ],
         "width": 8,
       },
-      "progress": Object {
-        "overlap": true,
-        "roundCap": true,
-        "show": true,
-      },
+      "radius": "90%",
       "show": true,
-      "startAngle": 210,
+      "splitLine": Object {
+        "length": 0,
+      },
+      "startAngle": 180,
       "type": "gauge",
     },
     Object {
       "anchor": Object {
         "itemStyle": Object {
-          "color": "#FAC858",
+          "color": "#171717",
         },
         "show": true,
         "showAbove": true,
         "size": 18,
       },
+      "axisLabel": Object {
+        "distance": 0,
+        "formatter": [Function],
+        "rotate": "tangential",
+      },
       "axisLine": Object {
-        "roundCap": true,
+        "lineStyle": Object {
+          "color": Array [
+            Array [
+              0.33,
+              "#e74c3c",
+            ],
+            Array [
+              0.66,
+              "#f1c40f",
+            ],
+            Array [
+              1,
+              "#07bc0c",
+            ],
+          ],
+          "width": 40,
+        },
+      },
+      "axisTick": Object {
+        "length": 0,
       },
       "center": Array [
         "75%",
-        "57%",
+        "70%",
       ],
       "data": Array [
         Object {
           "detail": Object {
             "offsetCenter": Array [
-              "-60%",
-              "95%",
+              "-80%",
+              "37%",
             ],
           },
           "name": "Reliability",
           "title": Object {
             "offsetCenter": Array [
-              "-60%",
-              "70%",
+              "-80%",
+              "20%",
             ],
           },
           "value": "32.00",
@@ -390,21 +550,24 @@ Object {
         Object {
           "detail": Object {
             "offsetCenter": Array [
-              "60%",
-              "95%",
+              "80%",
+              "37%",
             ],
           },
           "itemStyle": Object {
             "color": "#f1c40f",
           },
           "name": "Valor esperado",
+          "pointer": Object {
+            "width": 0,
+          },
           "title": Object {
             "offsetCenter": Array [
-              "60%",
-              "70%",
+              "80%",
+              "20%",
             ],
           },
-          "value": "0.01",
+          "value": "1.00",
         },
       ],
       "detail": Object {
@@ -415,31 +578,43 @@ Object {
         "height": 14,
         "width": 20,
       },
-      "endAngle": -30,
+      "endAngle": 360,
       "max": 1,
       "min": 0,
       "name": "Reliability",
       "pointer": Object {
         "icon": "path://M2.9,0.7L2.9,0.7c1.4,0,2.6,1.2,2.6,2.6v115c0,1.4-1.2,2.6-2.6,2.6l0,0c-1.4,0-2.6-1.2-2.6-2.6V3.3C0.3,1.9,1.4,0.7,2.9,0.7z",
-        "length": "80%",
+        "itemStyle": Object {
+          "color": "#171717",
+        },
+        "length": "90%",
         "offsetCenter": Array [
           0,
           "8%",
         ],
         "width": 8,
       },
-      "progress": Object {
-        "overlap": true,
-        "roundCap": true,
-        "show": true,
-      },
+      "radius": "90%",
       "show": true,
-      "startAngle": 210,
+      "splitLine": Object {
+        "length": 0,
+      },
+      "startAngle": 180,
       "type": "gauge",
     },
   ],
   "title": Object {
     "text": "title-test",
+  },
+  "toolbox": Object {
+    "feature": Object {
+      "myCustomTool": Object {
+        "icon": "image:///images/png/iconCsv.png",
+        "onclick": [Function],
+        "show": true,
+        "title": "Export CSV",
+      },
+    },
   },
 }
 `;

@@ -1,3 +1,4 @@
+import convertToCsv from './convertToCsv';
 import { RepositoriesTsqmiHistory } from '@customTypes/product';
 
 const formatTwoDecimalPlaces = (value: number) => Math.round(value * 100) / 100;
@@ -18,6 +19,21 @@ const formatRepositoriesTsqmiHistory = (history: RepositoriesTsqmiHistory) => {
       animationDuration: 1200
     };
   });
+  const results = history.results;
+
+  const handleExportCsv = () => {
+    if (results) {
+      const csvContent = convertToCsv(results);
+
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'dados.csv';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }
+  };
 
   return {
     title: {
@@ -40,6 +56,14 @@ const formatRepositoriesTsqmiHistory = (history: RepositoriesTsqmiHistory) => {
     toolbox: {
       feature: {
         saveAsImage: {},
+        myCustomTool: {
+          show: true,
+          title: 'Export CSV',
+          icon: 'image:///images/png/iconCsv.png',
+          onclick: () => {
+            handleExportCsv();
+          },
+        },
         dataZoom: {
           yAxisIndex: 'none'
         },

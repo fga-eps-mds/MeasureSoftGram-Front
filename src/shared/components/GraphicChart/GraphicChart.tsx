@@ -55,7 +55,7 @@ const GraphicChart = ({
   };
 
   const historicalLength: number = historical?.length ?? 0;
-  const numChartsPerLine: number = 3;
+  const numChartsPerLine: number = 2;
   const numLines: number = !autoGrid ? 1 : Math.ceil(historicalLength / numChartsPerLine);
 
   let chartBoxHeight: string = 'auto';
@@ -98,7 +98,9 @@ const GraphicChart = ({
           height={chartBoxHeight}
         >
           {chartsOption.map((option) => (
-            <ReactEcharts key={option.key} notMerge lazyUpdate style={chartStyle} option={option} />
+            <>
+              <ReactEcharts key={option.key} notMerge lazyUpdate style={chartStyle} option={option} />
+            </>
           ))}
         </Box>
       </Fade>
