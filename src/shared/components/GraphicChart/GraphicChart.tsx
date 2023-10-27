@@ -103,7 +103,7 @@ const GraphicChart = ({
         </Box>
       </Fade>
       {error && (
-        <Fade in timeout={2000}>
+        <Fade in timeout={1000}>
           <Alert severity="error">Ocorreu um erro ao tentar carregar as informações</Alert>
         </Fade>
       )}
