@@ -28,6 +28,20 @@ function SideMenu() {
     console.log('Current Product:', currentProduct);
   }, [currentOrganization, currentProduct]);
 
+  let itemType: 'product' | 'organization' | 'unknown' = 'unknown';
+
+  if (currentProduct && currentOrganization) {
+    itemType = 'product';
+  } else if (!currentProduct && currentOrganization) {
+    itemType = 'organization';
+  }
+
+  console.log("Item Type:", itemType);
+
+  if (itemType === 'unknown') {
+    console.warn('The itemType is set to unknown. Please handle this case appropriately.');
+  }
+
   const MenuItems: SideMenuItemType[] = [
     {
       startIcon: <FiBarChart2 fontSize={28} />,
@@ -57,7 +71,8 @@ function SideMenu() {
 
   return (
     <SideMenuWrapper
-      key={`${currentOrganization?.id}-${currentProduct?.id}`}  // This key will force a re-render when organization or product changes
+      key={`${currentOrganization?.id}-${currentProduct?.id}`}
+      itemType={itemType}
       menuItems={
         currentProduct &&
         MenuItems.map((item) => (

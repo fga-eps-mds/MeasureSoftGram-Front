@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Button,
@@ -13,6 +13,7 @@ import {
   Modal
 } from '@mui/material/';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import { FiArrowLeft, FiPlus } from 'react-icons/fi';
 import LetterAvatar from '@components/LetterAvatar';
 import { useRouter } from 'next/router';
@@ -29,9 +30,19 @@ type Props<T extends ItemWithBasicProps> = {
   onClose: () => void;
   onClickItem?: (_value: T) => void;
   seeMorePath: string;
+  showActions?: boolean;
+  itemType?: "organization" | "product";
 };
 
-const SideList = <T extends ItemWithBasicProps>({ values, open, onClose, onClickItem, seeMorePath }: Props<T>) => {
+const SideList = <T extends ItemWithBasicProps>({
+  values,
+  open,
+  onClose,
+  onClickItem,
+  seeMorePath,
+  showActions = true,
+  itemType
+}: Props<T>) => {
   const { deleteOrganization } = useOrganizationQuery();
   const maxItems = 10;
   const filteredValues = values.slice(0, maxItems);
@@ -39,11 +50,6 @@ const SideList = <T extends ItemWithBasicProps>({ values, open, onClose, onClick
 
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<T | null>(null);
-
-  useEffect(() => {
-    console.log('Values:', values);
-    console.log('Open:', open);
-  }, [values, open]);
 
   const handleDelete = async () => {
     if (itemToDelete) {
@@ -71,8 +77,8 @@ const SideList = <T extends ItemWithBasicProps>({ values, open, onClose, onClick
             <Button
               variant="contained"
               startIcon={<FiPlus />}
-              onClick={() => {
-                void router.push("/organizations/");
+              onClick={async () => {
+                await router.push("/organizations/");
               }}
             >
               Adicionar Organização
@@ -100,25 +106,40 @@ const SideList = <T extends ItemWithBasicProps>({ values, open, onClose, onClick
                       <LetterAvatar name={value.name} />
                     </ListItemIcon>
                     <ListItemText primary={value.name} />
-                    <IconButton
-                      edge="end"
-                      aria-label="delete"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setItemToDelete(value);
-                        setShowConfirmationModal(true);
-                      }}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
+                    {showActions && (
+                      <>
+                        <IconButton
+                          edge="end"
+                          aria-label="edit"
+                          onClick={async (e) => {
+                            e.stopPropagation();
+                            await router.push(`/organizations?edit=${value.id}`);
+                          }}
+                        >
+                          <EditIcon />
+                        </IconButton>
+
+                        <IconButton
+                          edge="end"
+                          aria-label="delete"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setItemToDelete(value);
+                            setShowConfirmationModal(true);
+                          }}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </>
+                    )}
                   </ListItemButton>
                 </ListItem>
               </Box>
             ))}
             <Button
               sx={{ marginTop: '5px', minHeight: '10vh', width: 'calc(100% - 10px)' }}
-              onClick={() => {
-                void router.push(seeMorePath);
+              onClick={async () => {
+                await router.push(seeMorePath);
               }}
               variant="text"
             >
@@ -154,7 +175,6 @@ const SideList = <T extends ItemWithBasicProps>({ values, open, onClose, onClick
       </Modal>
     </>
   );
-
 };
 
 export default SideList;
