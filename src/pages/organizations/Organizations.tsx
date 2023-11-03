@@ -101,7 +101,13 @@ const Organizations: OrganizationsType = () => {
         toast.success('Organização atualizada com sucesso!');
         router.push('/home');
       } else {
-        toast.error('Erro ao atualizar a organização!');
+        if (result.error.message === 'Já existe uma organização com este nome.') {
+          toast.error('Já existe uma organização com este nome.');
+        } else if (result.error.message === 'Já existe uma organização com esta chave.') {
+          toast.error('Já existe uma organização com esta chave.');
+        } else {
+          toast.error('Erro ao atualizar a organização!');
+        }
       }
     } else {
       result = await createOrganization(novaOrganizacao);
@@ -109,7 +115,13 @@ const Organizations: OrganizationsType = () => {
         toast.success('Organização criada com sucesso!');
         router.push('/home');
       } else {
-        toast.error('Erro ao criar a organização!');
+        if (result.error.message === 'Já existe uma organização com este nome.') {
+          toast.error('Já existe uma organização com este nome.');
+        } else if (result.error.message === 'Já existe uma organização com esta chave.') {
+          toast.error('Já existe uma organização com esta chave.');
+        } else {
+          toast.error('Erro ao criar a organização!');
+        }
       }
     }
 

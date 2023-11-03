@@ -10,7 +10,7 @@ export interface OrganizationFormData {
 }
 
 export type ResultSuccess<T> = { type: 'success'; value: T };
-export type ResultError = { type: 'error'; error: AxiosError };
+export type ResultError = { type: 'error'; error: Error | AxiosError };
 export type Result<T> = ResultSuccess<T> | ResultError;
 
 class OrganizationQuery {
@@ -26,7 +26,7 @@ class OrganizationQuery {
     return { Authorization: `Token ${tokenResult.value.key}` };
   }
 
-  async createOrganization(data: OrganizationFormData): Promise<Result<OrganizationFormData>> {
+async createOrganization(data: OrganizationFormData): Promise<Result<OrganizationFormData>> {
     try {
       const headers = await this.getAuthHeaders();
       if (!headers) {
@@ -37,8 +37,19 @@ class OrganizationQuery {
       return { type: 'success', value: response?.data };
     } catch (err) {
       const error = err as AxiosError;
-      console.log('Criando organização com os dados:', err);
-      return { type: 'error', error };
+      console.log('Erro ao criar organização:', err);
+
+      const responseData = error.response?.data as { name?: string[], key?: string[] };
+      if (error.response && error.response.status === 400) {
+        if (responseData.name && responseData.name[0] === "Organization with this name already exists.") {
+          return { type: 'error', error: new Error('Já existe uma organização com este nome.') };
+        }
+        if (responseData.key && responseData.key[0] === "Organization with this key already exists.") {
+          return { type: 'error', error: new Error('Já existe uma organização com esta chave.') };
+        }
+      }
+
+      return { type: 'error', error: new Error('Ocorreu um erro ao criar organização.') };
     }
   }
 
@@ -70,7 +81,7 @@ async getAllOrganization(): Promise<AxiosRequestConfig> {
 }
 
 
-  async updateOrganization(id: string, data: OrganizationFormData): Promise<Result<void>> {
+async updateOrganization(id: string, data: OrganizationFormData): Promise<Result<void>> {
     try {
       const headers = await this.getAuthHeaders();
       if (!headers) {
@@ -80,7 +91,18 @@ async getAllOrganization(): Promise<AxiosRequestConfig> {
       return { type: 'success', value: response?.data };
     } catch (err) {
       const error = err as AxiosError;
-      return { type: 'error', error };
+
+      const responseData = error.response?.data as { name?: string[], key?: string[] };
+      if (error.response && error.response.status === 400) {
+        if (responseData.name && responseData.name[0] === "Organization with this name already exists.") {
+          return { type: 'error', error: new Error('Já existe uma organização com este nome.') };
+        }
+        if (responseData.key && responseData.key[0] === "Organization with this key already exists.") {
+          return { type: 'error', error: new Error('Já existe uma organização com esta chave.') };
+        }
+      }
+
+      return { type: 'error', error: new Error('Ocorreu um erro ao atualizar organização.') };
     }
   }
 

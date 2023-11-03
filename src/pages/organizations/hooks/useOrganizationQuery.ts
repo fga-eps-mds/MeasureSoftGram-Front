@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'; // Adicione useState aqui
+import { useEffect, useState } from 'react';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import { toast } from 'react-toastify';
 import { organizationQuery, OrganizationFormData, Result } from '@services/organization';
