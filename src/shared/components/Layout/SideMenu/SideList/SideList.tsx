@@ -16,6 +16,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
+import Alert from '@mui/material/Alert';
+import WarningIcon from '@mui/icons-material/Warning';
 import { FiArrowLeft, FiPlus } from 'react-icons/fi';
 import LetterAvatar from '@components/LetterAvatar';
 import { useRouter } from 'next/router';
@@ -207,11 +209,13 @@ const SideList = <T extends ItemWithBasicProps>({
                 </IconButton>
               </Box>
               <h3>Confirmar exclusão</h3>
-              <Box sx={{ backgroundColor: '#113D4C33', borderRadius: 2, padding: 2, marginBottom: 2 }}>
-                <Typography variant="body1">
-                  Coisas inesperadas podem acontecer se você não ler isso!
-                </Typography>
-              </Box>
+              <Alert
+                icon={<WarningIcon />}
+                severity="warning"
+                sx={{ margin: '10px 0' }}
+              >
+                Coisas inesperadas podem acontecer se você não ler isso!
+              </Alert>
               <Box sx={{ width: '100%' }}>
                 <Typography variant="body2" sx={{ textAlign: 'justify' }}>
                   Isso irá deletar permanentemente a organização '{itemToDelete?.name}', assim como seus produtos e todos os membros associados.
@@ -239,11 +243,13 @@ const SideList = <T extends ItemWithBasicProps>({
                 </IconButton>
               </Box>
               <h3>Confirmação adicional</h3>
-              <Box sx={{ backgroundColor: '#113D4C33', borderRadius: 2, padding: 2, marginBottom: 2 }}>
-                <Typography variant="body2">
-                  Para confirmar, digite '{itemToDelete?.name}' abaixo:
-                </Typography>
-              </Box>
+              <Alert
+                icon={<WarningIcon />}
+                severity="warning"
+                sx={{ margin: '10px 0' }}
+              >
+                Para confirmar, digite '{itemToDelete?.name}' abaixo:
+              </Alert>
               <input
                 type="text"
                 value={confirmationName}
