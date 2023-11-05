@@ -10,14 +10,17 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Modal
+  Modal,
 } from '@mui/material/';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import CloseIcon from '@mui/icons-material/Close';
+import Typography from '@mui/material/Typography';
 import { FiArrowLeft, FiPlus } from 'react-icons/fi';
 import LetterAvatar from '@components/LetterAvatar';
 import { useRouter } from 'next/router';
 import { useOrganizationQuery } from 'src/pages/organizations/hooks/useOrganizationQuery';
+import { toast } from 'react-toastify';
 
 type ItemWithBasicProps = {
   id: number;
@@ -50,17 +53,45 @@ const SideList = <T extends ItemWithBasicProps>({
 
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<T | null>(null);
+  const [confirmationStep, setConfirmationStep] = useState(0);
+  const [confirmationName, setConfirmationName] = useState("");
+  const [errorText, setErrorText] = useState("");
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+  const handleConfirmationNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newName = e.target.value;
+    setConfirmationName(newName);
+
+    if (newName === itemToDelete?.name) {
+      setIsButtonDisabled(false);
+      setErrorText("");
+    } else {
+      setIsButtonDisabled(true);
+      setErrorText("O nome da organização está incorreto.");
+    }
+  };
 
   const handleDelete = async () => {
-    if (itemToDelete) {
-      const result = await deleteOrganization(String(itemToDelete.id));
-      if (result.type === "success") {
-        console.log("Item deleted successfully:", itemToDelete.id);
+    if (confirmationStep === 0) {
+      setShowConfirmationModal(true);
+    } else if (confirmationStep === 1) {
+      if (itemToDelete && itemToDelete.name === confirmationName) {
+        const result = await deleteOrganization(String(itemToDelete.id));
+        if (result.type === "success") {
+          toast.success('Organização excluída com sucesso!');
+          console.log("Item deleted successfully:", itemToDelete.id);
+        } else {
+          console.error("Error deleting item:", result.error);
+        }
+        setItemToDelete(null);
+        setShowConfirmationModal(false);
+        setConfirmationStep(0);
+        setConfirmationName("");
+        setErrorText("");
+        setIsButtonDisabled(true);
       } else {
-        console.error("Error deleting item:", result.error);
+        setErrorText("O nome da organização está incorreto.");
       }
-      setItemToDelete(null);
-      setShowConfirmationModal(false);
     }
   };
 
@@ -151,7 +182,10 @@ const SideList = <T extends ItemWithBasicProps>({
 
       <Modal
         open={showConfirmationModal}
-        onClose={() => setShowConfirmationModal(false)}
+        onClose={() => {
+          setShowConfirmationModal(false);
+          setConfirmationStep(0);
+        }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -165,12 +199,68 @@ const SideList = <T extends ItemWithBasicProps>({
           boxShadow: 24,
           p: 4,
         }}>
-          <h3>Confirmar exclusão</h3>
-          <p>Você tem certeza que deseja excluir o item '{itemToDelete?.name}'?</p>
-          <Box display="flex" justifyContent="flex-end" gap={2}>
-            <Button variant="outlined" onClick={() => setShowConfirmationModal(false)}>Cancelar</Button>
-            <Button variant="contained" color="primary" onClick={handleDelete}>Deletar</Button>
-          </Box>
+          {confirmationStep === 0 ? (
+            <>
+              <Box sx={{ position: 'absolute', top: 0, right: 0 }}>
+                <IconButton onClick={() => setShowConfirmationModal(false)}>
+                  <CloseIcon />
+                </IconButton>
+              </Box>
+              <h3>Confirmar exclusão</h3>
+              <Box sx={{ backgroundColor: '#113D4C33', borderRadius: 2, padding: 2, marginBottom: 2 }}>
+                <Typography variant="body1">
+                  Coisas inesperadas podem acontecer se você não ler isso!
+                </Typography>
+              </Box>
+              <Box sx={{ width: '100%' }}>
+                <Typography variant="body2" sx={{ textAlign: 'justify' }}>
+                  Isso irá deletar permanentemente a organização '{itemToDelete?.name}', assim como seus produtos e todos os membros associados.
+                </Typography>
+              </Box>
+              <Box display="flex" justifyContent="center" mt={2}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => setConfirmationStep(1)}
+                  sx={{ width: '100%' }}
+                >
+                  Eu li e entendo os efeitos
+                </Button>
+              </Box>
+            </>
+          ) : (
+            <>
+              <Box sx={{ position: 'absolute', top: 0, right: 0 }}>
+                <IconButton onClick={() => {
+                  setShowConfirmationModal(false);
+                  setConfirmationStep(0);
+                }}>
+                  <CloseIcon />
+                </IconButton>
+              </Box>
+              <h3>Confirmação adicional</h3>
+              <Box sx={{ backgroundColor: '#113D4C33', borderRadius: 2, padding: 2, marginBottom: 2 }}>
+                <Typography variant="body2">
+                  Para confirmar, digite '{itemToDelete?.name}' abaixo:
+                </Typography>
+              </Box>
+              <input
+                type="text"
+                value={confirmationName}
+                onChange={handleConfirmationNameChange}
+                className="input-style"
+                style={{ width: '100%' }}
+              />
+              <Typography variant="body2" sx={{ color: 'error.main', mt: 2 }}>
+                {errorText}
+              </Typography>
+              <Box display="flex" justifyContent="center" mt={2}>
+                <Button variant="contained" color="primary" onClick={handleDelete} sx={{ width: '100%' }} disabled={isButtonDisabled} >
+                  Deletar esta organização
+                </Button>
+              </Box>
+            </>
+          )}
         </Box>
       </Modal>
     </>
