@@ -6,6 +6,7 @@ import { Box, Container } from '@mui/material';
 import SsidChartIcon from '@mui/icons-material/SsidChart';
 import LineAxisIcon from '@mui/icons-material/LineAxis';
 import SpeedIcon from '@mui/icons-material/Speed';
+import TableRowsIcon from '@mui/icons-material/TableRows';
 
 import { AiOutlineRadarChart } from 'react-icons/ai';
 
@@ -70,7 +71,8 @@ const Repository: NextPageWithLayout = () => {
                 orientation="vertical"
                 tabHeaderItems={[
                   <AiOutlineRadarChart key="tab2-0" fontSize="22px" />,
-                  <SpeedIcon key="tab2-1" sx={{ fontSize: '21px' }} />
+                  <SpeedIcon key="tab2-1" sx={{ fontSize: '21px' }} />,
+                  <TableRowsIcon key="tab2-2" sx={{ fontSize: '21px' }} />
                 ]}
                 tabPanelItems={[
                   <GraphicChart
@@ -89,12 +91,15 @@ const Repository: NextPageWithLayout = () => {
                     value="characteristics"
                     valueType="latest-values"
                     addCurrentGoal
+                  />,
+                  <LatestValueTable
+                    title="Características"
+                    value="characteristics"
                   />
                 ]}
               />
 
           }
-          <LatestValueTable title="Características" value="characteristics" />
 
           <OptionsHeader
             title='Sub-Características'
@@ -119,7 +124,8 @@ const Repository: NextPageWithLayout = () => {
                 orientation="vertical"
                 tabHeaderItems={[
                   <AiOutlineRadarChart key="tab2-0" fontSize="22px" />,
-                  <SpeedIcon key="tab2-1" sx={{ fontSize: '21px' }} />
+                  <SpeedIcon key="tab2-1" sx={{ fontSize: '21px' }} />,
+                  <TableRowsIcon key="tab2-2" sx={{ fontSize: '21px' }} />
                 ]}
                 tabPanelItems={[
                   <GraphicChart
@@ -138,12 +144,15 @@ const Repository: NextPageWithLayout = () => {
                     value="subcharacteristics"
                     valueType="latest-values"
                     addCurrentGoal
+                  />,
+                  <LatestValueTable
+                    title="Sub-Características"
+                    value="subcharacteristics"
                   />
                 ]}
               />
 
           }
-          <LatestValueTable title="Sub-Características" value="subcharacteristics" />
 
           <OptionsHeader
             title='Medidas'
@@ -169,7 +178,9 @@ const Repository: NextPageWithLayout = () => {
                 orientation="vertical"
                 tabHeaderItems={[
                   <AiOutlineRadarChart key="tab2-0" fontSize="22px" />,
-                  <SpeedIcon key="tab2-1" sx={{ fontSize: '21px' }} />
+                  <SpeedIcon key="tab2-1" sx={{ fontSize: '21px' }} />,
+                  <TableRowsIcon key="tab2-2" sx={{ fontSize: '21px' }} />
+
                 ]}
                 tabPanelItems={[
                   <GraphicChart
@@ -188,11 +199,14 @@ const Repository: NextPageWithLayout = () => {
                     value="measures"
                     valueType="latest-values"
                     addCurrentGoal
+                  />,
+                  <LatestValueTable
+                    title="Medidas"
+                    value="measures"
                   />
                 ]}
               />
           }
-          <LatestValueTable title="Medidas" value="measures" />
 
           <Box
             display="flex"
@@ -203,7 +217,9 @@ const Repository: NextPageWithLayout = () => {
             <h2 style={{ color: '#113D4C', fontWeight: '500', fontSize: '25px' }}>Métricas</h2>
           </Box>
           <GraphicChart title="Métricas" type="line" value="metrics" />
-          <LatestValueTable title="Métricas" value="metrics" />
+          <Box marginY="12px">
+            <LatestValueTable title="Métricas" value="metrics" />
+          </Box>
         </Box >
       </Container >
     </Box >
