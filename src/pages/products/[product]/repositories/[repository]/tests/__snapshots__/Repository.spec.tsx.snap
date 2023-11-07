@@ -175,9 +175,6 @@ exports[`<Repository /> Should render correctly 1`] = `
             </div>
           </div>
         </div>
-        <span
-          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-g8n8pw-MuiSkeleton-root"
-        />
         <div
           class="MuiBox-root css-1ntb6q6"
         >
@@ -270,9 +267,6 @@ exports[`<Repository /> Should render correctly 1`] = `
             />
           </div>
         </div>
-        <span
-          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-g8n8pw-MuiSkeleton-root"
-        />
         <div
           class="MuiBox-root css-1ntb6q6"
         >
@@ -365,9 +359,6 @@ exports[`<Repository /> Should render correctly 1`] = `
             />
           </div>
         </div>
-        <span
-          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-g8n8pw-MuiSkeleton-root"
-        />
         <div
           class="MuiBox-root css-jzh824"
         >
@@ -381,9 +372,13 @@ exports[`<Repository /> Should render correctly 1`] = `
           class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
           style="height: 300px;"
         />
-        <span
-          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-g8n8pw-MuiSkeleton-root"
-        />
+        <div
+          class="MuiBox-root css-10khgmf"
+        >
+          <span
+            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-g8n8pw-MuiSkeleton-root"
+          />
+        </div>
       </div>
     </div>
   </div>

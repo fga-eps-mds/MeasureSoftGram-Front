@@ -72,7 +72,7 @@ const Repository: NextPageWithLayout = () => {
                 tabHeaderItems={[
                   <AiOutlineRadarChart key="tab2-0" fontSize="22px" />,
                   <SpeedIcon key="tab2-1" sx={{ fontSize: '21px' }} />,
-                  <TableRowsIcon key="tab2-2" sx={{ fontSize: '21px' }} />
+                  <TableRowsIcon key="tab2-2" sx={{ fontSize: '21px' }} />,
                 ]}
                 tabPanelItems={[
                   <GraphicChart
@@ -93,6 +93,7 @@ const Repository: NextPageWithLayout = () => {
                     addCurrentGoal
                   />,
                   <LatestValueTable
+                    key="tab2-0-2"
                     title="Características"
                     value="characteristics"
                   />
@@ -146,6 +147,7 @@ const Repository: NextPageWithLayout = () => {
                     addCurrentGoal
                   />,
                   <LatestValueTable
+                    key="tab2-0-2"
                     title="Sub-Características"
                     value="subcharacteristics"
                   />
@@ -201,6 +203,7 @@ const Repository: NextPageWithLayout = () => {
                     addCurrentGoal
                   />,
                   <LatestValueTable
+                    key="tab2-0-2"
                     title="Medidas"
                     value="measures"
                   />

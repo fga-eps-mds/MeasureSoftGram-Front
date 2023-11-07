@@ -32,7 +32,9 @@ Object {
         "size": 18,
       },
       "axisLabel": Object {
-        "distance": 0,
+        "distance": -45,
+        "fontSize": 18,
+        "fontWeight": "bold",
         "formatter": [Function],
         "rotate": "tangential",
       },
@@ -70,7 +72,7 @@ Object {
               "37%",
             ],
           },
-          "name": "Reliability",
+          "name": "Valor atual",
           "title": Object {
             "offsetCenter": Array [
               "-80%",
@@ -89,7 +91,7 @@ Object {
           "itemStyle": Object {
             "color": "#f1c40f",
           },
-          "name": "Valor esperado",
+          "name": "Valor planejado",
           "pointer": Object {
             "width": 0,
           },
@@ -144,7 +146,9 @@ Object {
         "size": 18,
       },
       "axisLabel": Object {
-        "distance": 0,
+        "distance": -45,
+        "fontSize": 18,
+        "fontWeight": "bold",
         "formatter": [Function],
         "rotate": "tangential",
       },
@@ -182,7 +186,7 @@ Object {
               "37%",
             ],
           },
-          "name": "Reliability",
+          "name": "Valor atual",
           "title": Object {
             "offsetCenter": Array [
               "-80%",
@@ -201,7 +205,7 @@ Object {
           "itemStyle": Object {
             "color": "#f1c40f",
           },
-          "name": "Valor esperado",
+          "name": "Valor planejado",
           "pointer": Object {
             "width": 0,
           },
@@ -256,7 +260,9 @@ Object {
         "size": 18,
       },
       "axisLabel": Object {
-        "distance": 0,
+        "distance": -45,
+        "fontSize": 18,
+        "fontWeight": "bold",
         "formatter": [Function],
         "rotate": "tangential",
       },
@@ -294,7 +300,7 @@ Object {
               "37%",
             ],
           },
-          "name": "Reliability",
+          "name": "Valor atual",
           "title": Object {
             "offsetCenter": Array [
               "-80%",
@@ -313,7 +319,7 @@ Object {
           "itemStyle": Object {
             "color": "#f1c40f",
           },
-          "name": "Valor esperado",
+          "name": "Valor planejado",
           "pointer": Object {
             "width": 0,
           },
@@ -388,7 +394,9 @@ Object {
         "size": 18,
       },
       "axisLabel": Object {
-        "distance": 0,
+        "distance": -45,
+        "fontSize": 18,
+        "fontWeight": "bold",
         "formatter": [Function],
         "rotate": "tangential",
       },
@@ -426,7 +434,7 @@ Object {
               "37%",
             ],
           },
-          "name": "Reliability",
+          "name": "Valor atual",
           "title": Object {
             "offsetCenter": Array [
               "-80%",
@@ -445,7 +453,7 @@ Object {
           "itemStyle": Object {
             "color": "#f1c40f",
           },
-          "name": "Valor esperado",
+          "name": "Valor planejado",
           "pointer": Object {
             "width": 0,
           },
@@ -500,7 +508,9 @@ Object {
         "size": 18,
       },
       "axisLabel": Object {
-        "distance": 0,
+        "distance": -45,
+        "fontSize": 18,
+        "fontWeight": "bold",
         "formatter": [Function],
         "rotate": "tangential",
       },
@@ -538,7 +548,7 @@ Object {
               "37%",
             ],
           },
-          "name": "Reliability",
+          "name": "Valor atual",
           "title": Object {
             "offsetCenter": Array [
               "-80%",
@@ -557,7 +567,7 @@ Object {
           "itemStyle": Object {
             "color": "#f1c40f",
           },
-          "name": "Valor esperado",
+          "name": "Valor planejado",
           "pointer": Object {
             "width": 0,
           },

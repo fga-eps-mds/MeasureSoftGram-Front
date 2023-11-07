@@ -91,7 +91,6 @@ const GraphicChart = ({
     return true;
   });
 
-  console.log(chartsOption)
   return isLoading ? (
     <Skeleton variant="rectangular" height="300px" />
   ) : (
@@ -136,10 +135,7 @@ const GraphicChart = ({
       </Fade>
       {error && (
         <Fade in timeout={1000}>
-          {(error.response.data.detail === "This product does not have a goal.") ?
-            <Alert severity="error">Este produto não possui uma release planejada</Alert> :
-            <Alert severity="error">Ocorreu um erro ao tentar carregar as informações</Alert>
-          }
+          <Alert severity="error">Ocorreu um erro ao tentar carregar as informações</Alert>
         </Fade>
       )}
       {isEmpty && (
