@@ -149,7 +149,7 @@ const Organizations: OrganizationsType = () => {
               required
               sx={{ mb: 2 }}
             />
-            <TextField
+            {/*<TextField
               fullWidth
               label="Chave"
               variant="outlined"
@@ -157,7 +157,7 @@ const Organizations: OrganizationsType = () => {
               onChange={(e) => setChave(e.target.value)}
               required
               sx={{ mb: 2 }}
-            />
+            />*/}
             <TextField
               fullWidth
               label="Descrição"
