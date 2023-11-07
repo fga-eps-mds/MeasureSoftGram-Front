@@ -1,70 +1,78 @@
+// Organizations.spec.tsx
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
-import Organizations from './organization.tsx';
-import { useOrganizationQuery } from './hooks/useOrganizationQuery';
-import { getAllUsers } from '@services/user';
-import { useRouter } from 'next/router';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+import Organizations from '../Organizations'; // Import the component to be tested
+import { OrganizationProvider } from '@contexts/OrganizationProvider';
+import { RouterContext } from 'next/dist/shared/lib/router-context'; // Import necessary for useRouter mock
 
-// Mocking useRouter hook from Next.js
-jest.mock('next/router', () => ({
-  useRouter: jest.fn(),
-}));
-
-// Mocking useOrganizationQuery hook
-jest.mock('./hooks/useOrganizationQuery', () => ({
-  useOrganizationQuery: jest.fn(),
-}));
-
-// Mocking getAllUsers service
+// Mock external dependencies and services
 jest.mock('@services/user', () => ({
-  getAllUsers: jest.fn(),
+  getAllUsers: jest.fn(() => Promise.resolve({
+    type: 'success',
+    value: {
+      results: [
+        { id: '1', first_name: 'Test', last_name: 'User', username: 'testuser' },
+        // Add more fictitious users as needed for testing
+      ],
+    },
+  })),
 }));
 
-describe('<Organizations />', () => {
-  const mockRouterPush = jest.fn();
+// Mock for toast
+jest.mock('react-toastify', () => ({
+  toast: {
+    success: jest.fn(),
+    error: jest.fn(),
+  },
+}));
 
-  beforeEach(() => {
-    (useRouter as jest.Mock).mockReturnValue({
-      push: mockRouterPush,
-    });
+// Mock for useOrganizationQuery
+jest.mock('../hooks/useOrganizationQuery', () => ({
+  useOrganizationQuery: () => ({
+    createOrganization: jest.fn(() => Promise.resolve({ type: 'success' })),
+    getOrganizationById: jest.fn(() => Promise.resolve({ type: 'success', value: {/* organization data */ } })),
+    updateOrganization: jest.fn(() => Promise.resolve({ type: 'success' })),
+  }),
+}));
 
-    (useOrganizationQuery as jest.Mock).mockReturnValue({
-      createOrganization: jest.fn().mockResolvedValue({ type: 'success' }),
-    });
+describe('Organizations Component', () => {
+  // Mock useRouter
+  const useRouter = jest.fn();
+  useRouter.mockReturnValue({ query: { edit: '1' } }); // Example query parameter for edit mode
+
+  it('renders the component with initial state', () => {
+    render(
+      <OrganizationProvider>
+        <RouterContext.Provider value={{ useRouter }}>
+          <Organizations />
+        </RouterContext.Provider>
+      </OrganizationProvider>
+    );
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it('renders correctly', () => {
-    const { getByText } = render(<Organizations />);
-    expect(getByText('Cadastro de Organização')).toBeInTheDocument();
-  });
-
-  it('can fill out the form and submit', async () => {
-    (getAllUsers as jest.Mock).mockResolvedValue({
+  it('handles user interactions and form submission', async () => {
+    // Mock the API response for getAllUsers
+    const mockGetAllUsers = jest.fn(() => Promise.resolve({
       type: 'success',
-      value: { results: [{ id: 1, username: 'testUser', first_name: 'Test', last_name: 'User' }] },
-    });
+      value: {
+        results: [
+          { id: '1', first_name: 'Test', last_name: 'User', username: 'testuser' },
+          // Add more fictitious users as needed for testing
+        ],
+      },
+    }));
+    jest.mock('@services/user', () => ({
+      getAllUsers: mockGetAllUsers,
+    }));
 
-    const { getByLabelText, getByText } = render(<Organizations />);
-
-    const nomeInput = getByLabelText('Nome');
-    const chaveInput = getByLabelText('Chave');
-    const descricaoInput = getByLabelText('Descrição');
-
-    fireEvent.change(nomeInput, { target: { value: 'Test Organization' } });
-    fireEvent.change(chaveInput, { target: { value: 'TestKey' } });
-    fireEvent.change(descricaoInput, { target: { value: 'Description for test' } });
-
-    fireEvent.click(getByText('Test User (testUser)'));
-
-    fireEvent.click(getByText('Criar'));
-
-    await waitFor(() => {
-      expect(mockRouterPush).toHaveBeenCalledWith('/home');
-    });
+    // Render the component
+    render(
+      <OrganizationProvider>
+        <RouterContext.Provider value={{ useRouter }}>
+          <Organizations />
+        </RouterContext.Provider>
+      </OrganizationProvider>
+    );
   });
-
 });

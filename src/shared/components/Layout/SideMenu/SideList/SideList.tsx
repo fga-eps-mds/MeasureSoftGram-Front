@@ -21,7 +21,7 @@ import WarningIcon from '@mui/icons-material/Warning';
 import { FiArrowLeft, FiPlus } from 'react-icons/fi';
 import LetterAvatar from '@components/LetterAvatar';
 import { useRouter } from 'next/router';
-import { useOrganizationQuery } from 'src/pages/organizations/hooks/useOrganizationQuery';
+import { useOrganizationQuery } from '../../../../../pages/organizations/hooks/useOrganizationQuery';
 import { toast } from 'react-toastify';
 
 type ItemWithBasicProps = {
