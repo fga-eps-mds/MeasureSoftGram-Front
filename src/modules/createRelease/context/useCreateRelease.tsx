@@ -7,8 +7,30 @@ import { useRouter } from 'next/router';
 import { Characteristic, Measure, PreConfigRoot, Subcharacteristic } from '@customTypes/preConfig';
 import { entityRelationshipTreeService } from '@services/entityRelationshipTree';
 import { CREATE_RELEASE_STEP } from '../consts';
-import mockedData from '../utils/mockedData.json'
+import mockedData from '../utils/mockedData.json';
 import { mergeCharacteristicData } from '../utils/mergeCharacteristicData';
+import ReleaseGoals from '../components/ReleaseGoals';
+
+interface ReleaseGoal {
+  id: number;
+  release_name: string;
+  start_at: string;
+  end_at: string;
+  changes: Changes[];
+  allow_dynamic: boolean;
+}
+
+interface NewCreateReleaseData {
+  release_name: string;
+  start_at: string;
+  end_at: string;
+  changes: Changes[];
+  allow_dynamic: boolean;
+}
+
+interface ExistingCreateReleaseData extends NewCreateReleaseData {
+  id: number;
+}
 
 interface CreateReleaseProviderProps {
   children: ReactNode;
@@ -44,9 +66,7 @@ interface CreateReleaseContextData {
   currentProduct: Product;
   isFirstRelease: boolean;
   configPageData: ConfigPageData;
-  // eslint-disable-next-line no-unused-vars
   handleChangeForm: (field: string, value: string | Changes[]) => void;
-  // eslint-disable-next-line no-unused-vars
   finishReleasePlanning: () => void;
   goToNextStep: (activeStep: number) => boolean;
   closeAlert: () => void;
@@ -58,7 +78,7 @@ interface CreateReleaseContextData {
   allowChangeConfig: boolean;
   toggleAllowChangeConfig: () => void;
   setUseLastConfig: (value: boolean) => void;
-  resetStates: () => void
+  resetStates: () => void;
   lastGoal?: Goal;
   setAllowDynamicBalance: (value: boolean) => void;
 }
@@ -66,7 +86,7 @@ interface CreateReleaseContextData {
 export const CreateReleaseContext = createContext({} as CreateReleaseContextData);
 
 const defaultEndDate = format(addDays(new Date(), 7), 'yyyy-MM-dd');
-const defaulStartDate = format(new Date(), 'yyyy-MM-dd');
+const defaultStartDate = format(new Date(), 'yyyy-MM-dd');
 
 export function CreateReleaseProvider({
   children,
@@ -77,11 +97,11 @@ export function CreateReleaseProvider({
   const [alertMessage, setAlertMessage] = useState('');
   const [releaseInfoForm, setReleaseInfoForm] = useState<ReleaseInfoForm>({
     endDate: defaultEndDate,
-    startDate: defaulStartDate,
+    startDate: defaultStartDate,
     changes: [],
     characteristics: [],
     name: ''
-  } as ReleaseInfoForm);
+  });
   const [characteristicData, setCharacteristicData] = useState<Characteristic[]>([]);
   const [characteristicCheckbox, setCharacteristicCheckbox] = useState<string[]>([]);
   const [subcharacterCheckbox, setSubcharacterCheckbox] = useState<string[]>([]);
@@ -108,7 +128,7 @@ export function CreateReleaseProvider({
   }
 
   async function createProductReleaseGoal() {
-    const data = {
+    const data: NewCreateReleaseData = {
       release_name: releaseInfoForm.name,
       start_at: releaseInfoForm.startDate,
       end_at: releaseInfoForm.endDate,
@@ -116,7 +136,7 @@ export function CreateReleaseProvider({
       allow_dynamic: allowDynamicBalance
     };
 
-    const response = await productQuery.createProductReleaseGoal(organizationId, productId, data);
+    const response = await productQuery.createProductReleaseGoal(organizationId, productId, data as unknown as ReleaseGoal);
     await mutate(
       JSON.stringify({ url: `organizations/${organizationId}/products/${productId}/release/`, method: 'get' })
     );
@@ -248,16 +268,29 @@ export function CreateReleaseProvider({
     const isSameReleaseGoal = lastGoal &&
       releaseInfoForm.startDate === (lastGoal.start_at as string).slice(0, 10) &&
       releaseInfoForm.endDate === (lastGoal.end_at as string).slice(0, 10) &&
-      releaseInfoForm.name === lastGoal?.release_name
+      releaseInfoForm.name === lastGoal?.release_name;
 
     if (isSameReleaseGoal) {
       setAlertMessage('sameReleaseGoal');
       return;
     }
-    sendConfigJson().catch(() => setAlertMessage('errorOnCreation'))
-    createProductReleaseGoal().catch(() => setAlertMessage('errorOnCreation'))
-  }
 
+    if (lastGoal) {
+      const existingData: ExistingCreateReleaseData = {
+        id: lastGoal.id,
+        release_name: releaseInfoForm.name,
+        start_at: releaseInfoForm.startDate,
+        end_at: releaseInfoForm.endDate,
+        changes: releaseInfoForm.changes,
+        allow_dynamic: allowDynamicBalance
+      };
+
+      console.log(existingData);
+    }
+
+    sendConfigJson().catch(() => setAlertMessage('errorOnCreation'));
+    createProductReleaseGoal().catch(() => setAlertMessage('errorOnCreation'));
+  }
   async function loadEntityRelationshipTree() {
     try {
       const entityRelationshipTreeResult = (await entityRelationshipTreeService.getEntityRelationshipTree())
@@ -271,11 +304,11 @@ export function CreateReleaseProvider({
   function resetStates() {
     setReleaseInfoForm({
       endDate: defaultEndDate,
-      startDate: defaulStartDate,
+      startDate: defaultStartDate,
       changes: [],
       characteristics: [],
       name: ''
-    } as ReleaseInfoForm)
+    } as ReleaseInfoForm);
     setAllowChangeConfig(false);
     setChangeThreshold(false);
     loadEntityRelationshipTree();

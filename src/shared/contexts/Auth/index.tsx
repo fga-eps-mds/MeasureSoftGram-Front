@@ -7,11 +7,11 @@ import { useLocalStorage } from '@hooks/useLocalStorage';
 export const authContextDefaultValues: authContextType = {
   session: null,
   loading: 'loading',
-  signInWithGithub: async () => ({} as Result<User>),
-  signInWithCredentials: async () => ({} as Result<User>),
-  logout: async () => ({} as Promise<void>),
+  signInWithGithub: async () => ({ type: 'error', error: new Error('Implementation missing') }),
+  signInWithCredentials: async () => ({ type: 'error', error: new Error('Implementation missing') }),
+  logout: async () => { },
   provider: 'credentials',
-  setProvider: async () => ({})
+  setProvider: () => { }
 };
 
 export const AuthContext = createContext<authContextType>(authContextDefaultValues);
@@ -36,9 +36,10 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     storedValue: provider,
     setValue: setProvider,
     removeValue: removeProvider
-  } = useLocalStorage<Providers | null>('provider', null);
+  } = useLocalStorage<Providers>('provider', 'credentials');
 
-  const removeAuthStorage = useCallback(async() => {
+
+  const removeAuthStorage = useCallback(async () => {
     removeSession();
     removeToken();
     removeProvider();
@@ -71,33 +72,58 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   }, [removeAuthStorage, router, setSession]);
 
   const signInWithGithub = useCallback(
-    async (code: string) => {
+    async (code: string): Promise<Result<User>> => {
       const response = await signInGithub(code);
 
-      if (response.type === 'success') {
-        setToken(response?.value?.key);
+      if (response.type === 'success' && response?.value?.key) {
+        setToken(response.value.key);
+        toast.success('Login realizado com sucesso!');
+
+        return {
+          type: 'success',
+          value: {
+            key: response.value.key,
+            username: '',
+            first_name: '',
+            last_name: '',
+            email: '',
+            avatar_url: '',
+            repos_url: '',
+            organizations_url: '',
+          }
+        };
+      } else if (response.type === 'error') {
+        removeAuthStorage();
+        toast.error(`Erro ao realizar login: ${response.error.message || 'Erro desconhecido'}`);
+        return response;
       }
-      // removeAuthStorage();
-      // toast.error(`Erro ao realizar login: ${response?.error?.message}`);
+
+      return { type: 'error', error: new Error('Erro desconhecido') };
     },
-    [setToken]
+    [removeAuthStorage, setToken]
   );
 
+
   const signInWithCredentials = useCallback(
-    async (data: LoginFormData) => {
+    async (data: LoginFormData): Promise<Result<User>> => {
       setProvider('credentials');
       const response = await signInCredentials(data);
 
-      if (response.type === 'success') {
-        setToken(response?.value?.key);
+      if (response.type === 'success' && response?.value?.key) {
+        setToken(response.value.key);
         toast.success('Login realizado com sucesso!');
-        await router.push('/home'); // AQUI
-      } else {
-        toast.error('Erro ao realizar login');
+        await router.push('/home');
+        return response;
+      } else if (response.type === 'error') {
+        toast.error(`Erro ao realizar login: ${response.error.message || 'Erro desconhecido'}`);
+        return response;
       }
+
+      return { type: 'error', error: new Error('Erro desconhecido') };
     },
     [router, setProvider, setToken]
   );
+
 
   useEffect(() => {
     const code = router?.query?.code;
@@ -120,7 +146,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
       logout,
       signInWithCredentials,
       signInWithGithub,
-      provider,
+      provider: provider!,
       setProvider,
       loading
     }),

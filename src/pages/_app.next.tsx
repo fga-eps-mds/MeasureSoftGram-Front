@@ -11,7 +11,6 @@ import { RepositoryProvider } from '@contexts/RepositoryProvider';
 import { OrganizationProvider } from '@contexts/OrganizationProvider';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import type {} from '@mui/lab/themeAugmentation';
 import { AuthProvider } from '@contexts/Auth';
 
 export type NextPageWithLayout = NextPage & {

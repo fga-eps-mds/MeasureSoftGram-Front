@@ -8,7 +8,7 @@ import SideMenuItem from '../SideMenuItem';
 import SideList from '../SideList';
 
 function OrganizationSelector() {
-  const { organizationList, setCurrentOrganization, currentOrganization } = useOrganizationContext();
+  const { organizationList, setCurrentOrganizations, currentOrganization } = useOrganizationContext(); // Alterei para setCurrentOrganizations
   const { value: isOpen, setTrue: onClick, setFalse: onClose } = useBoolean(false);
 
   return (
@@ -26,7 +26,7 @@ function OrganizationSelector() {
         values={organizationList}
         open={isOpen}
         onClose={onClose}
-        onClickItem={setCurrentOrganization}
+        onClickItem={(organization) => setCurrentOrganizations([organization])} // Alterei para setCurrentOrganizations
       />
     </>
   );

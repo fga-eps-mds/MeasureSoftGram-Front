@@ -9,14 +9,17 @@ export const useQuery = () => {
   const { updateProductList } = useProductContext();
 
   const loadAllProducts = async () => {
-    try {
-      const result = await productQuery.getAllProducts(currentOrganization.id);
+    if (currentOrganization) {
+      try {
+        const result = await productQuery.getAllProducts(currentOrganization.id);
 
-      updateProductList(result.data.results);
-    } catch (error) {
-      toast.error(`${error}`);
+        updateProductList(result.data.results);
+      } catch (error) {
+        toast.error(`${error}`);
+      }
     }
   };
+
   useEffect(() => {
     if (currentOrganization) {
       loadAllProducts();
