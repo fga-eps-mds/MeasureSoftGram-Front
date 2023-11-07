@@ -12,7 +12,7 @@ function CustomTabs({ tabId, orientation, tabHeaderItems, tabPanelItems }: Props
   const [value, setValue] = useState<number>(0);
 
   useEffect(() => {
-    if (tabPanelItems.length === 1) {
+    if (value >= tabPanelItems.length) {
       setValue(0);
     }
   })

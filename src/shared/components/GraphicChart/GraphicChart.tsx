@@ -1,15 +1,17 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import ReactEcharts from 'echarts-for-react';
 
 import formatCharacteristicsHistory from '@utils/formatCharacteristicsHistory';
 import formatMsgramChart from '@utils/formatMsgramChart';
 import formatRadarChart from '@utils/formatRadarChart';
 import formatGaugeChart from '@utils/formatGaugeChart';
-import { Alert, Box, Fade, Skeleton } from '@mui/material';
+import { Alert, Box, Fade, IconButton, Skeleton } from '@mui/material';
 import { useRequestValues } from '@hooks/useRequestValues';
 import { Historical } from '@customTypes/repository';
 import _ from 'lodash';
 import { useProductConfigFilterContext } from '@contexts/ProductConfigFilterProvider/ProductConfigFilterProvider';
+import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
+import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 
 interface Prop {
   title: string;
@@ -48,6 +50,7 @@ const GraphicChart = ({
     isEmpty
   } = useRequestValues({ type: valueType, value, addHistoricalTSQMI, addCurrentGoal });
   const { hasKey } = useProductConfigFilterContext();
+  const [showCharts, setShowCharts] = useState(false);
 
   const sliceHistorical = (rowIdx: number): Historical[] => {
     if (!autoGrid) return historical;
@@ -81,6 +84,13 @@ const GraphicChart = ({
     [historical, title, isEmpty, error]
   );
 
+  const filteredChartsOptions = chartsOption.filter((option, index) => {
+    if (type === 'gauge') {
+      return (index <= 1) ? true : false;
+    }
+    return true;
+  });
+
   return isLoading ? (
     <Skeleton variant="rectangular" height="300px" />
   ) : (
@@ -95,11 +105,32 @@ const GraphicChart = ({
           width="100%"
           height={chartBoxHeight}
         >
-          {chartsOption.map((option) => (
-            <>
-              <ReactEcharts key={option.key} notMerge lazyUpdate style={chartStyle} option={option} />
-            </>
-          ))}
+          {(type !== 'gauge') || (type === 'gauge' && showCharts) ?
+            chartsOption.map((option) => (
+              <>
+                <ReactEcharts key={option.key} notMerge lazyUpdate style={chartStyle} option={option} />
+              </>
+            ))
+            :
+            filteredChartsOptions.map((option) => (
+              <>
+                <ReactEcharts key={option.key} notMerge lazyUpdate style={chartStyle} option={option} />
+              </>
+            ))
+          }
+
+          {(type === 'gauge' && chartsOption.length > 2) &&
+            <Box
+              width="100%"
+              display="flex"
+              flexDirection="row"
+              justifyContent="center"
+            >
+              <IconButton onClick={() => { setShowCharts(prev => !prev) }}>
+                {showCharts ? <KeyboardDoubleArrowUpIcon fontSize="large" /> : <KeyboardDoubleArrowDownIcon fontSize="large" />}
+              </IconButton>
+            </Box>
+          }
         </Box>
       </Fade>
       {error && (

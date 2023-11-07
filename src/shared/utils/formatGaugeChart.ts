@@ -43,7 +43,7 @@ const formatGaugeChart = ({ historical, title, isEmpty }: FormatGaugeChartType) 
         data: [
           {
             value: item.latest.value.toFixed(2),
-            name: item.name,
+            name: 'Valor atual',
             title: {
               offsetCenter: ['-80%', '20%']
             },
@@ -53,7 +53,7 @@ const formatGaugeChart = ({ historical, title, isEmpty }: FormatGaugeChartType) 
           },
           {
             value: ((item?.goal ?? 100) / 100)?.toFixed(2),
-            name: 'Valor esperado',
+            name: 'Valor planejado',
             title: {
               offsetCenter: ['80%', '20%']
             },
@@ -106,9 +106,14 @@ const formatGaugeChart = ({ historical, title, isEmpty }: FormatGaugeChartType) 
           length: 0
         },
         axisLabel: {
-          distance: 0,
+          fontSize: 18,
+          fontWeight: 'bold',
+          distance: -45,
           rotate: 'tangential',
           formatter: function (value: any) {
+            if (value === 0.5) {
+              return item.name;
+            }
             return '';
           }
         },
@@ -135,7 +140,7 @@ const formatGaugeChart = ({ historical, title, isEmpty }: FormatGaugeChartType) 
           icon: 'image:///images/png/iconCsv.png',
           onclick: () => {
             handleExportCsv();
-          },
+          }
         }
       }
     },
