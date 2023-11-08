@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head'; // Esta importação deve estar acima das importações relativas.
 import { useRouter } from 'next/router';
-import { useOrganizationQuery } from './hooks/useOrganizationQuery';
 import getLayout from '@components/Layout';
 import { toast } from 'react-toastify';
 import { getAllUsers, User } from '@services/user';
-import { Container, TextField, Button, Typography, Box, List, ListItem, ListItemText, Modal, Backdrop, Fade, Grid } from '@mui/material';
+import { Container, TextField, Button, Typography, Box, List, ListItem, ListItemText, Modal, Backdrop, Fade, Grid, FormControl } from '@mui/material';
+import { useOrganizationQuery } from './hooks/useOrganizationQuery';
 
 interface OrganizationsType extends React.FC {
   getLayout?: (page: React.ReactElement) => React.ReactNode;
@@ -84,15 +84,6 @@ const Organizations: OrganizationsType = () => {
       members: membros,
     };
 
-    const logDetails = () => {
-      console.log('handleSubmit is being called');
-      for (const [key, value] of Object.entries(novaOrganizacao)) {
-        console.log(`${key.charAt(0).toUpperCase() + key.slice(1)}:`, value);
-      }
-    };
-
-    logDetails();
-
     let result;
     const nameExist = "Já existe uma organização com este nome."
     const keyExist = "Já existe uma organização com esta chave."
@@ -143,15 +134,6 @@ const Organizations: OrganizationsType = () => {
               required
               sx={{ mb: 2 }}
             />
-            {/*<TextField
-              fullWidth
-              label="Chave"
-              variant="outlined"
-              value={chave}
-              onChange={(e) => setChave(e.target.value)}
-              required
-              sx={{ mb: 2 }}
-            />*/}
             <TextField
               fullWidth
               label="Descrição"
