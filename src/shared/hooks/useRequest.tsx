@@ -1,7 +1,6 @@
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import get from 'lodash/get';
 import useSWR, { SWRConfiguration, SWRResponse } from 'swr';
-
 import api from '@services/api';
 
 export type GetRequest = AxiosRequestConfig | null;
@@ -13,9 +12,9 @@ interface Return<Data, Error>
   isLoading: boolean;
 }
 
-export interface Config<Data = unknown, Error = unknown>
+interface Config<Data = unknown, Error = unknown>
   extends Omit<SWRConfiguration<AxiosResponse<Data>, AxiosError<Error>>, 'fallbackData'> {
-  fallbackData?: Data;
+  fallbackData?: AxiosResponse<Data>;
   dataPath?: keyof Data | string | string[];
 }
 
@@ -29,21 +28,11 @@ export function useRequest<Data = unknown, Error = unknown>(
     isValidating,
     mutate
   } = useSWR<AxiosResponse<Data>, AxiosError<Error>>(
-    request && JSON.stringify(request),
-    /**
-     * NOTE: Typescript thinks `request` can be `null` here, but the fetcher
-     * function is actually only called by `useSWR` when it isn't.
-     */
+    request ? JSON.stringify(request) : null,
     () => api.request<Data>(request!),
     {
       ...config,
-      fallbackData: fallbackData && {
-        status: 200,
-        statusText: 'InitialData',
-        config: request!,
-        headers: {},
-        data: fallbackData
-      }
+      fallbackData
     }
   );
 
