@@ -3,8 +3,26 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { OrganizationProvider } from '@contexts/OrganizationProvider';
+import React, { useMemo } from 'react';
+import { useRouter } from 'next/router';
 import { RouterContext } from 'next/dist/shared/lib/router-context'; // Import necessary for useRouter mock
 import Organizations from '../Organizations';
+
+const Component = () => {
+  const router = useRouter();
+
+  // valores que você quer passar para o contexto
+  const contextValue = useMemo(() => ({
+    query: router.query,
+    // inclua outros valores necessários aqui
+  }), [router.query]); // inclua outras dependências aqui se necessário
+
+  return (
+    <OrganizationProvider value={contextValue}>
+      {/* ... */}
+    </OrganizationProvider>
+  );
+};
 
 // Mock external dependencies and services
 jest.mock('@services/user', () => ({
@@ -49,6 +67,7 @@ describe('Organizations Component', () => {
         </RouterContext.Provider>
       </OrganizationProvider>
     );
+    expect(screen.getByText('algum texto')).toBeInTheDocument();
   });
 
   it('handles user interactions and form submission', async () => {
