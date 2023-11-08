@@ -2,9 +2,9 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import Organizations from '../Organizations'; // Import the component to be tested
 import { OrganizationProvider } from '@contexts/OrganizationProvider';
 import { RouterContext } from 'next/dist/shared/lib/router-context'; // Import necessary for useRouter mock
+import Organizations from '../Organizations';
 
 // Mock external dependencies and services
 jest.mock('@services/user', () => ({

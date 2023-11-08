@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import Head from 'next/head'; // Esta importação deve estar acima das importações relativas.
 import { useRouter } from 'next/router';
 import { useOrganizationQuery } from './hooks/useOrganizationQuery';
 import getLayout from '@components/Layout';
 import { toast } from 'react-toastify';
 import { getAllUsers, User } from '@services/user';
-import { Container, TextField, Button, Typography, Box, FormControl, ListItem, ListItemText, List, Grid, Modal, Backdrop, Fade } from '@mui/material';
-import Head from 'next/head';
+import { Container, TextField, Button, Typography, Box, List, ListItem, ListItemText, Modal, Backdrop, Fade, Grid } from '@mui/material';
 
 interface OrganizationsType extends React.FC {
   getLayout?: (page: React.ReactElement) => React.ReactNode;
@@ -94,39 +94,33 @@ const Organizations: OrganizationsType = () => {
     logDetails();
 
     let result;
-
+    const nameExist = "Já existe uma organização com este nome."
+    const keyExist = "Já existe uma organização com esta chave."
     if (isEditMode && router.query.edit) {
       result = await updateOrganization(router.query.edit as string, novaOrganizacao);
       if (result.type === 'success') {
         toast.success('Organização atualizada com sucesso!');
         router.push('/home');
+      } else if (result.error.message === nameExist) {
+        toast.error(nameExist);
+      } else if (result.error.message === keyExist) {
+        toast.error(keyExist);
       } else {
-        if (result.error.message === 'Já existe uma organização com este nome.') {
-          toast.error('Já existe uma organização com este nome.');
-        } else if (result.error.message === 'Já existe uma organização com esta chave.') {
-          toast.error('Já existe uma organização com esta chave.');
-        } else {
-          toast.error('Erro ao atualizar a organização!');
-        }
+        toast.error('Erro ao atualizar a organização!');
       }
     } else {
       result = await createOrganization(novaOrganizacao);
       if (result.type === 'success') {
         toast.success('Organização criada com sucesso!');
         router.push('/home');
+      } else if (result.error.message === nameExist) {
+        toast.error(nameExist);
+      } else if (result.error.message === keyExist) {
+        toast.error(keyExist);
       } else {
-        if (result.error.message === 'Já existe uma organização com este nome.') {
-          toast.error('Já existe uma organização com este nome.');
-        } else if (result.error.message === 'Já existe uma organização com esta chave.') {
-          toast.error('Já existe uma organização com esta chave.');
-        } else {
-          toast.error('Erro ao criar a organização!');
-        }
+        toast.error('Erro ao criar a organização!');
       }
     }
-
-    console.log('Dados enviados:', novaOrganizacao);
-    console.log('Resposta da API:', result);
   };
 
   return (
