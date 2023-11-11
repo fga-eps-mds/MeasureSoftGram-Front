@@ -48,13 +48,11 @@ export const useOrganizationQuery = () => {
     return result;
   };
 
-  const getOrganizationById = async (id: string): Promise<Result<OrganizationFormData>> => {
-    return organizationQuery.getOrganizationById(id);
-  };
+  const getOrganizationById = async (id: string): Promise<Result<OrganizationFormData>> =>
+  organizationQuery.getOrganizationById(id);
 
-  const updateOrganization = async (id: string, data: OrganizationFormData): Promise<Result<void>> => {
-    return organizationQuery.updateOrganization(id, data);
-  };
+  const updateOrganization = async (id: string, data: OrganizationFormData): Promise<Result<void>> =>
+  organizationQuery.updateOrganization(id, data);
 
 const deleteOrganization = async (id: string): Promise<Result<void>> => {
     const result = await organizationQuery.deleteOrganization(id);
