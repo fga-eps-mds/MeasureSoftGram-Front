@@ -69,7 +69,12 @@ const SideList = <T extends ItemWithBasicProps>({
       setErrorText("");
     } else {
       setIsButtonDisabled(true);
-      setErrorText("O nome da organização está incorreto.");
+      if (itemType === "organization") {
+        setErrorText("O nome da organização está incorreto.");
+      }
+      else {
+        setErrorText("O nome do produto está incorreto.");
+      }
     }
   };
 
@@ -150,7 +155,11 @@ const SideList = <T extends ItemWithBasicProps>({
                           aria-label="edit"
                           onClick={async (e) => {
                             e.stopPropagation();
-                            await router.push(`/organizations?edit=${value.id}`);
+                            if (itemType === "organization") {
+                              await router.push(`/organizations?edit=${value.id}`);
+                            } else {
+                              await router.push(`/product?edit=${value.id}`);
+                            }
                           }}
                         >
                           <EditIcon />
@@ -222,7 +231,7 @@ const SideList = <T extends ItemWithBasicProps>({
               </Alert>
               <Box sx={{ width: '100%' }}>
                 <Typography variant="body2" sx={{ textAlign: 'justify' }}>
-                  Isso irá deletar permanentemente a organização '{itemToDelete?.name}', assim como seus produtos e todos os membros associados.
+                  Isso irá deletar permanentemente {itemType === 'organization' ? "a organização" : "o produto"} '{itemToDelete?.name}'{itemType === 'organization' ? ", assim como seus produtos e todos os membros associados." : "."}
                 </Typography>
               </Box>
               <Box display="flex" justifyContent="center" mt={2}>
@@ -266,7 +275,7 @@ const SideList = <T extends ItemWithBasicProps>({
               </Typography>
               <Box display="flex" justifyContent="center" mt={2}>
                 <Button variant="contained" color="primary" onClick={handleDelete} sx={{ width: '100%' }} disabled={isButtonDisabled} >
-                  Deletar esta organização
+                    {itemType === 'organization' ? "Deletar esta organização" : "Deletar este produto"}
                 </Button>
               </Box>
             </>
