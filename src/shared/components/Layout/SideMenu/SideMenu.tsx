@@ -42,7 +42,6 @@ function SideMenu() {
     console.warn('The itemType is set to unknown. Please handle this case appropriately.');
   }
 
-
   const MenuItems: SideMenuItemType[] = [
     {
       startIcon: <FiBarChart2 fontSize={28} />,
