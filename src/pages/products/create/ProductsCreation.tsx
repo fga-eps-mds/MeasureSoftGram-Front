@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import getLayout from '@components/Layout';
+import { toast } from 'react-toastify';
 import { Container, TextField, Button, Typography, Box, List, ListItem, ListItemText, Modal, Backdrop, Fade, Grid, FormControl, MenuItem } from '@mui/material';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
+import { useProductQuery } from '../hooks/useProductQuery';
 
 interface OrganizationsType extends React.FC {
   getLayout?: (page: React.ReactElement) => React.ReactNode;
@@ -12,19 +14,19 @@ interface OrganizationsType extends React.FC {
 const ProductsCreation: OrganizationsType = () => {
   const router = useRouter();
   const [nome, setNome] = useState('');
-  const [chave, setChave] = useState('');
   const [descricao, setDescricao] = useState('');
-  const [organization, setOrganization] = useState<number>();
+  const [organizationId, setOrganizationId] = useState<number>();
   const { organizationList } = useOrganizationContext();
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
+  const { createProduct } = useProductQuery();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    // const novoProduto = {
-    //   name: nome,
-    //   description: descricao,
-    //   organization: organizationId
-    // }
+    const novoProduto = {
+      name: nome,
+      description: descricao,
+      organizationId: organizationId,
+    }
     let result;
     const nameExist = "Já existe uma Produto com este nome."
     const keyExist = "Já existe uma Produto com esta chave."
@@ -41,17 +43,17 @@ const ProductsCreation: OrganizationsType = () => {
       //    toast.error('Erro ao atualizar a Produto!');
       //  }
     } else {
-      // result = await createOrganization(novaOrganizacao);
-      // if (result.type === 'success') {
-      //   toast.success('Produto criada com sucesso!');
-      //   router.push('/home');
-      // } else if (result.error.message === nameExist) {
-      //   toast.error(nameExist);
-      // } else if (result.error.message === keyExist) {
-      //   toast.error(keyExist);
-      // } else {
-      //   toast.error('Erro ao criar a Produto!');
-      // }
+      result = await createProduct(novoProduto);
+      if (result.type === 'success') {
+        toast.success('Produto criado com sucesso!');
+        router.push('/home');
+      } else if (result.error.message === nameExist) {
+        toast.error(nameExist);
+      } else if (result.error.message === keyExist) {
+        toast.error(keyExist);
+      } else {
+        toast.error('Erro ao criar a Produto!');
+      }
     }
   };
 
@@ -93,8 +95,8 @@ const ProductsCreation: OrganizationsType = () => {
               fullWidth
               label="Organizações"
               variant="outlined"
-              value={organization}
-              onChange={(e) => setOrganization(+e.target.value)}
+              value={organizationId}
+              onChange={(e) => setOrganizationId(+e.target.value)}
               multiline
               rows={4}
               sx={{ mb: 2 }}
