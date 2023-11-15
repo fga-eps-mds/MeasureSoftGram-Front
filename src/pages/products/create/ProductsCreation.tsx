@@ -19,6 +19,7 @@ const ProductsCreation: OrganizationsType = () => {
   const { organizationList } = useOrganizationContext();
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const { createProduct } = useProductQuery();
+  const currentOrganizationId = router.query.id_organization;
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -28,6 +29,10 @@ const ProductsCreation: OrganizationsType = () => {
       organizationId: organizationId,
     }
     let result;
+    if (!novoProduto.organizationId) {
+      if (currentOrganizationId)
+        novoProduto.organizationId = parseInt(currentOrganizationId[0]);
+    }
     const nameExist = "Já existe uma Produto com este nome."
     const keyExist = "Já existe uma Produto com esta chave."
     if (isEditMode && router.query.edit) {
@@ -95,7 +100,7 @@ const ProductsCreation: OrganizationsType = () => {
               fullWidth
               label="Organizações"
               variant="outlined"
-              value={organizationId}
+              value={organizationId || currentOrganizationId}
               onChange={(e) => setOrganizationId(+e.target.value)}
               multiline
               rows={4}
