@@ -111,10 +111,14 @@ const SideList = <T extends ItemWithBasicProps>({
               variant="contained"
               startIcon={<FiPlus />}
               onClick={async () => {
-                await router.push("/organizations/");
+                if (itemType === "organization") {
+                  await router.push(`/organizations/`);
+                } else {
+                  await router.push(`/products/create/`);
+                }
               }}
             >
-              Adicionar Organização
+              {itemType === "organization" ? "Adicionar Organização" : "Adicionar Produto"}
             </Button>
           </Box>
           <List>
