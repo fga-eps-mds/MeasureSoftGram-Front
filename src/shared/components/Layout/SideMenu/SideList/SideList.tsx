@@ -37,6 +37,7 @@ type Props<T extends ItemWithBasicProps> = {
   seeMorePath: string;
   showActions?: boolean;
   itemType?: "organization" | "product";
+  organizationId?: string;
 };
 
 const SideList = <T extends ItemWithBasicProps>({
@@ -46,7 +47,8 @@ const SideList = <T extends ItemWithBasicProps>({
   onClickItem,
   seeMorePath,
   showActions = true,
-  itemType
+  itemType,
+  organizationId,
 }: Props<T>) => {
   const { deleteOrganization } = useOrganizationQuery();
   const maxItems = 10;
@@ -86,9 +88,6 @@ const SideList = <T extends ItemWithBasicProps>({
         const result = await deleteOrganization(String(itemToDelete.id));
         if (result.type === "success") {
           toast.success('Organização excluída com sucesso!');
-          console.log("Item deleted successfully:", itemToDelete.id);
-        } else {
-          console.error("Error deleting item:", result.error);
         }
         setItemToDelete(null);
         setShowConfirmationModal(false);
@@ -119,7 +118,7 @@ const SideList = <T extends ItemWithBasicProps>({
                 if (itemType === "organization") {
                   await router.push(`/organizations/`);
                 } else {
-                  await router.push(`/products/create/`);
+                  await router.push(`/products/create/?id_organization=${organizationId}`);
                 }
               }}
             >
@@ -134,7 +133,6 @@ const SideList = <T extends ItemWithBasicProps>({
                   disablePadding
                   key={value.id}
                   onClick={() => {
-                    console.log('onClickItem function:', onClickItem);
                     if (typeof onClickItem === 'function') {
                       onClickItem(value);
                     } else {
@@ -158,7 +156,7 @@ const SideList = <T extends ItemWithBasicProps>({
                             if (itemType === "organization") {
                               await router.push(`/organizations?edit=${value.id}`);
                             } else {
-                              await router.push(`/product?edit=${value.id}`);
+                              await router.push(`/product/create/?id_organization=${value.id}&id_product=${value.id}`);
                             }
                           }}
                         >
@@ -275,7 +273,7 @@ const SideList = <T extends ItemWithBasicProps>({
               </Typography>
               <Box display="flex" justifyContent="center" mt={2}>
                 <Button variant="contained" color="primary" onClick={handleDelete} sx={{ width: '100%' }} disabled={isButtonDisabled} >
-                    {itemType === 'organization' ? "Deletar esta organização" : "Deletar este produto"}
+                  {itemType === 'organization' ? "Deletar esta organização" : "Deletar este produto"}
                 </Button>
               </Box>
             </>
