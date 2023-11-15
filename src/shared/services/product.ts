@@ -113,8 +113,6 @@ class ProductQuery {
       return null;
     }
 
-    console.log('Token de Autenticação:', `Token ${tokenResult.value.key}`);
-
     return { Authorization: `Token ${tokenResult.value.key}` };
   }
 
