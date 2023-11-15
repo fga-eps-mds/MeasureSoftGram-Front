@@ -24,7 +24,6 @@ type Result<T> = ResultSuccess<T> | ResultError;
 export const getAllUsers = async (): Promise<Result<UserResult>> => {
   try {
     const tokenResult = await getAccessToken();
-    console.log("Token Result:", tokenResult);
 
     if (tokenResult.type === 'error' || !tokenResult.value.key) {
       console.error("Erro ao obter o token de acesso");
@@ -33,15 +32,11 @@ export const getAllUsers = async (): Promise<Result<UserResult>> => {
 
     const token = tokenResult.value.key;
 
-    console.log("Token:", token);
-
     const response = await api.get('/accounts/users/', {
       headers: {
         Authorization: `Token ${token}`
       }
     });
-
-    console.log("Resposta da API:", response);
 
     return { type: 'success', value: response.data };
   } catch (err) {
