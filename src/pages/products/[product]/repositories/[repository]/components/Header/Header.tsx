@@ -5,53 +5,59 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import React, { useState } from 'react';
 import GaugeSlider from '../GaugeSlider';
 import { useProductContext } from '@contexts/ProductProvider';
-import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import ReactEcharts from 'echarts-for-react';
+import { toNumber } from 'lodash';
+import { Product } from '@customTypes/product';
+import { ProductFormData, productQuery } from '@services/product';
+import { useOrganizationContext } from '@contexts/OrganizationProvider';
+import { getPathId } from '@utils/pathDestructer';
+import { useRouter } from 'next/router';
 
 function Header() {
   const { currentRepository } = useRepositoryContext();
-  const { currentProduct } = useProductContext();
+  const { currentProduct, setCurrentProduct } = useProductContext();
   const { currentOrganization } = useOrganizationContext();
 
+
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const initialValues = [0.33, 0.66];
+  const initialValues = currentProduct && [currentProduct.gaugeRedLimit, currentProduct.gaugeYellowLimit];
   const [values, setValues] = useState(
     initialValues
   );
 
-  const gaugeOptionWithoutPointer = {
-    type: 'gauge',
-    startAngle: 180,
-    endAngle: 360,
-    min: 0,
-    max: 1,
-    axisLine: {
-      lineStyle: {
-        width: 50,
-        color: [
-          [values[0], '#e74c3c'],
-          [values[1], '#f1c40f'],
-          [1, '#07bc0c']
-        ]
-      }
-    },
-    axisTick: {
-      length: 0
-    },
-    splitLine: {
-      length: 0
-    },
-    axisLabel: {
-      distance: 0,
-      rotate: 'tangential',
-      formatter: function () {
-        return '';
-      }
-    },
-  };
+  const { query } = useRouter();
 
   const option = {
-    series: [gaugeOptionWithoutPointer]
+    series: {
+      type: 'gauge',
+      startAngle: 180,
+      endAngle: 360,
+      min: 0,
+      max: 1,
+      axisLine: {
+        lineStyle: {
+          width: 50,
+          color: [
+            [(values ? values[0] : 0.33), '#e74c3c'],
+            [(values ? values[1] : 0.66), '#f1c40f'],
+            [1, '#07bc0c']
+          ]
+        }
+      },
+      axisTick: {
+        length: 0
+      },
+      splitLine: {
+        length: 0
+      },
+      axisLabel: {
+        distance: 0,
+        rotate: 'tangential',
+        formatter: function () {
+          return '';
+        }
+      }
+    }
   };
 
   const handleOpenModal = () => {
@@ -63,14 +69,30 @@ function Header() {
   };
 
   const onSubmit = () => {
-    const data = {
-      name: currentProduct?.name,
-      redGaugeLimit: values[0],
-      yellowGaugeLimit: values[1]
+    if (values) {
+
+      const data = {
+        name: currentProduct!.name,
+        gaugeRedLimit: values[0],
+        gaugeYellowLimit: values[1]
+      }
+
+      const [organizationId, productId] = getPathId(query?.product as string);
+
+      updateProduct(organizationId, productId, data)
+      handleCloseModal();
     }
-    console.log(data)
-    handleCloseModal();
   };
+
+  async function updateProduct(organizationId: string, productId: string, data: ProductFormData) {
+    try {
+      const result = await productQuery.updateProduct(organizationId, productId, data);
+      setCurrentProduct(result.data);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error);
+    }
+  }
 
   return (
     <Box display="flex" flexDirection="row" justifyContent="space-between">
@@ -112,45 +134,54 @@ function Header() {
           <Typography variant="h6" gutterBottom>
             Editar Intervalos
           </Typography>
-          <Box
-            style={{
-              height: '180px',
-            }}
-          >
-            <ReactEcharts option={option} />
-          </Box>
-          <Box
-          >
-            <GaugeSlider
-              step={0.01}
-              initialValues={values}
-              min={0}
-              max={1}
-              values={values}
-              setValues={setValues}
-            />
-          </Box>
-          <Box
-            display="flex"
-            flexDirection="row"
-            justifyContent="center"
-            gap="20px"
-            marginBottom='10px'
-          >
-            <Button
-              onClick={handleCloseModal}
-              variant='outlined'
-            >
-              Cancelar
-            </Button>
-            <Button
-              variant='contained'
-              onClick={onSubmit}
-            >
-              Salvar
-            </Button>
-          </Box>
-          <Alert sx={{ display: "flex", justifyContent: "center", textAlign: 'center' }} severity="warning">Atenção: Essa configuração será aplicada a todos os repositórios do produto.</Alert>
+          {values ?
+            <>
+              <Box
+                style={{
+                  height: '180px',
+                }}
+              >
+                <ReactEcharts option={option} />
+              </Box>
+              <Box>
+                <GaugeSlider
+                  step={0.01}
+                  initialValues={values}
+                  min={0}
+                  max={1}
+                  values={values}
+                  setValues={setValues}
+                />
+              </Box>
+              <Box
+                display="flex"
+                flexDirection="row"
+                justifyContent="center"
+                gap="20px"
+                marginBottom='10px'
+              >
+                <Button
+                  onClick={handleCloseModal}
+                  variant='outlined'
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  variant='contained'
+                  onClick={onSubmit}
+                >
+                  Salvar
+                </Button>
+              </Box>
+              <Alert sx={{ display: "flex", justifyContent: "center", textAlign: 'center' }} severity="warning">
+                Atenção: Essa configuração será aplicada a todos os repositórios do produto.
+              </Alert>
+            </>
+            :
+            <Alert sx={{ display: "flex", justifyContent: "center", textAlign: 'center' }} severity="error">
+              Ocorreu um erro ao tentar carregar as informações.
+            </Alert>
+          }
         </Box>
       </Modal>
     </Box>

@@ -29,6 +29,8 @@ export interface Product {
   github_url: string;
   created_at: string;
   updated_at: string;
+  gaugeRedLimit: number;
+  gaugeYellowLimit: number;
 }
 
 interface DefaultAttr {

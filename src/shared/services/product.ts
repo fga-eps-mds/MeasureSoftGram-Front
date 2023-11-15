@@ -14,6 +14,14 @@ import { Data } from '@customTypes/preConfig';
 import { AxiosRequestConfig } from 'axios';
 import api from './api';
 
+export interface ProductFormData {
+  name: string;
+  key?: string;
+  description?: string;
+  gaugeRedLimit: number;
+  gaugeYellowLimit: number;
+}
+
 class ProductQuery {
   async getAllProducts(organizationId: string) {
     return api.get(`/organizations/${organizationId}/products/`);
@@ -21,6 +29,10 @@ class ProductQuery {
 
   async getProductById(organizationId: string, id: string) {
     return api.get(`/organizations/${organizationId}/products/${id}/`);
+  }
+
+  async updateProduct(organizationId: string, id: string, data: ProductFormData) {
+    return api.put(`/organizations/${organizationId}/products/${id}/`, data);
   }
 
   async getAllRepositories(organizationId: string, productId: string) {

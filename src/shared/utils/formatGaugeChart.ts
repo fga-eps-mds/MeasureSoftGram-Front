@@ -5,9 +5,11 @@ export interface FormatGaugeChartType {
   historical?: Historical[];
   title: string;
   isEmpty: boolean;
+  redLimit?: number | undefined;
+  yellowLimit?: number | undefined;
 }
 
-const formatGaugeChart = ({ historical, title, isEmpty }: FormatGaugeChartType) => {
+const formatGaugeChart = ({ historical, title, isEmpty, redLimit, yellowLimit }: FormatGaugeChartType) => {
   const vertical: string = `70%`;
   const historicalLength: number = historical?.length ?? 1;
 
@@ -93,8 +95,8 @@ const formatGaugeChart = ({ historical, title, isEmpty }: FormatGaugeChartType) 
           lineStyle: {
             width: 40,
             color: [
-              [0.33, '#e74c3c'],
-              [0.66, '#f1c40f'],
+              [redLimit ?? 0.33, '#e74c3c'],
+              [yellowLimit ?? 0.66, '#f1c40f'],
               [1, '#07bc0c']
             ]
           }
