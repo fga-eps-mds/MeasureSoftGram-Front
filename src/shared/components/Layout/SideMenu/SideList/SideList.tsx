@@ -23,6 +23,7 @@ import LetterAvatar from '@components/LetterAvatar';
 import { useRouter } from 'next/router';
 import { useOrganizationQuery } from '../../../../../pages/organizations/hooks/useOrganizationQuery';
 import { toast } from 'react-toastify';
+import { useProductQuery } from '@pages/products/hooks/useProductQuery';
 
 type ItemWithBasicProps = {
   id: number;
@@ -51,6 +52,7 @@ const SideList = <T extends ItemWithBasicProps>({
   organizationId,
 }: Props<T>) => {
   const { deleteOrganization } = useOrganizationQuery();
+  const { deleteProduct } = useProductQuery();
   const maxItems = 10;
   const filteredValues = values.slice(0, maxItems);
   const router = useRouter();
@@ -97,6 +99,27 @@ const SideList = <T extends ItemWithBasicProps>({
         setIsButtonDisabled(true);
       } else {
         setErrorText("O nome da organização está incorreto.");
+      }
+    }
+  };
+
+  const handleDeleteProduct = async () => {
+    if (confirmationStep === 0) {
+      setShowConfirmationModal(true);
+    } else if (confirmationStep === 1) {
+      if (itemToDelete && itemToDelete.name === confirmationName) {
+        const result = await deleteProduct(String(itemToDelete.id), organizationId);
+        if (result.type === "success") {
+          toast.success('Produto excluído com sucesso!');
+        }
+        setItemToDelete(null);
+        setShowConfirmationModal(false);
+        setConfirmationStep(0);
+        setConfirmationName("");
+        setErrorText("");
+        setIsButtonDisabled(true);
+      } else {
+        setErrorText("O nome do produto está incorreto.");
       }
     }
   };
@@ -272,7 +295,7 @@ const SideList = <T extends ItemWithBasicProps>({
                 {errorText}
               </Typography>
               <Box display="flex" justifyContent="center" mt={2}>
-                <Button variant="contained" color="primary" onClick={handleDelete} sx={{ width: '100%' }} disabled={isButtonDisabled} >
+                <Button variant="contained" color="primary" onClick={itemType === 'organization' ? handleDelete : handleDeleteProduct} sx={{ width: '100%' }} disabled={isButtonDisabled} >
                   {itemType === 'organization' ? "Deletar esta organização" : "Deletar este produto"}
                 </Button>
               </Box>
