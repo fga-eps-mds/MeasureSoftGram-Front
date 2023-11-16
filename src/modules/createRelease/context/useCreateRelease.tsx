@@ -41,6 +41,7 @@ interface CreateReleaseProviderProps {
 
 interface ReleaseInfoForm {
   name: string;
+  description: string;
   startDate: string;
   endDate: string;
   characteristics: string[];
@@ -100,7 +101,8 @@ export function CreateReleaseProvider({
     startDate: defaultStartDate,
     changes: [],
     characteristics: [],
-    name: ''
+    name: '',
+    description: ''
   });
   const [characteristicData, setCharacteristicData] = useState<Characteristic[]>([]);
   const [characteristicCheckbox, setCharacteristicCheckbox] = useState<string[]>([]);
@@ -307,7 +309,8 @@ export function CreateReleaseProvider({
       startDate: defaultStartDate,
       changes: [],
       characteristics: [],
-      name: ''
+      name: '',
+      description: ''
     } as ReleaseInfoForm);
     setAllowChangeConfig(false);
     setChangeThreshold(false);

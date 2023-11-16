@@ -8,7 +8,7 @@ function ReleaseInfo() {
   const { releaseInfoForm, handleChangeForm, } =
     useCreateReleaseContext();
 
-  const { endDate, name, startDate } = releaseInfoForm;
+  const { endDate, name, description, startDate } = releaseInfoForm;
 
   return (
     <>
@@ -30,6 +30,21 @@ function ReleaseInfo() {
             required
             onChange={(e) => {
               handleChangeForm('name', e.target.value);
+            }}
+            inputProps={{
+              'data-testid': 'apelido-release'
+            }}
+            fullWidth
+          />
+
+          <TextField
+            label="Descrição da release"
+            style={{ marginBottom: '24px' }}
+            value={description}
+            multiline
+            minRows={3}
+            onChange={(e) => {
+              handleChangeForm('description', e.target.value);
             }}
             inputProps={{
               'data-testid': 'apelido-release'

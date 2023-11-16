@@ -72,6 +72,8 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
   const handleCloseModal = () => {
     handleClose();
     closeAlert();
+    resetStates();
+    setActiveStep(0);
   };
 
   const handleGoToNextStep = () => {
