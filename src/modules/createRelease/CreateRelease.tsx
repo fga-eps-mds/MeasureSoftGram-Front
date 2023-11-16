@@ -109,6 +109,15 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
     activeStep === CREATE_RELEASE_STEP.ReleaseGoalStep ? finishReleasePlanning() : handleGoToNextStep();
 
   const BUTTONS: Array<ButtonType> = [
+
+    {
+      label: 'Cancelar',
+      onClick: handleCloseModal,
+      backgroundColor: '#FFF',
+      color: '#113D4C',
+      variant: 'outlined',
+      dataTestId: 'back-button'
+    },
     {
       label: 'Voltar',
       onClick: handleBackButton,
