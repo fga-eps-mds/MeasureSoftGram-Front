@@ -23,6 +23,12 @@ function Header() {
 
   const { query } = useRouter();
 
+  useEffect(() => {
+    if (initialValues && !values) {
+      setValues(initialValues);
+    }
+  }, [initialValues])
+
   const option = {
     series: {
       type: 'gauge',
