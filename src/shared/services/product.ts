@@ -18,8 +18,8 @@ export interface ProductFormData {
   name: string;
   key?: string;
   description?: string;
-  gaugeRedLimit: number;
-  gaugeYellowLimit: number;
+  gaugeRedLimit?: number;
+  gaugeYellowLimit?: number;
 }
 
 class ProductQuery {

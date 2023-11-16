@@ -2,22 +2,18 @@ import { useRepositoryContext } from '@contexts/RepositoryProvider';
 import { Alert, Box, Button, IconButton, Modal, Typography } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import GaugeSlider from '../GaugeSlider';
 import { useProductContext } from '@contexts/ProductProvider';
 import ReactEcharts from 'echarts-for-react';
-import { toNumber } from 'lodash';
-import { Product } from '@customTypes/product';
 import { ProductFormData, productQuery } from '@services/product';
-import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import { getPathId } from '@utils/pathDestructer';
 import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
 
 function Header() {
-  const { currentRepository } = useRepositoryContext();
   const { currentProduct, setCurrentProduct } = useProductContext();
-  const { currentOrganization } = useOrganizationContext();
-
+  const { currentRepository } = useRepositoryContext();
 
   const [openModal, setOpenModal] = useState<boolean>(false);
   const initialValues = currentProduct && [currentProduct.gaugeRedLimit, currentProduct.gaugeYellowLimit];
@@ -65,14 +61,14 @@ function Header() {
   };
 
   const handleCloseModal = () => {
+    setValues(initialValues);
     setOpenModal(false);
   };
 
   const onSubmit = () => {
-    if (values) {
-
+    if (values && currentProduct) {
       const data = {
-        name: currentProduct!.name,
+        name: currentProduct.name,
         gaugeRedLimit: values[0],
         gaugeYellowLimit: values[1]
       }
@@ -80,7 +76,7 @@ function Header() {
       const [organizationId, productId] = getPathId(query?.product as string);
 
       updateProduct(organizationId, productId, data)
-      handleCloseModal();
+      setOpenModal(false);
     }
   };
 
@@ -88,9 +84,9 @@ function Header() {
     try {
       const result = await productQuery.updateProduct(organizationId, productId, data);
       setCurrentProduct(result.data);
+      toast.success('Intervalos atualizados com sucesso!');
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
+      toast.success('Erro ao atualizar intervalos!');
     }
   }
 
