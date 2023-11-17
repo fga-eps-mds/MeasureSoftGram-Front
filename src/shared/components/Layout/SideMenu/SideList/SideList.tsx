@@ -179,7 +179,7 @@ const SideList = <T extends ItemWithBasicProps>({
                             if (itemType === "organization") {
                               await router.push(`/organizations?edit=${value.id}`);
                             } else {
-                              await router.push(`/product/create/?id_organization=${value.id}&id_product=${value.id}`);
+                              await router.push(`/products/create/?id_organization=${organizationId}&id_product=${value.id}`);
                             }
                           }}
                         >
