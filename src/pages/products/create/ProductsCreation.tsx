@@ -13,13 +13,30 @@ interface OrganizationsType extends React.FC {
 
 const ProductsCreation: OrganizationsType = () => {
   const router = useRouter();
-  const [nome, setNome] = useState('');
-  const [descricao, setDescricao] = useState('');
+  const [nome, setName] = useState('');
+  const [descricao, setDescription] = useState('');
   const [organizationId, setOrganizationId] = useState<number>();
   const { organizationList } = useOrganizationContext();
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
-  const { createProduct } = useProductQuery();
+  const { createProduct, getProductById, updateProduct } = useProductQuery();
   const currentOrganizationId = router.query.id_organization;
+  const currentProductId = router.query.id_product;
+
+  useEffect(() => {
+    const editMode = router.query.id_product ? true : false;
+    if (editMode) {
+      setIsEditMode(true);
+      const fetchProductData = async () => {
+        const result = await getProductById(currentOrganizationId as string, currentProductId as string);
+        if (result.type === 'success') {
+          setName(result.value.name);
+          setDescription(result.value.description || '');
+          setOrganizationId(result.value.organizationId || 0);
+        }
+      };
+      fetchProductData();
+    }
+  }, [router.query.id_product]);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -33,20 +50,17 @@ const ProductsCreation: OrganizationsType = () => {
       if (currentOrganizationId)
         novoProduto.organizationId = parseInt(currentOrganizationId[0]);
     }
-    const nameExist = "Já existe uma Produto com este nome."
-    const keyExist = "Já existe uma Produto com esta chave."
-    if (isEditMode && router.query.edit) {
-      // result = await updateOrganization(router.query.edit as string, novaOrganizacao);
-      //  if (result.type === 'success') {
-      //    toast.success('Produto atualizada com sucesso!');
-      //    router.push('/home');
-      //  } else if (result.error.message === nameExist) {
-      //    toast.error(nameExist);
-      //  } else if (result.error.message === keyExist) {
-      //    toast.error(keyExist);
-      //  } else {
-      //    toast.error('Erro ao atualizar a Produto!');
-      //  }
+    const nameExist = "Já existe um Produto com este nome."
+    if (isEditMode) {
+      result = await updateProduct(currentProductId as string, novoProduto);
+      if (result.type === 'success') {
+        toast.success('Produto atualizado com sucesso!');
+        router.push('/home');
+      } else if (result.error.message === nameExist) {
+        toast.error(nameExist);
+      } else {
+        toast.error('Erro ao atualizar o Produto!');
+      }
     } else {
       result = await createProduct(novoProduto);
       if (result.type === 'success') {
@@ -54,10 +68,8 @@ const ProductsCreation: OrganizationsType = () => {
         router.push('/home');
       } else if (result.error.message === nameExist) {
         toast.error(nameExist);
-      } else if (result.error.message === keyExist) {
-        toast.error(keyExist);
       } else {
-        toast.error('Erro ao criar a Produto!');
+        toast.error('Erro ao criar o Produto!');
       }
     }
   };
@@ -78,7 +90,7 @@ const ProductsCreation: OrganizationsType = () => {
               label="Nome"
               variant="outlined"
               value={nome}
-              onChange={(e) => setNome(e.target.value)}
+              onChange={(e) => setName(e.target.value)}
               required
               sx={{ mb: 2 }}
             />
@@ -87,7 +99,7 @@ const ProductsCreation: OrganizationsType = () => {
               label="Descrição"
               variant="outlined"
               value={descricao}
-              onChange={(e) => setDescricao(e.target.value)}
+              onChange={(e) => setDescription(e.target.value)}
               multiline
               rows={4}
               sx={{ mb: 2 }}
