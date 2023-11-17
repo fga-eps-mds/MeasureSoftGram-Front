@@ -26,8 +26,40 @@ class ProductQuery {
     return api.get(`/organizations/${organizationId}/products/`);
   }
 
-  async getProductById(organizationId: string, id: string) {
-    return api.get(`/organizations/${organizationId}/products/${id}/`);
+  async getProductById(organizationId: string, productId: string): Promise<Result<ProductFormData>> {
+    try {
+      const headers = await this.getAuthHeaders();
+      if (!headers) {
+        throw new Error('Token de acesso não encontrado.');
+      }
+      const response = await api.get(`/organizations/${organizationId}/products/${productId}/`, { headers });
+      return { type: 'success', value: response?.data };
+    } catch (err) {
+      const error = err as AxiosError;
+      return { type: 'error', error };
+    }
+  }
+
+  async updateProduct(productId: string, data: ProductFormData): Promise<Result<ProductFormData>> {
+    try {
+      const headers = await this.getAuthHeaders();
+      if (!headers) {
+        throw new Error('Token de acesso não encontrado.');
+      }
+      const response = await api.put(`/organizations/${data.organizationId}/products/${productId}/`, data, { headers });
+      return { type: 'success', value: response?.data };
+    } catch (err) {
+      const error = err as AxiosError;
+
+      const responseData = error.response?.data as { name?: string[]; key?: string[] };
+      if (error.response && error.response.status === 400) {
+        if (responseData.name && responseData.name[0] === 'Product with this name already exists.') {
+          return { type: 'error', error: new Error('Já existe um produto com este nome.') };
+        }
+      }
+
+      return { type: 'error', error: new Error('Erro ao atualizar o produto.') };
+    }
   }
 
   async getAllRepositories(organizationId: string, productId: string) {
@@ -132,68 +164,13 @@ class ProductQuery {
         if (responseData.name && responseData.name[0] === 'Product with this name already exists.') {
           return { type: 'error', error: new Error('Já existe um produto com este nome.') };
         }
-        if (responseData.key && responseData.key[0] === 'Product with this key already exists.') {
-          return { type: 'error', error: new Error('Já existe um produto com esta chave.') };
-        }
       }
 
-      return { type: 'error', error: new Error('Ocorreu um erro ao criar o produto.') };
+      return { type: 'error', error: new Error('Erro ao criar o produto.') };
     }
   }
 
-//     async getProductById(id: string): Promise<Result<ProductFormData>> {
-//     try {
-//       const headers = await this.getAuthHeaders();
-//       if (!headers) {
-//         throw new Error('Token de acesso não encontrado.');
-//       }
-//       const response = await api.get(`/organizations/${data.organizationId}/products/${id}/`, { headers });
-//       return { type: 'success', value: response?.data };
-//     } catch (err) {
-//       const error = err as AxiosError;
-//       return { type: 'error', error };
-//     }
-//   }
-
-//   async getAllProduct(): Promise<AxiosRequestConfig> {
-//     const headers = await this.getAuthHeaders();
-//     if (!headers) {
-//         throw new Error('Token de acesso não encontrado.');
-//     }
-
-//     return {
-//         method: 'GET',
-//         url: '/products/',
-//         headers
-//     };
-// }
-
-//   async updateProduct(id: string, data: ProductFormData): Promise<Result<void>> {
-//     try {
-//       const headers = await this.getAuthHeaders();
-//       if (!headers) {
-//         throw new Error('Token de acesso não encontrado.');
-//       }
-//       const response = await api.put(`/organizations/${data.organizationId}/products/${id}/`, data, { headers });
-//       return { type: 'success', value: response?.data };
-//     } catch (err) {
-//       const error = err as AxiosError;
-
-//       const responseData = error.response?.data as { name?: string[], key?: string[] };
-//       if (error.response && error.response.status === 400) {
-//         if (responseData.name && responseData.name[0] === "Product with this name already exists.") {
-//           return { type: 'error', error: new Error('Já existe um produto com este nome.') };
-//         }
-//         if (responseData.key && responseData.key[0] === "Product with this key already exists.") {
-//           return { type: 'error', error: new Error('Já existe um produto com esta chave.') };
-//         }
-//       }
-
-//       return { type: 'error', error: new Error('Ocorreu um erro ao atualizar produto.') };
-//     }
-//   }
-
-    async deleteProduct(productId: string, organizationId: string | undefined): Promise<Result<void>> {
+  async deleteProduct(productId: string, organizationId: string | undefined): Promise<Result<void>> {
     try {
       const headers = await this.getAuthHeaders();
       if (!headers) {
