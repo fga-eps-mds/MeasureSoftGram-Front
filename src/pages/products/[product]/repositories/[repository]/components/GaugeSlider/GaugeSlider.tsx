@@ -44,6 +44,7 @@ function GaugeSlider(props: GaugeSliderProps) {
       }}
     >
       <Slider
+        data-testid="gauge-slider-id"
         disableSwap
         sx={{
           width: '90%',
