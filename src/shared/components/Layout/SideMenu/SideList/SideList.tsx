@@ -90,6 +90,10 @@ const SideList = <T extends ItemWithBasicProps>({
         const result = await deleteOrganization(String(itemToDelete.id));
         if (result.type === "success") {
           toast.success('Organização excluída com sucesso!');
+          setTimeout(() => {
+            window.location.reload();
+            window.location.href = '/home';
+          }, 2000);
         }
         setItemToDelete(null);
         setShowConfirmationModal(false);
