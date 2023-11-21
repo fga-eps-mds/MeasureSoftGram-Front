@@ -8,7 +8,7 @@ import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import { useProductQuery } from '../hooks/useProductQuery';
 
 interface OrganizationsType extends React.FC {
-  getLayout?: (page: React.ReactElement) => React.ReactNode;
+  getLayout?: () => React.ReactNode;
 }
 
 const ProductsCreation: OrganizationsType = () => {
@@ -36,7 +36,7 @@ const ProductsCreation: OrganizationsType = () => {
       };
       fetchProductData();
     }
-  }, [router.query.id_product]);
+  }, [router.query.id_product, currentOrganizationId, currentProductId, getProductById]);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -48,7 +48,7 @@ const ProductsCreation: OrganizationsType = () => {
     let result;
     if (!novoProduto.organizationId) {
       if (currentOrganizationId)
-        novoProduto.organizationId = parseInt(currentOrganizationId[0]);
+        novoProduto.organizationId = parseInt(currentOrganizationId[0], 10);
     }
     const nameExist = "Já existe um Produto com este nome."
     if (isEditMode) {
