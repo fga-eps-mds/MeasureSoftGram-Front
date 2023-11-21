@@ -36,7 +36,7 @@ const ProductsCreation: OrganizationsType = () => {
       };
       fetchProductData();
     }
-  }, [router.query.id_product, currentOrganizationId, currentProductId, getProductById]);
+  }, [router.query.id_product]);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
