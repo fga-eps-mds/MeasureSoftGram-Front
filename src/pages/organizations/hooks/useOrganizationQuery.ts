@@ -43,7 +43,7 @@ export const useOrganizationQuery = () => {
   const createOrganization = async (data: OrganizationFormData): Promise<Result<OrganizationFormData>> => {
     const result = await organizationQuery.createOrganization(data);
     if (result.type === 'success') {
-      setUpdate((prev: number) => prev + 1);  // Adicione o tipo aqui
+      setUpdate((prev: number) => prev + 1);
     }
     return result;
   };
