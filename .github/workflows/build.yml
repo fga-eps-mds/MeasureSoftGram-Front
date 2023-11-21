@@ -6,9 +6,14 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
-  pipeline:
+  sonarcloud:
+    name: SonarCloud
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
@@ -19,13 +24,7 @@ jobs:
 
       - name: Rodar testes
         run: yarn run jest --coverage --updateSnapshot --ci --silent
-  sonarcloud:
-    name: SonarCloud
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+        
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
