@@ -12,6 +12,8 @@ import FirstReleaseWarning from './components/FirstReleaseWarning';
 import ReleaseConfigSelector from './components/ReleaseConfigSelector';
 import ThresholdConfig from './components/ThresholdConfig';
 import { CREATE_RELEASE_STEP } from './consts';
+import api from '@services/api';
+import { useSnackbar } from 'notistack';
 
 interface CreateReleaseProps {
   open: boolean;
@@ -35,6 +37,7 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
     'Definir peso das subcaracterísticas',
     'Definir peso das medidas'
   ];
+  const { enqueueSnackbar } = useSnackbar()
 
   const {
     alertMessage,
@@ -42,6 +45,9 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
     goToNextStep,
     finishReleasePlanning,
     configPageData,
+    releaseInfoForm,
+    organizationId,
+    productId,
     getNextStep,
     getPreviousStep,
     isFirstRelease,
@@ -108,9 +114,18 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
     if (open) resetStates();
   }, [open])
 
-  const handleNextButton = () => {
+  async function checkReleaseInfo() {
+    const { data, status } = await api.get(`/organizations/${organizationId}/products/${productId}/create/release/is-valid/?nome=${releaseInfoForm.name}&dt-inicial=${releaseInfoForm.startDate}&dt-final=${releaseInfoForm.endDate}`)
+    console.log(data)
+    if (status === 200) {
+      handleGoToNextStep()
+    } else {
+      enqueueSnackbar(`Erro ao criar release, ${data.message}`, { variant: 'error' })
+    }
+  }
+  const handleNextButton = async () => {
 
-    activeStep === CREATE_RELEASE_STEP.ReleaseGoalStep ? finishReleasePlanning() : handleGoToNextStep();
+    activeStep === CREATE_RELEASE_STEP.ReleaseInfoStep ? checkReleaseInfo() : CREATE_RELEASE_STEP.ReleaseGoalStep ? finishReleasePlanning() : handleGoToNextStep();
   }
 
   const BUTTONS: Array<ButtonType> = [
@@ -133,7 +148,7 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
     },
     {
       label: activeStep === CREATE_RELEASE_STEP.ReleaseGoalStep ? 'Finalizar' : 'Continuar',
-      onClick: handleNextButton,
+      onClick: async () => await handleNextButton(),
       backgroundColor: '#113D4C',
       color: '#fff',
       variant: 'contained',
