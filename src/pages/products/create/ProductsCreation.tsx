@@ -55,7 +55,10 @@ const ProductsCreation: OrganizationsType = () => {
       result = await updateProduct(currentProductId as string, novoProduto);
       if (result.type === 'success') {
         toast.success('Produto atualizado com sucesso!');
-        router.push('/home');
+        setTimeout(() => {
+          window.location.reload();
+          window.location.href = '/home';
+        }, 2000);
       } else if (result.error.message === nameExist) {
         toast.error(nameExist);
       } else {
@@ -65,7 +68,10 @@ const ProductsCreation: OrganizationsType = () => {
       result = await createProduct(novoProduto);
       if (result.type === 'success') {
         toast.success('Produto criado com sucesso!');
-        router.push('/home');
+        setTimeout(() => {
+          window.location.reload();
+          window.location.href = '/home';
+        }, 2000);
       } else if (result.error.message === nameExist) {
         toast.error(nameExist);
       } else {
