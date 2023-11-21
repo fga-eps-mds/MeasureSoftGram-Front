@@ -28,11 +28,7 @@ class ProductQuery {
 
   async getProductById(organizationId: string, productId: string): Promise<Result<ProductFormData>> {
     try {
-      const headers = await this.getAuthHeaders();
-      if (!headers) {
-        throw new Error('Token de acesso não encontrado.');
-      }
-      const response = await api.get(`/organizations/${organizationId}/products/${productId}/`, { headers });
+      const response = await api.get(`/organizations/${organizationId}/products/${productId}/`);
       return { type: 'success', value: response?.data };
     } catch (err) {
       const error = err as AxiosError;
