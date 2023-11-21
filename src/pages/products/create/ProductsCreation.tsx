@@ -43,12 +43,11 @@ const ProductsCreation: OrganizationsType = () => {
     const novoProduto = {
       name: nome,
       description: descricao,
-      organizationId: organizationId,
+      organizationId,
     }
     let result;
-    if (!novoProduto.organizationId) {
-      if (currentOrganizationId)
-        novoProduto.organizationId = parseInt(currentOrganizationId[0], 10);
+    if (!novoProduto.organizationId && currentOrganizationId) {
+      novoProduto.organizationId = parseInt(currentOrganizationId[0], 10);
     }
     const nameExist = "Já existe um Produto com este nome."
     if (isEditMode) {
