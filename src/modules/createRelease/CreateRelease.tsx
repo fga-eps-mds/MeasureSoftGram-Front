@@ -50,10 +50,11 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
 
   const renderStep = () =>
   ({
-    0: <ReleaseInfo />,
+    0: <ReleaseInfo setActiveStep={setActiveStep} />,
     1: isFirstRelease ? <FirstReleaseWarning /> : <ReleaseConfigSelector setActiveStep={setActiveStep} />,
     2: (
       <ConfigPage
+        setActiveStep={setActiveStep}
         page={configPage}
         title={configPageTitle}
       />
@@ -66,7 +67,7 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
         setCheckboxValues={configPageData.setMeasureCheckbox}
       />
     ),
-    4: <ReleaseGoals />
+    4: <ReleaseGoals setActiveStep={setActiveStep} />
   }[activeStep]);
 
   const handleCloseModal = () => {

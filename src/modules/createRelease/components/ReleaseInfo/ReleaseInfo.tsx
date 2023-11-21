@@ -1,19 +1,25 @@
 import React from 'react';
 
-import { Box, Breadcrumbs, TextField, Typography } from '@mui/material';
+import { Box, Breadcrumbs, Link, TextField, Typography } from '@mui/material';
 import { useCreateReleaseContext } from '@modules/createRelease/context/useCreateRelease';
 import * as Styles from './styles';
+import { useSnackbar } from 'notistack';
 
-function ReleaseInfo() {
+
+function ReleaseInfo(props: any) {
+  const { setActiveStep } = props;
   const { releaseInfoForm, handleChangeForm, } =
     useCreateReleaseContext();
 
   const { endDate, name, description, startDate } = releaseInfoForm;
-
+  const { enqueueSnackbar } = useSnackbar()
+  const handleSnackbarError = () => {
+    enqueueSnackbar('Preencha as informações da release', { variant: 'error' })
+  }
   return (
     <>
       <Styles.Header>
-        <h1 style={{ color: '#33568E', fontWeight: '500' }}>Planejar Release</h1>
+        <h1 style={{ color: '#33568E', fontWeight: '500' }}>Planejamento de Release</h1>
         <Breadcrumbs separator={<Box
           component="span"
           sx={{
@@ -24,9 +30,24 @@ function ReleaseInfo() {
           }}
         />} sx={{ fontSize: '14px' }}>
 
-          <Typography color="text.primary">Criar Release</Typography>
-          <Typography color="text.secondary">Definir configuração do modelo</Typography>
-          <Typography color="text.secondary">Balancear Características</Typography>
+          <Link sx={{
+            cursor: 'pointer',
+            textDecoration: 'none',
+          }} onClick={() => {
+            setActiveStep(0);
+          }} color="text.primary">Criar Release</Link>
+          <Link sx={{
+            cursor: 'pointer',
+            textDecoration: 'none',
+          }} onClick={() => {
+            handleSnackbarError()
+          }} color="text.secondary">Definir configuração do modelo</Link>
+          <Link sx={{
+            cursor: 'pointer',
+            textDecoration: 'none',
+          }} onClick={() => {
+            handleSnackbarError()
+          }} color="text.secondary">Balancear características</Link>
 
         </Breadcrumbs>
       </Styles.Header>

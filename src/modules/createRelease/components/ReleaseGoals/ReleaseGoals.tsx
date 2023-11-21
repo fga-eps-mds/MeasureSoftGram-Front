@@ -18,7 +18,8 @@ import {
 import * as Styles from './styles';
 import useDynamicBalance from './hook/useDynamicBalance';
 
-export default function ReleaseGoals() {
+export default function ReleaseGoals(props: any) {
+  const { setActiveStep } = props;
   const { releaseInfoForm, setAllowDynamicBalance } = useCreateReleaseContext();
   const { characteristics, endDate, name, startDate } = releaseInfoForm;
   const { open, allowDynamicBalance, handleChange, handleClose, handleConfirm } = useDynamicBalance();
@@ -30,7 +31,8 @@ export default function ReleaseGoals() {
   return (
     <>
       <Styles.Header>
-        <h1 style={{ color: '#33568E', fontWeight: '500' }}>Balancear a Meta de Qualidade</h1>
+        <h1 style={{ color: '#33568E', fontWeight: '500' }}>Planejamento de Release</h1>
+        <h2 style={{ color: '#33568E', fontWeight: '300' }}>Balancear a Meta de Qualidade</h2>
         <Breadcrumbs separator={<Box
           component="span"
           sx={{
@@ -41,9 +43,22 @@ export default function ReleaseGoals() {
           }}
         />} sx={{ fontSize: '14px' }}>
 
-          <Typography color="text.secondary">Criar Release</Typography>
-          <Typography color="text.secondary">Definir configuração do modelo</Typography>
-          <Typography color="text.primary">Balancear Pesos</Typography>
+          <Link sx={{
+            cursor: 'pointer',
+            textDecoration: 'none',
+          }} onClick={() => {
+            setActiveStep(0);
+          }} color="text.secondary">Criar Release</Link>
+          <Link onClick={() => {
+            setActiveStep(1);
+          }} sx={{
+            cursor: 'pointer',
+            textDecoration: 'none',
+          }} color="text.secondary">Definir configuração do modelo</Link>
+          <Link sx={{
+            cursor: 'pointer',
+            textDecoration: 'none',
+          }} color="text.primary">Balancear Pesos</Link>
 
         </Breadcrumbs>
         <p>
