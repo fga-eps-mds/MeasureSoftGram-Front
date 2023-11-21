@@ -107,8 +107,10 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
     if (open) resetStates();
   }, [open])
 
-  const handleNextButton = () =>
+  const handleNextButton = () => {
+
     activeStep === CREATE_RELEASE_STEP.ReleaseGoalStep ? finishReleasePlanning() : handleGoToNextStep();
+  }
 
   const BUTTONS: Array<ButtonType> = [
 

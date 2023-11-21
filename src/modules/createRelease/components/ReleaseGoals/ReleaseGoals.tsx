@@ -5,6 +5,7 @@ import Equalizer from '@modules/createRelease/components/Equalizer';
 import { useCreateReleaseContext } from '@modules/createRelease/context/useCreateRelease';
 import {
   Box,
+  Breadcrumbs,
   Button,
   Checkbox,
   Dialog,
@@ -30,6 +31,21 @@ export default function ReleaseGoals() {
     <>
       <Styles.Header>
         <h1 style={{ color: '#33568E', fontWeight: '500' }}>Balancear a Meta de Qualidade</h1>
+        <Breadcrumbs separator={<Box
+          component="span"
+          sx={{
+            width: 4,
+            height: 4,
+            borderRadius: '50%',
+            bgcolor: 'text.disabled',
+          }}
+        />} sx={{ fontSize: '14px' }}>
+
+          <Typography color="text.secondary">Criar Release</Typography>
+          <Typography color="text.secondary">Definir configuração do modelo</Typography>
+          <Typography color="text.primary">Balancear Pesos</Typography>
+
+        </Breadcrumbs>
         <p>
           Nesta etapa é possível estabelecer metas para as características que serão observadas na release. É
           importante ressaltar que essas características de qualidade estão inter-relacionadas, ou seja, ao modificar a

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { Box, Checkbox, Switch, Typography } from '@mui/material';
+import { Box, Breadcrumbs, Checkbox, Switch, Typography } from '@mui/material';
 
 
 import { useCreateReleaseContext } from '@modules/createRelease/context/useCreateRelease';
@@ -104,6 +104,21 @@ const ConfigPage = ({
     <>
       <Styles.Header>
         <h1 style={{ color: '#33568E', fontWeight: '500' }}>{title}</h1>
+        <Breadcrumbs separator={<Box
+          component="span"
+          sx={{
+            width: 4,
+            height: 4,
+            borderRadius: '50%',
+            bgcolor: 'text.disabled',
+          }}
+        />} sx={{ fontSize: '14px' }}>
+
+          <Typography color="text.secondary">Criar Release</Typography>
+          <Typography color="text.secondary">Definir configuração do modelo</Typography>
+          <Typography color="text.primary">Balancear Características</Typography>
+
+        </Breadcrumbs>
       </Styles.Header>
       <Styles.Body>
         <p>{SUB_TITLE}</p>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, TextField } from '@mui/material';
+import { Box, Breadcrumbs, TextField, Typography } from '@mui/material';
 import { useCreateReleaseContext } from '@modules/createRelease/context/useCreateRelease';
 import * as Styles from './styles';
 
@@ -14,9 +14,21 @@ function ReleaseInfo() {
     <>
       <Styles.Header>
         <h1 style={{ color: '#33568E', fontWeight: '500' }}>Planejar Release</h1>
-        <p style={{ marginTop: '60px' }}>
-          Na etapa inicial do planejamento da release é possível definir seu nome e as datas de início e fim.
-        </p>
+        <Breadcrumbs separator={<Box
+          component="span"
+          sx={{
+            width: 4,
+            height: 4,
+            borderRadius: '50%',
+            bgcolor: 'text.disabled',
+          }}
+        />} sx={{ fontSize: '14px' }}>
+
+          <Typography color="text.primary">Criar Release</Typography>
+          <Typography color="text.secondary">Definir configuração do modelo</Typography>
+          <Typography color="text.secondary">Balancear Características</Typography>
+
+        </Breadcrumbs>
       </Styles.Header>
 
       <Styles.Body>
