@@ -18,6 +18,23 @@ Object {
       ],
       "url": "http://site.com/api/v1/organizations/1/",
     },
+    "currentOrganizations": Array [
+      Object {
+        "actions": Object {
+          "create a new product": "http:/site.com//api/v1/organizations/1/products/",
+        },
+        "description": null,
+        "id": 1,
+        "key": "fga-eps-mds",
+        "name": "fga-eps-mds",
+        "products": Array [
+          "http://site.com/api/v1/organizations/1/products/1/",
+          "http://site.com/api/v1/organizations/1/products/2/",
+          "http://site.com/api/v1/organizations/1/products/3/",
+        ],
+        "url": "http://site.com/api/v1/organizations/1/",
+      },
+    ],
     "organizationList": Array [
       Object {
         "actions": Object {
@@ -35,7 +52,7 @@ Object {
         "url": "http://site.com/api/v1/organizations/1/",
       },
     ],
-    "setCurrentOrganization": [Function],
+    "setCurrentOrganizations": [Function],
   },
 }
 `;
