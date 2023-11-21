@@ -111,6 +111,10 @@ const SideList = <T extends ItemWithBasicProps>({
         const result = await deleteProduct(String(itemToDelete.id), organizationId);
         if (result.type === "success") {
           toast.success('Produto excluído com sucesso!');
+          setTimeout(() => {
+            window.location.reload();
+            window.location.href = '/home';
+          }, 2000);
         }
         setItemToDelete(null);
         setShowConfirmationModal(false);
