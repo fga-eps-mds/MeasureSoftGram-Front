@@ -10,7 +10,8 @@
     "airbnb",
     "prettier",
     "plugin:jest/recommended",
-    "plugin:sonarjs/recommended"
+    "plugin:sonarjs/recommended",
+    "next"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -37,6 +38,8 @@
     "no-use-before-define": "off",
     "no-undef": "off",
     "no-void": "off",
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "react/no-unescaped-entities": "off",
+    "@next/next/no-page-custom-font": "off"
   }
 }
