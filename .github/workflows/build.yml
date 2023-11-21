@@ -6,6 +6,19 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+
+      - name: Instalar yarn
+        run: yarn
+
+      - name: Rodar testes
+        run: yarn run jest --coverage --updateSnapshot --ci --silent
   sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
