@@ -42,11 +42,7 @@ class ProductQuery {
 
   async updateProduct(productId: string, data: ProductFormData): Promise<Result<ProductFormData>> {
     try {
-      const headers = await this.getAuthHeaders();
-      if (!headers) {
-        throw new Error('Token de acesso não encontrado.');
-      }
-      const response = await api.put(`/organizations/${data.organizationId}/products/${productId}/`, data, { headers });
+      const response = await api.put(`/organizations/${data.organizationId}/products/${productId}/`, data);
       return { type: 'success', value: response?.data };
     } catch (err) {
       const error = err as AxiosError;
