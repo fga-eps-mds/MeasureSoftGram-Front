@@ -187,18 +187,36 @@ Object {
                         class="MuiBox-root css-1vp8jwk"
                       >
                         <div
-                          class="MuiBox-root css-pb7e80"
+                          class="MuiBox-root css-0"
                         >
-                          <button
-                            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth css-1fu7jd5-MuiButtonBase-root-MuiButton-root"
-                            tabindex="0"
-                            type="button"
+                          <div
+                            class="MuiBox-root css-pb7e80"
                           >
-                            Visualizar Organizações e Produtos
-                            <span
-                              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                            />
-                          </button>
+                            <button
+                              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth css-1fu7jd5-MuiButtonBase-root-MuiButton-root"
+                              tabindex="0"
+                              type="button"
+                            >
+                              Visualizar Organizações e Produtos
+                              <span
+                                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                              />
+                            </button>
+                          </div>
+                          <div
+                            class="MuiBox-root css-t3r43i"
+                          >
+                            <button
+                              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth css-1fu7jd5-MuiButtonBase-root-MuiButton-root"
+                              tabindex="0"
+                              type="button"
+                            >
+                              Criar Organização
+                              <span
+                                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                              />
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -236,7 +254,22 @@ Object {
                       </p>
                       <div
                         class="MuiBox-root css-1vp8jwk"
-                      />
+                      >
+                        <div
+                          class="MuiBox-root css-pb7e80"
+                        >
+                          <button
+                            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth css-1fu7jd5-MuiButtonBase-root-MuiButton-root"
+                            tabindex="0"
+                            type="button"
+                          >
+                            Criar Produto
+                            <span
+                              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                            />
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -589,18 +622,36 @@ Object {
                       class="MuiBox-root css-1vp8jwk"
                     >
                       <div
-                        class="MuiBox-root css-pb7e80"
+                        class="MuiBox-root css-0"
                       >
-                        <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth css-1fu7jd5-MuiButtonBase-root-MuiButton-root"
-                          tabindex="0"
-                          type="button"
+                        <div
+                          class="MuiBox-root css-pb7e80"
                         >
-                          Visualizar Organizações e Produtos
-                          <span
-                            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                          />
-                        </button>
+                          <button
+                            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth css-1fu7jd5-MuiButtonBase-root-MuiButton-root"
+                            tabindex="0"
+                            type="button"
+                          >
+                            Visualizar Organizações e Produtos
+                            <span
+                              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                            />
+                          </button>
+                        </div>
+                        <div
+                          class="MuiBox-root css-t3r43i"
+                        >
+                          <button
+                            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth css-1fu7jd5-MuiButtonBase-root-MuiButton-root"
+                            tabindex="0"
+                            type="button"
+                          >
+                            Criar Organização
+                            <span
+                              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                            />
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -638,7 +689,22 @@ Object {
                     </p>
                     <div
                       class="MuiBox-root css-1vp8jwk"
-                    />
+                    >
+                      <div
+                        class="MuiBox-root css-pb7e80"
+                      >
+                        <button
+                          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth css-1fu7jd5-MuiButtonBase-root-MuiButton-root"
+                          tabindex="0"
+                          type="button"
+                        >
+                          Criar Produto
+                          <span
+                            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                          />
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
