@@ -23,7 +23,7 @@ const ProductsCreation: OrganizationsType = () => {
   const currentProductId = router.query.id_product;
 
   useEffect(() => {
-    const editMode = router.query.id_product ? true : false;
+    const editMode = router.query.id_product;
     if (editMode) {
       setIsEditMode(true);
       const fetchProductData = async () => {
