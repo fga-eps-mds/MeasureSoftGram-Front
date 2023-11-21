@@ -3,13 +3,13 @@ import { Alert, Box, Button, IconButton, Modal, Typography } from '@mui/material
 import SettingsIcon from '@mui/icons-material/Settings';
 
 import React, { useEffect, useState } from 'react';
-import GaugeSlider from '../GaugeSlider';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
+import { getPathId } from '@utils/pathDestructer';
 import { useProductContext } from '@contexts/ProductProvider';
 import ReactEcharts from 'echarts-for-react';
 import { ProductFormData, productQuery } from '@services/product';
-import { getPathId } from '@utils/pathDestructer';
-import { useRouter } from 'next/router';
-import { toast } from 'react-toastify';
+import GaugeSlider from '../GaugeSlider';
 
 function Header() {
   const { currentProduct, setCurrentProduct } = useProductContext();
@@ -55,7 +55,7 @@ function Header() {
       axisLabel: {
         distance: 0,
         rotate: 'tangential',
-        formatter: function () {
+        formatter() {
           return '';
         }
       }

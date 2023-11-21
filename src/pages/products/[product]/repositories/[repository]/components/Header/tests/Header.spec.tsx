@@ -28,9 +28,9 @@ jest.mock('@contexts/ProductProvider', () => ({
 
 
 const AllTheProviders = ({ children }: Props) => (
-  <>
-    <RepositoryProvider>{children}</RepositoryProvider>
-  </>
+
+  <RepositoryProvider>{children}</RepositoryProvider>
+
 );
 
 describe('Header', () => {
@@ -45,18 +45,20 @@ describe('Header', () => {
   it('opens and closes the modal correctly', () => {
     const { getByText, queryByText, getByTestId } = render(<Header />, { wrapper: AllTheProviders });
 
-    expect(queryByText('Editar Intervalos')).toBeFalsy();
+    const testString = 'Editar Intervalos';
+
+    expect(queryByText(testString)).toBeFalsy();
 
     const settingsButton = getByTestId('SettingsIcon');
     expect(settingsButton).toBeTruthy();
 
     fireEvent.click(settingsButton);
-    expect(queryByText('Editar Intervalos')).toBeTruthy();
+    expect(queryByText(testString)).toBeTruthy();
 
     const cancelButton = getByText('Cancelar');
     expect(cancelButton).toBeTruthy();
     fireEvent.click(cancelButton);
-    expect(queryByText('Editar Intervalos')).toBeFalsy();
+    expect(queryByText(testString)).toBeFalsy();
 
   });
 

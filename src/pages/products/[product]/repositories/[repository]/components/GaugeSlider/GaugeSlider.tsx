@@ -84,10 +84,17 @@ function GaugeSlider(props: GaugeSliderProps) {
         scale={(x) => (x)}
         marks={[
           { value: min, label: min },
-          ...perc.map((val: any) => ({
-            value: val,
-            label: val === 0 ? min : val === 1 ? max : undefined
-          })),
+          ...perc.map((val: any) => {
+            let label;
+            if (val === 0) {
+              label = min;
+            } else if (val === 1) {
+              label = max;
+            } else {
+              label = undefined;
+            }
+            return { value: val, label };
+          }),
           { value: max, label: max }
         ]}
         onChange={onChange}
