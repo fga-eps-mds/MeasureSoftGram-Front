@@ -77,7 +77,11 @@ function ReleaseInfo(props: any) {
             multiline
             minRows={3}
             onChange={(e) => {
-              handleChangeForm('description', e.target.value);
+              if (e.target.value.length <= 512) {
+                handleChangeForm('description', e.target.value);
+              } else {
+                enqueueSnackbar('A descrição deve ter no máximo 512 caracteres', { variant: 'error' })
+              }
             }}
             inputProps={{
               'data-testid': 'apelido-release'
