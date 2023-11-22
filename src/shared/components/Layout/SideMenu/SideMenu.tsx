@@ -24,8 +24,6 @@ function SideMenu() {
   const router = useRouter();
 
   useEffect(() => {
-    console.log('Current Organization:', currentOrganization);
-    console.log('Current Product:', currentProduct);
   }, [currentOrganization, currentProduct]);
 
   let itemType: 'product' | 'organization' | 'unknown' = 'unknown';
@@ -35,8 +33,6 @@ function SideMenu() {
   } else if (!currentProduct && currentOrganization) {
     itemType = 'organization';
   }
-
-  console.log("Item Type:", itemType);
 
   if (itemType === 'unknown') {
     console.warn('The itemType is set to unknown. Please handle this case appropriately.');

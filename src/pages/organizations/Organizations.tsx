@@ -32,11 +32,9 @@ const Organizations: OrganizationsType = () => {
 
   const carregarMembrosDaOrganizacao = async () => {
     const result = await getAllUsers();
-    console.log("Resultado da chamada de usuários: ", result);
 
     if (result.type === 'success' && Array.isArray(result.value.results)) {
       setUsers(result.value.results);
-      console.log('Usuários definidos no estado:', result.value.results);
     } else {
       toast.error('Erro ao carregar os usuários.');
     }
@@ -91,7 +89,10 @@ const Organizations: OrganizationsType = () => {
       result = await updateOrganization(router.query.edit as string, novaOrganizacao);
       if (result.type === 'success') {
         toast.success('Organização atualizada com sucesso!');
-        router.push('/home');
+        setTimeout(() => {
+          window.location.reload();
+          window.location.href = '/home';
+        }, 2000);
       } else if (result.error.message === nameExist) {
         toast.error(nameExist);
       } else if (result.error.message === keyExist) {
@@ -103,7 +104,10 @@ const Organizations: OrganizationsType = () => {
       result = await createOrganization(novaOrganizacao);
       if (result.type === 'success') {
         toast.success('Organização criada com sucesso!');
-        router.push('/home');
+        setTimeout(() => {
+          window.location.reload();
+          window.location.href = '/home';
+        }, 2000);
       } else if (result.error.message === nameExist) {
         toast.error(nameExist);
       } else if (result.error.message === keyExist) {

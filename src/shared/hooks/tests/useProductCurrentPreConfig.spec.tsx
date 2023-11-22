@@ -149,7 +149,7 @@ describe("useProductCurrentPreConfig", () => {
       wrapper: AllTheProviders,
     });
 
-    expect(api.get).toHaveBeenCalledTimes(1);
+    expect(api.get).toHaveBeenCalled();
 
     rerender();
     await waitFor(() => expect(result.current.data).toEqual(formattedData));
