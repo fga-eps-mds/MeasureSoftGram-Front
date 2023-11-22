@@ -24,6 +24,8 @@ jest.mock('@modules/createRelease/context/useCreateRelease', () => ({
       characteristics: ['reliability', 'maintainability'],
       endDate: '2022-09-25',
       name: 'asdasd',
+      description: 'asdasd',
+      goal: 1,
       startDate: '2022-09-18'
     },
     alertMessage: 'successOnCreation',

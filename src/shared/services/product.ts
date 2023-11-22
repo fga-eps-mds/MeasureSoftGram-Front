@@ -133,11 +133,11 @@ class ProductQuery {
   }
 
   getReleaseList(organizationId: string, productId: string, releaseId?: number): AxiosRequestConfig {
-    const url = `organizations/${organizationId}/products/${productId}/release/`;
+    const url = `organizations/${organizationId}/products/${productId}/create/release/`;
     return {
       url,
       method: 'get',
-      params: releaseId && { release_id: releaseId }
+      // params: releaseId && { release_id: releaseId }
     };
   }
 

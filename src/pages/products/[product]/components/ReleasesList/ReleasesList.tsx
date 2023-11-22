@@ -18,9 +18,12 @@ function ReleasesList() {
   const { currentOrganization } = useOrganizationContext();
   const router = useRouter();
 
-  const { data: releaseList, isLoading } = useRequest<CompareGoalAccomplished[]>(
+  const { data: release, isLoading } = useRequest<any>(
     productQuery.getReleaseList(currentOrganization?.id as string, currentProduct?.id as string)
   );
+
+  const releaseList: CompareGoalAccomplished[] = release?.results || [];
+
   if (isLoading) return <Skeleton />;
 
   function pushToReleasesPath() {
