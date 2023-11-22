@@ -127,15 +127,16 @@ const ConfigPage = ({
           <Link sx={{
             cursor: 'pointer',
             textDecoration: 'none',
+            fontWeight: '800'
           }} onClick={() => {
             setActiveStep(1);
-          }} color="text.secondary">Definir configuração do modelo</Link>
+          }} color="text.primary">Definir configuração do modelo</Link>
           <Link sx={{
             cursor: 'pointer',
             textDecoration: 'none',
           }} onClick={() => {
             setActiveStep(2);
-          }} color="text.primary">Balancear características</Link>
+          }} color="text.secondary">Balancear características</Link>
 
         </Breadcrumbs>
       </Styles.Header>

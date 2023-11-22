@@ -58,6 +58,7 @@ export default function ReleaseGoals(props: any) {
           <Link sx={{
             cursor: 'pointer',
             textDecoration: 'none',
+            fontWeight: '800'
           }} color="text.primary">Balancear Pesos</Link>
 
         </Breadcrumbs>

@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Box, Breadcrumbs, Link, TextField, Typography } from '@mui/material';
 import { useCreateReleaseContext } from '@modules/createRelease/context/useCreateRelease';
-import * as Styles from './styles';
 import { useSnackbar } from 'notistack';
+import * as Styles from './styles';
 
 
 function ReleaseInfo(props: any) {
@@ -33,6 +33,7 @@ function ReleaseInfo(props: any) {
           <Link sx={{
             cursor: 'pointer',
             textDecoration: 'none',
+            fontWeight: '800'
           }} onClick={() => {
             setActiveStep(0);
           }} color="text.primary">Criar Release</Link>

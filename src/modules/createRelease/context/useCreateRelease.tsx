@@ -267,28 +267,28 @@ export function CreateReleaseProvider({
   };
 
   function finishReleasePlanning() {
-    const isSameReleaseGoal = lastGoal &&
-      releaseInfoForm.startDate === (lastGoal.start_at as string).slice(0, 10) &&
-      releaseInfoForm.endDate === (lastGoal.end_at as string).slice(0, 10) &&
-      releaseInfoForm.name === lastGoal?.release_name;
+    // const isSameReleaseGoal = lastGoal &&
+    //   releaseInfoForm.startDate === (lastGoal.start_at as string).slice(0, 10) &&
+    //   releaseInfoForm.endDate === (lastGoal.end_at as string).slice(0, 10) &&
+    //   releaseInfoForm.name === lastGoal?.release_name;
 
-    if (isSameReleaseGoal) {
-      setAlertMessage('sameReleaseGoal');
-      return;
-    }
+    // if (isSameReleaseGoal) {
+    //   setAlertMessage('sameReleaseGoal');
+    //   return;
+    // }
 
-    if (lastGoal) {
-      const existingData: ExistingCreateReleaseData = {
-        id: lastGoal.id,
-        release_name: releaseInfoForm.name,
-        start_at: releaseInfoForm.startDate,
-        end_at: releaseInfoForm.endDate,
-        changes: releaseInfoForm.changes,
-        allow_dynamic: allowDynamicBalance
-      };
+    // if (lastGoal) {
+    //   const existingData: ExistingCreateReleaseData = {
+    //     id: lastGoal.id,
+    //     release_name: releaseInfoForm.name,
+    //     start_at: releaseInfoForm.startDate,
+    //     end_at: releaseInfoForm.endDate,
+    //     changes: releaseInfoForm.changes,
+    //     allow_dynamic: allowDynamicBalance
+    //   };
 
-      console.log(existingData);
-    }
+    //   console.log(existingData);
+    // }
 
     sendConfigJson().catch(() => setAlertMessage('errorOnCreation'));
     createProductReleaseGoal().catch(() => setAlertMessage('errorOnCreation'));

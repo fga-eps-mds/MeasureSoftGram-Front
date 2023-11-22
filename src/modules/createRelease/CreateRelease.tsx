@@ -3,6 +3,8 @@ import { Alert, Container, Snackbar } from '@mui/material';
 
 import DrawerMenu from '@components/DrawerMenu';
 import { ButtonType, Product } from '@customTypes/product';
+import api from '@services/api';
+import { useSnackbar } from 'notistack';
 import ConfigPage from './components/ConfigPage';
 import ReleaseInfo from './components/ReleaseInfo';
 import ReleaseGoals from './components/ReleaseGoals';
@@ -12,8 +14,6 @@ import FirstReleaseWarning from './components/FirstReleaseWarning';
 import ReleaseConfigSelector from './components/ReleaseConfigSelector';
 import ThresholdConfig from './components/ThresholdConfig';
 import { CREATE_RELEASE_STEP } from './consts';
-import api from '@services/api';
-import { useSnackbar } from 'notistack';
 
 interface CreateReleaseProps {
   open: boolean;
@@ -124,8 +124,13 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
     }
   }
   const handleNextButton = async () => {
-
-    activeStep === CREATE_RELEASE_STEP.ReleaseInfoStep ? checkReleaseInfo() : CREATE_RELEASE_STEP.ReleaseGoalStep ? finishReleasePlanning() : handleGoToNextStep();
+    if (activeStep === CREATE_RELEASE_STEP.ReleaseInfoStep) {
+      checkReleaseInfo();
+    } else if (activeStep === CREATE_RELEASE_STEP.ReleaseGoalStep) {
+      finishReleasePlanning();
+    } else {
+      handleGoToNextStep();
+    }
   }
 
   const BUTTONS: Array<ButtonType> = [

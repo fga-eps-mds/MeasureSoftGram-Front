@@ -3,10 +3,10 @@ import { useCreateReleaseContext } from '@modules/createRelease/context/useCreat
 import { CREATE_RELEASE_STEP } from '@modules/createRelease/consts';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import TuneIcon from '@mui/icons-material/Tune';
-import * as Styles from './styles';
-import SelectorButton from '../SelectorButton';
 import { Box, Breadcrumbs, Link, Typography } from '@mui/material';
 import { useSnackbar } from 'notistack';
+import * as Styles from './styles';
+import SelectorButton from '../SelectorButton';
 
 interface ReleaseConfigSelectorProps {
   setActiveStep: (step: number) => void;
@@ -34,7 +34,7 @@ export default function ReleaseConfigSelector({ setActiveStep }: ReleaseConfigSe
     <>
       <Styles.Header>
         <h1 style={{ color: '#33568E', fontWeight: '500' }}>Planejamento de Release</h1>
-        <h2 style={{ color: '#33568E', fontWeight: '300' }}>Definição de Configuração</h2>
+        <h2 style={{ color: '#33568E', fontWeight: '500' }}>Definição de Configuração</h2>
         <Breadcrumbs separator={<Box
           component="span"
           sx={{
@@ -56,6 +56,7 @@ export default function ReleaseConfigSelector({ setActiveStep }: ReleaseConfigSe
           <Link sx={{
             cursor: 'pointer',
             textDecoration: 'none',
+            fontWeight: '800'
           }} onClick={() => {
             setActiveStep(1);
           }} color="text.primary">Definir configuração do modelo</Link>
