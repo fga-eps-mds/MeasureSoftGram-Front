@@ -109,8 +109,37 @@ export default function ReleaseConfigSelector({ setActiveStep }: ReleaseConfigSe
                                                   Medida: {measure.key}
                                                 </Typography>
                                                 <Typography>Peso: {measure.weight}</Typography>
+                                                {
+                                                  measure.min_threshold && measure.max_threshold && <Typography>
+                                                    min = {measure.min_threshold} | max = {measure.max_threshold}
+                                                  </Typography>
+                                                }
+                                                <Masonry columns={2} spacing={2}>
+                                                  <Stack>
+                                                    {
+                                                      measure.metrics?.map((metric, indexMet) => (
+
+                                                        <TimelineItem key={indexMet}>
+                                                          <TimelineSeparator>
+                                                            <TimelineConnector />
+                                                            <TimelineDot color="secondary" />
+                                                            <TimelineConnector />
+                                                          </TimelineSeparator>
+                                                          <TimelineContent sx={{ py: '12px', px: 2 }}>
+                                                            <Typography variant="h6" component="span" color={"gray"}>
+                                                              Métrica: {metric.key}
+                                                            </Typography>
+                                                            <Typography>Peso: {metric.weight ? metric.weight : 0}</Typography>
+                                                          </TimelineContent>
+                                                        </TimelineItem>
+                                                      ))
+                                                    }
+                                                  </Stack>
+                                                </Masonry>
+
                                               </TimelineContent>
                                             </TimelineItem>
+
 
                                           ))
                                         }
