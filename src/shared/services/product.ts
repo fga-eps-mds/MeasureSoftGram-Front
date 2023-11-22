@@ -7,7 +7,8 @@ import {
   RepositoriesTsqmiHistory,
   EntitiesMetrics,
   LatestValues,
-  Goal
+  Goal,
+  Product
 } from '@customTypes/product';
 import { Data } from '@customTypes/preConfig';
 
@@ -19,6 +20,9 @@ export interface ProductFormData {
   name: string;
   organizationId?: number;
   description?: string;
+  key?: string;
+  gaugeRedLimit?: number;
+  gaugeYellowLimit?: number;
 }
 
 class ProductQuery {
@@ -36,7 +40,7 @@ class ProductQuery {
     }
   }
 
-  async updateProduct(productId: string, data: ProductFormData): Promise<Result<ProductFormData>> {
+  async updateProduct(productId: string, data: ProductFormData): Promise<Result<Product>> {
     try {
       const response = await api.put(`/organizations/${data.organizationId}/products/${productId}/`, data);
       return { type: 'success', value: response?.data };
