@@ -12,6 +12,7 @@ import {
 import { Data } from '@customTypes/preConfig';
 
 import { AxiosRequestConfig } from 'axios';
+import { NewCreateReleaseData } from '@modules/createRelease/context/useCreateRelease';
 import api from './api';
 
 class ProductQuery {
@@ -66,8 +67,13 @@ class ProductQuery {
     return api.get<Array<EntitiesMetrics>>(url);
   }
 
-  async createProductReleaseGoal(organizationId: string, productId: string, data: ReleaseGoal) {
+  async createProductGoal(organizationId: string, productId: string, data: ReleaseGoal) {
     const url = `organizations/${organizationId}/products/${productId}/create/goal/`;
+    return api.post(url, data);
+  }
+
+  async createProductRelease(organizationId: string, productId: string, data: NewCreateReleaseData) {
+    const url = `organizations/${organizationId}/products/${productId}/create/release/`;
     return api.post(url, data);
   }
 
