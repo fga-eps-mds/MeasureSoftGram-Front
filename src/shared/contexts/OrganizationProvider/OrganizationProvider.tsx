@@ -42,8 +42,6 @@ export function OrganizationProvider({ children }: Props) {
   const organizationList = data?.results || [];
 
   useEffect(() => {
-    console.log('Data from API:', data);
-    console.log('API Error:', error);
 
     if (organizationList.length > 0 && currentOrganizations.length === 0) {
       setCurrentOrganizations([organizationList[0]]);
@@ -67,9 +65,6 @@ export function OrganizationProvider({ children }: Props) {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentOrganization, currentOrganizations, organizationList]);
-
-  console.log('Dados da organização atualizada:', currentOrganizations);
-  console.log('Lista de organizações atualizada:', organizationList);
 
   return <OrganizationContext.Provider value={value}>{children}</OrganizationContext.Provider>;
 }
