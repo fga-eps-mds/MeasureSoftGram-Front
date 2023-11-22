@@ -23,6 +23,7 @@ import LetterAvatar from '@components/LetterAvatar';
 import { useRouter } from 'next/router';
 import { useOrganizationQuery } from '../../../../../pages/organizations/hooks/useOrganizationQuery';
 import { toast } from 'react-toastify';
+import { useProductQuery } from '@pages/products/hooks/useProductQuery';
 
 type ItemWithBasicProps = {
   id: number;
@@ -37,6 +38,7 @@ type Props<T extends ItemWithBasicProps> = {
   seeMorePath: string;
   showActions?: boolean;
   itemType?: "organization" | "product";
+  organizationId?: string;
 };
 
 const SideList = <T extends ItemWithBasicProps>({
@@ -46,9 +48,11 @@ const SideList = <T extends ItemWithBasicProps>({
   onClickItem,
   seeMorePath,
   showActions = true,
-  itemType
+  itemType,
+  organizationId,
 }: Props<T>) => {
   const { deleteOrganization } = useOrganizationQuery();
+  const { deleteProduct } = useProductQuery();
   const maxItems = 10;
   const filteredValues = values.slice(0, maxItems);
   const router = useRouter();
@@ -69,7 +73,12 @@ const SideList = <T extends ItemWithBasicProps>({
       setErrorText("");
     } else {
       setIsButtonDisabled(true);
-      setErrorText("O nome da organização está incorreto.");
+      if (itemType === "organization") {
+        setErrorText("O nome da organização está incorreto.");
+      }
+      else {
+        setErrorText("O nome do produto está incorreto.");
+      }
     }
   };
 
@@ -81,9 +90,10 @@ const SideList = <T extends ItemWithBasicProps>({
         const result = await deleteOrganization(String(itemToDelete.id));
         if (result.type === "success") {
           toast.success('Organização excluída com sucesso!');
-          console.log("Item deleted successfully:", itemToDelete.id);
-        } else {
-          console.error("Error deleting item:", result.error);
+          setTimeout(() => {
+            window.location.reload();
+            window.location.href = '/home';
+          }, 2000);
         }
         setItemToDelete(null);
         setShowConfirmationModal(false);
@@ -93,6 +103,31 @@ const SideList = <T extends ItemWithBasicProps>({
         setIsButtonDisabled(true);
       } else {
         setErrorText("O nome da organização está incorreto.");
+      }
+    }
+  };
+
+  const handleDeleteProduct = async () => {
+    if (confirmationStep === 0) {
+      setShowConfirmationModal(true);
+    } else if (confirmationStep === 1) {
+      if (itemToDelete && itemToDelete.name === confirmationName) {
+        const result = await deleteProduct(String(itemToDelete.id), organizationId);
+        if (result.type === "success") {
+          toast.success('Produto excluído com sucesso!');
+          setTimeout(() => {
+            window.location.reload();
+            window.location.href = '/home';
+          }, 2000);
+        }
+        setItemToDelete(null);
+        setShowConfirmationModal(false);
+        setConfirmationStep(0);
+        setConfirmationName("");
+        setErrorText("");
+        setIsButtonDisabled(true);
+      } else {
+        setErrorText("O nome do produto está incorreto.");
       }
     }
   };
@@ -111,10 +146,14 @@ const SideList = <T extends ItemWithBasicProps>({
               variant="contained"
               startIcon={<FiPlus />}
               onClick={async () => {
-                await router.push("/organizations/");
+                if (itemType === "organization") {
+                  await router.push(`/organizations/`);
+                } else {
+                  await router.push(`/products/create/?id_organization=${organizationId}`);
+                }
               }}
             >
-              Adicionar Organização
+              {itemType === "organization" ? "Adicionar Organização" : "Adicionar Produto"}
             </Button>
           </Box>
           <List>
@@ -125,7 +164,6 @@ const SideList = <T extends ItemWithBasicProps>({
                   disablePadding
                   key={value.id}
                   onClick={() => {
-                    console.log('onClickItem function:', onClickItem);
                     if (typeof onClickItem === 'function') {
                       onClickItem(value);
                     } else {
@@ -146,7 +184,11 @@ const SideList = <T extends ItemWithBasicProps>({
                           aria-label="edit"
                           onClick={async (e) => {
                             e.stopPropagation();
-                            await router.push(`/organizations?edit=${value.id}`);
+                            if (itemType === "organization") {
+                              await router.push(`/organizations?edit=${value.id}`);
+                            } else {
+                              await router.push(`/products/create/?id_organization=${organizationId}&id_product=${value.id}`);
+                            }
                           }}
                         >
                           <EditIcon />
@@ -218,7 +260,7 @@ const SideList = <T extends ItemWithBasicProps>({
               </Alert>
               <Box sx={{ width: '100%' }}>
                 <Typography variant="body2" sx={{ textAlign: 'justify' }}>
-                  Isso irá deletar permanentemente a organização '{itemToDelete?.name}', assim como seus produtos e todos os membros associados.
+                  Isso irá deletar permanentemente {itemType === 'organization' ? "a organização" : "o produto"} '{itemToDelete?.name}'{itemType === 'organization' ? ", assim como seus produtos e todos os membros associados." : "."}
                 </Typography>
               </Box>
               <Box display="flex" justifyContent="center" mt={2}>
@@ -261,8 +303,8 @@ const SideList = <T extends ItemWithBasicProps>({
                 {errorText}
               </Typography>
               <Box display="flex" justifyContent="center" mt={2}>
-                <Button variant="contained" color="primary" onClick={handleDelete} sx={{ width: '100%' }} disabled={isButtonDisabled} >
-                  Deletar esta organização
+                <Button variant="contained" color="primary" onClick={itemType === 'organization' ? handleDelete : handleDeleteProduct} sx={{ width: '100%' }} disabled={isButtonDisabled} >
+                  {itemType === 'organization' ? "Deletar esta organização" : "Deletar este produto"}
                 </Button>
               </Box>
             </>

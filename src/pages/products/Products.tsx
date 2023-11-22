@@ -27,7 +27,6 @@ const Products: NextPageWithLayout = () => {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(productsList ?? []);
 
   useEffect(() => {
-    console.log('Organização atual:', currentOrganization);
   }, [currentOrganization]);
 
   useEffect(() => {
@@ -35,21 +34,14 @@ const Products: NextPageWithLayout = () => {
   }, [productsList]);
 
   const handleSelectedOrganization = (organizationId: string) => {
-    console.log('Organization Selected:', organizationId);
 
     if (currentOrganization?.id === organizationId) {
       setCurrentOrganizations([]);
-      console.log('Desmarcando a organização atual');
     } else if (organizationList?.length) {
       const selectedOrganization = organizationList.find((organization) => organization.id === organizationId);
       if (selectedOrganization) {
         setCurrentOrganizations([selectedOrganization]);
-        console.log('Definindo a nova organização atual:', selectedOrganization.name);
-      } else {
-        console.log('Organização não encontrada');
       }
-    } else {
-      console.log('Lista de organizações não disponível');
     }
   };
 
@@ -71,8 +63,6 @@ const Products: NextPageWithLayout = () => {
       </Container>
     );
   }
-
-  console.log('Organização Atual na Renderização:', currentOrganization);
 
   return (
     <>

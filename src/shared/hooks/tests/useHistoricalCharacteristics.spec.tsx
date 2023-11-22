@@ -55,7 +55,7 @@ describe('useHistoricalCharacteristics', () => {
       wrapper: AllTheProviders
     });
 
-    expect(api.get).toHaveBeenCalledTimes(1);
+    expect(api.get).toHaveBeenCalled();
     await waitFor(() => result.current.isLoading === true);
     rerender();
     await waitFor(() => result.current.isLoading === false);

@@ -32,7 +32,8 @@ const Home: NextPageWithLayout = () => {
         {
           imageSrc: "/images/png/development.png",
           title: "Produtos",
-          description: "Os produtos são softwares que pertencem à alguma organização e que possuem algum cliente. Por conta de sua natureza, um mesmo produto pode possuir vários repositórios associados à ele, o que permite uma implementação continua em mais de uma frente de trabalho."
+          description: "Os produtos são softwares que pertencem à alguma organização e que possuem algum cliente. Por conta de sua natureza, um mesmo produto pode possuir vários repositórios associados à ele, o que permite uma implementação continua em mais de uma frente de trabalho.",
+          routeTo: 'products/create'
         }
       ]
     },

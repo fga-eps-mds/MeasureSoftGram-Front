@@ -68,37 +68,37 @@ const CardInfo: React.FC<Props> = ({ cardData }) => (
             justifyContent="center"
             width="50%"
           >
-            { typeof data.imageSrc === 'string'
+            {typeof data.imageSrc === 'string'
               ?
-                <CardMedia
-                  component="img"
-                  image={data.imageSrc}
-                  alt="green iguana"
-                  sx={{
-                    margin: "1rem 1rem 1rem 1rem",
-                    maxWidth: "150px",
-                    height: "auto",
-                    maxHeight: "150px",
-                    overflow: "hidden",
-                    borderRadius: "5px",
-                    transition: "transform .5s ease",
+              <CardMedia
+                component="img"
+                image={data.imageSrc}
+                alt="green iguana"
+                sx={{
+                  margin: "1rem 1rem 1rem 1rem",
+                  maxWidth: "150px",
+                  height: "auto",
+                  maxHeight: "150px",
+                  overflow: "hidden",
+                  borderRadius: "5px",
+                  transition: "transform .5s ease",
 
-                  }}
-                />
+                }}
+              />
               :
-                <Box
-                  sx={{
-                    maxWidth: "400px",
-                    margin: "1rem 1rem 1rem 1rem",
-                    height: "auto",
-                    maxHeight: "200px",
-                    '> svg': {
-                      fontSize: '150px'
-                    }
-                  }}
-                >
-                  { data.imageSrc }
-                </Box>
+              <Box
+                sx={{
+                  maxWidth: "400px",
+                  margin: "1rem 1rem 1rem 1rem",
+                  height: "auto",
+                  maxHeight: "200px",
+                  '> svg': {
+                    fontSize: '150px'
+                  }
+                }}
+              >
+                {data.imageSrc}
+              </Box>
             }
           </Box>
           <Box
@@ -116,8 +116,8 @@ const CardInfo: React.FC<Props> = ({ cardData }) => (
               variant="h5"
               component="div"
               align="center"
-              color= "#33568E"
-              fontWeight= "bold"
+              color="#33568E"
+              fontWeight="bold"
             >
               {data.title}
             </Typography>
@@ -128,12 +128,12 @@ const CardInfo: React.FC<Props> = ({ cardData }) => (
               {data.description}
             </Typography>
             <Box
-            display="flex"
-            flexDirection="row"
-            justifyContent="center"
+              display="flex"
+              flexDirection="row"
+              justifyContent="center"
             >
-            {data?.routeTo
-              ? <Box
+              {data?.routeTo === 'products'
+                ? <Box><Box
                   display="flex"
                   margin="1rem"
                   justifyContent="start"
@@ -144,7 +144,31 @@ const CardInfo: React.FC<Props> = ({ cardData }) => (
                     </Button>
                   </Link>
                 </Box>
-              : ''}
+                  <Box
+                    display="flex"
+                    margin="1rem 1rem 0 1rem"
+                    justifyContent="start"
+                  >
+                    <Link href="/organizations">
+                      <Button variant="contained" fullWidth>
+                        Criar Organização
+                      </Button>
+                    </Link>
+                  </Box></Box>
+                : ''}
+              {data?.routeTo === 'products/create'
+                ? <Box
+                  display="flex"
+                  margin="1rem"
+                  justifyContent="start"
+                >
+                  <Link href="/products/create">
+                    <Button variant="contained" fullWidth>
+                      Criar Produto
+                    </Button>
+                  </Link>
+                </Box>
+                : ''}
             </Box>
           </Box>
         </Box>
