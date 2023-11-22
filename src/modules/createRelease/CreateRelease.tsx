@@ -115,12 +115,13 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
   }, [open])
 
   async function checkReleaseInfo() {
-    const { data, status } = await api.get(`/organizations/${organizationId}/products/${productId}/create/release/is-valid/?nome=${releaseInfoForm.name}&dt-inicial=${releaseInfoForm.startDate}&dt-final=${releaseInfoForm.endDate}`)
-    console.log(data)
-    if (status === 200) {
+    try {
+      const { data, status } = await api.get(`/organizations/${organizationId}/products/${productId}/create/release/is-valid/?nome=${releaseInfoForm.name}&dt-inicial=${releaseInfoForm.startDate}&dt-final=${releaseInfoForm.endDate}`)
       handleGoToNextStep()
-    } else {
-      enqueueSnackbar(`Erro ao criar release, ${data.message}`, { variant: 'error' })
+    } catch (error: any) {
+      console.log("error.response", error.response)
+      console.log("error", error)
+      enqueueSnackbar(`Erro ao criar release, ${error.response.data.detail}`, { variant: 'error' })
     }
   }
   const handleNextButton = async () => {
