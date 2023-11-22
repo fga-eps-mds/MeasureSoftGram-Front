@@ -8,12 +8,15 @@ import { useRouter } from 'next/router';
 import { getPathId } from '@utils/pathDestructer';
 import { useProductContext } from '@contexts/ProductProvider';
 import ReactEcharts from 'echarts-for-react';
-import { ProductFormData, productQuery } from '@services/product';
+import { ProductFormData } from '@services/product';
+import { toNumber } from 'lodash';
+import { useProductQuery } from '@pages/products/hooks/useProductQuery';
 import GaugeSlider from '../GaugeSlider';
 
 function Header() {
   const { currentProduct, setCurrentProduct } = useProductContext();
   const { currentRepository } = useRepositoryContext();
+  const { updateProduct } = useProductQuery();
 
   const [openModal, setOpenModal] = useState<boolean>(false);
   const initialValues = currentProduct && [currentProduct.gaugeRedLimit, currentProduct.gaugeYellowLimit];
@@ -71,30 +74,27 @@ function Header() {
     setOpenModal(false);
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (values && currentProduct) {
-      const data = {
+      const [organizationId, productId] = getPathId(query?.product as string);
+      const productData: ProductFormData = {
         name: currentProduct.name,
         gaugeRedLimit: values[0],
-        gaugeYellowLimit: values[1]
+        gaugeYellowLimit: values[1],
+        organizationId: toNumber(organizationId)
       }
 
-      const [organizationId, productId] = getPathId(query?.product as string);
+      const result = await updateProduct(productId, productData);
+      if (result.type === 'success') {
+        toast.success('Intervalos atualizados com sucesso!!!');
+        setCurrentProduct(result.value);
+      } else {
+        toast.success('Erro ao atualizar intervalos!');
+      }
 
-      updateProduct(organizationId, productId, data)
       setOpenModal(false);
     }
   };
-
-  async function updateProduct(organizationId: string, productId: string, data: ProductFormData) {
-    try {
-      const result = await productQuery.updateProduct(organizationId, productId, data);
-      setCurrentProduct(result.data);
-      toast.success('Intervalos atualizados com sucesso!');
-    } catch (error) {
-      toast.success('Erro ao atualizar intervalos!');
-    }
-  }
 
   return (
     <Box display="flex" flexDirection="row" justifyContent="space-between">

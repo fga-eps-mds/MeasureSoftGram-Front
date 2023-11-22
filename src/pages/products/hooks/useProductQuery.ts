@@ -1,3 +1,4 @@
+import { Product } from '@customTypes/product';
 import { ProductFormData, productQuery } from '@services/product';
 
 export const useProductQuery = () => {
@@ -7,7 +8,7 @@ export const useProductQuery = () => {
   const getProductById = async (organizationId: string, productId: string): Promise<Result<ProductFormData>> =>
     productQuery.getProductById(organizationId, productId);
 
-  const updateProduct = async (productId: string, data: ProductFormData): Promise<Result<ProductFormData>> =>
+  const updateProduct = async (productId: string, data: ProductFormData): Promise<Result<Product>> =>
     productQuery.updateProduct(productId, data);
 
   const deleteProduct = async (productId: string, organizationId: string | undefined): Promise<Result<void>> =>
