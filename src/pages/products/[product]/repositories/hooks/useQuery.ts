@@ -23,7 +23,7 @@ export const useQuery = () => {
   async function loadProduct(organizationId: string, productId: string) {
     try {
       const result = await productQuery.getProductById(organizationId, productId);
-      setCurrentProduct(result.data);
+      setCurrentProduct(result.value);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
