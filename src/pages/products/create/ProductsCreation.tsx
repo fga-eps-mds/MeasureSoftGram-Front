@@ -89,7 +89,7 @@ const ProductsCreation: OrganizationsType = () => {
       </Typography>
       <form onSubmit={handleSubmit} sx={{ mt: 2 }}>
         <Grid container spacing={3}>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <TextField
               fullWidth
               label="Nome"
@@ -99,18 +99,6 @@ const ProductsCreation: OrganizationsType = () => {
               required
               sx={{ mb: 2 }}
             />
-            <TextField
-              fullWidth
-              label="Descrição"
-              variant="outlined"
-              value={descricao}
-              onChange={(e) => setDescription(e.target.value)}
-              multiline
-              rows={4}
-              sx={{ mb: 2 }}
-            />
-          </Grid>
-          <Grid item xs={6}>
             <TextField
               select
               required
@@ -129,6 +117,16 @@ const ProductsCreation: OrganizationsType = () => {
                 ))
               }
             </TextField>
+            <TextField
+              fullWidth
+              label="Descrição"
+              variant="outlined"
+              value={descricao}
+              onChange={(e) => setDescription(e.target.value)}
+              multiline
+              rows={4}
+              sx={{ mb: 2 }}
+            />
           </Grid>
           <Grid item xs={12}>
             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
