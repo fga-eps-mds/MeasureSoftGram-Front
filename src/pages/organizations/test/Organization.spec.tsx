@@ -1,9 +1,10 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
+import { RouterContext } from 'next/dist/shared/lib/router-context';
 import Organizations from '../Organizations';
 import { OrganizationProvider } from '@contexts/OrganizationProvider';
-import { RouterContext } from 'next/dist/shared/lib/router-context';
+
 
 jest.mock('@services/user', () => ({
   getAllUsers: jest.fn(() => Promise.resolve({
