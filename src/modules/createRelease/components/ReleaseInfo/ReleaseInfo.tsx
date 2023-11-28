@@ -85,7 +85,7 @@ function ReleaseInfo(props: any) {
               }
             }}
             inputProps={{
-              'data-testid': 'apelido-release'
+              'data-testid': 'descricao-release'
             }}
             fullWidth
           />

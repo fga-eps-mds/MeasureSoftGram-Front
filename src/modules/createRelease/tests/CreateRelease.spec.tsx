@@ -63,6 +63,9 @@ describe('<CreateRelease />', () => {
     fireEvent.click(nextButton);
     const backButton = getByTestId('back-button');
     expect(backButton).toBeDefined();
+    const cancelButton = getByTestId('cancel-button');
+    expect(cancelButton).toBeDefined();
+    fireEvent.click(cancelButton);
     fireEvent.click(backButton);
     fireEvent.click(backButton);
   });

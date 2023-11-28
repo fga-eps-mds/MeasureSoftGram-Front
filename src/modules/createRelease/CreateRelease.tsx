@@ -142,7 +142,7 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
       backgroundColor: '#FFF',
       color: '#113D4C',
       variant: 'outlined',
-      dataTestId: 'back-button'
+      dataTestId: 'cancel-button'
     },
     {
       label: 'Voltar',

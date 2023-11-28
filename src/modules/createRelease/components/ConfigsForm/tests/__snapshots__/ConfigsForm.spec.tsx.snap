@@ -97,8 +97,7 @@ Object {
                   style="left: 0%; width: 50%;"
                 />
                 <span
-                  class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-eg0mwd-MuiSlider-thumb"
-                  data-focusvisible="false"
+                  class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-eg0mwd-MuiSlider-thumb"
                   data-index="0"
                   style="left: 50%;"
                 >
@@ -126,7 +125,7 @@ Object {
                 data-testid="CONFIG_INPUT_TEST_ID"
               >
                 <div
-                  class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
+                  class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-v4u5dn-MuiInputBase-root-MuiInput-root"
                 >
                   <input
                     aria-invalid="false"
@@ -177,8 +176,7 @@ Object {
                   style="left: 0%; width: 50%;"
                 />
                 <span
-                  class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-eg0mwd-MuiSlider-thumb"
-                  data-focusvisible="false"
+                  class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-eg0mwd-MuiSlider-thumb"
                   data-index="0"
                   style="left: 50%;"
                 >
@@ -206,7 +204,7 @@ Object {
                 data-testid="CONFIG_INPUT_TEST_ID"
               >
                 <div
-                  class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
+                  class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-v4u5dn-MuiInputBase-root-MuiInput-root"
                 >
                   <input
                     aria-invalid="false"
@@ -325,8 +323,7 @@ Object {
                 style="left: 0%; width: 50%;"
               />
               <span
-                class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-eg0mwd-MuiSlider-thumb"
-                data-focusvisible="false"
+                class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-eg0mwd-MuiSlider-thumb"
                 data-index="0"
                 style="left: 50%;"
               >
@@ -354,7 +351,7 @@ Object {
               data-testid="CONFIG_INPUT_TEST_ID"
             >
               <div
-                class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
+                class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-v4u5dn-MuiInputBase-root-MuiInput-root"
               >
                 <input
                   aria-invalid="false"
@@ -405,8 +402,7 @@ Object {
                 style="left: 0%; width: 50%;"
               />
               <span
-                class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-eg0mwd-MuiSlider-thumb"
-                data-focusvisible="false"
+                class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-eg0mwd-MuiSlider-thumb"
                 data-index="0"
                 style="left: 50%;"
               >
@@ -434,7 +430,7 @@ Object {
               data-testid="CONFIG_INPUT_TEST_ID"
             >
               <div
-                class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
+                class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-v4u5dn-MuiInputBase-root-MuiInput-root"
               >
                 <input
                   aria-invalid="false"
@@ -676,8 +672,7 @@ Object {
                   style="left: 0%; width: 33%;"
                 />
                 <span
-                  class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-eg0mwd-MuiSlider-thumb"
-                  data-focusvisible="false"
+                  class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-eg0mwd-MuiSlider-thumb"
                   data-index="0"
                   style="left: 33%;"
                 >
@@ -705,7 +700,7 @@ Object {
                 data-testid="CONFIG_INPUT_TEST_ID"
               >
                 <div
-                  class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
+                  class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-v4u5dn-MuiInputBase-root-MuiInput-root"
                 >
                   <input
                     aria-invalid="false"
@@ -756,8 +751,7 @@ Object {
                   style="left: 0%; width: 33%;"
                 />
                 <span
-                  class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-eg0mwd-MuiSlider-thumb"
-                  data-focusvisible="false"
+                  class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-eg0mwd-MuiSlider-thumb"
                   data-index="0"
                   style="left: 33%;"
                 >
@@ -785,7 +779,7 @@ Object {
                 data-testid="CONFIG_INPUT_TEST_ID"
               >
                 <div
-                  class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
+                  class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-v4u5dn-MuiInputBase-root-MuiInput-root"
                 >
                   <input
                     aria-invalid="false"
@@ -970,8 +964,7 @@ Object {
                 style="left: 0%; width: 33%;"
               />
               <span
-                class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-eg0mwd-MuiSlider-thumb"
-                data-focusvisible="false"
+                class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-eg0mwd-MuiSlider-thumb"
                 data-index="0"
                 style="left: 33%;"
               >
@@ -999,7 +992,7 @@ Object {
               data-testid="CONFIG_INPUT_TEST_ID"
             >
               <div
-                class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
+                class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-v4u5dn-MuiInputBase-root-MuiInput-root"
               >
                 <input
                   aria-invalid="false"
@@ -1050,8 +1043,7 @@ Object {
                 style="left: 0%; width: 33%;"
               />
               <span
-                class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-eg0mwd-MuiSlider-thumb"
-                data-focusvisible="false"
+                class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-eg0mwd-MuiSlider-thumb"
                 data-index="0"
                 style="left: 33%;"
               >
@@ -1079,7 +1071,7 @@ Object {
               data-testid="CONFIG_INPUT_TEST_ID"
             >
               <div
-                class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
+                class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-v4u5dn-MuiInputBase-root-MuiInput-root"
               >
                 <input
                   aria-invalid="false"
@@ -1274,8 +1266,7 @@ Object {
                   style="left: 0%; width: 100%;"
                 />
                 <span
-                  class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-eg0mwd-MuiSlider-thumb"
-                  data-focusvisible="false"
+                  class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-eg0mwd-MuiSlider-thumb"
                   data-index="0"
                   style="left: 100%;"
                 >
@@ -1303,7 +1294,7 @@ Object {
                 data-testid="CONFIG_INPUT_TEST_ID"
               >
                 <div
-                  class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
+                  class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-v4u5dn-MuiInputBase-root-MuiInput-root"
                 >
                   <input
                     aria-invalid="false"
@@ -1441,8 +1432,7 @@ Object {
                 style="left: 0%; width: 100%;"
               />
               <span
-                class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-eg0mwd-MuiSlider-thumb"
-                data-focusvisible="false"
+                class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-eg0mwd-MuiSlider-thumb"
                 data-index="0"
                 style="left: 100%;"
               >
@@ -1470,7 +1460,7 @@ Object {
               data-testid="CONFIG_INPUT_TEST_ID"
             >
               <div
-                class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
+                class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-v4u5dn-MuiInputBase-root-MuiInput-root"
               >
                 <input
                   aria-invalid="false"

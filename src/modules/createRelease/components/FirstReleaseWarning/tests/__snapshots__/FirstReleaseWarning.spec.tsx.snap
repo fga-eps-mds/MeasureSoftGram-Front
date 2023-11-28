@@ -6,7 +6,7 @@ Object {
   "baseElement": <body>
     <div>
       <div
-        class="styles__Header-sc-1eodkkx-0 eTclVL"
+        class="styles__Header-sc-1eodkkx-0 iEbNaK"
       >
         <h1
           style="color: rgb(51, 86, 142); font-weight: 500;"
@@ -15,7 +15,7 @@ Object {
         </h1>
       </div>
       <div
-        class="styles__Body-sc-1eodkkx-1 fVtKFn"
+        class="styles__Body-sc-1eodkkx-1 jalUgu"
       >
         <p>
           Por ser a primeira release do seu projeto, será disponibilizada a seguir uma pré-configuração base gerada pelo sistema.
@@ -29,7 +29,7 @@ Object {
   </body>,
   "container": <div>
     <div
-      class="styles__Header-sc-1eodkkx-0 eTclVL"
+      class="styles__Header-sc-1eodkkx-0 iEbNaK"
     >
       <h1
         style="color: rgb(51, 86, 142); font-weight: 500;"
@@ -38,7 +38,7 @@ Object {
       </h1>
     </div>
     <div
-      class="styles__Body-sc-1eodkkx-1 fVtKFn"
+      class="styles__Body-sc-1eodkkx-1 jalUgu"
     >
       <p>
         Por ser a primeira release do seu projeto, será disponibilizada a seguir uma pré-configuração base gerada pelo sistema.

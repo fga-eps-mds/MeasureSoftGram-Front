@@ -6,16 +6,16 @@ Object {
   "baseElement": <body>
     <div>
       <div
-        class="styles__LayoutGrid-sc-1vn80o5-0 bwOIGU"
+        class="styles__LayoutGrid-sc-1vn80o5-0 imgYUJ"
       >
         <div
-          class="styles__SideMenuArea-sc-1vn80o5-1 fVrKpa"
+          class="styles__SideMenuArea-sc-1vn80o5-1 hhwMgH"
         >
           <div
-            class="styles__Wrapper-sc-b15uhj-0 dOyTpx"
+            class="styles__Wrapper-sc-b15uhj-0 efyOnI"
           >
             <img
-              class="styles__Logo-sc-b15uhj-3 hGELmg"
+              class="styles__Logo-sc-b15uhj-3 yTGjF"
               height="30"
               src="/images/svg/logo.svg"
             />
@@ -24,11 +24,11 @@ Object {
             >
               <div
                 aria-label="Seleção de Organização"
-                class="styles__Wrapper-sc-13gge7k-0 bFLHog"
+                class="styles__Wrapper-sc-13gge7k-0 PRxzx"
                 data-mui-internal-clone-element="true"
               >
                 <div
-                  class="styles__IconContainer-sc-13gge7k-1 hPWhSD"
+                  class="styles__IconContainer-sc-13gge7k-1 iqhYai"
                 >
                   <div
                     class="MuiBox-root css-zl7mak"
@@ -39,7 +39,7 @@ Object {
                       ?
                     </div>
                     <div
-                      class="styles__IconContainer-sc-nul2ic-0 kluvV"
+                      class="styles__IconContainer-sc-nul2ic-0 jxOkDc"
                     >
                       <svg
                         fill="currentColor"
@@ -97,11 +97,11 @@ Object {
             >
               <div
                 aria-label="Seleção de Produto"
-                class="styles__Wrapper-sc-13gge7k-0 bFLHog"
+                class="styles__Wrapper-sc-13gge7k-0 PRxzx"
                 data-mui-internal-clone-element="true"
               >
                 <div
-                  class="styles__IconContainer-sc-13gge7k-1 hPWhSD"
+                  class="styles__IconContainer-sc-13gge7k-1 iqhYai"
                 >
                   <div
                     class="MuiBox-root css-zl7mak"
@@ -112,7 +112,7 @@ Object {
                       ?
                     </div>
                     <div
-                      class="styles__IconContainer-sc-nul2ic-0 kluvV"
+                      class="styles__IconContainer-sc-nul2ic-0 jxOkDc"
                     >
                       <svg
                         fill="none"
@@ -177,7 +177,7 @@ Object {
               </div>
             </div>
             <div
-              class="styles__CollapseButton-sc-b15uhj-2 pgIhg"
+              class="styles__CollapseButton-sc-b15uhj-2 kactQp"
             >
               <svg
                 aria-hidden="true"
@@ -195,7 +195,7 @@ Object {
               class="MuiDivider-root MuiDivider-fullWidth css-wblo9e-MuiDivider-root"
             />
             <div
-              class="styles__ItemContainer-sc-b15uhj-1 kIJeUv"
+              class="styles__ItemContainer-sc-b15uhj-1 hQkTLK"
             />
             <hr
               class="MuiDivider-root MuiDivider-fullWidth css-z005vp-MuiDivider-root"
@@ -205,11 +205,11 @@ Object {
             >
               <div
                 aria-label="Menu de usuário"
-                class="styles__Wrapper-sc-13gge7k-0 bFLHog"
+                class="styles__Wrapper-sc-13gge7k-0 PRxzx"
                 data-mui-internal-clone-element="true"
               >
                 <div
-                  class="styles__IconContainer-sc-13gge7k-1 hPWhSD"
+                  class="styles__IconContainer-sc-13gge7k-1 iqhYai"
                 >
                   <div
                     class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-382zf-MuiAvatar-root"
@@ -257,10 +257,10 @@ Object {
           </div>
         </div>
         <div
-          class="styles__MainContentArea-sc-1vn80o5-2 jLvwee"
+          class="styles__MainContentArea-sc-1vn80o5-2 jdRHxL"
         >
           <div
-            class="styles__Wrapper-sc-qmak3r-0 ddiygG"
+            class="styles__Wrapper-sc-qmak3r-0 ijzQmD"
           >
             <div
               class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
@@ -353,23 +353,23 @@ Object {
           </div>
         </div>
         <div
-          class="styles__RightSideArea-sc-1vn80o5-3 hHXwJs"
+          class="styles__RightSideArea-sc-1vn80o5-3 kQzEBF"
         />
       </div>
     </div>
   </body>,
   "container": <div>
     <div
-      class="styles__LayoutGrid-sc-1vn80o5-0 bwOIGU"
+      class="styles__LayoutGrid-sc-1vn80o5-0 imgYUJ"
     >
       <div
-        class="styles__SideMenuArea-sc-1vn80o5-1 fVrKpa"
+        class="styles__SideMenuArea-sc-1vn80o5-1 hhwMgH"
       >
         <div
-          class="styles__Wrapper-sc-b15uhj-0 dOyTpx"
+          class="styles__Wrapper-sc-b15uhj-0 efyOnI"
         >
           <img
-            class="styles__Logo-sc-b15uhj-3 hGELmg"
+            class="styles__Logo-sc-b15uhj-3 yTGjF"
             height="30"
             src="/images/svg/logo.svg"
           />
@@ -378,11 +378,11 @@ Object {
           >
             <div
               aria-label="Seleção de Organização"
-              class="styles__Wrapper-sc-13gge7k-0 bFLHog"
+              class="styles__Wrapper-sc-13gge7k-0 PRxzx"
               data-mui-internal-clone-element="true"
             >
               <div
-                class="styles__IconContainer-sc-13gge7k-1 hPWhSD"
+                class="styles__IconContainer-sc-13gge7k-1 iqhYai"
               >
                 <div
                   class="MuiBox-root css-zl7mak"
@@ -393,7 +393,7 @@ Object {
                     ?
                   </div>
                   <div
-                    class="styles__IconContainer-sc-nul2ic-0 kluvV"
+                    class="styles__IconContainer-sc-nul2ic-0 jxOkDc"
                   >
                     <svg
                       fill="currentColor"
@@ -451,11 +451,11 @@ Object {
           >
             <div
               aria-label="Seleção de Produto"
-              class="styles__Wrapper-sc-13gge7k-0 bFLHog"
+              class="styles__Wrapper-sc-13gge7k-0 PRxzx"
               data-mui-internal-clone-element="true"
             >
               <div
-                class="styles__IconContainer-sc-13gge7k-1 hPWhSD"
+                class="styles__IconContainer-sc-13gge7k-1 iqhYai"
               >
                 <div
                   class="MuiBox-root css-zl7mak"
@@ -466,7 +466,7 @@ Object {
                     ?
                   </div>
                   <div
-                    class="styles__IconContainer-sc-nul2ic-0 kluvV"
+                    class="styles__IconContainer-sc-nul2ic-0 jxOkDc"
                   >
                     <svg
                       fill="none"
@@ -531,7 +531,7 @@ Object {
             </div>
           </div>
           <div
-            class="styles__CollapseButton-sc-b15uhj-2 pgIhg"
+            class="styles__CollapseButton-sc-b15uhj-2 kactQp"
           >
             <svg
               aria-hidden="true"
@@ -549,7 +549,7 @@ Object {
             class="MuiDivider-root MuiDivider-fullWidth css-wblo9e-MuiDivider-root"
           />
           <div
-            class="styles__ItemContainer-sc-b15uhj-1 kIJeUv"
+            class="styles__ItemContainer-sc-b15uhj-1 hQkTLK"
           />
           <hr
             class="MuiDivider-root MuiDivider-fullWidth css-z005vp-MuiDivider-root"
@@ -559,11 +559,11 @@ Object {
           >
             <div
               aria-label="Menu de usuário"
-              class="styles__Wrapper-sc-13gge7k-0 bFLHog"
+              class="styles__Wrapper-sc-13gge7k-0 PRxzx"
               data-mui-internal-clone-element="true"
             >
               <div
-                class="styles__IconContainer-sc-13gge7k-1 hPWhSD"
+                class="styles__IconContainer-sc-13gge7k-1 iqhYai"
               >
                 <div
                   class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-382zf-MuiAvatar-root"
@@ -611,10 +611,10 @@ Object {
         </div>
       </div>
       <div
-        class="styles__MainContentArea-sc-1vn80o5-2 jLvwee"
+        class="styles__MainContentArea-sc-1vn80o5-2 jdRHxL"
       >
         <div
-          class="styles__Wrapper-sc-qmak3r-0 ddiygG"
+          class="styles__Wrapper-sc-qmak3r-0 ijzQmD"
         >
           <div
             class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
@@ -707,7 +707,7 @@ Object {
         </div>
       </div>
       <div
-        class="styles__RightSideArea-sc-1vn80o5-3 hHXwJs"
+        class="styles__RightSideArea-sc-1vn80o5-3 kQzEBF"
       />
     </div>
   </div>,

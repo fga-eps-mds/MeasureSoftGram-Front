@@ -136,7 +136,7 @@ class ProductQuery {
     const url = `organizations/${organizationId}/products/${productId}/create/release/`;
     return {
       url,
-      method: 'get',
+      method: 'get'
       // params: releaseId && { release_id: releaseId }
     };
   }
