@@ -4,7 +4,7 @@ import { NextPageWithLayout } from '@pages/_app.next';
 import getLayout from '@components/Layout';
 import { GetServerSideProps } from 'next';
 import { productQuery } from '@services/product';
-import { CompareGoalAccomplished, ReleaseGoal } from '@customTypes/product';
+import { IReleases, ReleaseGoal } from '@customTypes/product';
 import CompareGoalsChart from '@components/CompareGoalsChart';
 import { Box } from '@mui/system';
 import { Container, InputLabel, MenuItem, Select, Typography } from '@mui/material';
@@ -51,7 +51,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 interface ReleaseProps {
-  release: CompareGoalAccomplished;
+  release: IReleases;
   organizationId: string;
   productId: string;
 }

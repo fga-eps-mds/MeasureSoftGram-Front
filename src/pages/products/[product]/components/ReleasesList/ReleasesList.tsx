@@ -6,7 +6,7 @@ import { productQuery } from '@services/product';
 import { useProductContext } from '@contexts/ProductProvider';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import { useRequest } from '@hooks/useRequest';
-import { CompareGoalAccomplished } from '@customTypes/product';
+import { ReleasesPaginated } from '@customTypes/product';
 import { useRouter } from 'next/router';
 import ReleasesTable from './ReleasesTable';
 
@@ -22,7 +22,7 @@ function ReleasesList() {
     productQuery.getReleaseList(currentOrganization?.id as string, currentProduct?.id as string)
   );
 
-  const releaseList: CompareGoalAccomplished[] = release?.results || [];
+  const releaseList: ReleasesPaginated = release?.results || [];
 
   if (isLoading) return <Skeleton />;
 

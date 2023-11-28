@@ -10,17 +10,23 @@ import formatEntitiesFilter from '@utils/formatEntitiesFilter';
 import formatEntitiesMetrics from '@utils/formatEntitiesMetrics';
 import { getPathId } from '@utils/pathDestructer';
 import { Historical } from '@customTypes/repository';
-import { LatestValues, CompareGoalAccomplished } from '@customTypes/product';
+import { LatestValues, IReleases } from '@customTypes/product';
 
 import { LARGE_PRIME_NUMBER } from './const';
 
 export const useQuery = () => {
-  const { setCurrentRepository, setCharacteristics, setSubCharacteristics, setMeasures, setMetrics, setHistoricalTSQMI } =
-    useRepositoryContext();
+  const {
+    setCurrentRepository,
+    setCharacteristics,
+    setSubCharacteristics,
+    setMeasures,
+    setMetrics,
+    setHistoricalTSQMI
+  } = useRepositoryContext();
 
   const [repositoryHistoricalCharacteristics, setRepositoryHistoricalCharacteristics] = useState<Historical[]>([]);
   const [latestValueCharacteristics, setLatestValueCharacteristics] = useState<LatestValues[]>([]);
-  const [comparedGoalAccomplished, setcomparedGoalAccomplished] = useState<CompareGoalAccomplished[]>([]);
+  const [comparedGoalAccomplished, setcomparedGoalAccomplished] = useState<IReleases[]>([]);
   const [checkedOptionsFormat, setCheckedOptions] = useState({});
 
   const { query } = useRouter();
