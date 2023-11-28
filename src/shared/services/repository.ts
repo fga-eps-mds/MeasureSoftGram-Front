@@ -6,6 +6,7 @@ interface RepositoryFormData {
   name: string;
   description?: string;
   url?: string;
+  platform: string;
 }
 
 interface HistoricalCharacteristicsProps {
@@ -36,31 +37,34 @@ class Repository {
     }
   }
 
-  async createRepository(organizationId: string, productId: string, data: RepositoryFormData): Promise<Result<RepositoryFormData>> {
-    try {
-      const headers: AxiosRequestConfig['headers'] = await this.getAuthHeaders();
-      if (!headers) {
-        throw new Error('Access token not found.');
-      }
-      const response = await api.post(`/organizations/${organizationId}/products/${productId}/repositories/`, data, { headers });
-      return { type: 'success', value: response?.data };
-    } catch (err) {
-      return { type: 'error', error: new Error('Failed to create repository.') };
+async createRepository(organizationId: string, productId: string, data: RepositoryFormData): Promise<Result<RepositoryFormData>> {
+  try {
+    const headers: AxiosRequestConfig['headers'] = await this.getAuthHeaders();
+    if (!headers) {
+      throw new Error('Access token not found.');
     }
-  }
 
-  async updateRepository(organizationId: string, productId: string, repositoryId: string, data: RepositoryFormData): Promise<Result<RepositoryFormData>> {
-    try {
-      const headers: AxiosRequestConfig['headers'] = await this.getAuthHeaders();
-      if (!headers) {
-        throw new Error('Access token not found.');
-      }
-      const response = await api.put(`/organizations/${organizationId}/products/${productId}/repositories/${repositoryId}/`, data, { headers });
-      return { type: 'success', value: response?.data };
-    } catch (err) {
-      return { type: 'error', error: new Error('Failed to update repository.') };
-    }
+    const response = await api.post(`/organizations/${organizationId}/products/${productId}/repositories/`, data, { headers });
+    return { type: 'success', value: response?.data };
+  } catch (err) {
+    return { type: 'error', error: new Error('Failed to create repository.') };
   }
+}
+
+async updateRepository(organizationId: string, productId: string, repositoryId: string, data: RepositoryFormData): Promise<Result<RepositoryFormData>> {
+  try {
+    const headers: AxiosRequestConfig['headers'] = await this.getAuthHeaders();
+    if (!headers) {
+      throw new Error('Access token not found.');
+    }
+
+    const response = await api.put(`/organizations/${organizationId}/products/${productId}/repositories/${repositoryId}/`, data, { headers });
+    return { type: 'success', value: response?.data };
+  } catch (err) {
+    return { type: 'error', error: new Error('Failed to update repository.') };
+  }
+}
+
 
   async deleteRepository(organizationId: string, productId: string, repositoryId: string): Promise<Result<void>> {
     try {

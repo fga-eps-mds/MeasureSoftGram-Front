@@ -1,6 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FC } from 'react';
 import Head from 'next/head';
-import { Box, Container, Typography, TextField, Button, Snackbar } from '@mui/material';
+import {
+  Grid,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Box,
+  Container,
+  Typography,
+  TextField,
+  Button,
+  Snackbar,
+} from '@mui/material';
+import { FaGithub, FaGitlab, FaBitbucket } from 'react-icons/fa';
 import { NextPageWithLayout } from '@pages/_app.next';
 import getLayout from '@components/Layout';
 import { useRouter } from 'next/router';
@@ -20,7 +33,18 @@ const RepositoryForm: NextPageWithLayout = () => {
     name: '',
     description: '',
     url: '',
+    platform: 'github',
   });
+
+  const GithubIcon: FC = () => <FaGithub />;
+  const GitlabIcon: FC = () => <FaGitlab />;
+  const BitbucketIcon: FC = () => <FaBitbucket />;
+
+  const platforms = [
+    { value: 'github', label: 'GitHub', icon: <GithubIcon /> },
+    { value: 'gitlab', label: 'GitLab', icon: <GitlabIcon /> },
+    { value: 'bitbucket', label: 'Bitbucket', icon: <BitbucketIcon /> },
+  ];
 
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -55,7 +79,11 @@ const RepositoryForm: NextPageWithLayout = () => {
         setOpenSnackbar(true);
         router.push(`/products/${currentOrganization?.id}-${currentProduct?.id}/repositories`);
       } else {
-        throw new Error(result.error?.message || 'An error occurred');
+        toast.error('Erro ao criar o repositório!');
+        setErrorMessage('Erro ao criar o repositório.');
+        setSuccessMessage('');
+        setOpenSnackbar(true);
+        console.error('Error creating repository:', result.error?.message || 'An error occurred');
       }
     } catch (error) {
       toast.error('Erro ao criar o repositório!');
@@ -82,56 +110,92 @@ const RepositoryForm: NextPageWithLayout = () => {
         <title>Cadastro de Repositório</title>
       </Head>
       <Container>
-        <Box display="flex" flexDirection="column" alignItems="center" marginTop="40px">
-          <Typography variant="h4" fontWeight="500">
-            Cadastro de Repositório
-          </Typography>
+        <Box display="flex" flexDirection="column" alignItems="flex-start" marginTop="40px">
+          <Typography variant="h4">Cadastro de Repositório</Typography>
           <form onSubmit={handleSubmit}>
-            <TextField
-              name="name"
-              label="Nome do Repositório"
-              variant="outlined"
-              value={repositoryData.name}
-              onChange={handleInputChange}
-              margin="normal"
-              fullWidth
-              required
-            />
-            <TextField
-              name="description"
-              label="Descrição"
-              variant="outlined"
-              value={repositoryData.description}
-              onChange={handleInputChange}
-              margin="normal"
-              fullWidth
-              multiline
-              rows={4}
-            />
-            <TextField
-              name="url"
-              label="URL do Repositório"
-              variant="outlined"
-              value={repositoryData.url}
-              onChange={handleInputChange}
-              margin="normal"
-              fullWidth
-            />
-            <TextField
-              name="product"
-              label="Produto"
-              variant="outlined"
-              value={currentProduct?.name || ''}
-              disabled
-              margin="normal"
-              fullWidth
-              required
-            />
-            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-              <Button type="submit" variant="contained" color="primary">
-                Criar
-              </Button>
-            </Box>
+            <Grid container spacing={3}>
+              <Grid item xs={6}>
+                <TextField
+                  name="product"
+                  label="Produto"
+                  variant="outlined"
+                  value={currentProduct?.name || ''}
+                  disabled
+                  margin="normal"
+                  fullWidth
+                  required
+                  InputProps={{
+                    style: { backgroundColor: '#f0f0f0' },
+                  }}
+                />
+                <TextField
+                  name="name"
+                  label="Nome do Repositório"
+                  variant="outlined"
+                  value={repositoryData.name}
+                  onChange={handleInputChange}
+                  margin="normal"
+                  fullWidth
+                  required
+                />
+                <TextField
+                  name="description"
+                  label="Descrição"
+                  variant="outlined"
+                  value={repositoryData.description}
+                  onChange={handleInputChange}
+                  margin="normal"
+                  fullWidth
+                  multiline
+                  rows={4}
+                />
+              </Grid>
+              <Grid item xs={6} style={{ paddingTop: '48px' }}>
+                <Typography variant="h6" gutterBottom>
+                  Sistema de Controle de Versão
+                </Typography>
+                <TextField
+                  name="url"
+                  label="URL do Repositório"
+                  variant="outlined"
+                  value={repositoryData.url}
+                  onChange={handleInputChange}
+                  margin="normal"
+                  fullWidth
+                />
+                <Box display="flex" alignItems="center" margin="normal">
+                  <FormControl style={{ flex: 1 }} margin="normal">
+                    <InputLabel id="platform-label">Plataforma</InputLabel>
+                    <Select
+                      labelId="platform-label"
+                      id="platform"
+                      value={repositoryData.platform}
+                      label="Plataforma"
+                      onChange={(e) => setRepositoryData({ ...repositoryData, platform: e.target.value as string })}
+                    >
+                      {platforms.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <Box ml={2} display="flex" alignItems="center">
+                    {platforms.find((p) => p.value === repositoryData.platform)?.icon &&
+                      React.cloneElement(platforms.find((p) => p.value === repositoryData.platform).icon, {
+                        size: '2em',
+                      })}
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid item xs={12}>
+                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                  <Button type="submit" variant="contained" color="primary">
+                    Criar
+                  </Button>
+                </Box>
+              </Grid>
+            </Grid>
           </form>
           <Snackbar
             open={openSnackbar}
