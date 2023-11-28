@@ -187,7 +187,7 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
 
   return (
     <>
-      <DrawerMenu open={open} buttons={BUTTONS}>
+      <DrawerMenu handleCloseModal={handleCloseModal} open={open} buttons={BUTTONS}>
         <Container>{renderStep()}</Container>
       </DrawerMenu>
 
@@ -207,6 +207,7 @@ function CreateReleaseContainer({
   organizationId,
   open,
   handleClose,
+
   currentProduct
 }: CreateReleaseContainerProps) {
   return (
