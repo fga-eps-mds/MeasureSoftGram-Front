@@ -4,21 +4,23 @@ import '@testing-library/jest-dom/extend-expect';
 import { OrganizationProvider } from '@contexts/OrganizationProvider';
 import Organizations from '../Organizations';
 
-const mockUseOrganizationQuery = () => ({
+const createMockUseOrganizationQuery = () => ({
   createOrganization: jest.fn(() => Promise.resolve({ type: 'success' })),
   getOrganizationById: jest.fn(() => Promise.resolve({ type: 'success', value: {} })),
   updateOrganization: jest.fn(() => Promise.resolve({ type: 'success' })),
 });
 
+const createMockGetAllUsers = () => jest.fn(() => Promise.resolve({
+  type: 'success',
+  value: {
+    results: [
+      { id: '1', first_name: 'Test', last_name: 'User', username: 'testuser' },
+    ],
+  },
+}));
+
 jest.mock('@services/user', () => ({
-  getAllUsers: jest.fn(() => Promise.resolve({
-    type: 'success',
-    value: {
-      results: [
-        { id: '1', first_name: 'Test', last_name: 'User', username: 'testuser' },
-      ],
-    },
-  })),
+  getAllUsers: createMockGetAllUsers(),
 }));
 
 jest.mock('react-toastify', () => ({
@@ -29,7 +31,7 @@ jest.mock('react-toastify', () => ({
 }));
 
 jest.mock('../hooks/useOrganizationQuery', () => ({
-  useOrganizationQuery: mockUseOrganizationQuery,
+  useOrganizationQuery: createMockUseOrganizationQuery(),
 }));
 
 describe('Organizations Component', () => {
@@ -42,18 +44,6 @@ describe('Organizations Component', () => {
   });
 
   it('handles user interactions and form submission', async () => {
-    const mockGetAllUsers = jest.fn(() => Promise.resolve({
-      type: 'success',
-      value: {
-        results: [
-          { id: '1', first_name: 'Test', last_name: 'User', username: 'testuser' },
-        ],
-      },
-    }));
-    jest.mock('@services/user', () => ({
-      getAllUsers: mockGetAllUsers,
-    }));
-
     setTimeout(() => {
       expect(true).toBeTruthy();
     }, 1000);
