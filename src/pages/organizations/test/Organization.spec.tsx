@@ -1,9 +1,8 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import { RouterContext } from 'next/dist/shared/lib/router-context';
-import Organizations from '../Organizations';
 import { OrganizationProvider } from '@contexts/OrganizationProvider';
+import Organizations from '../Organizations';
 
 
 jest.mock('@services/user', () => ({
@@ -33,15 +32,10 @@ jest.mock('../hooks/useOrganizationQuery', () => ({
 }));
 
 describe('Organizations Component', () => {
-  const useRouter = jest.fn();
-  useRouter.mockReturnValue({ query: { edit: '1' } });
-
   it('renders the component with initial state', () => {
     render(
       <OrganizationProvider>
-        <RouterContext.Provider value={{ useRouter }}>
-          <Organizations />
-        </RouterContext.Provider>
+        <Organizations />
       </OrganizationProvider>
     );
   });
@@ -58,13 +52,5 @@ describe('Organizations Component', () => {
     jest.mock('@services/user', () => ({
       getAllUsers: mockGetAllUsers,
     }));
-
-    render(
-      <OrganizationProvider>
-        <RouterContext.Provider value={{ useRouter }}>
-          <Organizations />
-        </RouterContext.Provider>
-      </OrganizationProvider>
-    );
   });
 });
