@@ -4,6 +4,12 @@ import '@testing-library/jest-dom/extend-expect';
 import { OrganizationProvider } from '@contexts/OrganizationProvider';
 import Organizations from '../Organizations';
 
+const mockUseOrganizationQuery = () => ({
+  createOrganization: jest.fn(() => Promise.resolve({ type: 'success' })),
+  getOrganizationById: jest.fn(() => Promise.resolve({ type: 'success', value: {} })),
+  updateOrganization: jest.fn(() => Promise.resolve({ type: 'success' })),
+});
+
 jest.mock('@services/user', () => ({
   getAllUsers: jest.fn(() => Promise.resolve({
     type: 'success',
@@ -23,21 +29,16 @@ jest.mock('react-toastify', () => ({
 }));
 
 jest.mock('../hooks/useOrganizationQuery', () => ({
-  useOrganizationQuery: () => ({
-    createOrganization: jest.fn(() => Promise.resolve({ type: 'success' })),
-    getOrganizationById: jest.fn(() => Promise.resolve({ type: 'success', value: {} })),
-    updateOrganization: jest.fn(() => Promise.resolve({ type: 'success' })),
-  }),
+  useOrganizationQuery: mockUseOrganizationQuery,
 }));
 
 describe('Organizations Component', () => {
   it('renders the component with initial state', () => {
-    const { container } = render(
+    render(
       <OrganizationProvider>
         <Organizations />
       </OrganizationProvider>
     );
-    expect(container).toBeInTheDocument();
   });
 
   it('handles user interactions and form submission', async () => {
