@@ -61,11 +61,24 @@ const RepositoryForm: NextPageWithLayout = () => {
     setRepositoryData({ ...repositoryData, [name]: value });
   };
 
+  const isValidUrl = (url: string) => {
+    const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/;
+    return urlRegex.test(url);
+  };
+
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!currentOrganization?.id || !currentProduct?.id) {
       await router.push('/home');
+      return;
+    }
+
+    if (repositoryData.url && !isValidUrl(repositoryData.url)) {
+      toast.error('URL do repositório inválida.');
+      setErrorMessage('URL do repositório inválida.');
+      setOpenSnackbar(true);
       return;
     }
 
