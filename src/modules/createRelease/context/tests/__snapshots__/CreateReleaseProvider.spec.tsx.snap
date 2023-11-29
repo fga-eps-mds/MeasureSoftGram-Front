@@ -21,7 +21,6 @@ Object {
         Denifir pesos
       </button>
       <button
-        data-testid="finish-release-planning"
         type="submit"
       >
         Cria metas
@@ -81,7 +80,6 @@ Object {
       Denifir pesos
     </button>
     <button
-      data-testid="finish-release-planning"
       type="submit"
     >
       Cria metas

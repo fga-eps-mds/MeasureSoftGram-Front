@@ -214,7 +214,7 @@ exports[`<Releases /> Deve corresponder ao snapshot 1`] = `
         </table>
       </div>
       <div
-        class="css-1pimw9g-MuiStack-root"
+        class="MuiStack-root css-qpqa5f-MuiStack-root"
       >
         <select
           data-testid="select-page"

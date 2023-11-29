@@ -10,7 +10,8 @@ jest.mock('@modules/createRelease/context/useCreateRelease', () => ({
     releaseInfoForm: {
       characteristics: ['reliability', 'maintainability'],
       endDate: '2022-09-25',
-      name: 'asdasd',
+      name: 'teste',
+      description: 'teste',
       startDate: '2022-09-18'
     },
     preConfigCharacteristics: ['reliability', 'maintainability'],
@@ -36,6 +37,7 @@ describe('<ReleaseInfo />', () => {
 
       act(() => {
         fireEvent.change(getByTestId('apelido-release'), { target: { value: 'aoba' } });
+        fireEvent.change(getByTestId('descricao-release'), { target: { value: 'aoba' } });
         fireEvent.change(getByTestId('inicio-release'), { target: { value: '2022-09-25' } });
         fireEvent.change(getByTestId('fim-release'), { target: { value: '2022-09-31' } });
       });
