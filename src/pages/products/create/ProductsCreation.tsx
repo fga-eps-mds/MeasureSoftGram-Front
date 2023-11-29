@@ -98,6 +98,7 @@ const ProductsCreation: OrganizationsType = () => {
               onChange={(e) => setName(e.target.value)}
               required
               sx={{ mb: 2 }}
+              data-testid="name-input"
             />
             <TextField
               select
