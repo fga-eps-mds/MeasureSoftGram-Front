@@ -12,6 +12,7 @@ jest.mock('@modules/createRelease/context/useCreateRelease', () => ({
     releaseInfoForm: {
       characteristics: ['reliability', 'maintainability'],
       endDate: '2022-09-25',
+      description: 'asdasd',
       name: 'asdasd',
       startDate: '2022-09-18'
     },

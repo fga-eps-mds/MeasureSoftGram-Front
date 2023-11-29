@@ -7,11 +7,11 @@ exports[`SideMenuItem should render the SideMenuItem component 1`] = `
   >
     <div
       aria-label="Tooltip Text"
-      class="styles__Wrapper-sc-13gge7k-0 bFLHog"
+      class="styles__Wrapper-sc-13gge7k-0 PRxzx"
       data-mui-internal-clone-element="true"
     >
       <div
-        class="styles__IconContainer-sc-13gge7k-1 hPWhSD"
+        class="styles__IconContainer-sc-13gge7k-1 iqhYai"
       >
         <svg
           fill="none"
@@ -58,11 +58,11 @@ exports[`SideMenuItem should render the SideMenuItem component with disable 1`] 
   >
     <div
       aria-label="Tooltip Text"
-      class="styles__Wrapper-sc-13gge7k-0 bFLHog"
+      class="styles__Wrapper-sc-13gge7k-0 PRxzx"
       data-mui-internal-clone-element="true"
     >
       <div
-        class="styles__IconContainer-sc-13gge7k-1 hPWhSD"
+        class="styles__IconContainer-sc-13gge7k-1 iqhYai"
       >
         <svg
           fill="none"
@@ -109,11 +109,11 @@ exports[`SideMenuItem should render the SideMenuItem component with endIcon 1`] 
   >
     <div
       aria-label="Tooltip Text"
-      class="styles__Wrapper-sc-13gge7k-0 bFLHog"
+      class="styles__Wrapper-sc-13gge7k-0 PRxzx"
       data-mui-internal-clone-element="true"
     >
       <div
-        class="styles__IconContainer-sc-13gge7k-1 hPWhSD"
+        class="styles__IconContainer-sc-13gge7k-1 iqhYai"
       >
         <svg
           fill="none"
@@ -191,11 +191,11 @@ exports[`SideMenuItem should render the SideMenuItem component with onClick 1`] 
   >
     <div
       aria-label="Tooltip Text"
-      class="styles__Wrapper-sc-13gge7k-0 bFLHog"
+      class="styles__Wrapper-sc-13gge7k-0 PRxzx"
       data-mui-internal-clone-element="true"
     >
       <div
-        class="styles__IconContainer-sc-13gge7k-1 hPWhSD"
+        class="styles__IconContainer-sc-13gge7k-1 iqhYai"
       >
         <svg
           fill="none"
@@ -242,11 +242,11 @@ exports[`SideMenuItem should render the SideMenuItem component with selected 1`]
   >
     <div
       aria-label="Tooltip Text"
-      class="styles__Wrapper-sc-13gge7k-0 hidrib"
+      class="styles__Wrapper-sc-13gge7k-0 gwifLq"
       data-mui-internal-clone-element="true"
     >
       <div
-        class="styles__IconContainer-sc-13gge7k-1 hPWhSD"
+        class="styles__IconContainer-sc-13gge7k-1 iqhYai"
       >
         <svg
           fill="none"

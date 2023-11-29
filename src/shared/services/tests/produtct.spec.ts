@@ -50,7 +50,7 @@ describe('ProductQuery', () => {
     const data = {
       name: 'test',
       data: {
-        characteristics: [],  // Add the appropriate type and value for the characteristics property.
+        characteristics: [], // Add the appropriate type and value for the characteristics property.
         test: 'test'
       }
     };
@@ -88,7 +88,7 @@ describe('ProductQuery', () => {
       end_at: new Date().toISOString(),
       changes: []
     } as unknown as ReleaseGoal;
-    await productQuery.createProductReleaseGoal(organizationId, productId, data);
+    await productQuery.createProductGoal(organizationId, productId, data);
     expect(api.post).toHaveBeenCalledWith(`organizations/${organizationId}/products/${productId}/create/goal/`, data);
   });
 
@@ -136,7 +136,7 @@ describe('ProductQuery', () => {
     const organizationId = '1';
     const productId = '2';
     const expectedResult = {
-      url: `organizations/${organizationId}/products/${productId}/release/`,
+      url: `organizations/${organizationId}/products/${productId}/create/release/`,
       method: 'get'
     };
 
@@ -147,9 +147,7 @@ describe('ProductQuery', () => {
     const organizationId = '1';
     const productId = '2';
     await productQuery.getCurrentReleaseGoal(organizationId, productId);
-    expect(api.get).toHaveBeenCalledWith(
-      `organizations/${organizationId}/products/${productId}/current/goal/`
-    );
+    expect(api.get).toHaveBeenCalledWith(`organizations/${organizationId}/products/${productId}/current/goal/`);
   });
 
   afterEach(() => {

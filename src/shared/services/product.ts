@@ -13,6 +13,7 @@ import {
 import { Data } from '@customTypes/preConfig';
 
 import { AxiosError, AxiosRequestConfig } from 'axios';
+import { NewCreateReleaseData } from '@modules/createRelease/context/useCreateRelease';
 import api from './api';
 import { getAccessToken } from './Auth';
 
@@ -101,8 +102,13 @@ class ProductQuery {
     return api.get<Array<EntitiesMetrics>>(url);
   }
 
-  async createProductReleaseGoal(organizationId: string, productId: string, data: ReleaseGoal) {
+  async createProductGoal(organizationId: string, productId: string, data: ReleaseGoal) {
     const url = `organizations/${organizationId}/products/${productId}/create/goal/`;
+    return api.post(url, data);
+  }
+
+  async createProductRelease(organizationId: string, productId: string, data: NewCreateReleaseData) {
+    const url = `organizations/${organizationId}/products/${productId}/create/release/`;
     return api.post(url, data);
   }
 
@@ -127,11 +133,11 @@ class ProductQuery {
   }
 
   getReleaseList(organizationId: string, productId: string, releaseId?: number): AxiosRequestConfig {
-    const url = `organizations/${organizationId}/products/${productId}/release/`;
+    const url = `organizations/${organizationId}/products/${productId}/create/release/`;
     return {
       url,
-      method: 'get',
-      params: releaseId && { release_id: releaseId }
+      method: 'get'
+      // params: releaseId && { release_id: releaseId }
     };
   }
 

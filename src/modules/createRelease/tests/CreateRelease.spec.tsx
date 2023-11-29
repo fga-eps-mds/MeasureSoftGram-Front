@@ -24,6 +24,8 @@ jest.mock('@modules/createRelease/context/useCreateRelease', () => ({
       characteristics: ['reliability', 'maintainability'],
       endDate: '2022-09-25',
       name: 'asdasd',
+      description: 'asdasd',
+      goal: 1,
       startDate: '2022-09-18'
     },
     alertMessage: 'successOnCreation',
@@ -61,6 +63,9 @@ describe('<CreateRelease />', () => {
     fireEvent.click(nextButton);
     const backButton = getByTestId('back-button');
     expect(backButton).toBeDefined();
+    const cancelButton = getByTestId('cancel-button');
+    expect(cancelButton).toBeDefined();
+    fireEvent.click(cancelButton);
     fireEvent.click(backButton);
     fireEvent.click(backButton);
   });

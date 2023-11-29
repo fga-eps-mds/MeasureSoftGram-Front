@@ -1,22 +1,56 @@
 import React from 'react';
 
-import { Box, TextField } from '@mui/material';
+import { Box, Breadcrumbs, Link, TextField, Typography } from '@mui/material';
 import { useCreateReleaseContext } from '@modules/createRelease/context/useCreateRelease';
+import { useSnackbar } from 'notistack';
 import * as Styles from './styles';
 
-function ReleaseInfo() {
+
+function ReleaseInfo(props: any) {
+  const { setActiveStep } = props;
   const { releaseInfoForm, handleChangeForm, } =
     useCreateReleaseContext();
 
-  const { endDate, name, startDate } = releaseInfoForm;
-
+  const { endDate, name, description, startDate } = releaseInfoForm;
+  const { enqueueSnackbar } = useSnackbar()
+  const handleSnackbarError = () => {
+    enqueueSnackbar('Preencha as informações da release', { variant: 'error' })
+  }
   return (
     <>
       <Styles.Header>
-        <h1 style={{ color: '#33568E', fontWeight: '500' }}>Planejar Release</h1>
-        <p style={{ marginTop: '60px' }}>
-          Na etapa inicial do planejamento da release é possível definir seu nome e as datas de início e fim.
-        </p>
+        <h1 style={{ color: '#33568E', fontWeight: '500' }}>Planejamento de Release</h1>
+        <Breadcrumbs separator={<Box
+          component="span"
+          sx={{
+            width: 4,
+            height: 4,
+            borderRadius: '50%',
+            bgcolor: 'text.disabled',
+          }}
+        />} sx={{ fontSize: '14px' }}>
+
+          <Link sx={{
+            cursor: 'pointer',
+            textDecoration: 'none',
+            fontWeight: '800'
+          }} onClick={() => {
+            setActiveStep(0);
+          }} color="text.primary">Criar Release</Link>
+          <Link sx={{
+            cursor: 'pointer',
+            textDecoration: 'none',
+          }} onClick={() => {
+            handleSnackbarError()
+          }} color="text.secondary">Definir configuração do modelo</Link>
+          <Link sx={{
+            cursor: 'pointer',
+            textDecoration: 'none',
+          }} onClick={() => {
+            handleSnackbarError()
+          }} color="text.secondary">Balancear características</Link>
+
+        </Breadcrumbs>
       </Styles.Header>
 
       <Styles.Body>
@@ -33,6 +67,25 @@ function ReleaseInfo() {
             }}
             inputProps={{
               'data-testid': 'apelido-release'
+            }}
+            fullWidth
+          />
+
+          <TextField
+            label="Descrição da release"
+            style={{ marginBottom: '24px' }}
+            value={description}
+            multiline
+            minRows={3}
+            onChange={(e) => {
+              if (e.target.value.length <= 512) {
+                handleChangeForm('description', e.target.value);
+              } else {
+                enqueueSnackbar('A descrição deve ter no máximo 512 caracteres', { variant: 'error' })
+              }
+            }}
+            inputProps={{
+              'data-testid': 'descricao-release'
             }}
             fullWidth
           />
