@@ -33,24 +33,13 @@ describe('ProductQuery', () => {
     expect(api.get).toHaveBeenCalledWith(`organizations/${organizationId}/repository/${productId}/history/measures/`);
   });
 
-  // it('postPreConfig should call api.post with the right URL and data', async () => {
-  //   const organizationId = '1';
-  //   const productId = '2';
-  //   const data = { name: 'test', data: { test: 'test' } };
-  //   await productQuery.postPreConfig(organizationId, productId, data);
-  //   expect(api.post).toHaveBeenCalledWith(
-  //     `/organizations/${organizationId}/products/${productId}/create/pre-config/`,
-  //     data
-  //   );
-  // });
-
   it('postPreConfig should call api.post with the right URL and data', async () => {
     const organizationId = '1';
     const productId = '2';
     const data = {
       name: 'test',
       data: {
-        characteristics: [],  // Add the appropriate type and value for the characteristics property.
+        characteristics: [],  
         test: 'test'
       }
     };
