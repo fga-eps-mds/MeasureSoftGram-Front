@@ -11,11 +11,6 @@ import { TRANSLATION } from './consts';
 export function Breadcrumbs() {
   const router = useRouter();
 
-  function getPathName(name: string) {
-    const nameArray = name.split('-');
-    return nameArray.slice(1).join('-');
-  }
-
   const getCrumbs = () => {
     const { asPath } = router;
     const currentPath: string[] = [];
@@ -33,16 +28,18 @@ export function Breadcrumbs() {
           );
         }
 
+        const productName = path.replace(/^\d+-\d+-/, '');
+
         if (pathArray.length === index + 1)
           return (
             <Typography color="text.primary" variant="subtitle1" key={path}>
-              {TRANSLATION[path] || getPathName(path)}
+              {TRANSLATION[path] || decodeURIComponent(productName)}
             </Typography>
           );
 
         return (
           <Typography key={path} variant="subtitle1">
-            <Link href={`/${currentPath.join('/')}`}>{TRANSLATION[path] || getPathName(path)}</Link>
+            <Link href={`/${currentPath.join('/')}`}>{TRANSLATION[path] || decodeURIComponent(productName)}</Link>
           </Typography>
         );
       })
