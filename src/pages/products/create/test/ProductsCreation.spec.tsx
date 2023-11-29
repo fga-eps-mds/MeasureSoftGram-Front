@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import ProductsCreation from '../ProductsCreation';
 
 jest.mock('next/router', () => ({
@@ -39,5 +39,25 @@ describe('ProductsCreation Component', () => {
     const nameField = getByTestId('name-input');
 
     expect(nameField).toBeDefined();
+  });
+});
+
+describe('ProductsCreation Component', () => {
+  it('renders the "Organização" field', () => {
+    const { getByTestId } = render(<ProductsCreation />);
+
+    const orgField = getByTestId('org-input');
+
+    expect(orgField).toBeDefined();
+  });
+});
+
+describe('ProductsCreation Component', () => {
+  it('renders the "Descrição" field', () => {
+    const { getByTestId } = render(<ProductsCreation />);
+
+    const descriptionField = getByTestId('description-input');
+
+    expect(descriptionField).toBeDefined();
   });
 });
