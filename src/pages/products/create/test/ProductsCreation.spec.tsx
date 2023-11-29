@@ -32,10 +32,12 @@ jest.mock('../../hooks/useProductQuery', () => ({
   }),
 }));
 
-describe('Simple Test', () => {
-  it('checks a simple condition', () => {
-    const condition = true;
+describe('ProductsCreation Component', () => {
+  it('renders the "Nome" field', () => {
+    const { getByTestId } = render(<ProductsCreation />);
 
-    expect(condition).toBeTruthy();
+    const nameField = getByTestId('name-input');
+
+    expect(nameField).toBeDefined();
   });
 });
