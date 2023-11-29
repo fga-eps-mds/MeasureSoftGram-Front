@@ -33,20 +33,22 @@ jest.mock('../../hooks/useProductQuery', () => ({
 }));
 
 describe('ProductsCreation Component', () => {
-  const { getByTestId } = render(<ProductsCreation />);
   it('renders the "Nome" field', () => {
+    const { getByTestId } = render(<ProductsCreation />);
     const nameField = getByTestId('name-input');
 
     expect(nameField).toBeDefined();
   });
 
   it('renders the "Organização" field', () => {
+    const { getByTestId } = render(<ProductsCreation />);
     const orgField = getByTestId('org-input');
 
     expect(orgField).toBeDefined();
   });
 
   it('renders the "Descrição" field', () => {
+    const { getByTestId } = render(<ProductsCreation />);
     const descriptionField = getByTestId('description-input');
 
     expect(descriptionField).toBeDefined();
