@@ -46,7 +46,12 @@ export function Breadcrumbs() {
           </Typography>
         );
       })
-      // ?.filter((data) => data.key !== 'releases' && !Number.isNaN(data?.key)); // remove releases key;
+
+    paths.unshift(
+      <Typography color="text.primary" variant="subtitle1" key="organizations">
+        Organizações
+      </Typography>
+    );
 
     paths.unshift(
       <Link key="/home" href="/home">
@@ -64,9 +69,9 @@ export function Breadcrumbs() {
           />
         </Box>
       </Link>
-    )
+    );
 
-    return paths
+    return paths;
   };
 
   return (
@@ -74,10 +79,10 @@ export function Breadcrumbs() {
       sx={{
         display: "flex",
         flexDirection: "column"
-        }}
+      }}
     >
       <BreadcrumbsMUI
-        separator={ <NavigateNextIcon fontSize="small" /> }
+        separator={<NavigateNextIcon fontSize="small" />}
         sx={{
           display: "flex",
           alignItems: "center",
@@ -100,5 +105,5 @@ export function Breadcrumbs() {
         }}
       />
     </Box>
-);
+  );
 }
