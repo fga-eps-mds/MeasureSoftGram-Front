@@ -22,6 +22,16 @@ import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import { useProductContext } from '@contexts/ProductProvider';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import axios, { AxiosError } from 'axios';
+
+interface ApiErrorResponse {
+  name?: string[];
+  non_field_errors?: string[];
+}
+
+const GitHubIcon: FC = () => <FaGithub />;
+const GitlabIcon: FC = () => <FaGitlab />;
+const BitbucketIcon: FC = () => <FaBitbucket />;
 
 const RepositoryForm: NextPageWithLayout = () => {
   const router = useRouter();
@@ -36,12 +46,8 @@ const RepositoryForm: NextPageWithLayout = () => {
     platform: 'github',
   });
 
-  const GithubIcon: FC = () => <FaGithub />;
-  const GitlabIcon: FC = () => <FaGitlab />;
-  const BitbucketIcon: FC = () => <FaBitbucket />;
-
   const platforms = [
-    { value: 'github', label: 'GitHub', icon: <GithubIcon /> },
+    { value: 'github', label: 'GitHub', icon: <GitHubIcon /> },
     { value: 'gitlab', label: 'GitLab', icon: <GitlabIcon /> },
     { value: 'bitbucket', label: 'Bitbucket', icon: <BitbucketIcon /> },
   ];
@@ -58,12 +64,12 @@ const RepositoryForm: NextPageWithLayout = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    try {
-      if (!currentOrganization?.id || !currentProduct?.id) {
-        await router.push('/home');
-        return;
-      }
+    if (!currentOrganization?.id || !currentProduct?.id) {
+      await router.push('/home');
+      return;
+    }
 
+    try {
       const result = await handleRepositoryAction(
         'create',
         currentOrganization?.id || '',
@@ -75,24 +81,44 @@ const RepositoryForm: NextPageWithLayout = () => {
       if (result.type === 'success') {
         toast.success('Repositório criado com sucesso!');
         setSuccessMessage('Repositório criado com sucesso!');
-        setErrorMessage('');
         setOpenSnackbar(true);
         router.push(`/products/${currentOrganization?.id}-${currentProduct?.id}/repositories`);
-      } else {
-        toast.error('Erro ao criar o repositório!');
-        setErrorMessage('Erro ao criar o repositório.');
-        setSuccessMessage('');
-        setOpenSnackbar(true);
-        console.error('Error creating repository:', result.error?.message || 'An error occurred');
+      } else if (result.type === 'error') {
+        handleResultError(result.error);
       }
-    } catch (error) {
-      toast.error('Erro ao criar o repositório!');
-      setErrorMessage('Erro ao criar o repositório.');
-      setSuccessMessage('');
-      setOpenSnackbar(true);
-      console.error('Error creating repository:', error instanceof Error ? error.message : error);
+    } catch (error: any) {
+      handleCatchError(error);
     }
   };
+
+  function handleResultError(error: any) {
+    let errorMsg = error?.message || 'Erro ao criar repositório.';
+    if (error?.response?.data?.non_field_errors?.includes('Repository with this name already exists.')) {
+      errorMsg = 'Já existe um repositório com este nome.';
+    }
+
+    toast.error(errorMsg);
+    setErrorMessage(errorMsg);
+    setOpenSnackbar(true);
+  }
+
+  function handleCatchError(error: any) {
+    let errorMsg = 'Erro desconhecido ao criar repositório.';
+    if (axios.isAxiosError(error) && error.response) {
+      const apiError = error.response.data as ApiErrorResponse;
+      if (apiError.non_field_errors?.includes('Repository with this name already exists.')) {
+        errorMsg = 'Já existe um repositório com este nome.';
+      } else if (apiError.non_field_errors) {
+        errorMsg = apiError.non_field_errors[0];
+      }
+    }
+
+    toast.error(errorMsg);
+    setErrorMessage(errorMsg);
+    setOpenSnackbar(true);
+  }
+
+
 
   useEffect(() => {
     if (!currentOrganization?.id || !currentProduct?.id) {

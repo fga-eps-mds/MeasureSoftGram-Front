@@ -1,4 +1,4 @@
-import { AxiosRequestConfig, AxiosError } from 'axios';
+import axios, { AxiosRequestConfig, AxiosError } from 'axios';
 import api from './api';
 import { getAccessToken } from '@services/Auth';
 
@@ -17,9 +17,8 @@ interface HistoricalCharacteristicsProps {
 }
 
 export type ResultSuccess<T> = { type: 'success'; value: T };
-export type ResultError = { type: 'error'; error: Error };
+export type ResultError = { type: 'error'; error: Error | AxiosError | any };
 export type Result<T> = ResultSuccess<T> | ResultError;
-
 class Repository {
   private async getAuthHeaders(): Promise<AxiosRequestConfig['headers']> {
     try {
@@ -37,19 +36,23 @@ class Repository {
     }
   }
 
-async createRepository(organizationId: string, productId: string, data: RepositoryFormData): Promise<Result<RepositoryFormData>> {
-  try {
-    const headers: AxiosRequestConfig['headers'] = await this.getAuthHeaders();
-    if (!headers) {
-      throw new Error('Access token not found.');
-    }
+  async createRepository(organizationId: string, productId: string, data: RepositoryFormData): Promise<Result<RepositoryFormData>> {
+    try {
+      const headers: AxiosRequestConfig['headers'] = await this.getAuthHeaders();
+      if (!headers) {
+        throw new Error('Access token not found.');
+      }
 
-    const response = await api.post(`/organizations/${organizationId}/products/${productId}/repositories/`, data, { headers });
-    return { type: 'success', value: response?.data };
-  } catch (err) {
-    return { type: 'error', error: new Error('Failed to create repository.') };
+      const response = await api.post(`/organizations/${organizationId}/products/${productId}/repositories/`, data, { headers });
+      return { type: 'success', value: response?.data };
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        return { type: 'error', error: err };
+      }
+      return { type: 'error', error: new Error('Failed to create repository.') };
+    }
   }
-}
+
 
 async updateRepository(organizationId: string, productId: string, repositoryId: string, data: RepositoryFormData): Promise<Result<RepositoryFormData>> {
   try {
