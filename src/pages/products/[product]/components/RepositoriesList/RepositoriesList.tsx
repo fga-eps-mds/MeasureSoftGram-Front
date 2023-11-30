@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useRouter } from 'next/router';
-import { toast } from 'react-toastify';
-import { IconButton, Box, Typography, Container, Button, Modal, Table, TableBody, TableRow, TableCell } from '@mui/material';
+import { IconButton, Box, Typography, Container, Button, Table, TableBody, TableRow, TableCell } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
@@ -17,27 +16,9 @@ function RepositoriesList() {
   const { currentOrganization } = useOrganizationContext();
   const router = useRouter();
 
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [repositoryToDelete, setRepositoryToDelete] = useState<any>(null);
-
   const pushToRepositoriesPath = () => {
     const repositoriesPath = `/products/${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/repositories`;
     void router.push(repositoriesPath).catch((error: any) => toast.error(error));
-  };
-
-  const handleDelete = async () => {
-    if (repositoryToDelete) {
-      // Lógica para deletar o repositório
-      // ...
-
-      // Fechar o modal depois de deletar
-      setShowDeleteModal(false);
-    }
-  };
-
-  const openDeleteModal = (repository: any) => {
-    setRepositoryToDelete(repository);
-    setShowDeleteModal(true);
   };
 
   if (!repositoryList) {
@@ -66,7 +47,6 @@ function RepositoriesList() {
             </IconButton>
           </Typography>
 
-          {/* Lista de repositórios */}
           <RepositoriesTable maxCount={10}>
             <Table>
               <TableBody>
@@ -76,7 +56,7 @@ function RepositoriesList() {
                     <TableCell>
                       <IconButton
                         aria-label="delete"
-                        onClick={() => openDeleteModal(repository)}
+                        onClick={() => {/* Implemente a lógica de delete aqui, se necessário */ }}
                       >
                         <DeleteIcon />
                       </IconButton>
@@ -87,20 +67,6 @@ function RepositoriesList() {
             </Table>
           </RepositoriesTable>
 
-          {/* Modal */}
-          <Modal
-            open={showDeleteModal}
-            onClose={() => setShowDeleteModal(false)}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <Box sx={{ /* Estilos para o modal */ }}>
-              <Typography variant="h6">Tem certeza que deseja excluir este repositório?</Typography>
-              <Button onClick={handleDelete}>Confirmar Exclusão</Button>
-            </Box>
-          </Modal>
-
-          {/* Botão "Ver Mais" */}
           <Box display="flex" flexDirection="column" mt="10px" alignItems="center">
             <Button onClick={() => pushToRepositoriesPath()} variant="text">
               VER MAIS...

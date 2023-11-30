@@ -9,8 +9,8 @@ import useRequireAuth from '@hooks/useRequireAuth';
 import { useQuery } from './hooks/useQuery';
 import ProductContent from './components/ProductContent';
 
-import RepositoriesList from './components/RepositoriesList';
-import ReleasesList from './components/ReleasesList';
+// import RepositoriesList from './components/RepositoriesList';
+// import ReleasesList from './components/ReleasesList';
 
 const Product: NextPageWithLayout = () => {
   useRequireAuth();
@@ -23,8 +23,8 @@ const Product: NextPageWithLayout = () => {
       </Head>
 
       <ProductContent repositoriesTsqmiHistory={repositoriesTsqmiHistory} />
-      <RepositoriesList />
-      <ReleasesList />
+      {/*<RepositoriesList />*/}
+      {/*<ReleasesList />*/}
     </>
   );
 };

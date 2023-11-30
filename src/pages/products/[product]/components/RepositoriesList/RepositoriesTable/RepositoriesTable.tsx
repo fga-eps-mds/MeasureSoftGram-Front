@@ -11,6 +11,7 @@ import { Repository } from '@customTypes/repository';
 import SearchButton from '@components/SearchButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useQuery } from '../../../repositories/hooks/useQuery';
+import ConfirmationModal from '@components/ConfirmationModal';
 
 interface Props {
   maxCount?: number;
@@ -24,6 +25,8 @@ const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
   const { handleRepositoryAction } = useQuery();
 
   const [filteredRepositories, setFilteredRepositories] = useState<Repository[]>([]);
+  const [repositoryToDelete, setRepositoryToDelete] = useState<Repository | null>(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const handleClickRedirects = (id: string) => {
     const path = `/products/${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/repositories/${id}`;
@@ -43,31 +46,29 @@ const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
     setFilteredRepositories([...repositoriesWithName]);
   }
 
-  const handleDelete = async (repository: Repository) => {
-    if (!currentOrganization || !currentProduct) {
-      console.log('currentOrganization ou currentProduct não estão definidos corretamente');
-      return;
-    }
+  const openDeleteModal = (repository: Repository) => {
+    setRepositoryToDelete(repository);
+    setShowDeleteModal(true);
+  };
 
-    try {
-      console.log('Executando exclusão...');
-      const result = await handleRepositoryAction('delete', currentOrganization.id, currentProduct.id, repository.id, null); // Chama a função handleRepositoryAction para deletar
+  const confirmDelete = async () => {
+    if (repositoryToDelete && currentOrganization && currentProduct) {
+      try {
+        const result = await handleRepositoryAction('delete', currentOrganization.id, currentProduct.id, repositoryToDelete.id, null);
 
-      console.log('Resultado da exclusão:', result);
-
-      if (result.type === 'success') {
-        const updatedRepositoryList = repositoryList?.filter(
-          (repo) => repo.id !== repository.id
-        );
-        setRepositoryList(updatedRepositoryList);
-
-        toast.success('Repositório excluído com sucesso!');
-      } else {
-        toast.error('Erro ao excluir o repositório.');
+        if (result.type === 'success') {
+          const updatedRepositoryList = repositoryList?.filter((repo) => repo.id !== repositoryToDelete.id);
+          setRepositoryList(updatedRepositoryList);
+          toast.success('Repositório excluído com sucesso!');
+        } else {
+          toast.error('Erro ao excluir o repositório.');
+        }
+      } catch (error) {
+        console.error('Error deleting repository:', error instanceof Error ? error.message : error);
       }
-    } catch (error) {
-      console.error('Error deleting repository:', error instanceof Error ? error.message : error);
     }
+
+    setShowDeleteModal(false);
   };
 
   useEffect(() => {
@@ -108,7 +109,7 @@ const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
                 {repo.name}
               </TableCell>
               <TableCell align="right">
-                <IconButton aria-label="delete" onClick={() => handleDelete(repo)}>
+                <IconButton aria-label="delete" onClick={() => openDeleteModal(repo)}>
                   <DeleteIcon />
                 </IconButton>
               </TableCell>
@@ -116,9 +117,14 @@ const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
           ))}
         </TableBody>
       </Table>
+      <ConfirmationModal
+        open={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        itemName={repositoryToDelete?.name ?? ''}
+        onConfirm={confirmDelete}
+      />
     </TableContainer>
   );
 };
-
 
 export default RepositoriesTable;
