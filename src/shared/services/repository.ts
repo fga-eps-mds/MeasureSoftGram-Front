@@ -21,6 +21,15 @@ class Repository {
         `/historical-values/${entity}/`
     );
   }
+
+  getLatest(props: HistoricalCharacteristicsProps) {
+    const { organizationId, entity, productId, repositoryId } = props;
+    return api.get(
+      `organizations/${organizationId}` +
+        `/products/${productId}/repositories/${repositoryId}` +
+        `/latest-values/${entity}/`
+    );
+  }
 }
 
 export const repository = new Repository();

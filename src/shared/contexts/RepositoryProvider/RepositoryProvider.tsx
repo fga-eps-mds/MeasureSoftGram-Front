@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, ReactNode, useMemo } from 'react';
 
-import { Repository, Historical } from '@customTypes/repository';
+import { Repository, Historical, Result } from '@customTypes/repository';
 
 interface Props {
   children: ReactNode;
@@ -21,6 +21,8 @@ interface IRepositoryContext {
   setMetrics: (metrics: string[]) => void;
   historicalTSQMI: Historical;
   setHistoricalTSQMI: (historical: Historical) => void;
+  latestTSQMI: Result;
+  setLatestTSQMI: (result: Result) => void;
 }
 
 const RepositoryContext = createContext<IRepositoryContext | undefined>(undefined);
@@ -34,6 +36,8 @@ export function RepositoryProvider({ children }: Props) {
   const [measures, setMeasures] = useState<string[]>([]);
   const [metrics, setMetrics] = useState<string[]>([]);
   const [historicalTSQMI, setHistoricalTSQMI] = useState<Historical>();
+  const [latestTSQMI, setLatestTSQMI] = useState<Result>();
+
 
   const value = useMemo(
     () => ({
@@ -50,9 +54,11 @@ export function RepositoryProvider({ children }: Props) {
       metrics,
       setMetrics,
       historicalTSQMI,
-      setHistoricalTSQMI
+      setHistoricalTSQMI,
+      latestTSQMI,
+      setLatestTSQMI
     }),
-    [currentRepository, repositoryList, characteristics, subCharacteristics, measures, metrics, historicalTSQMI]
+    [currentRepository, repositoryList, characteristics, subCharacteristics, measures, metrics, historicalTSQMI, latestTSQMI]
   );
 
   return <RepositoryContext.Provider value={value}>{children}</RepositoryContext.Provider>;
