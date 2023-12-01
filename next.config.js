@@ -12,7 +12,10 @@ const nextConfig = {
     ignoreBuildErrors: true,
     tsconfigPath: './tsconfig.json'
   },
-  pageExtensions: ['page.ts', 'page.tsx', 'next.tsx', 'next.ts']
+  pageExtensions: ['page.ts', 'page.tsx', 'next.tsx', 'next.ts'],
+  devIndicators: {
+        buildActivity: false
+    }
 };
 
 module.exports = nextConfig;
