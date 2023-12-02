@@ -87,7 +87,7 @@ function Header() {
 
       const result = await updateProduct(productId, productData);
       if (result.type === 'success') {
-        toast.success('Intervalos atualizados com sucesso!!!');
+        toast.success('Intervalos atualizados com sucesso!');
         setCurrentProduct(result.value);
       } else {
         toast.success('Erro ao atualizar intervalos!');

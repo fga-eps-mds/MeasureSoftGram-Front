@@ -24,6 +24,7 @@ import CustomTabs from './components/CustomTabs';
 import { useQuery } from './hooks/useQuery';
 import OptionsHeader from './components/OptionsHeader/OptionsHeader';
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
+import { toast } from 'react-toastify';
 
 const oneStarBadge = '/images/svg/badges/1stars.svg'
 const twoStarBadge = '/images/svg/badges/2stars.svg'
@@ -36,7 +37,7 @@ const Repository: NextPageWithLayout = () => {
   useRequireAuth();
   useQuery();
 
-  const { latestTSQMI } = useRepositoryContext();
+  const { latestTSQMI, latestTSQMIBadgeUrl } = useRepositoryContext();
 
   const [isHistoricCharacteristicOpen, setIsHistoricCharacteristicOpen] = useState(true);
   const [isHistoricSubCharacteristicOpen, setIsHistoricSubCharacteristicOpen] = useState(true);
@@ -87,6 +88,11 @@ const Repository: NextPageWithLayout = () => {
     }
   }
 
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(latestTSQMIBadgeUrl);
+    toast.success('Copiado com sucesso!');
+  }
+
   return (
     <Box display="flex" width="100%" flexDirection="row" marginTop="40px" marginBottom="24px">
       <Container ref={containerRef} sx={{ marginBottom: '150px' }}>
@@ -101,7 +107,7 @@ const Repository: NextPageWithLayout = () => {
                 cursor: 'pointer',
               }
             }}
-            onClick={() => { navigator.clipboard.writeText('lucas') }}
+            onClick={copyToClipboard}
           >
             <img src={badgePath} alt="Exemplo SVG" style={{ width: '120px', height: '25px' }} />
           </Box>

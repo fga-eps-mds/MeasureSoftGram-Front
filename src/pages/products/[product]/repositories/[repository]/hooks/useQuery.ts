@@ -22,7 +22,8 @@ export const useQuery = () => {
     setMeasures,
     setMetrics,
     setHistoricalTSQMI,
-    setLatestTSQMI
+    setLatestTSQMI,
+    setLatestTSQMIBadgeUrl
   } = useRepositoryContext();
 
   const [repositoryHistoricalCharacteristics, setRepositoryHistoricalCharacteristics] = useState<Historical[]>([]);
@@ -128,14 +129,16 @@ export const useQuery = () => {
       const array = new Uint32Array(1);
       const randomValue = crypto.getRandomValues(array)[0];
       const id = Math.round(randomValue * LARGE_PRIME_NUMBER);
-      const { data: result } = await repository.getLatest({
+      const props = {
         organizationId,
         productId,
         repositoryId,
         entity: 'tsqmi'
-      });
-
+      };
+      const { data: result } = await repository.getLatest(props);
+      const badgeUrl = repository.getTsqmiBadgeUrl(props);
       setLatestTSQMI(result);
+      setLatestTSQMIBadgeUrl(badgeUrl);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);

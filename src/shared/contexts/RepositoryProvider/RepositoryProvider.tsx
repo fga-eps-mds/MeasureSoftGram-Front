@@ -23,6 +23,8 @@ interface IRepositoryContext {
   setHistoricalTSQMI: (historical: Historical) => void;
   latestTSQMI: Result;
   setLatestTSQMI: (result: Result) => void;
+  latestTSQMIBadgeUrl: string;
+  setLatestTSQMIBadgeUrl: (result: string) => void;
 }
 
 const RepositoryContext = createContext<IRepositoryContext | undefined>(undefined);
@@ -37,6 +39,7 @@ export function RepositoryProvider({ children }: Props) {
   const [metrics, setMetrics] = useState<string[]>([]);
   const [historicalTSQMI, setHistoricalTSQMI] = useState<Historical>();
   const [latestTSQMI, setLatestTSQMI] = useState<Result>();
+  const [latestTSQMIBadgeUrl, setLatestTSQMIBadgeUrl] = useState<string>();
 
 
   const value = useMemo(
@@ -56,7 +59,9 @@ export function RepositoryProvider({ children }: Props) {
       historicalTSQMI,
       setHistoricalTSQMI,
       latestTSQMI,
-      setLatestTSQMI
+      setLatestTSQMI,
+      latestTSQMIBadgeUrl,
+      setLatestTSQMIBadgeUrl
     }),
     [currentRepository, repositoryList, characteristics, subCharacteristics, measures, metrics, historicalTSQMI, latestTSQMI]
   );
