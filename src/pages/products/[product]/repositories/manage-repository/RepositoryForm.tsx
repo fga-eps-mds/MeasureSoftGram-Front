@@ -27,6 +27,7 @@ import axios, { AxiosError } from 'axios';
 interface ApiErrorResponse {
   name?: string[];
   non_field_errors?: string[];
+  url?: string[];
 }
 
 const GitHubIcon: FC = () => <FaGithub />;
@@ -61,12 +62,6 @@ const RepositoryForm: NextPageWithLayout = () => {
     setRepositoryData({ ...repositoryData, [name]: value });
   };
 
-  const isValidUrl = (url: string) => {
-    const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/;
-    return urlRegex.test(url);
-  };
-
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -75,14 +70,8 @@ const RepositoryForm: NextPageWithLayout = () => {
       return;
     }
 
-    if (repositoryData.url && !isValidUrl(repositoryData.url)) {
-      toast.error('URL do repositório inválida.');
-      setErrorMessage('URL do repositório inválida.');
-      setOpenSnackbar(true);
-      return;
-    }
-
     try {
+      console.log("Enviando dados do repositório:", repositoryData);
       const result = await handleRepositoryAction(
         'create',
         currentOrganization?.id || '',
@@ -90,13 +79,13 @@ const RepositoryForm: NextPageWithLayout = () => {
         undefined,
         repositoryData
       );
+      console.log("Resultado da ação do repositório:", result);
 
       if (result.type === 'success') {
         toast.success('Repositório criado com sucesso!');
-        setSuccessMessage('Repositório criado com sucesso!');
-        setOpenSnackbar(true);
         router.push(`/products/${currentOrganization?.id}-${currentProduct?.id}/repositories`);
       } else if (result.type === 'error') {
+        console.log("Chamando handleResultError com:", result.error);
         handleResultError(result.error);
       }
     } catch (error: any) {
@@ -104,25 +93,43 @@ const RepositoryForm: NextPageWithLayout = () => {
     }
   };
 
-  function handleResultError(error: any) {
-    let errorMsg = error?.message || 'Erro ao criar repositório.';
-    if (error?.response?.data?.non_field_errors?.includes('Repository with this name already exists.')) {
-      errorMsg = 'Já existe um repositório com este nome.';
-    }
 
-    toast.error(errorMsg);
-    setErrorMessage(errorMsg);
-    setOpenSnackbar(true);
-  }
+  function handleResultError(error: AxiosError<ApiErrorResponse>) {
+    console.log("Error response:", error.response);
 
-  function handleCatchError(error: any) {
-    let errorMsg = 'Erro desconhecido ao criar repositório.';
-    if (axios.isAxiosError(error) && error.response) {
-      const apiError = error.response.data as ApiErrorResponse;
-      if (apiError.non_field_errors?.includes('Repository with this name already exists.')) {
-        errorMsg = 'Já existe um repositório com este nome.';
-      } else if (apiError.non_field_errors) {
-        errorMsg = apiError.non_field_errors[0];
+    let errorMsg = 'Erro ao criar repositório.';
+
+    if (error.response) {
+      const errorCode = error.response.status;
+      const errorData = error.response.data;
+
+      console.log("Error code:", errorCode);
+      console.log("Error data:", errorData);
+
+      if (errorCode === 400 && errorData && 'url' in errorData) {
+        const urlErrors = errorData.url;
+
+        if (Array.isArray(urlErrors) && urlErrors.length > 0) {
+          const urlErrorMessage = urlErrors[0];
+
+          switch (urlErrorMessage) {
+            case "The URL must start with http or https.":
+              console.log("Erro: A URL deve começar com http ou https.");
+              errorMsg = 'A URL deve começar com http ou https.';
+              break;
+            case "The repository's URL is not accessible.":
+              console.log("Erro: A URL do repositório não é acessível.");
+              errorMsg = 'A URL do repositório não é acessível.';
+              break;
+            case "Unable to verify the repository's URL.":
+              console.log("Erro: Não foi possível verificar a URL do repositório.");
+              errorMsg = 'Não foi possível verificar a URL do repositório.';
+              break;
+            default:
+              console.log("Erro padrão:", urlErrorMessage);
+              errorMsg = urlErrorMessage;
+          }
+        }
       }
     }
 
@@ -131,6 +138,19 @@ const RepositoryForm: NextPageWithLayout = () => {
     setOpenSnackbar(true);
   }
 
+
+
+  function handleCatchError(error: any) {
+    let errorMsg = 'Erro desconhecido ao criar repositório.';
+    if (axios.isAxiosError(error) && error.response) {
+      const apiError = error.response.data as ApiErrorResponse;
+      errorMsg = apiError.non_field_errors?.[0] || 'Erro ao criar repositório.';
+    }
+
+    toast.error(errorMsg);
+    setErrorMessage(errorMsg);
+    setOpenSnackbar(true);
+  }
 
 
   useEffect(() => {
