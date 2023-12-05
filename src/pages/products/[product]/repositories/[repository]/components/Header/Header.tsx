@@ -12,6 +12,7 @@ import { ProductFormData } from '@services/product';
 import { toNumber } from 'lodash';
 import { useProductQuery } from '@pages/products/hooks/useProductQuery';
 import GaugeSlider from '../GaugeSlider';
+import CopyBadgeModal from '../CopyBadgeModal';
 
 function Header() {
   const { currentProduct, setCurrentProduct } = useProductContext();
@@ -31,7 +32,16 @@ function Header() {
     if (initialValues && !values) {
       setValues(initialValues);
     }
-  }, [initialValues])
+  }, [initialValues]);
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setValues(initialValues);
+    setOpenModal(false);
+  };
 
   const option = {
     series: {
@@ -64,15 +74,6 @@ function Header() {
         }
       }
     }
-  };
-
-  const handleOpenModal = () => {
-    setOpenModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setValues(initialValues);
-    setOpenModal(false);
   };
 
   const onSubmit = async () => {
@@ -116,6 +117,7 @@ function Header() {
         <IconButton onClick={handleOpenModal}>
           <SettingsIcon />
         </IconButton>
+        <CopyBadgeModal />
       </Box>
 
       <Modal
