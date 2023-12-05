@@ -12,7 +12,7 @@ import { AuthProvider } from '@contexts/Auth';
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useState } from 'react';
-import { Triangle } from 'react-loader-spinner';
+import { RotatingLines } from 'react-loader-spinner';
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement, disableBreadcrumb?: boolean) => typeof page;
@@ -69,7 +69,8 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         />
         <RepositoryProvider>
           <ProductProvider>
-            <Theme>{getLayout(<Component {...pageProps} />, disableBreadcrumb)}
+            <Theme>
+              {getLayout(<Component {...pageProps} />, disableBreadcrumb)}
               {
                 // <button class="btn btn-primary" type="button" disabled>
                 //   <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
@@ -78,26 +79,17 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
                 // loading ? <div class="spinner-border text-dark" role="status">
                 //   <span class="visually-hidden">Loading...</span>
                 // </div> : <div></div>
-                loading ? <div id="Loading" style={{
-                  backgroundColor: "red",
-                  position: "absolute",
-                  bottom: "150px",
-                  width: "50px",
-                  height: "50px",
-                  left: "95%",
-                  top: "90%"
-                }}>
-                </div> : <div></div>
-                // <Triangle
-                //   height="80"
-                //   width="80"
-                //   color="#33568e"
-                //   ariaLabel="triangle-loading"
-                //   wrapperStyle={{}}
-                //   wrapperClassName=""
-                //   visible={true}
-                // />
-              }
+                loading && (
+                  <div style={{ position: "fixed", left: "95%", top: "10%", transform: "translate(-50%, -50%)" }}>
+                    <RotatingLines
+                      strokeColor="#33568e"
+                      strokeWidth="5"
+                      width="50"
+                      animationDuration="0.75"
+                      timeout={3000}
+                    />
+                  </div>
+                )}
             </Theme>
           </ProductProvider>
         </RepositoryProvider>
