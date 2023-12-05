@@ -11,6 +11,7 @@ import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import { Repository } from '@customTypes/repository';
 import SearchButton from '@components/SearchButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import { useQuery } from '../../../repositories/hooks/useQuery';
 import ConfirmationModal from '@components/ConfirmationModal';
 import { FaGithub, FaGitlab, FaBitbucket, FaAws, FaCodeBranch } from 'react-icons/fa';
@@ -58,6 +59,10 @@ const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
   const [filteredRepositories, setFilteredRepositories] = useState<Repository[]>([]);
   const [repositoryToDelete, setRepositoryToDelete] = useState<Repository | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const handleEditClick = (repositoryId: string) => {
+    router.push(`/products/${currentOrganization?.id}-${currentProduct?.id}/repositories/manage-repository?id=${repositoryId}`);
+  };
 
   const handleClickRedirects = (id: string) => {
     const path = `/products/${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/repositories/${id}`;
@@ -157,6 +162,9 @@ const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
                 </Box>
               </TableCell>
               <TableCell align="right">
+                <IconButton aria-label="edit" onClick={() => router.push(`/products/${currentOrganization?.id}-${currentProduct?.id}/repositories/manage-repository?id=${repo.id}`)}>
+                  <EditIcon />
+                </IconButton>
                 <IconButton aria-label="delete" onClick={() => openDeleteModal(repo)}>
                   <DeleteIcon />
                 </IconButton>

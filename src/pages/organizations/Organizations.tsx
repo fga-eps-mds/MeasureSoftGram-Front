@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Head from 'next/head'; // Esta importação deve estar acima das importações relativas.
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import getLayout from '@components/Layout';
 import { toast } from 'react-toastify';

@@ -18,7 +18,8 @@ const Repositories: NextPageWithLayout = () => {
 
   const handleAddIconClick = () => {
     if (currentOrganization?.id && currentProduct?.id) {
-      router.push(`/products/${currentOrganization.id}-${currentProduct.id}/repositories/manage-repository`);
+
+      router.push(`/products/${currentOrganization.id}-${currentProduct.id}/repositories/manage-repository?mode=create`);
     } else {
       router.push('/home').catch((error) => console.error(error));
     }

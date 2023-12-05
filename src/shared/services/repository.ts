@@ -64,6 +64,9 @@ async updateRepository(organizationId: string, productId: string, repositoryId: 
     const response = await api.put(`/organizations/${organizationId}/products/${productId}/repositories/${repositoryId}/`, data, { headers });
     return { type: 'success', value: response?.data };
   } catch (err) {
+    if (axios.isAxiosError(err)) {
+      return { type: 'error', error: err };
+    }
     return { type: 'error', error: new Error('Failed to update repository.') };
   }
 }
