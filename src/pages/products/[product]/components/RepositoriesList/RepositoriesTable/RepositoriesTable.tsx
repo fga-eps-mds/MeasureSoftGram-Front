@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 
-import { TableContainer, Table, TableCell, TableHead, TableRow, TableBody, IconButton } from '@mui/material';
+import { TableContainer, Table, TableCell, TableHead, TableRow, TableBody, IconButton, Box } from '@mui/material';
 
+import { styled } from '@mui/material/styles';
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
 import { useProductContext } from '@contexts/ProductProvider';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
@@ -12,10 +13,40 @@ import SearchButton from '@components/SearchButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useQuery } from '../../../repositories/hooks/useQuery';
 import ConfirmationModal from '@components/ConfirmationModal';
+import { FaGithub, FaGitlab, FaBitbucket, FaAws, FaCodeBranch } from 'react-icons/fa';
+import { SiSubversion, SiMercurial, SiMicrosoftazure } from "react-icons/si";
 
 interface Props {
   maxCount?: number;
 }
+
+const HoverIcon = styled('span')(({ theme }) => ({
+  cursor: 'pointer',
+  transition: 'opacity 0.3s',
+  '&:hover': {
+    opacity: 0.7,
+  },
+}));
+
+const GitHubIcon: FC = () => <FaGithub size="1.5em" />;
+const GitlabIcon: FC = () => <FaGitlab size="1.5em" />;
+const BitbucketIcon: FC = () => <FaBitbucket size="1.5em" />;
+const SubversionIcon: FC = () => <SiSubversion size="1.5em" />;
+const MercurialIcon: FC = () => <SiMercurial size="1.5em" />;
+const AwsIcon: FC = () => <FaAws size="1.5em" />;
+const AzureIcon: FC = () => <SiMicrosoftazure size="1.5em" />;
+const OutrosIcon: FC = () => <FaCodeBranch size="1.5em" />;
+
+const platformIcons = {
+  'github': () => <FaGithub size="1.5em" />,
+  'gitlab': () => <FaGitlab size="1.5em" />,
+  'bitbucket': () => <FaBitbucket size="1.5em" />,
+  'subversion (SVN)': () => <SiSubversion size="1.5em" />,
+  'mercurial': () => <SiMercurial size="1.5em" />,
+  'aws code commit': () => <FaAws size="1.5em" />,
+  'azure repos': () => <SiMicrosoftazure size="1.5em" />,
+  'outros': () => <FaCodeBranch size="1.5em" />,
+};
 
 const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
   const { currentProduct } = useProductContext();
@@ -42,6 +73,8 @@ const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
       repositoryList?.filter((currentRepository: Repository) =>
         currentRepository.name.toLowerCase().includes(name.toLowerCase())
       ) ?? [];
+
+    console.log("Repositórios Filtrados:", repositoriesWithName);
 
     setFilteredRepositories([...repositoriesWithName]);
   }
@@ -75,6 +108,8 @@ const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
     if (repositoryList?.length) {
       setFilteredRepositories((prevState) => {
         const tempRepositoryList = [...repositoryList];
+        console.log("Repositórios Atuais:", tempRepositoryList);
+
         const prevString = JSON.stringify(prevState);
         const currentString = JSON.stringify(tempRepositoryList);
 
@@ -106,7 +141,20 @@ const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
           {filteredRepositories?.slice(0, maxCount ?? filteredRepositories.length).map((repo) => (
             <TableRow hover style={{ cursor: 'pointer' }} data-testid="repository-row" key={repo.id}>
               <TableCell colSpan={2} onClick={() => handleClickRedirects(`${repo.id}-${repo.name}`)}>
-                {repo.name}
+                <Box display="flex" alignItems="center">
+                  {repo.url ? (
+                    <a href={repo.url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                      <HoverIcon>
+                        {platformIcons[repo.platform] ? platformIcons[repo.platform]() : platformIcons['outros']()}
+                      </HoverIcon>
+                    </a>
+                  ) : (
+                    <HoverIcon>
+                      {platformIcons[repo.platform] ? platformIcons[repo.platform]() : platformIcons['outros']()}
+                    </HoverIcon>
+                  )}
+                  <span style={{ marginLeft: 10 }}>{repo.name}</span>
+                </Box>
               </TableCell>
               <TableCell align="right">
                 <IconButton aria-label="delete" onClick={() => openDeleteModal(repo)}>
