@@ -121,7 +121,7 @@ const Organizations: OrganizationsType = () => {
   return (
     <Container maxWidth="md" sx={{ mt: 4 }}>
       <Head>
-        <title>{isEditMode ? 'Editar Organização' : 'Cadastro de Organização'}</title>
+        <title data-testid="organization-title">{isEditMode ? 'Editar Organização' : 'Cadastro de Organização'}</title>
       </Head>
       <Typography variant="h4" gutterBottom>
         {isEditMode ? 'Editar Organização' : 'Cadastro de Organização'}
@@ -137,6 +137,7 @@ const Organizations: OrganizationsType = () => {
               onChange={(e) => setNome(e.target.value)}
               required
               sx={{ mb: 2 }}
+              data-testid="input-nome"
             />
             <TextField
               fullWidth
@@ -147,13 +148,14 @@ const Organizations: OrganizationsType = () => {
               multiline
               rows={4}
               sx={{ mb: 2 }}
+              data-testid="input-descricao"
             />
           </Grid>
           <Grid item xs={6}>
-            <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
+            <Typography variant="h6" gutterBottom sx={{ mb: 2 }} data-testid="membros-title">
               Membros
             </Typography>
-            <Button variant="contained" color="primary" onClick={handleOpenModal} sx={{ mb: 2 }}>
+            <Button variant="contained" color="primary" onClick={handleOpenModal} sx={{ mb: 2 }} data-testid="button-adicionar-membros">
               Adicionar Membros
             </Button>
           </Grid>
