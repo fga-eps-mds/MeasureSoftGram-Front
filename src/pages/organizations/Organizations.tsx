@@ -120,8 +120,8 @@ const Organizations: OrganizationsType = () => {
 
   return (
     <Container maxWidth="md" sx={{ mt: 4 }}>
-      <Head>
-        <title data-testid="organization-title">{isEditMode ? 'Editar Organização' : 'Cadastro de Organização'}</title>
+      <Head data-testid="organization-title">
+        <title>{isEditMode ? 'Editar Organização' : 'Cadastro de Organização'}</title>
       </Head>
       <Typography variant="h4" gutterBottom>
         {isEditMode ? 'Editar Organização' : 'Cadastro de Organização'}
