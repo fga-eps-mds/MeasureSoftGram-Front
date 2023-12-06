@@ -53,4 +53,9 @@ describe('ProductsCreation Component', () => {
 
     expect(descriptionField).toBeDefined();
   });
+
+  it('Deve corresponder ao Snapshot', () => {
+    const tree = render(<ProductsCreation />);
+    expect(tree).toMatchSnapshot();
+  });
 });
