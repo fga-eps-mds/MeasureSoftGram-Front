@@ -31,9 +31,7 @@ const Product: NextPageWithLayout = () => {
 
       <ProductContent repositoriesTsqmiHistory={repositoriesTsqmiHistory} />
 
-      {/* Container para alinhamento */}
       <div style={{ margin: '20px', paddingLeft: '15px' }}>
-        {/* Divisória Repositórios */}
         <div style={{ marginBottom: '20px' }}>
           <Typography variant="h5" gutterBottom>
             Repositórios
@@ -43,7 +41,6 @@ const Product: NextPageWithLayout = () => {
           </Button>
         </div>
 
-        {/* Divisória Releases */}
         <div style={{ marginBottom: '20px' }}>
           <Typography variant="h5" gutterBottom>
             Releases
@@ -54,7 +51,6 @@ const Product: NextPageWithLayout = () => {
         </div>
       </div>
 
-      {/* Comentários para as listas, se necessário no futuro */}
       {/*<RepositoriesList />*/}
       {/*<ReleasesList />*/}
     </>
