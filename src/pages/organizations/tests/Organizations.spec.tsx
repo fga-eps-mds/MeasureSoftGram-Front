@@ -28,4 +28,8 @@ describe('Organizations Component', () => {
     expect(getByTestId('button-adicionar-membros')).toBeDefined();
   });
 
+  it('Deve corresponder ao Snapshot', () => {
+    const tree = render(<Organizations />);
+    expect(tree).toMatchSnapshot();
+  });
 });
