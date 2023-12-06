@@ -7,7 +7,7 @@ function Skeleton() {
     <Box display="flex" flexDirection="column">
       <Box display="flex" flexDirection="row" alignItems="center" marginTop="35px" marginBottom="25px">
         <Box>
-          <Shimmer data-testid="primeiro-shimmer" variant="text" height={65} width={300} />
+          <Shimmer variant="text" height={65} width={300} />
         </Box>
       </Box>
       <Box marginBottom="10px" display="flex" alignItems="center">

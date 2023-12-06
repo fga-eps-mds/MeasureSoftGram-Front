@@ -15,8 +15,7 @@ Object {
             class="MuiBox-root css-0"
           >
             <span
-              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
-              data-testid="primeiro-shimmer"
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
               style="width: 300px; height: 65px;"
             />
           </div>
@@ -28,12 +27,12 @@ Object {
             class="MuiBox-root css-lvyu5j"
           >
             <span
-              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
               style="width: 250px; height: 60px;"
             />
           </div>
           <span
-            class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+            class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-wkdwxb-MuiSkeleton-root"
             style="width: 40px; height: 40px;"
           />
         </div>
@@ -51,8 +50,7 @@ Object {
           class="MuiBox-root css-0"
         >
           <span
-            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
-            data-testid="primeiro-shimmer"
+            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
             style="width: 300px; height: 65px;"
           />
         </div>
@@ -64,12 +62,12 @@ Object {
           class="MuiBox-root css-lvyu5j"
         >
           <span
-            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
             style="width: 250px; height: 60px;"
           />
         </div>
         <span
-          class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+          class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-wkdwxb-MuiSkeleton-root"
           style="width: 40px; height: 40px;"
         />
       </div>
