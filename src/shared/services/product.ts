@@ -141,22 +141,9 @@ class ProductQuery {
     };
   }
 
-  private async getAuthHeaders(): Promise<{ Authorization: string } | null> {
-    const tokenResult = await getAccessToken();
-    if (tokenResult.type === 'error' || !tokenResult.value.key) {
-      return null;
-    }
-
-    return { Authorization: `Token ${tokenResult.value.key}` };
-  }
-
   async createProduct(data: ProductFormData): Promise<Result<ProductFormData>> {
     try {
-      const headers = await this.getAuthHeaders();
-      if (!headers) {
-        throw new Error('Token de acesso não encontrado.');
-      }
-      const response = await api.post(`/organizations/${data.organizationId}/products/`, data, { headers });
+      const response = await api.post(`/organizations/${data.organizationId}/products/`, data);
       return { type: 'success', value: response?.data };
     } catch (err) {
       const error = err as AxiosError;
@@ -174,11 +161,7 @@ class ProductQuery {
 
   async deleteProduct(productId: string, organizationId: string | undefined): Promise<Result<void>> {
     try {
-      const headers = await this.getAuthHeaders();
-      if (!headers) {
-        throw new Error('Token de acesso não encontrado.');
-      }
-      const response = await api.delete(`/organizations/${organizationId}/products/${productId}/`, { headers });
+      const response = await api.delete(`/organizations/${organizationId}/products/${productId}/`);
       return { type: 'success', value: response?.data };
     } catch (err) {
       const error = err as AxiosError;
