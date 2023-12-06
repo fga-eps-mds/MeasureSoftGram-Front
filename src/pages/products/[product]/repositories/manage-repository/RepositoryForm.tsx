@@ -95,7 +95,7 @@ const RepositoryForm: NextPageWithLayout = () => {
       const fetchRepositoryData = async () => {
         try {
           const result = await repository.getRepository(currentOrganization.id, currentProduct.id, repositoryId);
-          console.log('Resultado da busca do repositório:', result);
+
 
           if (result.data) {
             setRepositoryData({
@@ -127,7 +127,7 @@ const RepositoryForm: NextPageWithLayout = () => {
     }
 
     try {
-      console.log("Enviando dados do repositório:", repositoryData);
+
       let result;
 
       if (isEditMode && router.query.id) {
@@ -152,7 +152,7 @@ const RepositoryForm: NextPageWithLayout = () => {
         toast.success(isEditMode ? 'Repositório atualizado com sucesso!' : 'Repositório criado com sucesso!');
         router.push(`/products/${currentOrganization?.id}-${currentProduct?.id}/repositories`);
       } else if (result.type === 'error') {
-        console.log("Chamando handleResultError com:", result.error);
+
         handleResultError(result.error);
       }
     } catch (error: any) {
@@ -161,15 +161,15 @@ const RepositoryForm: NextPageWithLayout = () => {
   };
 
   function handleResultError(error: AxiosError<ApiErrorResponse>) {
-    console.log("Error response:", error.response);
+
 
     let errorMsg = 'Erro ao criar/atualizar repositório.';
     if (error.response) {
       const errorCode = error.response.status;
       const errorData = error.response.data;
 
-      console.log("Error code:", errorCode);
-      console.log("Error data:", errorData);
+
+
 
       if (errorCode === 400 && errorData.non_field_errors) {
         if (errorData.non_field_errors.includes("Repository with this name already exists.")) {

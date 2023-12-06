@@ -27,7 +27,7 @@ class Repository {
         return {};
       }
 
-      console.log('Authentication Token:', `Token ${tokenResult.value.key}`);
+
 
       return { Authorization: `Token ${tokenResult.value.key}` };
     } catch (error) {

@@ -23,7 +23,7 @@ export const useQuery = () => {
       setCurrentProduct(result.data);
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.log(error);
+
     }
   }
 
@@ -33,7 +33,7 @@ export const useQuery = () => {
       setRepositoriesTsqmiHistory(result.data);
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.log(error);
+
     }
   }
 
@@ -43,7 +43,7 @@ export const useQuery = () => {
       setRepositoryList(result.data.results);
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.log(error);
+
     }
   }
 

@@ -20,6 +20,7 @@ import SearchButton from '@components/SearchButton';
 import Skeleton from './components/Skeleton';
 import { useQuery } from './hooks/useQuery';
 
+
 const Products: NextPageWithLayout = () => {
   useQuery();
   useRequireAuth();
@@ -35,7 +36,7 @@ const Products: NextPageWithLayout = () => {
   );
 
   useEffect(() => {
-    console.log('Organização atual:', currentOrganization);
+
   }, [currentOrganization]);
 
   useEffect(() => {
@@ -43,11 +44,11 @@ const Products: NextPageWithLayout = () => {
   }, [productsList]);
 
   const handleSelectedOrganization = (organizationId: string) => {
-    console.log('Organization Selected:', organizationId);
+
 
     if (currentOrganization?.id === organizationId) {
       setCurrentOrganizations([]);
-      console.log('Desmarcando a organização atual');
+
     } else if (organizationList?.length) {
       const selectedOrganization = organizationList.find(
         (organization) => organization.id === organizationId
@@ -59,10 +60,10 @@ const Products: NextPageWithLayout = () => {
           selectedOrganization.name
         );
       } else {
-        console.log('Organização não encontrada');
+
       }
     } else {
-      console.log('Lista de organizações não disponível');
+
     }
   };
 
@@ -86,7 +87,7 @@ const Products: NextPageWithLayout = () => {
     );
   }
 
-  console.log('Organização Atual na Renderização:', currentOrganization);
+
 
   return (
     <>

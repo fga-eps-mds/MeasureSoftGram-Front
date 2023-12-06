@@ -21,7 +21,7 @@ class OrganizationQuery {
       return null;
     }
 
-    console.log('Token de Autenticação:', `Token ${tokenResult.value.key}`);
+
 
     return { Authorization: `Token ${tokenResult.value.key}` };
   }
@@ -33,11 +33,11 @@ async createOrganization(data: OrganizationFormData): Promise<Result<Organizatio
         throw new Error('Token de acesso não encontrado.');
       }
       const response = await api.post('/organizations/', data, { headers });
-      console.log('Criando organização com os dados:', data);
+
       return { type: 'success', value: response?.data };
     } catch (err) {
       const error = err as AxiosError;
-      console.log('Erro ao criar organização:', err);
+
 
       const responseData = error.response?.data as { name?: string[], key?: string[] };
       if (error.response && error.response.status === 400) {

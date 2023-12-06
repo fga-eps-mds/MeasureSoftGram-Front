@@ -285,7 +285,7 @@ export function CreateReleaseProvider({
         allow_dynamic: allowDynamicBalance
       };
 
-      console.log(existingData);
+
     }
 
     sendConfigJson().catch(() => setAlertMessage('errorOnCreation'));

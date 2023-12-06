@@ -81,7 +81,7 @@ const SideList = <T extends ItemWithBasicProps>({
         const result = await deleteOrganization(String(itemToDelete.id));
         if (result.type === "success") {
           toast.success('Organização excluída com sucesso!');
-          console.log("Item deleted successfully:", itemToDelete.id);
+
         } else {
           console.error("Error deleting item:", result.error);
         }
@@ -125,7 +125,7 @@ const SideList = <T extends ItemWithBasicProps>({
                   disablePadding
                   key={value.id}
                   onClick={() => {
-                    console.log('onClickItem function:', onClickItem);
+
                     if (typeof onClickItem === 'function') {
                       onClickItem(value);
                     } else {

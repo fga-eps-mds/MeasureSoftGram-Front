@@ -60,7 +60,7 @@ export const getAccessToken = async (): Promise<Result<User>> => {
   try {
     const response = await api.get('/accounts/access-token');
 
-    console.log('Access Token:', response?.data);
+
 
     return { type: 'success', value: response?.data };
   } catch (err) {

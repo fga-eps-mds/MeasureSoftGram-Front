@@ -17,13 +17,13 @@ export const useOrganizationQuery = () => {
   const { currentOrganizations, setCurrentOrganizations } = useOrganizationContext();
 
   const loadCurrentOrganizations = async () => {
-    console.log("loadCurrentOrganizations foi chamada");
+
     try {
       const responseConfig = await organizationQuery.getAllOrganization();
-      console.log("Configuração da requisição: ", responseConfig);
+
 
       const response = await api.request(responseConfig);
-      console.log('Dados da organização: ', response.data);
+
 
       const organizations = response.data.results.map((item: OrganizationWithId) => ({
         ...item,
@@ -31,7 +31,7 @@ export const useOrganizationQuery = () => {
       })) as CurrentOrganizationType[];
 
       setCurrentOrganizations(organizations);
-      console.log('Organizações carregadas:', organizations);
+
     } catch (error: any) {
       console.error("Erro detalhado:", error);
       toast.error(`Erro ao carregar organizações: ${error.message || 'Erro desconhecido'}`);

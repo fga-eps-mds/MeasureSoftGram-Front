@@ -79,7 +79,7 @@ const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
         currentRepository.name.toLowerCase().includes(name.toLowerCase())
       ) ?? [];
 
-    console.log("Repositórios Filtrados:", repositoriesWithName);
+
 
     setFilteredRepositories([...repositoriesWithName]);
   }
@@ -113,7 +113,7 @@ const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
     if (repositoryList?.length) {
       setFilteredRepositories((prevState) => {
         const tempRepositoryList = [...repositoryList];
-        console.log("Repositórios Atuais:", tempRepositoryList);
+
 
         const prevString = JSON.stringify(prevState);
         const currentString = JSON.stringify(tempRepositoryList);
