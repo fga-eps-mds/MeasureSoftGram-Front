@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { ProductProvider } from '@contexts/ProductProvider';
 import { OrganizationProvider } from '@contexts/OrganizationProvider';
 import Products from '../Products';
