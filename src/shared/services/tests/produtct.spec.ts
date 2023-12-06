@@ -19,6 +19,16 @@ describe('ProductQuery', () => {
     expect(api.get).toHaveBeenCalledWith(`/organizations/${organizationId}/products/${id}/`);
   });
 
+  it('updateProduct should call api.get with the right URL', async () => {
+    const organizationId = 1;
+    const id = '2';
+    await productQuery.updateProduct(id, { name: 'teste', organizationId: organizationId });
+    expect(api.put).toHaveBeenCalledWith(`/organizations/${organizationId}/products/${id}/`, {
+      name: 'teste',
+      organizationId: 1
+    });
+  });
+
   it('getAllRepositories should call api.get with the right URL', async () => {
     const organizationId = '1';
     const productId = '2';
