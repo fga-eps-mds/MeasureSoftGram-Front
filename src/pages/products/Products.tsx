@@ -72,7 +72,7 @@ const Products: NextPageWithLayout = () => {
 
       <Container>
         <Box display="flex" flexDirection="column">
-          <Typography variant="h4" color="#000000cc" fontWeight="semibold" marginTop="30px">
+          <Typography variant="h4" color="#000000cc" fontWeight="semibold" marginTop="30px" data-testid="organization-title">
             Organizações
           </Typography>
           <Box display="flex" gap="1rem" marginTop="40px" marginBottom="10px" justifyContent="space-around">
