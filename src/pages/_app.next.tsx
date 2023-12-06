@@ -13,6 +13,7 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useState } from 'react';
 import { RotatingLines } from 'react-loader-spinner';
+import { Modal, Box } from '@mui/material';
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement, disableBreadcrumb?: boolean) => typeof page;
@@ -27,6 +28,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
   const [loading, setLoading] = useState(false);
   const disableBreadcrumb = Component.disableBreadcrumb ?? false;
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
   const router = useRouter()
   useEffect(() => {
@@ -71,25 +73,33 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           <ProductProvider>
             <Theme>
               {getLayout(<Component {...pageProps} />, disableBreadcrumb)}
-              {
-                // <button class="btn btn-primary" type="button" disabled>
-                //   <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
-                //   Loading...
-                // </button>
-                // loading ? <div class="spinner-border text-dark" role="status">
-                //   <span class="visually-hidden">Loading...</span>
-                // </div> : <div></div>
-                loading && (
-                  <div style={{ position: "fixed", left: "95%", top: "10%", transform: "translate(-50%, -50%)" }}>
-                    <RotatingLines
-                      strokeColor="#33568e"
-                      strokeWidth="5"
-                      width="50"
-                      animationDuration="0.75"
-                      timeout={3000}
-                    />
-                  </div>
-                )}
+              <>
+                <Modal
+                  open={loading}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <Box sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: 400
+                  }}>
+                    <div style={{ position: "fixed", left: "50%", transform: "translate(-50%, -50%)" }}>
+                      <RotatingLines
+                        strokeColor="#33568e"
+                        strokeWidth="5"
+                        width="50"
+                        animationDuration="0.75"
+                        timeout={3000}
+                      />
+                      <h3 style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, 50%)" }}>Carregando...</h3>
+                    </div>
+                  </Box>
+                </Modal>
+              </>
+
             </Theme>
           </ProductProvider>
         </RepositoryProvider>
