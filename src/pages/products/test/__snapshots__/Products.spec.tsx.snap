@@ -13,6 +13,7 @@ Object {
         >
           <h4
             class="MuiTypography-root MuiTypography-h4 css-ebmdmk-MuiTypography-root"
+            data-testid="organization-title"
           >
             Organizações
           </h4>
@@ -32,6 +33,7 @@ Object {
       >
         <h4
           class="MuiTypography-root MuiTypography-h4 css-ebmdmk-MuiTypography-root"
+          data-testid="organization-title"
         >
           Organizações
         </h4>
