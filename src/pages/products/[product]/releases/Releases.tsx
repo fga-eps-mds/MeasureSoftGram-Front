@@ -11,7 +11,7 @@ import { productQuery } from '@services/product';
 import { useProductContext } from '@contexts/ProductProvider';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import { useRequest } from '@hooks/useRequest';
-import { CompareGoalAccomplished } from '@customTypes/product';
+import { ReleasesPaginated } from '@customTypes/product';
 import SearchButton from '@components/SearchButton';
 import ReleasesTable from '../components/ReleasesList/ReleasesTable';
 import filterReleaseList from './util/filterReleaseList';
@@ -25,11 +25,11 @@ const Releases: NextPageWithLayout = () => {
   const [page, setPage] = useState<number>(1);
   const { currentProduct } = useProductContext();
   const { currentOrganization } = useOrganizationContext();
-  const { data: releaseList, isLoading } = useRequest<CompareGoalAccomplished[]>(
+  const { data: releaseList, isLoading } = useRequest<ReleasesPaginated>(
     productQuery.getReleaseList(currentOrganization?.id as string, currentProduct?.id as string)
   );
 
-  const filteredReleaseList = useMemo(() => filterReleaseList(releaseList ?? [], name, startDate, endDate), [releaseList, name, startDate, endDate])
+  const filteredReleaseList = useMemo(() => filterReleaseList(releaseList! ?? [], name, startDate, endDate), [releaseList, name, startDate, endDate])
 
   return isLoading ? (<Skeleton />) :
     <>

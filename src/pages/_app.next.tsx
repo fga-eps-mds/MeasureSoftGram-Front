@@ -12,6 +12,7 @@ import { OrganizationProvider } from '@contexts/OrganizationProvider';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthProvider } from '@contexts/Auth';
+import { SnackbarProvider } from '@components/snackbar';
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement, disableBreadcrumb?: boolean) => typeof page;
@@ -42,9 +43,11 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           theme="light"
         />
         <RepositoryProvider>
-          <ProductProvider>
-            <Theme>{getLayout(<Component {...pageProps} />, disableBreadcrumb)}</Theme>
-          </ProductProvider>
+          <SnackbarProvider>
+            <ProductProvider>
+              <Theme>{getLayout(<Component {...pageProps} />, disableBreadcrumb)}</Theme>
+            </ProductProvider>
+          </SnackbarProvider>
         </RepositoryProvider>
       </OrganizationProvider>
     </AuthProvider>

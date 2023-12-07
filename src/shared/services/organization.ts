@@ -21,8 +21,6 @@ class OrganizationQuery {
       return null;
     }
 
-
-
     return { Authorization: `Token ${tokenResult.value.key}` };
   }
 

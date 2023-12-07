@@ -12,6 +12,7 @@ import _ from 'lodash';
 import { useProductConfigFilterContext } from '@contexts/ProductConfigFilterProvider/ProductConfigFilterProvider';
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
+import { useProductContext } from '@contexts/ProductProvider';
 
 interface Prop {
   title: string;
@@ -51,6 +52,8 @@ const GraphicChart = ({
   } = useRequestValues({ type: valueType, value, addHistoricalTSQMI, addCurrentGoal });
   const { hasKey } = useProductConfigFilterContext();
   const [showCharts, setShowCharts] = useState(false);
+  const { currentProduct } = useProductContext();
+
 
   const sliceHistorical = (rowIdx: number): Historical[] => {
     if (!autoGrid) return historical;
@@ -75,7 +78,9 @@ const GraphicChart = ({
         ...chartOption[type]({
           historical: _.filter(sliceHistorical(i), (item) => hasKey(item.key)),
           title: i === 0 ? title : '',
-          isEmpty: isEmpty || error
+          isEmpty: isEmpty || error,
+          redLimit: currentProduct?.gaugeRedLimit,
+          yellowLimit: currentProduct?.gaugeYellowLimit
         }),
         key: `graphic-chart-${i}`
       })

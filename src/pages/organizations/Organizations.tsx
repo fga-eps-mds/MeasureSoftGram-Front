@@ -91,7 +91,10 @@ const Organizations: OrganizationsType = () => {
       result = await updateOrganization(router.query.edit as string, novaOrganizacao);
       if (result.type === 'success') {
         toast.success('Organização atualizada com sucesso!');
-        router.push('/home');
+        setTimeout(() => {
+          window.location.reload();
+          window.location.href = '/home';
+        }, 2000);
       } else if (result.error.message === nameExist) {
         toast.error(nameExist);
       } else if (result.error.message === keyExist) {
@@ -103,7 +106,10 @@ const Organizations: OrganizationsType = () => {
       result = await createOrganization(novaOrganizacao);
       if (result.type === 'success') {
         toast.success('Organização criada com sucesso!');
-        router.push('/home');
+        setTimeout(() => {
+          window.location.reload();
+          window.location.href = '/home';
+        }, 2000);
       } else if (result.error.message === nameExist) {
         toast.error(nameExist);
       } else if (result.error.message === keyExist) {
@@ -119,7 +125,7 @@ const Organizations: OrganizationsType = () => {
       <Head>
         <title>{isEditMode ? 'Editar Organização' : 'Cadastro de Organização'}</title>
       </Head>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" data-testid="organization-title" gutterBottom>
         {isEditMode ? 'Editar Organização' : 'Cadastro de Organização'}
       </Typography>
       <form onSubmit={handleSubmit} sx={{ mt: 2 }}>
@@ -133,6 +139,7 @@ const Organizations: OrganizationsType = () => {
               onChange={(e) => setNome(e.target.value)}
               required
               sx={{ mb: 2 }}
+              data-testid="input-nome"
             />
             <TextField
               fullWidth
@@ -143,13 +150,14 @@ const Organizations: OrganizationsType = () => {
               multiline
               rows={4}
               sx={{ mb: 2 }}
+              data-testid="input-descricao"
             />
           </Grid>
           <Grid item xs={6}>
-            <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
+            <Typography variant="h6" gutterBottom sx={{ mb: 2 }} data-testid="membros-title">
               Membros
             </Typography>
-            <Button variant="contained" color="primary" onClick={handleOpenModal} sx={{ mb: 2 }}>
+            <Button variant="contained" color="primary" onClick={handleOpenModal} sx={{ mb: 2 }} data-testid="button-adicionar-membros">
               Adicionar Membros
             </Button>
           </Grid>

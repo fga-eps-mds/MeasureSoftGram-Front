@@ -43,8 +43,6 @@ export function OrganizationProvider({ children }: Props) {
 
   useEffect(() => {
 
-
-
     if (organizationList.length > 0 && currentOrganizations.length === 0) {
       setCurrentOrganizations([organizationList[0]]);
     }
@@ -67,9 +65,6 @@ export function OrganizationProvider({ children }: Props) {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentOrganization, currentOrganizations, organizationList]);
-
-
-
 
   return <OrganizationContext.Provider value={value}>{children}</OrganizationContext.Provider>;
 }

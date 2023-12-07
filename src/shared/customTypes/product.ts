@@ -29,6 +29,8 @@ export interface Product {
   github_url: string;
   created_at: string;
   updated_at: string;
+  gaugeRedLimit: number;
+  gaugeYellowLimit: number;
 }
 
 interface DefaultAttr {
@@ -177,7 +179,7 @@ export interface Goal {
   data: Characteristics;
 }
 
-export interface CompareGoalAccomplished {
+export interface IReleases {
   id: number;
   created_by: string;
   release_name: string;
@@ -185,4 +187,11 @@ export interface CompareGoalAccomplished {
   end_at: Date | string;
   accomplished: Characteristics;
   goal: Characteristics;
+}
+
+export interface ReleasesPaginated {
+  count?: number;
+  next?: number;
+  previous?: number;
+  results?: IReleases[];
 }

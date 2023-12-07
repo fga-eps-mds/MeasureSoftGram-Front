@@ -20,16 +20,17 @@ interface ReleaseGoal {
   allow_dynamic: boolean;
 }
 
-interface NewCreateReleaseData {
-  release_name: string;
-  start_at: string;
-  end_at: string;
+interface NewCreateGoalData {
   changes: Changes[];
   allow_dynamic: boolean;
 }
 
-interface ExistingCreateReleaseData extends NewCreateReleaseData {
-  id: number;
+export interface NewCreateReleaseData {
+  goal: number;
+  description?: string;
+  release_name: string;
+  start_at: string;
+  end_at: string;
 }
 
 interface CreateReleaseProviderProps {
@@ -41,6 +42,7 @@ interface CreateReleaseProviderProps {
 
 interface ReleaseInfoForm {
   name: string;
+  description: string;
   startDate: string;
   endDate: string;
   characteristics: string[];
@@ -100,7 +102,8 @@ export function CreateReleaseProvider({
     startDate: defaultStartDate,
     changes: [],
     characteristics: [],
-    name: ''
+    name: '',
+    description: ''
   });
   const [characteristicData, setCharacteristicData] = useState<Characteristic[]>([]);
   const [characteristicCheckbox, setCharacteristicCheckbox] = useState<string[]>([]);
@@ -128,25 +131,60 @@ export function CreateReleaseProvider({
   }
 
   async function createProductReleaseGoal() {
-    const data: NewCreateReleaseData = {
-      release_name: releaseInfoForm.name,
-      start_at: releaseInfoForm.startDate,
-      end_at: releaseInfoForm.endDate,
+    if (useLastConfig) {
+      const dataRelease: NewCreateReleaseData = {
+        goal: lastGoal!.id,
+        release_name: releaseInfoForm.name,
+        start_at: releaseInfoForm.startDate,
+        end_at: releaseInfoForm.endDate,
+        description: releaseInfoForm.description || '',
+      };
+
+      const response = await productQuery.createProductRelease(organizationId, productId, dataRelease);
+      await mutate(
+        JSON.stringify({ url: `organizations/${organizationId}/products/${productId}/create/release/`, method: 'get' })
+      );
+      const releaseId = response?.data?.id;
+      if (releaseId) {
+        await router.push(
+          `/products/${organizationId}-${productId}-${currentProduct.name.toLowerCase()}/releases/${releaseId}`
+        );
+        setAlertMessage('successOnCreation');
+      }
+      return;
+    }
+
+    const dataGoal: NewCreateGoalData = {
       changes: releaseInfoForm.changes,
       allow_dynamic: allowDynamicBalance
     };
 
-    const response = await productQuery.createProductReleaseGoal(organizationId, productId, data as unknown as ReleaseGoal);
-    await mutate(
-      JSON.stringify({ url: `organizations/${organizationId}/products/${productId}/release/`, method: 'get' })
-    );
-    const releaseId = response?.data?.id;
+    try {
+      const responseGoal = await productQuery.createProductGoal(organizationId, productId, dataGoal as unknown as ReleaseGoal);
 
-    if (releaseId) {
-      await router.push(
-        `/products/${organizationId}-${productId}-${currentProduct.name.toLowerCase()}/releases/${releaseId}`
+      const dataRelease: NewCreateReleaseData = {
+        goal: responseGoal.data.id,
+        release_name: releaseInfoForm.name,
+        start_at: releaseInfoForm.startDate,
+        end_at: releaseInfoForm.endDate,
+        description: releaseInfoForm.description || '',
+      };
+
+      const responseRelease = await productQuery.createProductRelease(organizationId, productId, dataRelease);
+      await mutate(
+        JSON.stringify({ url: `organizations/${organizationId}/products/${productId}/create/release/`, method: 'get' })
       );
-      setAlertMessage('successOnCreation');
+
+      const releaseId = responseRelease?.data?.id;
+
+      if (releaseId) {
+        await router.push(
+          `/products/${organizationId}-${productId}-${currentProduct.name.toLowerCase()}/releases/${releaseId}`
+        );
+        setAlertMessage('successOnCreation');
+      }
+    } catch (error) {
+      console.error(error);
     }
   }
 
@@ -307,7 +345,8 @@ export function CreateReleaseProvider({
       startDate: defaultStartDate,
       changes: [],
       characteristics: [],
-      name: ''
+      name: '',
+      description: ''
     } as ReleaseInfoForm);
     setAllowChangeConfig(false);
     setChangeThreshold(false);

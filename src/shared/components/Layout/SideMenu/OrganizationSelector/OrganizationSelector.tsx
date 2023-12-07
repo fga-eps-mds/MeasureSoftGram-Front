@@ -22,6 +22,7 @@ function OrganizationSelector() {
         selected={false}
       />
       <SideList
+        itemType='organization'
         seeMorePath="/products"
         values={organizationList}
         open={isOpen}

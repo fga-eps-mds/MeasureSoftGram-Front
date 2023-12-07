@@ -3,13 +3,13 @@
 exports[`<TreeViewFilter /> should render correctly 1`] = `
 <div>
   <div
-    class="styles__Wrapper-sc-1n65t6s-0 itouOV"
+    class="styles__Wrapper-sc-1n65t6s-0 fbkKaA"
   >
     <div
       class="MuiBox-root css-13y5u2s"
     >
       <div
-        class="styles__CollapseButton-sc-1n65t6s-1 fRLlQd"
+        class="styles__CollapseButton-sc-1n65t6s-1 fpXLoM"
       >
         <button
           aria-label="Ocultar Filtros"
@@ -148,7 +148,7 @@ exports[`<TreeViewFilter /> should render correctly 1`] = `
                     class="MuiBox-root css-u4p24i"
                   >
                     <span
-                      class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary css-355xbt-MuiButtonBase-root-MuiCheckbox-root"
+                      class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-355xbt-MuiButtonBase-root-MuiCheckbox-root"
                     >
                       <input
                         checked=""

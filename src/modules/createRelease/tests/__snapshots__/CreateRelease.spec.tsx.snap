@@ -14,7 +14,7 @@ Object {
         role="presentation"
       >
         <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-standardSuccess MuiAlert-standard css-efvcc7-MuiPaper-root-MuiAlert-root"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-standardSuccess MuiAlert-standard css-wnkddu-MuiPaper-root-MuiAlert-root"
           direction="up"
           role="alert"
           style="opacity: 1; transform: scale(1, 1); transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
@@ -48,7 +48,7 @@ Object {
     >
       <div
         aria-hidden="true"
-        class="MuiBackdrop-root css-i9fmh8-MuiBackdrop-root-MuiModal-backdrop"
+        class="MuiBackdrop-root MuiModal-backdrop css-i9fmh8-MuiBackdrop-root-MuiModal-backdrop"
         style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       />
       <div
@@ -63,27 +63,73 @@ Object {
           class="MuiBox-root css-1m45ylu"
         >
           <div
-            class="styles__ScrollDiv-sc-1casz44-0 eTyGvR"
+            class="styles__ScrollDiv-sc-1casz44-0 hcLjsI"
           >
             <div
               class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
             >
               <div
-                class="styles__Header-sc-1xrutlg-0 jlUPbi"
+                class="styles__Header-sc-1xrutlg-0 ihDdkb"
               >
                 <h1
                   style="color: rgb(51, 86, 142); font-weight: 500;"
                 >
-                  Planejar Release
+                  Planejamento de Release
                 </h1>
-                <p
-                  style="margin-top: 60px;"
+                <nav
+                  class="MuiTypography-root MuiTypography-body1 MuiBreadcrumbs-root css-1gui7g7-MuiTypography-root-MuiBreadcrumbs-root"
                 >
-                  Na etapa inicial do planejamento da release é possível definir seu nome e as datas de início e fim.
-                </p>
+                  <ol
+                    class="MuiBreadcrumbs-ol css-4pdmu4-MuiBreadcrumbs-ol"
+                  >
+                    <li
+                      class="MuiBreadcrumbs-li"
+                    >
+                      <a
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-46jzwd-MuiTypography-root-MuiLink-root"
+                      >
+                        Criar Release
+                      </a>
+                    </li>
+                    <li
+                      aria-hidden="true"
+                      class="MuiBreadcrumbs-separator css-1wuw8dw-MuiBreadcrumbs-separator"
+                    >
+                      <span
+                        class="MuiBox-root css-1bi6evy"
+                      />
+                    </li>
+                    <li
+                      class="MuiBreadcrumbs-li"
+                    >
+                      <a
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-ae5t40-MuiTypography-root-MuiLink-root"
+                      >
+                        Definir configuração do modelo
+                      </a>
+                    </li>
+                    <li
+                      aria-hidden="true"
+                      class="MuiBreadcrumbs-separator css-1wuw8dw-MuiBreadcrumbs-separator"
+                    >
+                      <span
+                        class="MuiBox-root css-1bi6evy"
+                      />
+                    </li>
+                    <li
+                      class="MuiBreadcrumbs-li"
+                    >
+                      <a
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-ae5t40-MuiTypography-root-MuiLink-root"
+                      >
+                        Balancear características
+                      </a>
+                    </li>
+                  </ol>
+                </nav>
               </div>
               <div
-                class="styles__Body-sc-1xrutlg-1 htLsRD"
+                class="styles__Body-sc-1xrutlg-1 lojNHO"
               >
                 <div
                   class="MuiBox-root css-0"
@@ -98,7 +144,7 @@ Object {
                     style="margin-bottom: 24px;"
                   >
                     <label
-                      class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
+                      class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
                       data-shrink="true"
                       for=":r0:"
                       id=":r0:-label"
@@ -133,8 +179,53 @@ Object {
                         >
                           <span>
                             Apelido da release
-                             
+                             
                             *
+                          </span>
+                        </legend>
+                      </fieldset>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+                    style="margin-bottom: 24px;"
+                  >
+                    <label
+                      class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
+                      data-shrink="true"
+                      for=":r1:"
+                      id=":r1:-label"
+                    >
+                      Descrição da release
+                    </label>
+                    <div
+                      class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-multiline css-8ewcdo-MuiInputBase-root-MuiOutlinedInput-root"
+                    >
+                      <textarea
+                        aria-invalid="false"
+                        class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input"
+                        data-testid="descricao-release"
+                        id=":r1:"
+                        style="height: 0px; overflow: hidden;"
+                      >
+                        asdasd
+                      </textarea>
+                      <textarea
+                        aria-hidden="true"
+                        class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input"
+                        readonly=""
+                        style="visibility: hidden; position: absolute; overflow: hidden; height: 0px; top: 0px; left: 0px; transform: translateZ(0); padding-top: 0px; padding-bottom: 0px; width: 100%;"
+                        tabindex="-1"
+                      />
+                      <fieldset
+                        aria-hidden="true"
+                        class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                      >
+                        <legend
+                          class="css-14lo706"
+                        >
+                          <span>
+                            Descrição da release
                           </span>
                         </legend>
                       </fieldset>
@@ -148,10 +239,10 @@ Object {
                       style="margin-right: 16px;"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
                         data-shrink="true"
-                        for=":r1:"
-                        id=":r1:-label"
+                        for=":r2:"
+                        id=":r2:-label"
                       >
                         Data de ínicio da release
                         <span
@@ -169,7 +260,7 @@ Object {
                           aria-invalid="false"
                           class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
                           data-testid="inicio-release"
-                          id=":r1:"
+                          id=":r2:"
                           required=""
                           type="date"
                           value="2022-09-18"
@@ -183,7 +274,7 @@ Object {
                           >
                             <span>
                               Data de ínicio da release
-                               
+                               
                               *
                             </span>
                           </legend>
@@ -194,10 +285,10 @@ Object {
                       class="MuiFormControl-root MuiTextField-root css-1vs1jgp-MuiFormControl-root-MuiTextField-root"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
                         data-shrink="true"
-                        for=":r2:"
-                        id=":r2:-label"
+                        for=":r3:"
+                        id=":r3:-label"
                       >
                         Data de fim da release
                         <span
@@ -215,7 +306,7 @@ Object {
                           aria-invalid="false"
                           class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
                           data-testid="fim-release"
-                          id=":r2:"
+                          id=":r3:"
                           required=""
                           type="date"
                           value="2022-09-25"
@@ -229,7 +320,7 @@ Object {
                           >
                             <span>
                               Data de fim da release
-                               
+                               
                               *
                             </span>
                           </legend>
@@ -244,6 +335,17 @@ Object {
           <div
             class="MuiBox-root css-1yuhvjn"
           >
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1iy6m51-MuiButtonBase-root-MuiButton-root"
+              data-testid="cancel-button"
+              tabindex="0"
+              type="button"
+            >
+              Cancelar
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1iy6m51-MuiButtonBase-root-MuiButton-root"
               data-testid="back-button"
@@ -283,7 +385,7 @@ Object {
       role="presentation"
     >
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-standardSuccess MuiAlert-standard css-efvcc7-MuiPaper-root-MuiAlert-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-standardSuccess MuiAlert-standard css-wnkddu-MuiPaper-root-MuiAlert-root"
         direction="up"
         role="alert"
         style="opacity: 1; transform: scale(1, 1); transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"

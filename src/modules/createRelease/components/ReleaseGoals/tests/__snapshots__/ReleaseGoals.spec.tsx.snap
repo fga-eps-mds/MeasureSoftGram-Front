@@ -6,13 +6,69 @@ Object {
   "baseElement": <body>
     <div>
       <div
-        class="styles__Header-sc-ki0fgv-0 hAZQDu"
+        class="styles__Header-sc-ki0fgv-0 dSqkRX"
       >
         <h1
           style="color: rgb(51, 86, 142); font-weight: 500;"
         >
-          Balancear a Meta de Qualidade
+          Planejamento de Release
         </h1>
+        <h2
+          style="color: rgb(51, 86, 142); font-weight: 300;"
+        >
+          Balancear a Meta de Qualidade
+        </h2>
+        <nav
+          class="MuiTypography-root MuiTypography-body1 MuiBreadcrumbs-root css-1gui7g7-MuiTypography-root-MuiBreadcrumbs-root"
+        >
+          <ol
+            class="MuiBreadcrumbs-ol css-4pdmu4-MuiBreadcrumbs-ol"
+          >
+            <li
+              class="MuiBreadcrumbs-li"
+            >
+              <a
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-ae5t40-MuiTypography-root-MuiLink-root"
+              >
+                Criar Release
+              </a>
+            </li>
+            <li
+              aria-hidden="true"
+              class="MuiBreadcrumbs-separator css-1wuw8dw-MuiBreadcrumbs-separator"
+            >
+              <span
+                class="MuiBox-root css-1bi6evy"
+              />
+            </li>
+            <li
+              class="MuiBreadcrumbs-li"
+            >
+              <a
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-ae5t40-MuiTypography-root-MuiLink-root"
+              >
+                Definir configuração do modelo
+              </a>
+            </li>
+            <li
+              aria-hidden="true"
+              class="MuiBreadcrumbs-separator css-1wuw8dw-MuiBreadcrumbs-separator"
+            >
+              <span
+                class="MuiBox-root css-1bi6evy"
+              />
+            </li>
+            <li
+              class="MuiBreadcrumbs-li"
+            >
+              <a
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-46jzwd-MuiTypography-root-MuiLink-root"
+              >
+                Balancear Pesos
+              </a>
+            </li>
+          </ol>
+        </nav>
         <p>
           Nesta etapa é possível estabelecer metas para as características que serão observadas na release. É importante ressaltar que essas características de qualidade estão inter-relacionadas, ou seja, ao modificar a meta de uma característica, as demais também serão afetadas.
         </p>
@@ -26,7 +82,7 @@ Object {
             class="MuiTypography-root MuiTypography-body1 css-1psv697-MuiTypography-root"
           >
             <span
-              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary css-12cb8cj-MuiButtonBase-root-MuiCheckbox-root"
+              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-12cb8cj-MuiButtonBase-root-MuiCheckbox-root"
             >
               <input
                 class="PrivateSwitchBase-input css-1m9pwf3"
@@ -54,7 +110,7 @@ Object {
         </div>
       </div>
       <div
-        class="styles__Body-sc-ki0fgv-1 dEJEjT"
+        class="styles__Body-sc-ki0fgv-1 eTbEkS"
       >
         <div>
           <strong>
@@ -79,7 +135,7 @@ Object {
                 class="MuiBox-root css-vycneo"
               >
                 <span
-                  class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium MuiSlider-vertical css-y50uh2-MuiSlider-root"
+                  class="MuiSlider-root MuiSlider-vertical MuiSlider-colorPrimary MuiSlider-sizeMedium css-y50uh2-MuiSlider-root"
                   data-testid="single-slider"
                 >
                   <span
@@ -90,8 +146,7 @@ Object {
                     style="bottom: 0%; height: 50%;"
                   />
                   <span
-                    class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-y35fuw-MuiSlider-thumb"
-                    data-focusvisible="false"
+                    class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-y35fuw-MuiSlider-thumb"
                     data-index="0"
                     style="bottom: 50%;"
                   >
@@ -126,7 +181,7 @@ Object {
                 class="MuiBox-root css-vycneo"
               >
                 <span
-                  class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium MuiSlider-vertical css-y50uh2-MuiSlider-root"
+                  class="MuiSlider-root MuiSlider-vertical MuiSlider-colorPrimary MuiSlider-sizeMedium css-y50uh2-MuiSlider-root"
                   data-testid="single-slider"
                 >
                   <span
@@ -137,8 +192,7 @@ Object {
                     style="bottom: 0%; height: 50%;"
                   />
                   <span
-                    class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-y35fuw-MuiSlider-thumb"
-                    data-focusvisible="false"
+                    class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-y35fuw-MuiSlider-thumb"
                     data-index="0"
                     style="bottom: 50%;"
                   >
@@ -168,7 +222,7 @@ Object {
             </div>
           </div>
           <div
-            class="styles__Labels-sc-duigeu-0 zNSqE"
+            class="styles__Labels-sc-duigeu-0 hcquOR"
           >
             <p
               data-testid="label"
@@ -193,13 +247,69 @@ Object {
   </body>,
   "container": <div>
     <div
-      class="styles__Header-sc-ki0fgv-0 hAZQDu"
+      class="styles__Header-sc-ki0fgv-0 dSqkRX"
     >
       <h1
         style="color: rgb(51, 86, 142); font-weight: 500;"
       >
-        Balancear a Meta de Qualidade
+        Planejamento de Release
       </h1>
+      <h2
+        style="color: rgb(51, 86, 142); font-weight: 300;"
+      >
+        Balancear a Meta de Qualidade
+      </h2>
+      <nav
+        class="MuiTypography-root MuiTypography-body1 MuiBreadcrumbs-root css-1gui7g7-MuiTypography-root-MuiBreadcrumbs-root"
+      >
+        <ol
+          class="MuiBreadcrumbs-ol css-4pdmu4-MuiBreadcrumbs-ol"
+        >
+          <li
+            class="MuiBreadcrumbs-li"
+          >
+            <a
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-ae5t40-MuiTypography-root-MuiLink-root"
+            >
+              Criar Release
+            </a>
+          </li>
+          <li
+            aria-hidden="true"
+            class="MuiBreadcrumbs-separator css-1wuw8dw-MuiBreadcrumbs-separator"
+          >
+            <span
+              class="MuiBox-root css-1bi6evy"
+            />
+          </li>
+          <li
+            class="MuiBreadcrumbs-li"
+          >
+            <a
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-ae5t40-MuiTypography-root-MuiLink-root"
+            >
+              Definir configuração do modelo
+            </a>
+          </li>
+          <li
+            aria-hidden="true"
+            class="MuiBreadcrumbs-separator css-1wuw8dw-MuiBreadcrumbs-separator"
+          >
+            <span
+              class="MuiBox-root css-1bi6evy"
+            />
+          </li>
+          <li
+            class="MuiBreadcrumbs-li"
+          >
+            <a
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-46jzwd-MuiTypography-root-MuiLink-root"
+            >
+              Balancear Pesos
+            </a>
+          </li>
+        </ol>
+      </nav>
       <p>
         Nesta etapa é possível estabelecer metas para as características que serão observadas na release. É importante ressaltar que essas características de qualidade estão inter-relacionadas, ou seja, ao modificar a meta de uma característica, as demais também serão afetadas.
       </p>
@@ -213,7 +323,7 @@ Object {
           class="MuiTypography-root MuiTypography-body1 css-1psv697-MuiTypography-root"
         >
           <span
-            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary css-12cb8cj-MuiButtonBase-root-MuiCheckbox-root"
+            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-12cb8cj-MuiButtonBase-root-MuiCheckbox-root"
           >
             <input
               class="PrivateSwitchBase-input css-1m9pwf3"
@@ -241,7 +351,7 @@ Object {
       </div>
     </div>
     <div
-      class="styles__Body-sc-ki0fgv-1 dEJEjT"
+      class="styles__Body-sc-ki0fgv-1 eTbEkS"
     >
       <div>
         <strong>
@@ -266,7 +376,7 @@ Object {
               class="MuiBox-root css-vycneo"
             >
               <span
-                class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium MuiSlider-vertical css-y50uh2-MuiSlider-root"
+                class="MuiSlider-root MuiSlider-vertical MuiSlider-colorPrimary MuiSlider-sizeMedium css-y50uh2-MuiSlider-root"
                 data-testid="single-slider"
               >
                 <span
@@ -277,8 +387,7 @@ Object {
                   style="bottom: 0%; height: 50%;"
                 />
                 <span
-                  class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-y35fuw-MuiSlider-thumb"
-                  data-focusvisible="false"
+                  class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-y35fuw-MuiSlider-thumb"
                   data-index="0"
                   style="bottom: 50%;"
                 >
@@ -313,7 +422,7 @@ Object {
               class="MuiBox-root css-vycneo"
             >
               <span
-                class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium MuiSlider-vertical css-y50uh2-MuiSlider-root"
+                class="MuiSlider-root MuiSlider-vertical MuiSlider-colorPrimary MuiSlider-sizeMedium css-y50uh2-MuiSlider-root"
                 data-testid="single-slider"
               >
                 <span
@@ -324,8 +433,7 @@ Object {
                   style="bottom: 0%; height: 50%;"
                 />
                 <span
-                  class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-y35fuw-MuiSlider-thumb"
-                  data-focusvisible="false"
+                  class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-y35fuw-MuiSlider-thumb"
                   data-index="0"
                   style="bottom: 50%;"
                 >
@@ -355,7 +463,7 @@ Object {
           </div>
         </div>
         <div
-          class="styles__Labels-sc-duigeu-0 zNSqE"
+          class="styles__Labels-sc-duigeu-0 hcquOR"
         >
           <p
             data-testid="label"

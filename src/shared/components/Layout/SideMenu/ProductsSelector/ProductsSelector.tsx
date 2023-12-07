@@ -32,6 +32,8 @@ function ProductSelector() {
         selected={false}
       />
       <SideList
+        itemType='product'
+        organizationId={currentOrganization?.id}
         seeMorePath="/products"
         values={productsList ?? []}
         open={isOpen}

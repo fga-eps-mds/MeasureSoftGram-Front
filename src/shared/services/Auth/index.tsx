@@ -60,8 +60,6 @@ export const getAccessToken = async (): Promise<Result<User>> => {
   try {
     const response = await api.get('/accounts/access-token');
 
-
-
     return { type: 'success', value: response?.data };
   } catch (err) {
     const error = err as AxiosError;

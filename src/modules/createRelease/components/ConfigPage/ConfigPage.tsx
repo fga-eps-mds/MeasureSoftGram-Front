@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { Box, Checkbox, Switch, Typography } from '@mui/material';
+import { Box, Breadcrumbs, Checkbox, Link, Switch, Typography } from '@mui/material';
 
 
 import { useCreateReleaseContext } from '@modules/createRelease/context/useCreateRelease';
@@ -13,11 +13,13 @@ const { SUB_TITLE } = CONFIG_PAGE;
 interface ConfigPageProps {
   page: number;
   title: string;
+  setActiveStep: (step: number) => void
 }
 
 const ConfigPage = ({
   page,
   title,
+  setActiveStep
 }: ConfigPageProps) => {
   const {
     setCurrentConfig,
@@ -103,7 +105,40 @@ const ConfigPage = ({
   return (
     <>
       <Styles.Header>
-        <h1 style={{ color: '#33568E', fontWeight: '500' }}>{title}</h1>
+        <h1 style={{ color: '#33568E', fontWeight: '500' }}>Planejamento de Release</h1>
+        <h2 style={{ color: '#33568E', fontWeight: '300' }}>{title}</h2>
+        <Breadcrumbs separator={<Box
+          component="span"
+          sx={{
+            width: 4,
+            height: 4,
+            borderRadius: '50%',
+            bgcolor: 'text.disabled',
+          }}
+        />} sx={{ fontSize: '14px' }}>
+
+          <Link sx={{
+            cursor: 'pointer',
+            textDecoration: 'none',
+          }} onClick={() => {
+            setActiveStep(0);
+          }} color="text.secondary">Criar Release</Link>
+
+          <Link sx={{
+            cursor: 'pointer',
+            textDecoration: 'none',
+            fontWeight: '800'
+          }} onClick={() => {
+            setActiveStep(1);
+          }} color="text.primary">Definir configuração do modelo</Link>
+          <Link sx={{
+            cursor: 'pointer',
+            textDecoration: 'none',
+          }} onClick={() => {
+            setActiveStep(2);
+          }} color="text.secondary">Balancear características</Link>
+
+        </Breadcrumbs>
       </Styles.Header>
       <Styles.Body>
         <p>{SUB_TITLE}</p>

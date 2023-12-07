@@ -1,0 +1,280 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GaugeSlider should match snapshot 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="MuiBox-root css-12auco2"
+      >
+        <span
+          class="MuiSlider-root MuiSlider-marked MuiSlider-colorPrimary MuiSlider-sizeMedium css-dbrczr-MuiSlider-root"
+          data-testid="gauge-slider-id"
+        >
+          <span
+            class="MuiSlider-rail css-14pt78w-MuiSlider-rail"
+          />
+          <span
+            class="MuiSlider-track css-1gv0vcd-MuiSlider-track"
+            style="left: 33%; width: 33%;"
+          />
+          <span
+            class="MuiSlider-mark css-1tfve6q-MuiSlider-mark"
+            data-index="0"
+            style="left: 0%;"
+          />
+          <span
+            aria-hidden="true"
+            class="MuiSlider-markLabel MuiSlider-markLabel css-yafthl-MuiSlider-markLabel"
+            data-index="0"
+            style="left: 0%;"
+          >
+            0
+          </span>
+          <span
+            class="MuiSlider-mark css-1tfve6q-MuiSlider-mark"
+            data-index="1"
+            style="left: 100%;"
+          />
+          <span
+            aria-hidden="true"
+            class="MuiSlider-markLabel MuiSlider-markLabel css-yafthl-MuiSlider-markLabel"
+            data-index="1"
+            style="left: 100%;"
+          >
+            1
+          </span>
+          <span
+            class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-eg0mwd-MuiSlider-thumb"
+            data-index="0"
+            style="left: 33%;"
+          >
+            <input
+              aria-orientation="horizontal"
+              aria-valuemax="1"
+              aria-valuemin="0"
+              aria-valuenow="0.33"
+              data-index="0"
+              max="1"
+              min="0"
+              step="0.01"
+              style="border: 0px; height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
+              type="range"
+              value="0.33"
+            />
+            <span
+              aria-hidden="true"
+              class="MuiSlider-valueLabel css-nnid7-MuiSlider-valueLabel"
+            >
+              <span
+                class="MuiSlider-valueLabelCircle"
+              >
+                <span
+                  class="MuiSlider-valueLabelLabel"
+                >
+                  0.33
+                </span>
+              </span>
+            </span>
+          </span>
+          <span
+            class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-eg0mwd-MuiSlider-thumb"
+            data-index="1"
+            style="left: 66%;"
+          >
+            <input
+              aria-orientation="horizontal"
+              aria-valuemax="1"
+              aria-valuemin="0"
+              aria-valuenow="0.66"
+              data-index="1"
+              max="1"
+              min="0"
+              step="0.01"
+              style="border: 0px; height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
+              type="range"
+              value="0.66"
+            />
+            <span
+              aria-hidden="true"
+              class="MuiSlider-valueLabel css-nnid7-MuiSlider-valueLabel"
+            >
+              <span
+                class="MuiSlider-valueLabelCircle"
+              >
+                <span
+                  class="MuiSlider-valueLabelLabel"
+                >
+                  0.66
+                </span>
+              </span>
+            </span>
+          </span>
+        </span>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="MuiBox-root css-12auco2"
+    >
+      <span
+        class="MuiSlider-root MuiSlider-marked MuiSlider-colorPrimary MuiSlider-sizeMedium css-dbrczr-MuiSlider-root"
+        data-testid="gauge-slider-id"
+      >
+        <span
+          class="MuiSlider-rail css-14pt78w-MuiSlider-rail"
+        />
+        <span
+          class="MuiSlider-track css-1gv0vcd-MuiSlider-track"
+          style="left: 33%; width: 33%;"
+        />
+        <span
+          class="MuiSlider-mark css-1tfve6q-MuiSlider-mark"
+          data-index="0"
+          style="left: 0%;"
+        />
+        <span
+          aria-hidden="true"
+          class="MuiSlider-markLabel MuiSlider-markLabel css-yafthl-MuiSlider-markLabel"
+          data-index="0"
+          style="left: 0%;"
+        >
+          0
+        </span>
+        <span
+          class="MuiSlider-mark css-1tfve6q-MuiSlider-mark"
+          data-index="1"
+          style="left: 100%;"
+        />
+        <span
+          aria-hidden="true"
+          class="MuiSlider-markLabel MuiSlider-markLabel css-yafthl-MuiSlider-markLabel"
+          data-index="1"
+          style="left: 100%;"
+        >
+          1
+        </span>
+        <span
+          class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-eg0mwd-MuiSlider-thumb"
+          data-index="0"
+          style="left: 33%;"
+        >
+          <input
+            aria-orientation="horizontal"
+            aria-valuemax="1"
+            aria-valuemin="0"
+            aria-valuenow="0.33"
+            data-index="0"
+            max="1"
+            min="0"
+            step="0.01"
+            style="border: 0px; height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
+            type="range"
+            value="0.33"
+          />
+          <span
+            aria-hidden="true"
+            class="MuiSlider-valueLabel css-nnid7-MuiSlider-valueLabel"
+          >
+            <span
+              class="MuiSlider-valueLabelCircle"
+            >
+              <span
+                class="MuiSlider-valueLabelLabel"
+              >
+                0.33
+              </span>
+            </span>
+          </span>
+        </span>
+        <span
+          class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-eg0mwd-MuiSlider-thumb"
+          data-index="1"
+          style="left: 66%;"
+        >
+          <input
+            aria-orientation="horizontal"
+            aria-valuemax="1"
+            aria-valuemin="0"
+            aria-valuenow="0.66"
+            data-index="1"
+            max="1"
+            min="0"
+            step="0.01"
+            style="border: 0px; height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
+            type="range"
+            value="0.66"
+          />
+          <span
+            aria-hidden="true"
+            class="MuiSlider-valueLabel css-nnid7-MuiSlider-valueLabel"
+          >
+            <span
+              class="MuiSlider-valueLabelCircle"
+            >
+              <span
+                class="MuiSlider-valueLabelLabel"
+              >
+                0.66
+              </span>
+            </span>
+          </span>
+        </span>
+      </span>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

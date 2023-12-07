@@ -7,12 +7,15 @@ import Typography from '@mui/material/Typography';
 import { NextPageWithLayout } from '@pages/_app.next';
 import getLayout from '@components/Layout';
 import useRequireAuth from '@hooks/useRequireAuth';
+import { useProductContext } from '@contexts/ProductProvider';
+
 import { useQuery } from './hooks/useQuery';
 import ProductContent from './components/ProductContent';
 
 const Product: NextPageWithLayout = () => {
   useRequireAuth();
   const { repositoriesTsqmiHistory } = useQuery();
+  const { currentProduct } = useProductContext();
   const router = useRouter();
 
   const handleViewRepositories = () => {
@@ -26,7 +29,7 @@ const Product: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>PRODUCT NAME</title>
+        <title>{currentProduct?.name}</title>
       </Head>
 
       <ProductContent repositoriesTsqmiHistory={repositoriesTsqmiHistory} />

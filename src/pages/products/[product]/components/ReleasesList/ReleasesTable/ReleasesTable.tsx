@@ -5,11 +5,11 @@ import { TableContainer, Table, TableCell, TableHead, TableRow, TableBody } from
 
 import { useProductContext } from '@contexts/ProductProvider';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
-import { CompareGoalAccomplished } from '@customTypes/product';
+import { IReleases } from '@customTypes/product';
 import { formatDate } from '@utils/formatDate';
 
 interface ReleasesTableProps {
-  releaseList: CompareGoalAccomplished[];
+  releaseList: IReleases[];
 }
 function ReleasesTable({ releaseList }: ReleasesTableProps) {
   const { currentProduct } = useProductContext();

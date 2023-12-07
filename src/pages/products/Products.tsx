@@ -36,7 +36,6 @@ const Products: NextPageWithLayout = () => {
   );
 
   useEffect(() => {
-
   }, [currentOrganization]);
 
   useEffect(() => {
@@ -45,25 +44,15 @@ const Products: NextPageWithLayout = () => {
 
   const handleSelectedOrganization = (organizationId: string) => {
 
-
     if (currentOrganization?.id === organizationId) {
       setCurrentOrganizations([]);
-
     } else if (organizationList?.length) {
       const selectedOrganization = organizationList.find(
         (organization) => organization.id === organizationId
       );
       if (selectedOrganization) {
         setCurrentOrganizations([selectedOrganization]);
-        console.log(
-          'Definindo a nova organização atual:',
-          selectedOrganization.name
-        );
-      } else {
-
       }
-    } else {
-
     }
   };
 
@@ -86,8 +75,6 @@ const Products: NextPageWithLayout = () => {
       </Container>
     );
   }
-
-
 
   return (
     <>
