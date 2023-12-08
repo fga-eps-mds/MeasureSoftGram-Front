@@ -16,7 +16,6 @@ import { FaGithub, FaGitlab, FaBitbucket, FaAws, FaCodeBranch } from 'react-icon
 import { NextPageWithLayout } from '@pages/_app.next';
 import getLayout from '@components/Layout';
 import { useRouter } from 'next/router';
-import { useQuery } from '../hooks/useQuery';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import { useProductContext } from '@contexts/ProductProvider';
 import { toast, ToastContainer } from 'react-toastify';
@@ -24,6 +23,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios, { AxiosError } from 'axios';
 import { SiSubversion, SiMercurial, SiMicrosoftazure } from "react-icons/si";
 import { repository } from '@services/repository';
+import { useQuery } from '../hooks/useQuery';
 
 interface ApiErrorResponse {
   name?: string[];
@@ -168,13 +168,8 @@ const RepositoryForm: NextPageWithLayout = () => {
       const errorCode = error.response.status;
       const errorData = error.response.data;
 
-
-
-
-      if (errorCode === 400 && errorData.non_field_errors) {
-        if (errorData.non_field_errors.includes("Repository with this name already exists.")) {
-          errorMsg = 'Já existe um repositório com este nome.';
-        }
+      if (errorCode === 400 && errorData.non_field_errors && errorData.non_field_errors.includes("Repository with this name already exists.")) {
+        errorMsg = 'Já existe um repositório com este nome.';
       }
 
       if (errorCode === 400 && errorData.url) {
