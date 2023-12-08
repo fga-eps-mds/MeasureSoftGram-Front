@@ -313,19 +313,6 @@ export function CreateReleaseProvider({
       return;
     }
 
-    if (lastGoal) {
-      const existingData: ExistingCreateReleaseData = {
-        id: lastGoal.id,
-        release_name: releaseInfoForm.name,
-        start_at: releaseInfoForm.startDate,
-        end_at: releaseInfoForm.endDate,
-        changes: releaseInfoForm.changes,
-        allow_dynamic: allowDynamicBalance
-      };
-
-
-    }
-
     sendConfigJson().catch(() => setAlertMessage('errorOnCreation'));
     createProductReleaseGoal().catch(() => setAlertMessage('errorOnCreation'));
   }
