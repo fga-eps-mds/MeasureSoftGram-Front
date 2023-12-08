@@ -17,7 +17,6 @@ export const useOrganizationQuery = () => {
   const { currentOrganizations, setCurrentOrganizations } = useOrganizationContext();
 
   const loadCurrentOrganizations = async () => {
-
     try {
       const responseConfig = await organizationQuery.getAllOrganization();
 

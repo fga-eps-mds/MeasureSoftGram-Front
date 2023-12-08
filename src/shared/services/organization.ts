@@ -31,11 +31,9 @@ async createOrganization(data: OrganizationFormData): Promise<Result<Organizatio
         throw new Error('Token de acesso não encontrado.');
       }
       const response = await api.post('/organizations/', data, { headers });
-
       return { type: 'success', value: response?.data };
     } catch (err) {
       const error = err as AxiosError;
-
 
       const responseData = error.response?.data as { name?: string[], key?: string[] };
       if (error.response && error.response.status === 400) {

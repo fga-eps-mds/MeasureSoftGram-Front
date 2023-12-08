@@ -33,10 +33,8 @@ const Organizations: OrganizationsType = () => {
   const carregarMembrosDaOrganizacao = async () => {
     const result = await getAllUsers();
 
-
     if (result.type === 'success' && Array.isArray(result.value.results)) {
       setUsers(result.value.results);
-
     } else {
       toast.error('Erro ao carregar os usuários.');
     }
