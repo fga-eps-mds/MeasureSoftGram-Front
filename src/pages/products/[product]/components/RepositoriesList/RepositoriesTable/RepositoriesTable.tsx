@@ -12,10 +12,10 @@ import { Repository } from '@customTypes/repository';
 import SearchButton from '@components/SearchButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { useQuery } from '../../../repositories/hooks/useQuery';
 import ConfirmationModal from '@components/ConfirmationModal';
 import { FaGithub, FaGitlab, FaBitbucket, FaAws, FaCodeBranch } from 'react-icons/fa';
 import { SiSubversion, SiMercurial, SiMicrosoftazure } from "react-icons/si";
+import { useQuery } from '../../../repositories/hooks/useQuery';
 
 interface Props {
   maxCount?: number;
@@ -139,7 +139,7 @@ const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
                 label="Insira o nome do repositório"
               />
             </TableCell>
-            <TableCell style={{ paddingBottom: '35px' }}></TableCell>
+            <TableCell style={{ paddingBottom: '35px' }} />
           </TableRow>
         </TableHead>
         <TableBody>
@@ -150,12 +150,12 @@ const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
                   {repo.url ? (
                     <a href={repo.url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
                       <HoverIcon>
-                        {platformIcons[repo.platform] ? platformIcons[repo.platform]() : platformIcons['outros']()}
+                        {platformIcons[repo.platform] ? platformIcons[repo.platform]() : platformIcons.outros()}
                       </HoverIcon>
                     </a>
                   ) : (
                     <HoverIcon>
-                      {platformIcons[repo.platform] ? platformIcons[repo.platform]() : platformIcons['outros']()}
+                      {platformIcons[repo.platform] ? platformIcons[repo.platform]() : platformIcons.outros()}
                     </HoverIcon>
                   )}
                   <span style={{ marginLeft: 10 }}>{repo.name}</span>

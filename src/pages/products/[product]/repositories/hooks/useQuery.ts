@@ -39,13 +39,14 @@ export const useQuery = () => {
     try {
       if (action === 'create') {
         return repository.createRepository(organizationId, productId, data || {});
-      } else if (action === 'update' && repositoryId) {
-        return repository.updateRepository(organizationId, productId, repositoryId, data || {});
-      } else if (action === 'delete' && repositoryId) {
-        return repository.deleteRepository(organizationId, productId, repositoryId);
-      } else {
-        throw new Error('Invalid action or missing repositoryId.');
       }
+      if (action === 'update' && repositoryId) {
+        return repository.updateRepository(organizationId, productId, repositoryId, data || {});
+      }
+      if (action === 'delete' && repositoryId) {
+        return repository.deleteRepository(organizationId, productId, repositoryId);
+      }
+      throw new Error('Invalid action or missing repositoryId.');
     } catch (error) {
       console.error(error);
       return { type: 'error', error: new Error(`Failed to ${action} repository.`) };

@@ -54,8 +54,6 @@ const Product: NextPageWithLayout = () => {
         </div>
       </div>
 
-      {/*<RepositoriesList />*/}
-      {/*<ReleasesList />*/}
     </>
   );
 };

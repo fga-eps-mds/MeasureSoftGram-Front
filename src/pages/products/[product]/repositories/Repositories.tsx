@@ -7,9 +7,9 @@ import AddIcon from '@mui/icons-material/Add';
 
 import { NextPageWithLayout } from '@pages/_app.next';
 import getLayout from '@components/Layout';
-import RepositoriesTable from '../components/RepositoriesList/RepositoriesTable';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import { useProductContext } from '@contexts/ProductProvider';
+import RepositoriesTable from '../components/RepositoriesList/RepositoriesTable';
 
 const Repositories: NextPageWithLayout = () => {
   const router = useRouter();
