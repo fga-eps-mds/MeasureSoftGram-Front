@@ -58,7 +58,7 @@ function TsqmiBadge() {
   }
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(latestTSQMIBadgeUrl);
+    navigator.clipboard.writeText(`![TSQMI Rating](${latestTSQMIBadgeUrl})`);
     toast.success('Copiado com sucesso!');
   }
   return (
