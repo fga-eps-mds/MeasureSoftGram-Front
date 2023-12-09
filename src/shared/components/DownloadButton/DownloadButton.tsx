@@ -47,10 +47,10 @@ const Download = ({ product, kind, startDate, endDate, checkedOptions }: Downloa
         d_end instanceof Date && !isNaN(d_end)
           ? parse(endDate, 'dd/MM/yyyy', new Date())
           : parse(
-              res.results[0].history[res.results[0].history.length - 1].created_at,
-              "yyyy-MM-dd'T'HH:mm:ssxxx",
-              new Date()
-            );
+            res.results[0].history[res.results[0].history.length - 1].created_at,
+            "yyyy-MM-dd'T'HH:mm:ssxxx",
+            new Date()
+          );
 
       parsedStartDate.setHours(0, 0, 0, 0);
       parsedEndDate.setHours(0, 0, 0, 0);
@@ -84,7 +84,7 @@ const Download = ({ product, kind, startDate, endDate, checkedOptions }: Downloa
         a.click();
       }
     } catch (error) {
-      console.log(error);
+
     } finally {
       setLoading(false);
       setOpen(false);

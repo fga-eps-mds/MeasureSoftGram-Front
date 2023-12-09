@@ -1,5 +1,5 @@
 const formatMSGGoalsChart = (textProps: string, source: Array<number>, color: string) => {
-  console.log(textProps);
+
 
   const data = [
     { x: 'Category 1', y: [5, 10] },

@@ -303,6 +303,16 @@ export function CreateReleaseProvider({
   };
 
   function finishReleasePlanning() {
+    const isSameReleaseGoal = lastGoal &&
+      releaseInfoForm.startDate === (lastGoal.start_at as string).slice(0, 10) &&
+      releaseInfoForm.endDate === (lastGoal.end_at as string).slice(0, 10) &&
+      releaseInfoForm.name === lastGoal?.release_name;
+
+    if (isSameReleaseGoal) {
+      setAlertMessage('sameReleaseGoal');
+      return;
+    }
+
     sendConfigJson().catch(() => setAlertMessage('errorOnCreation'));
     createProductReleaseGoal().catch(() => setAlertMessage('errorOnCreation'));
   }

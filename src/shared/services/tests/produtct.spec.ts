@@ -19,6 +19,16 @@ describe('ProductQuery', () => {
     expect(api.get).toHaveBeenCalledWith(`/organizations/${organizationId}/products/${id}/`);
   });
 
+  it('updateProduct should call api.get with the right URL', async () => {
+    const organizationId = 1;
+    const id = '2';
+    await productQuery.updateProduct(id, { name: 'teste', organizationId: organizationId });
+    expect(api.put).toHaveBeenCalledWith(`/organizations/${organizationId}/products/${id}/`, {
+      name: 'teste',
+      organizationId: 1
+    });
+  });
+
   it('getAllRepositories should call api.get with the right URL', async () => {
     const organizationId = '1';
     const productId = '2';
@@ -137,6 +147,51 @@ describe('ProductQuery', () => {
     const productId = '2';
     await productQuery.getCurrentReleaseGoal(organizationId, productId);
     expect(api.get).toHaveBeenCalledWith(`organizations/${organizationId}/products/${productId}/current/goal/`);
+  });
+
+  it('getCompareGoalAccomplished should call api.get with the right URL', async () => {
+    const organizationId = '1';
+    const productId = '2';
+    const releaseId = 3;
+    await productQuery.getCompareGoalAccomplished(organizationId, productId, releaseId);
+    expect(api.get).toHaveBeenCalledWith(`organizations/${organizationId}/products/${productId}/all/goal/`, {
+      params: { release_id: releaseId }
+    });
+  });
+
+  it('getProductRepositoriesTsqmiHistory should call api.get with the right URL', async () => {
+    const organizationId = '1';
+    const productId = '2';
+    await productQuery.getProductRepositoriesTsqmiHistory(organizationId, productId);
+    expect(api.get).toHaveBeenCalledWith(
+      `organizations/${organizationId}/products/${productId}/repositories-tsqmi-historical-values/`
+    );
+  });
+
+  it('getCurrentGoal should call api.get with the right URL', async () => {
+    const organizationId = '1';
+    const id = '2';
+    const releaseId = 3;
+    await productQuery.getCurrentGoal(organizationId, id, releaseId);
+    expect(api.get).toHaveBeenCalledWith(`organizations/${organizationId}/products/${id}/current/goal/`, {
+      params: { release_id: releaseId }
+    });
+  });
+
+  it('createProduct should call api.get with the right URL', async () => {
+    const organizationId = 1;
+    await productQuery.createProduct({ name: 'teste', organizationId: organizationId });
+    expect(api.post).toHaveBeenCalledWith(`/organizations/${organizationId}/products/`, {
+      name: 'teste',
+      organizationId: organizationId
+    });
+  });
+
+  it('deleteProduct should call api.get with the right URL', async () => {
+    const organizationId = '1';
+    const id = '2';
+    await productQuery.deleteProduct(id, organizationId);
+    expect(api.delete).toHaveBeenCalledWith(`/organizations/${organizationId}/products/${id}/`);
   });
 
   afterEach(() => {
