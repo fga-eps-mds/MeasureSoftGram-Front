@@ -10,7 +10,6 @@ import {
   Typography,
   TextField,
   Button,
-  Snackbar,
 } from '@mui/material';
 import { FaGithub, FaGitlab, FaBitbucket, FaAws, FaCodeBranch } from 'react-icons/fa';
 import { NextPageWithLayout } from '@pages/_app.next';
@@ -208,9 +207,6 @@ const RepositoryForm: NextPageWithLayout = () => {
     }
   }, [currentOrganization?.id, currentProduct?.id, router]);
 
-  const handleCloseSnackbar = () => {
-    setOpenSnackbar(false);
-  };
 
   return (
     <>
@@ -295,12 +291,6 @@ const RepositoryForm: NextPageWithLayout = () => {
               </Box>
             </Box>
           </form>
-          <Snackbar
-            open={openSnackbar}
-            autoHideDuration={6000}
-            onClose={handleCloseSnackbar}
-            message={successMessage || errorMessage}
-          />
           <ToastContainer />
         </Box>
       </Container>
