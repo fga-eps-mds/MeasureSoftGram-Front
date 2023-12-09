@@ -34,8 +34,8 @@ export default function SimpleLineChart({ planejado, realizado, labels }: CurveG
 
   return (
     <LineChart
-      width={500}
-      height={300}
+      width={700}
+      height={400}
       series={series}
       xAxis={[{
         scaleType: 'point',

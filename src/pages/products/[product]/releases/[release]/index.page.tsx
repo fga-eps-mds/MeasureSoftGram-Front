@@ -1,16 +1,17 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Head from 'next/head';
 import { NextPageWithLayout } from '@pages/_app.next';
 import getLayout from '@components/Layout';
 import { GetServerSideProps } from 'next';
 import { productQuery } from '@services/product';
 import { IReleases, ReleaseGoal } from '@customTypes/product';
-import CompareGoalsChart from '@components/CompareGoalsChart';
 import { Box } from '@mui/system';
 import { Container, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useRequest } from '@hooks/useRequest';
 import { formatDate } from '@utils/formatDate';
+import SimpleLineChart from './components/CurveGraph/CurveGraph';
+import * as Styles from './styles';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
@@ -46,6 +47,19 @@ const Release: NextPageWithLayout = ({ organizationId, productId, releaseId }: R
   const { data: releaseResponse } = useRequest<any>(
     productQuery.getReleaseList(organizationId, productId as string)
   );
+
+  const planejado = [0.4, 0.3,];
+  const realizado = [0.2400, 0.1398,];
+  const xLabels = [
+    'Reliability',
+    'Maintainability',
+  ];
+
+  planejado.unshift(0);
+  xLabels.unshift('');
+  if (realizado) {
+    realizado.unshift(0);
+  }
 
   const releaseList: ReleaseGoal[] = releaseResponse?.results || [];
   return (
@@ -89,6 +103,9 @@ const Release: NextPageWithLayout = ({ organizationId, productId, releaseId }: R
             </Select>
           </Box>
         </Box>
+        <Styles.ContainerGraph>
+          <SimpleLineChart planejado={planejado} realizado={realizado} labels={xLabels} />
+        </Styles.ContainerGraph>
       </Container>
     </>
   );
