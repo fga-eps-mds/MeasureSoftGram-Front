@@ -19,7 +19,6 @@ import { useRouter } from 'next/router';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import { useProductContext } from '@contexts/ProductProvider';
 import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import axios, { AxiosError } from 'axios';
 import { SiSubversion, SiMercurial, SiMicrosoftazure } from "react-icons/si";
 import { repository } from '@services/repository';
