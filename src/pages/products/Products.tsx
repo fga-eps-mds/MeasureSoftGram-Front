@@ -89,6 +89,7 @@ const Products: NextPageWithLayout = () => {
             color="#000000cc"
             fontWeight="semibold"
             marginTop="30px"
+            data-testid="organization-title"
           >
             Organizações
           </Typography>
