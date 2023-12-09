@@ -181,12 +181,13 @@ export interface Goal {
 
 export interface IReleases {
   id: number;
-  created_by: string;
   release_name: string;
   start_at: Date | string;
   end_at: Date | string;
-  accomplished: Characteristics;
-  goal: Characteristics;
+  created_by: string;
+  product: number;
+  goal?: number;
+  description?: string;
 }
 
 export interface ReleasesPaginated {

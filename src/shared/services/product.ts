@@ -8,14 +8,15 @@ import {
   EntitiesMetrics,
   LatestValues,
   Goal,
-  Product
+  Product,
+  ReleasesPaginated,
+  IReleases
 } from '@customTypes/product';
 import { Data } from '@customTypes/preConfig';
 
 import { AxiosError, AxiosRequestConfig } from 'axios';
 import { NewCreateReleaseData } from '@modules/createRelease/context/useCreateRelease';
 import api from './api';
-import { getAccessToken } from './Auth';
 
 export interface ProductFormData {
   name: string;
@@ -130,6 +131,14 @@ class ProductQuery {
   async getCurrentGoal(organizationId: string, productId: string, releaseId?: number) {
     const url = `organizations/${organizationId}/products/${productId}/current/goal/`;
     return api.get<Goal>(url, { params: releaseId && { release_id: releaseId } });
+  }
+
+  getReleasesByID(organizationId: string, productId: string, releaseId: string): AxiosRequestConfig {
+    const url = `organizations/${organizationId}/products/${productId}/create/release/${releaseId}`;
+    return {
+      url,
+      method: 'get'
+    };
   }
 
   getReleaseList(organizationId: string, productId: string, releaseId?: number): AxiosRequestConfig {

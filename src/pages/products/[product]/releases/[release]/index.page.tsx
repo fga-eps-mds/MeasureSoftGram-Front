@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Head from 'next/head';
 import { NextPageWithLayout } from '@pages/_app.next';
 import getLayout from '@components/Layout';
@@ -16,47 +16,33 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const product = context?.params?.product as string;
     const releaseId = context?.params?.release as string;
-
     const organizationId = product.split('-')[0];
     const productId = product.split('-')[1];
 
-    const response = await productQuery.getCompareGoalAccomplished(organizationId, productId, Number(releaseId));
-
-    if (!response?.data?.[0]?.id) {
-      return {
-        redirect: {
-          permanent: false,
-          destination: '/products'
-        },
-        props: {}
-      };
-    }
-
     return {
       props: {
-        release: response?.data?.[0],
         organizationId,
-        productId
+        productId,
+        releaseId
       }
     };
   } catch (err) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: `/products/${context?.params?.product}`
-      },
-      props: {}
-    };
+    console.log(err);
   }
 };
 
 interface ReleaseProps {
-  release: IReleases;
+  // release: IReleases;
   organizationId: string;
   productId: string;
+  releaseId: string;
 }
-const Release: NextPageWithLayout = ({ release, organizationId, productId }: ReleaseProps) => {
+const Release: NextPageWithLayout = ({ organizationId, productId, releaseId }: ReleaseProps) => {
   const router = useRouter();
+
+  const { data: release } = useRequest<IReleases>(
+    productQuery.getReleasesByID(organizationId, productId, releaseId)
+  );
   const { data: releaseResponse } = useRequest<any>(
     productQuery.getReleaseList(organizationId, productId as string)
   );
@@ -103,7 +89,6 @@ const Release: NextPageWithLayout = ({ release, organizationId, productId }: Rel
             </Select>
           </Box>
         </Box>
-        <CompareGoalsChart release={release} />
       </Container>
     </>
   );
