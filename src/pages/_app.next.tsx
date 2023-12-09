@@ -26,6 +26,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [showError, setShowError] = useState(false); // Added state for error modal
   const disableBreadcrumb = Component.disableBreadcrumb ?? false;
 
   const router = useRouter();
@@ -49,6 +50,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       clearTimeout(timeoutId);
       setLoading(false);
       setModalOpen(false);
+      setShowError(false);
     };
 
     router.events.on('routeChangeStart', handleRouteChange);
@@ -70,6 +72,17 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
       return () => clearTimeout(timeoutId);
     }
+  }, [loading]);
+
+  useEffect(() => {
+    const errorTimeoutId = setTimeout(() => {
+      if (loading) {
+        // Show error modal only if still loading after 10 seconds
+        setShowError(true);
+      }
+    }, 15000);
+
+    return () => clearTimeout(errorTimeoutId);
   }, [loading]);
 
   return (
@@ -143,6 +156,52 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
                     </div>
                   </Box>
                 </Modal>
+
+                {showError && (
+                  <Modal
+                    open={showError}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                  >
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: '100vw',
+                        height: '100vh',
+                      }}
+                    >
+                      <div
+                        style={{
+                          position: 'fixed',
+                          top: '63%',
+                          left: '50%',
+                          transform: 'translate(-50%, -50%)',
+                          textAlign: 'center',
+                        }}
+                      >
+                        {/* Add your error message here */}
+                        <h3
+                          style={{
+                            fontSize: '20px',
+                            color: '#FF0000',
+                            textShadow: `
+                              -1px -1px 0 #FFFFFF,
+                              1px -1px 0 #FFFFFF,
+                              -1px  1px 0 #FFFFFF,
+                              1px  1px 0 #FFFFFF
+                            `,
+                          }}
+                        >
+                          <div>Demorando demais para carregar?</div>
+                          <div>Tente recarregar a página mais tarde.</div>
+                        </h3>
+                      </div>
+                    </Box>
+                  </Modal>
+                )}
               </>
             </Theme>
           </ProductProvider>
