@@ -8,11 +8,12 @@ export interface CurveGraphProps {
 }
 
 export default function SimpleLineChart({ planejado, realizado, labels }: CurveGraphProps) {
+  console.log(planejado, realizado, labels)
   const series: any[] = [
     { data: planejado, label: 'Planejado', color: '#33568E', }
   ]
 
-  if (realizado) {
+  if (realizado && realizado.length > 0) {
     series.push({ data: realizado, label: 'Realizado', color: 'red', },)
 
     if (planejado.length !== realizado.length) {

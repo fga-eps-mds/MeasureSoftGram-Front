@@ -4,7 +4,7 @@ import { NextPageWithLayout } from '@pages/_app.next';
 import getLayout from '@components/Layout';
 import { GetServerSideProps } from 'next';
 import { productQuery } from '@services/product';
-import { IReleases, ReleaseGoal } from '@customTypes/product';
+import { IReleases, ReleaseGoal, IReleasesWithGoalAndAccomplished } from '@customTypes/product';
 import { Box } from '@mui/system';
 import { Container, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
@@ -41,15 +41,27 @@ interface ReleaseProps {
 const Release: NextPageWithLayout = ({ organizationId, productId, releaseId }: ReleaseProps) => {
   const router = useRouter();
 
-  const { data: release } = useRequest<IReleases>(
-    productQuery.getReleasesByID(organizationId, productId, releaseId)
+  const { data: rpXrr } = useRequest<IReleasesWithGoalAndAccomplished>(
+    productQuery.getReleasesAndPlannedXAccomplishedByID(organizationId, productId, releaseId)
   );
   const { data: releaseResponse } = useRequest<any>(
     productQuery.getReleaseList(organizationId, productId as string)
   );
 
-  const planejado = [0.4, 0.3,];
-  const realizado = [0.2400, 0.1398,];
+  const release = rpXrr?.release;
+
+  const planejado = [
+    (rpXrr?.planned.reliability ? rpXrr.planned.reliability / 100 : 0),
+    (rpXrr?.planned.maintainability ? rpXrr.planned.maintainability / 100 : 0),
+  ];
+
+  const realizado = [];
+  if (rpXrr?.accomplished) {
+    realizado.push(0);
+    realizado.push(rpXrr?.planned.reliability ? rpXrr.planned.reliability / 100 : 0);
+    realizado.push(rpXrr?.accomplished.maintainability ? rpXrr.accomplished.maintainability / 100 : 0);
+  }
+  // const realizado = [0.2400, 0.1398,];
   const xLabels = [
     'Reliability',
     'Maintainability',
@@ -57,9 +69,6 @@ const Release: NextPageWithLayout = ({ organizationId, productId, releaseId }: R
 
   planejado.unshift(0);
   xLabels.unshift('');
-  if (realizado) {
-    realizado.unshift(0);
-  }
 
   const releaseList: ReleaseGoal[] = releaseResponse?.results || [];
   return (

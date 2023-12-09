@@ -133,8 +133,12 @@ class ProductQuery {
     return api.get<Goal>(url, { params: releaseId && { release_id: releaseId } });
   }
 
-  getReleasesByID(organizationId: string, productId: string, releaseId: string): AxiosRequestConfig {
-    const url = `organizations/${organizationId}/products/${productId}/create/release/${releaseId}`;
+  getReleasesAndPlannedXAccomplishedByID(
+    organizationId: string,
+    productId: string,
+    releaseId: string
+  ): AxiosRequestConfig {
+    const url = `organizations/${organizationId}/products/${productId}/create/release/${releaseId}/planeed-x-accomplished`;
     return {
       url,
       method: 'get'

@@ -196,3 +196,9 @@ export interface ReleasesPaginated {
   previous?: number;
   results?: IReleases[];
 }
+
+export interface IReleasesWithGoalAndAccomplished {
+  release: IReleases;
+  planned: Characteristics;
+  accomplished?: Characteristics;
+}
