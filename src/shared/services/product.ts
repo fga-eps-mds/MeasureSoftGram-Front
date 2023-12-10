@@ -130,7 +130,7 @@ class ProductQuery {
 
   async getCurrentGoal(organizationId: string, productId: string, releaseId?: number) {
     const url = `organizations/${organizationId}/products/${productId}/current/goal/`;
-    return api.get<Goal>(url, { params: releaseId && { release_id: releaseId } });
+    return api.get<any>(url, { params: releaseId && { release_id: releaseId } });
   }
 
   getReleasesAndPlannedXAccomplishedByID(

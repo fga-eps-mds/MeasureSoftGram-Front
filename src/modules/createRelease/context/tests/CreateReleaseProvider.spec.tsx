@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import React, { ReactNode, useEffect } from 'react';
 import { act, fireEvent, render, renderHook, waitFor } from '@testing-library/react';
 
-import { Product } from '@customTypes/product';
+import { Characteristics, Product } from '@customTypes/product';
 import { productQuery } from '@services/product';
 import { CreateReleaseProvider, useCreateReleaseContext } from '../useCreateRelease';
 
@@ -62,7 +62,7 @@ const TestingComponent = ({ step = 0, configPage = 0, startDate = '30/08/2022', 
 
   return (
     <>
-      <h1>Aoba</h1>
+      <h1>aoba</h1>
       <button
         type='submit'
         data-testid="close-alert"
@@ -121,7 +121,9 @@ const product: Product = {
   description: '',
   github_url: '',
   created_at: '',
-  updated_at: ''
+  updated_at: '',
+  gaugeRedLimit: 0,
+  gaugeYellowLimit: 0
 }
 
 const NextStepTestId = "test-next-step";
@@ -145,7 +147,7 @@ describe('<CreateReleaseProvider />', () => {
       )
 
       waitFor(() => {
-        expect(tree.getAllByText('Aoba')).toBeInTheDocument()
+        expect(tree.getAllByText('aoba')).toBeInTheDocument()
       })
 
       expect(tree).toMatchSnapshot();
@@ -165,7 +167,7 @@ describe('<CreateReleaseProvider />', () => {
       )
 
       waitFor(() => {
-        expect(tree.getAllByText('Aoba')).toBeDefined()
+        expect(tree.getAllByText('aoba')).toBeDefined()
       })
 
       fireEvent.click(tree.getByTestId('close-alert'));
@@ -185,7 +187,7 @@ describe('<CreateReleaseProvider />', () => {
         )
 
         waitFor(() => {
-          expect(tree.getAllByText('Aoba')).toBeDefined()
+          expect(tree.getAllByText('aoba')).toBeDefined()
         })
 
         fireEvent.click(tree.getByTestId(PreviousStepTestId));
@@ -204,7 +206,7 @@ describe('<CreateReleaseProvider />', () => {
       )
 
       waitFor(() => {
-        expect(tree.getAllByText('Aoba')).toBeDefined()
+        expect(tree.getAllByText('aoba')).toBeDefined()
       })
 
       fireEvent.click(tree.getByTestId(PreviousStepTestId));
@@ -222,7 +224,7 @@ describe('<CreateReleaseProvider />', () => {
       )
 
       waitFor(() => {
-        expect(tree.getAllByText('Aoba')).toBeDefined()
+        expect(tree.getAllByText('aoba')).toBeDefined()
       })
 
       fireEvent.click(tree.getByTestId(PreviousStepTestId));
@@ -240,7 +242,7 @@ describe('<CreateReleaseProvider />', () => {
       )
 
       waitFor(() => {
-        expect(tree.getAllByText('Aoba')).toBeDefined()
+        expect(tree.getAllByText('aoba')).toBeDefined()
       })
 
       fireEvent.click(tree.getByTestId(PreviousStepTestId));
@@ -258,7 +260,7 @@ describe('<CreateReleaseProvider />', () => {
       )
 
       waitFor(() => {
-        expect(tree.getAllByText('Aoba')).toBeDefined()
+        expect(tree.getAllByText('aoba')).toBeDefined()
       })
 
       fireEvent.click(tree.getByTestId('test-use-last-config'));
@@ -276,7 +278,7 @@ describe('<CreateReleaseProvider />', () => {
       )
 
       waitFor(() => {
-        expect(tree.getAllByText('Aoba')).toBeDefined()
+        expect(tree.getAllByText('aoba')).toBeDefined()
       })
 
       fireEvent.click(tree.getByTestId('test-change-threshold'));
@@ -294,7 +296,7 @@ describe('<CreateReleaseProvider />', () => {
       )
 
       waitFor(() => {
-        expect(tree.getAllByText('Aoba')).toBeDefined()
+        expect(tree.getAllByText('aoba')).toBeDefined()
       })
 
       fireEvent.click(tree.getByTestId(PreviousStepTestId));
@@ -312,7 +314,7 @@ describe('<CreateReleaseProvider />', () => {
       )
 
       waitFor(() => {
-        expect(tree.getAllByText('Aoba')).toBeDefined()
+        expect(tree.getAllByText('aoba')).toBeDefined()
       })
 
       fireEvent.click(tree.getByTestId('test-change-threshold'));
@@ -331,11 +333,15 @@ describe('<CreateReleaseProvider />', () => {
       )
 
       waitFor(() => {
-        expect(tree.getAllByText('Aoba')).toBeDefined()
+        expect(tree.getAllByText('aoba')).toBeDefined()
       })
       fireEvent.click(tree.getByTestId('test-change-threshold'));
       fireEvent.click(tree.getByTestId('goal-step'));
     })
+    const dataa: Characteristics = {
+      maintainability: undefined,
+      reliability: undefined,
+    }
 
     it('Deve chamar o finishReleasePlanning passando o mesmo releaseGoal', async () => {
       jest.spyOn(productQuery, 'getCurrentGoal').mockResolvedValueOnce({
@@ -343,9 +349,10 @@ describe('<CreateReleaseProvider />', () => {
           id: 1,
           release_name: 'aoba',
           start_at: '2022-08-30',
-          end_at: '2022-08-30'
-        }
-      })
+          end_at: '2022-08-30',
+          data: dataa as any
+        } as any
+      } as any)
       const tree = render(
         <CreateReleaseProvider
           organizationId='1'
@@ -357,7 +364,7 @@ describe('<CreateReleaseProvider />', () => {
       )
 
       waitFor(() => {
-        expect(tree.getAllByText('Aoba')).toBeDefined()
+        expect(tree.getAllByText('aoba')).toBeDefined()
       })
 
     })
@@ -379,7 +386,7 @@ describe('<CreateReleaseProvider />', () => {
       )
 
       waitFor(() => {
-        expect(tree.getAllByText('Aoba')).toBeDefined()
+        expect(tree.getAllByText('aoba')).toBeDefined()
       })
 
     })

@@ -32,13 +32,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 };
 
-interface ReleaseProps {
+export interface ReleaseProps {
   // release: IReleases;
   organizationId: string;
   productId: string;
   releaseId: string;
 }
-const Release: NextPageWithLayout = ({ organizationId, productId, releaseId }: ReleaseProps) => {
+const Release: any = ({ organizationId, productId, releaseId }: any) => {
   const router = useRouter();
 
   const { data: rpXrr } = useRequest<IReleasesWithGoalAndAccomplished>(

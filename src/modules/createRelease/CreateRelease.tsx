@@ -121,7 +121,7 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
     } catch (error: any) {
       console.log("error.response", error.response)
       console.log("error", error)
-      enqueueSnackbar(`Erro ao criar release, ${error.response.data.detail}`, { variant: 'error' })
+      enqueueSnackbar(`Erro ao criar release, ${error?.response?.data?.detail}`, { variant: 'error' })
     }
   }
   const handleNextButton = async () => {

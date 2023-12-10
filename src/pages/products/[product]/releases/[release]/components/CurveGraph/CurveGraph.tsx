@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { LineChart } from '@mui/x-charts/LineChart';
+import { LineChart } from '@mui/x-charts';
 
 export interface CurveGraphProps {
   planejado: number[];
@@ -14,7 +14,7 @@ export default function SimpleLineChart({ planejado, realizado, labels }: CurveG
   ]
 
   if (realizado && realizado.length > 0) {
-    series.push({ data: realizado, label: 'Realizado', color: 'red', },)
+    series.push({ data: realizado, label: 'Realizado', color: 'red', })
 
     if (planejado.length !== realizado.length) {
       return (

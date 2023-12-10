@@ -27,10 +27,10 @@ Object {
                 data-testid="name-input"
               >
                 <label
-                  class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root"
+                  class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root"
                   data-shrink="false"
-                  for=":r9:"
-                  id=":r9:-label"
+                  for=":rc:"
+                  id=":rc:-label"
                 >
                   Nome
                   <span
@@ -47,7 +47,7 @@ Object {
                   <input
                     aria-invalid="false"
                     class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-                    id=":r9:"
+                    id=":rc:"
                     required=""
                     type="text"
                     value=""
@@ -61,7 +61,7 @@ Object {
                     >
                       <span>
                         Nome
-                         
+                         
                         *
                       </span>
                     </legend>
@@ -73,10 +73,10 @@ Object {
                 data-testid="org-input"
               >
                 <label
-                  class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
+                  class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
                   data-shrink="true"
-                  for=":ra:"
-                  id=":ra:-label"
+                  for=":rd:"
+                  id=":rd:-label"
                 >
                   Organizações
                   <span
@@ -91,12 +91,13 @@ Object {
                   class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-multiline css-8ewcdo-MuiInputBase-root-MuiOutlinedInput-root"
                 >
                   <div
+                    aria-controls=":re:"
                     aria-expanded="false"
                     aria-haspopup="listbox"
-                    aria-labelledby=":ra:-label :ra:"
+                    aria-labelledby=":rd:-label :rd:"
                     class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline css-1fo4dxe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
-                    id=":ra:"
-                    role="button"
+                    id=":rd:"
+                    role="combobox"
                     tabindex="0"
                   >
                     <span
@@ -107,6 +108,7 @@ Object {
                   </div>
                   <input
                     aria-hidden="true"
+                    aria-invalid="false"
                     class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
                     required=""
                     rows="4"
@@ -133,7 +135,7 @@ Object {
                     >
                       <span>
                         Organizações
-                         
+                         
                         *
                       </span>
                     </legend>
@@ -145,10 +147,10 @@ Object {
                 data-testid="description-input"
               >
                 <label
-                  class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root"
+                  class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root"
                   data-shrink="false"
-                  for=":rb:"
-                  id=":rb:-label"
+                  for=":rf:"
+                  id=":rf:-label"
                 >
                   Descrição
                 </label>
@@ -158,7 +160,7 @@ Object {
                   <textarea
                     aria-invalid="false"
                     class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input"
-                    id=":rb:"
+                    id=":rf:"
                     rows="4"
                     style="height: 0px; overflow: hidden;"
                   />
@@ -166,7 +168,7 @@ Object {
                     aria-hidden="true"
                     class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input"
                     readonly=""
-                    style="visibility: hidden; position: absolute; overflow: hidden; height: 0px; top: 0px; left: 0px; transform: translateZ(0); padding: 0px; width: 100%;"
+                    style="visibility: hidden; position: absolute; overflow: hidden; height: 0px; top: 0px; left: 0px; transform: translateZ(0); padding-top: 0px; padding-bottom: 0px; width: 100%;"
                     tabindex="-1"
                   />
                   <fieldset
@@ -230,10 +232,10 @@ Object {
               data-testid="name-input"
             >
               <label
-                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root"
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root"
                 data-shrink="false"
-                for=":r9:"
-                id=":r9:-label"
+                for=":rc:"
+                id=":rc:-label"
               >
                 Nome
                 <span
@@ -250,7 +252,7 @@ Object {
                 <input
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-                  id=":r9:"
+                  id=":rc:"
                   required=""
                   type="text"
                   value=""
@@ -264,7 +266,7 @@ Object {
                   >
                     <span>
                       Nome
-                       
+                       
                       *
                     </span>
                   </legend>
@@ -276,10 +278,10 @@ Object {
               data-testid="org-input"
             >
               <label
-                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
                 data-shrink="true"
-                for=":ra:"
-                id=":ra:-label"
+                for=":rd:"
+                id=":rd:-label"
               >
                 Organizações
                 <span
@@ -294,12 +296,13 @@ Object {
                 class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-multiline css-8ewcdo-MuiInputBase-root-MuiOutlinedInput-root"
               >
                 <div
+                  aria-controls=":re:"
                   aria-expanded="false"
                   aria-haspopup="listbox"
-                  aria-labelledby=":ra:-label :ra:"
+                  aria-labelledby=":rd:-label :rd:"
                   class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline css-1fo4dxe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
-                  id=":ra:"
-                  role="button"
+                  id=":rd:"
+                  role="combobox"
                   tabindex="0"
                 >
                   <span
@@ -310,6 +313,7 @@ Object {
                 </div>
                 <input
                   aria-hidden="true"
+                  aria-invalid="false"
                   class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
                   required=""
                   rows="4"
@@ -336,7 +340,7 @@ Object {
                   >
                     <span>
                       Organizações
-                       
+                       
                       *
                     </span>
                   </legend>
@@ -348,10 +352,10 @@ Object {
               data-testid="description-input"
             >
               <label
-                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root"
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root"
                 data-shrink="false"
-                for=":rb:"
-                id=":rb:-label"
+                for=":rf:"
+                id=":rf:-label"
               >
                 Descrição
               </label>
@@ -361,7 +365,7 @@ Object {
                 <textarea
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input"
-                  id=":rb:"
+                  id=":rf:"
                   rows="4"
                   style="height: 0px; overflow: hidden;"
                 />
@@ -369,7 +373,7 @@ Object {
                   aria-hidden="true"
                   class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input"
                   readonly=""
-                  style="visibility: hidden; position: absolute; overflow: hidden; height: 0px; top: 0px; left: 0px; transform: translateZ(0); padding: 0px; width: 100%;"
+                  style="visibility: hidden; position: absolute; overflow: hidden; height: 0px; top: 0px; left: 0px; transform: translateZ(0); padding-top: 0px; padding-bottom: 0px; width: 100%;"
                   tabindex="-1"
                 />
                 <fieldset
