@@ -16,6 +16,7 @@ import ConfirmationModal from '@components/ConfirmationModal';
 import { FaGithub, FaGitlab, FaBitbucket, FaAws, FaCodeBranch } from 'react-icons/fa';
 import { SiSubversion, SiMercurial, SiMicrosoftazure } from "react-icons/si";
 import { useQuery } from '../../../repositories/hooks/useQuery';
+import TsqmiBadge from '@pages/products/[product]/repositories/[repository]/components/TsqmiBadge';
 
 interface Props {
   maxCount?: number;
@@ -52,7 +53,7 @@ const platformIcons = {
 const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
   const { currentProduct } = useProductContext();
   const { currentOrganization } = useOrganizationContext();
-  const { repositoryList, setRepositoryList } = useRepositoryContext();
+  const { repositoryList, setRepositoryList, repositoriesLatestTsqmi } = useRepositoryContext();
   const router = useRouter();
   const { handleRepositoryAction } = useQuery();
 
@@ -69,6 +70,14 @@ const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
     void router.push(path);
   };
 
+  const getTsqmiValue = (id: number) => {
+    return repositoriesLatestTsqmi?.results.find(result => result.id === id)!.current_tsqmi;
+  }
+
+  const getTsqmiUrl = (id: number) => {
+    return repositoriesLatestTsqmi?.results.find(result => result.id === id)!.url;
+  }
+
   function handleRepositoriesFilter(name: string) {
     if ((name == null || name === '') && repositoryList?.length) {
       setFilteredRepositories([...repositoryList]);
@@ -78,8 +87,6 @@ const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
       repositoryList?.filter((currentRepository: Repository) =>
         currentRepository.name.toLowerCase().includes(name.toLowerCase())
       ) ?? [];
-
-
 
     setFilteredRepositories([...repositoriesWithName]);
   }
@@ -145,7 +152,7 @@ const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
         <TableBody>
           {filteredRepositories?.slice(0, maxCount ?? filteredRepositories.length).map((repo) => (
             <TableRow hover style={{ cursor: 'pointer' }} data-testid="repository-row" key={repo.id}>
-              <TableCell colSpan={2} onClick={() => handleClickRedirects(`${repo.id}-${repo.name}`)}>
+              <TableCell onClick={() => handleClickRedirects(`${repo.id}-${repo.name}`)}>
                 <Box display="flex" alignItems="center">
                   {repo.url ? (
                     <a href={repo.url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
@@ -160,6 +167,12 @@ const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
                   )}
                   <span style={{ marginLeft: 10 }}>{repo.name}</span>
                 </Box>
+              </TableCell>
+              <TableCell>
+                <TsqmiBadge
+                  latestTSQMI={getTsqmiValue(repo.id)}
+                  latestTSQMIBadgeUrl={getTsqmiUrl(repo.id)}
+                />
               </TableCell>
               <TableCell align="right">
                 <IconButton aria-label="edit" onClick={() => router.push(`/products/${currentOrganization?.id}-${currentProduct?.id}/repositories/manage-repository?id=${repo.id}`)}>

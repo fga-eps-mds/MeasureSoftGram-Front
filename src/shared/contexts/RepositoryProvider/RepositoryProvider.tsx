@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext, ReactNode, useMemo } from 'react';
 
 import { Repository, Historical, Result } from '@customTypes/repository';
+import { RepositoriesLatestTsqmi, TsqmiValue } from '@customTypes/product';
 
 interface Props {
   children: ReactNode;
@@ -21,10 +22,12 @@ interface IRepositoryContext {
   setMetrics: (metrics: string[]) => void;
   historicalTSQMI: Historical;
   setHistoricalTSQMI: (historical: Historical) => void;
-  latestTSQMI: Result;
-  setLatestTSQMI: (result: Result) => void;
+  latestTSQMI: TsqmiValue;
+  setLatestTSQMI: (result: TsqmiValue) => void;
   latestTSQMIBadgeUrl: string;
   setLatestTSQMIBadgeUrl: (result: string) => void;
+  repositoriesLatestTsqmi: RepositoriesLatestTsqmi;
+  setRepositoriesLatestTsqmi: (result: RepositoriesLatestTsqmi) => void;
 }
 
 const RepositoryContext = createContext<IRepositoryContext | undefined>(undefined);
@@ -38,8 +41,9 @@ export function RepositoryProvider({ children }: Props) {
   const [measures, setMeasures] = useState<string[]>([]);
   const [metrics, setMetrics] = useState<string[]>([]);
   const [historicalTSQMI, setHistoricalTSQMI] = useState<Historical>();
-  const [latestTSQMI, setLatestTSQMI] = useState<Result>();
+  const [latestTSQMI, setLatestTSQMI] = useState<TsqmiValue>();
   const [latestTSQMIBadgeUrl, setLatestTSQMIBadgeUrl] = useState<string>();
+  const [repositoriesLatestTsqmi, setRepositoriesLatestTsqmi] = useState<RepositoriesLatestTsqmi>();
 
 
   const value = useMemo(
@@ -61,7 +65,9 @@ export function RepositoryProvider({ children }: Props) {
       latestTSQMI,
       setLatestTSQMI,
       latestTSQMIBadgeUrl,
-      setLatestTSQMIBadgeUrl
+      setLatestTSQMIBadgeUrl,
+      repositoriesLatestTsqmi,
+      setRepositoriesLatestTsqmi
     }),
     [currentRepository, repositoryList, characteristics, subCharacteristics, measures, metrics, historicalTSQMI, latestTSQMI]
   );

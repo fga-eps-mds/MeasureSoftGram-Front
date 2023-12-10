@@ -1,19 +1,22 @@
-import { useRepositoryContext } from '@contexts/RepositoryProvider';
 import { Box, Tooltip } from '@mui/material';
 
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { TsqmiValue } from '@customTypes/product';
 
-const oneStarBadge = '/images/svg/badges/1stars.svg'
-const twoStarBadge = '/images/svg/badges/2stars.svg'
-const threeStarBadge = '/images/svg/badges/3stars.svg'
-const fourStarBadge = '/images/svg/badges/4stars.svg'
-const fiveStarBadge = '/images/svg/badges/5stars.svg'
-const zeroStarBadge = '/images/svg/badges/0stars.svg'
+const oneStarBadge = '/images/svg/badges/1stars.svg';
+const twoStarBadge = '/images/svg/badges/2stars.svg';
+const threeStarBadge = '/images/svg/badges/3stars.svg';
+const fourStarBadge = '/images/svg/badges/4stars.svg';
+const fiveStarBadge = '/images/svg/badges/5stars.svg';
+const zeroStarBadge = '/images/svg/badges/0stars.svg';
 
-function TsqmiBadge() {
-  const { latestTSQMI, latestTSQMIBadgeUrl } = useRepositoryContext();
+interface TsqmiBadgeProps {
+  latestTSQMI: TsqmiValue;
+  latestTSQMIBadgeUrl: string;
+}
 
+function TsqmiBadge({ latestTSQMI, latestTSQMIBadgeUrl }: TsqmiBadgeProps) {
   const [showBadge, setShowBadge] = useState<boolean>(false);
   const [badgePath, setBadgePath] = useState<any>('');
 

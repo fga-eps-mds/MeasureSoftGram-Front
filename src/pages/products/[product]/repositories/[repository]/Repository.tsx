@@ -24,9 +24,12 @@ import CustomTabs from './components/CustomTabs';
 import { useQuery } from './hooks/useQuery';
 import OptionsHeader from './components/OptionsHeader/OptionsHeader';
 import TsqmiBadge from './components/TsqmiBadge';
+import { useRepositoryContext } from '@contexts/RepositoryProvider';
 
 
 const Repository: NextPageWithLayout = () => {
+  const { latestTSQMI, latestTSQMIBadgeUrl } = useRepositoryContext();
+
   useRequireAuth();
   useQuery();
 
@@ -42,7 +45,10 @@ const Repository: NextPageWithLayout = () => {
         <Box marginX="1%" maxWidth="98%">
           <Headers />
 
-          <TsqmiBadge />
+          <TsqmiBadge
+            latestTSQMI={latestTSQMI}
+            latestTSQMIBadgeUrl={latestTSQMIBadgeUrl}
+          />
 
           <OptionsHeader
             title='Características'
