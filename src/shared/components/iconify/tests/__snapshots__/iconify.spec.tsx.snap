@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Iconify should match snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="component-iconify MuiBox-root css-1t9pz9x"
+  >
+    <span />
+     
+  </div>
+</DocumentFragment>
+`;

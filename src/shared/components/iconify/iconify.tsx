@@ -12,15 +12,16 @@ interface Props extends BoxProps {
   icon: IconifyProps;
 }
 
-const Iconify = forwardRef<SVGElement, Props>(({ icon, width = 20, sx, ...other }, ref) => (
+const Iconify = forwardRef<HTMLDivElement, Props>(({ icon, width = 20, sx, ...other }, ref) => (
   <Box
     ref={ref}
-    component={Icon}
+    component="div" // Mudar para 'div' para suportar ref
     className="component-iconify"
-    icon={icon}
     sx={{ width, height: width, ...sx }}
     {...other}
-  />
+  >
+    <Icon icon={icon} /> {/* Renderizar Icon dentro de Box */}
+  </Box>
 ));
 
 export default Iconify;
