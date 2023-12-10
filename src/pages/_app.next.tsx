@@ -26,7 +26,8 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [showError, setShowError] = useState(false); // Added state for error modal
+  const [showError, setShowError] = useState(false);
+  const [errorOccurred, setErrorOccurred] = useState(false); // Added state for error modal
   const disableBreadcrumb = Component.disableBreadcrumb ?? false;
 
   const router = useRouter();
@@ -48,9 +49,18 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     const handleRouteComplete = () => {
       console.log('you have finished going to the new page');
       clearTimeout(timeoutId);
-      setLoading(false);
-      setModalOpen(false);
-      setShowError(false);
+
+      // Stop loading if an error occurred
+      if (errorOccurred) {
+        setLoading(false);
+        setModalOpen(false);
+        setShowError(false);
+
+      } else {
+        setLoading(false);
+        setModalOpen(false);
+        setShowError(false);
+      }
     };
 
     router.events.on('routeChangeStart', handleRouteChange);
@@ -61,7 +71,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       router.events.off('routeChangeComplete', handleRouteComplete);
       clearTimeout(timeoutId);
     };
-  }, []);
+  }, [errorOccurred]);
 
   // Ensure the modal doesn't open if the loading is faster than the delay
   useEffect(() => {
@@ -79,8 +89,11 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       if (loading) {
         // Show error modal only if still loading after 10 seconds
         setShowError(true);
+        setErrorOccurred(true);
+        setModalOpen(false);
+        setLoading(false);
       }
-    }, 15000);
+    }, 1000);
 
     return () => clearTimeout(errorTimeoutId);
   }, [loading]);
@@ -169,17 +182,20 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
                         top: '50%',
                         left: '50%',
                         transform: 'translate(-50%, -50%)',
-                        width: '100vw',
-                        height: '100vh',
+                        backgroundColor: 'white',
+                        outline: '0',
+                        width: '30%',
+                        height: '15%',
                       }}
                     >
                       <div
                         style={{
                           position: 'fixed',
-                          top: '63%',
+                          top: '50%',
                           left: '50%',
                           transform: 'translate(-50%, -50%)',
                           textAlign: 'center',
+                          whiteSpace: 'nowrap',
                         }}
                       >
                         {/* Add your error message here */}
@@ -195,8 +211,8 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
                             `,
                           }}
                         >
-                          <div>Demorando demais para carregar?</div>
-                          <div>Tente recarregar a página mais tarde.</div>
+                          <div>Erro de Timeout</div>
+                          <div>Tente recarregar a página novamente.</div>
                         </h3>
                       </div>
                     </Box>
