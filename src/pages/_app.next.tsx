@@ -27,7 +27,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [showError, setShowError] = useState(false);
-  const [errorOccurred, setErrorOccurred] = useState(false); // Added state for error modal
+  const [errorOccurred, setErrorOccurred] = useState(false);
   const disableBreadcrumb = Component.disableBreadcrumb ?? false;
 
   const router = useRouter();
@@ -55,7 +55,6 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         setLoading(false);
         setModalOpen(false);
         setShowError(false);
-
       } else {
         setLoading(false);
         setModalOpen(false);
@@ -63,8 +62,17 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       }
     };
 
+    const nextNavigationHandler = (url) => {
+      if (errorOccurred) {
+        router.events.emit('routeChangeError')
+        // eslint-disable-next-line no-throw-literal
+        throw "Abort route change by user's confirmation."
+      }
+    };
+
     router.events.on('routeChangeStart', handleRouteChange);
     router.events.on('routeChangeComplete', handleRouteComplete);
+    router.events.on('beforeHistoryChange', nextNavigationHandler);
 
     return () => {
       router.events.off('routeChangeStart', handleRouteChange);
@@ -93,10 +101,15 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         setModalOpen(false);
         setLoading(false);
       }
-    }, 1000);
+    }, 20000);
 
     return () => clearTimeout(errorTimeoutId);
   }, [loading]);
+
+  const closeModal = () => {
+    setShowError(false);
+    setErrorOccurred(false);
+  }
 
   return (
     <AuthProvider>
@@ -170,54 +183,56 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
                   </Box>
                 </Modal>
 
-                {showError && (
-                  <Modal
-                    open={showError}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
+                <Modal
+                  open={showError}
+                  onClose={closeModal}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      backgroundColor: 'white',
+                      outline: '0',
+                      width: '30%',
+                      height: '20%',
+                    }}
                   >
-                    <Box
-                      sx={{
-                        position: 'absolute',
+                    <div
+                      style={{
+                        position: 'fixed',
                         top: '50%',
                         left: '50%',
                         transform: 'translate(-50%, -50%)',
-                        backgroundColor: 'white',
-                        outline: '0',
-                        width: '30%',
-                        height: '15%',
+                        textAlign: 'center',
+                        whiteSpace: 'nowrap',
                       }}
                     >
-                      <div
+                      <h3
                         style={{
-                          position: 'fixed',
-                          top: '50%',
-                          left: '50%',
-                          transform: 'translate(-50%, -50%)',
-                          textAlign: 'center',
-                          whiteSpace: 'nowrap',
+                          fontSize: '20px',
+                          color: '#FF0000',
                         }}
                       >
-                        {/* Add your error message here */}
-                        <h3
-                          style={{
-                            fontSize: '20px',
-                            color: '#FF0000',
-                            textShadow: `
-                              -1px -1px 0 #FFFFFF,
-                              1px -1px 0 #FFFFFF,
-                              -1px  1px 0 #FFFFFF,
-                              1px  1px 0 #FFFFFF
-                            `,
-                          }}
-                        >
-                          <div>Erro de Timeout</div>
-                          <div>Tente recarregar a página novamente.</div>
-                        </h3>
-                      </div>
-                    </Box>
-                  </Modal>
-                )}
+                        <div>Erro de Timeout</div>
+                        <div>Tente recarregar a página novamente.</div>
+                      </h3>
+                      <h3
+                        style={{
+                          fontSize: '10px',
+                          color: '#000000',
+                          top: '50%',
+                          marginTop: '1px',
+                        }}
+                      >
+                        <div>(Clique na tela para fechar.)</div>
+                      </h3>
+                    </div>
+                  </Box>
+                </Modal>
               </>
             </Theme>
           </ProductProvider>
