@@ -169,7 +169,7 @@ exports[`<Repository /> Should render correctly 1`] = `
             role="tabpanel"
           >
             <span
-              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-153n0d3-MuiSkeleton-root"
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
               style="height: 300px;"
             />
           </div>
@@ -290,7 +290,7 @@ exports[`<Repository /> Should render correctly 1`] = `
             role="tabpanel"
           >
             <span
-              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-153n0d3-MuiSkeleton-root"
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
               style="height: 300px;"
             />
           </div>
@@ -382,7 +382,7 @@ exports[`<Repository /> Should render correctly 1`] = `
             role="tabpanel"
           >
             <span
-              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-153n0d3-MuiSkeleton-root"
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
               style="height: 300px;"
             />
           </div>
@@ -397,14 +397,14 @@ exports[`<Repository /> Should render correctly 1`] = `
           </h2>
         </div>
         <span
-          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-153n0d3-MuiSkeleton-root"
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
           style="height: 300px;"
         />
         <div
           class="MuiBox-root css-10khgmf"
         >
           <span
-            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-j70xtz-MuiSkeleton-root"
+            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-g8n8pw-MuiSkeleton-root"
           />
         </div>
       </div>
