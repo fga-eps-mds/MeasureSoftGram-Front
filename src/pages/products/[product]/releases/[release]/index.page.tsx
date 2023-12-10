@@ -51,24 +51,15 @@ const Release: NextPageWithLayout = ({ organizationId, productId, releaseId }: R
   const release = rpXrr?.release;
 
   const planejado = [
-    (rpXrr?.planned.reliability ? rpXrr.planned.reliability / 100 : 0),
-    (rpXrr?.planned.maintainability ? rpXrr.planned.maintainability / 100 : 0),
+    (rpXrr?.planned.reliability || 0),
+    (rpXrr?.planned.maintainability || 0),
   ];
 
-  const realizado = [];
-  if (rpXrr?.accomplished) {
-    realizado.push(0);
-    realizado.push(rpXrr?.planned.reliability ? rpXrr.planned.reliability / 100 : 0);
-    realizado.push(rpXrr?.accomplished.maintainability ? rpXrr.accomplished.maintainability / 100 : 0);
-  }
-  // const realizado = [0.2400, 0.1398,];
   const xLabels = [
     'Reliability',
     'Maintainability',
   ];
 
-  planejado.unshift(0);
-  xLabels.unshift('');
 
   const releaseList: ReleaseGoal[] = releaseResponse?.results || [];
   return (
@@ -93,7 +84,7 @@ const Release: NextPageWithLayout = ({ organizationId, productId, releaseId }: R
             </Typography>
           </Box>
 
-          <Box>
+          {/* <Box>
             <InputLabel id="demo-simple-select-label">Selecione a release</InputLabel>
             <Select
               variant="standard"
@@ -110,11 +101,16 @@ const Release: NextPageWithLayout = ({ organizationId, productId, releaseId }: R
                 </MenuItem>
               ))}
             </Select>
-          </Box>
+          </Box> */}
         </Box>
-        <Styles.ContainerGraph>
-          <SimpleLineChart planejado={planejado} realizado={realizado} labels={xLabels} />
-        </Styles.ContainerGraph>
+        {Object.keys(rpXrr?.accomplished).map((repositorio: string) => (
+          <Styles.ContainerGraph>
+            <Typography fontSize="24px" fontWeight="400">
+              {repositorio}
+            </Typography>
+            <SimpleLineChart planejado={planejado} realizado={rpXrr?.accomplished[repositorio]} labels={xLabels} />
+          </Styles.ContainerGraph>
+        ))}
       </Container>
     </>
   );

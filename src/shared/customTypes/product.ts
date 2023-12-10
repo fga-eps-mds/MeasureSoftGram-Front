@@ -200,5 +200,5 @@ export interface ReleasesPaginated {
 export interface IReleasesWithGoalAndAccomplished {
   release: IReleases;
   planned: Characteristics;
-  accomplished?: Characteristics;
+  accomplished?: any;
 }
