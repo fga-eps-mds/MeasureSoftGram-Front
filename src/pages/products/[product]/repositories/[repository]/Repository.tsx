@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { NextPageWithLayout } from '@pages/_app.next';
 
@@ -17,6 +17,7 @@ import LatestValueTable from '@components/LatestValueTable';
 
 import Layout from '@components/Layout/Layout';
 import ProductConfigFilterProvider from '@contexts/ProductConfigFilterProvider/ProductConfigFilterProvider';
+import { useRepositoryContext } from '@contexts/RepositoryProvider';
 import TreeViewFilter from './components/TreeViewFilter';
 import Headers from './components/Header';
 import CustomTabs from './components/CustomTabs';
@@ -24,7 +25,6 @@ import CustomTabs from './components/CustomTabs';
 import { useQuery } from './hooks/useQuery';
 import OptionsHeader from './components/OptionsHeader/OptionsHeader';
 import TsqmiBadge from './components/TsqmiBadge';
-import { useRepositoryContext } from '@contexts/RepositoryProvider';
 
 
 const Repository: NextPageWithLayout = () => {

@@ -28,25 +28,25 @@ function TsqmiBadge({ latestTSQMI, latestTSQMIBadgeUrl }: TsqmiBadgeProps) {
     let star: any;
 
     if (latestTSQMI) {
-      const value = latestTSQMI.value;
+      const { value } = latestTSQMI;
 
       switch (true) {
-        case value == 0:
+        case value === 0:
           star = zeroStarBadge;
           break;
-        case 0 < value && value < 0.2:
+        case value > 0 && value < 0.2:
           star = oneStarBadge;
           break;
-        case 0.2 <= value && value < 0.4:
+        case value >= 0.2 && value < 0.4:
           star = twoStarBadge;
           break;
-        case 0.4 <= value && value < 0.6:
+        case value >= 0.4 && value < 0.6:
           star = threeStarBadge;
           break;
-        case 0.6 <= value && value < 0.8:
+        case value >= 0.6 && value < 0.8:
           star = fourStarBadge;
           break;
-        case 0.8 <= value && value <= 1.0:
+        case value >= 0.8 && value <= 1.0:
           star = fiveStarBadge;
           break;
         default:
@@ -82,6 +82,7 @@ function TsqmiBadge({ latestTSQMI, latestTSQMIBadgeUrl }: TsqmiBadgeProps) {
           </Box>
         </Tooltip>
       }
+      <div />
     </>
   );
 }

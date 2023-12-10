@@ -15,8 +15,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import ConfirmationModal from '@components/ConfirmationModal';
 import { FaGithub, FaGitlab, FaBitbucket, FaAws, FaCodeBranch } from 'react-icons/fa';
 import { SiSubversion, SiMercurial, SiMicrosoftazure } from "react-icons/si";
-import { useQuery } from '../../../repositories/hooks/useQuery';
 import TsqmiBadge from '@pages/products/[product]/repositories/[repository]/components/TsqmiBadge';
+import { useQuery } from '../../../repositories/hooks/useQuery';
 
 interface Props {
   maxCount?: number;
@@ -70,13 +70,13 @@ const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
     void router.push(path);
   };
 
-  const getTsqmiValue = (id: number) => {
-    return repositoriesLatestTsqmi?.results.find(result => result.id === id)!.current_tsqmi;
-  }
+  const getTsqmiValue = (id: number) => (
+    repositoriesLatestTsqmi?.results.find(result => result.id === id)!.current_tsqmi
+  )
 
-  const getTsqmiUrl = (id: number) => {
-    return repositoriesLatestTsqmi?.results.find(result => result.id === id)!.url;
-  }
+  const getTsqmiUrl = (id: number) => (
+    repositoriesLatestTsqmi?.results.find(result => result.id === id)!.url
+  )
 
   function handleRepositoriesFilter(name: string) {
     if ((name == null || name === '') && repositoryList?.length) {
