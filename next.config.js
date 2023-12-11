@@ -14,8 +14,8 @@ const nextConfig = {
   },
   pageExtensions: ['page.ts', 'page.tsx', 'next.tsx', 'next.ts'],
   devIndicators: {
-    buildActivity: false,
-  },
+    buildActivity: false
+  }
 };
 
 module.exports = nextConfig;
