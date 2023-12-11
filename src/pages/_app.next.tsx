@@ -31,6 +31,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const disableBreadcrumb = Component.disableBreadcrumb ?? false;
 
   const router = useRouter();
+  const transformValue = 'translate(-50%, -50%)';
 
   useEffect(() => {
     let timeoutId;
@@ -50,16 +51,9 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       console.log('you have finished going to the new page');
       clearTimeout(timeoutId);
 
-      // Stop loading if an error occurred
-      if (errorOccurred) {
-        setLoading(false);
-        setModalOpen(false);
-        setShowError(false);
-      } else {
-        setLoading(false);
-        setModalOpen(false);
-        setShowError(false);
-      }
+      setLoading(false);
+      setModalOpen(false);
+      setShowError(false);
     };
 
     const nextNavigationHandler = (url) => {
@@ -111,6 +105,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     setErrorOccurred(false);
   }
 
+
   return (
     <AuthProvider>
       <OrganizationProvider>
@@ -141,7 +136,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
                       position: 'absolute',
                       top: '50%',
                       left: '50%',
-                      transform: 'translate(-50%, -50%)',
+                      transform: transformValue,
                       width: '100vw',
                       height: '100vh',
                     }}
@@ -151,7 +146,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
                         position: 'fixed',
                         top: '50%',
                         left: '50%',
-                        transform: 'translate(-50%, -50%)',
+                        transform: transformValue,
                       }}
                     >
                       <RotatingLines
@@ -166,7 +161,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
                           position: 'absolute',
                           top: '75%',
                           left: '50%',
-                          transform: 'translate(-50%, -50%)',
+                          transform: transformValue,
                           fontSize: '24px',
                           color: '#000000',
                           textShadow: `
@@ -194,7 +189,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
                       position: 'absolute',
                       top: '50%',
                       left: '50%',
-                      transform: 'translate(-50%, -50%)',
+                      transform: transformValue,
                       backgroundColor: 'white',
                       outline: '0',
                       width: '30%',
@@ -206,7 +201,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
                         position: 'fixed',
                         top: '50%',
                         left: '50%',
-                        transform: 'translate(-50%, -50%)',
+                        transform: transformValue,
                         textAlign: 'center',
                         whiteSpace: 'nowrap',
                       }}
