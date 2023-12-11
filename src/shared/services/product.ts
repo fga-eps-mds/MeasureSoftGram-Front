@@ -10,7 +10,8 @@ import {
   Goal,
   Product,
   ReleasesPaginated,
-  IReleases
+  IReleases,
+  RepositoriesLatestTsqmi
 } from '@customTypes/product';
 import { Data } from '@customTypes/preConfig';
 
@@ -126,6 +127,11 @@ class ProductQuery {
   async getProductRepositoriesTsqmiHistory(organizationId: string, productId: string) {
     const url = `organizations/${organizationId}/products/${productId}/repositories-tsqmi-historical-values/`;
     return api.get<RepositoriesTsqmiHistory>(url);
+  }
+
+  async getProductRepositoriesLatestTsqmi(organizationId: string, productId: string) {
+    const url = `organizations/${organizationId}/products/${productId}/repositories-tsqmi-latest-values/`;
+    return api.get<RepositoriesLatestTsqmi>(url);
   }
 
   async getCurrentGoal(organizationId: string, productId: string, releaseId?: number) {

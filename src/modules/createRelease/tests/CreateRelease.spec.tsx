@@ -71,4 +71,17 @@ describe('<CreateRelease />', () => {
     fireEvent.click(backButton);
     fireEvent.click(backButton);
   });
+
+  it('Deve fechar o modal e redefinir os estados ao clicar em Cancelar', () => {
+    const handleClose = jest.fn();
+    const { getByTestId } = render(
+      <CreateRelease open handleClose={handleClose} productId="1" organizationId="1" currentProduct={product} />
+    );
+
+    fireEvent.click(getByTestId('cancel-button'));
+
+    // Verifica se a função de fechamento foi chamada
+    expect(handleClose).toHaveBeenCalled();
+  });
+
 });
