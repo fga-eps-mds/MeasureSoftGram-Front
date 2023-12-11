@@ -98,6 +98,7 @@ const ProductsCreation: OrganizationsType = () => {
               onChange={(e) => setName(e.target.value)}
               required
               sx={{ mb: 2 }}
+              data-testid="name-input"
             />
             <TextField
               select
@@ -110,6 +111,7 @@ const ProductsCreation: OrganizationsType = () => {
               multiline
               rows={4}
               sx={{ mb: 2 }}
+              data-testid="org-input"
             >
               {
                 organizationList?.map((organization) => (
@@ -126,6 +128,7 @@ const ProductsCreation: OrganizationsType = () => {
               multiline
               rows={4}
               sx={{ mb: 2 }}
+              data-testid="description-input"
             />
           </Grid>
           <Grid item xs={12}>

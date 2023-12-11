@@ -22,5 +22,17 @@ describe('Products', () => {
       );
       expect(tree).toMatchSnapshot();
     });
+
+    it('Renderiza corretamente os elementos', () => {
+      const { getByTestId } = render(
+        <OrganizationProvider>
+          <ProductProvider>
+            <Products />
+          </ProductProvider>
+        </OrganizationProvider>
+      );
+
+      expect(getByTestId('organization-title')).toBeDefined();
+    });
   });
 });

@@ -8,11 +8,13 @@ import {
   EntitiesMetrics,
   LatestValues,
   Goal,
-  Product
+  Product,
+  RepositoriesLatestTsqmi
 } from '@customTypes/product';
 import { Data } from '@customTypes/preConfig';
 
 import { AxiosError, AxiosRequestConfig } from 'axios';
+import { NewCreateReleaseData } from '@modules/createRelease/context/useCreateRelease';
 import api from './api';
 import { getAccessToken } from './Auth';
 
@@ -101,8 +103,13 @@ class ProductQuery {
     return api.get<Array<EntitiesMetrics>>(url);
   }
 
-  async createProductReleaseGoal(organizationId: string, productId: string, data: ReleaseGoal) {
+  async createProductGoal(organizationId: string, productId: string, data: ReleaseGoal) {
     const url = `organizations/${organizationId}/products/${productId}/create/goal/`;
+    return api.post(url, data);
+  }
+
+  async createProductRelease(organizationId: string, productId: string, data: NewCreateReleaseData) {
+    const url = `organizations/${organizationId}/products/${productId}/create/release/`;
     return api.post(url, data);
   }
 
@@ -121,36 +128,28 @@ class ProductQuery {
     return api.get<RepositoriesTsqmiHistory>(url);
   }
 
+  async getProductRepositoriesLatestTsqmi(organizationId: string, productId: string) {
+    const url = `organizations/${organizationId}/products/${productId}/repositories-tsqmi-latest-values/`;
+    return api.get<RepositoriesLatestTsqmi>(url);
+  }
+
   async getCurrentGoal(organizationId: string, productId: string, releaseId?: number) {
     const url = `organizations/${organizationId}/products/${productId}/current/goal/`;
     return api.get<Goal>(url, { params: releaseId && { release_id: releaseId } });
   }
 
   getReleaseList(organizationId: string, productId: string, releaseId?: number): AxiosRequestConfig {
-    const url = `organizations/${organizationId}/products/${productId}/release/`;
+    const url = `organizations/${organizationId}/products/${productId}/create/release/`;
     return {
       url,
-      method: 'get',
-      params: releaseId && { release_id: releaseId }
+      method: 'get'
+      // params: releaseId && { release_id: releaseId }
     };
-  }
-
-  private async getAuthHeaders(): Promise<{ Authorization: string } | null> {
-    const tokenResult = await getAccessToken();
-    if (tokenResult.type === 'error' || !tokenResult.value.key) {
-      return null;
-    }
-
-    return { Authorization: `Token ${tokenResult.value.key}` };
   }
 
   async createProduct(data: ProductFormData): Promise<Result<ProductFormData>> {
     try {
-      const headers = await this.getAuthHeaders();
-      if (!headers) {
-        throw new Error('Token de acesso não encontrado.');
-      }
-      const response = await api.post(`/organizations/${data.organizationId}/products/`, data, { headers });
+      const response = await api.post(`/organizations/${data.organizationId}/products/`, data);
       return { type: 'success', value: response?.data };
     } catch (err) {
       const error = err as AxiosError;
@@ -168,11 +167,7 @@ class ProductQuery {
 
   async deleteProduct(productId: string, organizationId: string | undefined): Promise<Result<void>> {
     try {
-      const headers = await this.getAuthHeaders();
-      if (!headers) {
-        throw new Error('Token de acesso não encontrado.');
-      }
-      const response = await api.delete(`/organizations/${organizationId}/products/${productId}/`, { headers });
+      const response = await api.delete(`/organizations/${organizationId}/products/${productId}/`);
       return { type: 'success', value: response?.data };
     } catch (err) {
       const error = err as AxiosError;

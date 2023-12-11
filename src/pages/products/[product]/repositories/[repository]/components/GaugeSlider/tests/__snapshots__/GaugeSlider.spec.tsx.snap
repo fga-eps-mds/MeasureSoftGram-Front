@@ -9,7 +9,7 @@ Object {
         class="MuiBox-root css-12auco2"
       >
         <span
-          class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium MuiSlider-marked css-dbrczr-MuiSlider-root"
+          class="MuiSlider-root MuiSlider-marked MuiSlider-colorPrimary MuiSlider-sizeMedium css-dbrczr-MuiSlider-root"
           data-testid="gauge-slider-id"
         >
           <span
@@ -26,7 +26,7 @@ Object {
           />
           <span
             aria-hidden="true"
-            class="MuiSlider-markLabel css-yafthl-MuiSlider-markLabel"
+            class="MuiSlider-markLabel MuiSlider-markLabel css-yafthl-MuiSlider-markLabel"
             data-index="0"
             style="left: 0%;"
           >
@@ -39,17 +39,16 @@ Object {
           />
           <span
             aria-hidden="true"
-            class="MuiSlider-markLabel css-yafthl-MuiSlider-markLabel"
+            class="MuiSlider-markLabel MuiSlider-markLabel css-yafthl-MuiSlider-markLabel"
             data-index="1"
             style="left: 100%;"
           >
             1
           </span>
           <span
-            class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-eg0mwd-MuiSlider-thumb"
-            data-focusvisible="false"
+            class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-eg0mwd-MuiSlider-thumb"
             data-index="0"
-            style="left: 33%; pointer-events: none;"
+            style="left: 33%;"
           >
             <input
               aria-orientation="horizontal"
@@ -80,10 +79,9 @@ Object {
             </span>
           </span>
           <span
-            class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-eg0mwd-MuiSlider-thumb"
-            data-focusvisible="false"
+            class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-eg0mwd-MuiSlider-thumb"
             data-index="1"
-            style="left: 66%; pointer-events: none;"
+            style="left: 66%;"
           >
             <input
               aria-orientation="horizontal"
@@ -122,7 +120,7 @@ Object {
       class="MuiBox-root css-12auco2"
     >
       <span
-        class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium MuiSlider-marked css-dbrczr-MuiSlider-root"
+        class="MuiSlider-root MuiSlider-marked MuiSlider-colorPrimary MuiSlider-sizeMedium css-dbrczr-MuiSlider-root"
         data-testid="gauge-slider-id"
       >
         <span
@@ -139,7 +137,7 @@ Object {
         />
         <span
           aria-hidden="true"
-          class="MuiSlider-markLabel css-yafthl-MuiSlider-markLabel"
+          class="MuiSlider-markLabel MuiSlider-markLabel css-yafthl-MuiSlider-markLabel"
           data-index="0"
           style="left: 0%;"
         >
@@ -152,17 +150,16 @@ Object {
         />
         <span
           aria-hidden="true"
-          class="MuiSlider-markLabel css-yafthl-MuiSlider-markLabel"
+          class="MuiSlider-markLabel MuiSlider-markLabel css-yafthl-MuiSlider-markLabel"
           data-index="1"
           style="left: 100%;"
         >
           1
         </span>
         <span
-          class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-eg0mwd-MuiSlider-thumb"
-          data-focusvisible="false"
+          class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-eg0mwd-MuiSlider-thumb"
           data-index="0"
-          style="left: 33%; pointer-events: none;"
+          style="left: 33%;"
         >
           <input
             aria-orientation="horizontal"
@@ -193,10 +190,9 @@ Object {
           </span>
         </span>
         <span
-          class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-eg0mwd-MuiSlider-thumb"
-          data-focusvisible="false"
+          class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-eg0mwd-MuiSlider-thumb"
           data-index="1"
-          style="left: 66%; pointer-events: none;"
+          style="left: 66%;"
         >
           <input
             aria-orientation="horizontal"

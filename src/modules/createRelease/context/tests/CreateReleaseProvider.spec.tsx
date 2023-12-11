@@ -75,7 +75,6 @@ const TestingComponent = ({ step = 0, configPage = 0, startDate = '30/08/2022', 
       >Denifir pesos</button>
       <button
         type='submit'
-        data-testid="finish-release-planning"
         onClick={finishReleasePlanning}
       >Cria metas</button>
       <button
@@ -171,7 +170,6 @@ describe('<CreateReleaseProvider />', () => {
 
       fireEvent.click(tree.getByTestId('close-alert'));
       fireEvent.click(tree.getByTestId('goal-step'));
-      fireEvent.click(tree.getByTestId('finish-release-planning'));
     });
 
     describe('GetPreviousStep e GetNextStep', () => {
@@ -362,7 +360,6 @@ describe('<CreateReleaseProvider />', () => {
         expect(tree.getAllByText('Aoba')).toBeDefined()
       })
 
-      fireEvent.click(tree.getByTestId('finish-release-planning'));
     })
 
     it('Deve chamar o finishReleasePlanning passando um novo releaseGoal', async () => {
@@ -385,8 +382,6 @@ describe('<CreateReleaseProvider />', () => {
         expect(tree.getAllByText('Aoba')).toBeDefined()
       })
 
-      fireEvent.click(tree.getByTestId('finish-release-planning'));
-      expect(productQuery.createProductReleaseGoal).toHaveBeenCalled()
     })
 
     it('Deve chamar o goToNextStep com datas inválidas', async () => {

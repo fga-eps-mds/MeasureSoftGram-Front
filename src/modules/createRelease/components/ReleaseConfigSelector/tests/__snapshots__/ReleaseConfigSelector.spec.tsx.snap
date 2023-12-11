@@ -6,19 +6,223 @@ Object {
   "baseElement": <body>
     <div>
       <div
-        class="styles__Header-sc-d5c683-0 jBBIFg"
+        class="styles__Header-sc-d5c683-0 emAvAp"
       >
         <h1
           style="color: rgb(51, 86, 142); font-weight: 500;"
         >
-          Planejar Release
+          Planejamento de Release
         </h1>
+        <h2
+          style="color: rgb(51, 86, 142); font-weight: 500;"
+        >
+          Definição de Configuração
+        </h2>
+        <nav
+          class="MuiTypography-root MuiTypography-body1 MuiBreadcrumbs-root css-1gui7g7-MuiTypography-root-MuiBreadcrumbs-root"
+        >
+          <ol
+            class="MuiBreadcrumbs-ol css-4pdmu4-MuiBreadcrumbs-ol"
+          >
+            <li
+              class="MuiBreadcrumbs-li"
+            >
+              <a
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-ae5t40-MuiTypography-root-MuiLink-root"
+              >
+                Criar Release
+              </a>
+            </li>
+            <li
+              aria-hidden="true"
+              class="MuiBreadcrumbs-separator css-1wuw8dw-MuiBreadcrumbs-separator"
+            >
+              <span
+                class="MuiBox-root css-1bi6evy"
+              />
+            </li>
+            <li
+              class="MuiBreadcrumbs-li"
+            >
+              <a
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-46jzwd-MuiTypography-root-MuiLink-root"
+              >
+                Definir configuração do modelo
+              </a>
+            </li>
+            <li
+              aria-hidden="true"
+              class="MuiBreadcrumbs-separator css-1wuw8dw-MuiBreadcrumbs-separator"
+            >
+              <span
+                class="MuiBox-root css-1bi6evy"
+              />
+            </li>
+            <li
+              class="MuiBreadcrumbs-li"
+            >
+              <a
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-ae5t40-MuiTypography-root-MuiLink-root"
+              >
+                Balancear Características
+              </a>
+            </li>
+          </ol>
+        </nav>
+        <div
+          class="MuiBox-root css-j6x61m"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1ilm8pg-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="SkipNextIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="m6 18 8.5-6L6 6v12zM16 6v12h2V6h-2z"
+                />
+              </svg>
+            </span>
+            Seguir última configuração
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1ilm8pg-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="TuneIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"
+                />
+              </svg>
+            </span>
+            Alterar configuração
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </div>
       </div>
       <div
-        class="styles__Body-sc-d5c683-1 qcviw"
+        class="styles__Body-sc-d5c683-1 cpRiit"
+      >
+        <div
+          class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded css-15znxfw-MuiPaper-root"
+        >
+          <div
+            class="MuiStack-root css-1c888u-MuiStack-root"
+          >
+            <div
+              class="MuiContainer-root MuiContainer-maxWidthLg css-1i3biem-MuiContainer-root"
+            >
+              <div
+                class="MuiMasonry-root css-1u5s93k-MuiMasonry-root"
+              >
+                <div
+                  class="MuiStack-root css-nen11g-MuiStack-root"
+                >
+                  <ul
+                    class="MuiTimeline-root MuiTimeline-positionRight css-55vwbm-MuiTimeline-root"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="styles__Header-sc-d5c683-0 emAvAp"
+    >
+      <h1
+        style="color: rgb(51, 86, 142); font-weight: 500;"
+      >
+        Planejamento de Release
+      </h1>
+      <h2
+        style="color: rgb(51, 86, 142); font-weight: 500;"
+      >
+        Definição de Configuração
+      </h2>
+      <nav
+        class="MuiTypography-root MuiTypography-body1 MuiBreadcrumbs-root css-1gui7g7-MuiTypography-root-MuiBreadcrumbs-root"
+      >
+        <ol
+          class="MuiBreadcrumbs-ol css-4pdmu4-MuiBreadcrumbs-ol"
+        >
+          <li
+            class="MuiBreadcrumbs-li"
+          >
+            <a
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-ae5t40-MuiTypography-root-MuiLink-root"
+            >
+              Criar Release
+            </a>
+          </li>
+          <li
+            aria-hidden="true"
+            class="MuiBreadcrumbs-separator css-1wuw8dw-MuiBreadcrumbs-separator"
+          >
+            <span
+              class="MuiBox-root css-1bi6evy"
+            />
+          </li>
+          <li
+            class="MuiBreadcrumbs-li"
+          >
+            <a
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-46jzwd-MuiTypography-root-MuiLink-root"
+            >
+              Definir configuração do modelo
+            </a>
+          </li>
+          <li
+            aria-hidden="true"
+            class="MuiBreadcrumbs-separator css-1wuw8dw-MuiBreadcrumbs-separator"
+          >
+            <span
+              class="MuiBox-root css-1bi6evy"
+            />
+          </li>
+          <li
+            class="MuiBreadcrumbs-li"
+          >
+            <a
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-ae5t40-MuiTypography-root-MuiLink-root"
+            >
+              Balancear Características
+            </a>
+          </li>
+        </ol>
+      </nav>
+      <div
+        class="MuiBox-root css-j6x61m"
       >
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-8gvteo-MuiButtonBase-root-MuiButton-root"
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1ilm8pg-MuiButtonBase-root-MuiButton-root"
           tabindex="0"
           type="button"
         >
@@ -69,70 +273,32 @@ Object {
         </button>
       </div>
     </div>
-  </body>,
-  "container": <div>
     <div
-      class="styles__Header-sc-d5c683-0 jBBIFg"
+      class="styles__Body-sc-d5c683-1 cpRiit"
     >
-      <h1
-        style="color: rgb(51, 86, 142); font-weight: 500;"
+      <div
+        class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded css-15znxfw-MuiPaper-root"
       >
-        Planejar Release
-      </h1>
-    </div>
-    <div
-      class="styles__Body-sc-d5c683-1 qcviw"
-    >
-      <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-8gvteo-MuiButtonBase-root-MuiButton-root"
-        tabindex="0"
-        type="button"
-      >
-        <span
-          class="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
+        <div
+          class="MuiStack-root css-1c888u-MuiStack-root"
         >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-            data-testid="SkipNextIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
+          <div
+            class="MuiContainer-root MuiContainer-maxWidthLg css-1i3biem-MuiContainer-root"
           >
-            <path
-              d="m6 18 8.5-6L6 6v12zM16 6v12h2V6h-2z"
-            />
-          </svg>
-        </span>
-        Seguir última configuração
-        <span
-          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-        />
-      </button>
-      <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1ilm8pg-MuiButtonBase-root-MuiButton-root"
-        tabindex="0"
-        type="button"
-      >
-        <span
-          class="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
-        >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-            data-testid="TuneIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"
-            />
-          </svg>
-        </span>
-        Alterar configuração
-        <span
-          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-        />
-      </button>
+            <div
+              class="MuiMasonry-root css-1u5s93k-MuiMasonry-root"
+            >
+              <div
+                class="MuiStack-root css-nen11g-MuiStack-root"
+              >
+                <ul
+                  class="MuiTimeline-root MuiTimeline-positionRight css-55vwbm-MuiTimeline-root"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>,
   "debug": [Function],

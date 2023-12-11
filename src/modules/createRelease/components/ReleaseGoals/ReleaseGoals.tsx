@@ -5,6 +5,7 @@ import Equalizer from '@modules/createRelease/components/Equalizer';
 import { useCreateReleaseContext } from '@modules/createRelease/context/useCreateRelease';
 import {
   Box,
+  Breadcrumbs,
   Button,
   Checkbox,
   Dialog,
@@ -17,7 +18,8 @@ import {
 import * as Styles from './styles';
 import useDynamicBalance from './hook/useDynamicBalance';
 
-export default function ReleaseGoals() {
+export default function ReleaseGoals(props: any) {
+  const { setActiveStep } = props;
   const { releaseInfoForm, setAllowDynamicBalance } = useCreateReleaseContext();
   const { characteristics, endDate, name, startDate } = releaseInfoForm;
   const { open, allowDynamicBalance, handleChange, handleClose, handleConfirm } = useDynamicBalance();
@@ -29,7 +31,37 @@ export default function ReleaseGoals() {
   return (
     <>
       <Styles.Header>
-        <h1 style={{ color: '#33568E', fontWeight: '500' }}>Balancear a Meta de Qualidade</h1>
+        <h1 style={{ color: '#33568E', fontWeight: '500' }}>Planejamento de Release</h1>
+        <h2 style={{ color: '#33568E', fontWeight: '300' }}>Balancear a Meta de Qualidade</h2>
+        <Breadcrumbs separator={<Box
+          component="span"
+          sx={{
+            width: 4,
+            height: 4,
+            borderRadius: '50%',
+            bgcolor: 'text.disabled',
+          }}
+        />} sx={{ fontSize: '14px' }}>
+
+          <Link sx={{
+            cursor: 'pointer',
+            textDecoration: 'none',
+          }} onClick={() => {
+            setActiveStep(0);
+          }} color="text.secondary">Criar Release</Link>
+          <Link onClick={() => {
+            setActiveStep(1);
+          }} sx={{
+            cursor: 'pointer',
+            textDecoration: 'none',
+          }} color="text.secondary">Definir configuração do modelo</Link>
+          <Link sx={{
+            cursor: 'pointer',
+            textDecoration: 'none',
+            fontWeight: '800'
+          }} color="text.primary">Balancear Pesos</Link>
+
+        </Breadcrumbs>
         <p>
           Nesta etapa é possível estabelecer metas para as características que serão observadas na release. É
           importante ressaltar que essas características de qualidade estão inter-relacionadas, ou seja, ao modificar a
