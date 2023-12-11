@@ -1,4 +1,4 @@
-import { TreeItem, TreeView } from '@mui/lab';
+import { TreeItem, TreeView } from '@mui/x-tree-view';
 import { Box, Checkbox, Divider, IconButton, Tooltip, Typography } from '@mui/material';
 import React, { useState, useEffect, useMemo } from 'react';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';

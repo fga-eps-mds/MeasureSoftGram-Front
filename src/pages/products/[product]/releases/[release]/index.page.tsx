@@ -10,8 +10,11 @@ import { Container, InputLabel, MenuItem, Select, Typography } from '@mui/materi
 import { useRouter } from 'next/router';
 import { useRequest } from '@hooks/useRequest';
 import { formatDate } from '@utils/formatDate';
-import SimpleLineChart from './components/CurveGraph/CurveGraph';
+// import SimpleLineChart from './components/CurveGraph/CurveGraph';
+import dynamic from 'next/dynamic';
 import * as Styles from './styles';
+
+const SimpleLineChart = dynamic(() => import('./components/CurveGraph/CurveGraph'));
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
@@ -103,14 +106,16 @@ const Release: any = ({ organizationId, productId, releaseId }: any) => {
             </Select>
           </Box> */}
         </Box>
-        {Object.keys(rpXrr?.accomplished).map((repositorio: string) => (
-          <Styles.ContainerGraph>
-            <Typography fontSize="24px" fontWeight="400">
-              {repositorio}
-            </Typography>
-            <SimpleLineChart planejado={planejado} realizado={rpXrr?.accomplished[repositorio]} labels={xLabels} />
-          </Styles.ContainerGraph>
-        ))}
+        {
+          rpXrr !== undefined && Object.keys(rpXrr?.accomplished).map((repositorio: string) => (
+            <Styles.ContainerGraph>
+              <Typography fontSize="24px" fontWeight="400">
+                {repositorio}
+              </Typography>
+              <SimpleLineChart planejado={planejado} realizado={rpXrr?.accomplished[repositorio]} labels={xLabels} />
+            </Styles.ContainerGraph>
+          ))
+        }
       </Container>
     </>
   );

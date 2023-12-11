@@ -34,9 +34,9 @@ function SideMenu() {
     itemType = 'organization';
   }
 
-  if (itemType === 'unknown') {
-    console.warn('The itemType is set to unknown. Please handle this case appropriately.');
-  }
+  // if (itemType === 'unknown') {
+  //   console.warn('The itemType is set to unknown. Please handle this case appropriately.');
+  // }
 
   const MenuItems: SideMenuItemType[] = [
     {

@@ -12,17 +12,36 @@ Object {
           class="MuiBox-root css-j7qwjs"
         >
           <div
-            class="MuiBox-root css-1k2nw5y"
+            class="MuiBox-root css-pgt6oo"
           >
-            <div
-              class="MuiBox-root css-70qvj9"
+            <h4
+              class="MuiTypography-root MuiTypography-h4 css-1odv9dh-MuiTypography-root"
             >
-              <h4
-                class="MuiTypography-root MuiTypography-h4 css-1f3qdbj-MuiTypography-root"
+              Repositórios
+            </h4>
+            <button
+              aria-label="add repository"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary MuiIconButton-sizeMedium css-1kuq5xv-MuiButtonBase-root-MuiIconButton-root"
+              style="background-color: rgb(51, 86, 142); margin-left: 12px; border-radius: 50%; width: 25px; height: 25px;"
+              tabindex="0"
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="AddIcon"
+                focusable="false"
+                style="color: white;"
+                viewBox="0 0 24 24"
               >
-                Repositórios
-              </h4>
-            </div>
+                <path
+                  d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+                />
+              </svg>
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
           </div>
         </div>
         <div
@@ -112,6 +131,11 @@ Object {
                       </div>
                     </div>
                   </th>
+                  <th
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
+                    scope="col"
+                    style="padding-bottom: 35px;"
+                  />
                 </tr>
               </thead>
               <tbody
@@ -131,17 +155,36 @@ Object {
         class="MuiBox-root css-j7qwjs"
       >
         <div
-          class="MuiBox-root css-1k2nw5y"
+          class="MuiBox-root css-pgt6oo"
         >
-          <div
-            class="MuiBox-root css-70qvj9"
+          <h4
+            class="MuiTypography-root MuiTypography-h4 css-1odv9dh-MuiTypography-root"
           >
-            <h4
-              class="MuiTypography-root MuiTypography-h4 css-1f3qdbj-MuiTypography-root"
+            Repositórios
+          </h4>
+          <button
+            aria-label="add repository"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary MuiIconButton-sizeMedium css-1kuq5xv-MuiButtonBase-root-MuiIconButton-root"
+            style="background-color: rgb(51, 86, 142); margin-left: 12px; border-radius: 50%; width: 25px; height: 25px;"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="AddIcon"
+              focusable="false"
+              style="color: white;"
+              viewBox="0 0 24 24"
             >
-              Repositórios
-            </h4>
-          </div>
+              <path
+                d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+              />
+            </svg>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
         </div>
       </div>
       <div
@@ -231,6 +274,11 @@ Object {
                     </div>
                   </div>
                 </th>
+                <th
+                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
+                  scope="col"
+                  style="padding-bottom: 35px;"
+                />
               </tr>
             </thead>
             <tbody
