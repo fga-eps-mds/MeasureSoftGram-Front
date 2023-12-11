@@ -4,62 +4,65 @@ import { NextPageWithLayout } from '@pages/_app.next';
 import getLayout from '@components/Layout';
 import { GetServerSideProps } from 'next';
 import { productQuery } from '@services/product';
-import { IReleases, ReleaseGoal } from '@customTypes/product';
-import CompareGoalsChart from '@components/CompareGoalsChart';
+import { IReleases, ReleaseGoal, IReleasesWithGoalAndAccomplished } from '@customTypes/product';
 import { Box } from '@mui/system';
 import { Container, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useRequest } from '@hooks/useRequest';
 import { formatDate } from '@utils/formatDate';
+// import SimpleLineChart from './components/CurveGraph/CurveGraph';
+import dynamic from 'next/dynamic';
+import * as Styles from './styles';
+
+const SimpleLineChart = dynamic(() => import('./components/CurveGraph/CurveGraph'));
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const product = context?.params?.product as string;
     const releaseId = context?.params?.release as string;
-
     const organizationId = product.split('-')[0];
     const productId = product.split('-')[1];
 
-    const response = await productQuery.getCompareGoalAccomplished(organizationId, productId, Number(releaseId));
-
-    if (!response?.data?.[0]?.id) {
-      return {
-        redirect: {
-          permanent: false,
-          destination: '/products'
-        },
-        props: {}
-      };
-    }
-
     return {
       props: {
-        release: response?.data?.[0],
         organizationId,
-        productId
+        productId,
+        releaseId
       }
     };
   } catch (err) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: `/products/${context?.params?.product}`
-      },
-      props: {}
-    };
+    console.log(err);
   }
 };
 
-interface ReleaseProps {
-  release: IReleases;
+export interface ReleaseProps {
+  // release: IReleases;
   organizationId: string;
   productId: string;
+  releaseId: string;
 }
-const Release: NextPageWithLayout = ({ release, organizationId, productId }: ReleaseProps) => {
+const Release: any = ({ organizationId, productId, releaseId }: any) => {
   const router = useRouter();
+
+  const { data: rpXrr } = useRequest<IReleasesWithGoalAndAccomplished>(
+    productQuery.getReleasesAndPlannedXAccomplishedByID(organizationId, productId, releaseId)
+  );
   const { data: releaseResponse } = useRequest<any>(
     productQuery.getReleaseList(organizationId, productId as string)
   );
+
+  const release = rpXrr?.release;
+
+  const planejado = [
+    (rpXrr?.planned.reliability || 0),
+    (rpXrr?.planned.maintainability || 0),
+  ];
+
+  const xLabels = [
+    'Reliability',
+    'Maintainability',
+  ];
+
 
   const releaseList: ReleaseGoal[] = releaseResponse?.results || [];
   return (
@@ -84,7 +87,7 @@ const Release: NextPageWithLayout = ({ release, organizationId, productId }: Rel
             </Typography>
           </Box>
 
-          <Box>
+          {/* <Box>
             <InputLabel id="demo-simple-select-label">Selecione a release</InputLabel>
             <Select
               variant="standard"
@@ -101,9 +104,18 @@ const Release: NextPageWithLayout = ({ release, organizationId, productId }: Rel
                 </MenuItem>
               ))}
             </Select>
-          </Box>
+          </Box> */}
         </Box>
-        <CompareGoalsChart release={release} />
+        {
+          rpXrr !== undefined && Object.keys(rpXrr?.accomplished).map((repositorio: string) => (
+            <Styles.ContainerGraph>
+              <Typography fontSize="24px" fontWeight="400">
+                {repositorio}
+              </Typography>
+              <SimpleLineChart planejado={planejado} realizado={rpXrr?.accomplished[repositorio]} labels={xLabels} />
+            </Styles.ContainerGraph>
+          ))
+        }
       </Container>
     </>
   );

@@ -15,7 +15,7 @@ describe('getLayout', () => {
         <OrganizationProvider>
           <ProductProvider>
             <RepositoryProvider>
-              {getLayout(<div/>)}
+              {getLayout(<></>)}
             </RepositoryProvider>
           </ProductProvider>
         </OrganizationProvider>

@@ -9,6 +9,8 @@ import {
   LatestValues,
   Goal,
   Product,
+  ReleasesPaginated,
+  IReleases,
   RepositoriesLatestTsqmi
 } from '@customTypes/product';
 import { Data } from '@customTypes/preConfig';
@@ -16,7 +18,6 @@ import { Data } from '@customTypes/preConfig';
 import { AxiosError, AxiosRequestConfig } from 'axios';
 import { NewCreateReleaseData } from '@modules/createRelease/context/useCreateRelease';
 import api from './api';
-import { getAccessToken } from './Auth';
 
 export interface ProductFormData {
   name: string;
@@ -135,7 +136,19 @@ class ProductQuery {
 
   async getCurrentGoal(organizationId: string, productId: string, releaseId?: number) {
     const url = `organizations/${organizationId}/products/${productId}/current/goal/`;
-    return api.get<Goal>(url, { params: releaseId && { release_id: releaseId } });
+    return api.get<any>(url, { params: releaseId && { release_id: releaseId } });
+  }
+
+  getReleasesAndPlannedXAccomplishedByID(
+    organizationId: string,
+    productId: string,
+    releaseId: string
+  ): AxiosRequestConfig {
+    const url = `organizations/${organizationId}/products/${productId}/create/release/${releaseId}/planeed-x-accomplished`;
+    return {
+      url,
+      method: 'get'
+    };
   }
 
   getReleaseList(organizationId: string, productId: string, releaseId?: number): AxiosRequestConfig {

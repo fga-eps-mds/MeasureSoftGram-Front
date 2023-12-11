@@ -6,7 +6,7 @@ Object {
   "baseElement": <body>
     <div>
       <h1>
-        Aoba
+        aoba
       </h1>
       <button
         data-testid="close-alert"
@@ -65,7 +65,7 @@ Object {
   </body>,
   "container": <div>
     <h1>
-      Aoba
+      aoba
     </h1>
     <button
       data-testid="close-alert"

@@ -9,7 +9,9 @@ const product = {
   description: '',
   github_url: '',
   created_at: '',
-  updated_at: ''
+  updated_at: '',
+  gaugeRedLimit: 0,
+  gaugeYellowLimit: 0
 }
 
 jest.mock('@modules/createRelease/context/useCreateRelease', () => ({
@@ -45,14 +47,14 @@ describe('<CreateRelease />', () => {
 
   describe('Snapshot', () => {
     it('Deve corresponder ao Snapshot', () => {
-      const tree = render(<CreateRelease open handleClose={() => { }} productId="1" organizationId="1" currentProduct={product} />);
+      const tree = render(<CreateRelease open={true} handleClose={() => { }} productId="1" organizationId="1" currentProduct={product} />);
 
       expect(tree).toMatchSnapshot();
     });
   });
 
   it('Deve chamar o handleNextButton para todas as páginas', () => {
-    const tree = render(<CreateRelease open handleClose={() => { }} productId="1" organizationId="1" currentProduct={product} />);
+    const tree = render(<CreateRelease open={true} handleClose={() => { }} productId="1" organizationId="1" currentProduct={product} />);
     const { getByTestId } = tree;
     const nextButton = getByTestId('next-button');
     expect(nextButton).toBeDefined();
