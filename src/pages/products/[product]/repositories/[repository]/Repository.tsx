@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { NextPageWithLayout } from '@pages/_app.next';
 
-import { Box, Container } from '@mui/material';
+import { Box, Container, Tooltip } from '@mui/material';
 import SsidChartIcon from '@mui/icons-material/SsidChart';
 import LineAxisIcon from '@mui/icons-material/LineAxis';
 import SpeedIcon from '@mui/icons-material/Speed';
@@ -17,14 +17,19 @@ import LatestValueTable from '@components/LatestValueTable';
 
 import Layout from '@components/Layout/Layout';
 import ProductConfigFilterProvider from '@contexts/ProductConfigFilterProvider/ProductConfigFilterProvider';
+import { useRepositoryContext } from '@contexts/RepositoryProvider';
 import TreeViewFilter from './components/TreeViewFilter';
 import Headers from './components/Header';
 import CustomTabs from './components/CustomTabs';
 
 import { useQuery } from './hooks/useQuery';
 import OptionsHeader from './components/OptionsHeader/OptionsHeader';
+import TsqmiBadge from './components/TsqmiBadge';
+
 
 const Repository: NextPageWithLayout = () => {
+  const { latestTSQMI, latestTSQMIBadgeUrl } = useRepositoryContext();
+
   useRequireAuth();
   useQuery();
 
@@ -39,6 +44,11 @@ const Repository: NextPageWithLayout = () => {
       <Container ref={containerRef} sx={{ marginBottom: '150px' }}>
         <Box marginX="1%" maxWidth="98%">
           <Headers />
+
+          <TsqmiBadge
+            latestTSQMI={latestTSQMI}
+            latestTSQMIBadgeUrl={latestTSQMIBadgeUrl}
+          />
 
           <OptionsHeader
             title='Características'

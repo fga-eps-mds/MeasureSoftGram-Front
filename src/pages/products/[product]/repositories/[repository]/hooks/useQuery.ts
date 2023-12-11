@@ -21,7 +21,9 @@ export const useQuery = () => {
     setSubCharacteristics,
     setMeasures,
     setMetrics,
-    setHistoricalTSQMI
+    setHistoricalTSQMI,
+    setLatestTSQMI,
+    setLatestTSQMIBadgeUrl
   } = useRepositoryContext();
 
   const [repositoryHistoricalCharacteristics, setRepositoryHistoricalCharacteristics] = useState<Historical[]>([]);
@@ -121,6 +123,28 @@ export const useQuery = () => {
     }
   }
 
+  async function loadLatestTsqmi(organizationId: string, productId: string, repositoryId: string) {
+    try {
+      const { crypto } = window;
+      const array = new Uint32Array(1);
+      const randomValue = crypto.getRandomValues(array)[0];
+      const id = Math.round(randomValue * LARGE_PRIME_NUMBER);
+      const props = {
+        organizationId,
+        productId,
+        repositoryId,
+        entity: 'tsqmi'
+      };
+      const { data: result } = await repository.getLatest(props);
+      const badgeUrl = repository.getTsqmiBadgeUrl(props);
+      setLatestTSQMI(result);
+      setLatestTSQMIBadgeUrl(badgeUrl);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error);
+    }
+  }
+
   async function loadRepository(organizationId: string, productId: string, repositoryId: string) {
     try {
       const { data } = await repository.getRepository(organizationId, productId, repositoryId);
@@ -137,6 +161,7 @@ export const useQuery = () => {
       await Promise.all([
         loadRepository(organizationId, productId, repositoryId),
         loadHistoricalTsqmi(organizationId, productId, repositoryId),
+        loadLatestTsqmi(organizationId, productId, repositoryId),
         loadRepositorySupportedEntities(organizationId, productId, repositoryId),
         loadHistoricalCharacteristics(organizationId, productId, repositoryId),
         loadLatestValueCharacteristics(organizationId, productId, repositoryId)

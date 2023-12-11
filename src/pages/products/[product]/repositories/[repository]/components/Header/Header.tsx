@@ -12,6 +12,7 @@ import { ProductFormData } from '@services/product';
 import { toNumber } from 'lodash';
 import { useProductQuery } from '@pages/products/hooks/useProductQuery';
 import GaugeSlider from '../GaugeSlider';
+import CopyBadgeModal from '../CopyBadgeModal';
 
 function Header() {
   const { currentProduct, setCurrentProduct } = useProductContext();
@@ -19,6 +20,7 @@ function Header() {
   const { updateProduct } = useProductQuery();
 
   const [openModal, setOpenModal] = useState<boolean>(false);
+
   const initialValues = currentProduct && [currentProduct.gaugeRedLimit, currentProduct.gaugeYellowLimit];
   const [values, setValues] = useState(
     initialValues
@@ -30,7 +32,16 @@ function Header() {
     if (initialValues && !values) {
       setValues(initialValues);
     }
-  }, [initialValues])
+  }, [initialValues]);
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setValues(initialValues);
+    setOpenModal(false);
+  };
 
   const option = {
     series: {
@@ -65,15 +76,6 @@ function Header() {
     }
   };
 
-  const handleOpenModal = () => {
-    setOpenModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setValues(initialValues);
-    setOpenModal(false);
-  };
-
   const onSubmit = async () => {
     if (values && currentProduct) {
       const [organizationId, productId] = getPathId(query?.product as string);
@@ -86,7 +88,7 @@ function Header() {
 
       const result = await updateProduct(productId, productData);
       if (result.type === 'success') {
-        toast.success('Intervalos atualizados com sucesso!!!');
+        toast.success('Intervalos atualizados com sucesso!');
         setCurrentProduct(result.value);
       } else {
         toast.success('Erro ao atualizar intervalos!');
@@ -115,6 +117,7 @@ function Header() {
         <IconButton onClick={handleOpenModal}>
           <SettingsIcon />
         </IconButton>
+        <CopyBadgeModal />
       </Box>
 
       <Modal

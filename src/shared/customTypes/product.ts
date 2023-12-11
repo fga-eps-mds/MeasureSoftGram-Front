@@ -99,7 +99,7 @@ export interface ButtonType extends Omit<Partial<ButtonProps>, 'color'> {
   dataTestId?: string;
 }
 
-interface TsqmiValue {
+export interface TsqmiValue {
   id: number;
   value: number;
   created_at: string;
@@ -121,6 +121,15 @@ interface RepositoriesTsqmiHistoryResult {
 export interface RepositoriesTsqmiHistory {
   count: number;
   results: Array<RepositoriesTsqmiHistoryResult & Repositories>;
+}
+
+interface RepositoriesTsqmiLatestResult {
+  current_tsqmi: TsqmiValue;
+}
+
+export interface RepositoriesLatestTsqmi {
+  count: number;
+  results: Array<RepositoriesTsqmiLatestResult & Repositories>;
 }
 
 export interface CollectedMetric {

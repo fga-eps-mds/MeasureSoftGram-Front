@@ -111,6 +111,25 @@ async updateRepository(organizationId: string, productId: string, repositoryId: 
         `/historical-values/${entity}/`
     );
   }
+
+  getLatest(props: HistoricalCharacteristicsProps) {
+    const { organizationId, entity, productId, repositoryId } = props;
+    return api.get(
+      `organizations/${organizationId}` +
+        `/products/${productId}/repositories/${repositoryId}` +
+        `/latest-values/${entity}/`
+    );
+  }
+
+  getTsqmiBadgeUrl(props: HistoricalCharacteristicsProps) {
+    const { organizationId, entity, productId, repositoryId } = props;
+    return (
+      api.getUri() +
+      `/organizations/${organizationId}` +
+      `/products/${productId}/repositories/${repositoryId}` +
+      `/latest-values/${entity}/badge`
+    );
+  }
 }
 
 export const repository = new Repository();
