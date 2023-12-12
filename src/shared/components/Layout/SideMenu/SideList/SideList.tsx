@@ -51,10 +51,9 @@ const SideList = <T extends ItemWithBasicProps>({
   itemType,
   organizationId,
 }: Props<T>) => {
+  const filteredValues = Array.isArray(values) ? values.slice(0, 10) : [];
   const { deleteOrganization } = useOrganizationQuery();
   const { deleteProduct } = useProductQuery();
-  const maxItems = 10;
-  const filteredValues = values.slice(0, maxItems);
   const router = useRouter();
 
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);

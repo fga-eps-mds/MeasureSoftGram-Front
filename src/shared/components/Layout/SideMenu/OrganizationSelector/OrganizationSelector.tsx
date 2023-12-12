@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BsFillBuildingFill } from 'react-icons/bs';
 import { FiRepeat } from 'react-icons/fi';
 import LetterAvatar from '@components/LetterAvatar';
@@ -6,10 +6,22 @@ import useBoolean from '@hooks/useBoolean';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import SideMenuItem from '../SideMenuItem';
 import SideList from '../SideList';
+import { Organization } from '@customTypes/organization';
 
 function OrganizationSelector() {
-  const { organizationList, setCurrentOrganizations, currentOrganization } = useOrganizationContext(); // Alterei para setCurrentOrganizations
-  const { value: isOpen, setTrue: onClick, setFalse: onClose } = useBoolean(false);
+  const { organizationList, setCurrentOrganizations, currentOrganization, fetchOrganizations } = useOrganizationContext();
+  const { value: isOpen, setTrue: openMenu, setFalse: onClose } = useBoolean(false);
+
+  const onClickItem = (organization: Organization) => {
+    setCurrentOrganizations([organization]);
+    onClose();
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      fetchOrganizations();
+    }
+  }, [isOpen, fetchOrganizations]);
 
   return (
     <>
@@ -18,16 +30,16 @@ function OrganizationSelector() {
         text={currentOrganization?.name ?? 'Selecione a Organização'}
         endIcon={<FiRepeat />}
         tooltip="Seleção de Organização"
-        onClick={onClick}
+        onClick={openMenu}
         selected={false}
       />
       <SideList
         itemType='organization'
         seeMorePath="/products"
-        values={organizationList}
+        values={organizationList ?? []}
         open={isOpen}
         onClose={onClose}
-        onClickItem={(organization) => setCurrentOrganizations([organization])} // Alterei para setCurrentOrganizations
+        onClickItem={onClickItem}
       />
     </>
   );
