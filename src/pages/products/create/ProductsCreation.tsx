@@ -24,6 +24,7 @@ const ProductsCreation: OrganizationsType = () => {
 
   useEffect(() => {
     const editMode = router.query.id_product;
+
     if (editMode) {
       setIsEditMode(true);
       const fetchProductData = async () => {
@@ -40,16 +41,21 @@ const ProductsCreation: OrganizationsType = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+
     const novoProduto = {
       name: nome,
       description: descricao,
       organizationId,
     }
+
     let result;
+
     if (!novoProduto.organizationId && currentOrganizationId) {
       novoProduto.organizationId = parseInt(currentOrganizationId[0], 10);
     }
+
     const nameExist = "Já existe um Produto com este nome."
+
     if (isEditMode) {
       result = await updateProduct(currentProductId as string, novoProduto);
       if (result.type === 'success') {
@@ -91,16 +97,6 @@ const ProductsCreation: OrganizationsType = () => {
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <TextField
-              fullWidth
-              label="Nome"
-              variant="outlined"
-              value={nome}
-              onChange={(e) => setName(e.target.value)}
-              required
-              sx={{ mb: 2 }}
-              data-testid="name-input"
-            />
-            <TextField
               select
               required
               fullWidth
@@ -119,6 +115,16 @@ const ProductsCreation: OrganizationsType = () => {
                 ))
               }
             </TextField>
+            <TextField
+              fullWidth
+              label="Nome"
+              variant="outlined"
+              value={nome}
+              onChange={(e) => setName(e.target.value)}
+              required
+              sx={{ mb: 2 }}
+              data-testid="name-input"
+            />
             <TextField
               fullWidth
               label="Descrição"
