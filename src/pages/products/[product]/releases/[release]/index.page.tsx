@@ -1,12 +1,10 @@
 import React from 'react';
 import Head from 'next/head';
-import { NextPageWithLayout } from '@pages/_app.next';
 import getLayout from '@components/Layout';
-import { GetServerSideProps } from 'next';
 import { productQuery } from '@services/product';
-import { IReleases, ReleaseGoal, IReleasesWithGoalAndAccomplished } from '@customTypes/product';
+import { IReleasesWithGoalAndAccomplished } from '@customTypes/product';
 import { Box } from '@mui/system';
-import { Container, InputLabel, MenuItem, Select, Typography } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useRequest } from '@hooks/useRequest';
 import { formatDate } from '@utils/formatDate';
@@ -16,39 +14,16 @@ import * as Styles from './styles';
 
 const SimpleLineChart = dynamic(() => import('./components/CurveGraph/CurveGraph'));
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  try {
-    const product = context?.params?.product as string;
-    const releaseId = context?.params?.release as string;
-    const organizationId = product.split('-')[0];
-    const productId = product.split('-')[1];
-
-    return {
-      props: {
-        organizationId,
-        productId,
-        releaseId
-      }
-    };
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-export interface ReleaseProps {
-  // release: IReleases;
-  organizationId: string;
-  productId: string;
-  releaseId: string;
-}
-const Release: any = ({ organizationId, productId, releaseId }: any) => {
+const Release: any = () => {
   const router = useRouter();
+  const routerParams: any = router.query;
+
+  const organizationId = routerParams.product.split('-')[0];
+  const productId = routerParams.product.split('-')[1];
+  const releaseId = routerParams.release;
 
   const { data: rpXrr } = useRequest<IReleasesWithGoalAndAccomplished>(
     productQuery.getReleasesAndPlannedXAccomplishedByID(organizationId, productId, releaseId)
-  );
-  const { data: releaseResponse } = useRequest<any>(
-    productQuery.getReleaseList(organizationId, productId as string)
   );
 
   const release = rpXrr?.release;
@@ -63,8 +38,6 @@ const Release: any = ({ organizationId, productId, releaseId }: any) => {
     'Maintainability',
   ];
 
-
-  const releaseList: ReleaseGoal[] = releaseResponse?.results || [];
   return (
     <>
       <Head>
@@ -86,25 +59,6 @@ const Release: any = ({ organizationId, productId, releaseId }: any) => {
               {formatDate(release?.start_at)} - {formatDate(release?.end_at)}
             </Typography>
           </Box>
-
-          {/* <Box>
-            <InputLabel id="demo-simple-select-label">Selecione a release</InputLabel>
-            <Select
-              variant="standard"
-              value={release?.id}
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              label="Selecione a release"
-              fullWidth
-              onChange={(e) => router.push(`/products/${router?.query?.product}/releases/${e.target.value}`)}
-            >
-              {releaseList?.map((item) => (
-                <MenuItem value={item?.id} key={item.id}>
-                  {item?.release_name}
-                </MenuItem>
-              ))}
-            </Select>
-          </Box> */}
         </Box>
         {
           rpXrr !== undefined && Object.keys(rpXrr?.accomplished).map((repositorio: string) => (
