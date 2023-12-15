@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import getLayout from '@components/Layout';
 import { productQuery } from '@services/product';
@@ -6,7 +6,6 @@ import { IReleasesWithGoalAndAccomplished } from '@customTypes/product';
 import { Box } from '@mui/system';
 import { Container, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
-import { useRequest } from '@hooks/useRequest';
 import { formatDate } from '@utils/formatDate';
 // import SimpleLineChart from './components/CurveGraph/CurveGraph';
 import dynamic from 'next/dynamic';
@@ -18,20 +17,28 @@ const Release: any = () => {
   const router = useRouter();
   const routerParams: any = router.query;
 
-  const organizationId = routerParams.product.split('-')[0];
-  const productId = routerParams.product.split('-')[1];
-  const releaseId = routerParams.release;
+  const [rpXrr, setRpXrr] = useState<IReleasesWithGoalAndAccomplished | undefined>();
+  const [planejado, setPlanejado] = useState<number[]>([]);
+  const [release, setRelease] = useState<any>();
 
-  const { data: rpXrr } = useRequest<IReleasesWithGoalAndAccomplished>(
-    productQuery.getReleasesAndPlannedXAccomplishedByID(organizationId, productId, releaseId)
-  );
+  useEffect(() => {
+    if (router.isReady) {
+      const organizationId = routerParams.product.split('-')[0];
+      const productId = routerParams.product.split('-')[1];
+      const releaseId = routerParams.release;
 
-  const release = rpXrr?.release;
-
-  const planejado = [
-    (rpXrr?.planned.reliability || 0),
-    (rpXrr?.planned.maintainability || 0),
-  ];
+      productQuery.getReleasesAndPlannedXAccomplishedByID(
+        organizationId, productId, releaseId
+      ).then((res) => {
+        setRpXrr(res.data);
+        setPlanejado([
+          (res.data.planned.reliability || 0),
+          (res.data.planned.maintainability || 0),
+        ]);
+        setRelease(res.data.release);
+      });
+    }
+  }, [router.isReady]);
 
   const xLabels = [
     'Reliability',
