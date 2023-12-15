@@ -75,7 +75,7 @@ const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
   )
 
   const getTsqmiUrl = (id: number) => (
-    repositoriesLatestTsqmi?.results.find(result => result.id === id)!.url
+    `${repositoriesLatestTsqmi?.results.find(result => result.id === id)!.url}badge`
   )
 
   function handleRepositoriesFilter(name: string) {

@@ -32,7 +32,8 @@ const formatCharacteristicsHistory = ({ historical, title, isEmpty = false }: Fo
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'dados.csv';
+      const timestamp = new Date().toISOString().replace(/[. ]/g, '');
+      a.download = `msgram-${title}-${timestamp}.csv`;
       a.click();
       window.URL.revokeObjectURL(url);
     }
@@ -54,7 +55,7 @@ const formatCharacteristicsHistory = ({ historical, title, isEmpty = false }: Fo
           icon: 'image:///images/png/iconCsv.png',
           onclick: () => {
             handleExportCsv();
-          },
+          }
         }
       }
     },

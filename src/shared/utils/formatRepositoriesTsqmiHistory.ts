@@ -11,10 +11,7 @@ const formatRepositoriesTsqmiHistory = (history: RepositoriesTsqmiHistory) => {
 
     return {
       name: item.name,
-      data: item.history.map((metric) => [
-        new Date(metric.created_at).getTime(),
-        formatTwoDecimalPlaces(metric.value)
-      ]),
+      data: item.history.map((metric) => [new Date(metric.created_at).getTime(), formatTwoDecimalPlaces(metric.value)]),
       type: 'line',
       animationDuration: 1200
     };
@@ -29,7 +26,8 @@ const formatRepositoriesTsqmiHistory = (history: RepositoriesTsqmiHistory) => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'dados.csv';
+      const timestamp = new Date().toISOString().replace(/[. ]/g, '');
+      a.download = `msgram-Comportamento observado do produto-${timestamp}.csv`;
       a.click();
       window.URL.revokeObjectURL(url);
     }
@@ -62,7 +60,7 @@ const formatRepositoriesTsqmiHistory = (history: RepositoriesTsqmiHistory) => {
           icon: 'image:///images/png/iconCsv.png',
           onclick: () => {
             handleExportCsv();
-          },
+          }
         },
         dataZoom: {
           yAxisIndex: 'none'
