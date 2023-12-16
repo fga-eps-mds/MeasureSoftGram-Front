@@ -1,5 +1,6 @@
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
 import { Alert, Box, Button, IconButton, Modal, Typography } from '@mui/material';
+import WarningIcon from '@mui/icons-material/Warning';
 import SettingsIcon from '@mui/icons-material/Settings';
 
 import React, { useEffect, useState } from 'react';
@@ -178,7 +179,7 @@ function Header() {
                   Salvar
                 </Button>
               </Box>
-              <Alert sx={{ display: "flex", justifyContent: "center", textAlign: 'center' }} severity="warning">
+              <Alert icon={<WarningIcon />} sx={{ display: "flex", justifyContent: "center", textAlign: 'center' }} severity="warning">
                 Atenção: Essa configuração será aplicada a todos os repositórios do produto.
               </Alert>
             </>

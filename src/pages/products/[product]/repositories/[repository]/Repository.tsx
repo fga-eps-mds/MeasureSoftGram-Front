@@ -80,15 +80,16 @@ const Repository: NextPageWithLayout = () => {
                 tabId="tab2"
                 orientation="vertical"
                 tabHeaderItems={[
-                  <AiOutlineRadarChart key="tab2-0" fontSize="22px" />,
-                  <SpeedIcon key="tab2-1" sx={{ fontSize: '21px' }} />,
+                  <SpeedIcon key="tab2-0" sx={{ fontSize: '21px' }} />,
+                  <AiOutlineRadarChart key="tab2-1" fontSize="22px" />,
                   <TableRowsIcon key="tab2-2" sx={{ fontSize: '21px' }} />,
                 ]}
                 tabPanelItems={[
                   <GraphicChart
                     key="tab2-0-0"
                     title="Cenário atual das Características"
-                    type="radar"
+                    type="gauge"
+                    autoGrid
                     value="characteristics"
                     valueType="latest-values"
                     addCurrentGoal
@@ -96,8 +97,7 @@ const Repository: NextPageWithLayout = () => {
                   <GraphicChart
                     key="tab2-0-1"
                     title="Cenário atual das Características"
-                    type="gauge"
-                    autoGrid
+                    type="radar"
                     value="characteristics"
                     valueType="latest-values"
                     addCurrentGoal
@@ -134,15 +134,16 @@ const Repository: NextPageWithLayout = () => {
                 tabId="tab2"
                 orientation="vertical"
                 tabHeaderItems={[
-                  <AiOutlineRadarChart key="tab2-0" fontSize="22px" />,
-                  <SpeedIcon key="tab2-1" sx={{ fontSize: '21px' }} />,
+                  <SpeedIcon key="tab2-0" sx={{ fontSize: '21px' }} />,
+                  <AiOutlineRadarChart key="tab2-1" fontSize="22px" />,
                   <TableRowsIcon key="tab2-2" sx={{ fontSize: '21px' }} />
                 ]}
                 tabPanelItems={[
                   <GraphicChart
                     key="tab2-0-0"
                     title="Cenário atual das Sub-Características"
-                    type="radar"
+                    type="gauge"
+                    autoGrid
                     value="subcharacteristics"
                     valueType="latest-values"
                     addCurrentGoal
@@ -150,8 +151,7 @@ const Repository: NextPageWithLayout = () => {
                   <GraphicChart
                     key="tab2-0-1"
                     title="Cenário atual das Sub-Características"
-                    type="gauge"
-                    autoGrid
+                    type="radar"
                     value="subcharacteristics"
                     valueType="latest-values"
                     addCurrentGoal
@@ -189,8 +189,8 @@ const Repository: NextPageWithLayout = () => {
                 tabId="tab2"
                 orientation="vertical"
                 tabHeaderItems={[
-                  <AiOutlineRadarChart key="tab2-0" fontSize="22px" />,
-                  <SpeedIcon key="tab2-1" sx={{ fontSize: '21px' }} />,
+                  <SpeedIcon key="tab2-0" sx={{ fontSize: '21px' }} />,
+                  <AiOutlineRadarChart key="tab2-1" fontSize="22px" />,
                   <TableRowsIcon key="tab2-2" sx={{ fontSize: '21px' }} />
 
                 ]}
@@ -198,7 +198,8 @@ const Repository: NextPageWithLayout = () => {
                   <GraphicChart
                     key="tab2-0-0"
                     title="Cenário atual das Medidas"
-                    type="radar"
+                    type="gauge"
+                    autoGrid
                     value="measures"
                     valueType="latest-values"
                     addCurrentGoal
@@ -206,8 +207,7 @@ const Repository: NextPageWithLayout = () => {
                   <GraphicChart
                     key="tab2-0-1"
                     title="Cenário atual das Medidas"
-                    type="gauge"
-                    autoGrid
+                    type="radar"
                     value="measures"
                     valueType="latest-values"
                     addCurrentGoal
