@@ -79,10 +79,10 @@ const Products: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title> Site do MeasureSoftGram </title>
+        <title>Site do MeasureSoftGram</title>
       </Head>
 
-      <Container>
+      <Container maxWidth="lg" style={{ width: '100%' }}>
         <Box display="flex" flexDirection="column">
           <Typography
             variant="h4"
@@ -93,28 +93,51 @@ const Products: NextPageWithLayout = () => {
           >
             Organizações
           </Typography>
+
           <Box
-            display="flex"
-            gap="1rem"
-            marginTop="40px"
-            marginBottom="10px"
-            justifyContent="space-around"
+            data-testid="organization-box"
+            sx={{
+              marginTop: '40px',
+              padding: '20px 36px',
+              overflowX: 'auto',
+              overflowY: 'hidden',
+              position: 'relative',
+            }}
+            style={{
+              maxHeight: '120px',
+            }}
           >
-            {organizationList?.map((organization) => (
-              <Box
-                key={organization.id}
-                display="flex"
-                flexDirection="row"
-                paddingRight="20px"
-                paddingBottom="20px"
-                justifyContent="center"
-              >
+            <Box
+              display="flex"
+              flexDirection="row"
+              style={{
+                gap: '1rem',
+                padding: '0',
+                marginLeft: '-36px',
+                boxSizing: 'border-box',
+              }}
+              sx={{
+                '&::-webkit-scrollbar': {
+                  height: '8px',
+                },
+                '&::-webkit-scrollbar-track': {
+                  background: '#f0f0f0',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  background: '#b0b0b0',
+                  borderRadius: '4px',
+                },
+                scrollbarColor: '#b0b0b0 #f0f0f0',
+                scrollbarWidth: 'thin',
+              }}
+            >
+              {organizationList?.map((organization) => (
                 <Button
+                  key={organization.id}
                   style={{
-                    maxWidth: '280px',
-                    maxHeight: '80px',
                     minWidth: '280px',
-                    minHeight: '80px',
+                    height: '80px',
+                    marginRight: '1rem',
                   }}
                   size="large"
                   variant={
@@ -128,19 +151,21 @@ const Products: NextPageWithLayout = () => {
                 >
                   {organization.name}
                 </Button>
-              </Box>
-            ))}
+              ))}
+            </Box>
           </Box>
+
           {currentOrganization && (
             <Box
               display="flex"
               flexDirection="column"
-              marginTop="60px"
+              marginTop="20px"
               padding="36px"
               style={{
                 backgroundColor: 'white',
                 border: '1px solid #113d4c',
                 borderRadius: '10px',
+                boxSizing: 'border-box',
               }}
             >
               <Box
@@ -198,20 +223,16 @@ const Products: NextPageWithLayout = () => {
                 justifyContent="space-around"
               >
                 {filteredProducts?.map((product) => (
-                  <Box
+                  <CardNavigation
                     key={product.id}
-                    display="flex"
-                    flexDirection="row"
-                    paddingRight="20px"
-                    paddingBottom="20px"
-                  >
-                    <CardNavigation
-                      key={product.id}
-                      id={product.id}
-                      name={product.name}
-                      url={`/products/${currentOrganization?.id}-${product?.id}-${product?.name}`}
-                    />
-                  </Box>
+                    id={product.id}
+                    name={product.name}
+                    url={`/products/${currentOrganization?.id}-${product?.id}-${product?.name}`}
+                    style={{
+                      paddingRight: '20px',
+                      paddingBottom: '20px',
+                    }}
+                  />
                 ))}
               </Box>
             </Box>
