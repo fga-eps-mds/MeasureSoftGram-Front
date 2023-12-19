@@ -3,11 +3,15 @@ import api from './api';
 import { getAccessToken } from '@services/Auth';
 
 export interface OrganizationFormData {
+  id?: string;
   name: string;
   key?: string;
   description?: string;
   members?: string[];
+  url?: string;
+  products?: string[];
 }
+
 
 export type ResultSuccess<T> = { type: 'success'; value: T };
 export type ResultError = { type: 'error'; error: Error | AxiosError };
@@ -15,14 +19,33 @@ export type Result<T> = ResultSuccess<T> | ResultError;
 
 class OrganizationQuery {
 
-  private async getAuthHeaders(): Promise<{ Authorization: string } | null> {
-    const tokenResult = await getAccessToken();
-    if (tokenResult.type === 'error' || !tokenResult.value.key) {
-      return null;
+private async getAuthHeaders(): Promise<{ Authorization: string } | null> {
+  const tokenResult = await getAccessToken();
+  if (tokenResult.type === 'error' || !tokenResult.value.key) {
+    // Opção 1: Lançar um erro específico para ser tratado posteriormente
+    throw new Error('Token de acesso não encontrado.');
+
+    // Opção 2: Redirecionar para a página de login ou outra ação
+    // window.location.href = '/login';
+    // return null;
+  }
+
+  return { Authorization: `Token ${tokenResult.value.key}` };
+}
+
+async getAllOrganization(): Promise<Result<OrganizationFormData[]>> {
+  try {
+    const headers = await this.getAuthHeaders();
+    if (!headers) {
+      throw new Error('Token de acesso não encontrado.');
     }
 
-    return { Authorization: `Token ${tokenResult.value.key}` };
+    const response = await api.get('/organizations/', { headers });
+    return { type: 'success', value: response.data.results as OrganizationFormData[] };
+  } catch (error) {
+    return { type: 'error', error: error as AxiosError };
   }
+}
 
 async createOrganization(data: OrganizationFormData): Promise<Result<OrganizationFormData>> {
     try {
@@ -62,19 +85,6 @@ async createOrganization(data: OrganizationFormData): Promise<Result<Organizatio
       return { type: 'error', error };
     }
   }
-
-async getAllOrganization(): Promise<AxiosRequestConfig> {
-    const headers = await this.getAuthHeaders();
-    if (!headers) {
-        throw new Error('Token de acesso não encontrado.');
-    }
-
-    return {
-        method: 'GET',
-        url: '/organizations/',
-        headers
-    };
-}
 
 
 async updateOrganization(id: string, data: OrganizationFormData): Promise<Result<void>> {

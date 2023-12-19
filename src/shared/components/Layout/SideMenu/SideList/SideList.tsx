@@ -24,6 +24,7 @@ import { useRouter } from 'next/router';
 import { useOrganizationQuery } from '../../../../../pages/organizations/hooks/useOrganizationQuery';
 import { toast } from 'react-toastify';
 import { useProductQuery } from '@pages/products/hooks/useProductQuery';
+import { useSideMenuContext } from '@contexts/SidebarProvider/SideMenuProvider';
 
 type ItemWithBasicProps = {
   id: number;
@@ -51,18 +52,31 @@ const SideList = <T extends ItemWithBasicProps>({
   itemType,
   organizationId,
 }: Props<T>) => {
+  const filteredValues = Array.isArray(values) ? values.slice(0, 10) : [];
   const { deleteOrganization } = useOrganizationQuery();
   const { deleteProduct } = useProductQuery();
-  const maxItems = 10;
-  const filteredValues = values.slice(0, maxItems);
   const router = useRouter();
 
+  const { isCollapsed, toggleCollapse } = useSideMenuContext();
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<T | null>(null);
   const [confirmationStep, setConfirmationStep] = useState(0);
   const [confirmationName, setConfirmationName] = useState("");
   const [errorText, setErrorText] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+  const handleAddClick = async (path: string) => {
+    onClose();
+    setTimeout(() => {
+      router.push(path);
+    });
+  };
+
+  const handleActionButtonClick = async (action: () => Promise<void>) => {
+    await action();
+    toggleCollapse();
+  };
+
 
   const handleConfirmationNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newName = e.target.value;
@@ -145,13 +159,7 @@ const SideList = <T extends ItemWithBasicProps>({
             <Button
               variant="contained"
               startIcon={<FiPlus />}
-              onClick={async () => {
-                if (itemType === "organization") {
-                  await router.push(`/organizations/`);
-                } else {
-                  await router.push(`/products/create/?id_organization=${organizationId}`);
-                }
-              }}
+              onClick={() => handleAddClick(itemType === "organization" ? `/organizations/` : `/products/create/?id_organization=${organizationId}`)}
             >
               {itemType === "organization" ? "Adicionar Organização" : "Adicionar Produto"}
             </Button>
@@ -182,26 +190,23 @@ const SideList = <T extends ItemWithBasicProps>({
                         <IconButton
                           edge="end"
                           aria-label="edit"
-                          onClick={async (e) => {
-                            e.stopPropagation();
+                          onClick={() => handleActionButtonClick(async () => {
                             if (itemType === "organization") {
                               await router.push(`/organizations?edit=${value.id}`);
                             } else {
                               await router.push(`/products/create/?id_organization=${organizationId}&id_product=${value.id}`);
                             }
-                          }}
+                          })}
                         >
                           <EditIcon />
                         </IconButton>
-
                         <IconButton
                           edge="end"
                           aria-label="delete"
-                          onClick={(e) => {
-                            e.stopPropagation();
+                          onClick={() => handleActionButtonClick(() => {
                             setItemToDelete(value);
                             setShowConfirmationModal(true);
-                          }}
+                          })}
                         >
                           <DeleteIcon />
                         </IconButton>
@@ -213,9 +218,9 @@ const SideList = <T extends ItemWithBasicProps>({
             ))}
             <Button
               sx={{ marginTop: '5px', minHeight: '10vh', width: 'calc(100% - 10px)' }}
-              onClick={async () => {
+              onClick={() => handleActionButtonClick(async () => {
                 await router.push(seeMorePath);
-              }}
+              })}
               variant="text"
             >
               VER MAIS...

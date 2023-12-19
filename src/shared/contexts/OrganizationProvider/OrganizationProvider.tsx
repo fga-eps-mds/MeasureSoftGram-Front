@@ -1,9 +1,8 @@
 import React, { createContext, useState, useContext, ReactNode, useMemo, useEffect } from 'react';
 import { Organization } from '@customTypes/organization';
 import { organizationQuery } from '@services/organization';
-import { useRequest } from '@hooks/useRequest';
-import { useRouter } from 'next/router';
-import { AxiosRequestConfig } from 'axios';
+import { toast } from 'react-toastify';
+import { useAuth } from '@contexts/Auth';
 
 interface Props {
   children: ReactNode;
@@ -14,39 +13,54 @@ interface IOrganizationContext {
   currentOrganizations: Organization[];
   setCurrentOrganizations: (organizations: Organization[]) => void;
   organizationList: Organization[];
+  isLoading: boolean;
+  fetchOrganizations: () => void;
 }
 
 const OrganizationContext = createContext<IOrganizationContext | undefined>(undefined);
 
 export function OrganizationProvider({ children }: Props) {
-  const router = useRouter();
-
+  const { session } = useAuth();
   const [currentOrganizations, setCurrentOrganizations] = useState<Organization[]>([]);
   const [currentOrganization, setCurrentOrganization] = useState<Organization | null>(null);
-  const [requestConfig, setRequestConfig] = useState<AxiosRequestConfig | null>(null);
+  const [organizationList, setOrganizationList] = useState<Organization[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchOrganizations = async () => {
+    if (!session) return;
+    setIsLoading(true);
+    try {
+      const result = await organizationQuery.getAllOrganization();
+      if (result.type === 'success') {
+        const organizations = result.value.map(org => ({
+          id: org.id ?? '',
+          name: org.name,
+          description: org.description ?? '',
+          url: org.url ?? '',
+          products: org.products ?? [],
+          key: org.key ?? ''
+        }));
+        setOrganizationList(organizations);
+      } else {
+        toast.error("Erro ao carregar organizações.");
+      }
+    } catch (error) {
+      console.error("Failed to fetch organizations:", error);
+      toast.error("Erro ao carregar organizações. Por favor, tente novamente.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchConfig = async () => {
-      try {
-        const config = await organizationQuery.getAllOrganization();
-        setRequestConfig(config);
-      } catch (error) {
-        console.error("Failed to fetch the organization config:", error);
-      }
-    };
-
-    fetchConfig();
+    fetchOrganizations();
   }, []);
 
-  const { data, error } = useRequest<any>(requestConfig);
-  const organizationList = data?.results || [];
-
   useEffect(() => {
-
     if (organizationList.length > 0 && currentOrganizations.length === 0) {
       setCurrentOrganizations([organizationList[0]]);
     }
-  }, [organizationList, currentOrganizations, data, error]);
+  }, [organizationList, currentOrganizations]);
 
   useEffect(() => {
     if (currentOrganizations.length > 0) {
@@ -61,10 +75,11 @@ export function OrganizationProvider({ children }: Props) {
       currentOrganization,
       currentOrganizations,
       setCurrentOrganizations,
-      organizationList
+      organizationList,
+      isLoading,
+      fetchOrganizations
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentOrganization, currentOrganizations, organizationList]);
+  }, [currentOrganization, currentOrganizations, organizationList, isLoading]);
 
   return <OrganizationContext.Provider value={value}>{children}</OrganizationContext.Provider>;
 }

@@ -16,23 +16,26 @@ interface OrganizationWithId extends OrganizationFormData {
 export const useOrganizationQuery = () => {
   const { currentOrganizations, setCurrentOrganizations } = useOrganizationContext();
 
-  const loadCurrentOrganizations = async () => {
-    try {
-      const responseConfig = await organizationQuery.getAllOrganization();
+const loadCurrentOrganizations = async () => {
+  try {
+    const result = await organizationQuery.getAllOrganization();
 
-      const response = await api.request(responseConfig);
-
-      const organizations = response.data.results.map((item: OrganizationWithId) => ({
+    if (result.type === 'success') {
+      const organizations = result.value.map((item: OrganizationWithId) => ({
         ...item,
         id: item.id || 'fake-id'
       })) as CurrentOrganizationType[];
 
       setCurrentOrganizations(organizations);
-    } catch (error: any) {
-      console.error("Erro detalhado:", error);
-      toast.error(`Erro ao carregar organizações: ${error.message || 'Erro desconhecido'}`);
+    } else {
+      toast.error(`Erro ao carregar organizações: ${result.error.message || 'Erro desconhecido'}`);
     }
-  };
+  } catch (error: any) {
+    console.error("Erro detalhado:", error);
+    toast.error(`Erro ao carregar organizações: ${error.message || 'Erro desconhecido'}`);
+  }
+};
+
 
   const [update, setUpdate] = useState<number>(0);
 

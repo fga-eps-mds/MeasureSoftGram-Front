@@ -30,15 +30,6 @@ const HoverIcon = styled('span')(({ theme }) => ({
   },
 }));
 
-const GitHubIcon: FC = () => <FaGithub size="1.5em" />;
-const GitlabIcon: FC = () => <FaGitlab size="1.5em" />;
-const BitbucketIcon: FC = () => <FaBitbucket size="1.5em" />;
-const SubversionIcon: FC = () => <SiSubversion size="1.5em" />;
-const MercurialIcon: FC = () => <SiMercurial size="1.5em" />;
-const AwsIcon: FC = () => <FaAws size="1.5em" />;
-const AzureIcon: FC = () => <SiMicrosoftazure size="1.5em" />;
-const OutrosIcon: FC = () => <FaCodeBranch size="1.5em" />;
-
 const platformIcons = {
   'github': () => <FaGithub size="1.5em" />,
   'gitlab': () => <FaGitlab size="1.5em" />,
@@ -61,9 +52,6 @@ const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
   const [repositoryToDelete, setRepositoryToDelete] = useState<Repository | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  const handleEditClick = (repositoryId: string) => {
-    router.push(`/products/${currentOrganization?.id}-${currentProduct?.id}/repositories/manage-repository?id=${repositoryId}`);
-  };
 
   const handleClickRedirects = (id: string) => {
     const path = `/products/${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/repositories/${id}`;
