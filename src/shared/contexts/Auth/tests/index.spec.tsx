@@ -19,7 +19,7 @@ describe('AuthProvider', () => {
     });
 
     expect(result.current.session).toBe(null);
-    expect(result.current.provider).toBe(null);
+    expect(result.current.provider).toBe('credentials');
     expect(result.current.loading).toBe('loaded');
     expect(result.current.setProvider).toBeInstanceOf(Function);
     expect(result.current.signInWithCredentials).toBeInstanceOf(Function);

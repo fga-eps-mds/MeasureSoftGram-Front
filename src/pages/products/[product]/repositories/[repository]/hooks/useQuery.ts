@@ -10,17 +10,25 @@ import formatEntitiesFilter from '@utils/formatEntitiesFilter';
 import formatEntitiesMetrics from '@utils/formatEntitiesMetrics';
 import { getPathId } from '@utils/pathDestructer';
 import { Historical } from '@customTypes/repository';
-import { LatestValues, CompareGoalAccomplished } from '@customTypes/product';
+import { LatestValues, IReleases } from '@customTypes/product';
 
 import { LARGE_PRIME_NUMBER } from './const';
 
 export const useQuery = () => {
-  const { setCurrentRepository, setCharacteristics, setSubCharacteristics, setMeasures, setMetrics, setHistoricalTSQMI } =
-    useRepositoryContext();
+  const {
+    setCurrentRepository,
+    setCharacteristics,
+    setSubCharacteristics,
+    setMeasures,
+    setMetrics,
+    setHistoricalTSQMI,
+    setLatestTSQMI,
+    setLatestTSQMIBadgeUrl
+  } = useRepositoryContext();
 
   const [repositoryHistoricalCharacteristics, setRepositoryHistoricalCharacteristics] = useState<Historical[]>([]);
   const [latestValueCharacteristics, setLatestValueCharacteristics] = useState<LatestValues[]>([]);
-  const [comparedGoalAccomplished, setcomparedGoalAccomplished] = useState<CompareGoalAccomplished[]>([]);
+  const [comparedGoalAccomplished, setcomparedGoalAccomplished] = useState<IReleases[]>([]);
   const [checkedOptionsFormat, setCheckedOptions] = useState({});
 
   const { query } = useRouter();
@@ -62,7 +70,7 @@ export const useQuery = () => {
       setCheckedOptions(formatCheckedOptions(characteristics, subCharacteristics, measures, metrics));
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.log(error);
+
     }
   }
 
@@ -78,7 +86,7 @@ export const useQuery = () => {
       setRepositoryHistoricalCharacteristics(result.data.results);
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.log(error);
+
     }
   }
 
@@ -89,7 +97,7 @@ export const useQuery = () => {
       setLatestValueCharacteristics(result.data);
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.log(error);
+
     }
   }
 
@@ -111,6 +119,28 @@ export const useQuery = () => {
       setHistoricalTSQMI({ id, key: 'TSQMI', name: 'TSQMI', history: results });
     } catch (error) {
       // eslint-disable-next-line no-console
+
+    }
+  }
+
+  async function loadLatestTsqmi(organizationId: string, productId: string, repositoryId: string) {
+    try {
+      const { crypto } = window;
+      const array = new Uint32Array(1);
+      const randomValue = crypto.getRandomValues(array)[0];
+      const id = Math.round(randomValue * LARGE_PRIME_NUMBER);
+      const props = {
+        organizationId,
+        productId,
+        repositoryId,
+        entity: 'tsqmi'
+      };
+      const { data: result } = await repository.getLatest(props);
+      const badgeUrl = repository.getTsqmiBadgeUrl(props);
+      setLatestTSQMI(result);
+      setLatestTSQMIBadgeUrl(badgeUrl);
+    } catch (error) {
+      // eslint-disable-next-line no-console
       console.log(error);
     }
   }
@@ -122,7 +152,7 @@ export const useQuery = () => {
       setCurrentRepository(data);
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.log(error);
+
     }
   }
 
@@ -131,13 +161,14 @@ export const useQuery = () => {
       await Promise.all([
         loadRepository(organizationId, productId, repositoryId),
         loadHistoricalTsqmi(organizationId, productId, repositoryId),
+        loadLatestTsqmi(organizationId, productId, repositoryId),
         loadRepositorySupportedEntities(organizationId, productId, repositoryId),
         loadHistoricalCharacteristics(organizationId, productId, repositoryId),
         loadLatestValueCharacteristics(organizationId, productId, repositoryId)
       ]).then();
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.log(error);
+
     }
   }
 
@@ -147,7 +178,7 @@ export const useQuery = () => {
       return result?.data;
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.log(error);
+
     }
   }
 

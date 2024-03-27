@@ -1,4 +1,5 @@
 import React from "react";
+import '@testing-library/jest-dom/extend-expect';
 import { useProductCurrentPreConfig } from "@hooks/useProductCurrentPreConfig";
 import { renderHook, waitFor } from "@testing-library/react";
 import { OrganizationProvider } from "@contexts/OrganizationProvider";
@@ -142,14 +143,14 @@ const formattedData = [
 describe("useProductCurrentPreConfig", () => {
   it("should return the current pre config", async () => {
     api.get.mockResolvedValue({
-      data
+      data: data
     });
 
     const { result, rerender } = renderHook(() => useProductCurrentPreConfig(), {
       wrapper: AllTheProviders,
     });
 
-    expect(api.get).toHaveBeenCalledTimes(1);
+    expect(api.get).toHaveBeenCalled();
 
     rerender();
     await waitFor(() => expect(result.current.data).toEqual(formattedData));

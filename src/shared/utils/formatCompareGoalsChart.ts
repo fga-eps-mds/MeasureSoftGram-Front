@@ -1,10 +1,11 @@
-import { CompareGoalAccomplished } from '@customTypes/product';
+import { IReleases } from '@customTypes/product';
 
-const formatCompareGoalsChart = (data: CompareGoalAccomplished) => {
-  const xAxisData = Object.keys(data?.goal);
+const formatCompareGoalsChart = (data: IReleases) => {
+  // const xAxisData = Object.keys(data?.goal);
 
-  const seriesGoalData = Object.values(data?.goal).map((value) => value / 100);
-  const seriesAccomplishedData = Object.values(data?.accomplished).map((value) => value);
+  // const seriesGoalData = Object.values(data?.goal).map((value) => value / 100);
+  // const seriesAccomplishedData = Object.values(data?.accomplished).map((value) => value);
+  console.log(data);
   return {
     title: {
       text: 'Realizado x Planejado - Características',
@@ -42,7 +43,10 @@ const formatCompareGoalsChart = (data: CompareGoalAccomplished) => {
     },
     xAxis: {
       type: 'category',
-      data: xAxisData,
+      data: {
+        reliability: 0.8,
+        maintainability: 0.9
+      },
       boundaryGap: true
     },
     yAxis: {
@@ -55,12 +59,15 @@ const formatCompareGoalsChart = (data: CompareGoalAccomplished) => {
       {
         name: 'Planejado',
         type: 'line',
-        data: seriesGoalData
+        data: 0.7
       },
       {
         name: 'Realizado',
         type: 'line',
-        data: seriesAccomplishedData
+        data: {
+          reliability: 1,
+          maintainability: 1
+        }
       }
     ]
   };

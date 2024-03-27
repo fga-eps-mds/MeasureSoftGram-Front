@@ -12,7 +12,7 @@ import { getPathId } from '@utils/pathDestructer';
 
 export const useQuery = () => {
   const { setCurrentProduct } = useProductContext();
-  const { setRepositoryList } = useRepositoryContext();
+  const { setRepositoryList, setRepositoriesLatestTsqmi } = useRepositoryContext();
   const [repositoriesTsqmiHistory, setRepositoriesTsqmiHistory] = useState<RepositoriesTsqmiHistory>();
 
   const { query } = useRouter();
@@ -20,10 +20,9 @@ export const useQuery = () => {
   async function loadProduct(organizationId: string, productId: string) {
     try {
       const result = await productQuery.getProductById(organizationId, productId);
-      setCurrentProduct(result.data);
+      setCurrentProduct(result.value);
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.log(error);
     }
   }
 
@@ -33,7 +32,16 @@ export const useQuery = () => {
       setRepositoriesTsqmiHistory(result.data);
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.log(error);
+    }
+  }
+
+  async function loadRepositoriesLatestTsqmi(organizationId: string, productId: string) {
+    try {
+      const result = await productQuery.getProductRepositoriesLatestTsqmi(organizationId, productId as string);
+      console.log(result.data);
+      setRepositoriesLatestTsqmi(result.data);
+    } catch (error) {
+      // eslint-disable-next-line no-console
     }
   }
 
@@ -43,7 +51,6 @@ export const useQuery = () => {
       setRepositoryList(result.data.results);
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.log(error);
     }
   }
 
@@ -53,6 +60,7 @@ export const useQuery = () => {
 
       loadProduct(organizationId, productId);
       loadRepositoriesTsqmiHistory(organizationId, productId);
+      loadRepositoriesLatestTsqmi(organizationId, productId);
       loadRepositories(organizationId, productId);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

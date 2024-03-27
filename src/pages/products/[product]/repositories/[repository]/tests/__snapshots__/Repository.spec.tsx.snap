@@ -6,298 +6,429 @@ exports[`<Repository /> Should render correctly 1`] = `
     class="MuiBox-root css-vb578k"
   >
     <div
-      class="MuiContainer-root MuiContainer-maxWidthLg css-1j2rs73-MuiContainer-root"
+      class="MuiContainer-root MuiContainer-maxWidthLg css-mednve-MuiContainer-root"
     >
       <div
-        class="MuiBox-root css-j7qwjs"
+        class="MuiBox-root css-bbsvb3"
       >
         <div
-          class="MuiBox-root css-k008qs"
-        >
-          <h4
-            class="MuiTypography-root MuiTypography-h4 css-obdthj-MuiTypography-root"
-          >
-            Repositório
-          </h4>
-          <h4
-            class="MuiTypography-root MuiTypography-h4 css-1yvpk5c-MuiTypography-root"
-          />
-        </div>
-        <span
-          class="MuiTypography-root MuiTypography-caption css-qkcnm0-MuiTypography-root"
-        />
-      </div>
-      <div
-        class="MuiBox-root css-1880h6w"
-      >
-        <div
-          class="MuiTabs-root MuiTabs-vertical css-tf8uax-MuiTabs-root"
+          class="MuiBox-root css-9jay18"
         >
           <div
-            class="MuiTabs-scroller MuiTabs-fixed css-jpln7h-MuiTabs-scroller"
-            style="overflow: hidden; margin-right: 0px;"
+            class="MuiBox-root css-j7qwjs"
           >
             <div
-              aria-orientation="vertical"
-              class="MuiTabs-flexContainer MuiTabs-flexContainerVertical css-lfwcke-MuiTabs-flexContainer"
-              role="tablist"
+              class="MuiBox-root css-k008qs"
             >
-              <button
-                aria-controls="vertical-tab1panel-0"
-                aria-selected="true"
-                class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected css-bavzl3-MuiButtonBase-root-MuiTab-root"
-                id="vertical-tab1-0"
-                role="tab"
-                tabindex="0"
-                type="button"
+              <h4
+                class="MuiTypography-root MuiTypography-h4 css-obdthj-MuiTypography-root"
               >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-lydjla-MuiSvgIcon-root"
-                  data-testid="SsidChartIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M21 5.47 12 12 7.62 7.62 3 11V8.52L7.83 5l4.38 4.38L21 3v2.47zM21 15h-4.7l-4.17 3.34L6 12.41l-3 2.13V17l2.8-2 6.2 6 5-4h4v-2z"
-                  />
-                </svg>
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
-              </button>
-              <button
-                aria-controls="vertical-tab1panel-1"
-                aria-selected="false"
-                class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-bavzl3-MuiButtonBase-root-MuiTab-root"
-                id="vertical-tab1-1"
-                role="tab"
-                tabindex="-1"
-                type="button"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-lydjla-MuiSvgIcon-root"
-                  data-testid="LineAxisIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="m22 7.43-1.41-1.41-4.03 4.53L9.5 4 2 11.51l1.5 1.5 6.14-6.15 5.59 5.18-1.73 1.95-4-4L2 17.5 3.5 19l6-6.01 4 4 3.19-3.59 3.9 3.61L22 15.6l-3.98-3.7z"
-                  />
-                </svg>
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
-              </button>
+                Repositório
+              </h4>
+              <h4
+                class="MuiTypography-root MuiTypography-h4 css-r2wbd1-MuiTypography-root"
+              />
             </div>
             <span
-              class="MuiTabs-indicator css-10d9dml-MuiTabs-indicator"
-              style="top: 0px; height: 0px;"
+              class="MuiTypography-root MuiTypography-caption css-qkcnm0-MuiTypography-root"
             />
+          </div>
+          <div
+            class="MuiBox-root css-0"
+          >
+            <button
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+              tabindex="0"
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="SettingsIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"
+                />
+              </svg>
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+            <button
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+              tabindex="0"
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="ContentCopyIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                />
+              </svg>
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+          </div>
+        </div>
+        <div />
+        <div
+          class="MuiBox-root css-1ntb6q6"
+        >
+          <h2
+            style="color: rgb(17, 61, 76); font-weight: 500; font-size: 25px;"
+          >
+            Características
+          </h2>
+          <div
+            class="MuiBox-root css-1vr4rvm"
+            style="width: 50%;"
+          >
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-sghohy-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
+              type="button"
+            >
+              Histórico
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1rwt2y5-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
+              type="button"
+            >
+              Cenário Atual
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
           </div>
         </div>
         <div
-          aria-labelledby="vertical-tab-0"
-          class="MuiBox-root css-1njwyir"
-          id="vertical-tabpanel-0"
-          role="tabpanel"
-        >
-          <span
-            class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
-            style="height: 300px;"
-          />
-        </div>
-        <div
-          aria-labelledby="vertical-tab-1"
-          class="MuiBox-root css-1nw0r8e"
-          id="vertical-tabpanel-1"
-          role="tabpanel"
+          class="MuiBox-root css-1880h6w"
         >
           <div
-            class="MuiBox-root css-13kcqfm"
-            style="opacity: 1; webkit-transition: opacity 1500ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 1500ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+            class="MuiTabs-root MuiTabs-vertical css-tf8uax-MuiTabs-root"
           >
             <div
-              _echarts_instance_="ec_123"
-              class="echarts-for-react "
-              size-sensor-id="2"
-              style="height: 300px; webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"
+              class="MuiTabs-scroller MuiTabs-fixed css-jpln7h-MuiTabs-scroller"
+              style="overflow: hidden; margin-right: 0px;"
             >
               <div
-                style="position: relative; width: 0px; height: 300px; padding: 0px; margin: 0px; border-width: 0px;"
-              />
-              <object
-                class="size-sensor-object"
-                data="about:blank"
-                style="display: block; position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; overflow: hidden; pointer-events: none; z-index: -1; opacity: 0;"
-                tabindex="-1"
-                type="text/html"
+                aria-orientation="vertical"
+                class="MuiTabs-flexContainer MuiTabs-flexContainerVertical css-lfwcke-MuiTabs-flexContainer"
+                role="tablist"
+              >
+                <button
+                  aria-controls="vertical-tab1panel-0"
+                  aria-selected="true"
+                  class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected css-bavzl3-MuiButtonBase-root-MuiTab-root"
+                  id="vertical-tab1-0"
+                  role="tab"
+                  tabindex="0"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-lydjla-MuiSvgIcon-root"
+                    data-testid="SsidChartIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M21 5.47 12 12 7.62 7.62 3 11V8.52L7.83 5l4.38 4.38L21 3v2.47zM21 15h-4.7l-4.17 3.34L6 12.41l-3 2.13V17l2.8-2 6.2 6 5-4h4v-2z"
+                    />
+                  </svg>
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </button>
+                <button
+                  aria-controls="vertical-tab1panel-1"
+                  aria-selected="false"
+                  class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-bavzl3-MuiButtonBase-root-MuiTab-root"
+                  id="vertical-tab1-1"
+                  role="tab"
+                  tabindex="-1"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-lydjla-MuiSvgIcon-root"
+                    data-testid="LineAxisIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="m22 7.43-1.41-1.41-4.03 4.53L9.5 4 2 11.51l1.5 1.5 6.14-6.15 5.59 5.18-1.73 1.95-4-4L2 17.5 3.5 19l6-6.01 4 4 3.19-3.59 3.9 3.61L22 15.6l-3.98-3.7z"
+                    />
+                  </svg>
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </button>
+              </div>
+              <span
+                class="MuiTabs-indicator css-10d9dml-MuiTabs-indicator"
+                style="top: 0px; height: 0px;"
               />
             </div>
           </div>
-        </div>
-      </div>
-      <div
-        class="MuiBox-root css-1880h6w"
-      >
-        <div
-          class="MuiTabs-root MuiTabs-vertical css-tf8uax-MuiTabs-root"
-        >
           <div
-            class="MuiTabs-scroller MuiTabs-fixed css-jpln7h-MuiTabs-scroller"
-            style="overflow: hidden; margin-right: 0px;"
+            aria-labelledby="vertical-tab-0"
+            class="MuiBox-root css-1njwyir"
+            id="vertical-tabpanel-0"
+            role="tabpanel"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-153n0d3-MuiSkeleton-root"
+              style="height: 300px;"
+            />
+          </div>
+          <div
+            aria-labelledby="vertical-tab-1"
+            class="MuiBox-root css-1nw0r8e"
+            id="vertical-tabpanel-1"
+            role="tabpanel"
           >
             <div
-              aria-orientation="vertical"
-              class="MuiTabs-flexContainer MuiTabs-flexContainerVertical css-lfwcke-MuiTabs-flexContainer"
-              role="tablist"
+              class="MuiBox-root css-13kcqfm"
+              style="opacity: 1; webkit-transition: opacity 1500ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 1500ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
             >
-              <button
-                aria-controls="vertical-tab2panel-0"
-                aria-selected="true"
-                class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected css-bavzl3-MuiButtonBase-root-MuiTab-root"
-                id="vertical-tab2-0"
-                role="tab"
-                tabindex="0"
-                type="button"
+              <div
+                _echarts_instance_="ec_123"
+                class="echarts-for-react "
+                size-sensor-id="2"
+                style="height: 300px; webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"
               >
-                <svg
-                  fill="currentColor"
-                  font-size="22px"
-                  height="1em"
-                  stroke="currentColor"
-                  stroke-width="0"
-                  viewBox="0 0 1024 1024"
-                  width="1em"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M926.8 397.1l-396-288a31.81 31.81 0 0 0-37.6 0l-396 288a31.99 31.99 0 0 0-11.6 35.8l151.3 466a32 32 0 0 0 30.4 22.1h489.5c13.9 0 26.1-8.9 30.4-22.1l151.3-466c4.2-13.2-.5-27.6-11.7-35.8zM838.6 417l-98.5 32-200-144.7V199.9L838.6 417zM466 567.2l-89.1 122.3-55.2-169.2L466 567.2zm-116.3-96.8L484 373.3v140.8l-134.3-43.7zM512 599.2l93.9 128.9H418.1L512 599.2zm28.1-225.9l134.2 97.1L540.1 514V373.3zM558 567.2l144.3-46.9-55.2 169.2L558 567.2zm-74-367.3v104.4L283.9 449l-98.5-32L484 199.9zM169.3 470.8l86.5 28.1 80.4 246.4-53.8 73.9-113.1-348.4zM327.1 853l50.3-69h269.3l50.3 69H327.1zm414.5-33.8l-53.8-73.9 80.4-246.4 86.5-28.1-113.1 348.4z"
-                  />
-                </svg>
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                <div
+                  style="position: relative; width: 0px; height: 300px; padding: 0px; margin: 0px; border-width: 0px;"
                 />
-              </button>
-              <button
-                aria-controls="vertical-tab2panel-1"
-                aria-selected="false"
-                class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-bavzl3-MuiButtonBase-root-MuiTab-root"
-                id="vertical-tab2-1"
-                role="tab"
-                tabindex="-1"
-                type="button"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-lydjla-MuiSvgIcon-root"
-                  data-testid="SpeedIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="m20.38 8.57-1.23 1.85a8 8 0 0 1-.22 7.58H5.07A8 8 0 0 1 15.58 6.85l1.85-1.23A10 10 0 0 0 3.35 19a2 2 0 0 0 1.72 1h13.85a2 2 0 0 0 1.74-1 10 10 0 0 0-.27-10.44zm-9.79 6.84a2 2 0 0 0 2.83 0l5.66-8.49-8.49 5.66a2 2 0 0 0 0 2.83z"
-                  />
-                </svg>
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                <object
+                  class="size-sensor-object"
+                  data="about:blank"
+                  style="display: block; position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; overflow: hidden; pointer-events: none; z-index: -1; opacity: 0;"
+                  tabindex="-1"
+                  type="text/html"
                 />
-              </button>
+              </div>
             </div>
+          </div>
+        </div>
+        <div
+          class="MuiBox-root css-1ntb6q6"
+        >
+          <h2
+            style="color: rgb(17, 61, 76); font-weight: 500; font-size: 25px;"
+          >
+            Sub-Características
+          </h2>
+          <div
+            class="MuiBox-root css-1vr4rvm"
+            style="width: 50%;"
+          >
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-sghohy-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
+              type="button"
+            >
+              Histórico
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1rwt2y5-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
+              type="button"
+            >
+              Cenário Atual
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+          </div>
+        </div>
+        <div
+          class="MuiBox-root css-1880h6w"
+        >
+          <div
+            class="MuiTabs-root MuiTabs-vertical css-tf8uax-MuiTabs-root"
+          >
+            <div
+              class="MuiTabs-scroller MuiTabs-fixed css-jpln7h-MuiTabs-scroller"
+              style="overflow: hidden; margin-right: 0px;"
+            >
+              <div
+                aria-orientation="vertical"
+                class="MuiTabs-flexContainer MuiTabs-flexContainerVertical css-lfwcke-MuiTabs-flexContainer"
+                role="tablist"
+              >
+                <button
+                  aria-controls="vertical-tab1panel-0"
+                  aria-selected="true"
+                  class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected css-bavzl3-MuiButtonBase-root-MuiTab-root"
+                  id="vertical-tab1-0"
+                  role="tab"
+                  tabindex="0"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-lydjla-MuiSvgIcon-root"
+                    data-testid="LineAxisIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="m22 7.43-1.41-1.41-4.03 4.53L9.5 4 2 11.51l1.5 1.5 6.14-6.15 5.59 5.18-1.73 1.95-4-4L2 17.5 3.5 19l6-6.01 4 4 3.19-3.59 3.9 3.61L22 15.6l-3.98-3.7z"
+                    />
+                  </svg>
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </button>
+              </div>
+              <span
+                class="MuiTabs-indicator css-10d9dml-MuiTabs-indicator"
+                style="top: 0px; height: 0px;"
+              />
+            </div>
+          </div>
+          <div
+            aria-labelledby="vertical-tab-0"
+            class="MuiBox-root css-1njwyir"
+            id="vertical-tabpanel-0"
+            role="tabpanel"
+          >
             <span
-              class="MuiTabs-indicator css-10d9dml-MuiTabs-indicator"
-              style="top: 0px; height: 0px;"
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-153n0d3-MuiSkeleton-root"
+              style="height: 300px;"
             />
           </div>
         </div>
         <div
-          aria-labelledby="vertical-tab-0"
-          class="MuiBox-root css-1njwyir"
-          id="vertical-tabpanel-0"
-          role="tabpanel"
+          class="MuiBox-root css-1ntb6q6"
         >
-          <span
-            class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
-            style="height: 300px;"
-          />
+          <h2
+            style="color: rgb(17, 61, 76); font-weight: 500; font-size: 25px;"
+          >
+            Medidas
+          </h2>
+          <div
+            class="MuiBox-root css-1vr4rvm"
+            style="width: 50%;"
+          >
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-sghohy-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
+              type="button"
+            >
+              Histórico
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1rwt2y5-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
+              type="button"
+            >
+              Cenário Atual
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+          </div>
         </div>
         <div
-          aria-labelledby="vertical-tab-1"
-          class="MuiBox-root css-1nw0r8e"
-          id="vertical-tabpanel-1"
-          role="tabpanel"
+          class="MuiBox-root css-1880h6w"
         >
           <div
-            class="MuiBox-root css-13kcqfm"
-            style="opacity: 1; webkit-transition: opacity 1500ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 1500ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+            class="MuiTabs-root MuiTabs-vertical css-tf8uax-MuiTabs-root"
+          >
+            <div
+              class="MuiTabs-scroller MuiTabs-fixed css-jpln7h-MuiTabs-scroller"
+              style="overflow: hidden; margin-right: 0px;"
+            >
+              <div
+                aria-orientation="vertical"
+                class="MuiTabs-flexContainer MuiTabs-flexContainerVertical css-lfwcke-MuiTabs-flexContainer"
+                role="tablist"
+              >
+                <button
+                  aria-controls="vertical-tab1panel-0"
+                  aria-selected="true"
+                  class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected css-bavzl3-MuiButtonBase-root-MuiTab-root"
+                  id="vertical-tab1-0"
+                  role="tab"
+                  tabindex="0"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-lydjla-MuiSvgIcon-root"
+                    data-testid="LineAxisIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="m22 7.43-1.41-1.41-4.03 4.53L9.5 4 2 11.51l1.5 1.5 6.14-6.15 5.59 5.18-1.73 1.95-4-4L2 17.5 3.5 19l6-6.01 4 4 3.19-3.59 3.9 3.61L22 15.6l-3.98-3.7z"
+                    />
+                  </svg>
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </button>
+              </div>
+              <span
+                class="MuiTabs-indicator css-10d9dml-MuiTabs-indicator"
+                style="top: 0px; height: 0px;"
+              />
+            </div>
+          </div>
+          <div
+            aria-labelledby="vertical-tab-0"
+            class="MuiBox-root css-1njwyir"
+            id="vertical-tabpanel-0"
+            role="tabpanel"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-153n0d3-MuiSkeleton-root"
+              style="height: 300px;"
+            />
+          </div>
+        </div>
+        <div
+          class="MuiBox-root css-jzh824"
+        >
+          <h2
+            style="color: rgb(17, 61, 76); font-weight: 500; font-size: 25px;"
+          >
+            Métricas
+          </h2>
+        </div>
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-153n0d3-MuiSkeleton-root"
+          style="height: 300px;"
+        />
+        <div
+          class="MuiBox-root css-10khgmf"
+        >
+          <span
+            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-j70xtz-MuiSkeleton-root"
           />
         </div>
       </div>
-      <div
-        class="MuiBox-root css-10khgmf"
-      >
-        <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-18s8wze-MuiPaper-root-MuiTableContainer-root"
-          style="opacity: 1; webkit-transition: opacity 1000ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 1000ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
-        >
-          <table
-            aria-label="simple table"
-            class="MuiTable-root MuiTable-stickyHeader css-xn82ks-MuiTable-root"
-          >
-            <thead
-              class="MuiTableHead-root css-15wwp11-MuiTableHead-root"
-            >
-              <tr
-                class="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
-              >
-                <th
-                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-sizeMedium css-y8ay40-MuiTableCell-root"
-                  scope="col"
-                >
-                  Características
-                </th>
-                <th
-                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-alignRight MuiTableCell-sizeMedium css-i02g0k-MuiTableCell-root"
-                  scope="col"
-                >
-                  Último valor
-                </th>
-                <th
-                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-alignRight MuiTableCell-sizeMedium css-i02g0k-MuiTableCell-root"
-                  scope="col"
-                >
-                  Última medição
-                </th>
-              </tr>
-            </thead>
-            <tbody
-              class="MuiTableBody-root css-apqrd9-MuiTableBody-root"
-            />
-          </table>
-        </div>
-      </div>
-      <span
-        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
-        style="height: 300px;"
-      />
-      <span
-        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-g8n8pw-MuiSkeleton-root"
-      />
-      <span
-        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
-        style="height: 300px;"
-      />
-      <span
-        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-g8n8pw-MuiSkeleton-root"
-      />
-      <span
-        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
-        style="height: 300px;"
-      />
-      <span
-        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-g8n8pw-MuiSkeleton-root"
-      />
     </div>
   </div>
 </div>

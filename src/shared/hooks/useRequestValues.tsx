@@ -34,10 +34,16 @@ export function useRequestValues({ type, value, addHistoricalTSQMI = false, addC
         .get(url)
         .then(async (response) => {
           if (addCurrentGoal && currentOrganization?.id && currentProduct?.id) {
-            const { data: currentGoal } = await productQuery.getCurrentReleaseGoal(currentOrganization.id, currentProduct.id);
-            response.data?.results?.forEach((res: Historical) => {
-              res.goal = currentGoal.data[res.key]
-            })
+            try {
+              const { data: currentGoal } = await productQuery.getCurrentReleaseGoal(currentOrganization.id, currentProduct.id);
+              response.data?.results?.forEach((res: Historical) => {
+                res.goal = currentGoal.data[res.key]
+              })
+            } catch {
+              response.data?.results?.forEach((res: Historical) => {
+                res.goal = undefined
+              })
+            }
           }
 
           return response.data

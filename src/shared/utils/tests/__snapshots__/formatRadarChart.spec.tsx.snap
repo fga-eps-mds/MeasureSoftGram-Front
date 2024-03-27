@@ -35,7 +35,7 @@ Object {
       "Valor alcançado",
       "Valor esperado",
     ],
-    "right": 0,
+    "right": 25,
   },
   "radar": Object {
     "indicator": Array [
@@ -73,6 +73,16 @@ Object {
   ],
   "title": Object {
     "text": "title-test",
+  },
+  "toolbox": Object {
+    "feature": Object {
+      "myCustomTool": Object {
+        "icon": "image:///images/png/iconCsv.png",
+        "onclick": [Function],
+        "show": true,
+        "title": "Export CSV",
+      },
+    },
   },
 }
 `;

@@ -29,6 +29,8 @@ export interface Product {
   github_url: string;
   created_at: string;
   updated_at: string;
+  gaugeRedLimit: number;
+  gaugeYellowLimit: number;
 }
 
 interface DefaultAttr {
@@ -97,7 +99,7 @@ export interface ButtonType extends Omit<Partial<ButtonProps>, 'color'> {
   dataTestId?: string;
 }
 
-interface TsqmiValue {
+export interface TsqmiValue {
   id: number;
   value: number;
   created_at: string;
@@ -119,6 +121,15 @@ interface RepositoriesTsqmiHistoryResult {
 export interface RepositoriesTsqmiHistory {
   count: number;
   results: Array<RepositoriesTsqmiHistoryResult & Repositories>;
+}
+
+interface RepositoriesTsqmiLatestResult {
+  current_tsqmi: TsqmiValue;
+}
+
+export interface RepositoriesLatestTsqmi {
+  count: number;
+  results: Array<RepositoriesTsqmiLatestResult & Repositories>;
 }
 
 export interface CollectedMetric {
@@ -177,12 +188,26 @@ export interface Goal {
   data: Characteristics;
 }
 
-export interface CompareGoalAccomplished {
+export interface IReleases {
   id: number;
-  created_by: string;
   release_name: string;
   start_at: Date | string;
   end_at: Date | string;
-  accomplished: Characteristics;
-  goal: Characteristics;
+  created_by: string;
+  product: number;
+  goal?: number;
+  description?: string;
+}
+
+export interface ReleasesPaginated {
+  count?: number;
+  next?: number;
+  previous?: number;
+  results?: IReleases[];
+}
+
+export interface IReleasesWithGoalAndAccomplished {
+  release: IReleases;
+  planned: Characteristics;
+  accomplished?: any;
 }

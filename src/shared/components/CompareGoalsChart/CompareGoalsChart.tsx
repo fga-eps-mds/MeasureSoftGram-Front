@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { CompareGoalAccomplished } from '@customTypes/product';
+import { IReleases } from '@customTypes/product';
 
 import ReactEcharts from 'echarts-for-react';
 import formatCompareGoalsChart from '@utils/formatCompareGoalsChart';
@@ -8,7 +8,7 @@ import { Box } from '@mui/material';
 import * as Styles from './styles';
 
 interface Props {
-  release: CompareGoalAccomplished;
+  release: IReleases;
 }
 
 const CompareGoalsChart = ({ release }: Props) => {

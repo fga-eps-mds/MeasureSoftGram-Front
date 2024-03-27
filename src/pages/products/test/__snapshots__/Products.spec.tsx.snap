@@ -7,18 +7,27 @@ Object {
     <div>
       <div
         class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
+        style="width: 100%;"
       >
         <div
           class="MuiBox-root css-j7qwjs"
         >
           <h4
             class="MuiTypography-root MuiTypography-h4 css-ebmdmk-MuiTypography-root"
+            data-testid="organization-title"
           >
             Organizações
           </h4>
           <div
-            class="MuiBox-root css-1r2gscq"
-          />
+            class="MuiBox-root css-g8qhew"
+            data-testid="organization-box"
+            style="max-height: 120px;"
+          >
+            <div
+              class="MuiBox-root css-o4ooe"
+              style="gap: 1rem; padding: 0px; margin-left: -36px; box-sizing: border-box;"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -26,18 +35,27 @@ Object {
   "container": <div>
     <div
       class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
+      style="width: 100%;"
     >
       <div
         class="MuiBox-root css-j7qwjs"
       >
         <h4
           class="MuiTypography-root MuiTypography-h4 css-ebmdmk-MuiTypography-root"
+          data-testid="organization-title"
         >
           Organizações
         </h4>
         <div
-          class="MuiBox-root css-1r2gscq"
-        />
+          class="MuiBox-root css-g8qhew"
+          data-testid="organization-box"
+          style="max-height: 120px;"
+        >
+          <div
+            class="MuiBox-root css-o4ooe"
+            style="gap: 1rem; padding: 0px; margin-left: -36px; box-sizing: border-box;"
+          />
+        </div>
       </div>
     </div>
   </div>,

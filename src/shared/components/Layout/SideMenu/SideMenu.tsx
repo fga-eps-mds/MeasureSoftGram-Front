@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FiBarChart2, FiGitBranch, FiPaperclip } from 'react-icons/fi';
 import { useAuth } from '@contexts/Auth';
 import { useProductContext } from '@contexts/ProductProvider';
@@ -22,6 +22,21 @@ function SideMenu() {
   const { currentOrganization } = useOrganizationContext();
   const { currentProduct } = useProductContext();
   const router = useRouter();
+
+  useEffect(() => {
+  }, [currentOrganization, currentProduct]);
+
+  let itemType: 'product' | 'organization' | 'unknown' = 'unknown';
+
+  if (currentProduct && currentOrganization) {
+    itemType = 'product';
+  } else if (!currentProduct && currentOrganization) {
+    itemType = 'organization';
+  }
+
+  // if (itemType === 'unknown') {
+  //   console.warn('The itemType is set to unknown. Please handle this case appropriately.');
+  // }
 
   const MenuItems: SideMenuItemType[] = [
     {
@@ -52,6 +67,8 @@ function SideMenu() {
 
   return (
     <SideMenuWrapper
+      key={`${currentOrganization?.id}-${currentProduct?.id}`}
+      itemType={itemType}
       menuItems={
         currentProduct &&
         MenuItems.map((item) => (

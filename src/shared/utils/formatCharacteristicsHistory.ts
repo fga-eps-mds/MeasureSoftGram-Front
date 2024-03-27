@@ -1,3 +1,4 @@
+import convertToCsv from './convertToCsv';
 import { Historical } from '@customTypes/repository';
 import { format } from 'date-fns';
 import _ from 'lodash';
@@ -23,6 +24,21 @@ const formatCharacteristicsHistory = ({ historical, title, isEmpty = false }: Fo
     }
   }));
 
+  const handleExportCsv = () => {
+    if (historical) {
+      const csvContent = convertToCsv(historical);
+
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      const timestamp = new Date().toISOString().replace(/[. ]/g, '');
+      a.download = `msgram-${title}-${timestamp}.csv`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }
+  };
+
   return {
     title: {
       text: title
@@ -30,6 +46,18 @@ const formatCharacteristicsHistory = ({ historical, title, isEmpty = false }: Fo
     tooltip: {
       show: !isEmpty,
       trigger: 'axis'
+    },
+    toolbox: {
+      feature: {
+        myCustomTool: {
+          show: true,
+          title: 'Export CSV',
+          icon: 'image:///images/png/iconCsv.png',
+          onclick: () => {
+            handleExportCsv();
+          }
+        }
+      }
     },
     dataZoom: [
       {

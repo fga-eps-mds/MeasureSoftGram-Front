@@ -6,16 +6,72 @@ Object {
   "baseElement": <body>
     <div>
       <div
-        class="styles__Header-sc-vaumvh-0 bzwHPl"
+        class="styles__Header-sc-vaumvh-0 iFflhE"
       >
         <h1
           style="color: rgb(51, 86, 142); font-weight: 500;"
         >
-          REPO_TITLE
+          Planejamento de Release
         </h1>
+        <h2
+          style="color: rgb(51, 86, 142); font-weight: 300;"
+        >
+          REPO_TITLE
+        </h2>
+        <nav
+          class="MuiTypography-root MuiTypography-body1 MuiBreadcrumbs-root css-1gui7g7-MuiTypography-root-MuiBreadcrumbs-root"
+        >
+          <ol
+            class="MuiBreadcrumbs-ol css-4pdmu4-MuiBreadcrumbs-ol"
+          >
+            <li
+              class="MuiBreadcrumbs-li"
+            >
+              <a
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-ae5t40-MuiTypography-root-MuiLink-root"
+              >
+                Criar Release
+              </a>
+            </li>
+            <li
+              aria-hidden="true"
+              class="MuiBreadcrumbs-separator css-1wuw8dw-MuiBreadcrumbs-separator"
+            >
+              <span
+                class="MuiBox-root css-1bi6evy"
+              />
+            </li>
+            <li
+              class="MuiBreadcrumbs-li"
+            >
+              <a
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-46jzwd-MuiTypography-root-MuiLink-root"
+              >
+                Definir configuração do modelo
+              </a>
+            </li>
+            <li
+              aria-hidden="true"
+              class="MuiBreadcrumbs-separator css-1wuw8dw-MuiBreadcrumbs-separator"
+            >
+              <span
+                class="MuiBox-root css-1bi6evy"
+              />
+            </li>
+            <li
+              class="MuiBreadcrumbs-li"
+            >
+              <a
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-ae5t40-MuiTypography-root-MuiLink-root"
+              >
+                Balancear características
+              </a>
+            </li>
+          </ol>
+        </nav>
       </div>
       <div
-        class="styles__Body-sc-vaumvh-1 cBkRoe"
+        class="styles__Body-sc-vaumvh-1 bHcUfv"
       >
         <p>
           Por meio da pré-configuração são definidas quais características, subcaracterísticas e medidas serão consideradas para mensurar a qualidade do software analisado. Na pré-configuração também são definidos os pesos de cada uma das entidades definidas.
@@ -62,16 +118,72 @@ Object {
   </body>,
   "container": <div>
     <div
-      class="styles__Header-sc-vaumvh-0 bzwHPl"
+      class="styles__Header-sc-vaumvh-0 iFflhE"
     >
       <h1
         style="color: rgb(51, 86, 142); font-weight: 500;"
       >
-        REPO_TITLE
+        Planejamento de Release
       </h1>
+      <h2
+        style="color: rgb(51, 86, 142); font-weight: 300;"
+      >
+        REPO_TITLE
+      </h2>
+      <nav
+        class="MuiTypography-root MuiTypography-body1 MuiBreadcrumbs-root css-1gui7g7-MuiTypography-root-MuiBreadcrumbs-root"
+      >
+        <ol
+          class="MuiBreadcrumbs-ol css-4pdmu4-MuiBreadcrumbs-ol"
+        >
+          <li
+            class="MuiBreadcrumbs-li"
+          >
+            <a
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-ae5t40-MuiTypography-root-MuiLink-root"
+            >
+              Criar Release
+            </a>
+          </li>
+          <li
+            aria-hidden="true"
+            class="MuiBreadcrumbs-separator css-1wuw8dw-MuiBreadcrumbs-separator"
+          >
+            <span
+              class="MuiBox-root css-1bi6evy"
+            />
+          </li>
+          <li
+            class="MuiBreadcrumbs-li"
+          >
+            <a
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-46jzwd-MuiTypography-root-MuiLink-root"
+            >
+              Definir configuração do modelo
+            </a>
+          </li>
+          <li
+            aria-hidden="true"
+            class="MuiBreadcrumbs-separator css-1wuw8dw-MuiBreadcrumbs-separator"
+          >
+            <span
+              class="MuiBox-root css-1bi6evy"
+            />
+          </li>
+          <li
+            class="MuiBreadcrumbs-li"
+          >
+            <a
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-ae5t40-MuiTypography-root-MuiLink-root"
+            >
+              Balancear características
+            </a>
+          </li>
+        </ol>
+      </nav>
     </div>
     <div
-      class="styles__Body-sc-vaumvh-1 cBkRoe"
+      class="styles__Body-sc-vaumvh-1 bHcUfv"
     >
       <p>
         Por meio da pré-configuração são definidas quais características, subcaracterísticas e medidas serão consideradas para mensurar a qualidade do software analisado. Na pré-configuração também são definidos os pesos de cada uma das entidades definidas.

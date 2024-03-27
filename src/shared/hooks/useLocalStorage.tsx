@@ -7,7 +7,7 @@ function parseJSON<T>(value: string | null): T | undefined {
   try {
     return value === 'undefined' ? undefined : JSON.parse(value ?? '');
   } catch (error) {
-    console.log('parsing error on', { value });
+
 
     return undefined;
   }
@@ -60,7 +60,7 @@ export function useLocalStorage<T>(
       const item = window.localStorage.getItem(key);
       setStoredValue(item ? JSON.parse(item) : initialValue);
     } catch (error) {
-      console.log(error);
+
       return setStoredValue(initialValue);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

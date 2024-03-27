@@ -1,3 +1,4 @@
+import convertToCsv from './convertToCsv';
 import { RepositoriesTsqmiHistory } from '@customTypes/product';
 
 const formatTwoDecimalPlaces = (value: number) => Math.round(value * 100) / 100;
@@ -10,14 +11,27 @@ const formatRepositoriesTsqmiHistory = (history: RepositoriesTsqmiHistory) => {
 
     return {
       name: item.name,
-      data: item.history.map((metric) => [
-        new Date(metric.created_at).getTime(),
-        formatTwoDecimalPlaces(metric.value)
-      ]),
+      data: item.history.map((metric) => [new Date(metric.created_at).getTime(), formatTwoDecimalPlaces(metric.value)]),
       type: 'line',
       animationDuration: 1200
     };
   });
+  const results = history.results;
+
+  const handleExportCsv = () => {
+    if (results) {
+      const csvContent = convertToCsv(results);
+
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      const timestamp = new Date().toISOString().replace(/[. ]/g, '');
+      a.download = `msgram-Comportamento observado do produto-${timestamp}.csv`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }
+  };
 
   return {
     title: {
@@ -40,6 +54,14 @@ const formatRepositoriesTsqmiHistory = (history: RepositoriesTsqmiHistory) => {
     toolbox: {
       feature: {
         saveAsImage: {},
+        myCustomTool: {
+          show: true,
+          title: 'Export CSV',
+          icon: 'image:///images/png/iconCsv.png',
+          onclick: () => {
+            handleExportCsv();
+          }
+        },
         dataZoom: {
           yAxisIndex: 'none'
         },

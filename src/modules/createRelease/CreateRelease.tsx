@@ -3,6 +3,8 @@ import { Alert, Container, Snackbar } from '@mui/material';
 
 import DrawerMenu from '@components/DrawerMenu';
 import { ButtonType, Product } from '@customTypes/product';
+import api from '@services/api';
+import { useSnackbar } from 'notistack';
 import ConfigPage from './components/ConfigPage';
 import ReleaseInfo from './components/ReleaseInfo';
 import ReleaseGoals from './components/ReleaseGoals';
@@ -35,6 +37,7 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
     'Definir peso das subcaracterísticas',
     'Definir peso das medidas'
   ];
+  const { enqueueSnackbar } = useSnackbar()
 
   const {
     alertMessage,
@@ -42,6 +45,9 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
     goToNextStep,
     finishReleasePlanning,
     configPageData,
+    releaseInfoForm,
+    organizationId,
+    productId,
     getNextStep,
     getPreviousStep,
     isFirstRelease,
@@ -50,10 +56,11 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
 
   const renderStep = () =>
   ({
-    0: <ReleaseInfo />,
+    0: <ReleaseInfo setActiveStep={setActiveStep} />,
     1: isFirstRelease ? <FirstReleaseWarning /> : <ReleaseConfigSelector setActiveStep={setActiveStep} />,
     2: (
       <ConfigPage
+        setActiveStep={setActiveStep}
         page={configPage}
         title={configPageTitle}
       />
@@ -66,12 +73,14 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
         setCheckboxValues={configPageData.setMeasureCheckbox}
       />
     ),
-    4: <ReleaseGoals />
+    4: <ReleaseGoals setActiveStep={setActiveStep} />
   }[activeStep]);
 
   const handleCloseModal = () => {
     handleClose();
     closeAlert();
+    resetStates();
+    setActiveStep(0);
   };
 
   const handleGoToNextStep = () => {
@@ -105,10 +114,36 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
     if (open) resetStates();
   }, [open])
 
-  const handleNextButton = () =>
-    activeStep === CREATE_RELEASE_STEP.ReleaseGoalStep ? finishReleasePlanning() : handleGoToNextStep();
+  async function checkReleaseInfo() {
+    try {
+      const { data, status } = await api.get(`/organizations/${organizationId}/products/${productId}/create/release/is-valid/?nome=${releaseInfoForm.name}&dt-inicial=${releaseInfoForm.startDate}&dt-final=${releaseInfoForm.endDate}`)
+      handleGoToNextStep()
+    } catch (error: any) {
+      console.log("error.response", error.response)
+      console.log("error", error)
+      enqueueSnackbar(`Erro ao criar release, ${error?.response?.data?.detail}`, { variant: 'error' })
+    }
+  }
+  const handleNextButton = async () => {
+    if (activeStep === CREATE_RELEASE_STEP.ReleaseInfoStep) {
+      checkReleaseInfo();
+    } else if (activeStep === CREATE_RELEASE_STEP.ReleaseGoalStep) {
+      finishReleasePlanning();
+    } else {
+      handleGoToNextStep();
+    }
+  }
 
   const BUTTONS: Array<ButtonType> = [
+
+    {
+      label: 'Cancelar',
+      onClick: handleCloseModal,
+      backgroundColor: '#FFF',
+      color: '#113D4C',
+      variant: 'outlined',
+      dataTestId: 'cancel-button'
+    },
     {
       label: 'Voltar',
       onClick: handleBackButton,
@@ -119,7 +154,7 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
     },
     {
       label: activeStep === CREATE_RELEASE_STEP.ReleaseGoalStep ? 'Finalizar' : 'Continuar',
-      onClick: handleNextButton,
+      onClick: async () => await handleNextButton(),
       backgroundColor: '#113D4C',
       color: '#fff',
       variant: 'contained',
@@ -152,7 +187,7 @@ function CreateRelease({ open, handleClose }: CreateReleaseProps) {
 
   return (
     <>
-      <DrawerMenu open={open} buttons={BUTTONS}>
+      <DrawerMenu handleCloseModal={handleCloseModal} open={open} buttons={BUTTONS}>
         <Container>{renderStep()}</Container>
       </DrawerMenu>
 
@@ -172,6 +207,7 @@ function CreateReleaseContainer({
   organizationId,
   open,
   handleClose,
+
   currentProduct
 }: CreateReleaseContainerProps) {
   return (

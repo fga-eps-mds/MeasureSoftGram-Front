@@ -9,6 +9,7 @@ api.interceptors.request.use(
   async (config) => {
     if (typeof window !== 'undefined') {
       const token = localStorage.getItem('token');
+
       if (token && config?.headers) {
         config.headers.Authorization = token ? `Token ${JSON.parse(token)}` : '';
       }
@@ -16,9 +17,7 @@ api.interceptors.request.use(
     return config;
   },
 
-  (error) => {
-    console.log(error);
-  }
+  (error) => Promise.reject(error)
 );
 
 export default api;

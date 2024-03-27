@@ -18,11 +18,11 @@ Object {
               class="MuiBox-root css-0"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                 style="width: 400px; height: 50px;"
               />
               <span
-                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                 style="width: 200px; height: 16px;"
               />
             </div>
@@ -31,142 +31,56 @@ Object {
             class="MuiBox-root css-m76iwz"
           >
             <span
-              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
               style="width: 150px; height: 45px;"
             />
           </div>
           <span
-            class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
+            class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-153n0d3-MuiSkeleton-root"
             style="height: 480px;"
           />
         </div>
       </div>
       <div
-        class="MuiBox-root css-m6nhw9"
+        style="margin: 20px; padding-left: 15px;"
       >
         <div
-          class="styles__Wrapper-sc-1mjhzrd-0 hvqbPr"
+          style="margin-bottom: 20px;"
         >
-          <div
-            class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
+          <h5
+            class="MuiTypography-root MuiTypography-h5 MuiTypography-gutterBottom css-h93ljk-MuiTypography-root"
           >
-            <div
-              class="MuiBox-root css-1yjvs5a"
-            >
-              <span
-                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
-                style="width: 150px; height: 50px;"
-              />
-            </div>
-            <div
-              class="MuiBox-root css-1yjvs5a"
-            >
-              <div
-                class="MuiBox-root css-wlea3r"
-              >
-                <span
-                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
-                  style="height: 45px;"
-                />
-              </div>
-              <div
-                class="MuiBox-root css-wlea3r"
-              >
-                <span
-                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
-                  style="height: 45px;"
-                />
-              </div>
-              <div
-                class="MuiBox-root css-wlea3r"
-              >
-                <span
-                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
-                  style="height: 45px;"
-                />
-              </div>
-              <div
-                class="MuiBox-root css-wlea3r"
-              >
-                <span
-                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
-                  style="height: 45px;"
-                />
-              </div>
-              <div
-                class="MuiBox-root css-wlea3r"
-              >
-                <span
-                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
-                  style="height: 45px;"
-                />
-              </div>
-            </div>
-          </div>
+            Repositórios
+          </h5>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-sghohy-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            VER REPOSITÓRIOS
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
         </div>
-      </div>
-      <div
-        class="MuiBox-root css-m6nhw9"
-      >
         <div
-          class="styles__Wrapper-sc-f624tf-0 dOldAl"
+          style="margin-bottom: 20px;"
         >
-          <div
-            class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
+          <h5
+            class="MuiTypography-root MuiTypography-h5 MuiTypography-gutterBottom css-h93ljk-MuiTypography-root"
           >
-            <div
-              class="MuiBox-root css-1yjvs5a"
-            >
-              <span
-                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
-                style="width: 150px; height: 50px;"
-              />
-            </div>
-            <div
-              class="MuiBox-root css-1yjvs5a"
-            >
-              <div
-                class="MuiBox-root css-wlea3r"
-              >
-                <span
-                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
-                  style="height: 45px;"
-                />
-              </div>
-              <div
-                class="MuiBox-root css-wlea3r"
-              >
-                <span
-                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
-                  style="height: 45px;"
-                />
-              </div>
-              <div
-                class="MuiBox-root css-wlea3r"
-              >
-                <span
-                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
-                  style="height: 45px;"
-                />
-              </div>
-              <div
-                class="MuiBox-root css-wlea3r"
-              >
-                <span
-                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
-                  style="height: 45px;"
-                />
-              </div>
-              <div
-                class="MuiBox-root css-wlea3r"
-              >
-                <span
-                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
-                  style="height: 45px;"
-                />
-              </div>
-            </div>
-          </div>
+            Releases
+          </h5>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-sghohy-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            VER RELEASES
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
         </div>
       </div>
     </div>
@@ -185,11 +99,11 @@ Object {
             class="MuiBox-root css-0"
           >
             <span
-              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
               style="width: 400px; height: 50px;"
             />
             <span
-              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
               style="width: 200px; height: 16px;"
             />
           </div>
@@ -198,142 +112,56 @@ Object {
           class="MuiBox-root css-m76iwz"
         >
           <span
-            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
             style="width: 150px; height: 45px;"
           />
         </div>
         <span
-          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-153n0d3-MuiSkeleton-root"
           style="height: 480px;"
         />
       </div>
     </div>
     <div
-      class="MuiBox-root css-m6nhw9"
+      style="margin: 20px; padding-left: 15px;"
     >
       <div
-        class="styles__Wrapper-sc-1mjhzrd-0 hvqbPr"
+        style="margin-bottom: 20px;"
       >
-        <div
-          class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
+        <h5
+          class="MuiTypography-root MuiTypography-h5 MuiTypography-gutterBottom css-h93ljk-MuiTypography-root"
         >
-          <div
-            class="MuiBox-root css-1yjvs5a"
-          >
-            <span
-              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
-              style="width: 150px; height: 50px;"
-            />
-          </div>
-          <div
-            class="MuiBox-root css-1yjvs5a"
-          >
-            <div
-              class="MuiBox-root css-wlea3r"
-            >
-              <span
-                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
-                style="height: 45px;"
-              />
-            </div>
-            <div
-              class="MuiBox-root css-wlea3r"
-            >
-              <span
-                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
-                style="height: 45px;"
-              />
-            </div>
-            <div
-              class="MuiBox-root css-wlea3r"
-            >
-              <span
-                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
-                style="height: 45px;"
-              />
-            </div>
-            <div
-              class="MuiBox-root css-wlea3r"
-            >
-              <span
-                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
-                style="height: 45px;"
-              />
-            </div>
-            <div
-              class="MuiBox-root css-wlea3r"
-            >
-              <span
-                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
-                style="height: 45px;"
-              />
-            </div>
-          </div>
-        </div>
+          Repositórios
+        </h5>
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-sghohy-MuiButtonBase-root-MuiButton-root"
+          tabindex="0"
+          type="button"
+        >
+          VER REPOSITÓRIOS
+          <span
+            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          />
+        </button>
       </div>
-    </div>
-    <div
-      class="MuiBox-root css-m6nhw9"
-    >
       <div
-        class="styles__Wrapper-sc-f624tf-0 dOldAl"
+        style="margin-bottom: 20px;"
       >
-        <div
-          class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
+        <h5
+          class="MuiTypography-root MuiTypography-h5 MuiTypography-gutterBottom css-h93ljk-MuiTypography-root"
         >
-          <div
-            class="MuiBox-root css-1yjvs5a"
-          >
-            <span
-              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
-              style="width: 150px; height: 50px;"
-            />
-          </div>
-          <div
-            class="MuiBox-root css-1yjvs5a"
-          >
-            <div
-              class="MuiBox-root css-wlea3r"
-            >
-              <span
-                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
-                style="height: 45px;"
-              />
-            </div>
-            <div
-              class="MuiBox-root css-wlea3r"
-            >
-              <span
-                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
-                style="height: 45px;"
-              />
-            </div>
-            <div
-              class="MuiBox-root css-wlea3r"
-            >
-              <span
-                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
-                style="height: 45px;"
-              />
-            </div>
-            <div
-              class="MuiBox-root css-wlea3r"
-            >
-              <span
-                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
-                style="height: 45px;"
-              />
-            </div>
-            <div
-              class="MuiBox-root css-wlea3r"
-            >
-              <span
-                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
-                style="height: 45px;"
-              />
-            </div>
-          </div>
-        </div>
+          Releases
+        </h5>
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-sghohy-MuiButtonBase-root-MuiButton-root"
+          tabindex="0"
+          type="button"
+        >
+          VER RELEASES
+          <span
+            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          />
+        </button>
       </div>
     </div>
   </div>,
