@@ -1,254 +1,45 @@
 # MeasureSoftGram Frontend
 
-Frontend repository of MeasureSoftGram application.
-
-## Badges
-
-<!-- [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_MeasureSoftGram-Front&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_MeasureSoftGram-Front) -->
-<!-- [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_MeasureSoftGram-Front&metric=coverage)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_MeasureSoftGram-Front) -->
-
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_MeasureSoftGram-Front&metric=bugs)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_MeasureSoftGram-Front)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_MeasureSoftGram-Front&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_MeasureSoftGram-Front)
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_MeasureSoftGram-Front&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_MeasureSoftGram-Front)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_MeasureSoftGram-Front&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_MeasureSoftGram-Front)
 [![codecov](https://codecov.io/gh/fga-eps-mds/MeasureSoftGram-Front/branch/develop/graph/badge.svg)](https://codecov.io/gh/fga-eps-mds/MeasureSoftGram-Front)
 
-## Requirements
+Módulo responsável pelo Frontend da aplicação MeasureSoftGram.
 
-### Local development (without Docker)
+## Sobre o repositório
 
-- Node.js `20.x`
-- `corepack` enabled
-- `pnpm` `9.0.0` (pin unico em `package.json` `packageManager` e no `Dockerfile`)
+O principal objetivo do `MeasureSoftGram-Front` é fornecer a interface web do MeasureSoftGram, permitindo que os usuários visualizem e interajam com os dados e resultados de qualidade de software processados pela plataforma. O projeto é desenvolvido majoritariamente em TypeScript, utilizando Next.js no frontend.
 
-### Development with Docker
+Suas responsabilidades incluem:
 
-- Docker
-- Docker Compose v.2
+Visualização de Métricas: Apresentar de forma organizada indicadores e resultados relacionados à qualidade dos projetos analisados.
+Interação com a Plataforma: Disponibilizar telas e componentes para navegação, configuração e consulta das informações do MeasureSoftGram.
+Integração com os Serviços: Consumir os dados disponibilizados pelos demais componentes da arquitetura do MeasureSoftGram e apresentá-los ao usuário.
 
----
+A documentação completa, instruções de instalação e o guia oficial deste projeto estão centralizados no nosso repositório de documentação.
 
-## Environment configuration
+## Documentação
 
-Create the `.env` file at the root of the project:
+- [Documentação do Frontend](https://fga-eps-mds.github.io/MeasureSoftGram-Docs/docs/componente-front/)
+  - Arquitetura e funcionamento do componente
+  - Configuração e execução
+  - Informações técnicas específicas
 
-```bash
-cp .env.example .env
-```
+- [Documentação oficial do MeasureSoftGram](https://fga-eps-mds.github.io/MeasureSoftGram-Docs/)
+  - Visão geral do produto
+  - Arquitetura geral
+  - Documentação dos componentes
 
-Make sure to set the URL for your backend API.
+## Contribuição
 
-## Running with Docker (recommended)
+Consulte o [Guia de Contribuição](https://fga-eps-mds.github.io/MeasureSoftGram-Docs/docs/como-contribuir/) antes de realizar alterações no projeto.
 
-> O compose do Front sobe **somente o serviço `front`**. Backend (Service + Postgres) é responsabilidade do compose do repositório [`MeasureSoftGram-Service`](https://github.com/fga-eps-mds/MeasureSoftGram-Service) — suba lá primeiro.
+## Código de Conduta
 
-### 1) Subir o Service (em outro terminal, no repo do Service)
+Este projeto segue o [Código de Conduta](https://fga-eps-mds.github.io/MeasureSoftGram-Docs/docs/codigo-de-conduta/).
 
-```bash
-cd ../MeasureSoftGram-Service
-cp -R env-vars-example env-vars   # primeiro setup
-docker compose up -d
-```
+## Licença
 
-API disponível em http://localhost:8080.
-
-### 2) Subir o Front
-
-```bash
-docker compose up --build
-```
-
-Aplicação disponível em http://localhost:3000.
-
-> No container do Front, `SERVICE_URL` aponta para `http://host.docker.internal:8080` para acessar o Service rodando no host. No browser, `NEXT_PUBLIC_API_URL` segue como `http://localhost:8080`.
-
-### 3) Parar containers
-
-```bash
-docker compose down
-```
-
-### 4) Scripts Úteis
-
-- Rodar linter:
-
-```bash
-make lint
-```
-
-- Rodar testes:
-
-```bash
-make test
-```
-
-- Rodar testes no modo CI:
-
-```bash
-make ci-test
-```
-
-- Build de Produção
-
-```bash
-make build
-make start
-```
-
-- Comandos personalizados
-
-```bash
-make pnpm SCRIPT=<script> [ARGS="..."]
-```
-
-permite executar qualquer script do `package.json` dentro do container, passando argumentos adicionais se desejado.
-
-Exemplo:
-
-```bash
-make pnpm SCRIPT=build
-```
-
-ou
-
-```bash
-make pnpm SCRIPT=test ARGS="src/pages"
-```
-
-## Rodar localmente (sem Docker)
-
-Primeiramente garanta que está utilizando a versão 20 do Node. Ferramentas para gerenciamento de versões Node como `nvm` e `n` podem ser úteis.
-
-### 1) Ativar pnpm
-
-```bash
-corepack enable
-corepack prepare pnpm@9.0.0 --activate
-pnpm -v
-```
-
-### 2) Instalar dependências
-
-```bash
-pnpm install
-```
-
-> **Atalho:** `make setup` faz os passos 1 e 2 de uma vez (ativa o pnpm via corepack, instala as dependências com `--frozen-lockfile` e cria o `.env` a partir do `.env.example`).
-
-### 3) Subir o projeto
-
-```bash
-pnpm dev
-```
-
-Aplicação disponível em: http://localhost:3000
-
-### 4) Scripts úteis
-
-- Rodar linter:
-
-```bash
-pnpm lint
-```
-
-- Rodar testes (watch, so o que mudou - uso local):
-
-```bash
-pnpm test
-```
-
-- Rodar a suite completa deterministica (mesmo modo do CI, sem reescrever snapshot):
-
-```bash
-pnpm test:all
-```
-
-- Checar tipos (`tsc --noEmit`):
-
-```bash
-pnpm typecheck
-```
-
-> **Nota sobre o `typecheck`:** hoje o `tsc --noEmit` acusa erros de _parse_ nos
-> type defs da `react-i18next` 15.x, que o TypeScript 4.7.4 (pin do projeto) nao
-> consegue ler; nao sao erros do codigo do projeto. Por isso o `typecheck` ainda
-> **nao** e gate bloqueante no CI. Subir o TypeScript pra destravar isso esta
-> rastreado numa issue de follow-up.
-
-- Build de produção:
-
-```bash
-pnpm build
-pnpm start
-```
-
-## Rodar sem backend (modo mock)
-
-Precisa navegar pelas telas autenticadas sem subir Django nem Postgres? Use o
-modo mock, que intercepta as chamadas HTTP com o [MSW](https://mswjs.io/) e
-responde com fixtures versionadas em `src/mocks/`.
-
-```bash
-pnpm dev:mock
-```
-
-Aplicação disponível em http://localhost:3000 já autenticada (o modo mock semeia
-uma sessão fake no `localStorage`), sem nenhum backend no ar.
-
-Detalhes:
-
-- Ativado pela variável `NEXT_PUBLIC_API_MOCKING=enabled` (o script `dev:mock` já
-  a define, junto de um `NEXT_PUBLIC_API_URL` de exemplo). Sem essa variável o
-  código de mock fica inerte: `pnpm dev`, `pnpm build` e `pnpm test:all`
-  seguem batendo no backend real, sem qualquer interferência.
-- Os handlers ficam em `src/mocks/handlers.ts` e as fixtures em
-  `src/mocks/fixtures/`. Para cobrir uma tela nova, adicione o endpoint
-  correspondente ali.
-- O worker do service worker é o arquivo versionado `public/mockServiceWorker.js`
-  (gerado por `npx msw init public/`); não edite à mão.
-
-## Rodar com Docker (stack completa)
-
-Para subir o Front junto com o **Service** (imagem publicada) e o **Postgres** num comando só, use o `docker-compose-dev.yml`. Há atalhos no `Makefile`:
-
-```bash
-make dev     # sobe front + Service + Postgres em foreground (com logs)
-make up      # o mesmo, em background (-d)
-make down    # derruba a stack
-```
-
-- Front em <http://localhost:3000>, Service em <http://localhost:8080>.
-- As credenciais do Service/Postgres ficam em `env-vars/.service.env` e `env-vars/.postgres.env` (já versionados com defaults de dev).
-- Para o login com GitHub funcionar, ajuste `GITHUB_CLIENT_ID`/`GITHUB_SECRET` (ver README do Service).
-
-## Troubleshooting
-
-### Erro de versão do Node com pnpm
-
-Se aparecer algo como: This version of pnpm requires at least Node.js v18.12
-
-Garanta que você está usando Node 20:
-
-```bash
-node -v
-v20.20.2
-```
-
-### Erro de permissão no `.next` (`EACCES`)
-
-Se aparecer erro ao rodar pnpm dev:
-
-```bash
-sudo chown -R $USER:$USER .next node_modules .pnpm-store
-chmod -R u+rwX .next
-rm -rf .next
-pnpm dev
-```
-
-> Evite rodar comandos de node/pnpm com sudo dentro do projeto.
-
-## Governança e contribuição
-
-- **Licença:** este projeto é distribuído sob a [GNU AGPL-3.0](LICENSE).
-- **Código de conduta:** consulte [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) antes de interagir com a comunidade.
-- **Como contribuir:** veja [CONTRIBUTING.md](CONTRIBUTING.md) para padrões de branch, PR e revisão.
+Este projeto é distribuído sob a licença [GNU AGPL-3.0](./LICENSE).
