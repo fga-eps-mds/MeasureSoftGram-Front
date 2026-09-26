@@ -1,0 +1,23 @@
+{
+  "title-edit": "EDITAR ORGANIZAÇÃO",
+  "title-create": "ADICIONAR ORGANIZAÇÃO",
+  "description": "Uma organização representa uma entidade de alto nível que mantém múltiplos repositórios de código-fonte. Cada repositório pode ter seu próprio objetivo, mas todos devem estar alinhados com os interesses da organização.",
+  "input-name": "Nome da organização",
+  "input-description": "Descrição da organização",
+  "add-members": "ADICIONAR MEMBROS",
+  "added": "Adicionado",
+  "add": "Adicionar",
+  "save": "SALVAR",
+  "create": "CRIAR",
+  "none-user": "Nenhum usuário disponível",
+  "close": "Fechar",
+  "toast": {
+    "error": "Erro ao criar a organização",
+    "sucess": "Organização criada com sucesso",
+    "error-edit": "Erro ao atualizar a organização!",
+    "sucess-edit": "Organização atualizada com sucesso!",
+    "name-exists": "Já existe uma organização com este nome.",
+    "key-exists": "Já existe uma organização com esta chave.",
+    "load-users": "Erro ao carregar os usuários."
+  }
+}

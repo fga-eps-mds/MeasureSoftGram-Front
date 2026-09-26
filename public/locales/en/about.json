@@ -1,0 +1,38 @@
+{
+  "title": "MeasureSoftGram Home Screen",
+  "sub-title": "About the product",
+  "description": "Here you can get some information about our product.",
+  "organization": {
+    "id": "Organizations",
+    "title": "Organizations",
+    "description": "On the organizations page, you can find a list of all the organizations using MeasureSoftGram, as well as all their registered products.",
+    "view-organization": "VIEW ORGANIZATIONS AND PRODUCTS",
+    "create-organization": "Create organization"
+  },
+  "product": {
+    "id": "Products",
+    "title": "Products",
+    "description": "Products are software that belong to an organization and have a client. Due to their nature, the same product can have multiple repositories associated with it, allowing continuous implementation on more than one work front.",
+    "create-product": "Create Product"
+  },
+  "repository": {
+    "id": "Repositories",
+    "title": "Repositories",
+    "description": "Repositories are storage spaces for software packages. These packages can be accessed and installed by anyone who has access to them, but the repository only stores modifications made by those authorized to do so. This characteristic allows a single product to have multiple repositories, each with its own modifications, enabling the simultaneous development of different functionalities."
+  },
+  "release": {
+    "id": "Releases",
+    "title": "Releases",
+    "description": "Releases represent the versions of a product launch. A product, computing system, and its subsystems may have their source code centralized in a repository or distributed across multiple ones. In the case of multiple repositories, each has its respective releases. Additionally, there are two types of releases: major and minor. MeasureSoftGram acts in the planning of major releases using pre-configuration and subsequent configurations."
+  },
+  "pre-config": {
+    "id": "Pre-configuration",
+    "title": "Pre-configuration",
+    "description": "Pre-configuration represents the model setup. It comes with all the metrics, measures, and their reference values, sub-characteristics, and characteristics calculated by the model. There is also a pre-definition of relative weights for measures, sub-characteristics, and characteristics, distributed proportionally to their respective quantities. When planning the first release of the product, pre-configuration 'ceases to exist,' and configurations come into play. It is defined in the msgram.json file."
+  },
+  "config": {
+    "id": "Configuration",
+    "title": "Configuration",
+    "description": "A configuration represents the result of planning the quality measurement objectives of a release. This planning involves defining which quality characteristics will be observed during the development period of a release. Thus, it is possible to choose and configure the parameters of metrics, measures, and indicators at all levels of the model. It is possible to define weight values, the relationship matrix of characteristics, reference values for measures, and the selection of characteristics, sub-characteristics, metrics, and measures to be observed."
+  }
+}

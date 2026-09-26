@@ -6,27 +6,38 @@ Object {
   "baseElement": <body>
     <div>
       <button
-        class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root  css-1rwt2y5-MuiButtonBase-root-MuiButton-root"
+        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary css-1rwt2y5-MuiButtonBase-root-MuiButton-root"
+        style="text-align: left; width: 100%; justify-content: space-between;"
         tabindex="0"
         type="button"
       >
         <div
-          class="MuiBox-root css-1tfglf5"
+          class="MuiBox-root css-psk0uk"
+          href="/simbora"
         >
           <div
-            class="styles__Circle-sc-5tcrvr-0 zTbqV"
-          />
-          <h6
-            class="MuiTypography-root MuiTypography-subtitle1 css-10wpov9-MuiTypography-root"
+            class="MuiBox-root css-1ofqig9"
           >
-            Simbora
-          </h6>
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle1 css-10wpov9-MuiTypography-root"
+              style="color: rgb(43, 77, 111); font-weight: bold;"
+            >
+              Simbora
+            </h6>
+            <hr
+              class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
+              style="background-color: grey; margin: 10px 0px;"
+            />
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
+            />
+          </div>
           <div
-            class="MuiBox-root css-1a64nw"
+            class="MuiBox-root css-1q1i4po"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-tzssek-MuiSvgIcon-root"
               data-testid="ChevronRightIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -45,27 +56,38 @@ Object {
   </body>,
   "container": <div>
     <button
-      class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root  css-1rwt2y5-MuiButtonBase-root-MuiButton-root"
+      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary css-1rwt2y5-MuiButtonBase-root-MuiButton-root"
+      style="text-align: left; width: 100%; justify-content: space-between;"
       tabindex="0"
       type="button"
     >
       <div
-        class="MuiBox-root css-1tfglf5"
+        class="MuiBox-root css-psk0uk"
+        href="/simbora"
       >
         <div
-          class="styles__Circle-sc-5tcrvr-0 zTbqV"
-        />
-        <h6
-          class="MuiTypography-root MuiTypography-subtitle1 css-10wpov9-MuiTypography-root"
+          class="MuiBox-root css-1ofqig9"
         >
-          Simbora
-        </h6>
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle1 css-10wpov9-MuiTypography-root"
+            style="color: rgb(43, 77, 111); font-weight: bold;"
+          >
+            Simbora
+          </h6>
+          <hr
+            class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
+            style="background-color: grey; margin: 10px 0px;"
+          />
+          <p
+            class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
+          />
+        </div>
         <div
-          class="MuiBox-root css-1a64nw"
+          class="MuiBox-root css-1q1i4po"
         >
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-tzssek-MuiSvgIcon-root"
             data-testid="ChevronRightIcon"
             focusable="false"
             viewBox="0 0 24 24"

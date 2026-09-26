@@ -1,10 +1,9 @@
 import React from 'react';
-
 import { Box, Skeleton as Shimmer } from '@mui/material';
 
 function Skeleton() {
   return (
-    <Box display="flex" flexDirection="column">
+    <Box display="flex" flexDirection="column" data-testid="skeleton-container">
       <Box display="flex" flexDirection="row" alignItems="center" marginTop="35px" marginBottom="25px">
         <Box>
           <Shimmer variant="text" height={65} width={300} />

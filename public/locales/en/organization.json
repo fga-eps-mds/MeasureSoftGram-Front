@@ -1,0 +1,23 @@
+{
+  "title-edit": "EDIT ORGANIZATION",
+  "title-create": "ADD ORGANIZATION",
+  "description": "An organization represents a high-level entity that maintains multiple source code repositories. Each repository may have its own objective, but all should align with the organization's interests.",
+  "input-name": "Organization Name",
+  "input-description": "Organization Description",
+  "add-members": "ADD MEMBERS",
+  "added": "Added",
+  "add": "Add",
+  "save": "SAVE",
+  "create": "CREATE",
+  "none-user": "No user available",
+  "close": "Close",
+  "toast": {
+    "error": "Error creating the organization",
+    "sucess": "Organization created successfully",
+    "error-edit": "Error updating the organization!",
+    "sucess-edit": "Organization updated successfully!",
+    "name-exists": "An organization with this name already exists.",
+    "key-exists": "An organization with this key already exists.",
+    "load-users": "Error loading users."
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "sidebar-options": {
+    "overview": {
+      "text": "Overview",
+      "tooltip": "Product Overview"
+    },
+    "repos": {
+      "text": "Repositories",
+      "tooltip": "Product Repositories"
+    },
+    "release": {
+      "text": "Releases",
+      "tooltip": "Releases from each repository"
+    }
+  },
+  "tooltip": {
+    "user-menu": "User menu",
+    "organization-selection": "Organization Selection",
+    "product-selection": "Product Selection"
+  },
+  "select": {
+    "config": "Settings",
+    "end-session": "Log out"
+  },
+  "product": {
+    "placeholder": "Select Product",
+    "add-product": "Add product"
+  },
+  "organization": {
+    "placeholder":"Select Organization",
+    "add-organization": "Add organization"
+  },
+  "release": {
+    "more": "MORE..."
+  },
+  "delete": {
+    "title": "Confirm deletion",
+    "alert": "Unexpected things may happen if you don't read this!",
+    "organization-text": "This will permanently delete the organization",
+    "organization-text2": ", as well as its products and all associated members.",
+    "product-text": "This will permanently delete the product :",
+    "button": "I HAVE READ AND UNDERSTAND THE EFFECTS"
+  }
+}

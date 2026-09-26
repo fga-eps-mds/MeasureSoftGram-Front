@@ -1,0 +1,44 @@
+{
+  "sidebar-options": {
+    "overview": {
+      "text": "Visão Geral",
+      "tooltip": "Visão Geral do Produto"
+    },
+    "repos": {
+      "text": "Repositórios",
+      "tooltip": "Repositórios do Produto"
+    },
+    "release": {
+      "text": "Releases",
+      "tooltip": "Releases de cada repositório"
+    }
+  },
+  "tooltip": {
+    "user-menu": "Menu do usuário",
+    "organization-selection": "Seleção de Organização",
+    "product-selection": "Seleção de Produtos"
+  },
+  "select": {
+    "config": "Configurações",
+    "end-session": "Finalizar Sessão"
+  },
+  "product": {
+    "placeholder": "Selecione o produto",
+    "add-product": "Adicionar Produto"
+  },
+  "organization": {
+    "placeholder":"Selecione a organização",
+    "add-organization": "Adicionar organização"
+  },
+  "release": {
+    "more": "VER MAIS..."
+  },
+  "delete": {
+    "title": "Confirmar exclusão",
+    "alert": "Coisas inesperadas podem acontecer se você não ler isso!",
+    "organization-text": "Isso irá deletar permanentemente a organização",
+    "organization-text2": ", assim como seus produtos e todos os membros associados.",
+    "product-text": "Isso irá deletar permanentemente o produto: ",
+    "button": "EU LI E ENTENDO OS EFEITOS"
+  }
+}

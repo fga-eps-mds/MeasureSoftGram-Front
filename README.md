@@ -1,61 +1,45 @@
-# 2022.1 MeasureSoftGram Frontend
+# MeasureSoftGram Frontend
 
-Frontend repository of MeasureSoftGram application.
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_MeasureSoftGram-Front&metric=bugs)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_MeasureSoftGram-Front)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_MeasureSoftGram-Front&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_MeasureSoftGram-Front)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_MeasureSoftGram-Front&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_MeasureSoftGram-Front)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_MeasureSoftGram-Front&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_MeasureSoftGram-Front)
+[![codecov](https://codecov.io/gh/fga-eps-mds/MeasureSoftGram-Front/branch/develop/graph/badge.svg)](https://codecov.io/gh/fga-eps-mds/MeasureSoftGram-Front)
 
-## Badges
+Módulo responsável pelo Frontend da aplicação MeasureSoftGram.
 
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=bugs)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
-[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
-[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=coverage)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2022-1-MeasureSoftGram-Front&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2022-1-MeasureSoftGram-Front)
-[![codecov](https://codecov.io/gh/fga-eps-mds/2022-1-MeasureSoftGram-Front/branch/stage/graph/badge.svg?token=9GRTFZ4K28)](https://codecov.io/gh/fga-eps-mds/2022-1-MeasureSoftGram-Front)
+## Sobre o repositório
 
-<br>
+O principal objetivo do `MeasureSoftGram-Front` é fornecer a interface web do MeasureSoftGram, permitindo que os usuários visualizem e interajam com os dados e resultados de qualidade de software processados pela plataforma. O projeto é desenvolvido majoritariamente em TypeScript, utilizando Next.js no frontend.
 
-<img src="https://codecov.io/gh/fga-eps-mds/2022-1-MeasureSoftGram-Front/branch/stage/graphs/sunburst.svg?token=9GRTFZ4K28" width="128"/>
+Suas responsabilidades incluem:
 
+Visualização de Métricas: Apresentar de forma organizada indicadores e resultados relacionados à qualidade dos projetos analisados.
+Interação com a Plataforma: Disponibilizar telas e componentes para navegação, configuração e consulta das informações do MeasureSoftGram.
+Integração com os Serviços: Consumir os dados disponibilizados pelos demais componentes da arquitetura do MeasureSoftGram e apresentá-los ao usuário.
 
-## Links
+A documentação completa, instruções de instalação e o guia oficial deste projeto estão centralizados no nosso repositório de documentação.
 
-- Prod: [https://measuresoftgram.herokuapp.com/](https://measuresoftgram.herokuapp.com/)
-- Stage: [https://stg-measuresoftgram.herokuapp.com/](https://stg-measuresoftgram.herokuapp.com/)
+## Documentação
 
-## Installation
+- [Documentação do Frontend](https://fga-eps-mds.github.io/MeasureSoftGram-Docs/docs/componente-front/)
+  - Arquitetura e funcionamento do componente
+  - Configuração e execução
+  - Informações técnicas específicas
 
-### Install nvm
+- [Documentação oficial do MeasureSoftGram](https://fga-eps-mds.github.io/MeasureSoftGram-Docs/)
+  - Visão geral do produto
+  - Arquitetura geral
+  - Documentação dos componentes
 
-* <code>sudo apt install curl </code>
-* <code>curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash </code>
+## Contribuição
 
-Close the terminal and run the following command:
-* <code>command -v nvm</code>
+Consulte o [Guia de Contribuição](https://fga-eps-mds.github.io/MeasureSoftGram-Docs/docs/como-contribuir/) antes de realizar alterações no projeto.
 
-It should print 'nvm' if the installation was successful.
+## Código de Conduta
 
-### Install node with nvm
+Este projeto segue o [Código de Conduta](https://fga-eps-mds.github.io/MeasureSoftGram-Docs/docs/codigo-de-conduta/).
 
-* <code>nvm install v16.13.1</code>
+## Licença
 
-### Install yarn
-
-* <code>npm install --global yarn</code>
-
-It should print the version of yarn if the installation was successful.
-
-## Usage
-
-### Start project local
-
-* <code>yarn dev</code>
-
-The project will run on [http://localhost:3000](http://localhost:3000)
-
-### Run ESLint
-* <code>yarn lint</code>
+Este projeto é distribuído sob a licença [GNU AGPL-3.0](./LICENSE).

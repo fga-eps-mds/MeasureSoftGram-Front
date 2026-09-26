@@ -10,13 +10,13 @@ interface HistoricalCharacteristicsProps {
 
 class SubCharacteristics {
   getRepository(organizationId: string, productId: string, repositoryId: string) {
-    return api.get(`organizations/${organizationId}/products/${productId}/repositories/${repositoryId}/`);
+    return api.get(`/v1/organizations/${organizationId}/products/${productId}/repositories/${repositoryId}/`);
   }
 
   getHistoricalCharacteristics(props: HistoricalCharacteristicsProps) {
     const { organizationId, entity, productId, repositoryId } = props;
     return api.get(
-      `organizations/${organizationId}` +
+      `/v1/organizations/${organizationId}` +
         `/products/${productId}/repositories/${repositoryId}` +
         `/historical-values/${entity}/`
     );

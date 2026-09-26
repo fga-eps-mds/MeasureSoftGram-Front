@@ -1,0 +1,118 @@
+{
+  "meta": {
+    "title": "MeasureSoftGram",
+    "description": "Measure your software quality objectively, based on metrics collected from your own pipeline."
+  },
+  "nav": {
+    "howItWorks": "How it works",
+    "value": "Why use it",
+    "integrations": "Integrations",
+    "publications": "Publications",
+    "docs": "Documentation",
+    "enter": "Sign in"
+  },
+  "hero": {
+    "badge": "Evidence based software quality",
+    "title": "Measure your software quality objectively",
+    "subtitle": "MeasureSoftGram collects metrics from your repository, applies a configurable quality model and turns the numbers into clear dashboards to track how your releases evolve.",
+    "primaryCta": "Open the system",
+    "secondaryCta": "Read the documentation"
+  },
+  "howItWorks": {
+    "title": "How it works",
+    "subtitle": "From code to a quality indicator in four steps.",
+    "steps": {
+      "register": {
+        "title": "Register your product",
+        "description": "Create your organization and register the software products you want to track."
+      },
+      "connect": {
+        "title": "Connect the repositories",
+        "description": "Link the product repositories and define what should be measured in each of them."
+      },
+      "collect": {
+        "title": "Collect metrics in CI",
+        "description": "Continuous integration sends your pipeline metrics on every analysis, with no manual work."
+      },
+      "visualize": {
+        "title": "Track the dashboards",
+        "description": "Visualize characteristics, subcharacteristics and quality evolution across releases."
+      }
+    }
+  },
+  "value": {
+    "title": "Why use MeasureSoftGram",
+    "subtitle": "Quality decisions backed by data, not perception.",
+    "items": {
+      "model": {
+        "title": "Configurable quality model",
+        "description": "Set weights per characteristic and subcharacteristic to reflect your product priorities."
+      },
+      "dashboards": {
+        "title": "Quality dashboards",
+        "description": "Objective, visual indicators that make the state of the software easy to share with the team."
+      },
+      "releases": {
+        "title": "Release comparison",
+        "description": "Define reference values and track whether each release moves toward or away from the quality goal."
+      }
+    }
+  },
+  "integrations": {
+    "title": "Fits into your workflow",
+    "subtitle": "MeasureSoftGram connects to the tools your team already uses to collect metrics, visualize results and act on them.",
+    "items": {
+      "sonar": {
+        "title": "SonarQube and SonarCloud",
+        "description": "Imports the code quality metrics already analyzed in your pipeline, with no need to recollect anything."
+      },
+      "github": {
+        "title": "GitHub",
+        "description": "Social login, repository access and process metric collection straight from your CI flow."
+      },
+      "ai": {
+        "title": "AI assistants via MCP",
+        "description": "A Model Context Protocol server exposes your product quality to any compatible client: Claude, editors and other assistants, not just one."
+      },
+      "grafana": {
+        "title": "Grafana",
+        "description": "Brings the quality model indicators into your observability and monitoring dashboards."
+      },
+      "vscode": {
+        "title": "VS Code",
+        "description": "Check release quality without leaving the editor, through the Model Context Protocol integration."
+      }
+    }
+  },
+  "publications": {
+    "title": "The science behind the project",
+    "subtitle": "MeasureSoftGram grows out of peer reviewed academic research. Read the papers that ground the quality model.",
+    "cta": "Read on ACM"
+  },
+  "community": {
+    "title": "Learn more about the project",
+    "subtitle": "MeasureSoftGram is an open project maintained by the community.",
+    "docs": {
+      "title": "Documentation",
+      "description": "Usage guides, architecture and how to integrate MeasureSoftGram into your workflow.",
+      "cta": "Read the docs"
+    },
+    "repos": {
+      "title": "Repositories",
+      "description": "Explore the source code of the project components and contribute.",
+      "cta": "View on GitHub"
+    },
+    "app": {
+      "title": "Dashboards",
+      "description": "Open the system and visualize the quality of your products.",
+      "cta": "Open the system"
+    }
+  },
+  "footer": {
+    "tagline": "Multidimensional software quality analysis.",
+    "docs": "Documentation",
+    "repos": "Repositories",
+    "enter": "Sign in",
+    "rights": "Open source academic project."
+  }
+}

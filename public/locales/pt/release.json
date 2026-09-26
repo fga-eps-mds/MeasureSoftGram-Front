@@ -1,0 +1,23 @@
+{
+  "title": "Release",
+  "release-interval": "Duração da release",
+  "view-values": "Exibir valores",
+  "planned": "Planejado",
+  "accomplised": "Desenvolvido",
+  "diff": "Diferença",
+  "norm-diff": {
+    "title": "Diferença normalizada",
+    "tooltip": "Transformação vetorial entre a release planejada e a release realizada. Esta transformação representa a diferença quantitativa entre os requisitos de qualidade planejados e os os resultados observados após o desenvolvimento."
+  },
+  "plannedAndAccomplishedSizesAreDifferentWarning": "A quantidade de características planejadas deve ser igual à quantidade de características desenvolvidas",
+  "characteristics": {
+    "functional_suitability": "Adequação Funcional",
+    "performance_efficiency": "Eficiência de desempenho",
+    "compatibility": "Compatibilidade",
+    "interaction_capability": "Usabilidade",
+    "reliability": "Confiabilidade",
+    "security": "Segurança",
+    "maintainability": "Manutenibilidade",
+    "flexibility": "Portabilidade"
+  }
+}

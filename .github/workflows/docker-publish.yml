@@ -1,0 +1,44 @@
+name: Publish Docker Image
+
+on:
+  push:
+    branches:
+      - develop
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Login no DockerHub
+        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build e Push da imagem
+        uses: docker/build-push-action@ca052bb54ab0790a636c9b5f226502c73d547a25 # v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/front:latest
+          # Estes valores sao inlinados no bundle em build-time (Next.js), entao
+          # PRECISAM existir aqui, nao adianta injetar no container em runtime.
+          # Configurados como Repository Variables (Settings > Secrets and
+          # variables > Actions > Variables). Sao publicos (client_id aparece na
+          # URL de OAuth; URLs sao publicas), por isso variables e nao secrets.
+          # GH_CLIENT_ID: o prefixo GITHUB_ e reservado pelo Actions, por isso o
+          # nome encurtado. Tem que ser O MESMO client_id configurado no backend
+          # (Service, .service.env GITHUB_CLIENT_ID), senao da "Client ID
+          # mismatch" no endpoint /github/validate. Enquanto a variable nao
+          # existir, cai no fallback e o build sai como antes (sem regressao).
+          build-args: |
+            SERVICE_URL=${{ vars.SERVICE_URL || 'http://localhost:8080/api' }}
+            NEXT_PUBLIC_API_URL=${{ vars.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api' }}
+            LOGIN_REDIRECT_URL=${{ vars.LOGIN_REDIRECT_URL }}
+            GITHUB_CLIENT_ID=${{ vars.GH_CLIENT_ID }}

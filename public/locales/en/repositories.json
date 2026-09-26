@@ -1,0 +1,60 @@
+{
+  "title": "Repositories",
+  "more": "SEE MORE...",
+  "input-placeholder": "Enter the repository name",
+  "history": "History",
+  "current-scenario": "Current Scenario",
+  "create": "CREATE",
+  "choose": "Choose a repository to import",
+  "not-found": "No Repository found...",
+  "delete": {
+    "title": "Confirm deletion of ",
+    "titleRest": "by typing its name bellow",
+    "alert": "This will permanently delete the item ",
+    "button": "CONFIRM DELETION",
+    "toast-success": "Repository successfully deleted!",
+    "toast-error": "Failed to delete the repository."
+  },
+  "edit": {
+    "title": "Edit Repository",
+    "name": "Repository Name",
+    "description": "Description",
+    "url": "Repository URL",
+    "platform": "Platform",
+    "save": "Save Changes",
+    "success": "Repository successfully updated!",
+    "product": "Product"
+  },
+  "register": {
+    "title": "Repository Registration",
+    "create": "Create Repository",
+    "success": "Repository successfully created"
+  },
+  "error": {
+    "data": "Error loading repository data.",
+    "error": "Failed to load repository data."
+  },
+  "repository": {
+    "characteristic": "Characteristics",
+    "sub-characteristic": "Sub-Characteristics",
+    "history": "Characteristics History",
+    "current-scenario": "Current Characteristics Scenario",
+    "current-scenario-sub": "Current Sub-Characteristics Scenario",
+    "measure": "Measures",
+    "measure-history": "Measures History",
+    "measure-scenario": "Current Measures Scenario",
+    "metrics": "Metrics",
+    "badge-tooltip": "Repository quality",
+    "copy-badge": "Copy Badge",
+    "badge-copied": "Badge copied successfully!",
+    "badge-instructions": "Paste the code below in your repository's README:",
+    "badge-cancel": "Cancel",
+    "badge-copy-btn": "Copy",
+    "badge-copy-error": "Failed to copy to clipboard.",
+    "badge-stale": "The last analysis was performed more than 30 days ago. The badge may be outdated.",
+    "badge-stale-label": "Outdated badge",
+    "badge-stale-tooltip": "Badge has been outdated for more than 30 days. Rerun the repository workflow to generate the latest version.",
+    "badge-error": "An error occurred while loading badge information.",
+    "characteristic-badges": "Characteristic Badges"
+  }
+}

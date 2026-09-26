@@ -11,7 +11,7 @@ function Skeleton() {
       <Styles.Wrapper>
         <Container>
           <Box marginBottom="32px">
-            <Shimmer variant="text" height={50} width={150} />
+            <Shimmer data-testid="skeleton" variant="text" height={50} width={150} />
           </Box>
           <Box marginBottom="32px">
             {range(5).map((i) => (

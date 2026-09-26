@@ -1,46 +1,55 @@
-import React, { useEffect, useState } from 'react';
-
-import { Box, MenuItem, SelectChangeEvent, IconButton } from '@mui/material';
-import BusinessIcon from '@mui/icons-material/Business';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-
+import React, { useEffect } from 'react';
+import { BsFillBuildingFill } from 'react-icons/bs';
+import LetterAvatar from '@components/LetterAvatar';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
-
-import * as Styles from './styles';
+import { useSideMenuContext } from '@contexts/SidebarProvider/SideMenuProvider';
+import { Organization } from '@customTypes/organization';
+import { useTranslation } from 'react-i18next';
+import SideMenuItem from '../SideMenuItem';
+import MSGSelectBox from '../../../../../components/idv/inputs/MSGSelectBox';
 
 function OrganizationSelector() {
-  const { organizationList, setCurrentOrganization, currentOrganization } = useOrganizationContext();
+  const { organizationList, setCurrentOrganizations, currentOrganization, fetchOrganizations, isLoading, hasFetched } = useOrganizationContext();
+  const { isCollapsed, toggleCollapse } = useSideMenuContext();
 
-  const [selectedOrganization, setSelectedOrganization] = useState<number>();
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setSelectedOrganization(event.target.value);
+  const onChange = (value: Organization) => {
+    if (organizationList) {
+      const selectedOrganization = organizationList.find(organization => organization.id === value.id);
+      if (selectedOrganization) {
+        setCurrentOrganizations([selectedOrganization]);
+      } else {
+        setCurrentOrganizations([]);
+      }
+    }
   };
 
   useEffect(() => {
-    if (organizationList.length !== 0 && !currentOrganization) {
-      setSelectedOrganization(0);
+    if (!hasFetched && !isLoading) {
+      fetchOrganizations();
     }
-  }, [organizationList]);
+  }, [fetchOrganizations, hasFetched, isLoading]);
 
-  useEffect(() => {
-    if (selectedOrganization !== undefined) setCurrentOrganization(organizationList[selectedOrganization]);
-  }, [selectedOrganization]);
+  const { t } = useTranslation('sidebar');
 
   return (
-    <Box mt="64px" display="flex" alignItems="center">
-      <BusinessIcon />
-      <Styles.DropDown value={selectedOrganization || 0} onChange={handleChange}>
-        {organizationList?.map((organization, id) => (
-          <MenuItem value={id} key={organization.id}>
-            {organization.name}
-          </MenuItem>
-        ))}
-      </Styles.DropDown>
-      <IconButton disabled>
-        <AddCircleIcon />
-      </IconButton>
-    </Box>
+    <>
+      {!isCollapsed ?
+        <MSGSelectBox
+          label={t('organization.placeholder')}
+          width="98%"
+          options={organizationList ?? []}
+          onChange={onChange}
+          value={currentOrganization?.id}
+        /> :
+        <SideMenuItem
+          startIcon={<LetterAvatar name={currentOrganization?.name ?? '?'} icon={<BsFillBuildingFill color="#ffffff" />} />}
+          text={currentOrganization?.name ?? 'Selecione a Organização'}
+          tooltip={t("tooltip.organization-selection")}
+          onClick={() => toggleCollapse()}
+          selected={false}
+        />
+      }
+    </>
   );
 }
 

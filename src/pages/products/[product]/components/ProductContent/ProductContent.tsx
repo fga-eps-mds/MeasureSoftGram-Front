@@ -1,39 +1,40 @@
 import React, { useState } from 'react';
-
 import { formatRelative } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
-import { Box, Button, Typography, Container } from '@mui/material';
-
-import { RepositoriesSqcHistory } from '@customTypes/product';
-
-import CreateRelease from '@pages/createRelease';
-import GraphicRepositoriesSqcHistory from '@components/GraphicRepositoriesSqcHistory';
+import { Box, CircularProgress, Container, Typography } from '@mui/material';
 
 import { useProductContext } from '@contexts/ProductProvider';
+import { useGrafanaDashboard } from '@hooks/useGrafanaDashboard';
 
+import { getPathId } from '@utils/pathDestructer';
+import { useRouter } from 'next/router';
+import { useTranslation } from 'react-i18next';
 import Skeleton from './Skeleton';
 
-interface Props {
-  repositoriesSqcHistory?: RepositoriesSqcHistory;
-}
-
-const ProductContent: React.FC<Props> = ({ repositoriesSqcHistory }) => {
+const ProductContent: React.FC = () => {
   const { currentProduct } = useProductContext();
+  const [pathId, setPathId] = useState({} as { productId: string; organizationId: string });
 
-  const [openCreateRelease, setOpenCreateRelease] = useState(false);
+  const { query } = useRouter();
+  const { t } = useTranslation('overview');
 
-  const handleOpenCreateRelease = () => {
-    setOpenCreateRelease(true);
-  };
+  if (!Object.keys(pathId).length && currentProduct) {
+    const [organizationId, productId] = getPathId(query?.product as string);
+    setPathId({ organizationId, productId });
+  }
+
+  const { grafanaUrl, loading, error } = useGrafanaDashboard({
+    uid: 'ad2c5q4',
+  });
 
   const lastUpdateDate =
     currentProduct &&
     formatRelative(new Date(), new Date(), {
-      locale: ptBR
+      locale: ptBR,
     });
 
-  if (!currentProduct || !repositoriesSqcHistory) {
+  if (!currentProduct) {
     return (
       <Container>
         <Skeleton />
@@ -48,33 +49,43 @@ const ProductContent: React.FC<Props> = ({ repositoriesSqcHistory }) => {
           <Box>
             <Box display="flex">
               <Typography variant="h4" marginRight="10px">
-                Overview
+                {t('title')}
               </Typography>
-              <Typography variant="h4" fontWeight="300">
+              <Typography variant="h4" fontWeight="500" color="#33568E">
                 {currentProduct?.name}
               </Typography>
             </Box>
             <Typography variant="caption" color="gray">
-              última atualização: {lastUpdateDate}
+              {t('last-update')} : {lastUpdateDate}
             </Typography>
           </Box>
         </Box>
       </Box>
 
-      <Box display="flex" justifyContent="end">
-        <Button onClick={handleOpenCreateRelease} variant="contained">
-          Definir release
-        </Button>
+      <Box
+        sx={{
+          width: '100%',
+          height: '80vh',
+          border: '1px solid #d0d7de',
+          borderRadius: '8px',
+          overflow: 'hidden',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        {loading && <CircularProgress />}
+        {error && (
+          <Typography color="error">Não foi possível carregar o dashboard.</Typography>
+        )}
+        {grafanaUrl && !loading && (
+          <iframe
+            src={grafanaUrl}
+            title="Dashboard de Pulso"
+            style={{ width: '100%', height: '100%', border: 'none' }}
+          />
+        )}
       </Box>
-
-      <GraphicRepositoriesSqcHistory history={repositoriesSqcHistory} />
-
-      <CreateRelease
-        open={openCreateRelease}
-        handleClose={() => setOpenCreateRelease(false)}
-        productId={1}
-        organizationId={1}
-      />
     </Container>
   );
 };

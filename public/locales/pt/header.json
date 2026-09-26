@@ -1,0 +1,15 @@
+{
+  "repository": "Repositório",
+  "edit_intervals": "Editar Intervalos",
+  "cancel": "Cancelar",
+  "save": "Salvar",
+  "warning_message": "Atenção: Essa configuração será aplicada a todos os repositórios do produto.",
+  "error_message": "Ocorreu um erro ao tentar carregar as informações.",
+  "update_success": "Intervalos atualizados com sucesso!",
+  "update_error": "Erro ao atualizar intervalos!",
+  "red_limit_label": "Limite vermelho",
+  "yellow_limit_label": "Limite amarelo",
+  "legend_bad": "Ruim",
+  "legend_regular": "Regular",
+  "legend_good": "Bom"
+}

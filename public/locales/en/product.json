@@ -1,0 +1,21 @@
+{
+  "title-create": "ADD PRODUCT",
+  "title-edit": "EDIT PRODUCT",
+  "description": "Products are software that belong to an organization and have a client. Due to their nature, the same product can have several associated repositories, allowing continuous implementation across multiple work fronts.",
+  "label-input": "Organizations",
+  "title": "Products",
+  "name-input": "Name",
+  "search": "Search product",
+  "description-input": "Description",
+  "back": "BACK",
+  "save": "SAVE",
+  "create": "CREATE",
+  "not-found": "No product found.",
+  "toast": {
+    "name-exists": "A Product with this name already exists.",
+    "success-edit": "Product updated successfully!",
+    "error-edit": "Error updating the Product!",
+    "sucess": "Product created successfully!",
+    "error-create": "Error creating the Product!"
+  }
+}

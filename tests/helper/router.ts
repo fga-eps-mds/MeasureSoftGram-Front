@@ -5,4 +5,5 @@ function setRouteQuery(query: Object) {
   jest.spyOn(hooks, 'useRouter').mockImplementation(() => createMockedRoute(query));
 }
 
+
 export default setRouteQuery;

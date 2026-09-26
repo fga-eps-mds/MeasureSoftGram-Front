@@ -1,0 +1,16 @@
+{
+  "en": "English",
+  "pt": "Portuguese",
+  "hello": "Hello world",
+  "search": "Pesquisar",
+  "loading": "Loading",
+  "error": {
+    "timeout": "Timeout error",
+    "try-again": "Try again.",
+    "close": "Click anywhere in the screen to close."
+  },
+  "select": {
+    "no-options": "There are no available options"
+  },
+  "warning": "Warning"
+}

@@ -1,6 +1,6 @@
 import { ButtonProps } from '@mui/material';
 
-export interface CollectedMetric {
+export interface CollectedMeasure {
   id: number;
   measure_id: number;
   value: number;
@@ -12,7 +12,7 @@ export interface MeasuresHistoryResult {
   key: string;
   name: string;
   description: string;
-  history: Array<CollectedMetric>;
+  history: Array<CollectedMeasure>;
 }
 
 export interface MeasuresHistory {
@@ -29,6 +29,8 @@ export interface Product {
   github_url: string;
   created_at: string;
   updated_at: string;
+  gaugeRedLimit: number;
+  gaugeYellowLimit: number;
 }
 
 interface DefaultAttr {
@@ -55,6 +57,10 @@ export interface CurrentPreConfig {
   };
 }
 
+export interface DefaultPreConfig {
+  characteristics: Array<PreConfigCharacteristics>;
+}
+
 export interface PreConfigEntitiesRelationship extends DefaultAttr {
   subcharacteristics: Array<PreConfigSubCharacteristics>;
 }
@@ -78,22 +84,17 @@ export interface Changes {
   delta: number;
 }
 
-export interface ReleaseGoal {
-  release_name: string;
-  start_at: string;
-  end_at: string;
-  changes: Changes[];
-}
-
 export interface ButtonType extends Omit<Partial<ButtonProps>, 'color'> {
   label: string;
   onClick: () => void;
   backgroundColor: string;
   color: string;
   variant?: ButtonProps['variant'];
+  hover?: string;
+  dataTestId?: string;
 }
 
-interface SqcValue {
+export interface TsqmiValue {
   id: number;
   value: number;
   created_at: string;
@@ -108,11 +109,127 @@ export interface Repositories {
   product: string;
 }
 
-interface RepositoriesSqcHistoryResult {
-  history: Array<SqcValue>;
+interface RepositoriesTsqmiHistoryResult {
+  history: Array<TsqmiValue>;
 }
 
-export interface RepositoriesSqcHistory {
+export interface RepositoriesTsqmiHistory {
   count: number;
-  results: Array<RepositoriesSqcHistoryResult & Repositories>;
+  results: Array<RepositoriesTsqmiHistoryResult & Repositories>;
+}
+
+interface RepositoriesTsqmiLatestResult {
+  current_tsqmi: TsqmiValue;
+}
+
+export interface RepositoriesLatestTsqmi {
+  count: number;
+  results: Array<RepositoriesTsqmiLatestResult & Repositories>;
+}
+
+export interface CollectedMetric {
+  id: number;
+  metric_id: number;
+  value: number;
+  created_at: string;
+}
+
+export interface EntitiesMetricsResult {
+  id: number;
+  key: string;
+  name: string;
+  description: string;
+  latest: Array<CollectedMetric>;
+}
+
+export interface EntitiesMetrics {
+  count: string;
+  next: string;
+  previous: string;
+  results: Array<MeasuresHistoryResult>;
+}
+
+export interface LatestValuesInfos {
+  id: number;
+  value: number;
+  created_at: string;
+}
+
+export interface LatestValuesResult {
+  id: number;
+  key: string;
+  name: string;
+  description: string;
+  latest: Array<LatestValuesInfos>;
+}
+
+export interface LatestValues {
+  count: string;
+  next: string;
+  previous: string;
+  results: Array<LatestValuesResult>;
+}
+
+export interface Characteristics {
+  reliability?: number;
+  maintainability?: number;
+}
+
+export interface Goal {
+  id: number;
+  release_name: string;
+  start_at: Date | string;
+  end_at: Date | string;
+  data: Characteristics;
+}
+
+export interface Change {
+  characteristic_key: string;
+  delta: number;
+}
+
+export interface ReleaseGoal {
+  changes: Change[];
+  allow_dynamic: boolean;
+}
+
+export interface IReleases {
+  id: number;
+  release_name: string;
+  start_at: Date | string;
+  end_at: Date | string;
+  created_by: string;
+  product: number;
+  goal?: number;
+  description?: string;
+}
+
+export interface ReleasesPaginated {
+  count?: number;
+  next?: number;
+  previous?: number;
+  results?: IReleases[];
+}
+
+export interface Characteristic {
+  name: string;
+  value: number;
+  diff: number;
+}
+
+export interface AccomplishedRepository {
+  repository_name: string;
+  characteristics: Characteristic[];
+  norm_diff?: number;
+}
+
+export interface IReleasesWithGoalAndAccomplished {
+  release: IReleases;
+  planned: Characteristic[];
+  accomplished?: AccomplishedRepository[];
+}
+
+export interface HistoryDateRange {
+  startDate: number | null;
+  endDate: number | null;
 }

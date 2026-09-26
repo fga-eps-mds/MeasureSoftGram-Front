@@ -14,10 +14,11 @@ interface DrawerMenuProps {
   open: boolean;
   buttons?: Array<ButtonType>;
   subtitle?: string;
+  handleCloseModal: () => void;
   title?: string;
 }
 
-const DrawerMenu = ({ children, open, buttons, title, subtitle }: DrawerMenuProps) => {
+const DrawerMenu = ({ children, open, buttons, title, subtitle, handleCloseModal }: DrawerMenuProps) => {
   const renderButtons = () => {
     if (buttons)
       return (
@@ -29,11 +30,15 @@ const DrawerMenu = ({ children, open, buttons, title, subtitle }: DrawerMenuProp
               sx={{
                 backgroundColor: button.backgroundColor,
                 color: button.color,
+                '&:hover': {
+                  backgroundColor: button.hover
+                },
                 padding: '9px 20px',
                 marginRight: '16px'
               }}
               disabled={button.disabled}
               onClick={button.onClick}
+              data-testid={button.dataTestId}
             >
               {button.label}
             </Button>
@@ -53,7 +58,7 @@ const DrawerMenu = ({ children, open, buttons, title, subtitle }: DrawerMenuProp
   };
 
   return (
-    <Drawer anchor="right" open={open}>
+    <Drawer onClose={() => handleCloseModal()} anchor="right" open={open}>
       <Box
         display="flex"
         flexDirection="column"

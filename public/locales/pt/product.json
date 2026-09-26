@@ -1,0 +1,21 @@
+{
+  "title-create": "ADICIONAR PRODUTO",
+  "title-edit": "EDITAR PRODUTO",
+  "title": "Produtos",
+  "description": "Os produtos são softwares que pertencem à alguma organização e que possuem algum cliente. Por conta de sua natureza, um mesmo produto pode possuir vários repositórios associados à ele, o que permite uma implementação continua em mais de uma frente de trabalho.",
+  "label-input": "Organizações",
+  "name-input": "Nome",
+  "search": "Buscar produto",
+  "description-input": "Descrição",
+  "back": "VOLTAR",
+  "save": "SALVAR",
+  "create": "CRIAR",
+  "not-found": "Nenhum produto encontrado.",
+  "toast": {
+    "name-exists": "Já existe um Produto com este nome.",
+    "success-edit": "Produto atualizado com sucesso!",
+    "error-edit": "Erro ao atualizar o Produto!",
+    "sucess": "Produto criado com sucesso!",
+    "error-create": "Erro ao criar o Produto!"
+  }
+}

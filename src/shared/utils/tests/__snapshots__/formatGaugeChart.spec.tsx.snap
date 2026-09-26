@@ -1,0 +1,611 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`formatGaugeChart deve formatar o gráfico quando o array de historical for par 1`] = `
+Object {
+  "series": Array [
+    Object {
+      "anchor": Object {
+        "itemStyle": Object {
+          "color": "#171717",
+        },
+        "show": true,
+        "showAbove": true,
+        "size": 18,
+      },
+      "axisLabel": Object {
+        "distance": -45,
+        "fontSize": 18,
+        "fontWeight": "bold",
+        "formatter": [Function],
+        "rotate": "tangential",
+      },
+      "axisLine": Object {
+        "lineStyle": Object {
+          "color": Array [
+            Array [
+              0.33,
+              "#e74c3c",
+            ],
+            Array [
+              0.66,
+              "#f1c40f",
+            ],
+            Array [
+              1,
+              "#07bc0c",
+            ],
+          ],
+          "width": 40,
+        },
+      },
+      "axisTick": Object {
+        "length": 0,
+      },
+      "center": Array [
+        "25%",
+        "70%",
+      ],
+      "data": Array [
+        Object {
+          "detail": Object {
+            "offsetCenter": Array [
+              "-80%",
+              "37%",
+            ],
+          },
+          "name": "Valor atual",
+          "title": Object {
+            "offsetCenter": Array [
+              "-80%",
+              "20%",
+            ],
+          },
+          "value": "32.00",
+        },
+        Object {
+          "detail": Object {
+            "offsetCenter": Array [
+              "80%",
+              "37%",
+            ],
+          },
+          "itemStyle": Object {
+            "color": "#f1c40f",
+          },
+          "name": "Valor planejado",
+          "pointer": Object {
+            "width": 0,
+          },
+          "title": Object {
+            "offsetCenter": Array [
+              "80%",
+              "20%",
+            ],
+          },
+          "value": "0.80",
+        },
+      ],
+      "detail": Object {
+        "backgroundColor": "inherit",
+        "borderRadius": 3,
+        "color": "#fff",
+        "fontSize": 18,
+        "height": 14,
+        "width": 20,
+      },
+      "endAngle": 360,
+      "max": 1,
+      "min": 0,
+      "name": "Reliability",
+      "pointer": Object {
+        "icon": "path://M2.9,0.7L2.9,0.7c1.4,0,2.6,1.2,2.6,2.6v115c0,1.4-1.2,2.6-2.6,2.6l0,0c-1.4,0-2.6-1.2-2.6-2.6V3.3C0.3,1.9,1.4,0.7,2.9,0.7z",
+        "itemStyle": Object {
+          "color": "#171717",
+        },
+        "length": "90%",
+        "offsetCenter": Array [
+          0,
+          "8%",
+        ],
+        "width": 8,
+      },
+      "radius": "90%",
+      "show": true,
+      "splitLine": Object {
+        "length": 0,
+      },
+      "startAngle": 180,
+      "type": "gauge",
+    },
+    Object {
+      "anchor": Object {
+        "itemStyle": Object {
+          "color": "#171717",
+        },
+        "show": true,
+        "showAbove": true,
+        "size": 18,
+      },
+      "axisLabel": Object {
+        "distance": -45,
+        "fontSize": 18,
+        "fontWeight": "bold",
+        "formatter": [Function],
+        "rotate": "tangential",
+      },
+      "axisLine": Object {
+        "lineStyle": Object {
+          "color": Array [
+            Array [
+              0.33,
+              "#e74c3c",
+            ],
+            Array [
+              0.66,
+              "#f1c40f",
+            ],
+            Array [
+              1,
+              "#07bc0c",
+            ],
+          ],
+          "width": 40,
+        },
+      },
+      "axisTick": Object {
+        "length": 0,
+      },
+      "center": Array [
+        "75%",
+        "70%",
+      ],
+      "data": Array [
+        Object {
+          "detail": Object {
+            "offsetCenter": Array [
+              "-80%",
+              "37%",
+            ],
+          },
+          "name": "Valor atual",
+          "title": Object {
+            "offsetCenter": Array [
+              "-80%",
+              "20%",
+            ],
+          },
+          "value": "32.00",
+        },
+        Object {
+          "detail": Object {
+            "offsetCenter": Array [
+              "80%",
+              "37%",
+            ],
+          },
+          "itemStyle": Object {
+            "color": "#f1c40f",
+          },
+          "name": "Valor planejado",
+          "pointer": Object {
+            "width": 0,
+          },
+          "title": Object {
+            "offsetCenter": Array [
+              "80%",
+              "20%",
+            ],
+          },
+          "value": "0.80",
+        },
+      ],
+      "detail": Object {
+        "backgroundColor": "inherit",
+        "borderRadius": 3,
+        "color": "#fff",
+        "fontSize": 18,
+        "height": 14,
+        "width": 20,
+      },
+      "endAngle": 360,
+      "max": 1,
+      "min": 0,
+      "name": "Reliability",
+      "pointer": Object {
+        "icon": "path://M2.9,0.7L2.9,0.7c1.4,0,2.6,1.2,2.6,2.6v115c0,1.4-1.2,2.6-2.6,2.6l0,0c-1.4,0-2.6-1.2-2.6-2.6V3.3C0.3,1.9,1.4,0.7,2.9,0.7z",
+        "itemStyle": Object {
+          "color": "#171717",
+        },
+        "length": "90%",
+        "offsetCenter": Array [
+          0,
+          "8%",
+        ],
+        "width": 8,
+      },
+      "radius": "90%",
+      "show": true,
+      "splitLine": Object {
+        "length": 0,
+      },
+      "startAngle": 180,
+      "type": "gauge",
+    },
+  ],
+  "title": Object {
+    "text": "title-test",
+  },
+  "toolbox": Object {
+    "feature": Object {
+      "myCustomTool": Object {
+        "icon": "image:///images/png/iconCsv.png",
+        "onclick": [Function],
+        "show": true,
+        "title": "Export CSV",
+      },
+    },
+  },
+}
+`;
+
+exports[`formatGaugeChart deve retornar um objeto com o formato correto e limites padrão 1`] = `
+Object {
+  "series": Array [
+    Object {
+      "anchor": Object {
+        "itemStyle": Object {
+          "color": "#171717",
+        },
+        "show": true,
+        "showAbove": true,
+        "size": 18,
+      },
+      "axisLabel": Object {
+        "distance": -45,
+        "fontSize": 18,
+        "fontWeight": "bold",
+        "formatter": [Function],
+        "rotate": "tangential",
+      },
+      "axisLine": Object {
+        "lineStyle": Object {
+          "color": Array [
+            Array [
+              0.33,
+              "#e74c3c",
+            ],
+            Array [
+              0.66,
+              "#f1c40f",
+            ],
+            Array [
+              1,
+              "#07bc0c",
+            ],
+          ],
+          "width": 40,
+        },
+      },
+      "axisTick": Object {
+        "length": 0,
+      },
+      "center": Array [
+        "25%",
+        "70%",
+      ],
+      "data": Array [
+        Object {
+          "detail": Object {
+            "offsetCenter": Array [
+              "-80%",
+              "37%",
+            ],
+          },
+          "name": "Valor atual",
+          "title": Object {
+            "offsetCenter": Array [
+              "-80%",
+              "20%",
+            ],
+          },
+          "value": "32.00",
+        },
+        Object {
+          "detail": Object {
+            "offsetCenter": Array [
+              "80%",
+              "37%",
+            ],
+          },
+          "itemStyle": Object {
+            "color": "#f1c40f",
+          },
+          "name": "Valor planejado",
+          "pointer": Object {
+            "width": 0,
+          },
+          "title": Object {
+            "offsetCenter": Array [
+              "80%",
+              "20%",
+            ],
+          },
+          "value": "0.80",
+        },
+      ],
+      "detail": Object {
+        "backgroundColor": "inherit",
+        "borderRadius": 3,
+        "color": "#fff",
+        "fontSize": 18,
+        "height": 14,
+        "width": 20,
+      },
+      "endAngle": 360,
+      "max": 1,
+      "min": 0,
+      "name": "Reliability",
+      "pointer": Object {
+        "icon": "path://M2.9,0.7L2.9,0.7c1.4,0,2.6,1.2,2.6,2.6v115c0,1.4-1.2,2.6-2.6,2.6l0,0c-1.4,0-2.6-1.2-2.6-2.6V3.3C0.3,1.9,1.4,0.7,2.9,0.7z",
+        "itemStyle": Object {
+          "color": "#171717",
+        },
+        "length": "90%",
+        "offsetCenter": Array [
+          0,
+          "8%",
+        ],
+        "width": 8,
+      },
+      "radius": "90%",
+      "show": true,
+      "splitLine": Object {
+        "length": 0,
+      },
+      "startAngle": 180,
+      "type": "gauge",
+    },
+    Object {
+      "anchor": Object {
+        "itemStyle": Object {
+          "color": "#171717",
+        },
+        "show": true,
+        "showAbove": true,
+        "size": 18,
+      },
+      "axisLabel": Object {
+        "distance": -45,
+        "fontSize": 18,
+        "fontWeight": "bold",
+        "formatter": [Function],
+        "rotate": "tangential",
+      },
+      "axisLine": Object {
+        "lineStyle": Object {
+          "color": Array [
+            Array [
+              0.33,
+              "#e74c3c",
+            ],
+            Array [
+              0.66,
+              "#f1c40f",
+            ],
+            Array [
+              1,
+              "#07bc0c",
+            ],
+          ],
+          "width": 40,
+        },
+      },
+      "axisTick": Object {
+        "length": 0,
+      },
+      "center": Array [
+        "50%",
+        "70%",
+      ],
+      "data": Array [
+        Object {
+          "detail": Object {
+            "offsetCenter": Array [
+              "-80%",
+              "37%",
+            ],
+          },
+          "name": "Valor atual",
+          "title": Object {
+            "offsetCenter": Array [
+              "-80%",
+              "20%",
+            ],
+          },
+          "value": "32.00",
+        },
+        Object {
+          "detail": Object {
+            "offsetCenter": Array [
+              "80%",
+              "37%",
+            ],
+          },
+          "itemStyle": Object {
+            "color": "#f1c40f",
+          },
+          "name": "Valor planejado",
+          "pointer": Object {
+            "width": 0,
+          },
+          "title": Object {
+            "offsetCenter": Array [
+              "80%",
+              "20%",
+            ],
+          },
+          "value": "0.80",
+        },
+      ],
+      "detail": Object {
+        "backgroundColor": "inherit",
+        "borderRadius": 3,
+        "color": "#fff",
+        "fontSize": 18,
+        "height": 14,
+        "width": 20,
+      },
+      "endAngle": 360,
+      "max": 1,
+      "min": 0,
+      "name": "Reliability",
+      "pointer": Object {
+        "icon": "path://M2.9,0.7L2.9,0.7c1.4,0,2.6,1.2,2.6,2.6v115c0,1.4-1.2,2.6-2.6,2.6l0,0c-1.4,0-2.6-1.2-2.6-2.6V3.3C0.3,1.9,1.4,0.7,2.9,0.7z",
+        "itemStyle": Object {
+          "color": "#171717",
+        },
+        "length": "90%",
+        "offsetCenter": Array [
+          0,
+          "8%",
+        ],
+        "width": 8,
+      },
+      "radius": "90%",
+      "show": true,
+      "splitLine": Object {
+        "length": 0,
+      },
+      "startAngle": 180,
+      "type": "gauge",
+    },
+    Object {
+      "anchor": Object {
+        "itemStyle": Object {
+          "color": "#171717",
+        },
+        "show": true,
+        "showAbove": true,
+        "size": 18,
+      },
+      "axisLabel": Object {
+        "distance": -45,
+        "fontSize": 18,
+        "fontWeight": "bold",
+        "formatter": [Function],
+        "rotate": "tangential",
+      },
+      "axisLine": Object {
+        "lineStyle": Object {
+          "color": Array [
+            Array [
+              0.33,
+              "#e74c3c",
+            ],
+            Array [
+              0.66,
+              "#f1c40f",
+            ],
+            Array [
+              1,
+              "#07bc0c",
+            ],
+          ],
+          "width": 40,
+        },
+      },
+      "axisTick": Object {
+        "length": 0,
+      },
+      "center": Array [
+        "75%",
+        "70%",
+      ],
+      "data": Array [
+        Object {
+          "detail": Object {
+            "offsetCenter": Array [
+              "-80%",
+              "37%",
+            ],
+          },
+          "name": "Valor atual",
+          "title": Object {
+            "offsetCenter": Array [
+              "-80%",
+              "20%",
+            ],
+          },
+          "value": "32.00",
+        },
+        Object {
+          "detail": Object {
+            "offsetCenter": Array [
+              "80%",
+              "37%",
+            ],
+          },
+          "itemStyle": Object {
+            "color": "#f1c40f",
+          },
+          "name": "Valor planejado",
+          "pointer": Object {
+            "width": 0,
+          },
+          "title": Object {
+            "offsetCenter": Array [
+              "80%",
+              "20%",
+            ],
+          },
+          "value": "0.80",
+        },
+      ],
+      "detail": Object {
+        "backgroundColor": "inherit",
+        "borderRadius": 3,
+        "color": "#fff",
+        "fontSize": 18,
+        "height": 14,
+        "width": 20,
+      },
+      "endAngle": 360,
+      "max": 1,
+      "min": 0,
+      "name": "Reliability",
+      "pointer": Object {
+        "icon": "path://M2.9,0.7L2.9,0.7c1.4,0,2.6,1.2,2.6,2.6v115c0,1.4-1.2,2.6-2.6,2.6l0,0c-1.4,0-2.6-1.2-2.6-2.6V3.3C0.3,1.9,1.4,0.7,2.9,0.7z",
+        "itemStyle": Object {
+          "color": "#171717",
+        },
+        "length": "90%",
+        "offsetCenter": Array [
+          0,
+          "8%",
+        ],
+        "width": 8,
+      },
+      "radius": "90%",
+      "show": true,
+      "splitLine": Object {
+        "length": 0,
+      },
+      "startAngle": 180,
+      "type": "gauge",
+    },
+  ],
+  "title": Object {
+    "text": "title-test",
+  },
+  "toolbox": Object {
+    "feature": Object {
+      "myCustomTool": Object {
+        "icon": "image:///images/png/iconCsv.png",
+        "onclick": [Function],
+        "show": true,
+        "title": "Export CSV",
+      },
+    },
+  },
+}
+`;

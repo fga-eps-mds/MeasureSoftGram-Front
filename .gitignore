@@ -4,9 +4,12 @@
 /node_modules
 /.pnp
 .pnp.js
+.pnpm-store/
+package-lock.json
 
 # testing
 /coverage
+coverage.xml
 
 # next.js
 /.next/
@@ -32,8 +35,11 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 .env.development
+env-vars/
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
+
+ref

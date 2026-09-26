@@ -1,4 +1,8 @@
-export function getPathId(name: string) {
-  const nameArray = name.split('-');
-  return [nameArray[0], nameArray[1]];
+export function getPathId(name?: string): [string, string] {
+  if (!name || typeof name !== 'string') {
+    return ['', ''];
+  }
+
+  const [first, second = ''] = name.split('-');
+  return [first, second];
 }

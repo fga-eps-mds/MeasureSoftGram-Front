@@ -1,0 +1,118 @@
+{
+  "meta": {
+    "title": "MeasureSoftGram",
+    "description": "Meça a qualidade do seu software de forma objetiva, com base em métricas coletadas do seu próprio pipeline."
+  },
+  "nav": {
+    "howItWorks": "Como funciona",
+    "value": "Por que usar",
+    "integrations": "Integrações",
+    "publications": "Publicações",
+    "docs": "Documentação",
+    "enter": "Entrar"
+  },
+  "hero": {
+    "badge": "Qualidade de software baseada em evidência",
+    "title": "Meça a qualidade do seu software de forma objetiva",
+    "subtitle": "O MeasureSoftGram coleta métricas do seu repositório, aplica um modelo de qualidade configurável e transforma os números em dashboards claros para acompanhar a evolução das suas releases.",
+    "primaryCta": "Acessar o sistema",
+    "secondaryCta": "Ver a documentação"
+  },
+  "howItWorks": {
+    "title": "Como funciona",
+    "subtitle": "Do código ao indicador de qualidade em quatro passos.",
+    "steps": {
+      "register": {
+        "title": "Cadastre seu produto",
+        "description": "Crie sua organização e registre os produtos de software que deseja acompanhar."
+      },
+      "connect": {
+        "title": "Conecte os repositórios",
+        "description": "Associe os repositórios do produto e defina o que será medido em cada um deles."
+      },
+      "collect": {
+        "title": "Colete as métricas no CI",
+        "description": "A integração contínua envia as métricas do seu pipeline a cada nova análise, sem trabalho manual."
+      },
+      "visualize": {
+        "title": "Acompanhe os dashboards",
+        "description": "Visualize características, subcaracterísticas e a evolução da qualidade entre releases."
+      }
+    }
+  },
+  "value": {
+    "title": "Por que usar o MeasureSoftGram",
+    "subtitle": "Decisões de qualidade sustentadas por dados, não por percepção.",
+    "items": {
+      "model": {
+        "title": "Modelo de qualidade configurável",
+        "description": "Defina pesos por característica e subcaracterística para refletir as prioridades do seu produto."
+      },
+      "dashboards": {
+        "title": "Dashboards de qualidade",
+        "description": "Indicadores objetivos e visuais que tornam o estado do software fácil de comunicar para o time."
+      },
+      "releases": {
+        "title": "Comparação entre releases",
+        "description": "Defina valores de referência e acompanhe se cada release se aproxima ou se afasta da meta de qualidade."
+      }
+    }
+  },
+  "integrations": {
+    "title": "Integra com o seu fluxo de trabalho",
+    "subtitle": "O MeasureSoftGram se conecta às ferramentas que o seu time já usa para coletar métricas, visualizar resultados e agir sobre eles.",
+    "items": {
+      "sonar": {
+        "title": "SonarQube e SonarCloud",
+        "description": "Importa as métricas de qualidade de código já analisadas no seu pipeline, sem recoletar nada."
+      },
+      "github": {
+        "title": "GitHub",
+        "description": "Login social, leitura dos repositórios e coleta de métricas de processo direto do fluxo de CI."
+      },
+      "ai": {
+        "title": "Assistentes de IA via MCP",
+        "description": "Um servidor Model Context Protocol expõe a qualidade dos seus produtos a qualquer cliente compatível: Claude, editores e outros assistentes, não só um."
+      },
+      "grafana": {
+        "title": "Grafana",
+        "description": "Leva os indicadores do modelo de qualidade para os seus painéis de observabilidade e acompanhamento."
+      },
+      "vscode": {
+        "title": "VS Code",
+        "description": "Consulta a qualidade das releases sem sair do editor, pela integração via Model Context Protocol."
+      }
+    }
+  },
+  "publications": {
+    "title": "Base científica do projeto",
+    "subtitle": "O MeasureSoftGram nasce de pesquisa acadêmica revisada por pares. Leia os artigos que fundamentam o modelo de qualidade.",
+    "cta": "Ler no ACM"
+  },
+  "community": {
+    "title": "Conheça mais sobre o projeto",
+    "subtitle": "O MeasureSoftGram é um projeto aberto e mantido pela comunidade.",
+    "docs": {
+      "title": "Documentação",
+      "description": "Guias de uso, arquitetura e como integrar o MeasureSoftGram ao seu fluxo.",
+      "cta": "Ler a documentação"
+    },
+    "repos": {
+      "title": "Repositórios",
+      "description": "Explore o código dos componentes do projeto e contribua.",
+      "cta": "Ver no GitHub"
+    },
+    "app": {
+      "title": "Dashboards",
+      "description": "Acesse o sistema e visualize a qualidade dos seus produtos.",
+      "cta": "Acessar o sistema"
+    }
+  },
+  "footer": {
+    "tagline": "Análise multidimensional da qualidade de software.",
+    "docs": "Documentação",
+    "repos": "Repositórios",
+    "enter": "Entrar no sistema",
+    "rights": "Projeto acadêmico de código aberto."
+  }
+}

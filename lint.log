@@ -1,0 +1,131 @@
+
+> measuresoftgram@0.1.0 lint /usr/src
+> next lint
+
+info  - Loaded env from /usr/src/.env
+
+./src/pages/_app.next.tsx
+21:36  Warning: 'disableBreadcrumb' is defined but never used.  no-unused-vars
+49:7  Warning: Unexpected console statement.  no-console
+60:7  Warning: Unexpected console statement.  no-console
+68:36  Warning: 'url' is defined but never used.  no-unused-vars
+85:6  Warning: React Hook useEffect has a missing dependency: 'router.events'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/pages/about/tests/about.spec.tsx
+4:10  Warning: 'useTranslation' is defined but never used.  no-unused-vars
+
+./src/pages/home/test/home.spec.tsx
+4:10  Warning: 'useTranslation' is defined but never used.  no-unused-vars
+5:10  Warning: 'ni18nConfig' is defined but never used.  no-unused-vars
+
+./src/pages/organizations/Organizations.tsx
+6:83  Warning: 'Backdrop' is defined but never used.  no-unused-vars
+6:99  Warning: 'Grid' is defined but never used.  no-unused-vars
+14:16  Warning: 'page' is defined but never used.  no-unused-vars
+25:11  Warning: 'currentOrganizations' is assigned a value but never used.  no-unused-vars
+66:6  Warning: React Hook useEffect has missing dependencies: 'carregarMembrosDaOrganizacao' and 'getOrganizationById'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+82:55  Error: Refactor this function to reduce its Cognitive Complexity from 17 to the 15 allowed.  sonarjs/cognitive-complexity
+
+./src/pages/products/Products.tsx
+46:14  Warning: 'to' is assigned a value but never used.  no-unused-vars
+61:10  Warning: 'importedRepos' is assigned a value but never used.  no-unused-vars
+100:19  Warning: Unexpected console statement.  no-console
+130:7  Warning: Unexpected console statement.  no-console
+209:7  Warning: Unexpected console statement.  no-console
+234:7  Warning: Unexpected console statement.  no-console
+261:6  Warning: React Hook useEffect has a missing dependency: 'loadGitHubOrgs'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+278:11  Warning: Unexpected console statement.  no-console
+288:6  Warning: React Hook useEffect has missing dependencies: 'fetchOrganizations', 'loadGitHubOrgs', 'router', and 'signInWithGithub'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+296:6  Warning: React Hook useEffect has a missing dependency: 'handleSelectOrganization'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+324:6  Warning: React Hook useEffect has a missing dependency: 'selectedOrgName'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+339:6  Warning: React Hook useEffect has a missing dependency: 'setCurrentOrganizations'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+348:6  Warning: React Hook useEffect has a missing dependency: 'setCurrentProduct'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+354:6  Warning: React Hook useEffect has a missing dependency: 'selectedProductId'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/pages/products/[product]/components/RepositoriesList/RepositoriesTable/RepositoriesTable.tsx
+29:37  Warning: 'theme' is defined but never used.  no-unused-vars
+75:9  Warning: Unexpected console statement.  no-console
+81:6  Warning: React Hook useEffect has missing dependencies: 'currentProduct', 'loadProduct', and 'router.query?.product'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+138:9  Warning: Unexpected console statement.  no-console
+
+./src/pages/products/[product]/hooks/useQuery.ts
+43:7  Warning: Unexpected console statement.  no-console
+
+./src/pages/products/[product]/releases/[release]/index.page.tsx
+22:10  Warning: 'planned' is assigned a value but never used.  no-unused-vars
+
+./src/pages/products/[product]/releases/create/components/CharacteristicsBalanceForm/CharacteristicsBalanceForm.tsx
+10:23  Warning: 'value' is defined but never used.  no-unused-vars
+
+./src/pages/products/[product]/releases/create/components/ModelConfigForm/ModelConfigForm.tsx
+33:18  Warning: 'characteristic' is defined but never used.  no-unused-vars
+
+./src/pages/products/[product]/releases/create/tests/ReleaseCreation.spec.tsx
+535:3  Warning: Test has no assertions  jest/expect-expect
+777:3  Warning: Test has no assertions  jest/expect-expect
+1142:3  Warning: Test has no assertions  jest/expect-expect
+
+./src/pages/products/[product]/releases/util/tests/filterReleaseList.spec.ts
+1:10  Warning: 'IReleases' is defined but never used.  no-unused-vars
+
+./src/pages/products/[product]/repositories/[repository]/components/CharacteristicsBadges/CharacteristicsBadges.tsx
+28:17  Warning: Do not use `<img>` element. Use `<Image />` from `next/image` instead. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/pages/products/[product]/repositories/[repository]/components/CopyBadgeModal/CopyBadgeModal.tsx
+89:19  Warning: Do not use `<img>` element. Use `<Image />` from `next/image` instead. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/pages/products/[product]/repositories/[repository]/components/CustomTabs/CustomTabs.tsx
+14:3  Warning: React Hook useEffect contains a call to 'setValue'. Without a list of dependencies, this can lead to an infinite chain of updates. To fix this, pass [value, tabPanelItems.length] as a second argument to the useEffect Hook.  react-hooks/exhaustive-deps
+
+./src/pages/products/[product]/repositories/[repository]/components/GaugeSlider/GaugeSlider.tsx
+10:15  Warning: 'newValues' is defined but never used.  no-unused-vars
+
+./src/pages/products/[product]/repositories/[repository]/components/GaugeSlider/tests/GaugeSlider.spec.tsx
+1:17  Warning: 'useState' is defined but never used.  no-unused-vars
+13:11  Warning: 'eventMock' is assigned a value but never used.  no-unused-vars
+108:11  Warning: 'eventMock' is assigned a value but never used.  no-unused-vars
+
+./src/pages/products/[product]/repositories/[repository]/components/GithubRepositoriesModal/GithubRepositoriesModal.tsx
+5:10  Warning: 'useOrganizationContext' is defined but never used.  no-unused-vars
+6:10  Warning: 'useProductContext' is defined but never used.  no-unused-vars
+49:7  Warning: Unexpected console statement.  no-console
+
+./src/pages/products/[product]/repositories/[repository]/components/Header/Header.tsx
+41:6  Warning: React Hook useEffect has a missing dependency: 'values'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/pages/products/[product]/repositories/[repository]/components/OptionsHeader/OptionsHeader.tsx
+9:23  Warning: 'arg' is defined but never used.  no-unused-vars
+
+./src/pages/products/[product]/repositories/[repository]/components/TsqmiBadge/TsqmiBadge.tsx
+44:11  Warning: Do not use `<img>` element. Use `<Image />` from `next/image` instead. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/pages/products/[product]/repositories/[repository]/hooks/useQuery.ts
+140:13  Warning: 'id' is assigned a value but never used.  no-unused-vars
+187:7  Warning: Unexpected console statement.  no-console
+
+./src/pages/products/[product]/repositories/manage-repository/RepositoryForm.tsx
+66:10  Warning: 'errorMessage' is assigned a value but never used.  no-unused-vars
+67:10  Warning: 'openSnackbar' is assigned a value but never used.  no-unused-vars
+91:11  Warning: Unexpected console statement.  no-console
+97:6  Warning: React Hook useEffect has a missing dependency: 't'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/pages/products/[product]/repositories/manage-repository/tests/RepositoryForm.spec.tsx
+3:18  Warning: 'fireEvent' is defined but never used.  no-unused-vars
+51:3  Warning: Test has no assertions  jest/expect-expect
+52:13  Warning: 'getByLabelText' is assigned a value but never used.  no-unused-vars
+52:29  Warning: 'getByText' is assigned a value but never used.  no-unused-vars
+58:5  Warning: Unexpected console statement.  no-console
+
+./src/pages/products/components/ScrollableList/ScrollableList.tsx
+9:14  Warning: 'organization' is defined but never used.  no-unused-vars
+
+./src/pages/products/create/ProductsCreation.tsx
+45:11  Warning: Unexpected console statement.  no-console
+50:6  Warning: React Hook useEffect has missing dependencies: 'currentOrganizationId', 'currentProductId', and 'getProductById'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+111:9  Warning: Unexpected console statement.  no-console
+
+./src/components/idv/inputs/MSGSelectBox.tsx
+11:14  Warning: 'value' is defined but never used.  no-unused-vars
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+ ELIFECYCLE  Command failed with exit code 1.
