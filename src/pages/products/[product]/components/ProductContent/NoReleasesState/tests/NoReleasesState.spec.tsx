@@ -24,7 +24,6 @@ jest.mock('react-i18next', () => ({
         'no-releases-title': 'Este produto ainda não tem releases cadastradas',
         'no-releases-description-1': 'O Gráfico MSG acompanha o TSQMI dos repositórios marcando as releases planejadas de cada um.',
         'go-to-releases': 'Ir para Releases',
-        'rendered-with-echarts': 'Renderizado com Apache ECharts',
       };
       return translations[key] || key;
     },
@@ -41,7 +40,6 @@ describe('<NoReleasesState />', () => {
       getByText('Cadastre a primeira release de MeasureSoftGram para acompanhar a evolução.')
     ).toBeInTheDocument();
     expect(getByText('Ir para Releases')).toBeInTheDocument();
-    expect(getByText('Renderizado com Apache ECharts')).toBeInTheDocument();
   });
 
   it('navigates to releases page when button is clicked', () => {

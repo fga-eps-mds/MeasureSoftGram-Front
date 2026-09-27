@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { formatRelative } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
 import { Box, CircularProgress, Container, Typography } from '@mui/material';
 
 import { useProductContext } from '@contexts/ProductProvider';
-import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import { useGrafanaDashboard } from '@hooks/useGrafanaDashboard';
 import { useRequest } from '@hooks/useRequest';
 import { productQuery } from '@services/product';
-import { ReleasesPaginated } from '@customTypes/product';
 
 import { getPathId } from '@utils/pathDestructer';
 import { useRouter } from 'next/router';
@@ -19,20 +17,22 @@ import NoReleasesState from './NoReleasesState';
 
 const ProductContent: React.FC = () => {
   const { currentProduct } = useProductContext();
-  const { currentOrganization } = useOrganizationContext();
-  const [pathId, setPathId] = useState({} as { productId: string; organizationId: string });
-
   const { query } = useRouter();
   const { t } = useTranslation('overview');
 
-  if (!Object.keys(pathId).length && currentProduct) {
-    const [organizationId, productId] = getPathId(query?.product as string);
-    setPathId({ organizationId, productId });
-  }
+  const [organizationId, productId] = getPathId(query?.product as string);
 
-  const { data: releaseList, isLoading: isReleasesLoading } = useRequest<ReleasesPaginated>(
-    productQuery.getReleaseList(currentOrganization?.id as string, currentProduct?.id as string)
+  const { data: releaseData, isLoading: isReleasesLoading } = useRequest<any>(
+    organizationId && productId
+      ? productQuery.getReleaseList(organizationId, productId)
+      : null
   );
+
+  const releasesArray: any[] = Array.isArray(releaseData)
+    ? releaseData
+    : Array.isArray(releaseData?.results)
+    ? releaseData.results
+    : [];
 
   const { grafanaUrl, loading: isGrafanaLoading, error } = useGrafanaDashboard({
     uid: 'ad2c5q4',
@@ -44,7 +44,7 @@ const ProductContent: React.FC = () => {
       locale: ptBR,
     });
 
-  if (!currentProduct || isReleasesLoading) {
+  if (!currentProduct || isReleasesLoading || !organizationId || !productId) {
     return (
       <Container>
         <Skeleton />
@@ -52,7 +52,10 @@ const ProductContent: React.FC = () => {
     );
   }
 
-  const hasNoReleases = !releaseList?.results || releaseList.results.length === 0;
+  const hasNoReleases = releasesArray.length === 0;
+
+
+
 
   return (
     <Container>
@@ -73,7 +76,7 @@ const ProductContent: React.FC = () => {
           </Box>
         </Box>
       </Box>
-
+      
       {hasNoReleases ? (
         <NoReleasesState productName={currentProduct?.name} />
       ) : (

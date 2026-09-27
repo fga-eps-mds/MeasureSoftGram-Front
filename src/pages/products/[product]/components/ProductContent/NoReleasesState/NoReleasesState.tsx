@@ -122,13 +122,6 @@ const NoReleasesState: React.FC<Props> = ({ productName }) => {
           {t('go-to-releases')}
         </Button>
       </Box>
-
-      {/* Footer attribution */}
-      <Box display="flex" justifyContent="flex-end" marginTop="12px">
-        <Typography variant="caption" color="text.secondary" sx={{ fontSize: '11px' }}>
-          {t('rendered-with-echarts')}
-        </Typography>
-      </Box>
     </Paper>
   );
 };
