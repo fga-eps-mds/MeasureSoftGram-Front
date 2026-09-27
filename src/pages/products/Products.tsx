@@ -43,7 +43,6 @@ interface ProductType {
 const Products: NextPageWithLayout = () => {
   useRequireAuth();
   const { t: tp } = useTranslation('product');
-  const { t: to } = useTranslation('organization');
   const router = useRouter();
 
   const { organizationList, setCurrentOrganizations, fetchOrganizations, currentOrganization } = useOrganizationContext();
@@ -73,8 +72,6 @@ const Products: NextPageWithLayout = () => {
     setPage(1);
   }, [search, tabValue, gitHubRepos]);
   const lastLoadedProductIdRef = useRef<string>('');
-
-
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
   const loadGitHubOrgs = async () => {
@@ -109,10 +106,10 @@ const Products: NextPageWithLayout = () => {
               const ghName = go.github_org_name.toLowerCase();
               const dbName = targetOrg!.name.toLowerCase();
               const dbKey = targetOrg!.key ? targetOrg!.key.toLowerCase() : '';
-              return ghName === dbName || 
-                     (dbKey && ghName === dbKey) ||
-                     (dbName.length > 3 && ghName.includes(dbName.replace(/[^a-z0-9]/g, '-'))) ||
-                     (dbName.length > 3 && ghName.includes(dbName.replace(/[^a-z0-9]/g, '')));
+              return ghName === dbName ||
+                (dbKey && ghName === dbKey) ||
+                (dbName.length > 3 && ghName.includes(dbName.replace(/[^a-z0-9]/g, '-'))) ||
+                (dbName.length > 3 && ghName.includes(dbName.replace(/[^a-z0-9]/g, '')));
             });
             if (matchGo) {
               defaultName = matchGo.github_org_name;
@@ -120,7 +117,7 @@ const Products: NextPageWithLayout = () => {
           } else {
             defaultName = res.value[0].github_org_name;
           }
-          
+
           setSelectedOrgName(defaultName);
         }
       } else {
@@ -141,10 +138,10 @@ const Products: NextPageWithLayout = () => {
     const match = res.value.find((o: any) => {
       const dbName = o.name.toLowerCase();
       const dbKey = o.key ? o.key.toLowerCase() : '';
-      return dbName === ghName || 
-             (dbKey && dbKey === ghName) ||
-             (dbName.length > 3 && ghName.includes(dbName.replace(/[^a-z0-9]/g, '-'))) ||
-             (dbName.length > 3 && ghName.includes(dbName.replace(/[^a-z0-9]/g, '')));
+      return dbName === ghName ||
+        (dbKey && dbKey === ghName) ||
+        (dbName.length > 3 && ghName.includes(dbName.replace(/[^a-z0-9]/g, '-'))) ||
+        (dbName.length > 3 && ghName.includes(dbName.replace(/[^a-z0-9]/g, '')));
     });
     return match?.id || '';
   };
@@ -152,7 +149,7 @@ const Products: NextPageWithLayout = () => {
   const importOrg = async (orgName: string): Promise<string> => {
     const importResult = await organizationQuery.importOrganization(orgName);
     if (importResult.type === 'success' && importResult.value.id) {
-      fetchOrganizations(true);
+      fetchOrganizations(); // Removido o 'true'
       return importResult.value.id;
     }
     return '';
@@ -270,7 +267,7 @@ const Products: NextPageWithLayout = () => {
           if (res.type === 'success') {
             toast.success("Organizações do GitHub vinculadas com sucesso!");
             await loadGitHubOrgs();
-            fetchOrganizations(true);
+            fetchOrganizations(); // Removido o 'true'
           } else {
             toast.error("Erro ao vincular organizações do GitHub.");
           }
@@ -287,8 +284,6 @@ const Products: NextPageWithLayout = () => {
     }
   }, [router.query.code]);
 
-
-
   useEffect(() => {
     if (selectedOrgName) {
       handleSelectOrganization(selectedOrgName);
@@ -302,11 +297,11 @@ const Products: NextPageWithLayout = () => {
         const ghName = go.github_org_name.toLowerCase();
         const dbName = currentOrganization.name.toLowerCase();
         const dbKey = currentOrganization.key ? currentOrganization.key.toLowerCase() : '';
-        
-        return ghName === dbName || 
-               (dbKey && ghName === dbKey) ||
-               (dbName.length > 3 && ghName.includes(dbName.replace(/[^a-z0-9]/g, '-'))) ||
-               (dbName.length > 3 && ghName.includes(dbName.replace(/[^a-z0-9]/g, '')));
+
+        return ghName === dbName ||
+          (dbKey && ghName === dbKey) ||
+          (dbName.length > 3 && ghName.includes(dbName.replace(/[^a-z0-9]/g, '-'))) ||
+          (dbName.length > 3 && ghName.includes(dbName.replace(/[^a-z0-9]/g, '')));
       });
       if (matchGo) {
         if (matchGo.github_org_name !== selectedOrgName) {
@@ -366,8 +361,6 @@ const Products: NextPageWithLayout = () => {
       }),
     [gitHubRepos, importedRepoUrls, search, tabValue]
   );
-
-
 
   return (
     <>
@@ -603,8 +596,6 @@ const Products: NextPageWithLayout = () => {
               )}
             </Paper>
           )}
-
-
         </Box>
       </Container>
     </>
