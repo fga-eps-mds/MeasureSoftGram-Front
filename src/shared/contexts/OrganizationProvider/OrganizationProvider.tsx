@@ -35,7 +35,6 @@ export function OrganizationProvider({ children }: Props) {
   const { storedValue: storedOrgId, setValue: setStoredOrgId } = useLocalStorage<string | null>('selectedOrgId', null);
 
   const syncGithubOrganizations = async (organizations: Organization[]) => {
-    // Flag de controle no sessionStorage para sincronizar as orgs com o github apenas 1 vez por sessão
     if (sessionStorage.getItem('github_orgs_synced') === 'true') return;
     sessionStorage.setItem('github_orgs_synced', 'true');
 
@@ -55,7 +54,6 @@ export function OrganizationProvider({ children }: Props) {
           const results = await Promise.all(importPromises);
           const hasSuccessfulImport = results.some((res) => res.type === 'success');
 
-          // Só chamamos de novo a API se ao menos uma organização foi importada com sucesso
           if (hasSuccessfulImport) {
             const reloadResult = await organizationQuery.getAllOrganization();
             if (reloadResult.type === 'success') {
@@ -95,17 +93,17 @@ export function OrganizationProvider({ children }: Props) {
 
         setOrganizationList(organizations);
         setHasFetched(true);
-        setIsLoading(false); // Unblock da UI Imediato! A tela é liberada aqui.
-
-        // Inicia a execução em background sem o "await" bloqueando a função atual
-        // Se a sync já rodou nesta sessão, a função abortará rapidamente pela leitura do sessionStorage.
+        setIsLoading(false);
+  
         syncGithubOrganizations(organizations);
       } else {
         toast.error("Erro ao carregar organizações.");
+        setHasFetched(true);
       }
     } catch (error) {
       console.error("Failed to fetch organizations:", error);
       toast.error("Erro ao carregar organizações. Por favor, tente novamente.");
+      setHasFetched(true);
     } finally {
       setIsLoading(false);
     }
