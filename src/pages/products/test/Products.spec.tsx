@@ -339,4 +339,30 @@ describe('Products Component', () => {
       expect(screen.getByText('Tentar Novamente')).toBeInTheDocument();
     });
   });
+
+  it('displays loading indicator while fetching repos', async () => {
+    (organizationQuery.getAllOrganization as jest.Mock).mockResolvedValue({
+      type: 'success',
+      value: [{ id: 'org-1', name: 'Org 1', key: 'org-1', github_org_name: 'org-1' }]
+    });
+
+    let resolveRepos: any;
+    const reposPromise = new Promise(resolve => { resolveRepos = resolve; });
+    (organizationQuery.getGithubRepos as jest.Mock).mockReturnValue(reposPromise);
+
+    render(<Products />);
+
+    await waitFor(() => {
+      expect(screen.getByRole('progressbar')).toBeInTheDocument();
+    });
+
+    resolveRepos({
+      type: 'success',
+      value: []
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
+    });
+  });
 });
