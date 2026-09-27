@@ -150,6 +150,40 @@ const Products: NextPageWithLayout = () => {
 
   const handleSelectOrgRef = useRef<boolean>(false);
   
+  const loadProductsForOrg = async (orgDbId: string) => {
+    const productsRes = await productQuery.getAllProducts(orgDbId);
+    const productList = (productsRes.data?.results || productsRes.data || []) as ProductType[];
+    setProducts(productList);
+    updateProductList(productList as any);
+    if (productList.length > 0) {
+      let defaultProductId = String(productList[0].id);
+      if (currentProduct) {
+        const matchProduct = productList.find(p => String(p.id) === String(currentProduct.id));
+        if (matchProduct) defaultProductId = String(matchProduct.id);
+      }
+      setSelectedProductId(defaultProductId);
+    } else {
+      setSelectedProductId('');
+    }
+  };
+
+  const loadGithubReposForOrg = async (orgDbId: string) => {
+    setRepoFetchError(null);
+    const reposRes = await organizationQuery.getGithubRepos(orgDbId);
+    if (reposRes.type === 'success') {
+      setGitHubRepos(reposRes.value);
+    } else {
+      const status = reposRes.error?.response?.status;
+      if (status === 409) {
+        setRepoFetchError('409');
+        toast.error(`Token do GitHub expirado ou inválido.`);
+      } else {
+        setRepoFetchError('error');
+        toast.error(`Erro ao buscar repositórios do GitHub.`);
+      }
+    }
+  };
+
   const handleSelectOrganization = async (orgName: string) => {
     if (!orgName) return;
     if (handleSelectOrgRef.current) return;
@@ -166,45 +200,13 @@ const Products: NextPageWithLayout = () => {
         orgDbId = await importOrg(orgName);
         if (!orgDbId) {
           toast.error(`Erro ao importar organização no MeasureSoftGram.`);
-          setLoadingProducts(false);
-          setLoadingRepos(false);
           return;
         }
       }
 
       setSelectedOrgDbId(orgDbId);
-
-      // 3. Load products for this database organization ID
-      const productsRes = await productQuery.getAllProducts(orgDbId);
-      const productList = (productsRes.data?.results || productsRes.data || []) as ProductType[];
-      setProducts(productList);
-      updateProductList(productList as any);
-      if (productList.length > 0) {
-        let defaultProductId = String(productList[0].id);
-        if (currentProduct) {
-          const matchProduct = productList.find(p => String(p.id) === String(currentProduct.id));
-          if (matchProduct) defaultProductId = String(matchProduct.id);
-        }
-        setSelectedProductId(defaultProductId);
-      } else {
-        setSelectedProductId('');
-      }
-
-      // 4. Load available GitHub repositories for this organization
-      setRepoFetchError(null);
-      const reposRes = await organizationQuery.getGithubRepos(orgDbId);
-      if (reposRes.type === 'success') {
-        setGitHubRepos(reposRes.value);
-      } else {
-        const status = reposRes.error?.response?.status;
-        if (status === 409) {
-          setRepoFetchError('409');
-          toast.error(`Token do GitHub expirado ou inválido.`);
-        } else {
-          setRepoFetchError('error');
-          toast.error(`Erro ao buscar repositórios do GitHub.`);
-        }
-      }
+      await loadProductsForOrg(orgDbId);
+      await loadGithubReposForOrg(orgDbId);
 
     } catch (error: any) {
       console.error(error);
