@@ -1,8 +1,7 @@
 import React, { useRef } from 'react';
 import dynamic from 'next/dynamic';
 import { Box, Paper, Typography, CircularProgress, Alert } from '@mui/material';
-import { COLOR_TOKENS, formatPulseChartOptions } from '@utils/formatPulseChart';
-import convertToCsv from '@utils/convertToCsv';
+import { COLOR_TOKENS, formatPulseChartOptions, convertPulseRepositoriesToCsv } from '@utils/formatPulseChart';
 import { usePulseChartData } from './usePulseChartData';
 import { PulseChartFilters } from './PulseChartFilters';
 import { PulseChartRepoSidebar } from './PulseChartRepoSidebar';
@@ -37,15 +36,17 @@ export const PulseChart: React.FC<Props> = ({ organizationId, productId }) => {
 
   const handleExportCsv = () => {
     if (!filteredRepositories.length) return;
-    const csvContent = convertToCsv(filteredRepositories as any, { dateRange: { startDate: null, endDate: null } });
-    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const csvContent = convertPulseRepositoriesToCsv(filteredRepositories);
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `msgram-evolucao-qualidade-${new Date().toISOString()}.csv`;
+    const timestamp = new Date().toISOString().split('T')[0];
+    a.download = `msgram-evolucao-qualidade-${timestamp}.csv`;
     a.click();
     window.URL.revokeObjectURL(url);
   };
+
 
   if (isLoading) {
     return (
