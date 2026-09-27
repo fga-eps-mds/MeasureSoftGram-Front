@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import Head from 'next/head';
 import type { GetStaticProps } from 'next';
 import { Box } from '@mui/material';
@@ -15,10 +15,6 @@ import { CommunitySection } from './components/CommunitySection';
 import { LandingFooter } from './components/LandingFooter';
 import { SITE_URL, OG_IMAGE_PATH } from './constants';
 
-// Locale usado para resolver as tags do <head> no servidor. O crawler de
-// OpenGraph (WhatsApp, Slack, redes sociais) le o HTML renderizado pelo
-// servidor, onde o `t()` do react-i18next ainda nao resolveu. Por isso o meta
-// e montado a partir das strings carregadas em build time, e nao via hook.
 const META_LOCALE = 'pt';
 
 interface LandingMeta {
@@ -33,6 +29,12 @@ interface LandingProps {
 }
 
 const Landing: React.FC<LandingProps> = ({ meta }) => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const pageTitle = `${meta.metaTitle} - ${meta.heroTitle}`;
 
   return (
@@ -41,7 +43,7 @@ const Landing: React.FC<LandingProps> = ({ meta }) => {
         <title>{pageTitle}</title>
         <meta name="description" content={meta.metaDescription} />
 
-        {/* Open Graph: preview do link em WhatsApp, Slack, LinkedIn, etc. */}
+        {/* Open Graph */}
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={meta.metaDescription} />
         <meta property="og:type" content="website" />
@@ -49,37 +51,36 @@ const Landing: React.FC<LandingProps> = ({ meta }) => {
         <meta property="og:image" content={meta.ogImage} />
         <meta property="og:site_name" content={meta.metaTitle} />
 
-        {/* Twitter Card: preview do link no X/Twitter. */}
+        {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={pageTitle} />
         <meta name="twitter:description" content={meta.metaDescription} />
         <meta name="twitter:image" content={meta.ogImage} />
       </Head>
-      <Box component="main" sx={{ backgroundColor: '#ffffff' }}>
-        <LandingHeader />
-        <HeroSection />
-        <HowItWorksSection />
-        <ValuePropsSection />
-        <IntegrationsSection />
-        <PublicationsSection />
-        <CommunitySection />
-        <LandingFooter />
+      <Box component="main" sx={{ backgroundColor: '#ffffff', minHeight: '100vh' }}>
+        {mounted && (
+          <>
+            <LandingHeader />
+            <HeroSection />
+            <HowItWorksSection />
+            <ValuePropsSection />
+            <IntegrationsSection />
+            <PublicationsSection />
+            <CommunitySection />
+            <LandingFooter />
+          </>
+        )}
       </Box>
     </>
   );
 };
 
-// getLayout: a landing renderiza sem o layout autenticado padrao.
 (Landing as NextPageWithLayout<LandingProps>).getLayout = function getLayout(page: ReactElement) {
   return page;
 };
 
-// Resolve as strings do <head> no servidor (build time). Sem isso, o crawler
-// de OpenGraph receberia as chaves cruas ("meta.title - hero.title"), porque o
-// react-i18next so resolve apos a hidratacao no cliente.
 export const getStaticProps: GetStaticProps<LandingProps> = async () => {
   const serverState = await loadTranslations(ni18nConfig, META_LOCALE, 'landing');
-  // __ni18n_server__ e o contrato interno do ni18n para hidratar o cliente.
   // eslint-disable-next-line no-underscore-dangle
   const landingResources: any = serverState?.__ni18n_server__?.resources?.[META_LOCALE]?.landing ?? {};
 
@@ -89,7 +90,6 @@ export const getStaticProps: GetStaticProps<LandingProps> = async () => {
     'Meca a qualidade do seu software de forma objetiva, com base em metricas coletadas do seu proprio pipeline.';
   const heroTitle = landingResources?.hero?.title ?? metaTitle;
 
-  // og:image precisa ser uma URL absoluta para o crawler conseguir buscar.
   const ogImage = new URL(OG_IMAGE_PATH, SITE_URL).toString();
 
   return {
