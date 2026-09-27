@@ -6,6 +6,19 @@ import { RepositoryProvider } from '@contexts/RepositoryProvider';
 import { ProductProvider } from '@contexts/ProductProvider';
 import api from '@services/api';
 
+const mockOrganization = { current: { id: '1' } as { id: string } | null };
+const mockProduct = { current: { id: '2' } as { id: string } | null };
+
+jest.mock('@contexts/OrganizationProvider', () => ({
+  ...jest.requireActual('@contexts/OrganizationProvider'),
+  useOrganizationContext: () => ({ currentOrganization: mockOrganization.current })
+}));
+
+jest.mock('@contexts/ProductProvider', () => ({
+  ...jest.requireActual('@contexts/ProductProvider'),
+  useProductContext: () => ({ currentProduct: mockProduct.current })
+}));
+
 const AllTheProviders = ({ children }: any) => (
   <OrganizationProvider>
     <ProductProvider>
@@ -63,5 +76,20 @@ describe('useHistoricalCharacteristics', () => {
     await waitFor(() => result.current.isLoading === false);
     rerender();
     await expect(result.current).resolves.toMatchSnapshot();
+  });
+
+  it.each([
+    ['organization', () => { mockOrganization.current = null; }, '1'],
+    ['product', () => { mockProduct.current = null; }, '1'],
+    ['repositoryId', () => {}, '']
+  ])('should not request when the %s is missing', (_name, clear, repositoryId) => {
+    const getSpy = jest.spyOn(api, 'get').mockClear();
+    clear();
+
+    renderHook(() => useHistoricalCharacteristics(repositoryId), { wrapper: AllTheProviders });
+
+    expect(getSpy).not.toHaveBeenCalledWith(expect.stringContaining('historical-values'));
+    mockOrganization.current = { id: '1' };
+    mockProduct.current = { id: '2' };
   });
 });

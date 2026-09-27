@@ -11,6 +11,7 @@ import { SideMenuProvider } from '@contexts/SidebarProvider/SideMenuProvider';
 import { useProductContext } from '@contexts/ProductProvider';
 import { useAuth } from '@contexts/Auth';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
+import { useQuery } from '@hooks/useQuery';
 import SideMenu from './SideMenu';
 import Breadcrumbs from './Breadcrumbs';
 
@@ -94,6 +95,7 @@ function HeaderUserMenu() {
 }
 
 function Layout({ children, rightSide, disableBreadcrumb = false }: Props) {
+  useQuery();
   const { productsList } = useProductContext();
   const { organizationList } = useOrganizationContext();
 

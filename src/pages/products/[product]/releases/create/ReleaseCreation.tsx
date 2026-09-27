@@ -65,28 +65,46 @@ function ReleaseCreation() {
       setProductName(productTitle);
 
       const getPreConfig = async () => {
+        const [entitiesResult, goalResult, defaultResult, currentResult, balanceResult] = await Promise.allSettled([
+          productQuery.getPreConfigEntitiesRelationship(organization, productIdentifier),
+          productQuery.getCurrentReleaseGoal(organization, productIdentifier),
+          productQuery.getProductDefaultPreConfig(organization, productIdentifier),
+          productQuery.getProductCurrentPreConfig(organization, productIdentifier),
+          balanceMatrixService.getBalanceMatrix()
+        ]);
+
         let currentReleaseGoal: any;
-        let entitiesRelationship;
-
-        try {
-          entitiesRelationship = await productQuery.getPreConfigEntitiesRelationship(organization, productIdentifier);
-          setPreConfigEntitiesRelationship(entitiesRelationship.data);
-
-          currentReleaseGoal = await productQuery.getCurrentReleaseGoal(organization, productIdentifier);
-          setReleaseGoal(currentReleaseGoal.data);
-
-          await getPreConfigs(organization, productIdentifier, currentReleaseGoal.data)
-        } catch (error) {
+        if (entitiesResult.status === 'fulfilled' && goalResult.status === 'fulfilled') {
+          currentReleaseGoal = goalResult.value.data;
+        } else {
           const data: Record<string, number> = {};
 
-          entitiesRelationship?.data.forEach((element: { key: string | number; }) => {
-            data[element.key] = 50;
-          });
+          if (entitiesResult.status === 'fulfilled') {
+            entitiesResult.value.data.forEach((element: { key: string | number; }) => {
+              data[element.key] = 50;
+            });
+          }
 
           currentReleaseGoal = { id: 0, data, allow_dynamic: false };
-          setReleaseGoal(currentReleaseGoal);
+        }
+        setReleaseGoal(currentReleaseGoal);
 
-          await getPreConfigs(organization, productIdentifier, currentReleaseGoal)
+        if (defaultResult.status === 'fulfilled') {
+          const defaultData = defaultResult.value.data;
+          setConfigPageData(formatConfig(defaultData, currentReleaseGoal));
+          setConfigDefaultPageData(formatConfig(defaultData, currentReleaseGoal));
+
+          if (currentResult.status === 'fulfilled') {
+            setLastConfigPageData(formatConfig(mergeWithDefault(currentResult.value.data.data, defaultData), currentReleaseGoal));
+          }
+        }
+
+        if (balanceResult.status === 'fulfilled') {
+          setBalanceMatrix(balanceResult.value.data.result);
+        }
+
+        if (defaultResult.status === 'rejected' || currentResult.status === 'rejected' || balanceResult.status === 'rejected') {
+          enqueueSnackbar(t('getPreConfigError'), { autoHideDuration: 10000, variant: 'error' })
         }
       }
 
@@ -94,23 +112,6 @@ function ReleaseCreation() {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady, routerParams.product]);
-
-
-  async function getPreConfigs(organization: string, productIdentifier: string, currentReleaseGoal: any) {
-    try {
-      const defaultPreConfigResult = await productQuery.getProductDefaultPreConfig(organization, productIdentifier);
-      setConfigPageData(formatConfig(defaultPreConfigResult.data, currentReleaseGoal));
-      setConfigDefaultPageData(formatConfig(defaultPreConfigResult.data, currentReleaseGoal));
-
-      const currentPreConfigResult = await productQuery.getProductCurrentPreConfig(organization, productIdentifier);
-      setLastConfigPageData(formatConfig(mergeWithDefault(currentPreConfigResult.data.data, defaultPreConfigResult.data), currentReleaseGoal));
-
-      const balance = await balanceMatrixService.getBalanceMatrix();
-      setBalanceMatrix(balance.data.result);
-    } catch (error) {
-      enqueueSnackbar(t('getPreConfigError'), { autoHideDuration: 10000, variant: 'error' })
-    }
-  }
 
   function mergeWithDefault(current: PreConfigData, defaultData: PreConfigData): PreConfigData {
     const findOrCreate = <T extends { key: string }>(array: T[], key: string, defaultEntry: T): T => {
