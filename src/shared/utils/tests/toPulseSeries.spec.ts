@@ -47,4 +47,3 @@ describe('toPulseSeries', () => {
     expect(result[5][1]).toBe(0.70); // Retorna à base média
   });
 });
-
