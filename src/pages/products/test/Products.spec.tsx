@@ -301,4 +301,42 @@ describe('Products Component', () => {
     });
     expect(await screen.findByText('Org 3')).toBeInTheDocument();
   });
+
+  it('handles github repos fetch 409 error correctly', async () => {
+    (organizationQuery.getAllOrganization as jest.Mock).mockResolvedValueOnce({
+      type: 'success',
+      value: [{ id: 'org-1', name: 'Org 1', key: 'org-1', github_org_name: 'org-1' }]
+    });
+
+    (organizationQuery.getGithubRepos as jest.Mock).mockResolvedValueOnce({
+      type: 'error',
+      error: { response: { status: 409 } }
+    });
+
+    await act(async () => { render(<Products />); });
+
+    await waitFor(() => {
+      expect(screen.getByText('Token do GitHub expirado ou inválido')).toBeInTheDocument();
+      expect(screen.getByText('Autorizar GitHub')).toBeInTheDocument();
+    });
+  });
+
+  it('handles github repos fetch generic error correctly', async () => {
+    (organizationQuery.getAllOrganization as jest.Mock).mockResolvedValueOnce({
+      type: 'success',
+      value: [{ id: 'org-1', name: 'Org 1', key: 'org-1', github_org_name: 'org-1' }]
+    });
+
+    (organizationQuery.getGithubRepos as jest.Mock).mockResolvedValueOnce({
+      type: 'error',
+      error: { response: { status: 500 } }
+    });
+
+    await act(async () => { render(<Products />); });
+
+    await waitFor(() => {
+      expect(screen.getByText('Não foi possível carregar os repositórios')).toBeInTheDocument();
+      expect(screen.getByText('Tentar Novamente')).toBeInTheDocument();
+    });
+  });
 });

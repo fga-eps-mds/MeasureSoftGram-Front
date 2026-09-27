@@ -46,7 +46,6 @@ interface ProductType {
 const Products: NextPageWithLayout = () => {
   useRequireAuth();
   const { t: tp } = useTranslation('product');
-  const { t: to } = useTranslation('organization');
   const router = useRouter();
 
   const { organizationList, setCurrentOrganizations, fetchOrganizations, currentOrganization } = useOrganizationContext();
@@ -61,7 +60,6 @@ const Products: NextPageWithLayout = () => {
   const [selectedProductId, setSelectedProductId] = useState<string>('');
 
   const [gitHubRepos, setGitHubRepos] = useState<GitHubRepo[]>([]);
-  const [importedRepos, setImportedRepos] = useState<any[]>([]);
   const [importedRepoUrls, setImportedRepoUrls] = useState<string[]>([]);
   const [loadingOrgs, setLoadingOrgs] = useState<boolean>(true);
   const [loadingProducts, setLoadingProducts] = useState<boolean>(false);
@@ -135,7 +133,6 @@ const Products: NextPageWithLayout = () => {
   const getBackendOrgId = async (orgName: string): Promise<string> => {
     const res = await organizationQuery.getAllOrganization();
     if (res.type !== 'success') return '';
-    const ghName = orgName.toLowerCase();
     const match = res.value.find((o: any) => 
       isSameGithubOrg(orgName, o.name, o.key, o.github_org_name)
     );
@@ -162,7 +159,6 @@ const Products: NextPageWithLayout = () => {
     setProducts([]);
     setGitHubRepos([]);
     setImportedRepoUrls([]);
-    setImportedRepos([]);
     try {
       let orgDbId = await getBackendOrgId(orgName);
 
@@ -224,7 +220,6 @@ const Products: NextPageWithLayout = () => {
     try {
       const res = await productQuery.getAllRepositories(orgDbId, productId);
       const repoList = res?.data?.results || res?.data || [];
-      setImportedRepos(repoList);
       const urls = repoList.map((r: any) => r.url);
       setImportedRepoUrls(urls);
       if (lastLoadedProductIdRef.current !== productId) {
@@ -315,7 +310,6 @@ const Products: NextPageWithLayout = () => {
         setProducts([]);
         setGitHubRepos([]);
         setImportedRepoUrls([]);
-        setImportedRepos([]);
         setSelectedProductId('');
       }
     }
@@ -491,32 +485,42 @@ const Products: NextPageWithLayout = () => {
                 </Box>
               </Box>
 
-              {loadingRepos ? (
-                <Box display="flex" justifyContent="center" alignItems="center" padding="4rem">
-                  <CircularProgress />
-                </Box>
-              ) : repoFetchError === '409' ? (
-                <Box padding="4rem" textAlign="center">
-                  <Typography variant="h6" color="error" gutterBottom>
-                    Token do GitHub expirado ou inválido
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary" paragraph>
-                    Para carregar os repositórios, autorize o aplicativo novamente.
-                  </Typography>
-                  <Button variant="contained" color="primary" onClick={() => window.open(`https://github.com/login/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID}&scope=repo`, '_self')}>
-                    Autorizar GitHub
-                  </Button>
-                </Box>
-              ) : repoFetchError === 'error' ? (
-                <Box padding="4rem" textAlign="center">
-                  <Typography variant="h6" color="error" gutterBottom>
-                    Não foi possível carregar os repositórios
-                  </Typography>
-                  <Button variant="outlined" color="primary" onClick={() => handleSelectOrganization(selectedOrgName)}>
-                    Tentar Novamente
-                  </Button>
-                </Box>
-              ) : (
+              {(() => {
+                if (loadingRepos) {
+                  return (
+                    <Box display="flex" justifyContent="center" alignItems="center" padding="4rem">
+                      <CircularProgress />
+                    </Box>
+                  );
+                }
+                if (repoFetchError === '409') {
+                  return (
+                    <Box padding="4rem" textAlign="center">
+                      <Typography variant="h6" color="error" gutterBottom>
+                        Token do GitHub expirado ou inválido
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary" paragraph>
+                        Para carregar os repositórios, autorize o aplicativo novamente.
+                      </Typography>
+                      <Button variant="contained" color="primary" onClick={() => window.open(`https://github.com/login/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID}&scope=repo`, '_self')}>
+                        Autorizar GitHub
+                      </Button>
+                    </Box>
+                  );
+                }
+                if (repoFetchError === 'error') {
+                  return (
+                    <Box padding="4rem" textAlign="center">
+                      <Typography variant="h6" color="error" gutterBottom>
+                        Não foi possível carregar os repositórios
+                      </Typography>
+                      <Button variant="outlined" color="primary" onClick={() => handleSelectOrganization(selectedOrgName)}>
+                        Tentar Novamente
+                      </Button>
+                    </Box>
+                  );
+                }
+                return (
                 <List sx={{ padding: 0 }}>
                   {filteredRepos.length > 0 ? (
                     filteredRepos.slice((page - 1) * itemsPerPage, page * itemsPerPage).map((repo) => {
@@ -588,7 +592,8 @@ const Products: NextPageWithLayout = () => {
                     </Box>
                   )}
                 </List>
-              )}
+                );
+              })()}
 
               {!loadingRepos && filteredRepos.length > 0 && (
                 <Box display="flex" justifyContent="center" padding="2rem">
