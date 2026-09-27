@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import { formatRelative } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
-import { Box, CircularProgress, Container, Typography } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 
 import { useProductContext } from '@contexts/ProductProvider';
-import { useGrafanaDashboard } from '@hooks/useGrafanaDashboard';
 import { useRequest } from '@hooks/useRequest';
 import { productQuery } from '@services/product';
 import PulseChart from '@components/PulseChart';
@@ -39,10 +38,6 @@ const ProductContent: React.FC = () => {
     : Array.isArray(releaseData?.results)
     ? releaseData.results
     : [];
-
-  const { grafanaUrl, loading: isGrafanaLoading, error } = useGrafanaDashboard({
-    uid: 'ad2c5q4',
-  });
 
   const lastUpdateDate =
     currentProduct &&
@@ -84,39 +79,8 @@ const ProductContent: React.FC = () => {
         <NoReleasesState productName={currentProduct?.name} />
       ) : (
         <Box display="flex" flexDirection="column" gap={4}>
-          {/* Native ECharts Pulse Chart (Issue #67) */}
+          {/* Native ECharts Pulse Chart (Issue #48 / #67 / #68) */}
           <PulseChart organizationId={organizationId} productId={productId} />
-
-          {/* Legacy Grafana Dashboard iframe for side-by-side validation */}
-          <Box display="flex" flexDirection="column" gap={1}>
-            <Typography variant="subtitle1" fontWeight="bold" color="#33568E">
-              Validação de Dados — Painel Grafana (Legado)
-            </Typography>
-            <Box
-              sx={{
-                width: '100%',
-                height: '70vh',
-                border: '1px solid #d0d7de',
-                borderRadius: '8px',
-                overflow: 'hidden',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              {isGrafanaLoading && <CircularProgress />}
-              {error && (
-                <Typography color="error">Não foi possível carregar o dashboard do Grafana.</Typography>
-              )}
-              {grafanaUrl && !isGrafanaLoading && (
-                <iframe
-                  src={grafanaUrl}
-                  title="Dashboard de Pulso Grafana"
-                  style={{ width: '100%', height: '100%', border: 'none' }}
-                />
-              )}
-            </Box>
-          </Box>
         </Box>
       )}
     </Container>
