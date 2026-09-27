@@ -83,6 +83,7 @@ export interface PulseMeasurement {
 export interface PulseRelease {
   name: string;
   version: string;
+  start_at?: string;
   end_at: string;
 }
 
@@ -120,34 +121,68 @@ export function formatPulseChartOptions(repositories: PulseRepositoryData[]) {
     const values = sortedMeasurements.map((m) => m.value);
     const pulseData = toPulseSeries(ts, values);
 
-    // Releases markLines
-    const markLineData = repo.releases.map((rel) => {
+    // Releases markLines (Início e Fim da Release)
+    const markLineData: any[] = [];
+
+    repo.releases.forEach((rel) => {
       const labelText =
         rel.version === rel.name || !rel.name
           ? rel.version || rel.name
           : `${rel.version} ${rel.name}`;
 
-      return {
-        name: labelText,
-        xAxis: new Date(rel.end_at).getTime(),
-        label: {
-          show: true,
-          formatter: labelText,
-          position: 'end',
-          backgroundColor: COLOR_TOKENS.primary,
-          color: '#FFFFFF',
-          fontSize: 10.5,
-          fontFamily: 'Roboto',
-          padding: [3, 6],
-          borderRadius: 3,
-        },
-        lineStyle: {
-          color: COLOR_TOKENS.secondary,
-          type: [4, 3],
-          width: 1.5,
-        },
-      };
+      if (rel.start_at) {
+        const startMs = new Date(rel.start_at).getTime();
+        if (!isNaN(startMs)) {
+          markLineData.push({
+            name: `Início ${labelText}`,
+            xAxis: startMs,
+            label: {
+              show: true,
+              formatter: `Início ${labelText}`,
+              position: 'start',
+              backgroundColor: 'rgba(95, 126, 163, 0.85)',
+              color: '#FFFFFF',
+              fontSize: 10,
+              fontFamily: 'Roboto',
+              padding: [2, 5],
+              borderRadius: 3,
+            },
+            lineStyle: {
+              color: COLOR_TOKENS.secondary,
+              type: 'dotted',
+              width: 1.5,
+            },
+          });
+        }
+      }
+
+      if (rel.end_at) {
+        const endMs = new Date(rel.end_at).getTime();
+        if (!isNaN(endMs)) {
+          markLineData.push({
+            name: labelText,
+            xAxis: endMs,
+            label: {
+              show: true,
+              formatter: labelText,
+              position: 'end',
+              backgroundColor: COLOR_TOKENS.primary,
+              color: '#FFFFFF',
+              fontSize: 10.5,
+              fontFamily: 'Roboto',
+              padding: [3, 6],
+              borderRadius: 3,
+            },
+            lineStyle: {
+              color: COLOR_TOKENS.primary,
+              type: [4, 3],
+              width: 1.5,
+            },
+          });
+        }
+      }
     });
+
 
 
     grids.push({
@@ -330,4 +365,45 @@ export function formatPulseChartOptions(repositories: PulseRepositoryData[]) {
     ],
   };
 }
+
+export function convertPulseRepositoriesToCsv(repositories: PulseRepositoryData[]): string {
+  const csvHeader = [
+    'id',
+    'key',
+    'name',
+    'description',
+    'historyId',
+    'history_characteristic_id',
+    'history_value',
+    'history_created_at',
+    'quality_status',
+  ];
+
+  const rows: string[][] = [];
+
+  repositories.forEach((repo) => {
+    const sorted = [...repo.measurements].sort(
+      (a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+    );
+
+    sorted.forEach((m, idx) => {
+      const status = getQualityStatus(m.value);
+      rows.push([
+        String(repo.id),
+        '',
+        `"${repo.name.replace(/"/g, '""')}"`,
+        '',
+        String(idx + 1),
+        '',
+        String(m.value),
+        m.created_at,
+        status.label,
+      ]);
+    });
+  });
+
+  const lines = [csvHeader, ...rows];
+  return lines.map((line) => line.join(',')).join('\n');
+}
+
 

@@ -39,10 +39,12 @@ export function usePulseChartData(organizationId?: string, productId?: string) {
       : [];
 
     const parsedReleases = rawReleases.map((rel) => ({
-      name: rel.release_name || '',
-      version: rel.release_name || '',
+      name: rel.release_name || rel.name || '',
+      version: rel.release_name || rel.version || '',
+      start_at: rel.start_at,
       end_at: rel.end_at,
     }));
+
 
 
     return tsqmiHistoryData.results.map((repo) => ({
