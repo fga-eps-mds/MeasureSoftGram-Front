@@ -34,25 +34,14 @@ import { repository } from "@services/repository";
 import { useOrganizationContext } from "@contexts/OrganizationProvider";
 import { useProductContext } from "@contexts/ProductProvider";
 import { useAuth } from "@contexts/Auth";
+import { isSameGithubOrg } from "@utils/isSameGithubOrg";
 
 interface ProductType {
   id: string | number;
   name: string;
 }
 
-const isSameGithubOrg = (ghNameCandidate: string | undefined, dbName: string | undefined, dbKey: string | undefined, exactGhName?: string) => {
-  if (exactGhName && exactGhName === ghNameCandidate) {
-    return true;
-  }
-  const gh = ghNameCandidate?.toLowerCase() || '';
-  const db = dbName?.toLowerCase() || '';
-  const key = dbKey?.toLowerCase() || '';
-  
-  return gh === db || 
-         (key && gh === key) ||
-         (db.length > 3 && gh.includes(db.replace(/[^a-z0-9]/g, '-'))) ||
-         (db.length > 3 && gh.includes(db.replace(/[^a-z0-9]/g, '')));
-};
+
 
 const Products: NextPageWithLayout = () => {
   useRequireAuth();
