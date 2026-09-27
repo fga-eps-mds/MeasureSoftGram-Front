@@ -30,6 +30,11 @@ describe('isSameGithubOrg utility function', () => {
     expect(isSameGithubOrg('my-org-test-2026', 'My Org Test 2026', '')).toBe(true);
   });
 
+  it('should return true for fuzzy matching when dbName is stripped of spaces entirely', () => {
+    // dbName replaced string becomes 'myorgtest2026' which is included in ghNameCandidate
+    expect(isSameGithubOrg('myorgtest2026', 'My Org Test 2026', '')).toBe(true);
+  });
+
   it('should return false for fuzzy matching when dbName is 3 characters or shorter', () => {
     // O fuzzy match exige dbName.length > 3
     expect(isSameGithubOrg('abc-def', 'Abc', '')).toBe(false);
