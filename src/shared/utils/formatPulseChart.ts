@@ -121,26 +121,34 @@ export function formatPulseChartOptions(repositories: PulseRepositoryData[]) {
     const pulseData = toPulseSeries(ts, values);
 
     // Releases markLines
-    const markLineData = repo.releases.map((rel) => ({
-      name: `${rel.version} ${rel.name}`,
-      xAxis: new Date(rel.end_at).getTime(),
-      label: {
-        show: true,
-        formatter: `${rel.version} ${rel.name}`,
-        position: 'end',
-        backgroundColor: COLOR_TOKENS.primary,
-        color: '#FFFFFF',
-        fontSize: 10.5,
-        fontFamily: 'Roboto',
-        padding: [3, 6],
-        borderRadius: 3,
-      },
-      lineStyle: {
-        color: COLOR_TOKENS.secondary,
-        type: [4, 3],
-        width: 1.5,
-      },
-    }));
+    const markLineData = repo.releases.map((rel) => {
+      const labelText =
+        rel.version === rel.name || !rel.name
+          ? rel.version || rel.name
+          : `${rel.version} ${rel.name}`;
+
+      return {
+        name: labelText,
+        xAxis: new Date(rel.end_at).getTime(),
+        label: {
+          show: true,
+          formatter: labelText,
+          position: 'end',
+          backgroundColor: COLOR_TOKENS.primary,
+          color: '#FFFFFF',
+          fontSize: 10.5,
+          fontFamily: 'Roboto',
+          padding: [3, 6],
+          borderRadius: 3,
+        },
+        lineStyle: {
+          color: COLOR_TOKENS.secondary,
+          type: [4, 3],
+          width: 1.5,
+        },
+      };
+    });
+
 
     grids.push({
       left: 220,
@@ -213,7 +221,6 @@ export function formatPulseChartOptions(repositories: PulseRepositoryData[]) {
       showSymbol: false,
       hoverAnimation: false,
       lineStyle: {
-        color: latestStatus.color,
         width: 2,
       },
       data: pulseData,
@@ -236,6 +243,18 @@ export function formatPulseChartOptions(repositories: PulseRepositoryData[]) {
         type: 'dashed',
       },
     },
+    visualMap: [
+      {
+        show: false,
+        dimension: 1,
+        seriesIndex: Array.from({ length: gridCount }, (_, i) => i),
+        pieces: [
+          { lte: 0.399, color: COLOR_TOKENS.critical },
+          { gte: 0.4, lte: 0.699, color: COLOR_TOKENS.warning },
+          { gte: 0.7, color: COLOR_TOKENS.adequate },
+        ],
+      },
+    ],
     tooltip: {
       trigger: 'axis',
       backgroundColor: '#FFFFFF',
@@ -247,6 +266,45 @@ export function formatPulseChartOptions(repositories: PulseRepositoryData[]) {
         color: '#1F2937',
         fontSize: 12,
         fontFamily: 'Roboto',
+      },
+      formatter: (params: any[]) => {
+        if (!params || !params.length) return '';
+        const firstParam = params[0];
+        const dateStr = new Date(firstParam.value[0]).toISOString().split('T')[0];
+
+        let html = `<div style="font-weight:bold; font-size:14px; margin-bottom:8px;">${dateStr}</div>`;
+
+        params.forEach((p: any) => {
+          const repoName = p.seriesName;
+          const val = p.value[1];
+          const status = getQualityStatus(val);
+
+          const rawIdx = Math.floor(p.dataIndex / 3);
+          const repo = repositories.find((r) => r.name === repoName);
+          let varText = '';
+
+          if (repo && repo.measurements && rawIdx > 0) {
+            const sortedM = [...repo.measurements].sort(
+              (a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+            );
+            const prevVal = sortedM[rawIdx - 1]?.value;
+            if (prevVal !== undefined) {
+              const diff = val - prevVal;
+              const sign = diff >= 0 ? '+' : '';
+              const diffColor = diff >= 0 ? COLOR_TOKENS.adequate : COLOR_TOKENS.critical;
+              if (diff !== 0) {
+                varText = ` <span style="color: ${diffColor}">(${sign}${diff.toFixed(4)})</span>`;
+              }
+            }
+          }
+
+          html += `<div style="display:flex; align-items:center; gap:6px; margin-top:4px;">
+            <span style="display:inline-block; width:8px; height:8px; background-color:${status.color}; border-radius:2px;"></span>
+            <span><strong>${repoName}:</strong> ${val.toFixed(4)}${varText}</span>
+          </div>`;
+        });
+
+        return html;
       },
     },
     grid: grids,
@@ -272,3 +330,4 @@ export function formatPulseChartOptions(repositories: PulseRepositoryData[]) {
     ],
   };
 }
+
