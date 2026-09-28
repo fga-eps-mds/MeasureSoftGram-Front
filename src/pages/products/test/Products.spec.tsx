@@ -77,7 +77,7 @@ describe('Products Component', () => {
   });
 
   it('renders and loads initial data', async () => {
-    await act(async () => { render(<Products />); });
+    render(<Products />);
     
     await waitFor(() => {
       expect(organizationQuery.getGithubOrganizations).toHaveBeenCalled();
@@ -90,7 +90,7 @@ describe('Products Component', () => {
     (useRouter as jest.Mock).mockReturnValue({ query: { code: '123' }, replace: mockReplace });
     mockSignInWithGithub.mockResolvedValueOnce({ type: 'success' });
     
-    await act(async () => { render(<Products />); });
+    render(<Products />);
     
     await waitFor(() => {
       expect(mockSignInWithGithub).toHaveBeenCalledWith('123');
@@ -102,7 +102,7 @@ describe('Products Component', () => {
     (useRouter as jest.Mock).mockReturnValue({ query: { code: '123' }, replace: mockReplace });
     mockSignInWithGithub.mockResolvedValueOnce({ type: 'error' });
     
-    await act(async () => { render(<Products />); });
+    render(<Products />);
     
     await waitFor(() => {
       expect(toast.error).toHaveBeenCalledWith("Erro ao vincular organizações do GitHub.");
@@ -123,7 +123,7 @@ describe('Products Component', () => {
       value: { id: 'org-1' }
     });
 
-    await act(async () => { render(<Products />); });
+    render(<Products />);
 
     await waitFor(() => {
       expect(organizationQuery.importOrganization).toHaveBeenCalled();
@@ -137,7 +137,7 @@ describe('Products Component', () => {
   it('handles importing a repo successfully', async () => {
     (repository.createRepository as jest.Mock).mockResolvedValueOnce({ type: 'success' });
     
-    await act(async () => { render(<Products />); });
+    render(<Products />);
 
     await waitFor(() => {
       expect(screen.getByText('Repo 1')).toBeInTheDocument();
@@ -155,7 +155,7 @@ describe('Products Component', () => {
   it('handles importing a repo with error', async () => {
     (repository.createRepository as jest.Mock).mockResolvedValueOnce({ type: 'error', error: { message: 'Erro teste' } });
     
-    await act(async () => { render(<Products />); });
+    render(<Products />);
 
     await waitFor(() => {
       expect(screen.getByText('Repo 1')).toBeInTheDocument();
@@ -175,7 +175,7 @@ describe('Products Component', () => {
       value: Array.from({ length: 15 }).map((_, i) => ({ github_repo_id: i, name: `Repo ${i}`, url: `http://repo${i}`, description: '' }))
     });
 
-    await act(async () => { render(<Products />); });
+    render(<Products />);
 
     await waitFor(() => {
       expect(screen.getByText('Repo 0')).toBeInTheDocument();
@@ -218,7 +218,7 @@ describe('Products Component', () => {
       data: { results: [] }
     });
 
-    await act(async () => { render(<Products />); });
+    render(<Products />);
 
     await waitFor(() => {
       expect(screen.getByText('Esta organização ainda não possui nenhum produto cadastrado.')).toBeInTheDocument();
@@ -234,7 +234,7 @@ describe('Products Component', () => {
       type: 'error'
     });
 
-    await act(async () => { render(<Products />); });
+    render(<Products />);
 
     await waitFor(() => {
       expect(toast.error).toHaveBeenCalledWith('Erro ao buscar organizações do GitHub.');
@@ -244,7 +244,7 @@ describe('Products Component', () => {
   it('handles loadGitHubOrgs exception', async () => {
     (organizationQuery.getGithubOrganizations as jest.Mock).mockRejectedValue(new Error('Network error'));
 
-    await act(async () => { render(<Products />); });
+    render(<Products />);
 
     await waitFor(() => {
       expect(toast.error).toHaveBeenCalledWith('Erro ao carregar organizações.');
@@ -266,7 +266,7 @@ describe('Products Component', () => {
       value: [{ github_org_id: 2, github_org_name: 'Org 2', description: 'Desc' }]
     });
 
-    await act(async () => { render(<Products />); });
+    render(<Products />);
 
     await waitFor(() => {
       expect(organizationQuery.getGithubOrganizations).toHaveBeenCalled();
@@ -294,11 +294,75 @@ describe('Products Component', () => {
       value: [{ github_org_id: 3, github_org_name: 'Org 3', description: 'Desc' }]
     });
 
-    await act(async () => { render(<Products />); });
+    render(<Products />);
 
     await waitFor(() => {
       expect(organizationQuery.getOrganizationById).toHaveBeenCalledWith('org-3');
     });
     expect(await screen.findByText('Org 3')).toBeInTheDocument();
+  });
+
+  it('handles github repos fetch 409 error correctly', async () => {
+    (organizationQuery.getAllOrganization as jest.Mock).mockResolvedValueOnce({
+      type: 'success',
+      value: [{ id: 'org-1', name: 'Org 1', key: 'org-1', github_org_name: 'org-1' }]
+    });
+
+    (organizationQuery.getGithubRepos as jest.Mock).mockResolvedValueOnce({
+      type: 'error',
+      error: { response: { status: 409 } }
+    });
+
+    render(<Products />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Token do GitHub expirado ou inválido')).toBeInTheDocument();
+      expect(screen.getByText('Autorizar GitHub')).toBeInTheDocument();
+    });
+  });
+
+  it('handles github repos fetch generic error correctly', async () => {
+    (organizationQuery.getAllOrganization as jest.Mock).mockResolvedValueOnce({
+      type: 'success',
+      value: [{ id: 'org-1', name: 'Org 1', key: 'org-1', github_org_name: 'org-1' }]
+    });
+
+    (organizationQuery.getGithubRepos as jest.Mock).mockResolvedValueOnce({
+      type: 'error',
+      error: { response: { status: 500 } }
+    });
+
+    render(<Products />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Não foi possível carregar os repositórios')).toBeInTheDocument();
+      expect(screen.getByText('Tentar Novamente')).toBeInTheDocument();
+    });
+  });
+
+  it('displays loading indicator while fetching repos', async () => {
+    (organizationQuery.getAllOrganization as jest.Mock).mockResolvedValue({
+      type: 'success',
+      value: [{ id: 'org-1', name: 'Org 1', key: 'org-1', github_org_name: 'org-1' }]
+    });
+
+    let resolveRepos: any;
+    const reposPromise = new Promise(resolve => { resolveRepos = resolve; });
+    (organizationQuery.getGithubRepos as jest.Mock).mockReturnValue(reposPromise);
+
+    render(<Products />);
+
+    await waitFor(() => {
+      expect(screen.getByRole('progressbar')).toBeInTheDocument();
+    });
+
+    resolveRepos({
+      type: 'success',
+      value: []
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
+    });
   });
 });

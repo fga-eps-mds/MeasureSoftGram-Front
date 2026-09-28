@@ -1050,53 +1050,53 @@ describe('ReleaseInfo Component', () => {
   it('should test modal back', async () => {
     (productQuery.getProductDefaultPreConfig as jest.Mock).mockResolvedValue({
       data: {
-        "characteristics": [
+        characteristics: [
           {
-            "key": "reliability",
-            "weight": 34,
-            "subcharacteristics": [
+            key: 'reliability',
+            weight: 34,
+            subcharacteristics: [
               {
-                "key": "testing_status",
-                "weight": 50,
-                "measures": [
+                key: 'testing_status',
+                weight: 50,
+                measures: [
                   {
-                    "key": "passed_tests",
-                    "weight": 33,
-                    "min_threshold": 0,
-                    "max_threshold": 1
+                    key: 'passed_tests',
+                    weight: 33,
+                    min_threshold: 0,
+                    max_threshold: 1
                   },
                   {
-                    "key": "test_builds",
-                    "weight": 33,
-                    "min_threshold": 0,
-                    "max_threshold": 300000
+                    key: 'test_builds',
+                    weight: 33,
+                    min_threshold: 0,
+                    max_threshold: 300000
                   },
                   {
-                    "key": "test_coverage",
-                    "weight": 34,
-                    "min_threshold": 60,
-                    "max_threshold": 100
+                    key: 'test_coverage',
+                    weight: 34,
+                    min_threshold: 60,
+                    max_threshold: 100
                   }
                 ]
               },
               {
-                "key": "maturity",
-                "weight": 50,
-                "measures": [
+                key: 'maturity',
+                weight: 50,
+                measures: [
                   {
-                    "key": "ci_feedback_time",
-                    "weight": 100,
-                    "min_threshold": 1,
-                    "max_threshold": 900
+                    key: 'ci_feedback_time',
+                    weight: 100,
+                    min_threshold: 1,
+                    max_threshold: 900
                   }
                 ]
               }
             ]
           },
           {
-            "key": "maintainability",
-            "weight": 33,
-            "subcharacteristics": [
+            key: 'maintainability',
+            weight: 33,
+            subcharacteristics: [
               {
                 "key": "modifiability",
                 "weight": 100,
@@ -1130,18 +1130,18 @@ describe('ReleaseInfo Component', () => {
             ]
           },
           {
-            "key": "functional_suitability",
-            "weight": 33,
-            "subcharacteristics": [
+            key: 'functional_suitability',
+            weight: 33,
+            subcharacteristics: [
               {
-                "key": "functional_completeness",
-                "weight": 100,
-                "measures": [
+                key: 'functional_completeness',
+                weight: 100,
+                measures: [
                   {
-                    "key": "team_throughput",
-                    "weight": 100,
-                    "min_threshold": 45,
-                    "max_threshold": 100
+                    key: 'team_throughput',
+                    weight: 100,
+                    min_threshold: 45,
+                    max_threshold: 100
                   }
                 ]
               }
@@ -1152,33 +1152,30 @@ describe('ReleaseInfo Component', () => {
     });
 
     await act(async () => {
-      render(
-        <ReleaseCreation />);
+      render(<ReleaseCreation />);
     });
 
     const { t } = useTranslation('plan_release');
 
     const releaseNameInput = screen.getByTestId('apelido-release') as HTMLInputElement;
-
     fireEvent.change(releaseNameInput, { target: { value: "Nome Teste" } });
 
     const checkbox = screen.getByLabelText(t('followLastConfig')) as HTMLInputElement;
     fireEvent.click(checkbox);
 
-    const nextButton = screen.getByText(/Next/i);
+    // Avança passo a passo de forma estável
+    await clickButtonAndWaitFor(t('next'), t('defineCharacteristics'));
+    await clickButtonAndWaitFor(t('next'), t('balanceGoal'));
 
-    await waitFor(async () => {
-      fireEvent.click(nextButton);
-      await waitFor(async () => {
-        fireEvent.click(nextButton);
-        await waitFor(async () => {
-          fireEvent.click(nextButton);
-          fireEvent.click(screen.getByText(t('allowBalanceGoal')));
-          fireEvent.click(screen.getByTestId('dismissBtnClick'));
-          expect(screen.getByText(t("balanceGoal"))).toBeInTheDocument();
-        });
-      });
-    });
+    // Clica no switch de permitir balanço dinâmico (abre o modal de confirmação)
+    const switchBtn = await screen.findByText(t('allowBalanceGoal'));
+    fireEvent.click(switchBtn);
+
+    // No modal, clica em dispensar/voltar
+    const dismissBtn = await screen.findByTestId('dismissBtnClick');
+    fireEvent.click(dismissBtn);
+
+    expect(screen.getByText(t("balanceGoal"))).toBeInTheDocument();
   });
 
   it('should test checks values_2', async () => {

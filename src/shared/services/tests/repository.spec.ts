@@ -1,4 +1,3 @@
-import { getAccessToken } from '@services/Auth';
 import { repository } from '../repository';
 import api from '../api';
 
@@ -13,13 +12,7 @@ jest.mock('../api', () => ({
   }
 }));
 
-// Mock do Auth para que getAuthHeaders resolva sem chamar a rede real.
-jest.mock('@services/Auth', () => ({
-  getAccessToken: jest.fn().mockResolvedValue({ type: 'success', value: { key: 'mock-token' } })
-}));
-
 const mockedApi = api as jest.Mocked<typeof api>;
-const mockedGetAccessToken = getAccessToken as jest.Mock;
 const REPO1_PATH = '/v1/organizations/org1/products/prod1/repositories/repo1/';
 
 describe('Repository', () => {
@@ -103,52 +96,8 @@ describe('Repository', () => {
 
       expect(mockedApi.post).toHaveBeenCalledWith(
         '/v1/organizations/org1/products/prod1/repositories/',
-        { name: 'Test Repo', platform: 'GitHub', imported: false },
-        expect.any(Object)
+        { name: 'Test Repo', platform: 'GitHub', imported: false }
       );
-    });
-  });
-
-  describe('autenticação ausente', () => {
-    it('createRepository retorna erro quando getAccessToken falha', async () => {
-      mockedGetAccessToken.mockResolvedValueOnce({ type: 'error' });
-
-      const result = await repository.createRepository('org1', 'prod1', { name: 'Repo', platform: 'GitHub' });
-
-      expect(result.type).toEqual('error');
-      expect(mockedApi.post).not.toHaveBeenCalled();
-    });
-
-    it('updateRepository retorna erro quando o token não possui key', async () => {
-      mockedGetAccessToken.mockResolvedValueOnce({ type: 'success', value: { key: '' } });
-
-      const result = await repository.updateRepository('org1', 'prod1', 'repo1', { name: 'Repo', platform: 'GitHub' });
-
-      expect(result.type).toEqual('error');
-      expect(mockedApi.put).not.toHaveBeenCalled();
-    });
-
-    it('deleteRepository retorna erro quando getAccessToken lança', async () => {
-      mockedGetAccessToken.mockRejectedValueOnce(new Error('boom'));
-
-      const result = await repository.deleteRepository('org1', 'prod1', 'repo1');
-
-      expect(result.type).toEqual('error');
-      expect(mockedApi.delete).not.toHaveBeenCalled();
-    });
-
-    it('getHistoricalData retorna erro quando o token está ausente', async () => {
-      mockedGetAccessToken.mockResolvedValueOnce({ type: 'error' });
-
-      const result = await repository.getHistoricalData({
-        organizationId: 'org1',
-        productId: 'prod1',
-        repositoryId: 'repo1',
-        entity: 'commits'
-      });
-
-      expect(result.type).toEqual('error');
-      expect(mockedApi.get).not.toHaveBeenCalled();
     });
   });
 
@@ -161,8 +110,7 @@ describe('Repository', () => {
       expect(result).toEqual({ type: 'success', value: { id: '1' } });
       expect(mockedApi.post).toHaveBeenCalledWith(
         '/v1/organizations/org1/products/prod1/repositories/',
-        { name: 'Repo', platform: 'GitHub', imported: false },
-        expect.objectContaining({ headers: expect.anything() })
+        { name: 'Repo', platform: 'GitHub', imported: false }
       );
     });
 
@@ -174,8 +122,7 @@ describe('Repository', () => {
       expect(result).toEqual({ type: 'success', value: { id: '1' } });
       expect(mockedApi.put).toHaveBeenCalledWith(
         REPO1_PATH,
-        expect.any(Object),
-        expect.any(Object)
+        { name: 'Repo', platform: 'GitHub', imported: false }
       );
     });
 
@@ -185,10 +132,7 @@ describe('Repository', () => {
       const result = await repository.deleteRepository('org1', 'prod1', 'repo1');
 
       expect(result).toEqual({ type: 'success', value: undefined });
-      expect(mockedApi.delete).toHaveBeenCalledWith(
-        REPO1_PATH,
-        expect.any(Object)
-      );
+      expect(mockedApi.delete).toHaveBeenCalledWith(REPO1_PATH);
     });
 
     it('getHistoricalData retorna sucesso com os dados da resposta', async () => {

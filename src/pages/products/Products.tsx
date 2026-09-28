@@ -34,16 +34,18 @@ import { repository } from "@services/repository";
 import { useOrganizationContext } from "@contexts/OrganizationProvider";
 import { useProductContext } from "@contexts/ProductProvider";
 import { useAuth } from "@contexts/Auth";
+import { isSameGithubOrg } from "@utils/isSameGithubOrg";
 
 interface ProductType {
   id: string | number;
   name: string;
 }
 
+
+
 const Products: NextPageWithLayout = () => {
   useRequireAuth();
   const { t: tp } = useTranslation('product');
-  const { t: to } = useTranslation('organization');
   const router = useRouter();
 
   const { organizationList, setCurrentOrganizations, fetchOrganizations, currentOrganization } = useOrganizationContext();
@@ -58,11 +60,11 @@ const Products: NextPageWithLayout = () => {
   const [selectedProductId, setSelectedProductId] = useState<string>('');
 
   const [gitHubRepos, setGitHubRepos] = useState<GitHubRepo[]>([]);
-  const [importedRepos, setImportedRepos] = useState<any[]>([]);
   const [importedRepoUrls, setImportedRepoUrls] = useState<string[]>([]);
   const [loadingOrgs, setLoadingOrgs] = useState<boolean>(true);
   const [loadingProducts, setLoadingProducts] = useState<boolean>(false);
   const [loadingRepos, setLoadingRepos] = useState<boolean>(false);
+  const [repoFetchError, setRepoFetchError] = useState<'409' | 'error' | null>(null);
   const [search, setSearch] = useState("");
   const [tabValue, setTabValue] = useState(0);
 
@@ -73,8 +75,6 @@ const Products: NextPageWithLayout = () => {
     setPage(1);
   }, [search, tabValue, gitHubRepos]);
   const lastLoadedProductIdRef = useRef<string>('');
-
-
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
   const loadGitHubOrgs = async () => {
@@ -105,22 +105,16 @@ const Products: NextPageWithLayout = () => {
 
           let defaultName = '';
           if (targetOrg) {
-            const matchGo = res.value.find(go => {
-              const ghName = go.github_org_name.toLowerCase();
-              const dbName = targetOrg!.name.toLowerCase();
-              const dbKey = targetOrg!.key ? targetOrg!.key.toLowerCase() : '';
-              return ghName === dbName || 
-                     (dbKey && ghName === dbKey) ||
-                     (dbName.length > 3 && ghName.includes(dbName.replace(/[^a-z0-9]/g, '-'))) ||
-                     (dbName.length > 3 && ghName.includes(dbName.replace(/[^a-z0-9]/g, '')));
-            });
+            const matchGo = res.value.find(go => 
+              isSameGithubOrg(go.github_org_name, targetOrg?.name, targetOrg?.key, targetOrg?.github_org_name)
+            );
             if (matchGo) {
               defaultName = matchGo.github_org_name;
             }
           } else {
             defaultName = res.value[0].github_org_name;
           }
-          
+
           setSelectedOrgName(defaultName);
         }
       } else {
@@ -137,35 +131,66 @@ const Products: NextPageWithLayout = () => {
   const getBackendOrgId = async (orgName: string): Promise<string> => {
     const res = await organizationQuery.getAllOrganization();
     if (res.type !== 'success') return '';
-    const ghName = orgName.toLowerCase();
-    const match = res.value.find((o: any) => {
-      const dbName = o.name.toLowerCase();
-      const dbKey = o.key ? o.key.toLowerCase() : '';
-      return dbName === ghName || 
-             (dbKey && dbKey === ghName) ||
-             (dbName.length > 3 && ghName.includes(dbName.replace(/[^a-z0-9]/g, '-'))) ||
-             (dbName.length > 3 && ghName.includes(dbName.replace(/[^a-z0-9]/g, '')));
-    });
+    const match = res.value.find((o: any) => 
+      isSameGithubOrg(orgName, o.name, o.key, o.github_org_name)
+    );
     return match?.id || '';
   };
 
   const importOrg = async (orgName: string): Promise<string> => {
     const importResult = await organizationQuery.importOrganization(orgName);
     if (importResult.type === 'success' && importResult.value.id) {
-      fetchOrganizations(true);
+      fetchOrganizations(); // Removido o 'true'
       return importResult.value.id;
     }
     return '';
   };
 
+  const handleSelectOrgRef = useRef<boolean>(false);
+  
+  const loadProductsForOrg = async (orgDbId: string) => {
+    const productsRes = await productQuery.getAllProducts(orgDbId);
+    const productList = (productsRes.data?.results || productsRes.data || []) as ProductType[];
+    setProducts(productList);
+    updateProductList(productList as any);
+    if (productList.length > 0) {
+      let defaultProductId = String(productList[0].id);
+      if (currentProduct) {
+        const matchProduct = productList.find(p => String(p.id) === String(currentProduct.id));
+        if (matchProduct) defaultProductId = String(matchProduct.id);
+      }
+      setSelectedProductId(defaultProductId);
+    } else {
+      setSelectedProductId('');
+    }
+  };
+
+  const loadGithubReposForOrg = async (orgDbId: string) => {
+    setRepoFetchError(null);
+    const reposRes = await organizationQuery.getGithubRepos(orgDbId);
+    if (reposRes.type === 'success') {
+      setGitHubRepos(reposRes.value);
+    } else {
+      const status = reposRes.error?.response?.status;
+      if (status === 409) {
+        setRepoFetchError('409');
+        toast.error(`Token do GitHub expirado ou inválido.`);
+      } else {
+        setRepoFetchError('error');
+        toast.error(`Erro ao buscar repositórios do GitHub.`);
+      }
+    }
+  };
+
   const handleSelectOrganization = async (orgName: string) => {
     if (!orgName) return;
+    if (handleSelectOrgRef.current) return;
+    handleSelectOrgRef.current = true;
     setLoadingProducts(true);
     setLoadingRepos(true);
     setProducts([]);
     setGitHubRepos([]);
     setImportedRepoUrls([]);
-    setImportedRepos([]);
     try {
       let orgDbId = await getBackendOrgId(orgName);
 
@@ -173,37 +198,13 @@ const Products: NextPageWithLayout = () => {
         orgDbId = await importOrg(orgName);
         if (!orgDbId) {
           toast.error(`Erro ao importar organização no MeasureSoftGram.`);
-          setLoadingProducts(false);
-          setLoadingRepos(false);
           return;
         }
       }
 
       setSelectedOrgDbId(orgDbId);
-
-      // 3. Load products for this database organization ID
-      const productsRes = await productQuery.getAllProducts(orgDbId);
-      const productList = (productsRes.data?.results || productsRes.data || []) as ProductType[];
-      setProducts(productList);
-      updateProductList(productList as any);
-      if (productList.length > 0) {
-        let defaultProductId = String(productList[0].id);
-        if (currentProduct) {
-          const matchProduct = productList.find(p => String(p.id) === String(currentProduct.id));
-          if (matchProduct) defaultProductId = String(matchProduct.id);
-        }
-        setSelectedProductId(defaultProductId);
-      } else {
-        setSelectedProductId('');
-      }
-
-      // 4. Load available GitHub repositories for this organization
-      const reposRes = await organizationQuery.getGithubRepos(orgDbId);
-      if (reposRes.type === 'success') {
-        setGitHubRepos(reposRes.value);
-      } else {
-        toast.error(`Erro ao buscar repositórios do GitHub.`);
-      }
+      await loadProductsForOrg(orgDbId);
+      await loadGithubReposForOrg(orgDbId);
 
     } catch (error: any) {
       console.error(error);
@@ -219,7 +220,6 @@ const Products: NextPageWithLayout = () => {
     try {
       const res = await productQuery.getAllRepositories(orgDbId, productId);
       const repoList = res?.data?.results || res?.data || [];
-      setImportedRepos(repoList);
       const urls = repoList.map((r: any) => r.url);
       setImportedRepoUrls(urls);
       if (lastLoadedProductIdRef.current !== productId) {
@@ -270,7 +270,7 @@ const Products: NextPageWithLayout = () => {
           if (res.type === 'success') {
             toast.success("Organizações do GitHub vinculadas com sucesso!");
             await loadGitHubOrgs();
-            fetchOrganizations(true);
+            fetchOrganizations(); // Removido o 'true'
           } else {
             toast.error("Erro ao vincular organizações do GitHub.");
           }
@@ -287,8 +287,6 @@ const Products: NextPageWithLayout = () => {
     }
   }, [router.query.code]);
 
-
-
   useEffect(() => {
     if (selectedOrgName) {
       handleSelectOrganization(selectedOrgName);
@@ -298,16 +296,9 @@ const Products: NextPageWithLayout = () => {
   // eslint-disable-next-line sonarjs/cognitive-complexity
   useEffect(() => {
     if (currentOrganization && gitHubOrgs.length > 0) {
-      const matchGo = gitHubOrgs.find(go => {
-        const ghName = go.github_org_name.toLowerCase();
-        const dbName = currentOrganization.name.toLowerCase();
-        const dbKey = currentOrganization.key ? currentOrganization.key.toLowerCase() : '';
-        
-        return ghName === dbName || 
-               (dbKey && ghName === dbKey) ||
-               (dbName.length > 3 && ghName.includes(dbName.replace(/[^a-z0-9]/g, '-'))) ||
-               (dbName.length > 3 && ghName.includes(dbName.replace(/[^a-z0-9]/g, '')));
-      });
+      const matchGo = gitHubOrgs.find(go => 
+        isSameGithubOrg(go.github_org_name, currentOrganization?.name, currentOrganization?.key, currentOrganization?.github_org_name)
+      );
       if (matchGo) {
         if (matchGo.github_org_name !== selectedOrgName) {
           setSelectedOrgName(matchGo.github_org_name);
@@ -317,7 +308,6 @@ const Products: NextPageWithLayout = () => {
         setProducts([]);
         setGitHubRepos([]);
         setImportedRepoUrls([]);
-        setImportedRepos([]);
         setSelectedProductId('');
       }
     }
@@ -357,17 +347,15 @@ const Products: NextPageWithLayout = () => {
     () =>
       gitHubRepos.filter((repo) => {
         const isAlreadyImported = importedRepoUrls.some(
-          url => url === repo.url || url.toLowerCase() === repo.url.toLowerCase()
+          url => url && repo.url && (url === repo.url || url.toLowerCase() === repo.url.toLowerCase())
         );
-        const matchesSearch = repo.name.toLowerCase().includes(search.toLowerCase());
+        const matchesSearch = repo.name?.toLowerCase().includes(search.toLowerCase()) || false;
         const matchesTab =
           (tabValue === 0 && isAlreadyImported) || tabValue === 1 || (tabValue === 2 && !isAlreadyImported);
         return matchesSearch && matchesTab;
       }),
     [gitHubRepos, importedRepoUrls, search, tabValue]
   );
-
-
 
   return (
     <>
@@ -493,16 +481,47 @@ const Products: NextPageWithLayout = () => {
                 </Box>
               </Box>
 
-              {loadingRepos ? (
-                <Box display="flex" justifyContent="center" alignItems="center" padding="4rem">
-                  <CircularProgress />
-                </Box>
-              ) : (
+              {(() => {
+                if (loadingRepos) {
+                  return (
+                    <Box display="flex" justifyContent="center" alignItems="center" padding="4rem">
+                      <CircularProgress />
+                    </Box>
+                  );
+                }
+                if (repoFetchError === '409') {
+                  return (
+                    <Box padding="4rem" textAlign="center">
+                      <Typography variant="h6" color="error" gutterBottom>
+                        Token do GitHub expirado ou inválido
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary" paragraph>
+                        Para carregar os repositórios, autorize o aplicativo novamente.
+                      </Typography>
+                      <Button variant="contained" color="primary" onClick={() => window.open(`https://github.com/login/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID}&scope=repo`, '_self')}>
+                        Autorizar GitHub
+                      </Button>
+                    </Box>
+                  );
+                }
+                if (repoFetchError === 'error') {
+                  return (
+                    <Box padding="4rem" textAlign="center">
+                      <Typography variant="h6" color="error" gutterBottom>
+                        Não foi possível carregar os repositórios
+                      </Typography>
+                      <Button variant="outlined" color="primary" onClick={() => handleSelectOrganization(selectedOrgName)}>
+                        Tentar Novamente
+                      </Button>
+                    </Box>
+                  );
+                }
+                return (
                 <List sx={{ padding: 0 }}>
                   {filteredRepos.length > 0 ? (
                     filteredRepos.slice((page - 1) * itemsPerPage, page * itemsPerPage).map((repo) => {
                       const isAlreadyImported = importedRepoUrls.some(
-                        url => url === repo.url || url.toLowerCase() === repo.url.toLowerCase()
+                        url => url && repo.url && (url === repo.url || url.toLowerCase() === repo.url.toLowerCase())
                       );
                       return (
                         <ListItem
@@ -569,7 +588,8 @@ const Products: NextPageWithLayout = () => {
                     </Box>
                   )}
                 </List>
-              )}
+                );
+              })()}
 
               {!loadingRepos && filteredRepos.length > 0 && (
                 <Box display="flex" justifyContent="center" padding="2rem">
@@ -603,8 +623,6 @@ const Products: NextPageWithLayout = () => {
               )}
             </Paper>
           )}
-
-
         </Box>
       </Container>
     </>

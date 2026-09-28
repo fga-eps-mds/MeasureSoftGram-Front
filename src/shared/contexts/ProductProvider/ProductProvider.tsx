@@ -22,45 +22,49 @@ export const ProductContext = createContext<IProductContext | undefined>(undefin
 export function ProductProvider({ children }: Props) {
   const [currentProduct, setCurrentProduct] = useState<Product | null | undefined>(undefined); // Initialize with undefined
   const [productsList, setProductsList] = useState<Product[]>([]);
-  const { storedValue: storedProductId, setValue: setStoredProductId } = useLocalStorage<string | null>('selectedProductId', null);
+  const { storedValue: storedProductId, setValue: setStoredProductId } = useLocalStorage<string | null>(
+    'selectedProductId',
+    null
+  );
 
   const { currentOrganization } = useOrganizationContext();
+  const currentOrgId = currentOrganization?.id;
 
   const updateProductList = useCallback((products: Product[]) => {
     setProductsList(products);
   }, []);
 
-  const loadAllProducts = async () => {
+  const loadAllProducts = useCallback(async () => {
     try {
-      if (!currentOrganization) {
+      if (!currentOrgId) {
         updateProductList([]);
         return;
       }
 
-      const result = await productQuery.getAllProducts(currentOrganization.id);
+      const result = await productQuery.getAllProducts(currentOrgId);
       const products = result.data?.results || result.data || [];
       updateProductList(products);
     } catch (error) {
       console.error(error);
     }
-  };
+  }, [currentOrgId, updateProductList]);
 
   useEffect(() => {
-    if (currentOrganization) {
-      // Load products without indiscriminately clearing currentProduct, 
+    if (currentOrgId) {
+      // Load products without indiscriminately clearing currentProduct,
       // let the next useEffect decide if it's still valid
       loadAllProducts();
     } else {
       setCurrentProduct(null);
       setProductsList([]);
     }
-  }, [currentOrganization]);
+  }, [currentOrgId, loadAllProducts]);
 
   useEffect(() => {
     if (productsList.length > 0) {
       if (currentProduct === undefined || currentProduct === null) {
         if (storedProductId) {
-          const found = productsList.find(p => p.id === storedProductId || p.id?.toString() === storedProductId);
+          const found = productsList.find((p) => p.id === storedProductId || p.id?.toString() === storedProductId);
           if (found) {
             setCurrentProduct(found);
             return;
@@ -89,7 +93,7 @@ export function ProductProvider({ children }: Props) {
       setCurrentProduct,
       productsList,
       updateProductList,
-      loadAllProducts,
+      loadAllProducts
     }),
     [currentProduct, productsList, updateProductList, loadAllProducts]
   );

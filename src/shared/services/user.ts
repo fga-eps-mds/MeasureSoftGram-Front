@@ -1,5 +1,4 @@
 import { AxiosError } from 'axios';
-import { getAccessToken } from '@services/Auth';
 import api from './api';
 
 export interface User {
@@ -23,21 +22,7 @@ type Result<T> = ResultSuccess<T> | ResultError;
 
 export const getAllUsers = async (): Promise<Result<UserResult>> => {
   try {
-    const tokenResult = await getAccessToken();
-
-    if (tokenResult.type === 'error' || !tokenResult.value.key) {
-      console.error('Erro ao obter o token de acesso');
-      return { type: 'error', error: new Error('Token de acesso não encontrado.') as AxiosError };
-    }
-
-    const token = tokenResult.value.key;
-
-    const response = await api.get('/v1/accounts/users/', {
-      headers: {
-        Authorization: `Token ${token}`
-      }
-    });
-
+    const response = await api.get('/v1/accounts/users/');
     return { type: 'success', value: response.data };
   } catch (err) {
     const error = err as AxiosError;
