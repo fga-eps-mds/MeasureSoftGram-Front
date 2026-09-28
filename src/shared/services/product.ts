@@ -134,6 +134,15 @@ class ProductQuery {
     return api.get<RepositoriesTsqmiHistory>(url);
   }
 
+  getProductRepositoriesTsqmiHistoryConfig(organizationId: string, productId: string): AxiosRequestConfig {
+    const url = `/v1/organizations/${organizationId}/products/${productId}/repositories-tsqmi-historical-values/`;
+    return {
+      url,
+      method: 'get',
+    };
+  }
+
+
   async getProductRepositoriesLatestTsqmi(organizationId: string, productId: string) {
     const url = `/v1/organizations/${organizationId}/products/${productId}/repositories-tsqmi-latest-values/`;
     return api.get<RepositoriesLatestTsqmi>(url);
