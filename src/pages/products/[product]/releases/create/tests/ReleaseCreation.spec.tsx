@@ -174,21 +174,27 @@ describe('ReleaseInfo Component', () => {
                 "measures": [
                   {
                     "key": "non_complex_file_density",
-                    "weight": 33,
+                    "weight": 25,
                     "min_threshold": 0,
                     "max_threshold": 10
                   },
                   {
                     "key": "commented_file_density",
-                    "weight": 33,
+                    "weight": 25,
                     "min_threshold": 10,
                     "max_threshold": 30
                   },
                   {
                     "key": "duplication_absense",
-                    "weight": 34,
+                    "weight": 25,
                     "min_threshold": 0,
                     "max_threshold": 5
+                  },
+                  {
+                    "key": "technical_debt_ratio",
+                    "weight": 25,
+                    "min_threshold": 0,
+                    "max_threshold": 20
                   }
                 ]
               }
@@ -465,21 +471,27 @@ describe('ReleaseInfo Component', () => {
                 "measures": [
                   {
                     "key": "non_complex_file_density",
-                    "weight": 33,
+                    "weight": 25,
                     "min_threshold": 0,
                     "max_threshold": 10
                   },
                   {
                     "key": "commented_file_density",
-                    "weight": 33,
+                    "weight": 25,
                     "min_threshold": 10,
                     "max_threshold": 30
                   },
                   {
                     "key": "duplication_absense",
-                    "weight": 34,
+                    "weight": 25,
                     "min_threshold": 0,
                     "max_threshold": 5
+                  },
+                  {
+                    "key": "technical_debt_ratio",
+                    "weight": 25,
+                    "min_threshold": 0,
+                    "max_threshold": 20
                   }
                 ]
               }
@@ -588,21 +600,27 @@ describe('ReleaseInfo Component', () => {
                 "measures": [
                   {
                     "key": "non_complex_file_density",
-                    "weight": 33,
+                    "weight": 25,
                     "min_threshold": 0,
                     "max_threshold": 10
                   },
                   {
                     "key": "commented_file_density",
-                    "weight": 33,
+                    "weight": 25,
                     "min_threshold": 10,
                     "max_threshold": 30
                   },
                   {
                     "key": "duplication_absense",
-                    "weight": 34,
+                    "weight": 25,
                     "min_threshold": 0,
                     "max_threshold": 5
+                  },
+                  {
+                    "key": "technical_debt_ratio",
+                    "weight": 25,
+                    "min_threshold": 0,
+                    "max_threshold": 20
                   }
                 ]
               }
@@ -705,21 +723,27 @@ describe('ReleaseInfo Component', () => {
                 "measures": [
                   {
                     "key": "non_complex_file_density",
-                    "weight": 33,
+                    "weight": 25,
                     "min_threshold": 0,
                     "max_threshold": 10
                   },
                   {
                     "key": "commented_file_density",
-                    "weight": 33,
+                    "weight": 25,
                     "min_threshold": 10,
                     "max_threshold": 30
                   },
                   {
                     "key": "duplication_absense",
-                    "weight": 34,
+                    "weight": 25,
                     "min_threshold": 0,
                     "max_threshold": 5
+                  },
+                  {
+                    "key": "technical_debt_ratio",
+                    "weight": 25,
+                    "min_threshold": 0,
+                    "max_threshold": 20
                   }
                 ]
               }
@@ -830,21 +854,27 @@ describe('ReleaseInfo Component', () => {
                 "measures": [
                   {
                     "key": "non_complex_file_density",
-                    "weight": 33,
+                    "weight": 25,
                     "min_threshold": 0,
                     "max_threshold": 10
                   },
                   {
                     "key": "commented_file_density",
-                    "weight": 33,
+                    "weight": 25,
                     "min_threshold": 10,
                     "max_threshold": 30
                   },
                   {
                     "key": "duplication_absense",
-                    "weight": 34,
+                    "weight": 25,
                     "min_threshold": 0,
                     "max_threshold": 5
+                  },
+                  {
+                    "key": "technical_debt_ratio",
+                    "weight": 25,
+                    "min_threshold": 0,
+                    "max_threshold": 20
                   }
                 ]
               }
@@ -948,21 +978,27 @@ describe('ReleaseInfo Component', () => {
                 "measures": [
                   {
                     "key": "non_complex_file_density",
-                    "weight": 33,
+                    "weight": 25,
                     "min_threshold": 0,
                     "max_threshold": 10
                   },
                   {
                     "key": "commented_file_density",
-                    "weight": 33,
+                    "weight": 25,
                     "min_threshold": 10,
                     "max_threshold": 30
                   },
                   {
                     "key": "duplication_absense",
-                    "weight": 34,
+                    "weight": 25,
                     "min_threshold": 0,
                     "max_threshold": 5
+                  },
+                  {
+                    "key": "technical_debt_ratio",
+                    "weight": 25,
+                    "min_threshold": 0,
+                    "max_threshold": 20
                   }
                 ]
               }
@@ -1067,21 +1103,27 @@ describe('ReleaseInfo Component', () => {
                 "measures": [
                   {
                     "key": "non_complex_file_density",
-                    "weight": 33,
+                    "weight": 25,
                     "min_threshold": 0,
                     "max_threshold": 10
                   },
                   {
                     "key": "commented_file_density",
-                    "weight": 33,
+                    "weight": 25,
                     "min_threshold": 10,
                     "max_threshold": 30
                   },
                   {
                     "key": "duplication_absense",
-                    "weight": 34,
+                    "weight": 25,
                     "min_threshold": 0,
                     "max_threshold": 5
+                  },
+                  {
+                    "key": "technical_debt_ratio",
+                    "weight": 25,
+                    "min_threshold": 0,
+                    "max_threshold": 20
                   }
                 ]
               }
@@ -1195,21 +1237,27 @@ describe('ReleaseInfo Component', () => {
                 "measures": [
                   {
                     "key": "non_complex_file_density",
-                    "weight": 33,
+                    "weight": 25,
                     "min_threshold": 0,
                     "max_threshold": 10
                   },
                   {
                     "key": "commented_file_density",
-                    "weight": 33,
+                    "weight": 25,
                     "min_threshold": 10,
                     "max_threshold": 30
                   },
                   {
                     "key": "duplication_absense",
-                    "weight": 34,
+                    "weight": 25,
                     "min_threshold": 0,
                     "max_threshold": 5
+                  },
+                  {
+                    "key": "technical_debt_ratio",
+                    "weight": 25,
+                    "min_threshold": 0,
+                    "max_threshold": 20
                   }
                 ]
               }

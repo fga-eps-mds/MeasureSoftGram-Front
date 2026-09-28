@@ -135,6 +135,18 @@ const measureData = [
       value: 0.5209101386167142,
       created_at: "2023-10-14T07:33:23-03:00"
     }
+  },
+  {
+    id: 7,
+    key: "technical_debt_ratio",
+    name: "Technical Debt Ratio",
+    description: null,
+    latest: {
+      id: 612,
+      measure_id: 7,
+      value: 0.59625,
+      created_at: "2023-10-14T08:12:47-03:00"
+    }
   }
 ];
 
@@ -285,7 +297,7 @@ describe('<GraphicChart />', () => {
     const button = await findByRole("button");
     fireEvent.click(button);
 
-    expect(container.getElementsByClassName('echarts-for-react ').length).toBe(3);
+    expect(container.getElementsByClassName('echarts-for-react ').length).toBe(4);
 
 
   });
