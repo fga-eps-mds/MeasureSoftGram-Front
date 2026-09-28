@@ -297,7 +297,7 @@ describe('<GraphicChart />', () => {
     const button = await findByRole("button");
     fireEvent.click(button);
 
-    expect(container.getElementsByClassName('echarts-for-react ').length).toBe(4);
+    expect(container.getElementsByClassName('echarts-for-react ')).toHaveLength(4);
 
 
   });
