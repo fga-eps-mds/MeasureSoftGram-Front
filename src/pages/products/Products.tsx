@@ -76,8 +76,6 @@ const Products: NextPageWithLayout = () => {
   }, [search, tabValue, gitHubRepos]);
   const lastLoadedProductIdRef = useRef<string>('');
 
-
-
   // eslint-disable-next-line sonarjs/cognitive-complexity
   const loadGitHubOrgs = async () => {
     setLoadingOrgs(true);
@@ -116,7 +114,7 @@ const Products: NextPageWithLayout = () => {
           } else {
             defaultName = res.value[0].github_org_name;
           }
-          
+
           setSelectedOrgName(defaultName);
         }
       } else {
@@ -142,7 +140,7 @@ const Products: NextPageWithLayout = () => {
   const importOrg = async (orgName: string): Promise<string> => {
     const importResult = await organizationQuery.importOrganization(orgName);
     if (importResult.type === 'success' && importResult.value.id) {
-      fetchOrganizations(true);
+      fetchOrganizations(); // Removido o 'true'
       return importResult.value.id;
     }
     return '';
@@ -272,7 +270,7 @@ const Products: NextPageWithLayout = () => {
           if (res.type === 'success') {
             toast.success("Organizações do GitHub vinculadas com sucesso!");
             await loadGitHubOrgs();
-            fetchOrganizations(true);
+            fetchOrganizations(); // Removido o 'true'
           } else {
             toast.error("Erro ao vincular organizações do GitHub.");
           }
@@ -288,8 +286,6 @@ const Products: NextPageWithLayout = () => {
       exchangeCode();
     }
   }, [router.query.code]);
-
-
 
   useEffect(() => {
     if (selectedOrgName) {
@@ -360,8 +356,6 @@ const Products: NextPageWithLayout = () => {
       }),
     [gitHubRepos, importedRepoUrls, search, tabValue]
   );
-
-
 
   return (
     <>
@@ -629,8 +623,6 @@ const Products: NextPageWithLayout = () => {
               )}
             </Paper>
           )}
-
-
         </Box>
       </Container>
     </>
