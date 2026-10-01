@@ -7,12 +7,13 @@ import { Box, Container, Typography } from '@mui/material';
 import { useProductContext } from '@contexts/ProductProvider';
 import { useRequest } from '@hooks/useRequest';
 import { productQuery } from '@services/product';
-import PulseChart from '@components/PulseChart';
+import { PulseChart } from '@components/PulseChart';
 
 import { getPathId } from '@utils/pathDestructer';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 import Skeleton from './Skeleton';
+import NoReleasesState from './NoReleasesState';
 
 const ProductContent: React.FC = () => {
   const { currentProduct } = useProductContext();
@@ -33,11 +34,13 @@ const ProductContent: React.FC = () => {
       : null
   );
 
-  const releasesArray: any[] = Array.isArray(releaseData)
-    ? releaseData
-    : Array.isArray(releaseData?.results)
-    ? releaseData.results
-    : [];
+  const getReleasesArray = (): any[] => {
+    if (Array.isArray(releaseData)) return releaseData;
+    if (Array.isArray(releaseData?.results)) return releaseData.results;
+    return [];
+  };
+
+  const releasesArray = getReleasesArray();
 
   const lastUpdateDate =
     currentProduct &&
