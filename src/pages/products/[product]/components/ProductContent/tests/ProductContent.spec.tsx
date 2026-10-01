@@ -1,9 +1,11 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { useGrafanaDashboard } from '@hooks/useGrafanaDashboard';
+import { useRequest } from '@hooks/useRequest';
 import ProductContent from '../ProductContent';
 
-jest.mock('@hooks/useGrafanaDashboard', () => ({ useGrafanaDashboard: jest.fn() }));
+jest.mock('@hooks/useRequest', () => ({ useRequest: jest.fn() }));
+jest.mock('@components/PulseChart', () => ({ PulseChart: () => <div data-testid="pulse-chart" /> }));
+jest.mock('../NoReleasesState', () => () => <div data-testid="no-releases" />);
 jest.mock('@contexts/ProductProvider', () => {
   const product = { id: '2', name: 'Produto' };
   return { useProductContext: () => ({ currentProduct: product }) };
@@ -12,25 +14,29 @@ jest.mock('next/router', () => ({ useRouter: () => ({ query: { product: '1-2-Pro
 jest.mock('react-i18next', () => ({ useTranslation: () => ({ t: (key: string) => key }) }));
 
 describe('<ProductContent />', () => {
-  it('mantém o iframe montado enquanto uma nova busca está em andamento', () => {
-    (useGrafanaDashboard as jest.Mock).mockReturnValue({
-      grafanaUrl: 'http://grafana/d/pulso',
-      loading: true,
-      error: false,
-    });
+  it('mostra o skeleton enquanto as releases carregam', () => {
+    (useRequest as jest.Mock).mockReturnValue({ data: undefined, isLoading: true });
 
     const { container } = render(<ProductContent />);
 
-    expect(screen.getByTitle('Dashboard de Pulso')).toBeTruthy();
-    expect(container.querySelector('.MuiCircularProgress-root')).toBeNull();
+    expect(container.querySelector('.MuiSkeleton-root')).not.toBeNull();
+    expect(screen.queryByTestId('pulse-chart')).toBeNull();
   });
 
-  it('mostra o carregamento apenas na primeira busca', () => {
-    (useGrafanaDashboard as jest.Mock).mockReturnValue({ grafanaUrl: null, loading: true, error: false });
+  it('renderiza o grafico de pulso quando existem releases', () => {
+    (useRequest as jest.Mock).mockReturnValue({ data: [{ id: 1 }], isLoading: false });
 
     const { container } = render(<ProductContent />);
 
-    expect(screen.queryByTitle('Dashboard de Pulso')).toBeNull();
-    expect(container.querySelector('.MuiCircularProgress-root')).not.toBeNull();
+    expect(screen.getByTestId('pulse-chart')).toBeTruthy();
+    expect(container.querySelector('.MuiSkeleton-root')).toBeNull();
+  });
+
+  it('renderiza NoReleasesState quando nao existem releases', () => {
+    (useRequest as jest.Mock).mockReturnValue({ data: { results: [] }, isLoading: false });
+
+    render(<ProductContent />);
+
+    expect(screen.getByTestId('no-releases')).toBeTruthy();
   });
 });
