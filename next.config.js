@@ -3,6 +3,7 @@ const withTM = require('next-transpile-modules')(['@mui/x-charts'])
 const nextConfig = withTM(
   {
   reactStrictMode: false,
+  swcMinify: true,
   compiler: {
     styledComponents: true,
   },
