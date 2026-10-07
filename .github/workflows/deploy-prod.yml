@@ -13,17 +13,11 @@ name: Deploy Prod (self-hosted)
 # pelo setup inicial da VM). Aqui so damos pull da imagem nova do front e
 # recriamos o container (--no-deps pra nao tocar service/db).
 #
-# Dispara DEPOIS que a imagem do Front e publicada (workflow_run sobre o
+# Dispara DEPOIS que a imagem do Front e publicada (via workflow_call sobre o
 # "Publish Docker Image" deste repo).
-# OBS workflow_run: so dispara com este arquivo ja no branch DEFAULT (develop).
 
 on:
-  workflow_run:
-    workflows: ["Publish Docker Image"]
-    types:
-      - completed
-    branches:
-      - develop
+  workflow_call:
   workflow_dispatch:
 
 concurrency:
@@ -33,8 +27,9 @@ concurrency:
 jobs:
   deploy:
     name: Pull + up + smoke
+    # Deploy em produção só a partir do repositório central; nos forks semestrais o job é pulado.
+    if: github.repository == 'fga-eps-mds/MeasureSoftGram-Front'
     runs-on: [self-hosted, msgram-prod]
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - name: Login no DockerHub

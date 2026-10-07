@@ -6,6 +6,6 @@ jest.mock('../api');
 describe('BalanceMatrix', () => {
   it('should call api.get with the right URL', async () => {
     await balanceMatrixService.getBalanceMatrix();
-    expect(api.get).toHaveBeenCalledWith('/v1/balance-matrix');
+    expect(api.get).toHaveBeenCalledWith('/v1/balance-matrix/');
   });
 });

@@ -96,8 +96,12 @@ describe('ProductProvider', () => {
       return (
         <div>
           <span data-testid="curr-prod">{currentProduct?.name || 'none'}</span>
-          <button onClick={() => updateProductList([{ id: 'prod-2', name: 'Prod 2', description: '', github_id: 1 }])}>Update List</button>
-          <button onClick={() => setCurrentProduct({ id: 'prod-3', name: 'Prod 3', description: '', github_id: 2 })}>Set Curr</button>
+          <button onClick={() => updateProductList([{ id: 'prod-2', name: 'Prod 2', description: '', github_id: 1 }])}>
+            Update List
+          </button>
+          <button onClick={() => setCurrentProduct({ id: 'prod-3', name: 'Prod 3', description: '', github_id: 2 })}>
+            Set Curr
+          </button>
         </div>
       );
     };
@@ -120,7 +124,7 @@ describe('ProductProvider', () => {
 
     expect(screen.getByTestId('curr-prod').textContent).toBe('Prod 3');
   });
-  
+
   it('handles api error', async () => {
     jest.spyOn(OrgContext, 'useOrganizationContext').mockReturnValue({
       currentOrganization: { id: 'org-1' }
@@ -133,7 +137,7 @@ describe('ProductProvider', () => {
         <div />
       </ProductProvider>
     );
-    
+
     await waitFor(() => {
       expect(productQuery.getAllProducts).toHaveBeenCalled();
     });
@@ -152,7 +156,10 @@ describe('ProductProvider', () => {
 
     (productQuery.getAllProducts as jest.Mock).mockResolvedValueOnce({
       data: {
-        results: [{ id: 'prod-1', name: 'Prod 1' }, { id: 'prod-2', name: 'Prod 2' }]
+        results: [
+          { id: 'prod-1', name: 'Prod 1' },
+          { id: 'prod-2', name: 'Prod 2' }
+        ]
       }
     });
 
@@ -184,5 +191,60 @@ describe('ProductProvider', () => {
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
     expect(() => render(<Child />)).toThrow('useProductContext must be used within a ProductContext');
     consoleSpy.mockRestore();
+  });
+
+  it('does not re-fetch products when currentOrganization object reference changes but id remains the same (L6 stability)', async () => {
+    let orgState = { id: 'org-1', name: 'Org Name 1' };
+    const useOrgSpy = jest.spyOn(OrgContext, 'useOrganizationContext').mockImplementation(
+      () =>
+        ({
+          currentOrganization: orgState
+        } as any)
+    );
+
+    (productQuery.getAllProducts as jest.Mock).mockResolvedValue({
+      data: {
+        results: [{ id: 'prod-1', name: 'Prod 1' }]
+      }
+    });
+
+    let prevLoadAllProducts: any;
+    let rendersCount = 0;
+
+    const Child = () => {
+      const { loadAllProducts } = useProductContext();
+      rendersCount += 1;
+      prevLoadAllProducts = loadAllProducts;
+      return <div />;
+    };
+
+    const { rerender } = render(
+      <ProductProvider>
+        <Child />
+      </ProductProvider>
+    );
+
+    await waitFor(() => {
+      expect(productQuery.getAllProducts).toHaveBeenCalledTimes(1);
+    });
+
+    const initialLoadFn = prevLoadAllProducts;
+
+    // Simulate re-render with a NEW object reference for currentOrganization, but SAME id
+    orgState = { id: 'org-1', name: 'Org Name 1 Updated' };
+    rerender(
+      <ProductProvider>
+        <Child />
+      </ProductProvider>
+    );
+
+    // loadAllProducts reference should remain identical (memoized with useCallback)
+    expect(prevLoadAllProducts).toBe(initialLoadFn);
+    expect(rendersCount).toBe(3);
+
+    // getAllProducts should NOT have been called a second time
+    expect(productQuery.getAllProducts).toHaveBeenCalledTimes(1);
+
+    useOrgSpy.mockRestore();
   });
 });

@@ -33,7 +33,7 @@ describe('ProductQuery', () => {
     const organizationId = '1';
     const productId = '2';
     await productQuery.getAllRepositories(organizationId, productId);
-    expect(api.get).toHaveBeenCalledWith(`/v1/organizations/${organizationId}/products/${productId}/repositories`);
+    expect(api.get).toHaveBeenCalledWith(`/v1/organizations/${organizationId}/products/${productId}/repositories/`);
   });
 
   it('getProductMeasuresHistory should call api.get with the right URL', async () => {
@@ -179,6 +179,13 @@ describe('ProductQuery', () => {
     };
 
     expect(productQuery.getReleaseList(organizationId, productId)).toEqual(expectedResult);
+  });
+
+  it.each([
+    ['', '2'],
+    ['1', '']
+  ])('getReleaseList should return null when an id is missing (%s, %s)', (organizationId, productId) => {
+    expect(productQuery.getReleaseList(organizationId, productId)).toBeNull();
   });
 
   it('getCurrentReleaseGoal should call api.get with the right URL', async () => {

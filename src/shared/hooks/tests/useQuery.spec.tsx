@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react';
+import { renderHook, waitFor } from '@testing-library/react';
 import { useProductContext } from '@contexts/ProductProvider';
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
 import { productQuery } from '@services/product';
@@ -68,5 +68,46 @@ describe('useQuery Hook', () => {
     const response = await result.current.handleRepositoryAction('invalid', 'org1', 'prod1', 'rep1', {});
 
     expect(response.type).toBe('error');
+  });
+});
+
+describe('useQuery Hook - carregamento pela rota', () => {
+  const mockSetRepositoryList = jest.fn();
+  const mockSetCurrentProduct = jest.fn();
+
+  beforeEach(() => {
+    (useRepositoryContext as jest.Mock).mockReturnValue({ setRepositoryList: mockSetRepositoryList });
+    (useRouter as jest.Mock).mockReturnValue({ query: { product: '1-2-produto' } });
+    (productQuery.getAllRepositories as jest.Mock).mockResolvedValue({ data: { results: [] } });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('não recarrega o produto quando o id numérico é igual ao da rota', async () => {
+    (useProductContext as jest.Mock).mockReturnValue({
+      currentProduct: { id: 2 },
+      setCurrentProduct: mockSetCurrentProduct
+    });
+
+    renderHook(() => useQuery());
+
+    await waitFor(() => expect(mockSetRepositoryList).toHaveBeenCalled());
+    expect(productQuery.getProductById).not.toHaveBeenCalled();
+    expect(mockSetCurrentProduct).not.toHaveBeenCalled();
+  });
+
+  it('busca produto e repositórios em paralelo quando o produto muda', async () => {
+    (useProductContext as jest.Mock).mockReturnValue({
+      currentProduct: { id: 9 },
+      setCurrentProduct: mockSetCurrentProduct
+    });
+    (productQuery.getProductById as jest.Mock).mockReturnValue(new Promise(() => {}));
+
+    renderHook(() => useQuery());
+
+    await waitFor(() => expect(productQuery.getProductById).toHaveBeenCalledWith('1', '2'));
+    expect(productQuery.getAllRepositories).toHaveBeenCalledWith('1', '2');
   });
 });

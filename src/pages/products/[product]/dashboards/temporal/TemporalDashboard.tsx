@@ -65,11 +65,11 @@ const TemporalDashboard: NextPageWithLayout = () => {
               justifyContent: 'center',
             }}
           >
-            {loading && <CircularProgress />}
+            {!grafanaUrl && loading && <CircularProgress />}
             {error && (
               <Typography color="error">Não foi possível carregar o dashboard.</Typography>
             )}
-            {grafanaUrl && !loading && (
+            {grafanaUrl && (
               <iframe
                 src={grafanaUrl}
                 title="Evolução Temporal"

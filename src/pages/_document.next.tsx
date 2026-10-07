@@ -43,7 +43,7 @@ class MyDocument extends Document {
             rel="stylesheet"
           />
         </Head>
-        <body className="font-sans">
+        <body className="font-sans" suppressHydrationWarning>
           <Main />
           <NextScript />
         </body>

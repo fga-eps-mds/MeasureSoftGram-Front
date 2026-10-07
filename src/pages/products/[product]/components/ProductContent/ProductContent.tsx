@@ -2,12 +2,12 @@ import React from 'react';
 import { formatRelative } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
-import { Box, CircularProgress, Container, Typography } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 
 import { useProductContext } from '@contexts/ProductProvider';
-import { useGrafanaDashboard } from '@hooks/useGrafanaDashboard';
 import { useRequest } from '@hooks/useRequest';
 import { productQuery } from '@services/product';
+import { PulseChart } from '@components/PulseChart';
 
 import { getPathId } from '@utils/pathDestructer';
 import { useRouter } from 'next/router';
@@ -28,15 +28,13 @@ const ProductContent: React.FC = () => {
       : null
   );
 
-  const releasesArray: any[] = Array.isArray(releaseData)
-    ? releaseData
-    : Array.isArray(releaseData?.results)
-    ? releaseData.results
-    : [];
+  const getReleasesArray = (): any[] => {
+    if (Array.isArray(releaseData)) return releaseData;
+    if (Array.isArray(releaseData?.results)) return releaseData.results;
+    return [];
+  };
 
-  const { grafanaUrl, loading: isGrafanaLoading, error } = useGrafanaDashboard({
-    uid: 'ad2c5q4',
-  });
+  const releasesArray = getReleasesArray();
 
   const lastUpdateDate =
     currentProduct &&
@@ -53,9 +51,6 @@ const ProductContent: React.FC = () => {
   }
 
   const hasNoReleases = releasesArray.length === 0;
-
-
-
 
   return (
     <Container>
@@ -76,33 +71,13 @@ const ProductContent: React.FC = () => {
           </Box>
         </Box>
       </Box>
-      
+
       {hasNoReleases ? (
         <NoReleasesState productName={currentProduct?.name} />
       ) : (
-        <Box
-          sx={{
-            width: '100%',
-            height: '80vh',
-            border: '1px solid #d0d7de',
-            borderRadius: '8px',
-            overflow: 'hidden',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          {isGrafanaLoading && <CircularProgress />}
-          {error && (
-            <Typography color="error">Não foi possível carregar o dashboard.</Typography>
-          )}
-          {grafanaUrl && !isGrafanaLoading && (
-            <iframe
-              src={grafanaUrl}
-              title="Dashboard de Pulso"
-              style={{ width: '100%', height: '100%', border: 'none' }}
-            />
-          )}
+        <Box display="flex" flexDirection="column" gap={4}>
+          {/* Native ECharts Pulse Chart (Issue #48 / #67 / #68) */}
+          <PulseChart organizationId={organizationId} productId={productId} />
         </Box>
       )}
     </Container>

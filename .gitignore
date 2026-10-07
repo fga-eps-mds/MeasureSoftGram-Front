@@ -44,3 +44,6 @@ env-vars/
 *.tsbuildinfo
 
 ref
+
+# Impede versionamento acidental do lockfile do yarn (MSG-28)
+yarn.lock
