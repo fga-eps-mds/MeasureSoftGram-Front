@@ -1415,4 +1415,40 @@ describe('ReleaseInfo Component', () => {
       });
     });
   });
+
+  it('dispara as 5 buscas iniciais em paralelo', async () => {
+    const pending = () => new Promise(() => {});
+    const calls = [
+      productQuery.getPreConfigEntitiesRelationship,
+      productQuery.getCurrentReleaseGoal,
+      productQuery.getProductDefaultPreConfig,
+      productQuery.getProductCurrentPreConfig,
+      balanceMatrixService.getBalanceMatrix
+    ] as jest.Mock[];
+    calls.forEach((fn) => {
+      fn.mockClear();
+      fn.mockImplementationOnce(pending);
+    });
+
+    await act(async () => {
+      render(<ReleaseCreation />);
+    });
+
+    calls.forEach((fn) => expect(fn).toHaveBeenCalledTimes(1));
+  });
+
+  it('usa o fallback do goal e segue carregando as configurações quando o goal falha', async () => {
+    (productQuery.getCurrentReleaseGoal as jest.Mock).mockRejectedValueOnce(new Error('sem goal'));
+    (productQuery.getProductDefaultPreConfig as jest.Mock).mockClear();
+    (balanceMatrixService.getBalanceMatrix as jest.Mock).mockClear();
+
+    await act(async () => {
+      render(<ReleaseCreation />);
+    });
+
+    const { t } = useTranslation('plan_release');
+    expect(screen.getByText(t('planRelease'))).toBeInTheDocument();
+    expect(productQuery.getProductDefaultPreConfig).toHaveBeenCalledTimes(1);
+    expect(balanceMatrixService.getBalanceMatrix).toHaveBeenCalledTimes(1);
+  });
 });

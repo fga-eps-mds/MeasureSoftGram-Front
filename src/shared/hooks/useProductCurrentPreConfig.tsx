@@ -11,7 +11,9 @@ export function useProductCurrentPreConfig() {
   const { value: isLoading, setTrue: setLoading, setFalse: setIsLoadingEnd } = useBoolean(false);
 
   const { data, error, isValidating } = useSWR<Characteristic[]>(
-    `/v1/organizations/${currentOrganization?.id}/products/${currentProduct?.id}/current/release-config/`,
+    currentOrganization?.id && currentProduct?.id
+      ? `/v1/organizations/${currentOrganization.id}/products/${currentProduct.id}/current/release-config/`
+      : null,
     (url) => {
       setLoading();
       return api
