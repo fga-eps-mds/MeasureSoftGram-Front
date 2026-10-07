@@ -10,10 +10,25 @@ jest.mock('@contexts/ProductProvider', () => {
   const product = { id: '2', name: 'Produto' };
   return { useProductContext: () => ({ currentProduct: product }) };
 });
-jest.mock('next/router', () => ({ useRouter: () => ({ query: { product: '1-2-Produto' } }) }));
+let mockQuery: { product?: string } = { product: '1-2-Produto' };
+jest.mock('next/router', () => ({ useRouter: () => ({ query: mockQuery }) }));
 jest.mock('react-i18next', () => ({ useTranslation: () => ({ t: (key: string) => key }) }));
 
 describe('<ProductContent />', () => {
+  beforeEach(() => {
+    mockQuery = { product: '1-2-Produto' };
+  });
+
+  it('mostra o skeleton enquanto a rota ainda nao tem o produto', () => {
+    mockQuery = {};
+    (useRequest as jest.Mock).mockReturnValue({ data: undefined, isLoading: false });
+
+    const { container } = render(<ProductContent />);
+
+    expect(container.querySelector('.MuiSkeleton-root')).not.toBeNull();
+    expect(screen.queryByTestId('no-releases')).toBeNull();
+  });
+
   it('mostra o skeleton enquanto as releases carregam', () => {
     (useRequest as jest.Mock).mockReturnValue({ data: undefined, isLoading: true });
 

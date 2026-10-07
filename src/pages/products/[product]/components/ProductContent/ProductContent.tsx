@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { formatRelative } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
@@ -17,16 +17,10 @@ import NoReleasesState from './NoReleasesState';
 
 const ProductContent: React.FC = () => {
   const { currentProduct } = useProductContext();
-  const [pathId, setPathId] = useState({} as { productId: string; organizationId: string });
-
   const { query } = useRouter();
   const { t } = useTranslation('overview');
 
   const [organizationId, productId] = getPathId(query?.product as string);
-
-  if (!Object.keys(pathId).length && currentProduct) {
-    setPathId({ organizationId, productId });
-  }
 
   const { data: releaseData, isLoading: isReleasesLoading } = useRequest<any>(
     organizationId && productId
@@ -48,7 +42,7 @@ const ProductContent: React.FC = () => {
       locale: ptBR,
     });
 
-  if (!currentProduct || isReleasesLoading) {
+  if (!currentProduct || isReleasesLoading || !organizationId || !productId) {
     return (
       <Container>
         <Skeleton />

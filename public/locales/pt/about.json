@@ -5,7 +5,7 @@
   "organization": {
     "id": "Organizações",
     "title": "Organizações",
-    "description": "Na páina de organizações, você pode encontrar uma lista de todas as organizações que estão utilizando o MeasureSoftGram, além de encontrar também todos os seus produtos cadastrados.",
+    "description": "Na página de organizações, você pode encontrar uma lista de todas as organizações que estão utilizando o MeasureSoftGram, além de encontrar também todos os seus produtos cadastrados.",
     "view-organization": "Visualizar organização e produtos",
     "create-organization": "Criar organização"
   },
