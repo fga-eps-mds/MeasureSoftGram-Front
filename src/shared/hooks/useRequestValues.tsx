@@ -92,7 +92,6 @@ export function useRequestValues({
     }
   }
 
-  console.log(collectionSource, returnData);
   return {
     data: returnData,
     error,

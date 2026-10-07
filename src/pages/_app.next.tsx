@@ -15,7 +15,8 @@ import { Modal, Box } from '@mui/material';
 import { appWithI18Next, useSyncLanguage } from 'ni18n';
 import { useTranslation } from 'react-i18next';
 import { SnackbarProvider } from '@components/snackbar';
-import { ni18nConfig } from "../../n18n.config";
+import { SWRConfig } from 'swr';
+import { ni18nConfig } from '../../n18n.config';
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement, disableBreadcrumb?: boolean) => typeof page;
@@ -40,8 +41,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const [errorOccurred, setErrorOccurred] = useState(false);
   const disableBreadcrumb = Component.disableBreadcrumb ?? false;
 
-  const locale: any =
-    typeof window !== 'undefined' && window.localStorage.getItem('locale_lang')
+  const locale: any = typeof window !== 'undefined' && window.localStorage.getItem('locale_lang');
 
   useSyncLanguage(locale);
 
@@ -61,7 +61,6 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     let timeoutId;
 
     const handleRouteChange = () => {
-      console.log(`App is changing to`);
       setModalOpen(false);
 
       // Set timeout for 2 seconds before showing the loading animation
@@ -72,7 +71,6 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     };
 
     const handleRouteComplete = () => {
-      console.log('you have finished going to the new page');
       clearTimeout(timeoutId);
 
       setLoading(false);
@@ -82,9 +80,9 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
     const nextNavigationHandler = (url) => {
       if (errorOccurred) {
-        router.events.emit('routeChangeError')
+        router.events.emit('routeChangeError');
         // eslint-disable-next-line no-throw-literal
-        throw "Abort route change by user's confirmation."
+        throw "Abort route change by user's confirmation.";
       }
     };
 
@@ -127,7 +125,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const closeModal = () => {
     setShowError(false);
     setErrorOccurred(false);
-  }
+  };
 
   const { t } = useTranslation();
 
@@ -136,135 +134,137 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   if (!mockingReady) return null;
 
   return (
-    <SnackbarProvider>
-      <AuthProvider>
-        <OrganizationProvider>
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-          />
-          <RepositoryProvider>
-            <ProductProvider>
-              <Theme>
-                {getLayout(<Component {...pageProps} />, disableBreadcrumb)}
-                <>
-                  <Modal
-                    open={modalOpen}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                  >
-                    <Box
-                      sx={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: transformValue,
-                        width: '100vw',
-                        height: '100vh',
-                      }}
+    <SWRConfig value={{ revalidateOnFocus: false, dedupingInterval: 60000, shouldRetryOnError: false }}>
+      <SnackbarProvider>
+        <AuthProvider>
+          <OrganizationProvider>
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
+            <RepositoryProvider>
+              <ProductProvider>
+                <Theme>
+                  {getLayout(<Component {...pageProps} />, disableBreadcrumb)}
+                  <>
+                    <Modal
+                      open={modalOpen}
+                      aria-labelledby="modal-modal-title"
+                      aria-describedby="modal-modal-description"
                     >
-                      <div
-                        style={{
-                          position: 'fixed',
+                      <Box
+                        sx={{
+                          position: 'absolute',
                           top: '50%',
                           left: '50%',
                           transform: transformValue,
+                          width: '100vw',
+                          height: '100vh'
                         }}
                       >
-                        <RotatingLines
-                          strokeColor="#33568E"
-                          strokeWidth="5"
-                          width="50"
-                          animationDuration="0.75"
-                          timeout={3000}
-                        />
-                        <h3
+                        <div
                           style={{
-                            position: 'absolute',
-                            top: '75%',
+                            position: 'fixed',
+                            top: '50%',
                             left: '50%',
-                            transform: transformValue,
-                            fontSize: '24px',
-                            color: '#000000',
-                            textShadow: `
+                            transform: transformValue
+                          }}
+                        >
+                          <RotatingLines
+                            strokeColor="#33568E"
+                            strokeWidth="5"
+                            width="50"
+                            animationDuration="0.75"
+                            timeout={3000}
+                          />
+                          <h3
+                            style={{
+                              position: 'absolute',
+                              top: '75%',
+                              left: '50%',
+                              transform: transformValue,
+                              fontSize: '24px',
+                              color: '#000000',
+                              textShadow: `
                             -1px -1px 0 #33568E,
                             1px -1px 0 #33568E,
                             -1px  1px 0 #33568E,
                             1px  1px 0 #33568E
-                          `,
-                          }}
-                        >
-                          {t('loading')}
-                        </h3>
-                      </div>
-                    </Box>
-                  </Modal>
+                          `
+                            }}
+                          >
+                            {t('loading')}
+                          </h3>
+                        </div>
+                      </Box>
+                    </Modal>
 
-                  <Modal
-                    open={showError}
-                    onClose={closeModal}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                  >
-                    <Box
-                      sx={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: transformValue,
-                        backgroundColor: 'white',
-                        outline: '0',
-                        width: '30%',
-                        height: '20%',
-                      }}
+                    <Modal
+                      open={showError}
+                      onClose={closeModal}
+                      aria-labelledby="modal-modal-title"
+                      aria-describedby="modal-modal-description"
                     >
-                      <div
-                        style={{
-                          position: 'fixed',
+                      <Box
+                        sx={{
+                          position: 'absolute',
                           top: '50%',
                           left: '50%',
                           transform: transformValue,
-                          textAlign: 'center',
-                          whiteSpace: 'nowrap',
+                          backgroundColor: 'white',
+                          outline: '0',
+                          width: '30%',
+                          height: '20%'
                         }}
                       >
-                        <h3
+                        <div
                           style={{
-                            fontSize: '20px',
-                            color: '#FF0000',
-                          }}
-                        >
-                          <div>{t('timeout')}</div>
-                          <div>{t('try-again')}</div>
-                        </h3>
-                        <h3
-                          style={{
-                            fontSize: '10px',
-                            color: '#000000',
+                            position: 'fixed',
                             top: '50%',
-                            marginTop: '1px',
+                            left: '50%',
+                            transform: transformValue,
+                            textAlign: 'center',
+                            whiteSpace: 'nowrap'
                           }}
                         >
-                          <div>({t('close')})</div>
-                        </h3>
-                      </div>
-                    </Box>
-                  </Modal>
-                </>
-              </Theme>
-            </ProductProvider>
-          </RepositoryProvider>
-        </OrganizationProvider>
-      </AuthProvider>
-    </SnackbarProvider>
+                          <h3
+                            style={{
+                              fontSize: '20px',
+                              color: '#FF0000'
+                            }}
+                          >
+                            <div>{t('timeout')}</div>
+                            <div>{t('try-again')}</div>
+                          </h3>
+                          <h3
+                            style={{
+                              fontSize: '10px',
+                              color: '#000000',
+                              top: '50%',
+                              marginTop: '1px'
+                            }}
+                          >
+                            <div>({t('close')})</div>
+                          </h3>
+                        </div>
+                      </Box>
+                    </Modal>
+                  </>
+                </Theme>
+              </ProductProvider>
+            </RepositoryProvider>
+          </OrganizationProvider>
+        </AuthProvider>
+      </SnackbarProvider>
+    </SWRConfig>
   );
 }
 

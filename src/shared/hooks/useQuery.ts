@@ -32,11 +32,10 @@ export function useQuery() {
   };
 
   const loadProduct = async (organizationId: string, productId: string) => {
+    if (currentProduct && String(currentProduct.id) === String(productId)) return;
     try {
       const result = await productQuery.getProductById(organizationId, productId);
-      if (!currentProduct || currentProduct?.id !== productId) {
-        setCurrentProduct(result.value);
-      }
+      setCurrentProduct(result.value);
     } catch (error) {
       console.error(error);
     }
@@ -66,20 +65,16 @@ export function useQuery() {
   };
 
   useEffect(() => {
-    console.log(query);
     const fetchData = async () => {
       if (typeof query?.product === 'string') {
         try {
           const [organizationId, productId] = getPathId(query?.product);
-          await loadProduct(organizationId, productId);
-          await loadRepositories(organizationId, productId);
+          await Promise.all([loadProduct(organizationId, productId), loadRepositories(organizationId, productId)]);
         } catch (error) {
           console.error(error);
         }
       }
     };
-
-    console.log('eu ein');
 
     fetchData().catch((error) => console.error(error));
   }, [query?.product]);

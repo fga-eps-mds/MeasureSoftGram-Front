@@ -44,6 +44,7 @@
     "non_complex_file_density": "Non Complex File Density",
     "commented_file_density": "Non Complex File Density",
     "duplication_absense": "Duplication Absense",
+    "technical_debt_ratio": "Razão de Dívida Técnica",
     "team_throughput": "Team Throughput"
   },
   "basicConfig": "Configurações Básicas",
@@ -78,6 +79,7 @@
     "non_complex_file_density": "",
     "commented_file_density": "",
     "duplication_absense": "",
+    "technical_debt_ratio": "Percentual de dívida técnica por arquivo (sqale_debt_ratio do SonarQube). Valores de referência: 0% a 20%",
     "team_throughput": ""
   }
 }

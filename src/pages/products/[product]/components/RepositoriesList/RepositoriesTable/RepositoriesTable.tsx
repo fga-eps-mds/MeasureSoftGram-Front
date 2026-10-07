@@ -143,20 +143,18 @@ const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
   };
 
   useEffect(() => {
-    if (repositoryList?.length) {
-      setFilteredRepositories((prevState) => {
-        const tempRepositoryList = [...repositoryList];
+    setFilteredRepositories((prevState) => {
+      const tempRepositoryList = [...repositoryList];
 
-        const prevString = JSON.stringify(prevState);
-        const currentString = JSON.stringify(tempRepositoryList);
+      const prevString = JSON.stringify(prevState);
+      const currentString = JSON.stringify(tempRepositoryList);
 
-        if (prevString !== currentString) {
-          return tempRepositoryList;
-        }
+      if (prevString !== currentString) {
+        return tempRepositoryList;
+      }
 
-        return prevState;
-      });
-    }
+      return prevState;
+    });
   }, [repositoryList]);
 
   const { t } = useTranslation('repositories');

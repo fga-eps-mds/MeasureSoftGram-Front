@@ -89,4 +89,33 @@ describe('RepositoriesTable', () => {
 
     expect(screen.getByText(repoName)).toBeInTheDocument();
   });
+
+  it('removes the last repository from the table after deleting it', async () => {
+    const mockRepositories = { data: { results: [{ id: 1, name: repoName, platform: 'github' }] } };
+    productQuery.getAllRepositories.mockResolvedValue(mockRepositories);
+    const handleRepositoryAction = jest.fn().mockResolvedValue({ type: 'success' });
+    useQuery.mockReturnValue({ handleRepositoryAction, loadProduct: jest.fn() });
+
+    render(<RepositoriesTable />);
+
+    await waitFor(() => {
+      expect(screen.getByText(repoName)).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByLabelText('delete'));
+
+    const confirmationInput = screen.getByRole('textbox');
+    fireEvent.change(confirmationInput, { target: { value: repoName } });
+
+    fireEvent.click(screen.getByRole('button', { name: 'delete.button' }));
+
+    await waitFor(() => {
+      expect(handleRepositoryAction).toHaveBeenCalled();
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByText(repoName)).not.toBeInTheDocument();
+    });
+    expect(screen.queryByTestId('repository-row')).not.toBeInTheDocument();
+  });
 });

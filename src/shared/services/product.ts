@@ -12,6 +12,7 @@ import {
 import { PreConfigData, PreConfigRoot, ReleaseInfoForm } from '@customTypes/preConfig';
 
 import { AxiosError, AxiosRequestConfig } from 'axios';
+import type { GetRequest } from '@hooks/useRequest';
 import api from './api';
 
 export interface ProductFormData {
@@ -57,7 +58,7 @@ class ProductQuery {
   }
 
   async getAllRepositories(organizationId: string, productId: string) {
-    return api.get(`/v1/organizations/${organizationId}/products/${productId}/repositories`);
+    return api.get(`/v1/organizations/${organizationId}/products/${productId}/repositories/`);
   }
 
   async getProductMeasuresHistory(organizationId: string, productId: string) {
@@ -134,6 +135,15 @@ class ProductQuery {
     return api.get<RepositoriesTsqmiHistory>(url);
   }
 
+  getProductRepositoriesTsqmiHistoryConfig(organizationId: string, productId: string): AxiosRequestConfig {
+    const url = `/v1/organizations/${organizationId}/products/${productId}/repositories-tsqmi-historical-values/`;
+    return {
+      url,
+      method: 'get',
+    };
+  }
+
+
   async getProductRepositoriesLatestTsqmi(organizationId: string, productId: string) {
     const url = `/v1/organizations/${organizationId}/products/${productId}/repositories-tsqmi-latest-values/`;
     return api.get<RepositoriesLatestTsqmi>(url);
@@ -149,7 +159,8 @@ class ProductQuery {
     return api.get<any>(url);
   }
 
-  getReleaseList(organizationId: string, productId: string, releaseId?: number): AxiosRequestConfig {
+  getReleaseList(organizationId: string, productId: string, releaseId?: number): GetRequest {
+    if (!organizationId || !productId) return null;
     const url = `/v1/organizations/${organizationId}/products/${productId}/release/`;
     return {
       url,

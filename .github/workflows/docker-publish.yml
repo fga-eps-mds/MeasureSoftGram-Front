@@ -3,16 +3,22 @@ name: Publish Docker Image
 on:
   push:
     branches:
-      - develop
+      - main
   workflow_dispatch:
 
 jobs:
   build-and-push:
+    # Publicação só no repositório central; nos forks semestrais o job é pulado.
+    if: github.repository == 'fga-eps-mds/MeasureSoftGram-Front'
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout do código
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Extrair SHA curto do commit
+        id: vars
+        run: echo "short_sha=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
 
       - name: Login no DockerHub
         uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
@@ -26,7 +32,9 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/front:latest
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/front:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/front:sha-${{ steps.vars.outputs.short_sha }}
           # Estes valores sao inlinados no bundle em build-time (Next.js), entao
           # PRECISAM existir aqui, nao adianta injetar no container em runtime.
           # Configurados como Repository Variables (Settings > Secrets and
@@ -42,3 +50,8 @@ jobs:
             NEXT_PUBLIC_API_URL=${{ vars.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api' }}
             LOGIN_REDIRECT_URL=${{ vars.LOGIN_REDIRECT_URL }}
             GITHUB_CLIENT_ID=${{ vars.GH_CLIENT_ID }}
+
+  trigger-deploy:
+    needs: build-and-push
+    uses: ./.github/workflows/deploy-prod.yml
+    secrets: inherit

@@ -37,7 +37,7 @@ export default function ConfirmModal({ isModalOpen, btnConfirmText, btnDismissTe
       <>
         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
           <h3>{t('warning')}</h3>
-          <IconButton data-testId="iconCloseDateModal" onClick={() => setIsModalOpen(false)}>
+          <IconButton data-testid="iconCloseDateModal" onClick={() => setIsModalOpen(false)}>
             <CloseIcon />
           </IconButton>
         </Box>

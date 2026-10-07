@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Box, Tooltip } from '@mui/material';
 import { useSideMenuContext } from '@contexts/SidebarProvider/SideMenuProvider';
-import { useQuery } from '@hooks/useQuery';
 import * as Styles from './styles';
 
 export type ContextControl = 'product' | 'organization' | 'repository';
@@ -18,7 +17,6 @@ export interface SideMenuProps {
 }
 
 function SideMenuItem({ startIcon, text, endIcon, tooltip, disable, onClick, selected = false }: SideMenuProps) {
-  useQuery();
   const { isCollapsed } = useSideMenuContext();
 
   return (

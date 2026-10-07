@@ -37,6 +37,12 @@ const thresholdInfo: ThresholdInfo[] = [
     maxFixed: false
   },
   {
+    key: 'technical_debt_ratio',
+    description: '',
+    minFixed: true,
+    maxFixed: false
+  },
+  {
     key: 'passed_tests',
     description: '',
     minFixed: true,
