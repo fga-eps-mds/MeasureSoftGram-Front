@@ -27,6 +27,8 @@ concurrency:
 jobs:
   deploy:
     name: Pull + up + smoke
+    # Deploy em produção só a partir do repositório central; nos forks semestrais o job é pulado.
+    if: github.repository == 'fga-eps-mds/MeasureSoftGram-Front'
     runs-on: [self-hosted, msgram-prod]
 
     steps:

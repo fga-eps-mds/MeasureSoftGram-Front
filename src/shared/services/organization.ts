@@ -1,5 +1,4 @@
 import { AxiosError } from 'axios';
-import { getAccessToken } from '@services/Auth';
 import api from './api';
 
 export interface OrganizationFormData {
@@ -12,50 +11,33 @@ export interface OrganizationFormData {
   products?: string[];
 }
 
-
 export type ResultSuccess<T> = { type: 'success'; value: T };
 export type ResultError = { type: 'error'; error: Error | AxiosError };
 export type Result<T> = ResultSuccess<T> | ResultError;
 
 class OrganizationQuery {
-
-  // eslint-disable-next-line class-methods-use-this
-  private async getAuthHeaders(): Promise<{ Authorization: string }> {
-    const tokenResult = await getAccessToken();
-    if (tokenResult.type === 'error' || !tokenResult.value.key) {
-      throw new Error('Token de acesso não encontrado.');
-    }
-
-    return { Authorization: `Token ${tokenResult.value.key}` };
-  }
-
-async getAllOrganization(): Promise<Result<OrganizationFormData[]>> {
-  try {
-    const headers = await this.getAuthHeaders();
-    const response = await api.get('/v1/organizations/', { headers });
-    return { type: 'success', value: response.data.results as OrganizationFormData[] };
-  } catch (error) {
-    return { type: 'error', error: error as AxiosError };
-  }
-}
-
-async createOrganization(data: OrganizationFormData): Promise<Result<OrganizationFormData>> {
+  async getAllOrganization(): Promise<Result<OrganizationFormData[]>> {
     try {
-      const headers = await this.getAuthHeaders();
-      if (!headers) {
-        throw new Error('Token de acesso não encontrado.');
-      }
-      const response = await api.post('/v1/organizations/', data, { headers });
+      const response = await api.get('/v1/organizations/');
+      return { type: 'success', value: response.data.results as OrganizationFormData[] };
+    } catch (error) {
+      return { type: 'error', error: error as AxiosError };
+    }
+  }
+
+  async createOrganization(data: OrganizationFormData): Promise<Result<OrganizationFormData>> {
+    try {
+      const response = await api.post('/v1/organizations/', data);
       return { type: 'success', value: response?.data };
     } catch (err) {
       const error = err as AxiosError;
 
-      const responseData = error.response?.data as { name?: string[], key?: string[] };
+      const responseData = error.response?.data as { name?: string[]; key?: string[] };
       if (error.response && error.response.status === 400) {
-        if (responseData.name && responseData.name[0] === "Organization with this name already exists.") {
+        if (responseData.name && responseData.name[0] === 'Organization with this name already exists.') {
           return { type: 'error', error: new Error('Já existe uma organização com este nome.') };
         }
-        if (responseData.key && responseData.key[0] === "Organization with this key already exists.") {
+        if (responseData.key && responseData.key[0] === 'Organization with this key already exists.') {
           return { type: 'error', error: new Error('Já existe uma organização com esta chave.') };
         }
       }
@@ -66,11 +48,7 @@ async createOrganization(data: OrganizationFormData): Promise<Result<Organizatio
 
   async getOrganizationById(id: string): Promise<Result<OrganizationFormData>> {
     try {
-      const headers = await this.getAuthHeaders();
-      if (!headers) {
-        throw new Error('Token de acesso não encontrado.');
-      }
-      const response = await api.get(`/v1/organizations/${id}/`, { headers });
+      const response = await api.get(`/v1/organizations/${id}/`);
       return { type: 'success', value: response?.data };
     } catch (err) {
       const error = err as AxiosError;
@@ -78,24 +56,19 @@ async createOrganization(data: OrganizationFormData): Promise<Result<Organizatio
     }
   }
 
-
-async updateOrganization(id: string, data: OrganizationFormData): Promise<Result<void>> {
+  async updateOrganization(id: string, data: OrganizationFormData): Promise<Result<void>> {
     try {
-      const headers = await this.getAuthHeaders();
-      if (!headers) {
-        throw new Error('Token de acesso não encontrado.');
-      }
-      const response = await api.put(`/v1/organizations/${id}/`, data, { headers });
+      const response = await api.put(`/v1/organizations/${id}/`, data);
       return { type: 'success', value: response?.data };
     } catch (err) {
       const error = err as AxiosError;
 
-      const responseData = error.response?.data as { name?: string[], key?: string[] };
+      const responseData = error.response?.data as { name?: string[]; key?: string[] };
       if (error.response && error.response.status === 400) {
-        if (responseData.name && responseData.name[0] === "Organization with this name already exists.") {
+        if (responseData.name && responseData.name[0] === 'Organization with this name already exists.') {
           return { type: 'error', error: new Error('Já existe uma organização com este nome.') };
         }
-        if (responseData.key && responseData.key[0] === "Organization with this key already exists.") {
+        if (responseData.key && responseData.key[0] === 'Organization with this key already exists.') {
           return { type: 'error', error: new Error('Já existe uma organização com esta chave.') };
         }
       }
@@ -106,11 +79,7 @@ async updateOrganization(id: string, data: OrganizationFormData): Promise<Result
 
   async deleteOrganization(id: string): Promise<Result<void>> {
     try {
-      const headers = await this.getAuthHeaders();
-      if (!headers) {
-        throw new Error('Token de acesso não encontrado.');
-      }
-      const response = await api.delete(`/v1/organizations/${id}/`, { headers });
+      const response = await api.delete(`/v1/organizations/${id}/`);
       return { type: 'success', value: response?.data };
     } catch (err) {
       const error = err as AxiosError;
@@ -120,8 +89,7 @@ async updateOrganization(id: string, data: OrganizationFormData): Promise<Result
 
   async getGithubOrganizations(): Promise<Result<GitHubOrganization[]>> {
     try {
-      const headers = await this.getAuthHeaders();
-      const response = await api.get('/v1/accounts/github-organizations/', { headers });
+      const response = await api.get('/v1/accounts/github-organizations/');
       return { type: 'success', value: response.data as GitHubOrganization[] };
     } catch (error) {
       return { type: 'error', error: error as AxiosError };
@@ -130,11 +98,9 @@ async updateOrganization(id: string, data: OrganizationFormData): Promise<Result
 
   async importOrganization(githubOrgName: string): Promise<Result<OrganizationFormData>> {
     try {
-      const headers = await this.getAuthHeaders();
       const response = await api.post(
         '/v1/organizations/import/',
-        { github_org_name: githubOrgName },
-        { headers }
+        { github_org_name: githubOrgName }
       );
       return { type: 'success', value: response.data as OrganizationFormData };
     } catch (error) {
@@ -144,8 +110,7 @@ async updateOrganization(id: string, data: OrganizationFormData): Promise<Result
 
   async getGithubRepos(orgId: string): Promise<Result<GitHubRepo[]>> {
     try {
-      const headers = await this.getAuthHeaders();
-      const response = await api.get(`/v1/organizations/${orgId}/github-repos/`, { headers });
+      const response = await api.get(`/v1/organizations/${orgId}/github-repos/`);
       return { type: 'success', value: response.data as GitHubRepo[] };
     } catch (error) {
       return { type: 'error', error: error as AxiosError };

@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, ReactNode, useMemo, useEffect, useRef } from 'react';
+import React, { createContext, useState, useContext, ReactNode, useMemo, useEffect, useCallback } from 'react';
 import { Organization } from '@customTypes/organization';
 import { organizationQuery } from '@services/organization';
 import { toast } from 'react-toastify';
@@ -21,6 +21,10 @@ interface IOrganizationContext {
 
 const OrganizationContext = createContext<IOrganizationContext | undefined>(undefined);
 
+const isSameGithubOrg = (githubOrgName: string, dbOrg: Organization) => {
+  return dbOrg.name === githubOrgName || dbOrg.key === githubOrgName;
+};
+
 export function OrganizationProvider({ children }: Props) {
   const { session } = useAuth();
   const [currentOrganizations, setCurrentOrganizations] = useState<Organization[]>([]);
@@ -28,19 +32,57 @@ export function OrganizationProvider({ children }: Props) {
   const [organizationList, setOrganizationList] = useState<Organization[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [hasFetched, setHasFetched] = useState(false);
-  const hasAttemptedImport = useRef(false);
   const { storedValue: storedOrgId, setValue: setStoredOrgId } = useLocalStorage<string | null>('selectedOrgId', null);
 
-  const fetchOrganizations = async (forceFetch?: boolean) => {
-    if (!session && !forceFetch) return;
-    if (forceFetch) {
-      hasAttemptedImport.current = false;
+  const syncGithubOrganizations = async (organizations: Organization[]) => {
+    if (sessionStorage.getItem('github_orgs_synced') === 'true') return;
+    sessionStorage.setItem('github_orgs_synced', 'true');
+
+    try {
+      const githubOrgsRes = await organizationQuery.getGithubOrganizations();
+      if (githubOrgsRes.type === 'success' && githubOrgsRes.value.length > 0) {
+
+        const missingOrgs = githubOrgsRes.value.filter(
+          (githubOrg) => !organizations.some((dbOrg) => isSameGithubOrg(githubOrg.github_org_name, dbOrg))
+        );
+
+        if (missingOrgs.length > 0) {
+          const importPromises = missingOrgs.map((org) =>
+            organizationQuery.importOrganization(org.github_org_name)
+          );
+
+          const results = await Promise.all(importPromises);
+          const hasSuccessfulImport = results.some((res) => res.type === 'success');
+
+          if (hasSuccessfulImport) {
+            const reloadResult = await organizationQuery.getAllOrganization();
+            if (reloadResult.type === 'success') {
+              const reloadedOrgs = reloadResult.value.map((org) => ({
+                id: org.id ?? '',
+                name: org.name,
+                description: org.description ?? '',
+                url: org.url ?? '',
+                products: org.products ?? [],
+                key: org.key ?? ''
+              }));
+              setOrganizationList(reloadedOrgs);
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Failed to sync GitHub organizations:", error);
     }
+  };
+
+  const fetchOrganizations = useCallback(async (forceFetch?: boolean) => {
+    if (!session && !forceFetch) return;
+
     setIsLoading(true);
     try {
       const result = await organizationQuery.getAllOrganization();
       if (result.type === 'success') {
-        const organizations = result.value.map(org => ({
+        const organizations = result.value.map((org) => ({
           id: org.id ?? '',
           name: org.name,
           description: org.description ?? '',
@@ -48,69 +90,39 @@ export function OrganizationProvider({ children }: Props) {
           products: org.products ?? [],
           key: org.key ?? ''
         }));
+
         setOrganizationList(organizations);
         setHasFetched(true);
-
-        // Auto-import any GitHub organizations that are not yet registered in MeasureSoftGram
-        if (!hasAttemptedImport.current) {
-          hasAttemptedImport.current = true;
-          const githubOrgsRes = await organizationQuery.getGithubOrganizations();
-          if (githubOrgsRes.type === 'success' && githubOrgsRes.value.length > 0) {
-            const missingOrgs = githubOrgsRes.value.filter(
-              githubOrg => !organizations.some(
-                dbOrg => dbOrg.name.toLowerCase() === githubOrg.github_org_name.toLowerCase() ||
-                         dbOrg.key.toLowerCase() === githubOrg.github_org_name.toLowerCase()
-              )
-            );
-
-            if (missingOrgs.length > 0) {
-              const importPromises = missingOrgs.map(org =>
-                organizationQuery.importOrganization(org.github_org_name)
-              );
-              await Promise.all(importPromises);
-              
-              const reloadResult = await organizationQuery.getAllOrganization();
-              if (reloadResult.type === 'success') {
-                const reloadedOrgs = reloadResult.value.map(org => ({
-                  id: org.id ?? '',
-                  name: org.name,
-                  description: org.description ?? '',
-                  url: org.url ?? '',
-                  products: org.products ?? [],
-                  key: org.key ?? ''
-                }));
-                setOrganizationList(reloadedOrgs);
-              }
-            }
-          }
-        }
+        setIsLoading(false);
+  
+        syncGithubOrganizations(organizations);
       } else {
         toast.error("Erro ao carregar organizações.");
+        setHasFetched(true);
       }
     } catch (error) {
       console.error("Failed to fetch organizations:", error);
       toast.error("Erro ao carregar organizações. Por favor, tente novamente.");
+      setHasFetched(true);
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [session]);
 
   useEffect(() => {
-    if (session) {
-      hasAttemptedImport.current = false;
+    if (session?.username) {
       fetchOrganizations();
-    } else {
+    } else if (!session) {
       setOrganizationList([]);
       setHasFetched(false);
-      hasAttemptedImport.current = false;
     }
-  }, [session]);
+  }, [session?.username, fetchOrganizations]);
 
   useEffect(() => {
     if (organizationList.length > 0) {
       if (currentOrganizations.length === 0) {
         if (storedOrgId) {
-          const found = organizationList.find(org => org.id === storedOrgId || org.id?.toString() === storedOrgId);
+          const found = organizationList.find((org) => org.id === storedOrgId || org.id?.toString() === storedOrgId);
           if (found) {
             setCurrentOrganizations([found]);
             return;
@@ -141,7 +153,7 @@ export function OrganizationProvider({ children }: Props) {
     isLoading,
     hasFetched,
     fetchOrganizations
-  }), [currentOrganization, currentOrganizations, organizationList, isLoading, hasFetched]);
+  }), [currentOrganization, currentOrganizations, organizationList, isLoading, hasFetched, fetchOrganizations]);
 
   return <OrganizationContext.Provider value={value}>{children}</OrganizationContext.Provider>;
 }

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BsFillBuildingFill } from 'react-icons/bs';
 import LetterAvatar from '@components/LetterAvatar';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
@@ -9,7 +9,7 @@ import SideMenuItem from '../SideMenuItem';
 import MSGSelectBox from '../../../../../components/idv/inputs/MSGSelectBox';
 
 function OrganizationSelector() {
-  const { organizationList, setCurrentOrganizations, currentOrganization, fetchOrganizations, isLoading, hasFetched } = useOrganizationContext();
+  const { organizationList, setCurrentOrganizations, currentOrganization } = useOrganizationContext();
   const { isCollapsed, toggleCollapse } = useSideMenuContext();
 
   const onChange = (value: Organization) => {
@@ -22,12 +22,6 @@ function OrganizationSelector() {
       }
     }
   };
-
-  useEffect(() => {
-    if (!hasFetched && !isLoading) {
-      fetchOrganizations();
-    }
-  }, [fetchOrganizations, hasFetched, isLoading]);
 
   const { t } = useTranslation('sidebar');
 

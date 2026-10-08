@@ -1,32 +1,40 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { formatRelative } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
-import { Box, CircularProgress, Container, Typography } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 
 import { useProductContext } from '@contexts/ProductProvider';
-import { useGrafanaDashboard } from '@hooks/useGrafanaDashboard';
+import { useRequest } from '@hooks/useRequest';
+import { productQuery } from '@services/product';
+import { PulseChart } from '@components/PulseChart';
 
 import { getPathId } from '@utils/pathDestructer';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 import Skeleton from './Skeleton';
+import NoReleasesState from './NoReleasesState';
 
 const ProductContent: React.FC = () => {
   const { currentProduct } = useProductContext();
-  const [pathId, setPathId] = useState({} as { productId: string; organizationId: string });
-
   const { query } = useRouter();
   const { t } = useTranslation('overview');
 
-  if (!Object.keys(pathId).length && currentProduct) {
-    const [organizationId, productId] = getPathId(query?.product as string);
-    setPathId({ organizationId, productId });
-  }
+  const [organizationId, productId] = getPathId(query?.product as string);
 
-  const { grafanaUrl, loading, error } = useGrafanaDashboard({
-    uid: 'ad2c5q4',
-  });
+  const { data: releaseData, isLoading: isReleasesLoading } = useRequest<any>(
+    organizationId && productId
+      ? productQuery.getReleaseList(organizationId, productId)
+      : null
+  );
+
+  const getReleasesArray = (): any[] => {
+    if (Array.isArray(releaseData)) return releaseData;
+    if (Array.isArray(releaseData?.results)) return releaseData.results;
+    return [];
+  };
+
+  const releasesArray = getReleasesArray();
 
   const lastUpdateDate =
     currentProduct &&
@@ -34,7 +42,7 @@ const ProductContent: React.FC = () => {
       locale: ptBR,
     });
 
-  if (!currentProduct) {
+  if (!currentProduct || isReleasesLoading || !organizationId || !productId) {
     return (
       <Container>
         <Skeleton />
@@ -42,12 +50,14 @@ const ProductContent: React.FC = () => {
     );
   }
 
+  const hasNoReleases = releasesArray.length === 0;
+
   return (
     <Container>
       <Box display="flex" flexDirection="column">
         <Box display="flex" flexDirection="row" alignItems="center" marginTop="40px" marginBottom="24px">
           <Box>
-            <Box display="flex">
+            <Box display="flex" alignItems="center" gap={1}>
               <Typography variant="h4" marginRight="10px">
                 {t('title')}
               </Typography>
@@ -62,30 +72,14 @@ const ProductContent: React.FC = () => {
         </Box>
       </Box>
 
-      <Box
-        sx={{
-          width: '100%',
-          height: '80vh',
-          border: '1px solid #d0d7de',
-          borderRadius: '8px',
-          overflow: 'hidden',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        {loading && <CircularProgress />}
-        {error && (
-          <Typography color="error">Não foi possível carregar o dashboard.</Typography>
-        )}
-        {grafanaUrl && !loading && (
-          <iframe
-            src={grafanaUrl}
-            title="Dashboard de Pulso"
-            style={{ width: '100%', height: '100%', border: 'none' }}
-          />
-        )}
-      </Box>
+      {hasNoReleases ? (
+        <NoReleasesState productName={currentProduct?.name} />
+      ) : (
+        <Box display="flex" flexDirection="column" gap={4}>
+          {/* Native ECharts Pulse Chart (Issue #48 / #67 / #68) */}
+          <PulseChart organizationId={organizationId} productId={productId} />
+        </Box>
+      )}
     </Container>
   );
 };

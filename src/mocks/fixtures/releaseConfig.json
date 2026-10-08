@@ -33,9 +33,10 @@
             "weight": 100,
             "active": true,
             "measures": [
-              { "key": "non_complex_file_density", "weight": 33, "metrics": [{ "key": "complexity", "weight": 100 }] },
-              { "key": "commented_file_density", "weight": 33, "metrics": [{ "key": "comment_lines", "weight": 100 }] },
-              { "key": "duplication_absense", "weight": 34, "metrics": [{ "key": "duplicated_lines", "weight": 100 }] }
+              { "key": "non_complex_file_density", "weight": 25, "metrics": [{ "key": "complexity", "weight": 100 }] },
+              { "key": "commented_file_density", "weight": 25, "metrics": [{ "key": "comment_lines", "weight": 100 }] },
+              { "key": "duplication_absense", "weight": 25, "metrics": [{ "key": "duplicated_lines", "weight": 100 }] },
+              { "key": "technical_debt_ratio", "weight": 25, "metrics": [{ "key": "sqale_debt_ratio", "weight": 100 }] }
             ]
           }
         ]

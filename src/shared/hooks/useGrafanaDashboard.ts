@@ -21,42 +21,58 @@ export function useGrafanaDashboard({ uid, hasRepoSelector = false, repositoryId
   const [repositories, setRepositories] = useState<Repositories[]>([]);
   const [selectedRepoId, setSelectedRepoId] = useState<number | undefined>(fixedRepoId);
 
+  const productId = currentProduct?.id;
+  const organizationId = currentOrganization?.id;
+
   useEffect(() => {
     if (fixedRepoId !== undefined) {
       setSelectedRepoId(fixedRepoId);
-      return;
+      return undefined;
     }
-    if (!currentProduct || !currentOrganization || !hasRepoSelector) return;
+    if (!productId || !organizationId || !hasRepoSelector) return undefined;
 
+    let cancelled = false;
     productQuery
-      .getAllRepositories(currentOrganization.id, currentProduct.id)
+      .getAllRepositories(organizationId, productId)
       .then((res) => {
+        if (cancelled) return;
         const repos: Repositories[] = res.data.results;
         setRepositories(repos);
         if (repos.length > 0) setSelectedRepoId(repos[0].id);
       })
       .catch(() => {});
-  }, [currentProduct, currentOrganization, hasRepoSelector, fixedRepoId]);
+
+    return () => {
+      cancelled = true;
+    };
+  }, [productId, organizationId, hasRepoSelector, fixedRepoId]);
 
   useEffect(() => {
-    if (!currentProduct) return;
-    if (hasRepoSelector && fixedRepoId === undefined && repositories.length > 0 && !selectedRepoId) return;
-    if (hasRepoSelector && fixedRepoId === undefined && repositories.length === 0) return;
+    if (!productId) return undefined;
+    if (hasRepoSelector && fixedRepoId === undefined && repositories.length > 0 && !selectedRepoId) return undefined;
+    if (hasRepoSelector && fixedRepoId === undefined && repositories.length === 0) return undefined;
 
+    let cancelled = false;
     setLoading(true);
     setError(false);
 
     grafanaService
-      .getDashboardUrl(uid, Number(currentProduct.id), selectedRepoId)
+      .getDashboardUrl(uid, Number(productId), selectedRepoId)
       .then((res) => {
+        if (cancelled) return;
         setGrafanaUrl(res.data.grafana_url);
         setLoading(false);
       })
       .catch(() => {
+        if (cancelled) return;
         setError(true);
         setLoading(false);
       });
-  }, [uid, currentProduct, selectedRepoId, hasRepoSelector, repositories.length, fixedRepoId]);
+
+    return () => {
+      cancelled = true;
+    };
+  }, [uid, productId, selectedRepoId, hasRepoSelector, repositories.length, fixedRepoId]);
 
   return { grafanaUrl, loading, error, repositories, selectedRepoId, setSelectedRepoId };
 }

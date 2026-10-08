@@ -10,6 +10,19 @@ import api from "@services/api";
 
 jest.mock("@services/api");
 
+const mockOrganization = { current: { id: '1' } as { id: string } | null };
+const mockProduct = { current: { id: '2' } as { id: string } | null };
+
+jest.mock('@contexts/OrganizationProvider', () => ({
+  ...jest.requireActual('@contexts/OrganizationProvider'),
+  useOrganizationContext: () => ({ currentOrganization: mockOrganization.current })
+}));
+
+jest.mock('@contexts/ProductProvider', () => ({
+  ...jest.requireActual('@contexts/ProductProvider'),
+  useProductContext: () => ({ currentProduct: mockProduct.current })
+}));
+
 interface Props {
   children: React.ReactNode;
 }
@@ -157,5 +170,19 @@ describe("useProductCurrentPreConfig", () => {
 
     rerender();
     expect(result).toMatchSnapshot();
+  });
+
+  it.each([
+    ['organization', () => { mockOrganization.current = null; }],
+    ['product', () => { mockProduct.current = null; }]
+  ])("should not request when the %s is missing", (_name, clear) => {
+    (api.get as jest.Mock).mockClear();
+    clear();
+
+    renderHook(() => useProductCurrentPreConfig(), { wrapper: AllTheProviders });
+
+    expect(api.get).not.toHaveBeenCalledWith(expect.stringContaining('release-config'));
+    mockOrganization.current = { id: '1' };
+    mockProduct.current = { id: '2' };
   });
 })

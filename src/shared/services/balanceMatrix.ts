@@ -3,7 +3,7 @@ import api from './api';
 
 class BalanceMatrixService {
   getBalanceMatrix() {
-    return api.get(`/v1/balance-matrix`);
+    return api.get(`/v1/balance-matrix/`);
   }
 }
 

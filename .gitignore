@@ -36,6 +36,7 @@ yarn-error.log*
 .env.production.local
 .env.development
 env-vars/
+.envs/
 # vercel
 .vercel
 
@@ -43,3 +44,6 @@ env-vars/
 *.tsbuildinfo
 
 ref
+
+# Impede versionamento acidental do lockfile do yarn (MSG-28)
+yarn.lock
