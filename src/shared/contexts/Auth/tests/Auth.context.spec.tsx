@@ -86,6 +86,12 @@ describe('AuthContext', () => {
     jest.clearAllMocks();
     Object.keys(localStorageMock).forEach((key) => delete localStorageMock[key]);
     localStorage.clear();
+    // Restaura a URL: testes anteriores sobrescrevem globalThis.location (code/state/error)
+    Object.defineProperty(globalThis, 'location', {
+      value: { search: '', href: 'http://localhost/', pathname: '/' },
+      writable: true,
+      configurable: true,
+    });
 
     // Configuração padrão do useRouter
     (useRouter as jest.Mock).mockReturnValue({
