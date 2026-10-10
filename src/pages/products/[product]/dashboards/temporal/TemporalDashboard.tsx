@@ -15,8 +15,10 @@ import { NextPageWithLayout } from '@pages/_app.next';
 import getLayout from '@components/Layout';
 import useRequireAuth from '@hooks/useRequireAuth';
 import { useGrafanaDashboard } from '@hooks/useGrafanaDashboard';
+import { useProviderTerms } from '@hooks/useProviderTerms';
 
 const TemporalDashboard: NextPageWithLayout = () => {
+  const { terms } = useProviderTerms();
   useRequireAuth();
 
   const { grafanaUrl, loading, error, repositories, selectedRepoId, setSelectedRepoId } =
@@ -37,10 +39,10 @@ const TemporalDashboard: NextPageWithLayout = () => {
 
             {repositories.length > 0 && (
               <FormControl size="small" sx={{ minWidth: 220 }}>
-                <InputLabel>Repositório</InputLabel>
+                <InputLabel>{terms.Repository}</InputLabel>
                 <Select
                   value={selectedRepoId ?? ''}
-                  label="Repositório"
+                  label={terms.Repository}
                   onChange={(e) => setSelectedRepoId(Number(e.target.value))}
                 >
                   {repositories.map((repo) => (

@@ -9,8 +9,10 @@ import Layout from '@components/Layout/Layout';
 import ProductConfigFilterProvider from '@contexts/ProductConfigFilterProvider/ProductConfigFilterProvider';
 import { useGrafanaDashboard } from '@hooks/useGrafanaDashboard';
 import { getPathId } from '@utils/pathDestructer';
+import { useProviderTerms } from '@hooks/useProviderTerms';
 
 const Repository: NextPageWithLayout = () => {
+  const { terms } = useProviderTerms();
   useRequireAuth();
 
   const { query } = useRouter();
@@ -24,7 +26,7 @@ const Repository: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>Repositório</title>
+        <title>{terms.Repository}</title>
       </Head>
 
       <Box
@@ -44,7 +46,7 @@ const Repository: NextPageWithLayout = () => {
         {grafanaUrl && (
           <iframe
             src={grafanaUrl}
-            title="Saúde de Qualidade por Repositório"
+            title={`Saúde de Qualidade por ${terms.Repository}`}
             style={{ width: '100%', height: '100%', border: 'none' }}
           />
         )}
