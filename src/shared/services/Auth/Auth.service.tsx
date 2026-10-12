@@ -87,4 +87,12 @@ const buildGithubAuthUrl = (state?: string) => {
 
 export const getGithubAuthUrl = () => buildGithubAuthUrl();
 
+export const getLoginOrigin = (): string | null => {
+  try {
+    return new URL(process.env.NEXT_PUBLIC_LOGIN_REDIRECT_URL || '').origin;
+  } catch {
+    return null;
+  }
+};
+
 export const getGithubAuthUrlToRepositoriesPage = (pathName: string) => buildGithubAuthUrl(pathName);

@@ -1,8 +1,8 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { NextPageWithLayout } from '@pages/_app.next';
 import { Button, Box, Typography, CircularProgress } from '@mui/material';
 import { GitHub } from '@mui/icons-material';
-import { getGithubAuthUrl } from '@services/Auth';
+import { getGithubAuthUrl, getLoginOrigin } from '@services/Auth';
 import { useRouter } from 'next/router';
 import { useAuth } from '@contexts/Auth';
 import { AuthLayout } from '@layouts/auth';
@@ -15,6 +15,15 @@ const Auth: NextPageWithLayout = () => {
   const router = useRouter();
   const { setProvider } = useAuth();
   const [loading, setLoading] = useState(false);
+
+  // O GitHub sempre volta para a origem do callback; o provider salvo no
+  // localStorage de outra origem (ex.: localhost x 127.0.0.1) se perderia.
+  useEffect(() => {
+    const loginOrigin = getLoginOrigin();
+    if (loginOrigin && loginOrigin !== window.location.origin) {
+      window.location.replace(`${loginOrigin}${window.location.pathname}${window.location.search}`);
+    }
+  }, []);
 
   return (
     <AuthLayout>
