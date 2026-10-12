@@ -398,7 +398,7 @@ const Products: NextPageWithLayout = () => {
               <Typography variant="caption" color="text.secondary">
                 Não está vendo sua organização?{" "}
                 <Link
-                  href={`https://github.com/settings/connections/applications/${process.env.GITHUB_CLIENT_ID}`}
+                  href={`https://github.com/settings/connections/applications/${process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   underline="hover"

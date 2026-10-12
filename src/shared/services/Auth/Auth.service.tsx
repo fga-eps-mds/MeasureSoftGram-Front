@@ -67,8 +67,21 @@ export const getAccessToken = async (): Promise<Result<User>> => {
   }
 };
 
-export const getGithubAuthUrl = () =>
-  `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${process.env.LOGIN_REDIRECT_URL}&scope=repo,read:org,user`;
+const buildGithubAuthUrl = (state?: string) => {
+  const params = new URLSearchParams({
+    client_id: process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID || '',
+    redirect_uri: process.env.NEXT_PUBLIC_LOGIN_REDIRECT_URL || '',
+    scope: 'repo read:org user'
+  });
 
-export const getGithubAuthUrlToRepositoriesPage = (pathName: string) =>
-  `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${process.env.LOGIN_REDIRECT_URL}&state=${pathName}&scope=repo,read:org,user&prompt=select_account`;
+  if (state) {
+    params.set('state', state);
+    params.set('prompt', 'select_account');
+  }
+
+  return `https://github.com/login/oauth/authorize?${params.toString()}`;
+};
+
+export const getGithubAuthUrl = () => buildGithubAuthUrl();
+
+export const getGithubAuthUrlToRepositoriesPage = (pathName: string) => buildGithubAuthUrl(pathName);

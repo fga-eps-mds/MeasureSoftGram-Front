@@ -14,7 +14,11 @@ describe('Auth', () => {
 
   beforeEach(() => {
     jest.resetModules();
-    process.env = { ...originalEnv };
+    process.env = {
+      ...originalEnv,
+      NEXT_PUBLIC_GITHUB_CLIENT_ID: 'valid-client-id',
+      NEXT_PUBLIC_LOGIN_REDIRECT_URL: 'http://localhost:3000'
+    };
     global.fetch = jest.fn();
     delete (window as any).location;
     window.location = { href: '', assign: jest.fn() } as any;
@@ -40,9 +44,10 @@ describe('Auth', () => {
   });
 
   describe('Fluxo de Login do GitHub', () => {
-    it('Deve redirecionar para /auth/error quando o GITHUB_CLIENT_ID estiver ausente ou for o valor dummy', async () => {
+    it('Deve redirecionar para /auth/error quando o client id for rejeitado', async () => {
       (global.fetch as jest.Mock).mockResolvedValue({
-        json: async () => ({ valid: false }),
+        ok: true,
+        json: async () => ({ valid: false })
       });
 
       render(
@@ -60,9 +65,42 @@ describe('Auth', () => {
       expect(mockRouter.asPath).toBe('/auth/error');
     });
 
+    it('Deve redirecionar para /auth/error sem chamar a API quando o client id estiver ausente', async () => {
+      delete process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID;
+
+      render(
+        <AuthProvider>
+          <Auth />
+        </AuthProvider>
+      );
+
+      fireEvent.click(screen.getByRole('button', { name: /login com github/i }));
+
+      await screen.findByRole('button', { name: /login com github/i });
+      expect(global.fetch).not.toHaveBeenCalled();
+      expect(mockRouter.asPath).toBe('/auth/error');
+    });
+
+    it('Deve redirecionar para /auth/error quando a validação falhar', async () => {
+      (global.fetch as jest.Mock).mockRejectedValue(new Error('Network error'));
+
+      render(
+        <AuthProvider>
+          <Auth />
+        </AuthProvider>
+      );
+
+      fireEvent.click(screen.getByRole('button', { name: /login com github/i }));
+
+      await screen.findByRole('button', { name: /login com github/i });
+      expect(mockRouter.asPath).toBe('/auth/error');
+      expect(window.location.assign).not.toHaveBeenCalled();
+    });
+
     it('Deve redirecionar para a url de autorização do GitHub se o GITHUB_CLIENT_ID for válido', async () => {
       (global.fetch as jest.Mock).mockResolvedValue({
-        json: async () => ({ valid: true }),
+        ok: true,
+        json: async () => ({ valid: true })
       });
 
       render(
@@ -76,7 +114,7 @@ describe('Auth', () => {
 
       await screen.findByRole('button', { name: /login com github/i });
 
-      expect(window.location.href).toContain('/login/oauth/authorize');
+      expect(window.location.assign).toHaveBeenCalledWith(expect.stringContaining('/login/oauth/authorize'));
     });
   });
 });

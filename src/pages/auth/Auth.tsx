@@ -41,26 +41,34 @@ const Auth: NextPageWithLayout = () => {
           onClick={async () => {
             setLoading(true);
             try {
+              const clientId = process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID;
+              if (!clientId) {
+                await router.push('/auth/error');
+                return;
+              }
+
               const response = await fetch(
                 `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api'}/v1/accounts/github/validate/`,
                 {
                   method: 'POST',
                   headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                   },
-                  body: JSON.stringify({ client_id: process.env.GITHUB_CLIENT_ID }),
+                  body: JSON.stringify({ client_id: clientId })
                 }
               );
+              if (!response.ok) {
+                throw new Error(`GitHub OAuth validation failed with status ${response.status}`);
+              }
               const data = await response.json();
-              if (data && data.valid === false) {
-                router.push('/auth/error');
+              if (!data?.valid) {
+                await router.push('/auth/error');
                 return;
               }
-              window.location.href = getGithubAuthUrl();
               setProvider('github');
+              window.location.assign(getGithubAuthUrl());
             } catch (err) {
-              window.location.href = getGithubAuthUrl();
-              setProvider('github');
+              await router.push('/auth/error');
             } finally {
               setLoading(false);
             }
@@ -77,8 +85,8 @@ const Auth: NextPageWithLayout = () => {
             '&:hover': {
               backgroundColor: 'rgba(43, 77, 111, 0.08)',
               borderColor: PRIMARY_MAIN,
-              borderWidth: '1px',
-            },
+              borderWidth: '1px'
+            }
           }}
         >
           {loading ? 'Validando...' : 'LOGIN COM GITHUB'}
