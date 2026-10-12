@@ -9,8 +9,12 @@ const nextConfig = withTM(
   },
   env: {
     SERVICE_URL: process.env.SERVICE_URL,
-    LOGIN_REDIRECT_URL: process.env.LOGIN_REDIRECT_URL,
-    GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID
+    // Compatibilidade com arquivos .env antigos durante a migracao para os
+    // nomes NEXT_PUBLIC_* usados explicitamente pelo codigo do navegador.
+    NEXT_PUBLIC_LOGIN_REDIRECT_URL:
+      process.env.NEXT_PUBLIC_LOGIN_REDIRECT_URL || process.env.LOGIN_REDIRECT_URL,
+    NEXT_PUBLIC_GITHUB_CLIENT_ID:
+      process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID || process.env.GITHUB_CLIENT_ID,
   },
   typescript: {
     ignoreBuildErrors: true,

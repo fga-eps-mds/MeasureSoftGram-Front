@@ -5,8 +5,8 @@ services:
       context: .
       args:
         SERVICE_URL: ${SERVICE_URL:-http://localhost:8080/api}
-        LOGIN_REDIRECT_URL: ${LOGIN_REDIRECT_URL:-}
-        GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID:-}
+        NEXT_PUBLIC_LOGIN_REDIRECT_URL: ${NEXT_PUBLIC_LOGIN_REDIRECT_URL:-}
+        NEXT_PUBLIC_GITHUB_CLIENT_ID: ${NEXT_PUBLIC_GITHUB_CLIENT_ID:-}
     restart: on-failure
     ports:
       - '3000:3000'
