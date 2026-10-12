@@ -21,7 +21,14 @@ describe('Auth', () => {
     };
     global.fetch = jest.fn();
     delete (window as any).location;
-    window.location = { href: '', assign: jest.fn() } as any;
+    window.location = {
+      href: '',
+      origin: 'http://localhost:3000',
+      pathname: '/auth/',
+      search: '',
+      assign: jest.fn(),
+      replace: jest.fn()
+    } as any;
   });
 
   afterEach(() => {
@@ -40,6 +47,39 @@ describe('Auth', () => {
         </AuthProvider>
       );
       expect(tree).toMatchSnapshot();
+    });
+  });
+
+  describe('Origem canônica do login', () => {
+    const renderAuth = () =>
+      render(
+        <AuthProvider>
+          <Auth />
+        </AuthProvider>
+      );
+
+    it('Deve recarregar /auth na origem do callback quando a origem atual for outra', () => {
+      (window.location as any).origin = 'http://127.0.0.1:3000';
+      (window.location as any).search = '?next=1';
+
+      renderAuth();
+
+      expect(window.location.replace).toHaveBeenCalledWith('http://localhost:3000/auth/?next=1');
+    });
+
+    it('Não deve redirecionar quando já estiver na origem do callback', () => {
+      renderAuth();
+
+      expect(window.location.replace).not.toHaveBeenCalled();
+    });
+
+    it('Não deve redirecionar quando a URL de callback não estiver configurada', () => {
+      delete process.env.NEXT_PUBLIC_LOGIN_REDIRECT_URL;
+      (window.location as any).origin = 'http://127.0.0.1:3000';
+
+      renderAuth();
+
+      expect(window.location.replace).not.toHaveBeenCalled();
     });
   });
 
