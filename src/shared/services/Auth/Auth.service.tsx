@@ -19,7 +19,10 @@ export const signInGithub = async (code: string): Promise<Result<{ key: string }
     return { type: 'success', value: response?.data };
   } catch (err) {
     const error = err as AxiosError;
-    return { type: 'error', error };
+    const responseData = error.response?.data as { non_field_errors?: string[] } | undefined;
+    const serviceMessage = responseData?.non_field_errors?.[0];
+
+    return { type: 'error', error: serviceMessage ? new Error(serviceMessage) : error };
   }
 };
 
