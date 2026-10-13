@@ -27,7 +27,6 @@ const formatMsgramChart = ({ historical, title, isEmpty = false, csvFilters, ref
         const chart = ref.current.getEchartsInstance();
         // @ts-ignore
         const { startValue, endValue } = chart.getOption().dataZoom[0];
-        console.log(startValue, endValue);
         csvFilters.dateRange.startDate = indexToTime[startValue];
         csvFilters.dateRange.endDate = indexToTime[endValue];
       }
