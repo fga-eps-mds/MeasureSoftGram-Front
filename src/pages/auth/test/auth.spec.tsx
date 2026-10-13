@@ -17,8 +17,10 @@ describe('Auth', () => {
     process.env = {
       ...originalEnv,
       NEXT_PUBLIC_GITHUB_CLIENT_ID: 'valid-client-id',
-      NEXT_PUBLIC_LOGIN_REDIRECT_URL: 'http://localhost:3000'
+      NEXT_PUBLIC_LOGIN_REDIRECT_URL: 'http://localhost:3000',
+      GITLAB_CLIENT_ID: 'valid-gitlab-client-id'
     };
+    mockRouter.setCurrentUrl('/auth');
     global.fetch = jest.fn();
     delete (window as any).location;
     window.location = {
@@ -159,42 +161,67 @@ describe('Auth', () => {
   });
 
   describe('Fluxo de Login do GitLab', () => {
-    it('Deve redirecionar para /auth/error quando as credenciais do GitLab forem inválidas', async () => {
-      (global.fetch as jest.Mock).mockResolvedValue({
-        json: async () => ({ valid: false }),
-      });
-
+    const clickGitlabLogin = async () => {
       render(
         <AuthProvider>
           <Auth />
         </AuthProvider>
       );
 
-      const button = screen.getByRole('button', { name: /login com gitlab/i });
-      fireEvent.click(button);
-
+      fireEvent.click(screen.getByRole('button', { name: /login com gitlab/i }));
       await screen.findByRole('button', { name: /login com gitlab/i });
+    };
+
+    it('Deve redirecionar para /auth/error quando as credenciais do GitLab forem inválidas', async () => {
+      (global.fetch as jest.Mock).mockResolvedValue({
+        ok: true,
+        json: async () => ({ valid: false })
+      });
+
+      await clickGitlabLogin();
 
       expect(mockRouter.asPath).toBe('/auth/error');
+      expect(window.location.assign).not.toHaveBeenCalled();
+    });
+
+    it('Deve redirecionar para /auth/error sem chamar a API quando o client id do GitLab estiver ausente', async () => {
+      delete process.env.GITLAB_CLIENT_ID;
+
+      await clickGitlabLogin();
+
+      expect(global.fetch).not.toHaveBeenCalled();
+      expect(mockRouter.asPath).toBe('/auth/error');
+    });
+
+    it('Deve redirecionar para /auth/error quando a validação do GitLab falhar', async () => {
+      (global.fetch as jest.Mock).mockRejectedValue(new Error('Network error'));
+
+      await clickGitlabLogin();
+
+      expect(mockRouter.asPath).toBe('/auth/error');
+      expect(window.location.assign).not.toHaveBeenCalled();
+    });
+
+    it('Deve redirecionar para /auth/error quando a API de validação do GitLab responder com erro', async () => {
+      (global.fetch as jest.Mock).mockResolvedValue({ ok: false, status: 500 });
+
+      await clickGitlabLogin();
+
+      expect(mockRouter.asPath).toBe('/auth/error');
+      expect(window.location.assign).not.toHaveBeenCalled();
     });
 
     it('Deve redirecionar para a url de autorização do GitLab se as credenciais forem válidas', async () => {
       (global.fetch as jest.Mock).mockResolvedValue({
-        json: async () => ({ valid: true }),
+        ok: true,
+        json: async () => ({ valid: true })
       });
 
-      render(
-        <AuthProvider>
-          <Auth />
-        </AuthProvider>
+      await clickGitlabLogin();
+
+      expect(window.location.assign).toHaveBeenCalledWith(
+        expect.stringContaining('https://gitlab.com/oauth/authorize')
       );
-
-      const button = screen.getByRole('button', { name: /login com gitlab/i });
-      fireEvent.click(button);
-
-      await screen.findByRole('button', { name: /login com gitlab/i });
-
-      expect(window.location.href).toContain('https://gitlab.com/oauth/authorize');
     });
   });
 });
