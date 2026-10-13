@@ -11,11 +11,14 @@ import Image from 'next/image';
 import logoImage from '@public/images/svg/logo.svg';
 
 const PRIMARY_MAIN = 'primary.main';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api';
+
+type OAuthProvider = 'github' | 'gitlab';
 
 const Auth: NextPageWithLayout = () => {
   const router = useRouter();
   const { setProvider } = useAuth();
-  const [loadingProvider, setLoadingProvider] = useState<'github' | 'gitlab' | null>(null);
+  const [loadingProvider, setLoadingProvider] = useState<OAuthProvider | null>(null);
 
   // O GitHub sempre volta para a origem do callback; o provider salvo no
   // localStorage de outra origem (ex.: localhost x 127.0.0.1) se perderia.
@@ -25,6 +28,40 @@ const Auth: NextPageWithLayout = () => {
       window.location.replace(`${loginOrigin}${window.location.pathname}${window.location.search}`);
     }
   }, []);
+
+  // Valida o client id no Service antes de sair para o provedor; qualquer
+  // falha leva a /auth/error em vez de um redirecionamento invalido.
+  const startOAuthLogin = async (provider: OAuthProvider, clientId: string | undefined, getAuthUrl: () => string) => {
+    setLoadingProvider(provider);
+    try {
+      if (!clientId) {
+        await router.push('/auth/error');
+        return;
+      }
+
+      const response = await fetch(`${API_URL}/v1/accounts/${provider}/validate/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ client_id: clientId })
+      });
+      if (!response.ok) {
+        throw new Error(`${provider} OAuth validation failed with status ${response.status}`);
+      }
+      const data = await response.json();
+      if (!data?.valid) {
+        await router.push('/auth/error');
+        return;
+      }
+      setProvider(provider);
+      window.location.assign(getAuthUrl());
+    } catch (err) {
+      await router.push('/auth/error');
+    } finally {
+      setLoadingProvider(null);
+    }
+  };
 
   return (
     <AuthLayout>
@@ -54,41 +91,7 @@ const Auth: NextPageWithLayout = () => {
             )
           }
           disabled={loadingProvider !== null}
-          onClick={async () => {
-            setLoadingProvider('github');
-            try {
-              const clientId = process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID;
-              if (!clientId) {
-                await router.push('/auth/error');
-                return;
-              }
-
-              const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api'}/v1/accounts/github/validate/`,
-                {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify({ client_id: clientId })
-                }
-              );
-              if (!response.ok) {
-                throw new Error(`GitHub OAuth validation failed with status ${response.status}`);
-              }
-              const data = await response.json();
-              if (!data?.valid) {
-                await router.push('/auth/error');
-                return;
-              }
-              setProvider('github');
-              window.location.assign(getGithubAuthUrl());
-            } catch (err) {
-              await router.push('/auth/error');
-            } finally {
-              setLoadingProvider(null);
-            }
-          }}
+          onClick={() => startOAuthLogin('github', process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID, getGithubAuthUrl)}
           sx={{
             py: 1.5,
             fontSize: '1rem',
@@ -120,33 +123,7 @@ const Auth: NextPageWithLayout = () => {
             )
           }
           disabled={loadingProvider !== null}
-          onClick={async () => {
-            setLoadingProvider('gitlab');
-            try {
-              const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api'}/v1/accounts/gitlab/validate/`,
-                {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify({ client_id: process.env.GITLAB_CLIENT_ID }),
-                }
-              );
-              const data = await response.json();
-              if (data && data.valid === false) {
-                router.push('/auth/error');
-                return;
-              }
-              window.location.href = getGitlabAuthUrl();
-              setProvider('gitlab');
-            } catch (err) {
-              window.location.href = getGitlabAuthUrl();
-              setProvider('gitlab');
-            } finally {
-              setLoadingProvider(null);
-            }
-          }}
+          onClick={() => startOAuthLogin('gitlab', process.env.GITLAB_CLIENT_ID, getGitlabAuthUrl)}
           sx={{
             py: 1.5,
             fontSize: '1rem',
