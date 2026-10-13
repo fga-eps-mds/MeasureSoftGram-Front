@@ -4,7 +4,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
+import { useProviderTranslation as useTranslation } from '@hooks/useProviderTranslation';
 
 interface CopyBadgeModalProps {
   badgeUrl?: string;

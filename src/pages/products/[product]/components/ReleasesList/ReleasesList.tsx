@@ -8,7 +8,7 @@ import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import { useRequest } from '@hooks/useRequest';
 import { ReleasesPaginated } from '@customTypes/product';
 import { useRouter } from 'next/router';
-import { useTranslation } from 'react-i18next';
+import { useProviderTranslation as useTranslation } from '@hooks/useProviderTranslation';
 import ReleasesTable from './ReleasesTable';
 
 import * as Styles from './styles';

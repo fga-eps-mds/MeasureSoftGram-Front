@@ -6,7 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
 import { useProductContext } from '@contexts/ProductProvider';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
-import { useTranslation } from 'react-i18next';
+import { useProviderTranslation as useTranslation } from '@hooks/useProviderTranslation';
 import RepositoriesTable from './RepositoriesTable';
 import Skeleton from './Skeleton';
 import * as Styles from './styles';

@@ -2,7 +2,7 @@ import { Box, IconButton, Tooltip } from '@mui/material';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 
 import React, { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useProviderTranslation as useTranslation } from '@hooks/useProviderTranslation';
 import { TsqmiValue } from '@customTypes/product';
 import CopyBadgeModal from '../CopyBadgeModal';
 

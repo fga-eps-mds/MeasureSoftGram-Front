@@ -50,6 +50,7 @@ jobs:
             NEXT_PUBLIC_API_URL=${{ vars.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api' }}
             LOGIN_REDIRECT_URL=${{ vars.LOGIN_REDIRECT_URL }}
             GITHUB_CLIENT_ID=${{ vars.GH_CLIENT_ID }}
+            GITLAB_CLIENT_ID=${{ vars.GITLAB_CLIENT_ID }}
 
   trigger-deploy:
     needs: build-and-push

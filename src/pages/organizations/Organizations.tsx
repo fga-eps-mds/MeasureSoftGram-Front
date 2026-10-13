@@ -4,7 +4,7 @@ import getLayout from '@components/Layout';
 import { toast } from 'react-toastify';
 import { getAllUsers, User } from '@services/user';
 import { TextField, Button, Typography, Box, List, ListItem, ListItemText, Modal, Fade, FormControl } from '@mui/material';
-import { useTranslation } from 'react-i18next';
+import { useProviderTranslation as useTranslation } from '@hooks/useProviderTranslation';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import MSGButton from '../../components/idv/buttons/MSGButton';
 import { useOrganizationQuery } from './hooks/useOrganizationQuery';

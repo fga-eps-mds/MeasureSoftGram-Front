@@ -3,6 +3,7 @@ import { Box, Typography, Paper, Checkbox, CircularProgress } from '@mui/materia
 import { UseFormWatch, UseFormSetValue } from 'react-hook-form';
 import { ReleaseInfoForm } from '@customTypes/preConfig';
 import { productQuery } from '@services/product';
+import { useProviderTerms } from '@hooks/useProviderTerms';
 
 interface Props {
   organizationId: string;
@@ -12,6 +13,7 @@ interface Props {
 }
 
 export default function RepositorySelectionForm({ organizationId, productId, watch, setValue }: Props) {
+  const { terms } = useProviderTerms();
   const [repositories, setRepositories] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -61,15 +63,15 @@ export default function RepositorySelectionForm({ organizationId, productId, wat
   return (
     <Box mt={2}>
       <Typography variant="h5" color="text.primary" gutterBottom>
-        Selecionar Repositórios da Release
+        {`Selecionar ${terms.Repositories} da Release`}
       </Typography>
       <Typography variant="body2" color="text.secondary" mb={3}>
-        Selecione quais repositórios deste produto farão parte desta release. O modelo matemático e os cálculos de qualidade serão restritos aos repositórios selecionados.
+        {`Selecione quais ${terms.repositories} deste produto farão parte desta release. O modelo matemático e os cálculos de qualidade serão restritos aos ${terms.repositories} selecionados.`}
       </Typography>
 
       <Paper variant="outlined" sx={{ p: 2, borderRadius: 2 }}>
         <Typography variant="subtitle2" color="text.secondary" mb={2}>
-          Repositórios Disponíveis
+          {`${terms.Repositories} Disponíveis`}
         </Typography>
         <Box display="flex" flexDirection="column" gap={2}>
           {repositories.map(repo => {
