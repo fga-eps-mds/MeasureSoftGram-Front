@@ -29,11 +29,9 @@ const formatRepositoriesTsqmiHistory = ({ history, csvFilters, ref }: Props) => 
   const onEvents = {
     datazoom: () => {
       if (ref.current && csvFilters.dateRange) {
-        console.log(series);
         const chart = ref.current.getEchartsInstance();
         // @ts-ignore
         const { startValue, endValue } = chart.getOption().dataZoom[0];
-        console.log(startValue, endValue);
         if (startValue && endValue) {
           csvFilters.dateRange.startDate = startValue;
           csvFilters.dateRange.endDate = endValue;
