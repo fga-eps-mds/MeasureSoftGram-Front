@@ -12,7 +12,7 @@ import dynamic from 'next/dynamic';
 import { ProductFormData } from '@services/product';
 import { toNumber } from 'lodash';
 import { useProductQuery } from '@pages/products/hooks/useProductQuery';
-import { useTranslation } from 'react-i18next';
+import { useProviderTranslation as useTranslation } from '@hooks/useProviderTranslation';
 import GaugeSlider from '../GaugeSlider';
 import CopyBadgeModal from '../CopyBadgeModal';
 

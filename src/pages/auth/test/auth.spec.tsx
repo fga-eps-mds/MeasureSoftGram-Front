@@ -79,4 +79,44 @@ describe('Auth', () => {
       expect(window.location.href).toContain('/login/oauth/authorize');
     });
   });
+
+  describe('Fluxo de Login do GitLab', () => {
+    it('Deve redirecionar para /auth/error quando as credenciais do GitLab forem inválidas', async () => {
+      (global.fetch as jest.Mock).mockResolvedValue({
+        json: async () => ({ valid: false }),
+      });
+
+      render(
+        <AuthProvider>
+          <Auth />
+        </AuthProvider>
+      );
+
+      const button = screen.getByRole('button', { name: /login com gitlab/i });
+      fireEvent.click(button);
+
+      await screen.findByRole('button', { name: /login com gitlab/i });
+
+      expect(mockRouter.asPath).toBe('/auth/error');
+    });
+
+    it('Deve redirecionar para a url de autorização do GitLab se as credenciais forem válidas', async () => {
+      (global.fetch as jest.Mock).mockResolvedValue({
+        json: async () => ({ valid: true }),
+      });
+
+      render(
+        <AuthProvider>
+          <Auth />
+        </AuthProvider>
+      );
+
+      const button = screen.getByRole('button', { name: /login com gitlab/i });
+      fireEvent.click(button);
+
+      await screen.findByRole('button', { name: /login com gitlab/i });
+
+      expect(window.location.href).toContain('https://gitlab.com/oauth/authorize');
+    });
+  });
 });

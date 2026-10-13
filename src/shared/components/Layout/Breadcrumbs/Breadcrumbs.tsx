@@ -6,7 +6,7 @@ import { Breadcrumbs as BreadcrumbsMUI, Typography, Box } from '@mui/material';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
-import { useTranslation } from 'react-i18next';
+import { useProviderTranslation as useTranslation } from '@hooks/useProviderTranslation';
 
 export function Breadcrumbs() {
   const { t } = useTranslation('breadcrumb');

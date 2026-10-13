@@ -5,6 +5,7 @@ import { COLOR_TOKENS, formatPulseChartOptions, convertPulseRepositoriesToCsv } 
 import { usePulseChartData } from './usePulseChartData';
 import { PulseChartFilters } from './PulseChartFilters';
 import { PulseChartRepoSidebar } from './PulseChartRepoSidebar';
+import { useProviderTerms } from '@hooks/useProviderTerms';
 
 const ReactEcharts = dynamic(() => import('echarts-for-react'), { ssr: false });
 
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export const PulseChart: React.FC<Props> = ({ organizationId, productId }) => {
+  const { terms } = useProviderTerms();
   const echartsRef = useRef<any>(null);
 
   const {
@@ -100,7 +102,7 @@ export const PulseChart: React.FC<Props> = ({ organizationId, productId }) => {
             Gráfico MSG — Evolução de Qualidade
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ fontSize: '12px' }}>
-            Gráfico de pulso por repositório (TSQMI) • pico = variação entre medições • marcadores = releases planejadas • cor = faixa de qualidade
+            Gráfico de pulso por {terms.repository} (TSQMI) • pico = variação entre medições • marcadores = releases planejadas • cor = faixa de qualidade
           </Typography>
         </Box>
 
@@ -161,7 +163,7 @@ export const PulseChart: React.FC<Props> = ({ organizationId, productId }) => {
       {/* Footer summary */}
       <Box display="flex" justifyContent="space-between" alignItems="center" marginTop="16px">
         <Typography variant="caption" color="text.secondary" sx={{ fontSize: '11px' }}>
-          {filteredRepositories.length} repositório(s) • {totalMeasurements} medição(ões) total(is) • {selectedMeasurements} no período • Última medição: {latestDate || 'N/A'}
+          {filteredRepositories.length} {terms.repository}(s) • {totalMeasurements} medição(ões) total(is) • {selectedMeasurements} no período • Última medição: {latestDate || 'N/A'}
         </Typography>
         <Typography variant="caption" color="text.secondary" sx={{ fontSize: '11px' }}>
           Renderizado com Apache ECharts

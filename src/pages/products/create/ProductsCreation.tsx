@@ -6,7 +6,7 @@ import { TextField, MenuItem } from '@mui/material';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import { useProductContext } from '@contexts/ProductProvider';
 import { Botoes, Container, Description, Form, Header, Wrapper } from '@pages/organizations/styles';
-import { useTranslation } from 'react-i18next';
+import { useProviderTranslation as useTranslation } from '@hooks/useProviderTranslation';
 import MSGButton from '../../../components/idv/buttons/MSGButton';
 import { useProductQuery } from '../hooks/useProductQuery';
 
