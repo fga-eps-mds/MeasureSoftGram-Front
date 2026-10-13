@@ -16,7 +16,7 @@ import ConfirmationModal from '@components/ConfirmationModal';
 import { FaGithub, FaGitlab, FaBitbucket, FaAws, FaCodeBranch } from 'react-icons/fa';
 import { SiSubversion, SiMercurial, SiMicrosoftazure } from "react-icons/si";
 import TsqmiBadge from '@pages/products/[product]/repositories/[repository]/components/TsqmiBadge';
-import { useTranslation } from 'react-i18next';
+import { useProviderTranslation as useTranslation } from '@hooks/useProviderTranslation';
 import { useQuery } from '@hooks/useQuery';
 import { productQuery } from '@services/product';
 import { repository as repositoryService } from '@services/repository';

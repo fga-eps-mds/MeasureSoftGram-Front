@@ -3,17 +3,20 @@
   "last-update": "Last update",
   "plan-release": "Plan Release",
   "repo": "Repositories",
+  "repo_gitlab": "Projects",
   "repo-button": "View Repositories",
+  "repo-button_gitlab": "View Projects",
   "release": "Releases",
   "release-button": "View Releases",
   "chart-title": "Observed Product Behavior",
   "prototype-badge": "PROTOTYPE • ECHARTS",
   "msg-chart-title": "MSG Chart — Quality Evolution",
   "msg-chart-subtitle": "One line per repository (TSQMI) • markers = planned releases • color = quality range",
+  "msg-chart-subtitle_gitlab": "One line per project (TSQMI) • markers = planned releases • color = quality range",
   "no-releases-title": "This product does not have any registered releases yet",
   "no-releases-description-1": "The MSG Chart tracks repository TSQMI marking the planned releases for each one.",
+  "no-releases-description-1_gitlab": "The MSG Chart tracks project TSQMI marking the planned releases for each one.",
   "no-releases-description-2": "Register the first release of {{productName}} to track evolution.",
   "go-to-releases": "Go to Releases",
   "rendered-with-echarts": "Rendered with Apache ECharts"
 }
-

@@ -15,8 +15,10 @@ import { NextPageWithLayout } from '@pages/_app.next';
 import getLayout from '@components/Layout';
 import useRequireAuth from '@hooks/useRequireAuth';
 import { useGrafanaDashboard } from '@hooks/useGrafanaDashboard';
+import { useProviderTerms } from '@hooks/useProviderTerms';
 
 const SaudeDashboard: NextPageWithLayout = () => {
+  const { terms } = useProviderTerms();
   useRequireAuth();
 
   const { grafanaUrl, loading, error, repositories, selectedRepoId, setSelectedRepoId } =
@@ -25,22 +27,22 @@ const SaudeDashboard: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>Saúde de Qualidade por Repositório</title>
+        <title>{`Saúde de Qualidade por ${terms.Repository}`}</title>
       </Head>
 
       <Container maxWidth="xl">
         <Box display="flex" flexDirection="column" gap={2} marginTop="40px">
           <Box display="flex" justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={2}>
             <Typography variant="h4" color="#33568E" fontWeight="500">
-              Saúde de Qualidade por Repositório
+              {`Saúde de Qualidade por ${terms.Repository}`}
             </Typography>
 
             {repositories.length > 0 && (
               <FormControl size="small" sx={{ minWidth: 220 }}>
-                <InputLabel>Repositório</InputLabel>
+                <InputLabel>{terms.Repository}</InputLabel>
                 <Select
                   value={selectedRepoId ?? ''}
-                  label="Repositório"
+                  label={terms.Repository}
                   onChange={(e) => setSelectedRepoId(Number(e.target.value))}
                 >
                   {repositories.map((repo) => (
@@ -72,7 +74,7 @@ const SaudeDashboard: NextPageWithLayout = () => {
             {grafanaUrl && (
               <iframe
                 src={grafanaUrl}
-                title="Saúde de Qualidade por Repositório"
+                title={`Saúde de Qualidade por ${terms.Repository}`}
                 style={{ width: '100%', height: '100%', border: 'none' }}
               />
             )}

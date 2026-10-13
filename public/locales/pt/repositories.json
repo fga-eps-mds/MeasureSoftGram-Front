@@ -1,38 +1,53 @@
 {
   "title": "Repositórios",
+  "title_gitlab": "Projetos",
   "more": "VER MAIS...",
   "input-placeholder": "Insira o nome do repositório",
+  "input-placeholder_gitlab": "Insira o nome do projeto",
   "history": "Histórico",
   "current-scenario": "Cenário Atual",
   "create": "CRIAR",
   "choose": "Escolha um repositório para importar",
+  "choose_gitlab": "Escolha um projeto para importar",
   "not-found": "Nenhum Repositório encontrado...",
+  "not-found_gitlab": "Nenhum Projeto encontrado...",
   "delete": {
     "title": "Confirme a exclusão de ",
     "titleRest": "digitando o nome dele abaixo.",
     "alert": "Isso irá deletar permanentemente o item ",
     "button": "CONFIRMAR EXCLUSÃO",
     "toast-sucess": "Repositório excluído com sucesso!",
-    "toast-error": "Erro ao excluir o repositório."
+    "toast-sucess_gitlab": "Projeto excluído com sucesso!",
+    "toast-error": "Erro ao excluir o repositório.",
+    "toast-error_gitlab": "Erro ao excluir o projeto."
   },
   "edit": {
     "title": "Editar Repositório",
+    "title_gitlab": "Editar Projeto",
     "name": "Nome do Repositório",
+    "name_gitlab": "Nome do Projeto",
     "description": "Descrição",
     "url": "URL do Repositório",
+    "url_gitlab": "URL do Projeto",
     "platform": "Plataforma",
     "save": "Salvar Alterações",
     "sucess": "Repositório atualizado com sucesso!",
+    "sucess_gitlab": "Projeto atualizado com sucesso!",
     "product": "Produto"
   },
   "register": {
     "title": "Cadastro de Repositório",
+    "title_gitlab": "Cadastro de Projeto",
     "create": "Criar Repositório",
-    "sucess": "Repositório criado com sucesso"
+    "create_gitlab": "Criar Projeto",
+    "sucess": "Repositório criado com sucesso",
+    "sucess_gitlab": "Projeto criado com sucesso"
   },
   "error": {
     "data": "Erro ao carregar dados do repositório.",
-    "error": "Não foi possível carregar os dados do repositório."
+    "data_gitlab": "Erro ao carregar dados do projeto.",
+    "error": "Não foi possível carregar os dados do repositório.",
+    "error_gitlab": "Não foi possível carregar os dados do projeto."
   },
   "repository": {
     "characteristic": "Características",
@@ -45,15 +60,18 @@
     "measure-scenario": "Cenário atual das Medidas",
     "metrics": "Métricas",
     "badge-tooltip": "Qualidade do repositório",
+    "badge-tooltip_gitlab": "Qualidade do projeto",
     "copy-badge": "Copiar Badge",
     "badge-copied": "Badge copiada com sucesso!",
     "badge-instructions": "Cole o código abaixo no README do seu repositório:",
+    "badge-instructions_gitlab": "Cole o código abaixo no README do seu projeto:",
     "badge-cancel": "Cancelar",
     "badge-copy-btn": "Copiar",
     "badge-copy-error": "Falha ao copiar para a área de transferência.",
     "badge-stale": "A última análise foi realizada há mais de 30 dias. A badge pode estar desatualizada.",
     "badge-stale-label": "Badge desatualizada",
     "badge-stale-tooltip": "Badge desatualizada a mais de 30 dias. Reexecute o workflow do repositório para gerar a versão mais recente.",
+    "badge-stale-tooltip_gitlab": "Badge desatualizada a mais de 30 dias. Reexecute o workflow do projeto para gerar a versão mais recente.",
     "badge-error": "Ocorreu um erro ao tentar carregar as informações da badge.",
     "characteristic-badges": "Badges de Características"
   }

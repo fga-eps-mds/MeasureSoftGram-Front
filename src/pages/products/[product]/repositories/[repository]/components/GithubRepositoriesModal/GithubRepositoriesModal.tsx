@@ -4,10 +4,11 @@ import { getUserRepos, Repo } from '@services/user';
 import { useRouter } from 'next/router';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import { useProductContext } from '@contexts/ProductProvider';
-import { useTranslation } from 'react-i18next';
+import { useProviderTranslation as useTranslation } from '@hooks/useProviderTranslation';
 import { toast } from 'react-toastify';
 import { getPathId } from '@utils/pathDestructer';
 import { useQuery } from '../../../../../../../shared/hooks/useQuery';
+import { useProviderTerms } from '@hooks/useProviderTerms';
 
 type GithubRepositoriesModalProps = {
   open: boolean
@@ -32,6 +33,7 @@ const borderPrimaryStyle = '1px solid #2B4D6F'
 
 
 export function GithubRepositoriesModal({ handleCloseModal, open }: GithubRepositoriesModalProps) {
+  const { terms } = useProviderTerms();
   const router = useRouter();
   const [repos, setRepos] = useState<Repo[]>([])
   const { t } = useTranslation('repositories');
@@ -118,7 +120,7 @@ export function GithubRepositoriesModal({ handleCloseModal, open }: GithubReposi
           className="text"
           onChange={(e) => handleRepositoriesFilter(e.target.value)}
           variant="outlined"
-          placeholder="Insira o nome do repositório"
+          placeholder={`Insira o nome do ${terms.repository}`}
           size="small"
           fullWidth
           style={

@@ -1,6 +1,8 @@
 {
   "products": "Products",
   "repositories": "Repositories",
+  "repositories_gitlab": "Projects",
   "releases": "Releases",
-  "organizations": "Organizations"
+  "organizations": "Organizations",
+  "organizations_gitlab": "Groups"
 }

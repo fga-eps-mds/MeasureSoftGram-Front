@@ -4,6 +4,7 @@ import { organizationQuery } from '@services/organization';
 import { toast } from 'react-toastify';
 import { useAuth } from '@contexts/Auth';
 import { useLocalStorage } from '@hooks/useLocalStorage';
+import { useProviderTerms } from '@hooks/useProviderTerms';
 
 interface Props {
   children: ReactNode;
@@ -26,6 +27,7 @@ const isSameGithubOrg = (githubOrgName: string, dbOrg: Organization) => {
 };
 
 export function OrganizationProvider({ children }: Props) {
+  const { terms } = useProviderTerms();
   const { session } = useAuth();
   const [currentOrganizations, setCurrentOrganizations] = useState<Organization[]>([]);
   const [currentOrganization, setCurrentOrganization] = useState<Organization | null>(null);
@@ -97,17 +99,17 @@ export function OrganizationProvider({ children }: Props) {
   
         syncGithubOrganizations(organizations);
       } else {
-        toast.error("Erro ao carregar organizações.");
+        toast.error(`Erro ao carregar ${terms.organizations}.`);
         setHasFetched(true);
       }
     } catch (error) {
       console.error("Failed to fetch organizations:", error);
-      toast.error("Erro ao carregar organizações. Por favor, tente novamente.");
+      toast.error(`Erro ao carregar ${terms.organizations}. Por favor, tente novamente.`);
       setHasFetched(true);
     } finally {
       setIsLoading(false);
     }
-  }, [session]);
+  }, [session, terms]);
 
   useEffect(() => {
     if (session?.username) {

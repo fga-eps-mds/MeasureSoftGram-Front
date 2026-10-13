@@ -6,16 +6,20 @@
     },
     "repos": {
       "text": "Repositórios",
-      "tooltip": "Repositórios do Produto"
+      "text_gitlab": "Projetos",
+      "tooltip": "Repositórios do Produto",
+      "tooltip_gitlab": "Projetos do Produto"
     },
     "release": {
       "text": "Releases",
-      "tooltip": "Releases de cada repositório"
+      "tooltip": "Releases de cada repositório",
+      "tooltip_gitlab": "Releases de cada projeto"
     }
   },
   "tooltip": {
     "user-menu": "Menu do usuário",
     "organization-selection": "Seleção de Organização",
+    "organization-selection_gitlab": "Seleção de Grupo",
     "product-selection": "Seleção de Produtos"
   },
   "select": {
@@ -27,8 +31,10 @@
     "add-product": "Adicionar Produto"
   },
   "organization": {
-    "placeholder":"Selecione a organização",
-    "add-organization": "Adicionar organização"
+    "placeholder": "Selecione a organização",
+    "placeholder_gitlab": "Selecione o grupo",
+    "add-organization": "Adicionar organização",
+    "add-organization_gitlab": "Adicionar grupo"
   },
   "release": {
     "more": "VER MAIS..."
@@ -37,6 +43,7 @@
     "title": "Confirmar exclusão",
     "alert": "Coisas inesperadas podem acontecer se você não ler isso!",
     "organization-text": "Isso irá deletar permanentemente a organização",
+    "organization-text_gitlab": "Isso irá deletar permanentemente o grupo",
     "organization-text2": ", assim como seus produtos e todos os membros associados.",
     "product-text": "Isso irá deletar permanentemente o produto: ",
     "button": "EU LI E ENTENDO OS EFEITOS"

@@ -1,6 +1,16 @@
 import { AxiosResponse } from 'axios';
 import api from '@services/api';
-import { signInCredentials, signInGithub, signUp, signOut, getUserInfo, getAccessToken } from '../index'; // Ajuste o caminho conforme necessário
+import {
+  signInCredentials,
+  signInGithub,
+  signInGitlab,
+  signUp,
+  signOut,
+  getUserInfo,
+  getAccessToken,
+  getGitlabAuthUrl
+} from '../index';
+
 
 // Mock manual do módulo 'api'
 jest.mock('@services/api', () => ({
@@ -72,6 +82,31 @@ describe('Auth Service', () => {
     const result = await signInGithub('githubCode');
 
     expect(result).toEqual({ type: 'error', error: new Error(message) });
+  });
+
+  // Testes para signInGitlab
+  it('successfully signs in with GitLab', async () => {
+    const mockData = { key: 'fakeGitlabKey' };
+    const code = 'gitlabCode';
+
+    (api.post as jest.Mock).mockImplementation(() =>
+      Promise.resolve({ data: mockData } as AxiosResponse)
+    );
+
+    const result = await signInGitlab(code);
+
+    expect(result).toEqual({ type: 'success', value: mockData });
+  });
+
+  it('handles sign in with GitLab error', async () => {
+    const error = new Error('Network Error');
+    const code = 'gitlabCode';
+
+    (api.post as jest.Mock).mockImplementation(() => Promise.reject(error));
+
+    const result = await signInGitlab(code);
+
+    expect(result).toEqual({ type: 'error', error });
   });
 
   // Testes para signUp
@@ -189,6 +224,24 @@ describe('Auth Service', () => {
     });
   });
 
+  // Testes para getGitlabAuthUrl
+  describe('getGitlabAuthUrl', () => {
+    it('should return a GitLab OAuth URL with client_id, redirect_uri and scope', () => {
+      const url = getGitlabAuthUrl();
+
+      expect(url).toContain('https://gitlab.com/oauth/authorize');
+      expect(url).toContain('client_id=');
+      expect(url).toContain('redirect_uri=');
+      expect(url).toContain('response_type=code');
+    });
+
+    it('should use the public login redirect URL as redirect_uri', () => {
+      process.env.NEXT_PUBLIC_LOGIN_REDIRECT_URL = 'https://front.example';
+
+      expect(getGitlabAuthUrl()).toContain('redirect_uri=https://front.example&');
+    });
+  });
+
   // Testes para getGithubAuthUrlToRepositoriesPage
   describe('getGithubAuthUrlToRepositoriesPage', () => {
     it('should return a GitHub OAuth URL with state parameter and scope', () => {
@@ -229,6 +282,17 @@ describe('Auth Service', () => {
       await signInGithub(code);
 
       expect(api.post).toHaveBeenCalledWith('/v1/accounts/github/login/', { code });
+    });
+
+    it('signInGitlab calls api.post with /v1/accounts/gitlab/login/', async () => {
+      const code = 'gitlabCode';
+      (api.post as jest.Mock).mockImplementation(() =>
+        Promise.resolve({ data: {} } as AxiosResponse)
+      );
+
+      await signInGitlab(code);
+
+      expect(api.post).toHaveBeenCalledWith('/v1/accounts/gitlab/login/', { code });
     });
 
     it('signUp calls api.post with /v1/accounts/signin/', async () => {

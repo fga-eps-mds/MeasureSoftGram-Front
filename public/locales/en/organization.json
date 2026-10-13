@@ -1,9 +1,14 @@
 {
   "title-edit": "EDIT ORGANIZATION",
+  "title-edit_gitlab": "EDIT GROUP",
   "title-create": "ADD ORGANIZATION",
+  "title-create_gitlab": "ADD GROUP",
   "description": "An organization represents a high-level entity that maintains multiple source code repositories. Each repository may have its own objective, but all should align with the organization's interests.",
+  "description_gitlab": "An group represents a high-level entity that maintains multiple source code projects. Each project may have its own objective, but all should align with the group's interests.",
   "input-name": "Organization Name",
+  "input-name_gitlab": "Group Name",
   "input-description": "Organization Description",
+  "input-description_gitlab": "Group Description",
   "add-members": "ADD MEMBERS",
   "added": "Added",
   "add": "Add",
@@ -13,11 +18,17 @@
   "close": "Close",
   "toast": {
     "error": "Error creating the organization",
+    "error_gitlab": "Error creating the group",
     "sucess": "Organization created successfully",
+    "sucess_gitlab": "Group created successfully",
     "error-edit": "Error updating the organization!",
+    "error-edit_gitlab": "Error updating the group!",
     "sucess-edit": "Organization updated successfully!",
+    "sucess-edit_gitlab": "Group updated successfully!",
     "name-exists": "An organization with this name already exists.",
+    "name-exists_gitlab": "An group with this name already exists.",
     "key-exists": "An organization with this key already exists.",
+    "key-exists_gitlab": "An group with this key already exists.",
     "load-users": "Error loading users."
   }
 }
