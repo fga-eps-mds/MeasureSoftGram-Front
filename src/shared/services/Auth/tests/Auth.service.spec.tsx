@@ -109,6 +109,19 @@ describe('Auth Service', () => {
     expect(result).toEqual({ type: 'error', error });
   });
 
+  it('returns the Service message when GitLab sign in is rejected', async () => {
+    const message = 'O e-mail desta conta do GitLab já está em uso por outro usuário do MeasureSoftGram.';
+    const error = Object.assign(new Error('Request failed with status code 400'), {
+      response: { status: 400, data: { non_field_errors: [message] } }
+    });
+
+    (api.post as jest.Mock).mockImplementation(() => Promise.reject(error));
+
+    const result = await signInGitlab('gitlabCode');
+
+    expect(result).toEqual({ type: 'error', error: new Error(message) });
+  });
+
   // Testes para signUp
   it('successfully signs up', async () => {
     const mockData = {};

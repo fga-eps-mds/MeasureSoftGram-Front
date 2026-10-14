@@ -1,6 +1,14 @@
 import api from '@services/api';
 import { AxiosError } from 'axios';
 
+const getSocialLoginError = (err: unknown): Error => {
+  const error = err as AxiosError;
+  const responseData = error.response?.data as { non_field_errors?: string[] } | undefined;
+  const serviceMessage = responseData?.non_field_errors?.[0];
+
+  return serviceMessage ? new Error(serviceMessage) : error;
+};
+
 export const signInCredentials = async (data: LoginFormData): Promise<Result<User>> => {
   try {
     const response = await api.post('/v1/accounts/login/', data);
@@ -18,11 +26,7 @@ export const signInGithub = async (code: string): Promise<Result<{ key: string }
 
     return { type: 'success', value: response?.data };
   } catch (err) {
-    const error = err as AxiosError;
-    const responseData = error.response?.data as { non_field_errors?: string[] } | undefined;
-    const serviceMessage = responseData?.non_field_errors?.[0];
-
-    return { type: 'error', error: serviceMessage ? new Error(serviceMessage) : error };
+    return { type: 'error', error: getSocialLoginError(err) };
   }
 };
 
@@ -32,8 +36,7 @@ export const signInGitlab = async (code: string): Promise<Result<{ key: string }
 
     return { type: 'success', value: response?.data };
   } catch (err) {
-    const error = err as AxiosError;
-    return { type: 'error', error };
+    return { type: 'error', error: getSocialLoginError(err) };
   }
 };
 
