@@ -13,7 +13,7 @@ import { useAuth } from '@contexts/Auth';
 import { useProductContext } from '@contexts/ProductProvider';
 import { useRouter } from 'next/router';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
-import { useTranslation } from 'react-i18next';
+import { useProviderTranslation as useTranslation } from '@hooks/useProviderTranslation';
 import { Box } from '@mui/material';
 import SideMenuItem from './SideMenuItem/SideMenuItem';
 import SideMenuWrapper from './SideMenuWrapper';

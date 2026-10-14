@@ -9,7 +9,7 @@ import getLayout from '@components/Layout';
 import useRequireAuth from '@hooks/useRequireAuth';
 import { useProductContext } from '@contexts/ProductProvider';
 
-import { useTranslation } from 'react-i18next';
+import { useProviderTranslation as useTranslation } from '@hooks/useProviderTranslation';
 import { useQuery } from './hooks/useQuery';
 import ProductContent from './components/ProductContent';
 

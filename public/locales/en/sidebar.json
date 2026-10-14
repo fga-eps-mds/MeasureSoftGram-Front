@@ -6,16 +6,20 @@
     },
     "repos": {
       "text": "Repositories",
-      "tooltip": "Product Repositories"
+      "text_gitlab": "Projects",
+      "tooltip": "Product Repositories",
+      "tooltip_gitlab": "Product Projects"
     },
     "release": {
       "text": "Releases",
-      "tooltip": "Releases from each repository"
+      "tooltip": "Releases from each repository",
+      "tooltip_gitlab": "Releases from each project"
     }
   },
   "tooltip": {
     "user-menu": "User menu",
     "organization-selection": "Organization Selection",
+    "organization-selection_gitlab": "Group Selection",
     "product-selection": "Product Selection"
   },
   "select": {
@@ -27,8 +31,10 @@
     "add-product": "Add product"
   },
   "organization": {
-    "placeholder":"Select Organization",
-    "add-organization": "Add organization"
+    "placeholder": "Select Organization",
+    "placeholder_gitlab": "Select Group",
+    "add-organization": "Add organization",
+    "add-organization_gitlab": "Add group"
   },
   "release": {
     "more": "MORE..."
@@ -37,6 +43,7 @@
     "title": "Confirm deletion",
     "alert": "Unexpected things may happen if you don't read this!",
     "organization-text": "This will permanently delete the organization",
+    "organization-text_gitlab": "This will permanently delete the group",
     "organization-text2": ", as well as its products and all associated members.",
     "product-text": "This will permanently delete the product :",
     "button": "I HAVE READ AND UNDERSTAND THE EFFECTS"

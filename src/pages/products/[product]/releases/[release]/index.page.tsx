@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import { formatDate } from '@utils/formatDate';
 import { getPathId } from '@utils/pathDestructer';
 import Head from 'next/head';
+import { useProviderTerms } from '@hooks/useProviderTerms';
 
 const PLANEJADO_VS_REALIZADO_PANEL_ID = 8;
 const VISAO_GERAL_UID = '5904a9de-7f42-453c-9a93-1175d1fe6918';
@@ -17,6 +18,7 @@ const Release: any = () => {
   const router = useRouter();
   const routerParams: any = router.query;
   const { t } = useTranslation('release');
+  const { terms } = useProviderTerms();
 
   const [accomplisedResults, setAccomplisedResults] = useState<AccomplishedRepository[]>([]);
   const [planned, setPlanned] = useState<Characteristic[]>([]);
@@ -124,7 +126,7 @@ const Release: any = () => {
           >
             {panelLoading && <CircularProgress />}
             {!panelLoading && !panelUrl && (
-              <Typography color="text.secondary">Selecione um repositório</Typography>
+              <Typography color="text.secondary">{`Selecione um ${terms.repository}`}</Typography>
             )}
             {panelUrl && !panelLoading && (
               <iframe

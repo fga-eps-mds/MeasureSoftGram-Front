@@ -10,10 +10,11 @@ import { toast } from 'react-toastify';
 import axios, { AxiosError } from 'axios';
 import { SiSubversion, SiMercurial, SiMicrosoftazure } from "react-icons/si";
 import { repository } from '@services/repository';
-import { useTranslation } from 'react-i18next';
+import { useProviderTranslation as useTranslation } from '@hooks/useProviderTranslation';
 import { TextField, MenuItem, Box } from '@mui/material';
 import { useQuery } from '../../../../../shared/hooks/useQuery';
 import MSGButton from '../../../../../components/idv/buttons/MSGButton';
+import { useProviderTerms } from '@hooks/useProviderTerms';
 
 interface IRepositoryData {
   name: string,
@@ -39,6 +40,7 @@ const AzureIcon: FC = () => <SiMicrosoftazure size="1.5em" />;
 const OutrosIcon: FC = () => <FaCodeBranch size="1.5em" />;
 
 const RepositoryForm: NextPageWithLayout = () => {
+  const { terms } = useProviderTerms();
   const router = useRouter();
   const { handleRepositoryAction } = useQuery();
   const { currentOrganization } = useOrganizationContext();
@@ -144,13 +146,13 @@ const RepositoryForm: NextPageWithLayout = () => {
   };
 
   function handleResultError(error: AxiosError<ApiErrorResponse>) {
-    let errorMsg = 'Erro ao criar/atualizar repositório.';
+    let errorMsg = `Erro ao criar/atualizar ${terms.repository}.`;
     if (error.response) {
       const errorCode = error.response.status;
       const errorData = error.response.data;
 
       if (errorCode === 400 && errorData.non_field_errors && errorData.non_field_errors.includes("Repository with this name already exists.")) {
-        errorMsg = 'Já existe um repositório com este nome.';
+        errorMsg = `Já existe um ${terms.repository} com este nome.`;
       }
 
       if (errorCode === 400 && errorData.url) {
@@ -158,9 +160,9 @@ const RepositoryForm: NextPageWithLayout = () => {
         if (urlError === "The URL must start with http or https.") {
           errorMsg = 'A URL deve começar com http ou https.';
         } else if (urlError === "The repository's URL is not accessible.") {
-          errorMsg = 'A URL do repositório não é acessível.';
+          errorMsg = `A URL do ${terms.repository} não é acessível.`;
         } else if (urlError === "Unable to verify the repository's URL.") {
-          errorMsg = 'Não foi possível verificar a URL do repositório.';
+          errorMsg = `Não foi possível verificar a URL do ${terms.repository}.`;
         }
       }
     }
@@ -171,10 +173,10 @@ const RepositoryForm: NextPageWithLayout = () => {
   }
 
   function handleCatchError(error: any) {
-    let errorMsg = 'Erro desconhecido ao criar repositório.';
+    let errorMsg = `Erro desconhecido ao criar ${terms.repository}.`;
     if (axios.isAxiosError(error) && error.response) {
       const apiError = error.response.data as ApiErrorResponse;
-      errorMsg = apiError.non_field_errors?.[0] || 'Erro ao criar repositório.';
+      errorMsg = apiError.non_field_errors?.[0] || `Erro ao criar ${terms.repository}.`;
     }
 
     toast.error(errorMsg);

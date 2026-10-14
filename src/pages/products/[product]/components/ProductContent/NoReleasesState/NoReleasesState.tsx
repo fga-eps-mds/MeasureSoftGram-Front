@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { useTranslation } from 'react-i18next';
+import { useProviderTranslation as useTranslation } from '@hooks/useProviderTranslation';
 import { Box, Button, Typography, Paper } from '@mui/material';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
 import InsertLinkIcon from '@mui/icons-material/InsertLink';

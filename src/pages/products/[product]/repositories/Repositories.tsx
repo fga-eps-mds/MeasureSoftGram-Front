@@ -7,7 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 
 import { NextPageWithLayout } from '@pages/_app.next';
 import getLayout from '@components/Layout';
-import { useTranslation } from 'react-i18next';
+import { useProviderTranslation as useTranslation } from '@hooks/useProviderTranslation';
 import RepositoriesTable from '../components/RepositoriesList/RepositoriesTable';
 
 const Repositories: NextPageWithLayout = () => {

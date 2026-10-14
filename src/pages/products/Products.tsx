@@ -35,6 +35,8 @@ import { useOrganizationContext } from "@contexts/OrganizationProvider";
 import { useProductContext } from "@contexts/ProductProvider";
 import { useAuth } from "@contexts/Auth";
 import { isSameGithubOrg } from "@utils/isSameGithubOrg";
+import { FaGitlab } from 'react-icons/fa';
+import { useProviderTerms } from '@hooks/useProviderTerms';
 
 interface ProductType {
   id: string | number;
@@ -44,6 +46,7 @@ interface ProductType {
 
 
 const Products: NextPageWithLayout = () => {
+  const { terms, provider } = useProviderTerms();
   useRequireAuth();
   const { t: tp } = useTranslation('product');
   const router = useRouter();
@@ -118,11 +121,11 @@ const Products: NextPageWithLayout = () => {
           setSelectedOrgName(defaultName);
         }
       } else {
-        toast.error("Erro ao buscar organizações do GitHub.");
+        toast.error(`Erro ao buscar ${terms.organizations} do ${terms.providerName}.`);
       }
     } catch (error) {
       console.error(error);
-      toast.error("Erro ao carregar organizações.");
+      toast.error(`Erro ao carregar ${terms.organizations}.`);
     } finally {
       setLoadingOrgs(false);
     }
@@ -174,10 +177,10 @@ const Products: NextPageWithLayout = () => {
       const status = reposRes.error?.response?.status;
       if (status === 409) {
         setRepoFetchError('409');
-        toast.error(`Token do GitHub expirado ou inválido.`);
+        toast.error(`Token do ${terms.providerName} expirado ou inválido.`);
       } else {
         setRepoFetchError('error');
-        toast.error(`Erro ao buscar repositórios do GitHub.`);
+        toast.error(`Erro ao buscar ${terms.repositories} do ${terms.providerName}.`);
       }
     }
   };
@@ -197,7 +200,7 @@ const Products: NextPageWithLayout = () => {
       if (!orgDbId) {
         orgDbId = await importOrg(orgName);
         if (!orgDbId) {
-          toast.error(`Erro ao importar organização no MeasureSoftGram.`);
+          toast.error(`Erro ao importar ${terms.organization} no MeasureSoftGram.`);
           return;
         }
       }
@@ -231,7 +234,7 @@ const Products: NextPageWithLayout = () => {
         }
       }
     } catch (error) {
-      console.error("Erro ao carregar repositórios importados:", error);
+      console.error("Erro ao carregar projetos importados:", error);
     }
   };
 
@@ -246,13 +249,13 @@ const Products: NextPageWithLayout = () => {
         imported: true
       });
       if (response.type === 'success') {
-        toast.success(`Repositório ${repo.name} importado com sucesso!`);
+        toast.success(`${terms.Repository} ${repo.name} importado com sucesso!`);
         loadProductRepositories(selectedOrgDbId, selectedProductId);
       } else {
-        toast.error(`Erro ao importar repositório: ${response.error.message || 'Erro desconhecido'}`);
+        toast.error(`Erro ao importar ${terms.repository}: ${response.error.message || 'Erro desconhecido'}`);
       }
     } catch (error: any) {
-      toast.error(`Erro ao importar repositório: ${error.message || 'Erro desconhecido'}`);
+      toast.error(`Erro ao importar ${terms.repository}: ${error.message || 'Erro desconhecido'}`);
     }
   };
 
@@ -268,11 +271,11 @@ const Products: NextPageWithLayout = () => {
         try {
           const res = await signInWithGithub(code);
           if (res.type === 'success') {
-            toast.success("Organizações do GitHub vinculadas com sucesso!");
+            toast.success(`${terms.Organizations} do ${terms.providerName} ${provider === 'gitlab' ? 'vinculados' : 'vinculadas'} com sucesso!`);
             await loadGitHubOrgs();
             fetchOrganizations(); // Removido o 'true'
           } else {
-            toast.error("Erro ao vincular organizações do GitHub.");
+            toast.error(`Erro ao vincular ${terms.organizations} do ${terms.providerName}.`);
           }
         } catch (err) {
           console.error(err);
@@ -367,25 +370,25 @@ const Products: NextPageWithLayout = () => {
           <Box display="flex" justifyContent="space-between" alignItems="center">
             <Box>
               <Typography variant="h4" fontWeight="bold" gutterBottom color="text.primary">
-                Importação de Repositórios
+                {`Importação de ${terms.Repositories}`}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Selecione sua organização e o produto correspondente para gerenciar seus repositórios.
+                {`Selecione ${terms.yourOrganization} e o produto correspondente para gerenciar seus ${terms.repositories}.`}
               </Typography>
             </Box>
-            <GitHub color="action" sx={{ fontSize: '2.5rem' }} />
+            {provider === 'gitlab' ? <FaGitlab size="2.5rem" /> : <GitHub color="action" sx={{ fontSize: '2.5rem' }} />}
           </Box>
 
           <Paper variant="outlined" sx={{ padding: '1.5rem', borderRadius: '12px', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             <Box display="flex" flexDirection="column" gap="0.5rem">
               <FormControl fullWidth size="medium" disabled={loadingOrgs}>
                 <InputLabel id="org-select-label">
-                  {loadingOrgs ? "Carregando organizações..." : "Organizações do GitHub"}
+                  {loadingOrgs ? `Carregando ${terms.organizations}...` : `${terms.Organizations} do ${terms.providerName}`}
                 </InputLabel>
                 <Select
                   labelId="org-select-label"
                   value={selectedOrgName}
-                  label="Organizações do GitHub"
+                  label={`${terms.Organizations} do ${terms.providerName}`}
                   onChange={(e) => setSelectedOrgName(e.target.value)}
                 >
                   {gitHubOrgs.map((o) => (
@@ -396,7 +399,7 @@ const Products: NextPageWithLayout = () => {
                 </Select>
               </FormControl>
               <Typography variant="caption" color="text.secondary">
-                Não está vendo sua organização?{" "}
+                {`Não está vendo ${terms.yourOrganization}?`}{" "}
                 <Link
                   href={`https://github.com/settings/connections/applications/${process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID}`}
                   target="_blank"
@@ -404,7 +407,7 @@ const Products: NextPageWithLayout = () => {
                   underline="hover"
                   sx={{ fontWeight: 'bold', cursor: 'pointer' }}
                 >
-                  Conceder acesso ou gerenciar permissões no GitHub
+                  {`Conceder acesso ou gerenciar permissões no ${terms.providerName}`}
                 </Link>
               </Typography>
             </Box>
@@ -452,7 +455,7 @@ const Products: NextPageWithLayout = () => {
                 gap="1rem"
               >
                 <TextField
-                  placeholder="Buscar repositórios do produto..."
+                  placeholder={`Buscar ${terms.repositories} do produto...`}
                   size="small"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
@@ -493,13 +496,13 @@ const Products: NextPageWithLayout = () => {
                   return (
                     <Box padding="4rem" textAlign="center">
                       <Typography variant="h6" color="error" gutterBottom>
-                        Token do GitHub expirado ou inválido
+                        {`Token do ${terms.providerName} expirado ou inválido`}
                       </Typography>
                       <Typography variant="body2" color="text.secondary" paragraph>
-                        Para carregar os repositórios, autorize o aplicativo novamente.
+                        {`Para carregar os ${terms.repositories}, autorize o aplicativo novamente.`}
                       </Typography>
                       <Button variant="contained" color="primary" onClick={() => window.open(`https://github.com/login/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID}&scope=repo`, '_self')}>
-                        Autorizar GitHub
+                        {`Autorizar ${terms.providerName}`}
                       </Button>
                     </Box>
                   );
@@ -508,7 +511,7 @@ const Products: NextPageWithLayout = () => {
                   return (
                     <Box padding="4rem" textAlign="center">
                       <Typography variant="h6" color="error" gutterBottom>
-                        Não foi possível carregar os repositórios
+                        {`Não foi possível carregar os ${terms.repositories}`}
                       </Typography>
                       <Button variant="outlined" color="primary" onClick={() => handleSelectOrganization(selectedOrgName)}>
                         Tentar Novamente
@@ -583,7 +586,7 @@ const Products: NextPageWithLayout = () => {
                   ) : (
                     <Box padding="3rem" textAlign="center">
                       <Typography variant="body1" color="text.secondary">
-                        Nenhum repositório associado a este produto foi encontrado.
+                        {`Nenhum ${terms.repository} associado a este produto foi encontrado.`}
                       </Typography>
                     </Box>
                   )}
@@ -607,8 +610,8 @@ const Products: NextPageWithLayout = () => {
               <FolderSpecial color="disabled" sx={{ fontSize: '3rem', marginBottom: '1rem' }} />
               <Typography variant="body1" color="text.secondary" gutterBottom>
                 {selectedOrgDbId && products.length === 0
-                  ? "Esta organização ainda não possui nenhum produto cadastrado."
-                  : "Selecione uma organização e um produto para carregar os repositórios correspondentes."
+                  ? `${terms.thisOrganization.charAt(0).toUpperCase()}${terms.thisOrganization.slice(1)} ainda não possui nenhum produto cadastrado.`
+                  : `Selecione ${terms.anOrganization} e um produto para carregar os ${terms.repositories} correspondentes.`
                 }
               </Typography>
               {selectedOrgDbId && products.length === 0 && (

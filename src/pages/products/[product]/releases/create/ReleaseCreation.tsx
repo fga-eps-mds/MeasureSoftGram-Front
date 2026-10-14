@@ -18,8 +18,10 @@ import ModelConfigForm from './components/ModelConfigForm/ModelConfigForm';
 import ReferenceValuesForm from './components/ReferenceValuesForm/ReferenceValuesForm';
 import CharacteristicsBalanceForm from './components/CharacteristicsBalanceForm/CharacteristicsBalanceForm';
 import RepositorySelectionForm from './components/RepositorySelectionForm/RepositorySelectionForm';
+import { useProviderTerms } from '@hooks/useProviderTerms';
 
 function ReleaseCreation() {
+  const { terms } = useProviderTerms();
   const [organizationId, setOrganizationId] = useState<string>("");
   const [productId, setProductId] = useState<string>("");
   const [productName, setProductName] = useState<string>("");
@@ -308,7 +310,7 @@ function ReleaseCreation() {
       case 0: {
         const selectedRepos = getValues('repositories_ids');
         if (!selectedRepos || selectedRepos.length === 0) {
-          enqueueSnackbar(t('Selecione pelo menos um repositório para a release.'), { autoHideDuration: 6000, variant: 'error' });
+          enqueueSnackbar(t(`Selecione pelo menos um ${terms.repository} para a release.`), { autoHideDuration: 6000, variant: 'error' });
           break;
         }
         setActiveStep(activeStep + 1);
@@ -451,7 +453,7 @@ function ReleaseCreation() {
           sx={{ fontSize: '14px' }}
         >
           {[
-            { label: 'Selecionar Repositórios', step: 0 },
+            { label: `Selecionar ${terms.Repositories}`, step: 0 },
             { label: t('createRelease'), step: 1 },
             { label: t('defineConfiguration'), step: 2 },
             { label: t('changeRefValue'), step: 3 },

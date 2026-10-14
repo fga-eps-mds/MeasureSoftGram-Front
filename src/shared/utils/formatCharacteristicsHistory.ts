@@ -41,7 +41,6 @@ const formatCharacteristicsHistory = ({
         const chart = ref.current.getEchartsInstance();
         // @ts-ignore
         const { startValue, endValue } = chart.getOption().dataZoom[0];
-        console.log(startValue, endValue);
         csvFilters.dateRange.startDate = indexToTime[startValue];
         csvFilters.dateRange.endDate = indexToTime[endValue];
       }
@@ -50,7 +49,6 @@ const formatCharacteristicsHistory = ({
 
   const handleExportCsv = () => {
     if (historical) {
-      console.log(csvFilters.dateRange);
       const csvContent = convertToCsv(historical, csvFilters);
 
       const blob = new Blob([csvContent], { type: 'text/csv' });

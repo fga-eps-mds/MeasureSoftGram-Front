@@ -3,17 +3,20 @@
   "last-update": "Última atualização",
   "plan-release": "Planejar Release",
   "repo": "Repositórios",
+  "repo_gitlab": "Projetos",
   "repo-button": "Ver Repositórios",
+  "repo-button_gitlab": "Ver Projetos",
   "release": "Releases",
   "release-button": "Ver Releases",
   "chart-title": "Comportamento observado do produto",
   "prototype-badge": "PROTÓTIPO • ECHARTS",
   "msg-chart-title": "Gráfico MSG — Evolução de Qualidade",
   "msg-chart-subtitle": "Uma linha por repositório (TSQMI) • marcadores = releases planejadas • cor = faixa de qualidade",
+  "msg-chart-subtitle_gitlab": "Uma linha por projeto (TSQMI) • marcadores = releases planejadas • cor = faixa de qualidade",
   "no-releases-title": "Este produto ainda não tem releases cadastradas",
   "no-releases-description-1": "O Gráfico MSG acompanha o TSQMI dos repositórios marcando as releases planejadas de cada um.",
+  "no-releases-description-1_gitlab": "O Gráfico MSG acompanha o TSQMI dos projetos marcando as releases planejadas de cada um.",
   "no-releases-description-2": "Cadastre a primeira release de {{productName}} para acompanhar a evolução.",
   "go-to-releases": "Ir para Releases",
   "rendered-with-echarts": "Renderizado com Apache ECharts"
 }
-

@@ -12,6 +12,7 @@ jest.mock('@services/Auth', () => ({
   getUserInfo: jest.fn(),
   signInCredentials: jest.fn(),
   signInGithub: jest.fn(),
+  signInGitlab: jest.fn(),
   signOut: jest.fn(),
 }));
 
@@ -20,6 +21,7 @@ jest.mock('react-toastify', () => ({
     success: jest.fn(),
     error: jest.fn(),
     warning: jest.fn(),
+    info: jest.fn(),
   },
 }));
 
@@ -84,6 +86,12 @@ describe('AuthContext', () => {
     jest.clearAllMocks();
     Object.keys(localStorageMock).forEach((key) => delete localStorageMock[key]);
     localStorage.clear();
+    // Restaura a URL: testes anteriores sobrescrevem globalThis.location (code/state/error)
+    Object.defineProperty(globalThis, 'location', {
+      value: { search: '', href: 'http://localhost/', pathname: '/' },
+      writable: true,
+      configurable: true,
+    });
 
     // Configuração padrão do useRouter
     (useRouter as jest.Mock).mockReturnValue({
@@ -218,6 +226,56 @@ describe('AuthContext', () => {
 
     await waitFor(() => {
       expect(signInGithub).toHaveBeenCalledWith('github_code_123');
+    });
+  });
+
+  it('deve chamar signInWithGitlab quando code estiver presente e provider for gitlab', async () => {
+    const { signInGitlab } = require('@services/Auth');
+    signInGitlab.mockResolvedValueOnce({
+      type: 'success',
+      value: { key: 'fake-gitlab-key' },
+    });
+
+    localStorageMock.provider = 'gitlab';
+
+    Object.defineProperty(globalThis, 'location', {
+      value: {
+        search: '?code=gitlab_code_456',
+        href: 'http://localhost/?code=gitlab_code_456',
+        pathname: '/',
+      },
+      writable: true,
+    });
+
+    render(
+      <AuthProvider>
+        <TestComponent />
+      </AuthProvider>
+    );
+
+    await waitFor(() => {
+      expect(signInGitlab).toHaveBeenCalledWith('gitlab_code_456');
+    });
+  });
+
+  it('deve exibir toast "Login cancelado" quando parâmetro error=access_denied estiver presente', async () => {
+    Object.defineProperty(globalThis, 'location', {
+      value: {
+        search: '?error=access_denied&error_description=Denied',
+        href: 'http://localhost/?error=access_denied',
+        pathname: '/',
+      },
+      writable: true,
+    });
+
+    render(
+      <AuthProvider>
+        <TestComponent />
+      </AuthProvider>
+    );
+
+    await waitFor(() => {
+      expect(toast.info).toHaveBeenCalledWith('Login cancelado');
     });
   });
 
