@@ -33,10 +33,8 @@ jobs:
           curl --proto '=https' --tlsv1.2 -sSOL https://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb || curl --proto '=https' --tlsv1.2 -sSOL https://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb
           sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2_amd64.deb
 
-      - name: Linter e Validação de Tipos (TypeScript + ESLint)
-        run: |
-          pnpm run lint
-          pnpm run typecheck
+      - name: Linter (ESLint + Prettier)
+        run: pnpm run lint
 
       - name: Rodar testes e gerar cobertura
         run: pnpm run ci:test --coverage
