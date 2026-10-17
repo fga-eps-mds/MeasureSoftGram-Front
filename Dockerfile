@@ -36,11 +36,13 @@ WORKDIR /usr/src
 
 # Camada de dependencias: so invalida quando o lockfile muda.
 COPY package.json pnpm-lock.yaml* ./
-RUN npm install -g pnpm@9.0.0 --ignore-scripts && pnpm install --frozen-lockfile --ignore-scripts
+RUN --mount=type=cache,target=/root/.local/share/pnpm/store \
+    npm install -g pnpm@9.0.0 --ignore-scripts && pnpm install --frozen-lockfile --ignore-scripts
 
 # Codigo + build de producao.
 COPY . .
-RUN pnpm build
+RUN --mount=type=cache,target=/usr/src/.next/cache \
+    pnpm build
 
 # ---------- runner ----------
 FROM node:20-alpine AS runner
