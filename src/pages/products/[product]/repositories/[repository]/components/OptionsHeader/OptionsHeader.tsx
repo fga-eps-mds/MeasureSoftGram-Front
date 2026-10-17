@@ -1,7 +1,7 @@
 import { Box, Button } from '@mui/material';
 
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { useProviderTranslation as useTranslation } from '@hooks/useProviderTranslation';
 
 interface Props {
   title: string;

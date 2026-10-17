@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, MenuItem, Select, TextField, Typography, Button, SelectChangeEvent } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import { COLOR_TOKENS } from '@utils/formatPulseChart';
+import { useProviderTerms } from '@hooks/useProviderTerms';
 
 interface Props {
   repositories: { id: string | number; name: string }[];
@@ -24,6 +25,7 @@ export const PulseChartFilters: React.FC<Props> = ({
   onEndDateChange,
   onExportCsv,
 }) => {
+  const { terms } = useProviderTerms();
   const handleSelectRepo = (e: SelectChangeEvent<string>) => {
     onRepoChange(e.target.value);
   };
@@ -41,7 +43,7 @@ export const PulseChartFilters: React.FC<Props> = ({
         {/* Repo Selector */}
         <Box display="flex" alignItems="center" gap={1}>
           <Typography variant="body2" color="text.secondary" fontWeight={500}>
-            Repositório
+            {terms.Repository}
           </Typography>
           <Select
             size="small"

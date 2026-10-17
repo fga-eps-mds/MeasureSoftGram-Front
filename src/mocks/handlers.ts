@@ -23,6 +23,9 @@ export const handlers = [
   // ----- Autenticacao -----
   rest.post('*/v1/accounts/login/', (_req, res, ctx) => res(ctx.status(200), ctx.json({ key: MOCK_TOKEN }))),
   rest.post('*/v1/accounts/github/login/', (_req, res, ctx) => res(ctx.status(200), ctx.json({ key: MOCK_TOKEN }))),
+  rest.post('*/v1/accounts/gitlab/login/', (_req, res, ctx) => res(ctx.status(200), ctx.json({ key: MOCK_TOKEN }))),
+  rest.post('*/v1/accounts/github/validate/', (_req, res, ctx) => res(ctx.status(200), ctx.json({ valid: true }))),
+  rest.post('*/v1/accounts/gitlab/validate/', (_req, res, ctx) => res(ctx.status(200), ctx.json({ valid: true }))),
   rest.post('*/v1/accounts/signin/', (_req, res, ctx) => res(ctx.status(201), ctx.json({}))),
   rest.delete('*/v1/accounts/logout/', (_req, res, ctx) => res(ctx.status(200), ctx.json({}))),
   rest.get('*/v1/accounts/access-token', (_req, res, ctx) => res(ctx.status(200), ctx.json({ ...user, key: MOCK_TOKEN }))),

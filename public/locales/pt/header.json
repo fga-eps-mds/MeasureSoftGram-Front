@@ -1,9 +1,11 @@
 {
   "repository": "Repositório",
+  "repository_gitlab": "Projeto",
   "edit_intervals": "Editar Intervalos",
   "cancel": "Cancelar",
   "save": "Salvar",
   "warning_message": "Atenção: Essa configuração será aplicada a todos os repositórios do produto.",
+  "warning_message_gitlab": "Atenção: Essa configuração será aplicada a todos os projetos do produto.",
   "error_message": "Ocorreu um erro ao tentar carregar as informações.",
   "update_success": "Intervalos atualizados com sucesso!",
   "update_error": "Erro ao atualizar intervalos!",

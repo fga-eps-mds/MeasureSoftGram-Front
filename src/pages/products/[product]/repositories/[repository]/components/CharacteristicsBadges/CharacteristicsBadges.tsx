@@ -1,6 +1,6 @@
 import { Box, Tooltip, Typography } from '@mui/material';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { useProviderTranslation as useTranslation } from '@hooks/useProviderTranslation';
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
 import CopyBadgeModal from '../CopyBadgeModal';
 

@@ -6,7 +6,7 @@ import NavigateNextRoundedIcon from '@mui/icons-material/NavigateNextRounded';
 import { Box, Divider } from '@mui/material';
 
 import { useSideMenuContext } from '@contexts/SidebarProvider/SideMenuProvider';
-import { useTranslation } from 'react-i18next';
+import { useProviderTranslation as useTranslation } from '@hooks/useProviderTranslation';
 import Translation from '@components/Translation/Translation';
 import * as Styles from './styles';
 

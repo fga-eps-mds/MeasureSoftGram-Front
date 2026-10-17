@@ -5,7 +5,7 @@ import { Logout } from '@mui/icons-material';
 import { FaCog } from 'react-icons/fa';
 import { FiChevronDown } from 'react-icons/fi';
 import { useRouter } from 'next/router';
-import { useTranslation } from 'react-i18next';
+import { useProviderTranslation as useTranslation } from '@hooks/useProviderTranslation';
 
 import { SideMenuProvider } from '@contexts/SidebarProvider/SideMenuProvider';
 import { useProductContext } from '@contexts/ProductProvider';

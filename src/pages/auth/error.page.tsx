@@ -26,7 +26,7 @@ const AuthError: NextPageWithLayout = () => {
           </Typography>
 
           <Typography variant="body1" color="text.secondary">
-            Não conseguimos concluir o seu login com o GitHub neste momento. Isso geralmente acontece devido a uma falha temporária de comunicação.
+            Não conseguimos concluir o seu login neste momento. Isso geralmente acontece devido a uma falha temporária de comunicação.
           </Typography>
         </Box>
 
@@ -41,7 +41,7 @@ const AuthError: NextPageWithLayout = () => {
               <strong>1. Tente novamente:</strong> Volte para a tela inicial e repita o login. Na maioria das vezes, isso resolve o problema.
             </Typography>
             <Typography variant="body2" color="text.secondary" textAlign="left">
-              <strong>2. Verifique seu navegador:</strong> Extensões que bloqueiam pop-ups ou rastreadores podem interromper o redirecionamento do GitHub.
+              <strong>2. Verifique seu navegador:</strong> Extensões que bloqueiam pop-ups ou rastreadores podem interromper o redirecionamento do provedor (GitHub/GitLab).
             </Typography>
             <Typography variant="body2" color="text.secondary" textAlign="left">
               <strong>3. Aguarde um momento:</strong> Os serviços de autenticação podem estar passando por uma breve instabilidade.

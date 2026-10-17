@@ -10,7 +10,8 @@ const nextConfig = withTM(
   env: {
     SERVICE_URL: process.env.SERVICE_URL,
     LOGIN_REDIRECT_URL: process.env.LOGIN_REDIRECT_URL,
-    GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID
+    GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
+    GITLAB_CLIENT_ID: process.env.GITLAB_CLIENT_ID
   },
   typescript: {
     ignoreBuildErrors: true,

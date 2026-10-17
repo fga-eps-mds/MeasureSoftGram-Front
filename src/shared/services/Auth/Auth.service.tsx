@@ -23,6 +23,17 @@ export const signInGithub = async (code: string): Promise<Result<{ key: string }
   }
 };
 
+export const signInGitlab = async (code: string): Promise<Result<{ key: string }>> => {
+  try {
+    const response = await api.post('/v1/accounts/gitlab/login/', { code });
+
+    return { type: 'success', value: response?.data };
+  } catch (err) {
+    const error = err as AxiosError;
+    return { type: 'error', error };
+  }
+};
+
 export const signUp = async (data: SignUpFormData): Promise<Result<void>> => {
   try {
     const response = await api.post('/v1/accounts/signin/', data);
@@ -72,3 +83,6 @@ export const getGithubAuthUrl = () =>
 
 export const getGithubAuthUrlToRepositoriesPage = (pathName: string) =>
   `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${process.env.LOGIN_REDIRECT_URL}&state=${pathName}&scope=repo,read:org,user&prompt=select_account`;
+
+export const getGitlabAuthUrl = () =>
+  `https://gitlab.com/oauth/authorize?client_id=${process.env.GITLAB_CLIENT_ID}&redirect_uri=${process.env.LOGIN_REDIRECT_URL}&response_type=code&scope=read_user+openid+profile+email`;

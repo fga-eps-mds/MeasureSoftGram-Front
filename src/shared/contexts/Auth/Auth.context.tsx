@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { getUserInfo, signInCredentials, signInGithub, signOut } from '@services/Auth';
+import { getUserInfo, signInCredentials, signInGithub, signInGitlab, signOut } from '@services/Auth';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import { useLocalStorage } from '@hooks/useLocalStorage';
@@ -9,6 +9,7 @@ export const authContextDefaultValues: authContextType = {
   session: null,
   loading: 'loading',
   signInWithGithub: async () => ({ type: 'error', error: new Error('Implementation missing') }),
+  signInWithGitlab: async () => ({ type: 'error', error: new Error('Implementation missing') }),
   signInWithCredentials: async () => ({ type: 'error', error: new Error('Implementation missing') }),
   logout: async () => { },
   provider: 'credentials',
@@ -117,6 +118,41 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     [removeAuthStorage, setToken]
   );
 
+  const signInWithGitlab = useCallback(
+    async (code: string): Promise<Result<User>> => {
+      const response = await signInGitlab(code);
+
+      if (response.type === 'success' && response?.value?.key) {
+        setToken(response.value.key);
+        localStorage.setItem('login_timestamp', Date.now().toString()); // MARCA O INÍCIO DA SESSÃO
+        toast.success('Login realizado com sucesso!');
+
+        return {
+          type: 'success',
+          value: {
+            key: response.value.key,
+            username: '',
+            first_name: '',
+            last_name: '',
+            email: '',
+            avatar_url: '',
+            repos_url: '',
+            organizations_url: ''
+          }
+        };
+      }
+
+      if (response.type === 'error') {
+        removeAuthStorage();
+        toast.error(`Erro ao realizar login: ${response.error.message || 'Erro desconhecido'}`);
+        return response;
+      }
+
+      return { type: 'error', error: new Error('Erro desconhecido') };
+    },
+    [removeAuthStorage, setToken]
+  );
+
   const signInWithCredentials = useCallback(
     async (data: LoginFormData): Promise<Result<User>> => {
       setProvider('credentials');
@@ -178,6 +214,22 @@ useEffect(() => {
     const params = new URLSearchParams(globalThis.location.search);
     const code = params.get('code');
     const state = params.get('state');
+    const error = params.get('error');
+
+    // CA4: Tratamento de cancelamento do OAuth (ex: error=access_denied)
+    if (error && !hasExecuted.current) {
+      hasExecuted.current = true;
+      removeAuthStorage();
+      if (error === 'access_denied') {
+        toast.info('Login cancelado');
+      } else {
+        toast.error('Erro na autorização do provedor.');
+      }
+      if (router?.pathname !== '/auth') {
+        router.push('/auth');
+      }
+      return;
+    }
 
     if (code && state && state.startsWith('/') && !hasRedirected.current) {
       hasRedirected.current = true;
@@ -186,11 +238,16 @@ useEffect(() => {
       return;
     }
 
-    if (code && provider === 'github' && !token && !hasExecuted.current) {
-      hasExecuted.current = true;
-      signInWithGithub(code as string);
+    if (code && !token && !hasExecuted.current) {
+      if (provider === 'github') {
+        hasExecuted.current = true;
+        signInWithGithub(code as string);
+      } else if (provider === 'gitlab') {
+        hasExecuted.current = true;
+        signInWithGitlab(code as string);
+      }
     }
-  }, [provider, token, signInWithGithub, router]);
+  }, [provider, token, signInWithGithub, signInWithGitlab, router, removeAuthStorage]);
 
   useEffect(() => {
     setLoading('loading');
@@ -206,11 +263,12 @@ useEffect(() => {
       logout,
       signInWithCredentials,
       signInWithGithub,
+      signInWithGitlab,
       provider: provider!,
       setProvider,
       loading
     }),
-    [logout, provider, session, setProvider, signInWithCredentials, signInWithGithub, loading]
+    [logout, provider, session, setProvider, signInWithCredentials, signInWithGithub, signInWithGitlab, loading]
   );
 
   return (
