@@ -21,11 +21,11 @@ const Product: NextPageWithLayout = () => {
   const { t } = useTranslation('overview');
 
   const handleViewRepositories = () => {
-    router.push(`/products/${router.query.product}/repositories`);
+    void router.push(`/products/${router.query.product}/repositories`);
   };
 
   const handleViewReleases = () => {
-    router.push(`/products/${router.query.product}/releases`);
+    void router.push(`/products/${router.query.product}/releases`);
   };
 
   return (

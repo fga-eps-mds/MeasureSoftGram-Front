@@ -53,7 +53,7 @@ export function ProductProvider({ children }: Props) {
     if (currentOrgId) {
       // Load products without indiscriminately clearing currentProduct,
       // let the next useEffect decide if it's still valid
-      loadAllProducts();
+      void loadAllProducts();
     } else {
       setCurrentProduct(null);
       setProductsList([]);

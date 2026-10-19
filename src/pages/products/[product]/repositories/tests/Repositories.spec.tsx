@@ -1,10 +1,12 @@
 import '@testing-library/jest-dom';
 
 import React from 'react';
-import { render } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import { OrganizationProvider } from '@contexts/OrganizationProvider';
 import Repositories from '../Repositories';
+
+const mockPush = jest.fn();
 
 jest.mock('@contexts/ProductProvider', () => ({
   useProductContext: () => ({
@@ -20,7 +22,8 @@ jest.mock('@contexts/RepositoryProvider', () => ({
 
 jest.mock('next/router', () => ({
   useRouter: () => ({
-    query: { product: '1-5-MeasureSoftGram' }
+    query: { product: '1-5-MeasureSoftGram' },
+    push: mockPush
   })
 }));
 
@@ -35,5 +38,17 @@ describe('Repository', () => {
 
       expect(tree).toMatchSnapshot();
     });
+  });
+
+  it('Deve ir para a lista de produtos ao clicar em adicionar', () => {
+    render(
+      <OrganizationProvider>
+        <Repositories />
+      </OrganizationProvider>
+    );
+
+    fireEvent.click(screen.getByLabelText('add repository'));
+
+    expect(mockPush).toHaveBeenCalledWith('/products');
   });
 });

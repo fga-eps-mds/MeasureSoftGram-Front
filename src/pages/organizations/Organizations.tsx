@@ -47,7 +47,7 @@ const Organizations: OrganizationsType = () => {
   };
 
   useEffect(() => {
-    carregarMembrosDaOrganizacao();
+    void carregarMembrosDaOrganizacao();
 
     const editMode = router.query.edit;
     if (editMode) {
@@ -61,7 +61,7 @@ const Organizations: OrganizationsType = () => {
           setMembros(result.value.members || []);
         }
       };
-      fetchOrganizationData();
+      void fetchOrganizationData();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query.edit]);
@@ -107,7 +107,7 @@ const Organizations: OrganizationsType = () => {
       if (result.type === 'success') {
         toast.success(t('toast.sucess-edit'));
         setTimeout(() => {
-          router.push('/home');
+          void router.push('/home');
         }, 2000);
       } else {
         handleResultError(result, 'toast.error-edit');
@@ -123,7 +123,7 @@ const Organizations: OrganizationsType = () => {
         }
         fetchOrganizations(true);
         setTimeout(() => {
-          router.push('/home');
+          void router.push('/home');
         }, 2000);
       } else {
         handleResultError(result, 'toast.error');

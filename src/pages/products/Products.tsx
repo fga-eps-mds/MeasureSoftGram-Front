@@ -250,7 +250,7 @@ const Products: NextPageWithLayout = () => {
       });
       if (response.type === 'success') {
         toast.success(`${terms.Repository} ${repo.name} importado com sucesso!`);
-        loadProductRepositories(selectedOrgDbId, selectedProductId);
+        void loadProductRepositories(selectedOrgDbId, selectedProductId);
       } else {
         toast.error(`Erro ao importar ${terms.repository}: ${response.error.message || 'Erro desconhecido'}`);
       }
@@ -260,7 +260,7 @@ const Products: NextPageWithLayout = () => {
   };
 
   useEffect(() => {
-    loadGitHubOrgs();
+    void loadGitHubOrgs();
   }, []);
 
   useEffect(() => {
@@ -283,16 +283,16 @@ const Products: NextPageWithLayout = () => {
         } finally {
           setLoadingOrgs(false);
           const { code: _, ...query } = router.query;
-          router.replace({ pathname: router.pathname, query }, undefined, { shallow: true });
+          void router.replace({ pathname: router.pathname, query }, undefined, { shallow: true });
         }
       };
-      exchangeCode();
+      void exchangeCode();
     }
   }, [router.query.code]);
 
   useEffect(() => {
     if (selectedOrgName) {
-      handleSelectOrganization(selectedOrgName);
+      void handleSelectOrganization(selectedOrgName);
     }
   }, [selectedOrgName]);
 
@@ -318,7 +318,7 @@ const Products: NextPageWithLayout = () => {
 
   useEffect(() => {
     if (selectedOrgDbId && selectedProductId) {
-      loadProductRepositories(selectedOrgDbId, selectedProductId);
+      void loadProductRepositories(selectedOrgDbId, selectedProductId);
     }
   }, [selectedOrgDbId, selectedProductId]);
 
@@ -401,7 +401,7 @@ const Products: NextPageWithLayout = () => {
               <Typography variant="caption" color="text.secondary">
                 {`Não está vendo ${terms.yourOrganization}?`}{" "}
                 <Link
-                  href={`https://github.com/settings/connections/applications/${process.env.GITHUB_CLIENT_ID}`}
+                  href={`https://github.com/settings/connections/applications/${process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   underline="hover"

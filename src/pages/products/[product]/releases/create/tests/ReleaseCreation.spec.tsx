@@ -22,12 +22,14 @@ jest.mock('@services/product');
 jest.mock('@services/balanceMatrix');
 
 const dateErrorMsg = "Já existe uma release neste período"
+const mockPush = jest.fn();
 
 describe('ReleaseInfo Component', () => {
   beforeAll(() => {
     (useRouter as jest.Mock).mockReturnValue({
       isReady: true,
       query: { product: 'org-123-prod-456' },
+      push: mockPush,
     });
 
     (productQuery.getPreConfigEntitiesRelationship as jest.Mock).mockResolvedValue({
@@ -665,6 +667,10 @@ describe('ReleaseInfo Component', () => {
     await clickButtonAndWaitFor(t('next'), t('defineCharacteristics'));
     await clickButtonAndWaitFor(t('next'), t('balanceGoal'));
 
+    fireEvent.click(await screen.findByText(t('end'), { selector: 'button' }));
+
+    await waitFor(() => expect(mockPush).toHaveBeenCalledWith('/products/org-123-prod-456/releases/'));
+    expect(productQuery.createProductRelease).toHaveBeenCalled();
   });
 
   it('should test error characteristic weight', async () => {
@@ -783,13 +789,9 @@ describe('ReleaseInfo Component', () => {
 
     const nextButton = screen.getByText(/Next/i);
     fireEvent.click(nextButton);
+    fireEvent.click(nextButton);
 
-    await waitFor(async () => {
-      fireEvent.click(nextButton);
-      await waitFor(() => {
-        expect(screen.getByText(t('defineCharacteristics'))).toBeInTheDocument();
-      });
-    });
+    expect(await screen.findByText(t('defineCharacteristics'))).toBeInTheDocument();
   });
 
   const clickButtonAndWaitFor = async (buttonName: string, expectedText: string) => {
@@ -1298,13 +1300,12 @@ describe('ReleaseInfo Component', () => {
 
     const nextButton = screen.getByText(/Next/i);
 
-    await waitFor(async () => {
-      fireEvent.click(nextButton);
-      await waitFor(async () => {
-        fireEvent.click(nextButton);
-        fireEvent.click(screen.getByText(t('changeRefValues')));
-      });
-    });
+    fireEvent.click(nextButton);
+    fireEvent.click(nextButton);
+
+    const changeRefValuesSwitch = await screen.findByLabelText(t('changeRefValues'));
+    fireEvent.click(changeRefValuesSwitch);
+    expect(changeRefValuesSwitch).toBeChecked();
   });
 
   it('should test release date change', async () => {
@@ -1336,12 +1337,10 @@ describe('ReleaseInfo Component', () => {
     const nextButton = screen.getByText(/Next/i);
     fireEvent.click(nextButton);
 
-    await waitFor(async () => {
-      fireEvent.click(screen.getByTestId("confirmBtnClick"));
-      await waitFor(async () => {
-        expect(screen.getByText(t("defineConfiguration"))).toBeInTheDocument();
-      });
-    });
+    fireEvent.click(await screen.findByTestId("confirmBtnClick"));
+
+    await waitFor(() => expect(screen.queryByTestId("confirmBtnClick")).not.toBeInTheDocument());
+    expect(screen.getByText(t("defineConfiguration"))).toBeInTheDocument();
   });
 
   it('should test return release date modal', async () => {
@@ -1372,12 +1371,10 @@ describe('ReleaseInfo Component', () => {
     const nextButton = screen.getByText(/Next/i);
     fireEvent.click(nextButton);
 
-    await waitFor(async () => {
-      fireEvent.click(screen.getByTestId("dismissBtnClick"));
-      await waitFor(async () => {
-        expect(screen.getByText(t("defineConfiguration"))).toBeInTheDocument();
-      });
-    });
+    fireEvent.click(await screen.findByTestId("dismissBtnClick"));
+
+    await waitFor(() => expect(screen.queryByTestId("dismissBtnClick")).not.toBeInTheDocument());
+    expect(screen.getByText(t("defineConfiguration"))).toBeInTheDocument();
   });
 
   it('should test close release date modal', async () => {
@@ -1408,12 +1405,10 @@ describe('ReleaseInfo Component', () => {
     const nextButton = screen.getByText(/Next/i);
     fireEvent.click(nextButton);
 
-    await waitFor(async () => {
-      fireEvent.click(screen.getByTestId("iconCloseDateModal"));
-      await waitFor(async () => {
-        expect(screen.getByText(t("defineConfiguration"))).toBeInTheDocument();
-      });
-    });
+    fireEvent.click(await screen.findByTestId("iconCloseDateModal"));
+
+    await waitFor(() => expect(screen.queryByTestId("iconCloseDateModal")).not.toBeInTheDocument());
+    expect(screen.getByText(t("defineConfiguration"))).toBeInTheDocument();
   });
 
   it('dispara as 5 buscas iniciais em paralelo', async () => {

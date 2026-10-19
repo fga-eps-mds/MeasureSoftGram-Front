@@ -2,13 +2,25 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 
+import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import RepositoryForm from '../RepositoryForm';
+
+const mockPush = jest.fn();
+const mockHandleRepositoryAction = jest.fn();
 
 jest.mock('next/router', () => ({
   useRouter: () => ({
-    push: jest.fn(),
+    push: mockPush,
     query: { id: '1' }
   })
+}));
+
+jest.mock('@hooks/useQuery', () => ({
+  useQuery: () => ({ handleRepositoryAction: mockHandleRepositoryAction })
+}));
+
+jest.mock('react-toastify', () => ({
+  toast: { success: jest.fn(), error: jest.fn() }
 }));
 
 jest.mock('@services/repository', () => ({
@@ -48,14 +60,17 @@ jest.mock('@contexts/RepositoryProvider', () => ({
 }));
 
 describe('RepositoryForm', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    (useOrganizationContext as jest.Mock).mockReturnValue({ currentOrganization: { id: '1' } });
+  });
+
   it('Renders correctly and allows input', async () => {
-    const { getByLabelText, getByText, debug } = render(
+    const { getByLabelText, getByText } = render(
       <RepositoryForm />
     );
 
-    const a = screen.getByTestId('repo-name-input')
-    debug()
-    console.log(a)
+    expect(screen.getByTestId('repo-name-input')).toBeInTheDocument();
 
     await waitFor(() => {
       // expect(a).toHaveValue('Test Repo');
@@ -71,4 +86,21 @@ describe('RepositoryForm', () => {
     // expect(getByText(/Editar Repositório/i)).toBeInTheDocument();
   });
 
+  it('Deve salvar a edição e voltar para a lista de repositórios', async () => {
+    mockHandleRepositoryAction.mockResolvedValue({ type: 'success' });
+    const { container } = render(<RepositoryForm />);
+
+    fireEvent.submit(container.querySelector('form') as HTMLFormElement);
+
+    await waitFor(() => expect(mockPush).toHaveBeenCalledWith('/products/1-1/repositories'));
+    expect(mockHandleRepositoryAction).toHaveBeenCalledWith('update', '1', '1', '1', expect.any(Object));
+  });
+
+  it('Deve voltar para a home sem organização selecionada', async () => {
+    (useOrganizationContext as jest.Mock).mockReturnValue({ currentOrganization: null });
+
+    render(<RepositoryForm />);
+
+    await waitFor(() => expect(mockPush).toHaveBeenCalledWith('/home'));
+  });
 });

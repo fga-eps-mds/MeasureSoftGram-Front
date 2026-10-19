@@ -15,7 +15,7 @@ const Repositories: NextPageWithLayout = () => {
   const { t } = useTranslation('repositories');
 
   const handleAddIconClick = () => {
-    router.push('/products');
+    void router.push('/products');
   };
 
   return (
