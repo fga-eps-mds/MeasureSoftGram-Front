@@ -20,7 +20,7 @@ function ProductSelector() {
     if (productsList) {
       const selectedProduct = productsList.find(product => product.id === value.id) || null;
       setCurrentProduct(selectedProduct);
-      router.push(`/products/${currentOrganization?.id}-${selectedProduct?.id}-${selectedProduct?.name}`);
+      void router.push(`/products/${currentOrganization?.id}-${selectedProduct?.id}-${selectedProduct?.name}`);
     }
   };
 

@@ -30,7 +30,7 @@ describe('ProfileConfig', () => {
 
     Object.assign(navigator, {
       clipboard: {
-        writeText: jest.fn()
+        writeText: jest.fn().mockResolvedValue(undefined)
       }
     });
 

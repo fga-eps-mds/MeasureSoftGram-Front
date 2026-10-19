@@ -60,8 +60,7 @@ describe('RepositoriesTable', () => {
     productQuery.getAllRepositories.mockResolvedValue(mockRepositories);
 
     await act(() => {
-      const { debug } = render(<RepositoriesTable />)
-      debug();
+      render(<RepositoriesTable />)
     })
 
     // Wait for the data fetching to complete

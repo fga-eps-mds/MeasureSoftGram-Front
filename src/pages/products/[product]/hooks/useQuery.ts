@@ -47,7 +47,7 @@ export const useQuery = () => {
     if (query?.product) {
       const [organizationId, productId] = getPathId(query?.product as string);
 
-      Promise.all([
+      void Promise.all([
         loadProduct(organizationId, productId),
         loadRepositoriesLatestTsqmi(organizationId, productId),
         loadRepositories(organizationId, productId)

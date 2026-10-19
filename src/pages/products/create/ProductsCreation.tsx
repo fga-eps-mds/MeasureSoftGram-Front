@@ -45,7 +45,7 @@ const ProductsCreation: OrganizationsType = () => {
           console.log(e)
         }
       };
-      fetchProductData();
+      void fetchProductData();
     }
   }, [router.query.id_product]);
 
@@ -72,7 +72,7 @@ const ProductsCreation: OrganizationsType = () => {
       result = await updateProduct(currentProductId as string, novoProduto);
       if (result.type === 'success') {
         toast.success(t('toast.success-edit'));
-        router.push('/products');
+        void router.push('/products');
       } else if (result.error.message === nameExist) {
         toast.error(nameExist);
       } else {
@@ -100,7 +100,7 @@ const ProductsCreation: OrganizationsType = () => {
             }
           }
           await loadAllProducts();
-          router.push('/products');
+          void router.push('/products');
         } else if (result.error.message === nameExist) {
           toast.error(nameExist);
         } else {

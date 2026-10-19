@@ -110,7 +110,7 @@ function ReleaseCreation() {
         }
       }
 
-      getPreConfig();
+      void getPreConfig();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady, routerParams.product]);
@@ -206,7 +206,7 @@ function ReleaseCreation() {
       setShowChangeDateModal(false);
 
       await productQuery.updateReleaseEndDate(organizationId, productId, releaseConflict!, { end_at: newDate });
-      checkBasicValues();
+      void checkBasicValues();
     }
     catch (error: any) {
       setShowChangeDateModal(false);
@@ -329,7 +329,7 @@ function ReleaseCreation() {
         setActiveStep(activeStep + 1);
         break;
       case 4:
-        submitRelease();
+        void submitRelease();
         break;
       default:
         break;
@@ -351,7 +351,7 @@ function ReleaseCreation() {
       await productQuery.createProductRelease(organizationId, productId, release);
 
       enqueueSnackbar(t('releaseCreated'), { autoHideDuration: 6000, variant: 'success' });
-      router.push(`/products/${router.query.product}/releases/`);
+      void router.push(`/products/${router.query.product}/releases/`);
     } catch (error: any) {
       enqueueSnackbar(`${error.response?.data?.message ?? error}`, { autoHideDuration: 10000, variant: 'error' });
     }

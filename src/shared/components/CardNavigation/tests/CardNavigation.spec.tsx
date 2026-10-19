@@ -4,6 +4,8 @@ import React from 'react';
 
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import mockRouter from 'next-router-mock';
+import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider/next-12';
 
 import CardNavigation from '../CardNavigation';
 
@@ -16,11 +18,14 @@ describe('<CardNavigation />', () => {
   });
 
   describe('Comportamento', () => {
-    it('Deve executar a ação de clique', async () => {
-      const { getByText } = render(<CardNavigation id={1} name="Simbora" url="/simbora" />);
+    it('Deve navegar para a url do card ao clicar', async () => {
+      const { getByText } = render(<CardNavigation id={1} name="Simbora" url="/simbora" />, {
+        wrapper: MemoryRouterProvider
+      });
 
-      const clickCard = getByText('Simbora');
-      userEvent.click(clickCard);
+      await userEvent.click(getByText('Simbora'));
+
+      expect(mockRouter.asPath).toBe('/simbora');
     });
   });
 });

@@ -54,7 +54,7 @@ const AuthError: NextPageWithLayout = () => {
           variant="contained"
           size="large"
           onClick={() => {
-            router.push('/auth');
+            void router.push('/auth');
           }}
           sx={{
             py: 1.5,

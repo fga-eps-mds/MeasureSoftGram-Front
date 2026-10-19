@@ -70,7 +70,7 @@ const RepositoryForm: NextPageWithLayout = () => {
 
   useEffect(() => {
     if (!currentOrganization?.id || !currentProduct?.id) {
-      router.push('/home');
+      void router.push('/home');
     }
 
     const repositoryId = router.query.id as string;
@@ -94,7 +94,7 @@ const RepositoryForm: NextPageWithLayout = () => {
           toast.error(t('error.error'));
         }
       };
-      fetchRepositoryData();
+      void fetchRepositoryData();
     }
   }, [router.query.id, currentOrganization?.id, currentProduct?.id, router]);
 
@@ -136,7 +136,7 @@ const RepositoryForm: NextPageWithLayout = () => {
 
       if (result.type === 'success') {
         toast.success(isEditMode ? t('edit.sucess') : t('register.sucess'));
-        router.push(`/products/${currentOrganization?.id}-${currentProduct?.id}/repositories`);
+        void router.push(`/products/${currentOrganization?.id}-${currentProduct?.id}/repositories`);
       } else if (result.type === 'error') {
         handleResultError(result.error);
       }
@@ -186,7 +186,7 @@ const RepositoryForm: NextPageWithLayout = () => {
 
   useEffect(() => {
     if (!currentOrganization?.id || !currentProduct?.id) {
-      router.push('/home');
+      void router.push('/home');
     }
   }, [currentOrganization?.id, currentProduct?.id, router]);
 

@@ -48,7 +48,7 @@ const Release: any = () => {
       setRelease(releaseRes.data.release);
       setProductRepos(reposRes.data.results.map((r: any) => ({ id: r.id, name: r.name })));
       setIsLoading(false);
-    });
+    }).catch((error) => console.error(error));
   }, [router.isReady, routerParams.product, routerParams.release]);
 
   useEffect(() => {

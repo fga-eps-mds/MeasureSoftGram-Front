@@ -1,8 +1,10 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import { OrganizationProvider } from '@contexts/OrganizationProvider';
 import Product from '../Product';
+
+const mockPush = jest.fn();
 
 jest.mock('@contexts/ProductProvider', () => ({
   useProductContext: () => ({
@@ -19,7 +21,7 @@ jest.mock('@contexts/RepositoryProvider', () => ({
 jest.mock('next/router', () => ({
   useRouter: () => ({
     query: { product: "1-5-MeasureSoftGram" },
-    push: () => jest.fn(),
+    push: mockPush,
     pathname: '/products/[product]',
   })
 }));
@@ -54,5 +56,19 @@ describe('Product', () => {
 
       expect(tree).toMatchSnapshot();
     });
+  });
+
+  it('Deve navegar para os repositórios e para as releases do produto', () => {
+    render(
+      <OrganizationProvider>
+        <Product />
+      </OrganizationProvider>
+    );
+
+    fireEvent.click(screen.getByText('repo-button'));
+    fireEvent.click(screen.getByText('release-button'));
+
+    expect(mockPush).toHaveBeenNthCalledWith(1, '/products/1-5-MeasureSoftGram/repositories');
+    expect(mockPush).toHaveBeenNthCalledWith(2, '/products/1-5-MeasureSoftGram/releases');
   });
 });

@@ -1,35 +1,39 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import PulseChart from '../PulseChart';
 
+const mockUsePulseChartData = jest.fn();
+
 jest.mock('../usePulseChartData', () => ({
-  usePulseChartData: () => ({
-    allRepositories: [
-      { id: 1, name: '2022-1-MeasureSoftGram-CLI' },
-      { id: 2, name: '2022-1-MeasureSoftGram-Front' },
-    ],
-    filteredRepositories: [
-      {
-        id: 1,
-        name: '2022-1-MeasureSoftGram-CLI',
-        measurements: [{ created_at: '2026-08-21T12:00:00Z', value: 0.918 }],
-        releases: [{ name: 'Release 1', version: 'v2025.3.0', end_at: '2026-08-21T12:00:00Z' }],
-      },
-    ],
-    selectedRepo: 'all',
-    setSelectedRepo: jest.fn(),
-    startDate: '',
-    setStartDate: jest.fn(),
-    endDate: '',
-    setEndDate: jest.fn(),
-    totalMeasurements: 50,
-    selectedMeasurements: 10,
-    latestDate: '2026-09-25',
-    isLoading: false,
-    error: null,
-  }),
+  usePulseChartData: () => mockUsePulseChartData(),
 }));
+
+const defaultChartData = () => ({
+  allRepositories: [
+    { id: 1, name: '2022-1-MeasureSoftGram-CLI' },
+    { id: 2, name: '2022-1-MeasureSoftGram-Front' },
+  ],
+  filteredRepositories: [
+    {
+      id: 1,
+      name: '2022-1-MeasureSoftGram-CLI',
+      measurements: [{ created_at: '2026-08-21T12:00:00Z', value: 0.918 }],
+      releases: [{ name: 'Release 1', version: 'v2025.3.0', end_at: '2026-08-21T12:00:00Z' }],
+    },
+  ],
+  selectedRepo: 'all',
+  setSelectedRepo: jest.fn(),
+  startDate: '',
+  setStartDate: jest.fn(),
+  endDate: '',
+  setEndDate: jest.fn(),
+  totalMeasurements: 50,
+  selectedMeasurements: 10,
+  latestDate: '2026-09-25',
+  isLoading: false,
+  error: null,
+});
 
 jest.mock('next/dynamic', () => () => {
   const MockECharts = () => <div data-testid="echarts-mock" />;
@@ -37,6 +41,52 @@ jest.mock('next/dynamic', () => () => {
 });
 
 describe('<PulseChart />', () => {
+  beforeEach(() => {
+    mockUsePulseChartData.mockReturnValue(defaultChartData());
+  });
+
+  it('mostra o carregamento enquanto busca os dados', () => {
+    mockUsePulseChartData.mockReturnValue({ ...defaultChartData(), isLoading: true });
+
+    const { getByRole } = render(<PulseChart organizationId="1" productId="1" />);
+
+    expect(getByRole('progressbar')).toBeInTheDocument();
+  });
+
+  it('mostra um alerta quando a busca falha', () => {
+    mockUsePulseChartData.mockReturnValue({ ...defaultChartData(), error: new Error('falhou') });
+
+    const { getByText } = render(<PulseChart organizationId="1" productId="1" />);
+
+    expect(getByText('Não foi possível carregar os dados do gráfico de pulso.')).toBeInTheDocument();
+  });
+
+  it('exporta os repositórios filtrados em CSV', () => {
+    const createObjectURL = jest.fn(() => 'blob:csv');
+    const revokeObjectURL = jest.fn();
+    Object.assign(window.URL, { createObjectURL, revokeObjectURL });
+    const click = jest.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => undefined);
+
+    const { getByText } = render(<PulseChart organizationId="1" productId="1" />);
+    fireEvent.click(getByText('exportar .csv'));
+
+    expect(createObjectURL).toHaveBeenCalledWith(expect.any(Blob));
+    expect(click).toHaveBeenCalledTimes(1);
+    expect(revokeObjectURL).toHaveBeenCalledWith('blob:csv');
+    click.mockRestore();
+  });
+
+  it('não exporta quando não há repositórios filtrados', () => {
+    mockUsePulseChartData.mockReturnValue({ ...defaultChartData(), filteredRepositories: [] });
+    const createObjectURL = jest.fn();
+    Object.assign(window.URL, { createObjectURL });
+
+    const { getByText } = render(<PulseChart organizationId="1" productId="1" />);
+    fireEvent.click(getByText('exportar .csv'));
+
+    expect(createObjectURL).not.toHaveBeenCalled();
+  });
+
   it('renders pulse chart header, legend and summary correctly', () => {
     const { getByText } = render(<PulseChart organizationId="1" productId="1" />);
 

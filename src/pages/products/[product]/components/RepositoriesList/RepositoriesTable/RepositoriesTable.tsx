@@ -77,7 +77,7 @@ const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
       }
     };
 
-    fetchData();
+    void fetchData();
   }, []); // The empty dependency array ensures this effect runs only once after the initial render
 
 
