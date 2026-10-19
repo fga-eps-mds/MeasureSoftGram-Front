@@ -258,6 +258,33 @@ describe('AuthContext', () => {
     });
   });
 
+  it('deve exibir o erro e limpar a sessão quando o login OAuth falhar', async () => {
+    const { signInGithub } = require('@services/Auth');
+    signInGithub.mockResolvedValueOnce({ type: 'error', error: new Error('código expirado') });
+
+    localStorageMock.provider = 'github';
+
+    Object.defineProperty(globalThis, 'location', {
+      value: {
+        search: '?code=github_code_expirado',
+        href: 'http://localhost/?code=github_code_expirado',
+        pathname: '/',
+      },
+      writable: true,
+    });
+
+    render(
+      <AuthProvider>
+        <TestComponent />
+      </AuthProvider>
+    );
+
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalledWith('Erro ao realizar login: código expirado');
+    });
+    expect(localStorageMock.provider).toBeUndefined();
+  });
+
   it('deve exibir toast "Login cancelado" quando parâmetro error=access_denied estiver presente', async () => {
     Object.defineProperty(globalThis, 'location', {
       value: {
@@ -389,6 +416,27 @@ describe('AuthContext', () => {
           'Sua sessão expirará em menos de 10 minutos. Salve seu trabalho para evitar perda de dados.'
         );
       });
+    });
+
+    it('deve encerrar a sessão ao escolher sair no aviso de expiração', async () => {
+      (signOut as jest.Mock).mockResolvedValue({ type: 'success' });
+
+      render(
+        <AuthProvider>
+          <TestComponent />
+        </AuthProvider>
+      );
+
+      act(() => {
+        jest.advanceTimersByTime(111 * 60 * 1000);
+      });
+
+      fireEvent.click(await screen.findByText('Sair Agora'));
+
+      await waitFor(() => {
+        expect(signOut).toHaveBeenCalled();
+      });
+      expect(screen.queryByTestId('confirm-modal')).not.toBeInTheDocument();
     });
 
     it('deve realizar logout automático quando atingir 2 horas', async () => {

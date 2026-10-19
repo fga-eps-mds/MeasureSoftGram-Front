@@ -15,7 +15,7 @@ const ProfileConfig: NextPageWithLayout = () => {
   const [apiToken, setApiToken] = useState('');
 
   useEffect(() => {
-    getAccessToken().then((res) => {
+    void getAccessToken().then((res) => {
       if (res.type === 'success') {
         setApiToken(`Token ${res.value.key}`); // Changed to use template literals
       }
@@ -28,7 +28,7 @@ const ProfileConfig: NextPageWithLayout = () => {
   };
 
   const handleCopyToken = () => {
-    navigator.clipboard.writeText(apiToken);
+    navigator.clipboard.writeText(apiToken).catch((error) => console.error(error));
   };
 
   const { t } = useTranslation('settings');

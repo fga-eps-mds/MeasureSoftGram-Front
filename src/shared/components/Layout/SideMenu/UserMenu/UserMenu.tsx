@@ -48,7 +48,7 @@ function UserMenu({ username }: Props) {
       >
         <MenuItem
           onClick={() => {
-            router.push('/config');
+            void router.push('/config');
           }}
         >
           <ListItemIcon>

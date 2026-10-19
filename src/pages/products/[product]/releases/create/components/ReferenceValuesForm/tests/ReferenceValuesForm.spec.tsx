@@ -74,7 +74,6 @@ test('should update the measure threshold when input value changes', async () =>
   // Abrir o Accordion de subcaracterística
   const subcharacteristicAccordion = screen.getByText('subCharacteristics.subcharacteristic_1');
   fireEvent.click(subcharacteristicAccordion);
-  screen.debug(undefined, Infinity)
   // Buscar pelo input de min com base no label "measure_1"
   const minInput = screen.getByTestId('min-measures.measure_1').querySelector('input') as HTMLInputElement;
   const maxInput = screen.getByTestId('max-measures.measure_1').querySelector('input') as HTMLInputElement;

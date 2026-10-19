@@ -97,7 +97,7 @@ export function OrganizationProvider({ children }: Props) {
         setHasFetched(true);
         setIsLoading(false);
   
-        syncGithubOrganizations(organizations);
+        void syncGithubOrganizations(organizations);
       } else {
         toast.error(`Erro ao carregar ${terms.organizations}.`);
         setHasFetched(true);
@@ -113,7 +113,7 @@ export function OrganizationProvider({ children }: Props) {
 
   useEffect(() => {
     if (session?.username) {
-      fetchOrganizations();
+      void fetchOrganizations();
     } else if (!session) {
       setOrganizationList([]);
       setHasFetched(false);

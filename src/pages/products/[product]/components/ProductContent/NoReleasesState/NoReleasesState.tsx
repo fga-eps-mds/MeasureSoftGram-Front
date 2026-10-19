@@ -15,7 +15,7 @@ const NoReleasesState: React.FC<Props> = ({ productName }) => {
 
   const handleGoToReleases = () => {
     if (router.query.product) {
-      router.push(`/products/${router.query.product}/releases`);
+      void router.push(`/products/${router.query.product}/releases`);
     }
   };
 

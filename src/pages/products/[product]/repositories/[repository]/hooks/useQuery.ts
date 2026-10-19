@@ -231,9 +231,9 @@ export const useQuery = () => {
       setLatestTSQMIBadgeUrl(undefined);
       setCharacteristicBadgeUrls({});
 
-      loadProduct(organizationId, productId);
-      loadRepositoryInfo(organizationId, productId, repositoryId);
-      loadCompareGoalAccomplished(organizationId, productId, repositoryId).then((data) => {
+      void loadProduct(organizationId, productId);
+      void loadRepositoryInfo(organizationId, productId, repositoryId);
+      void loadCompareGoalAccomplished(organizationId, productId, repositoryId).then((data) => {
         setcomparedGoalAccomplished(data);
       });
     }
@@ -248,7 +248,7 @@ export const useQuery = () => {
       const [organizationId, productId] = getPathId(query?.product as string);
       // Só re-carrega se a organização no contexto já é a correta
       if (String(currentOrganization.id) === organizationId) {
-        loadProduct(organizationId, productId);
+        void loadProduct(organizationId, productId);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
