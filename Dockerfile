@@ -10,7 +10,7 @@
 # ============================================================
 
 # ---------- builder ----------
-FROM node:20-alpine AS builder
+FROM node:26-alpine AS builder
 
 # build-args inlined no bundle (next.config `env` + prefixo NEXT_PUBLIC_,
 # avaliados em build-time). Os defaults sao de desenvolvimento; cada ambiente
@@ -45,7 +45,7 @@ RUN --mount=type=cache,target=/usr/src/.next/cache \
     pnpm build
 
 # ---------- runner ----------
-FROM node:20-alpine AS runner
+FROM node:26-alpine AS runner
 
 ENV NODE_ENV=production
 ENV PORT=3000
