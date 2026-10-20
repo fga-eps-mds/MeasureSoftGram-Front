@@ -160,6 +160,15 @@ class ProductQuery {
     return api.get<any>(url);
   }
 
+  getQualityModelTreeConfig(organizationId: string, productId: string, releaseId?: number): GetRequest {
+    if (!organizationId || !productId || !releaseId) return null;
+    return {
+      url: `/v1/organizations/${organizationId}/products/${productId}/quality-model-tree/`,
+      method: 'get',
+      params: { release_id: releaseId }
+    };
+  }
+
   getEntityAnalysisEntities(organizationId: string, productId: string, releaseId?: number): GetRequest {
     if (!organizationId || !productId || !releaseId) return null;
     return {

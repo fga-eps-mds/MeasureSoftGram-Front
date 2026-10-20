@@ -312,6 +312,19 @@ describe('ProductQuery', () => {
     );
   });
 
+  it('Should build the quality-model-tree request of a release', () => {
+    expect(productQuery.getQualityModelTreeConfig('1', '2', 42)).toEqual({
+      url: '/v1/organizations/1/products/2/quality-model-tree/',
+      method: 'get',
+      params: { release_id: 42 }
+    });
+  });
+
+  it('Should not request the quality-model-tree without a release', () => {
+    expect(productQuery.getQualityModelTreeConfig('1', '2')).toBeNull();
+    expect(productQuery.getQualityModelTreeConfig('', '2', 42)).toBeNull();
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });

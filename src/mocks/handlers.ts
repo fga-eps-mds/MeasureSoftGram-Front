@@ -78,6 +78,9 @@ export const handlers = [
   rest.get('*/v1/organizations/:orgId/products/:productId/release/', (_req, res, ctx) =>
     res(ctx.status(200), ctx.json([]))
   ),
+  rest.get('*/v1/organizations/:orgId/products/:productId/quality-model-tree/', (_req, res, ctx) =>
+    res(ctx.status(200), ctx.json([]))
+  ),
   rest.get('*/v1/organizations/:orgId/products/:productId/repositories-tsqmi-historical-values/', (_req, res, ctx) =>
     res(ctx.status(200), ctx.json({ count: 0, next: null, previous: null, results: [] }))
   ),

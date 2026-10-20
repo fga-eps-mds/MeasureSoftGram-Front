@@ -9,6 +9,7 @@ import {
   FiChevronUp,
   FiPieChart,
   FiTrendingUp,
+  FiShare2,
 } from 'react-icons/fi';
 import { useAuth } from '@contexts/Auth';
 import { useProductContext } from '@contexts/ProductProvider';
@@ -85,6 +86,14 @@ function SideMenu() {
       path: `/products/${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/dashboards/temporal`,
       disable: !currentProduct,
       selected: router.pathname === '/products/[product]/dashboards/temporal',
+    },
+    {
+      startIcon: <FiShare2 fontSize={24} />,
+      text: '3. Metamodelo',
+      tooltip: 'Metamodelo',
+      path: `/products/${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/dashboards/metamodelo`,
+      disable: !currentProduct,
+      selected: router.pathname === '/products/[product]/dashboards/metamodelo',
     },
     {
       startIcon: <FiAlignLeft fontSize={24} />,
