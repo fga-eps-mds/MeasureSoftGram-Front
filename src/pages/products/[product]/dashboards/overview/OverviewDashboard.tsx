@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import Head from 'next/head';
-import dynamic from 'next/dynamic';
+import ReactEcharts from '@components/ECharts';
 import { useRouter } from 'next/router';
 import { Box, Button, Container, Link, MenuItem, Paper, TextField, Typography } from '@mui/material';
 
@@ -25,8 +25,6 @@ import {
 import { getPathId } from '@utils/pathDestructer';
 
 import { useOverviewDashboard } from './useOverviewDashboard';
-
-const ReactEcharts = dynamic(() => import('echarts-for-react'), { ssr: false });
 
 const TITLE = '1. Visão Geral de Qualidade';
 const COLLECTION_GUIDE_URL = 'https://github.com/fga-eps-mds/MeasureSoftGram-Action';

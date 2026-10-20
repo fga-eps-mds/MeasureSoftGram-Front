@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useState, useCallback, useEffect } from 'react';
-import dynamic from 'next/dynamic';
+import ReactEcharts from '@components/ECharts';
 import { Box, Button, Typography, Paper } from '@mui/material';
 import { QualityModelNode } from '@customTypes/metamodel';
 import {
@@ -12,8 +12,6 @@ import {
   METAMODEL_COLORS,
 } from './formatMetamodelTree';
 import { MetamodelNodeModal } from './MetamodelNodeModal';
-
-const ReactEcharts = dynamic(() => import('echarts-for-react'), { ssr: false });
 
 const MODAL_WIDTH = 360;
 // ramos abertos por padrão: TSQMI e características

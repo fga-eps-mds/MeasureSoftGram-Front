@@ -1,5 +1,5 @@
 import React, { ComponentRef, useMemo, useRef, useState } from 'react';
-import dynamic from 'next/dynamic';
+import ReactEcharts from '@components/ECharts';
 import type ReactEchartsType from 'echarts-for-react';
 
 import formatCharacteristicsHistory from '@utils/formatCharacteristicsHistory';
@@ -16,8 +16,6 @@ import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp
 import { useProductContext } from '@contexts/ProductProvider';
 import { HistoryDateRange } from '@customTypes/product';
 import { useTranslation } from 'react-i18next';
-
-const ReactEcharts = dynamic(() => import('echarts-for-react'), { ssr: false });
 
 interface Prop {
   title: string;

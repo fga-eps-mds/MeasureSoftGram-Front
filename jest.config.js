@@ -67,5 +67,15 @@ const customJestConfig = {
   ]
 };
 
+// O ECharts modular (echarts/core, echarts/charts...) e o zrender só existem como ESM: precisam passar pelo SWC
+// como o código do projeto. O next/jest sempre ignora /node_modules/, então a troca é feita na config pronta.
+const ESM_PACKAGES = '/node_modules/(?!(\\.pnpm/(echarts|zrender)@[^/]+/node_modules/)?(echarts|zrender)/)';
+
 // Exporta a configuração combinando o padrão do Next com a configuração customizada
-module.exports = createJestConfig(customJestConfig);
+module.exports = async () => {
+  const config = await createJestConfig(customJestConfig)();
+  config.transformIgnorePatterns = config.transformIgnorePatterns.map((pattern) =>
+    pattern === '/node_modules/' ? ESM_PACKAGES : pattern
+  );
+  return config;
+};

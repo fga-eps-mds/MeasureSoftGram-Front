@@ -118,7 +118,7 @@ class Repository {
   getTsqmiBadgeUrl(props: HistoricalCharacteristicsProps) {
     const { organizationId, entity, productId, repositoryId } = props;
     const basePath = buildRepositoryBasePath(organizationId as string, productId as string, repositoryId as string);
-    return `${this.apiClient.getUri()}${basePath}/latest-values/${entity}/badge`;
+    return `${this.apiClient.getUri()}${basePath}/latest-values/${entity}/badge/`;
   }
 
   getCharacteristicBadgeUrl(organizationId: string, productId: string, repositoryId: string, characteristicKey: string) {

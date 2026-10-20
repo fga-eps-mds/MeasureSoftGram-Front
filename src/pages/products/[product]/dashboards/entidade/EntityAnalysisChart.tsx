@@ -1,10 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import dynamic from 'next/dynamic';
+import ReactEcharts from '@components/ECharts';
 import { Box } from '@mui/material';
 import { EntityAnalysis, EntityAnalysisRepository } from '@customTypes/product';
 import { formatEntityAnalysisChartOptions } from '@utils/formatEntityAnalysisChart';
-
-const ReactEcharts = dynamic(() => import('echarts-for-react'), { ssr: false });
 
 const BAR_HEIGHT = 44;
 const MIN_HEIGHT = 200;

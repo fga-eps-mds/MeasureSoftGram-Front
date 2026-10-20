@@ -235,7 +235,9 @@ export function formatDistributionChartOptions({ metric, files, stats, reference
   // o eixo é o das faixas, do zero até o fim da última; sem arquivos, vai até o bigode de cima
   const axisMax = bins.length ? bins[bins.length - 1].end : Math.max(1, stats.high);
   // como no protótipo, uma marca a cada 2 faixas do histograma (faixas de 5: 0, 10, 20…)
-  const tickInterval = 2 * getBinWidth(kind, Math.max(0, ...files.map((file) => file.value)));
+  // reduce, e não Math.max(...valores): espalhar um repositório grande nos argumentos estoura a pilha
+  const maxValue = files.reduce((max, file) => Math.max(max, file.value), 0);
+  const tickInterval = 2 * getBinWidth(kind, maxValue);
   const sharedXAxis = { type: 'value', min: 0, max: axisMax, interval: tickInterval, splitLine: { show: false } };
   const formatValue = (value: number) => formatMetricValue(value, kind);
   const outlierGroups = groupOutliers(stats.outliers, axisMax / OUTLIER_SPREAD);

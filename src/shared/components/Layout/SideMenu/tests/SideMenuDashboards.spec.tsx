@@ -4,12 +4,14 @@ import '@testing-library/jest-dom';
 import SideMenu from '../SideMenu';
 
 const mockPush = jest.fn();
+const mockPrefetch = jest.fn(() => Promise.resolve());
 
 jest.mock('next/router', () => ({
   useRouter: () => ({
     pathname: '/products/[product]',
     query: { product: '1-5-MeasureSoftGram' },
     push: mockPush,
+    prefetch: mockPrefetch,
   }),
 }));
 
@@ -52,6 +54,22 @@ jest.mock('@hooks/useProviderTranslation', () => ({
 }));
 
 describe('SideMenu Dashboards Submenu (CA1)', () => {
+  it('adianta o código das abas do menu e dos dashboards, para a troca de aba não esperar o download', () => {
+    render(<SideMenu />);
+
+    const base = '/products/1-5-MeasureSoftGram';
+    expect(mockPrefetch.mock.calls.map(([path]) => path)).toEqual([
+      base,
+      `${base}/repositories`,
+      `${base}/releases`,
+      `${base}/dashboards/overview`,
+      `${base}/dashboards/temporal`,
+      `${base}/dashboards/metamodelo`,
+      `${base}/dashboards/entidade`,
+      `${base}/dashboards/distribuicao`,
+    ]);
+  });
+
   it('exibe o item "3. Metamodelo" ao expandir o menu Dashboards e navega ao clicar nele', () => {
     render(<SideMenu />);
 

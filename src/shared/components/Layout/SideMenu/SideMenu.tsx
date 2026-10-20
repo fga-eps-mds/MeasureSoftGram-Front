@@ -116,6 +116,21 @@ function SideMenu() {
 
   const isAnyDashboardSelected = router.pathname?.includes('/dashboards/') ?? false;
 
+  // O menu navega com router.push, que não adianta o JS da página como o <Link> faz: sem o prefetch, cada aba
+  // só começava a baixar o próprio código depois do clique. No `next dev` o prefetch não faz nada.
+  const prefetchPaths = currentProduct ? [...MenuItems, ...dashboardSubItems].map((item) => item.path).join('\n') : '';
+  useEffect(() => {
+    prefetchPaths
+      .split('\n')
+      .filter(Boolean)
+      .forEach((path) => {
+        router.prefetch?.(path)?.catch(() => {
+          // sem prefetch, a página baixa no clique, como antes
+        });
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [prefetchPaths]);
+
   return (
     <SideMenuWrapper
       key={`${currentOrganization?.id}-${currentProduct?.id}`}

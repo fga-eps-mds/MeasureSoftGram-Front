@@ -1,13 +1,11 @@
 import React, { useRef } from 'react';
-import dynamic from 'next/dynamic';
+import ReactEcharts from '@components/ECharts';
 import { Box, Paper, Typography, CircularProgress, Alert } from '@mui/material';
 import { COLOR_TOKENS, formatPulseChartOptions, convertPulseRepositoriesToCsv } from '@utils/formatPulseChart';
 import { usePulseChartData } from './usePulseChartData';
 import { PulseChartFilters } from './PulseChartFilters';
 import { PulseChartRepoSidebar } from './PulseChartRepoSidebar';
 import { useProviderTerms } from '@hooks/useProviderTerms';
-
-const ReactEcharts = dynamic(() => import('echarts-for-react'), { ssr: false });
 
 interface Props {
   organizationId?: string;

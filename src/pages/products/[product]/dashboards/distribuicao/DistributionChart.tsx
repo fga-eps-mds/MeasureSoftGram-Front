@@ -1,8 +1,6 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-import dynamic from 'next/dynamic';
+import ReactEcharts from '@components/ECharts';
 import { Box } from '@mui/material';
-
-const ReactEcharts = dynamic(() => import('echarts-for-react'), { ssr: false });
 
 interface DistributionChartProps {
   /** Options do ECharts; memoize no componente pai, senão cada render vira um desenho novo. */

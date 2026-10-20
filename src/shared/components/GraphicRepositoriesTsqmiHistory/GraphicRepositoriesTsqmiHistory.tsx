@@ -3,12 +3,10 @@ import React, { ComponentRef, useRef } from 'react';
 import formatRepositoriesTsqmiHistory from '@utils/formatRepositoriesTsqmiHistory';
 import { RepositoriesTsqmiHistory , HistoryDateRange } from '@customTypes/product';
 
-import dynamic from 'next/dynamic';
+import ReactEcharts from '@components/ECharts';
 import type ReactEchartsType from 'echarts-for-react';
 import { CSVFilter } from '@utils/convertToCsv';
 import * as Styles from './styles';
-
-const ReactEcharts = dynamic(() => import('echarts-for-react'), { ssr: false });
 
 interface Props {
   history?: RepositoriesTsqmiHistory;

@@ -278,6 +278,14 @@ describe('formatDistributionChartOptions', () => {
     ]);
   });
 
+  it('aguenta um repositório com centenas de milhares de arquivos', () => {
+    const huge = Array.from({ length: 300000 }, (_, index) => ({ path: `src/f${index}.py`, value: index % 30 }));
+
+    const option = formatDistributionChartOptions({ metric: 'complexity', files: huge, stats, reference: null });
+
+    expect(option.xAxis[0].max).toBe(30);
+  });
+
   it('sem arquivos, leva o eixo até o bigode de cima', () => {
     const empty = formatDistributionChartOptions({ metric: 'complexity', files: [], stats, reference: null });
 
