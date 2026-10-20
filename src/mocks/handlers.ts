@@ -88,20 +88,6 @@ export const handlers = [
     res(ctx.status(200), ctx.json(repositories.results[0]))
   ),
 
-  // ----- Grafana -----
-  rest.get('*/v1/grafana/dashboard/:uid/', (req, res, ctx) =>
-    res(
-      ctx.status(200),
-      ctx.json({
-        dashboard_uid: req.params.uid,
-        title: 'Dashboard Mock',
-        grafana_url: 'https://grafana.example.dev/d/mock',
-        product_id: 1,
-        repository: { id: 1, name: '2026.1-MeasureSoftGram-Front' }
-      })
-    )
-  ),
-
   // ----- Fallback -----
   // Qualquer outro GET sob /v1/.../latest-values|historical-values devolve lista vazia,
   // evitando erro de rede em telas secundarias ainda nao mapeadas.

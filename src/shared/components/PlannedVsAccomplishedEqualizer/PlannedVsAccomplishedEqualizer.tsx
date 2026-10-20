@@ -31,7 +31,7 @@ export interface PlannedVsAccomplishedEqualizerProps {
   normDiff?: number | null;
 }
 
-/** Mesmas cores do gráfico de linhas Planejado vs Realizado (painel do Grafana). */
+/** Azul para o planejado e laranja para o realizado, como no antigo gráfico Planejado vs Realizado. */
 export const COLORS = {
   planned: '#1F60C4',
   accomplished: '#FF8C00',

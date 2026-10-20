@@ -30,12 +30,6 @@ jest.mock('@hooks/useRequest', () => ({
   useRequest: () => ({ data: [], isLoading: false })
 }));
 
-jest.mock('@services/grafana', () => ({
-  grafanaService: {
-    getDashboardUrl: jest.fn().mockResolvedValue({ data: { grafana_url: 'http://localhost:5000/d/test' } }),
-  }
-}));
-
 describe('Product', () => {
   beforeAll(() => {
     jest.useFakeTimers();
