@@ -62,4 +62,25 @@ describe('<DashboardCard />', () => {
 
     expect(onRetry).toHaveBeenCalled();
   });
+
+  it('usa o título de erro da tela quando informado', () => {
+    render(
+      <DashboardCard
+        title="Distribuição"
+        status="error"
+        errorTitle="Não foi possível carregar a distribuição"
+        onRetry={jest.fn()}
+      />
+    );
+
+    expect(screen.getByText('Não foi possível carregar a distribuição')).toBeInTheDocument();
+    expect(screen.queryByText('Não foi possível carregar este gráfico')).not.toBeInTheDocument();
+  });
+
+  it('troca o texto do selo quando a tela pede um mais específico', () => {
+    render(<DashboardCard title="Produto sem release" status="empty" badgeLabel="Sem release" />);
+
+    expect(screen.getByText('Sem release')).toBeInTheDocument();
+    expect(screen.queryByText('Sem dados')).not.toBeInTheDocument();
+  });
 });

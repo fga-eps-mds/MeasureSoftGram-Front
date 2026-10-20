@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   FiAlignLeft,
+  FiBarChart,
   FiBarChart2,
   FiGitBranch,
   FiPaperclip,
@@ -102,6 +103,14 @@ function SideMenu() {
       path: `/products/${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/dashboards/entidade`,
       disable: !currentProduct,
       selected: router.pathname === '/products/[product]/dashboards/entidade',
+    },
+    {
+      startIcon: <FiBarChart fontSize={24} />,
+      text: '5. Distribuição das Métricas',
+      tooltip: 'Distribuição das Métricas',
+      path: `/products/${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/dashboards/distribuicao`,
+      disable: !currentProduct,
+      selected: router.pathname === '/products/[product]/dashboards/distribuicao',
     },
   ];
 

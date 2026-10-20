@@ -324,3 +324,60 @@ export interface ReleaseDashboardCharacteristics {
   characteristics: ReleaseDashboardCharacteristic[];
   repositories: ReleaseDashboardRepository[];
 }
+
+/** Métricas do SonarQube que o Service guarda por arquivo (FILE_LEVEL_METRICS, US21.03). */
+export type FileMetricKey =
+  | 'coverage'
+  | 'complexity'
+  | 'functions'
+  | 'comment_lines_density'
+  | 'duplicated_lines_density'
+  | 'sqale_debt_ratio';
+
+export interface MetricDistributionFile {
+  path: string;
+  value: number;
+}
+
+/** Resumo calculado pelo Service: quartis pelo método inclusive e desvio padrão populacional. */
+export interface MetricDistributionSummary {
+  count: number;
+  min: number;
+  q1: number;
+  median: number;
+  q3: number;
+  max: number;
+  mean: number;
+  std_dev: number;
+}
+
+export interface MetricDistributionRepository {
+  repository_id: number;
+  repository_name: string;
+  /** Última coleta na janela da release; null quando não houve coleta por arquivo. */
+  collected_at: string | null;
+  /** Arquivos com ncloc = 0, que ficam fora como no cálculo das medidas (CA7). */
+  excluded_files: number;
+  /**
+   * null em três casos: sem coleta por arquivo (collected_at null), coleta sem a métrica pedida (excluded_files 0)
+   * e todos os arquivos com ncloc = 0 (excluded_files > 0).
+   */
+  summary: MetricDistributionSummary | null;
+  /** Só vem quando o pedido traz repository_id, em ordem de caminho. */
+  files?: MetricDistributionFile[];
+}
+
+/** Mínimo e máximo da medida que usa a métrica, na configuração da release (CA4). */
+export interface MetricDistributionReference {
+  measure: string;
+  min_threshold: number;
+  max_threshold: number;
+}
+
+/** GET products/{id}/metrics-distribution/?release_id=&metric=&repository_id= (Service, US21.03) */
+export interface MetricDistribution {
+  release: ReleaseDashboardRelease;
+  metric: FileMetricKey;
+  reference: MetricDistributionReference | null;
+  repositories: MetricDistributionRepository[];
+}

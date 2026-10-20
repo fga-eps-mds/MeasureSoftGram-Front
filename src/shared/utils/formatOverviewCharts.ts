@@ -27,7 +27,7 @@ export function formatVariation(diff: number): string {
   return `${rounded > 0 ? '+' : '−'}${formatDecimal(Math.abs(rounded))}`;
 }
 
-function escapeHtml(text: string): string {
+export function escapeHtml(text: string): string {
   return text.replace(/[&<>"']/g, (char) => `&#${char.charCodeAt(0)};`);
 }
 

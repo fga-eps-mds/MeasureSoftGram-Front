@@ -15,6 +15,10 @@ export interface DashboardCardProps {
   emptyTitle?: string;
   emptyDescription?: string;
   emptyAction?: ReactNode;
+  /** Título do estado de erro; o padrão serve para qualquer gráfico. */
+  errorTitle?: string;
+  /** Texto do selo de carregando, vazio ou erro, quando a tela pede um mais específico. */
+  badgeLabel?: string;
   onRetry?: () => void;
   children?: ReactNode;
 }
@@ -96,6 +100,8 @@ export default function DashboardCard({
   emptyTitle = 'Ainda não há análises nesta release',
   emptyDescription,
   emptyAction,
+  errorTitle = 'Não foi possível carregar este gráfico',
+  badgeLabel,
   onRetry,
   children
 }: DashboardCardProps) {
@@ -118,7 +124,7 @@ export default function DashboardCard({
           icon="!"
           iconColor={DASHBOARD_COLORS.error}
           iconBackground={DASHBOARD_COLORS.errorBackground}
-          title="Não foi possível carregar este gráfico"
+          title={errorTitle}
           description="Tente de novo em alguns instantes. Se o problema continuar, avise o administrador do produto."
           action={
             onRetry && (
@@ -171,7 +177,7 @@ export default function DashboardCard({
         {badge ? (
           <Box sx={{ backgroundColor: badge.background, borderRadius: '12px', padding: '4px 10px' }}>
             <Typography fontWeight="bold" fontSize="12px" color={badge.color}>
-              {badge.label}
+              {badgeLabel ?? badge.label}
             </Typography>
           </Box>
         ) : (

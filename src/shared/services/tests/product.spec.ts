@@ -325,6 +325,36 @@ describe('ProductQuery', () => {
     expect(productQuery.getQualityModelTreeConfig('', '2', 42)).toBeNull();
   });
 
+  describe('getMetricDistribution', () => {
+    it('pede os arquivos de um repositório na release', () => {
+      expect(
+        productQuery.getMetricDistribution('1', '2', { releaseId: 3, metric: 'coverage', repositoryId: 4 })
+      ).toEqual({
+        url: '/v1/organizations/1/products/2/metrics-distribution/',
+        method: 'get',
+        params: { release_id: 3, metric: 'coverage', repository_id: 4 }
+      });
+    });
+
+    it('sem repositório, pede só o resumo de cada repositório da release', () => {
+      const request = productQuery.getMetricDistribution('1', '2', { releaseId: 3, metric: 'complexity' });
+
+      expect(request?.params).toEqual({ release_id: 3, metric: 'complexity' });
+      // a chave do SWR é o request serializado: o parâmetro ausente não pode aparecer nela
+      expect(JSON.stringify(request)).not.toContain('repository_id');
+    });
+
+    it.each<[string, string, number | undefined]>([
+      ['', '2', 3],
+      ['1', '', 3],
+      ['1', '2', undefined]
+    ])('não pede nada sem organização, produto ou release (%s, %s, %s)', (organizationId, productId, releaseId) => {
+      expect(
+        productQuery.getMetricDistribution(organizationId, productId, { releaseId, metric: 'coverage' })
+      ).toBeNull();
+    });
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });
