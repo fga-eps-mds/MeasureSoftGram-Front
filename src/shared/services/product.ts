@@ -159,6 +159,26 @@ class ProductQuery {
     return api.get<any>(url);
   }
 
+  getRepositoriesConfig(organizationId: string, productId: string): GetRequest {
+    if (!organizationId || !productId) return null;
+    return { url: `/v1/organizations/${organizationId}/products/${productId}/repositories/`, method: 'get' };
+  }
+
+  getRepositoryHistoricalValuesConfig(
+    organizationId: string,
+    productId: string,
+    repositoryId: number | undefined,
+    entity: 'characteristics' | 'subcharacteristics' | 'measures' | 'metrics'
+  ): GetRequest {
+    if (!organizationId || !productId || !repositoryId) return null;
+    return {
+      url: `/v1/organizations/${organizationId}/products/${productId}/repositories/${repositoryId}/historical-values/${entity}/`,
+      method: 'get',
+      // o histórico de métricas mistura valores por arquivo; TRK é o valor do repositório
+      params: entity === 'metrics' ? { qualifier: 'TRK' } : undefined
+    };
+  }
+
   getReleaseList(organizationId: string, productId: string, releaseId?: number): GetRequest {
     if (!organizationId || !productId) return null;
     const url = `/v1/organizations/${organizationId}/products/${productId}/release/`;

@@ -1,55 +1,94 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-
-import { OrganizationProvider } from '@contexts/OrganizationProvider';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { useReleaseEvolution } from '@hooks/useReleaseEvolution';
 import Repository from '../Repository';
 
-jest.mock('@contexts/ProductProvider', () => ({
-  useProductContext: () => ({
-    currentProduct: {
-      name: `aoba`
-    }
-  })
+jest.mock('next/router', () => ({ useRouter: () => ({ query: { product: '1-2-Produto', repository: '7-api' } }) }));
+jest.mock('@hooks/useRequireAuth', () => ({ __esModule: true, default: jest.fn() }));
+jest.mock('@hooks/useProviderTerms', () => ({
+  useProviderTerms: () => ({ terms: { Repository: 'Repositório', repository: 'repositório' } }),
 }));
-
 jest.mock('@contexts/RepositoryProvider', () => ({
-  useRepositoryContext: () => ({
-    latestTSQMI: { id: 1, value: 0.75, created_at: new Date().toISOString() },
-    latestTSQMIBadgeUrl: 'http://localhost:8000/organizations/1/products/1/repositories/1/latest-values/tsqmi/badge'
-  })
+  useRepositoryContext: () => ({ latestTSQMI: { id: 1, value: 0.75 }, latestTSQMIBadgeUrl: 'badge-url' }),
 }));
+jest.mock('../hooks/useQuery', () => ({ useQuery: jest.fn() }));
+jest.mock('../components/Header', () => () => <div data-testid="repository-header" />);
+jest.mock('../components/TsqmiBadge', () => ({ latestTSQMIBadgeUrl }: { latestTSQMIBadgeUrl: string }) => (
+  <div data-testid="tsqmi-badge">{latestTSQMIBadgeUrl}</div>
+));
+jest.mock('@hooks/useReleaseEvolution', () => ({ useReleaseEvolution: jest.fn() }));
+jest.mock('next/dynamic', () => () => {
+  function MockECharts({ option }: { option: { xAxis: { data: string[] } } }) {
+    return <div data-testid="echarts-mock">{option.xAxis.data.join(',')}</div>;
+  }
+  return MockECharts;
+});
 
-jest.mock('next/router', () => ({
-  useRouter: () => ({
-    push: () => jest.fn()
-  })
-}));
+function evolution(overrides = {}) {
+  return {
+    releaseNames: ['v1', 'v2'],
+    series: [{ key: 'reliability', name: 'Reliability', values: [0.4, 0.6] }],
+    hasReleases: true,
+    isLoading: false,
+    hasError: false,
+    retry: jest.fn(),
+    ...overrides,
+  };
+}
 
 describe('<Repository />', () => {
-  // O TsqmiBadge compara created_at do mock contra Date.now() pra decidir se a
-  // analise esta "stale" (> 30 dias). Sem fixar o relogio, o snapshot passa a
-  // renderizar o alerta de stale assim que a data real ultrapassa 30 dias do
-  // created_at do mock, quebrando o teste com o tempo. Fixamos o agora num
-  // ponto dentro da janela pra manter o render deterministico.
-  beforeAll(() => {
-    jest.spyOn(Date, 'now').mockReturnValue(new Date('2026-05-25T00:00:00Z').getTime());
+  beforeEach(() => {
+    (useReleaseEvolution as jest.Mock).mockReturnValue(evolution());
   });
 
-  afterAll(() => {
-    (Date.now as jest.Mock).mockRestore();
+  it('monta a tela com cabeçalho, TSQMI, evolução das características e espaço para as medidas', () => {
+    render(<Repository />);
+
+    expect(screen.getByTestId('repository-header')).toBeTruthy();
+    expect(screen.getByTestId('tsqmi-badge').textContent).toBe('badge-url');
+    expect(screen.getByText('Evolução das características')).toBeTruthy();
+    expect(screen.getByTestId('repository-measures-section')).toBeTruthy();
+    expect(document.querySelector('iframe')).toBeNull();
   });
 
-  it('Should render correctly', () => {
-    const { container } = render(
-      <OrganizationProvider>
-        <Repository />
-      </OrganizationProvider>
-    );
+  it('desenha um ponto por release das características do repositório da rota', () => {
+    render(<Repository />);
 
-    Array.from(container.getElementsByClassName('echarts-for-react')).forEach((chart) => {
-      chart.setAttribute('_echarts_instance_', 'ec_123');
-    });
+    expect(useReleaseEvolution).toHaveBeenCalledWith('1', '2', 7, 'characteristics');
+    expect(screen.getByTestId('echarts-mock').textContent).toBe('v1,v2');
+  });
 
-    expect(container).toMatchSnapshot();
+  it('mostra o carregamento', () => {
+    (useReleaseEvolution as jest.Mock).mockReturnValue(evolution({ isLoading: true }));
+
+    render(<Repository />);
+
+    expect(screen.getByRole('progressbar')).toBeTruthy();
+  });
+
+  it('orienta a criar uma release quando o produto não tem nenhuma', () => {
+    (useReleaseEvolution as jest.Mock).mockReturnValue(evolution({ series: [], releaseNames: [], hasReleases: false }));
+
+    render(<Repository />);
+
+    expect(screen.getByText(/ainda não tem releases/)).toBeTruthy();
+  });
+
+  it('explica o que fazer quando as releases não têm valores', () => {
+    (useReleaseEvolution as jest.Mock).mockReturnValue(evolution({ series: [] }));
+
+    render(<Repository />);
+
+    expect(screen.getByText(/Nenhuma release tem valores de características deste repositório/)).toBeTruthy();
+  });
+
+  it('mostra erro com "Tentar novamente"', () => {
+    const retry = jest.fn();
+    (useReleaseEvolution as jest.Mock).mockReturnValue(evolution({ hasError: true, retry }));
+
+    render(<Repository />);
+
+    fireEvent.click(screen.getByText('Tentar novamente'));
+    expect(retry).toHaveBeenCalled();
   });
 });
