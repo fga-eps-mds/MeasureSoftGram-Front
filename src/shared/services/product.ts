@@ -179,6 +179,24 @@ class ProductQuery {
     };
   }
 
+  getReleaseDashboardSummary(organizationId: string, productId: string, releaseId?: number): GetRequest {
+    if (!organizationId || !productId || !releaseId) return null;
+    return {
+      url: `/v1/organizations/${organizationId}/products/${productId}/release-dashboard/summary/`,
+      method: 'get',
+      params: { release_id: releaseId }
+    };
+  }
+
+  getReleaseDashboardCharacteristics(organizationId: string, productId: string, releaseId?: number): GetRequest {
+    if (!organizationId || !productId || !releaseId) return null;
+    return {
+      url: `/v1/organizations/${organizationId}/products/${productId}/release-dashboard/characteristics/`,
+      method: 'get',
+      params: { release_id: releaseId }
+    };
+  }
+
   getReleaseList(organizationId: string, productId: string, releaseId?: number): GetRequest {
     if (!organizationId || !productId) return null;
     const url = `/v1/organizations/${organizationId}/products/${productId}/release/`;

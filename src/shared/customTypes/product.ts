@@ -233,3 +233,54 @@ export interface HistoryDateRange {
   startDate: number | null;
   endDate: number | null;
 }
+
+/** Valor de uma entidade numa release: o último calculado dentro da janela dela (null sem análise). */
+export interface ReleaseValue {
+  value: number | null;
+  created_at: string | null;
+}
+
+export interface ReleaseDashboardRelease {
+  id: number;
+  release_name: string;
+  start_at: string;
+  end_at: string;
+}
+
+/** GET products/{id}/release-dashboard/summary/?release_id= (Service, US07.01) */
+export interface ReleaseDashboardSummary {
+  release: ReleaseDashboardRelease;
+  totals: {
+    characteristics: number;
+    subcharacteristics: number;
+    measures: number;
+    metrics: number;
+    repositories: number;
+    files: number;
+  };
+}
+
+export interface ReleaseDashboardCharacteristic {
+  key: string;
+  name: string;
+  /** Meta da release, de 0 a 1; null quando a release não tem meta para a característica. */
+  planned: number | null;
+  /** Média entre os repositórios com valor; null quando nenhum tem valor. */
+  accomplished: number | null;
+  /** Desvio padrão entre os repositórios com valor. */
+  dispersion: number | null;
+}
+
+export interface ReleaseDashboardRepository {
+  id: number;
+  name: string;
+  tsqmi: ReleaseValue;
+  characteristics: Array<ReleaseValue & { key: string }>;
+}
+
+/** GET products/{id}/release-dashboard/characteristics/?release_id= (Service, US07.01) */
+export interface ReleaseDashboardCharacteristics {
+  release: ReleaseDashboardRelease;
+  characteristics: ReleaseDashboardCharacteristic[];
+  repositories: ReleaseDashboardRepository[];
+}
