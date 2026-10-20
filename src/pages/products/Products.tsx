@@ -33,7 +33,8 @@ import { productQuery } from "@services/product";
 import { repository } from "@services/repository";
 import { useOrganizationContext } from "@contexts/OrganizationProvider";
 import { useProductContext } from "@contexts/ProductProvider";
-import { useAuth } from "@contexts/Auth";
+import { getGithubReauthorizeUrl } from "@services/Auth";
+import { createOAuthState } from "@services/Auth/oauthState";
 import { isSameGithubOrg } from "@utils/isSameGithubOrg";
 import { FaGitlab } from 'react-icons/fa';
 import { useProviderTerms } from '@hooks/useProviderTerms';
@@ -53,7 +54,6 @@ const Products: NextPageWithLayout = () => {
 
   const { organizationList, setCurrentOrganizations, fetchOrganizations, currentOrganization } = useOrganizationContext();
   const { setCurrentProduct, updateProductList, currentProduct } = useProductContext();
-  const { signInWithGithub } = useAuth();
 
   const [gitHubOrgs, setGitHubOrgs] = useState<GitHubOrganization[]>([]);
   const [selectedOrgName, setSelectedOrgName] = useState<string>('');
@@ -259,36 +259,19 @@ const Products: NextPageWithLayout = () => {
     }
   };
 
+  // Volta para esta tela pelo callback do OAuth, que valida o state e renova o token.
+  const handleReauthorizeGithub = () => {
+    try {
+      window.location.assign(getGithubReauthorizeUrl(createOAuthState('github', '/products')));
+    } catch (error) {
+      console.error(error);
+      toast.error(`Não foi possível iniciar a autorização do ${terms.providerName}.`);
+    }
+  };
+
   useEffect(() => {
     void loadGitHubOrgs();
   }, []);
-
-  useEffect(() => {
-    const code = router.query.code as string;
-    if (code) {
-      const exchangeCode = async () => {
-        setLoadingOrgs(true);
-        try {
-          const res = await signInWithGithub(code);
-          if (res.type === 'success') {
-            toast.success(`${terms.Organizations} do ${terms.providerName} ${provider === 'gitlab' ? 'vinculados' : 'vinculadas'} com sucesso!`);
-            await loadGitHubOrgs();
-            fetchOrganizations(); // Removido o 'true'
-          } else {
-            toast.error(`Erro ao vincular ${terms.organizations} do ${terms.providerName}.`);
-          }
-        } catch (err) {
-          console.error(err);
-          toast.error("Ocorreu um erro ao vincular.");
-        } finally {
-          setLoadingOrgs(false);
-          const { code: _, ...query } = router.query;
-          void router.replace({ pathname: router.pathname, query }, undefined, { shallow: true });
-        }
-      };
-      void exchangeCode();
-    }
-  }, [router.query.code]);
 
   useEffect(() => {
     if (selectedOrgName) {
@@ -501,7 +484,7 @@ const Products: NextPageWithLayout = () => {
                       <Typography variant="body2" color="text.secondary" paragraph>
                         {`Para carregar os ${terms.repositories}, autorize o aplicativo novamente.`}
                       </Typography>
-                      <Button variant="contained" color="primary" onClick={() => window.open(`https://github.com/login/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID}&scope=repo`, '_self')}>
+                      <Button variant="contained" color="primary" onClick={handleReauthorizeGithub}>
                         {`Autorizar ${terms.providerName}`}
                       </Button>
                     </Box>

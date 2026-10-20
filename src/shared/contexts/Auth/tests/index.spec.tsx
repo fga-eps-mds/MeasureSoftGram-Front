@@ -1,5 +1,6 @@
 import React from 'react';
 import { act, render, renderHook, waitFor } from '@testing-library/react';
+import { createOAuthState } from '@services/Auth/oauthState';
 import { AuthProvider, useAuth } from '../index';
 
 // Mock next/router
@@ -7,6 +8,7 @@ const mockPush = jest.fn();
 jest.mock('next/router', () => ({
   useRouter: () => ({
     push: mockPush,
+    replace: jest.fn(),
     pathname: '/',
     query: {},
     asPath: '/',
@@ -30,6 +32,7 @@ describe('AuthProvider', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     localStorage.clear();
+    sessionStorage.clear();
     // Reset globalThis.location.search
     Object.defineProperty(globalThis, 'location', {
       value: { search: '', href: 'http://localhost/', pathname: '/' },
@@ -61,95 +64,19 @@ describe('AuthProvider', () => {
     expect(result.current.logout).toBeInstanceOf(Function);
   });
 
-  test('should redirect with state when code and state params are present', async () => {
-    Object.defineProperty(globalThis, 'location', {
-      value: {
-        search: '?code=abc123&state=/products/1-test/repositories/2-repo',
-        href: 'http://localhost/?code=abc123&state=/products/1-test/repositories/2-repo',
-        pathname: '/',
-      },
-      writable: true,
-    });
-
-    render(
-      <AuthProvider>
-        <div>Child</div>
-      </AuthProvider>
-    );
-
-    await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith(
-        '/products/1-test/repositories/2-repo?code=abc123'
-      );
-    });
-  });
-
-  test('should append code with & separator when state already contains query params', async () => {
-    Object.defineProperty(globalThis, 'location', {
-      value: {
-        search: '?code=abc123&state=/products/1-test?tab=details',
-        href: 'http://localhost/?code=abc123&state=/products/1-test?tab=details',
-        pathname: '/',
-      },
-      writable: true,
-    });
-
-    render(
-      <AuthProvider>
-        <div>Child</div>
-      </AuthProvider>
-    );
-
-    await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith(
-        '/products/1-test?tab=details&code=abc123'
-      );
-    });
-  });
-
-  test('should not redirect to /home when state param is present after login', async () => {
-    const { getUserInfo } = require('@services/Auth');
-    getUserInfo.mockResolvedValueOnce({
-      type: 'success',
-      value: { username: 'testuser', email: 'test@test.com' }
-    });
-
-    localStorage.setItem('token', JSON.stringify('fake-token'));
-
-    Object.defineProperty(globalThis, 'location', {
-      value: {
-        search: '?state=/some/path',
-        href: 'http://localhost/?state=/some/path',
-        pathname: '/',
-      },
-      writable: true,
-    });
-
-    render(
-      <AuthProvider>
-        <div>Child</div>
-      </AuthProvider>
-    );
-
-    await waitFor(() => {
-      // Should NOT have pushed to /home because state is present
-      expect(mockPush).not.toHaveBeenCalledWith('/home');
-    });
-  });
-
-  test('should call signInWithGithub when code is present and provider is github', async () => {
+  test('should call signInWithGithub when code and a valid state are present', async () => {
     const { signInGithub } = require('@services/Auth');
     signInGithub.mockResolvedValueOnce({
       type: 'success',
       value: { key: 'fake-key' }
     });
 
-    localStorage.setItem('provider', JSON.stringify('github'));
+    const state = createOAuthState('github');
 
     Object.defineProperty(globalThis, 'location', {
       value: {
-        search: '?code=github_code_123',
-        href: 'http://localhost/?code=github_code_123',
+        search: `?code=github_code_123&state=${state}`,
+        href: `http://localhost/?code=github_code_123&state=${state}`,
         pathname: '/',
       },
       writable: true,

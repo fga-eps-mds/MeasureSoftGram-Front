@@ -1,5 +1,6 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { getUserInfo, signInCredentials, signInGithub, signInGitlab, signOut } from '@services/Auth';
+import { consumeOAuthState, OAuthStateContext } from '@services/Auth/oauthState';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import { useLocalStorage } from '@hooks/useLocalStorage';
@@ -18,13 +19,17 @@ export const authContextDefaultValues: authContextType = {
 
 export const AuthContext = createContext<authContextType>(authContextDefaultValues);
 
+const OAUTH_ERROR_PAGE = '/auth/error';
+const OAUTH_REJECTED_MESSAGE = 'Não foi possível confirmar o login. Tente entrar novamente.';
+
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   const [loading, setLoading] = useState<'loading' | 'loaded'>('loading');
   const [isWarningOpen, setIsWarningOpen] = useState(false); // ESTADO PARA O MODAL
   const router = useRouter();
   const hasExecuted = useRef(false);
   const warningShownRef = useRef(false); // NOVO: Rastreia se o aviso já foi mostrado
-  const hasRedirected = useRef(false);
+  // Destino escolhido pelo callback do OAuth; enquanto existir, o getUser não leva a /home.
+  const oauthRedirectRef = useRef<string | null>(null);
 
   const {
     storedValue: session,
@@ -67,12 +72,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     if (response.type === 'success') {
       setSession(response.value);
 
-      const params = new URLSearchParams(globalThis.location.search);
-      const state = params.get('state');
-
-      // Se estamos na raiz mas viemos com um "state" do GitHub, não redirecione para a home,
-      // pois o outro useEffect vai cuidar de redirecionar para o local correto.
-      if (router?.pathname === '/' && !state) {
+      if (router?.pathname === '/' && !oauthRedirectRef.current) {
         await router.push('/home');
         toast.success(`Bem vindo ao MeasureSoftGram ${response?.value?.username}!`);
       }
@@ -179,44 +179,71 @@ useEffect(() => {
 
     return () => clearInterval(interval);
   }, [logout, session, token]);
-  useEffect(() => {
-    const params = new URLSearchParams(globalThis.location.search);
-    const code = params.get('code');
-    const state = params.get('state');
-    const error = params.get('error');
-
-    // CA4: Tratamento de cancelamento do OAuth (ex: error=access_denied)
-    if (error && !hasExecuted.current) {
-      hasExecuted.current = true;
-      void removeAuthStorage();
+  const handleOAuthError = useCallback(
+    async (error: string, oauthState: OAuthStateContext | null) => {
       if (error === 'access_denied') {
         toast.info('Login cancelado');
       } else {
         toast.error('Erro na autorização do provedor.');
       }
+
+      // Reautorização cancelada: a sessão continua e o usuário volta para onde estava.
+      if (oauthState?.returnTo) {
+        oauthRedirectRef.current = oauthState.returnTo;
+        await router.replace(oauthState.returnTo);
+        return;
+      }
+
+      oauthRedirectRef.current = '/auth';
+      await removeAuthStorage();
       if (router?.pathname !== '/auth') {
-        void router.push('/auth');
+        await router.push('/auth');
       }
-      return;
-    }
+    },
+    [removeAuthStorage, router]
+  );
 
-    if (code && state && state.startsWith('/') && !hasRedirected.current) {
-      hasRedirected.current = true;
-      const separator = state.includes('?') ? '&' : '?';
-      void router.push(`${state}${separator}code=${code}`);
-      return;
-    }
+  // O code não foi pedido por esta aba (state ausente, divergente ou expirado): não chega ao Service.
+  const rejectOAuthCallback = useCallback(async () => {
+    oauthRedirectRef.current = OAUTH_ERROR_PAGE;
+    toast.error(OAUTH_REJECTED_MESSAGE);
+    await router.replace(OAUTH_ERROR_PAGE);
+  }, [router]);
 
-    if (code && !token && !hasExecuted.current) {
-      if (provider === 'github') {
-        hasExecuted.current = true;
-        void signInWithGithub(code as string);
-      } else if (provider === 'gitlab') {
-        hasExecuted.current = true;
-        void signInWithGitlab(code as string);
+  const completeOAuthCallback = useCallback(
+    async (code: string, oauthState: OAuthStateContext) => {
+      // Sem returnTo (login), quem leva a /home é o getUser, como no login por credenciais.
+      oauthRedirectRef.current = oauthState.returnTo;
+      const signIn = oauthState.provider === 'gitlab' ? signInWithGitlab : signInWithGithub;
+      const response = await signIn(code);
+
+      if (response.type === 'success' && oauthState.returnTo) {
+        await router.replace(oauthState.returnTo);
       }
+    },
+    [router, signInWithGithub, signInWithGitlab]
+  );
+
+  useEffect(() => {
+    if (hasExecuted.current) return;
+
+    const params = new URLSearchParams(globalThis.location.search);
+    const code = params.get('code');
+    const error = params.get('error');
+    if (!code && !error) return;
+
+    hasExecuted.current = true;
+    // Todo retorno do provedor consome o state, inclusive o cancelamento.
+    const oauthState = consumeOAuthState(params.get('state'));
+
+    if (error) {
+      void handleOAuthError(error, oauthState);
+    } else if (oauthState) {
+      void completeOAuthCallback(code as string, oauthState);
+    } else {
+      void rejectOAuthCallback();
     }
-  }, [provider, token, signInWithGithub, signInWithGitlab, router, removeAuthStorage]);
+  }, [completeOAuthCallback, handleOAuthError, rejectOAuthCallback]);
 
   useEffect(() => {
     setLoading('loading');

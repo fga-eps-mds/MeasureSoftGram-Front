@@ -84,22 +84,22 @@ export const getAccessToken = async (): Promise<Result<User>> => {
   }
 };
 
-const buildGithubAuthUrl = (state?: string) => {
+const buildGithubAuthUrl = (state: string, prompt?: string) => {
   const params = new URLSearchParams({
     client_id: process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID || '',
     redirect_uri: process.env.NEXT_PUBLIC_LOGIN_REDIRECT_URL || '',
-    scope: 'repo read:org user'
+    scope: 'repo read:org user',
+    state
   });
 
-  if (state) {
-    params.set('state', state);
-    params.set('prompt', 'select_account');
-  }
+  if (prompt) params.set('prompt', prompt);
 
   return `https://github.com/login/oauth/authorize?${params.toString()}`;
 };
 
-export const getGithubAuthUrl = () => buildGithubAuthUrl();
+export const getGithubAuthUrl = (state: string) => buildGithubAuthUrl(state);
+
+export const getGithubReauthorizeUrl = (state: string) => buildGithubAuthUrl(state, 'select_account');
 
 export const getLoginOrigin = (): string | null => {
   try {
@@ -109,7 +109,14 @@ export const getLoginOrigin = (): string | null => {
   }
 };
 
-export const getGithubAuthUrlToRepositoriesPage = (pathName: string) => buildGithubAuthUrl(pathName);
+export const getGitlabAuthUrl = (state: string) => {
+  const params = new URLSearchParams({
+    client_id: process.env.GITLAB_CLIENT_ID || '',
+    redirect_uri: process.env.NEXT_PUBLIC_LOGIN_REDIRECT_URL || '',
+    response_type: 'code',
+    scope: 'read_user openid profile email',
+    state
+  });
 
-export const getGitlabAuthUrl = () =>
-  `https://gitlab.com/oauth/authorize?client_id=${process.env.GITLAB_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_LOGIN_REDIRECT_URL}&response_type=code&scope=read_user+openid+profile+email`;
+  return `https://gitlab.com/oauth/authorize?${params.toString()}`;
+};
