@@ -234,6 +234,46 @@ export interface HistoryDateRange {
   endDate: number | null;
 }
 
+export type EntityLevel = 'characteristic' | 'subcharacteristic' | 'measure' | 'metric';
+
+export interface EntityAnalysisEntity {
+  key: string;
+  name: string;
+}
+
+export type EntityAnalysisCatalog = Record<EntityLevel, EntityAnalysisEntity[]>;
+
+export interface EntityAnalysisValue {
+  value: number | null;
+  created_at: string | null;
+}
+
+export interface EntityAnalysisChild extends EntityAnalysisValue {
+  key: string;
+  name: string;
+  weight: number | null;
+}
+
+export interface EntityAnalysisRepository extends EntityAnalysisValue {
+  id: number;
+  name: string;
+  children: EntityAnalysisChild[];
+}
+
+export interface EntityAnalysisReference {
+  goal?: number;
+  min_threshold?: number;
+  max_threshold?: number;
+}
+
+export interface EntityAnalysis {
+  release: Pick<IReleases, 'id' | 'release_name' | 'start_at' | 'end_at'>;
+  level: EntityLevel;
+  entity: EntityAnalysisEntity & { metric_type?: string };
+  reference: EntityAnalysisReference | null;
+  repositories: EntityAnalysisRepository[];
+}
+
 /** Valor de uma entidade numa release: o último calculado dentro da janela dela (null sem análise). */
 export interface ReleaseValue {
   value: number | null;

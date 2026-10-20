@@ -7,7 +7,8 @@ import {
   LatestValues,
   Product,
   RepositoriesLatestTsqmi,
-  ReleaseGoal
+  ReleaseGoal,
+  EntityLevel
 } from '@customTypes/product';
 import { PreConfigData, PreConfigRoot, ReleaseInfoForm } from '@customTypes/preConfig';
 
@@ -157,6 +158,28 @@ class ProductQuery {
   async getReleaseAnalysisDataByReleaseId(organizationId: string, productId: string, releaseId: string) {
     const url = `/v1/organizations/${organizationId}/products/${productId}/release/${releaseId}/analysis_data`;
     return api.get<any>(url);
+  }
+
+  getEntityAnalysisEntities(organizationId: string, productId: string, releaseId?: number): GetRequest {
+    if (!organizationId || !productId || !releaseId) return null;
+    return {
+      url: `/v1/organizations/${organizationId}/products/${productId}/entity-analysis/entities/`,
+      method: 'get',
+      params: { release_id: releaseId }
+    };
+  }
+
+  getEntityAnalysis(
+    organizationId: string,
+    productId: string,
+    params: { releaseId?: number; level: EntityLevel; key?: string }
+  ): GetRequest {
+    if (!organizationId || !productId || !params.releaseId || !params.key) return null;
+    return {
+      url: `/v1/organizations/${organizationId}/products/${productId}/entity-analysis/`,
+      method: 'get',
+      params: { release_id: params.releaseId, level: params.level, key: params.key }
+    };
   }
 
   getRepositoriesConfig(organizationId: string, productId: string): GetRequest {

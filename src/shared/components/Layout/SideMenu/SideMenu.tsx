@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+  FiAlignLeft,
   FiBarChart2,
   FiGitBranch,
   FiPaperclip,
@@ -84,6 +85,14 @@ function SideMenu() {
       path: `/products/${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/dashboards/temporal`,
       disable: !currentProduct,
       selected: router.pathname === '/products/[product]/dashboards/temporal',
+    },
+    {
+      startIcon: <FiAlignLeft fontSize={24} />,
+      text: '4. Análise por Entidade',
+      tooltip: 'Análise por Entidade',
+      path: `/products/${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/dashboards/entidade`,
+      disable: !currentProduct,
+      selected: router.pathname === '/products/[product]/dashboards/entidade',
     },
   ];
 
