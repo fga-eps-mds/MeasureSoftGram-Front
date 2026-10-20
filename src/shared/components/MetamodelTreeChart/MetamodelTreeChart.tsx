@@ -4,9 +4,11 @@ import { Box, Button, Typography, Paper } from '@mui/material';
 import { QualityModelNode } from '@customTypes/metamodel';
 import {
   buildEChartsTreeOption,
+  collectExpandablePaths,
   countMetricOccurrences,
   enrichTreeNodes,
   EnrichedQualityModelNode,
+  getTreeLayoutSize,
   METAMODEL_COLORS,
 } from './formatMetamodelTree';
 import { MetamodelNodeModal } from './MetamodelNodeModal';
@@ -14,21 +16,26 @@ import { MetamodelNodeModal } from './MetamodelNodeModal';
 const ReactEcharts = dynamic(() => import('echarts-for-react'), { ssr: false });
 
 const MODAL_WIDTH = 360;
+// ramos abertos por padrão: TSQMI e características
+const DEFAULT_EXPANDED_DEPTH = 2;
 
 export interface MetamodelTreeChartProps {
   treeData: QualityModelNode | null;
   onPerformanceMeasured?: (durationMs: number) => void;
-  height?: string | number;
+  /** Altura mínima da área; com mais ramos abertos ela cresce para os cards não se sobreporem. */
+  minHeight?: number;
 }
 
 export const MetamodelTreeChart: React.FC<MetamodelTreeChartProps> = ({
   treeData,
   onPerformanceMeasured,
-  height = '720px',
+  minHeight = 720,
 }) => {
   const echartsRef = useRef<any>(null);
   const chartAreaRef = useRef<HTMLDivElement>(null);
   const [isAllExpanded, setIsAllExpanded] = useState(false);
+  // ramos abertos pelo usuário; null enquanto vale o padrão
+  const [expandedPaths, setExpandedPaths] = useState<ReadonlySet<string> | null>(null);
   const [renderMs, setRenderMs] = useState<number | undefined>();
   const [selectedNode, setSelectedNode] = useState<EnrichedQualityModelNode | null>(null);
   const [modalPosition, setModalPosition] = useState<{ x: number; y: number } | null>(null);
@@ -81,22 +88,48 @@ export const MetamodelTreeChart: React.FC<MetamodelTreeChartProps> = ({
     }
   }, [onPerformanceMeasured]);
 
+  // outra release traz outra árvore, que abre no padrão
+  useEffect(() => {
+    setExpandedPaths(null);
+    setIsAllExpanded(false);
+  }, [treeData]);
+
+  const visibleExpandedPaths = useMemo(() => {
+    if (expandedPaths) return expandedPaths;
+    if (!treeData) return new Set<string>();
+    return collectExpandablePaths(treeData, isAllExpanded ? Infinity : DEFAULT_EXPANDED_DEPTH);
+  }, [expandedPaths, treeData, isAllExpanded]);
+
   // Enriquece a árvore
   const enrichedTree = useMemo(() => {
     if (!treeData) return null;
     const metricCounts = countMetricOccurrences(treeData);
-    const forceCollapseDepth = isAllExpanded ? -1 : 2;
-    return enrichTreeNodes(treeData, metricCounts, '', 0, forceCollapseDepth);
-  }, [treeData, isAllExpanded]);
+    return enrichTreeNodes(treeData, metricCounts, '', 0, undefined, visibleExpandedPaths);
+  }, [treeData, visibleExpandedPaths]);
 
   const chartOptions = useMemo(() => {
     return buildEChartsTreeOption(enrichedTree);
   }, [enrichedTree]);
 
+  // a área acompanha os ramos abertos; o que passar da largura do card rola na horizontal
+  const layoutSize = useMemo(() => (enrichedTree ? getTreeLayoutSize(enrichedTree) : null), [enrichedTree]);
+
   // Clicar em qualquer nó abre o card com a descrição (CA3), perto do nó e dentro da área do gráfico.
-  const handleNodeClick = (params: any) => {
+  const handleNodeClick = useCallback((params: any) => {
     if (!params?.data) return;
-    setSelectedNode(params.data as EnrichedQualityModelNode);
+    const node = params.data as EnrichedQualityModelNode;
+    setSelectedNode(node);
+
+    // o ECharts abre ou fecha o ramo; o estado acompanha para a área ter o tamanho certo
+    const { nodePath } = node;
+    if (nodePath && node.children?.length) {
+      setExpandedPaths((current) => {
+        const next = new Set(current ?? visibleExpandedPaths);
+        if (next.has(nodePath)) next.delete(nodePath);
+        else next.add(nodePath);
+        return next;
+      });
+    }
 
     const { offsetX, offsetY } = params.event ?? {};
     if (typeof offsetX !== 'number' || typeof offsetY !== 'number') {
@@ -106,18 +139,19 @@ export const MetamodelTreeChart: React.FC<MetamodelTreeChartProps> = ({
     const areaWidth = chartAreaRef.current?.clientWidth ?? 0;
     const x = areaWidth ? Math.max(10, Math.min(offsetX + 20, areaWidth - MODAL_WIDTH - 10)) : offsetX + 20;
     setModalPosition({ x, y: Math.max(10, offsetY - 40) });
-  };
+  }, [visibleExpandedPaths]);
 
   const onEvents = useMemo(
     () => ({
       finished: handleChartFinished,
       click: handleNodeClick,
     }),
-    [handleChartFinished]
+    [handleChartFinished, handleNodeClick]
   );
 
   const toggleExpandAll = () => {
     setIsAllExpanded((prev) => !prev);
+    setExpandedPaths(null);
     if (typeof window !== 'undefined' && typeof window.performance?.mark === 'function') {
       window.performance.mark('metamodelo-render-start');
     }
@@ -126,7 +160,8 @@ export const MetamodelTreeChart: React.FC<MetamodelTreeChartProps> = ({
   if (!treeData) return null;
 
   return (
-    <Box sx={{ position: 'relative', width: '100%' }}>
+    // grid com coluna minmax(0, 1fr): a árvore larga rola dentro do card em vez de alargar a página
+    <Box sx={{ position: 'relative', width: '100%', display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)' }}>
       {/* Barra de Ações e Legenda */}
       <Box
         display="flex"
@@ -221,34 +256,42 @@ export const MetamodelTreeChart: React.FC<MetamodelTreeChartProps> = ({
 
       {/* Área da árvore ECharts */}
       <Box
-        ref={chartAreaRef}
-        data-testid="metamodel-chart-area"
-        data-render-ms={renderMs}
         sx={{
           width: '100%',
-          height,
           border: '1px solid #F1F5F9',
           borderRadius: '8px',
           backgroundColor: '#FFFFFF',
-          overflow: 'hidden',
-          position: 'relative',
+          overflowX: 'auto',
+          overflowY: 'hidden',
         }}
       >
-        <ReactEcharts
-          ref={echartsRef}
-          option={chartOptions}
-          onEvents={onEvents}
-          style={{ width: '100%', height: '100%' }}
-        />
-
-        {/* Card detalhado do nó clicado, posicionado em relação à área do gráfico */}
-        {selectedNode && (
-          <MetamodelNodeModal
-            node={selectedNode}
-            position={modalPosition}
-            onClose={() => setSelectedNode(null)}
+        <Box
+          ref={chartAreaRef}
+          data-testid="metamodel-chart-area"
+          data-render-ms={renderMs}
+          sx={{
+            width: '100%',
+            minWidth: layoutSize?.width,
+            height: Math.max(minHeight, layoutSize?.height ?? 0),
+            position: 'relative',
+          }}
+        >
+          <ReactEcharts
+            ref={echartsRef}
+            option={chartOptions}
+            onEvents={onEvents}
+            style={{ width: '100%', height: '100%' }}
           />
-        )}
+
+          {/* Card detalhado do nó clicado, posicionado em relação à área do gráfico */}
+          {selectedNode && (
+            <MetamodelNodeModal
+              node={selectedNode}
+              position={modalPosition}
+              onClose={() => setSelectedNode(null)}
+            />
+          )}
+        </Box>
       </Box>
     </Box>
   );

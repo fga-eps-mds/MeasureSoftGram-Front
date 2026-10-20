@@ -90,10 +90,39 @@ describe('useEntityAnalysis', () => {
 
   it('fica sem entidade quando o nível não tem nenhuma na configuração', () => {
     const { result } = renderHook(() => useEntityAnalysis('1', '2'));
+    expect(result.current.hasNoEntities).toBe(false);
 
     act(() => result.current.setLevel('measure'));
 
     expect(result.current.entityKey).toBeUndefined();
+    expect(result.current.hasNoEntities).toBe(true);
+    expect((useRequest as jest.Mock).mock.calls.at(-1)[0]).toBeNull();
+  });
+
+  it('não pede a entidade do nível anterior ao trocar de nível', () => {
+    const { result } = renderHook(() => useEntityAnalysis('1', '2'));
+    (useRequest as jest.Mock).mockClear();
+
+    act(() => result.current.setLevel('subcharacteristic'));
+
+    const analysisRequests = (useRequest as jest.Mock).mock.calls
+      .map(([request]) => request)
+      .filter((request) => request?.url.endsWith('/entity-analysis/'));
+    expect(analysisRequests.map((request) => request.params.key)).toEqual(
+      analysisRequests.map(() => 'modifiability')
+    );
+    expect(analysisRequests.length).toBeGreaterThan(0);
+  });
+
+  it('não acusa catálogo vazio enquanto ele carrega', () => {
+    (useRequest as jest.Mock).mockImplementation((request: { url: string } | null) => {
+      if (request?.url.endsWith('/release/')) return { data: releases, isLoading: false, mutate };
+      return { data: undefined, isLoading: true, mutate };
+    });
+
+    const { result } = renderHook(() => useEntityAnalysis('1', '2'));
+
+    expect(result.current.hasNoEntities).toBe(false);
   });
 
   it('expõe o erro e refaz todas as requisições no retry', () => {

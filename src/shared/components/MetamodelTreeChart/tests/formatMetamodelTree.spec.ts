@@ -1,9 +1,12 @@
 import { QualityModelNode } from '@customTypes/metamodel';
 import {
   countMetricOccurrences,
+  collectExpandablePaths,
   enrichTreeNodes,
+  estimateLabelWidth,
   formatThresholdSummary,
   buildEChartsTreeOption,
+  getTreeLayoutSize,
   METAMODEL_COLORS,
   formatWeightLabel,
 } from '../formatMetamodelTree';
@@ -148,7 +151,7 @@ describe('formatMetamodelTree utilities', () => {
     // Testa formatação de labels
     const formatter = options.series[0].label.formatter;
     const tsqmiLabel = formatter({ data: enriched });
-    expect(tsqmiLabel).toContain('tsqmiCard');
+    expect(tsqmiLabel).toBe('{tsqmiName|TSQMI}');
     expect(tsqmiLabel).not.toContain('%');
 
     const charLabel = formatter({ data: enriched.children[0] });
@@ -179,6 +182,89 @@ describe('formatMetamodelTree utilities', () => {
     expect(formatter({ data: measure })).not.toContain('%');
     expect(formatWeightLabel(null, 'weight')).toBe('');
     expect(formatWeightLabel(25, 'weight')).toBe('  {weight|· 25%}');
+  });
+
+  it('não aninha estilos do rich text, que o ECharts desenharia como texto cru', () => {
+    const enriched = enrichTreeNodes(sampleTree, countMetricOccurrences(sampleTree), '', 0, -1);
+    const { formatter } = (buildEChartsTreeOption(enriched) as any).series[0].label;
+    const nodes = [
+      enriched,
+      enriched.children[0],
+      enriched.children[0].children[0],
+      enriched.children[0].children[0].children[0],
+      enriched.children[0].children[0].children[0].children[0],
+    ];
+
+    nodes.forEach((node) => {
+      const label: string = formatter({ data: node });
+      // cada bloco {estilo|texto} fecha antes do próximo abrir
+      expect(label).not.toMatch(/\{\w+\|[^}]*\{/);
+      expect(label.split('{').length).toBe(label.split('}').length);
+    });
+  });
+
+  it('põe o card de cada nível no rótulo do próprio nó', () => {
+    const enriched = enrichTreeNodes(sampleTree, countMetricOccurrences(sampleTree), '', 0, -1);
+    const [root] = (buildEChartsTreeOption(enriched) as any).series[0].data;
+    const characteristic = root.children[0];
+    const measure = characteristic.children[0].children[0];
+
+    expect(root.label.backgroundColor).toBe(METAMODEL_COLORS.tsqmi);
+    expect(characteristic.label.borderColor).toBe(METAMODEL_COLORS.characteristic);
+    expect(measure.label.borderColor).toBe(METAMODEL_COLORS.measure);
+    expect(measure.children[0].label.borderColor).toBe(METAMODEL_COLORS.metric);
+  });
+
+  it('collectExpandablePaths lista os ramos até a profundidade pedida', () => {
+    expect([...collectExpandablePaths(sampleTree, 2)]).toEqual(['TSQMI', 'TSQMI › Maintainability']);
+    expect([...collectExpandablePaths(sampleTree)]).toEqual([
+      'TSQMI',
+      'TSQMI › Maintainability',
+      'TSQMI › Maintainability › Modifiability',
+      'TSQMI › Maintainability › Modifiability › Densidade de arquivos não complexos',
+      'TSQMI › Maintainability › Modifiability › Densidade de arquivos comentados',
+    ]);
+  });
+
+  it('enrichTreeNodes abre só os ramos de expandedPaths', () => {
+    const expanded = new Set(['TSQMI', 'TSQMI › Maintainability', 'TSQMI › Maintainability › Modifiability']);
+    const enriched = enrichTreeNodes(sampleTree, countMetricOccurrences(sampleTree), '', 0, undefined, expanded);
+    const subcharacteristic = enriched.children[0].children[0];
+
+    expect(subcharacteristic.nodePath).toBe('TSQMI › Maintainability › Modifiability');
+    expect(subcharacteristic.collapsed).toBe(false);
+    expect(subcharacteristic.children[0].collapsed).toBe(true);
+    expect(subcharacteristic.children[0].children[0].collapsed).toBe(false); // folha nunca fica recolhida
+  });
+
+  it('getTreeLayoutSize cresce com os ramos abertos e reserva a largura dos cards', () => {
+    const counts = countMetricOccurrences(sampleTree);
+    const collapsed = getTreeLayoutSize(enrichTreeNodes(sampleTree, counts, '', 0, 2));
+    const expandedTree = enrichTreeNodes(sampleTree, counts, '', 0, -1);
+    const expanded = getTreeLayoutSize(expandedTree);
+
+    expect(expanded.width).toBeGreaterThan(collapsed.width);
+    expect(expanded.height).toBeGreaterThan(collapsed.height);
+
+    // cada nível cabe no espaço entre ele e o próximo
+    const measure = expandedTree.children[0].children[0].children[0];
+    const levelSpacing = (expanded.width - 24 - expanded.lastLevelLabelWidth) / 4;
+    expect(levelSpacing).toBeGreaterThan(estimateLabelWidth(measure));
+    expect(expanded.lastLevelLabelWidth).toBeGreaterThan(estimateLabelWidth(measure.children[0]));
+  });
+
+  it('estimateLabelWidth considera a segunda linha de referência e de métrica compartilhada', () => {
+    const enriched = enrichTreeNodes(sampleTree, countMetricOccurrences(sampleTree));
+    const measure = enriched.children[0].children[0].children[0];
+    const [sharedMetric] = measure.children;
+
+    expect(estimateLabelWidth({ ...measure, name: 'Test Builds', min_threshold: 0, max_threshold: 300000 })).toBeGreaterThan(
+      estimateLabelWidth({ ...measure, name: 'Test Builds', min_threshold: null, max_threshold: null })
+    );
+    expect(estimateLabelWidth(sharedMetric)).toBeGreaterThan(
+      estimateLabelWidth({ ...sharedMetric, isSharedMetric: false })
+    );
+    expect(estimateLabelWidth({ ...enriched, weight: null })).toBeGreaterThan(0);
   });
 
   it('buildEChartsTreeOption deve retornar objeto vazio para nó raiz nulo', () => {

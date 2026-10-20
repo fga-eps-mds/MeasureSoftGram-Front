@@ -73,6 +73,7 @@ const hookState = (overrides = {}) => ({
   entityKey: 'maintainability',
   setEntityKey: jest.fn(),
   analysis,
+  hasNoEntities: false,
   isLoadingReleases: false,
   isLoading: false,
   error: undefined,
@@ -178,5 +179,27 @@ describe('<EntityAnalysisDashboard />', () => {
     render(<EntityAnalysisDashboard />);
 
     expect(screen.getByRole('progressbar')).toBeTruthy();
+  });
+
+  it('explica quando a release não tem métricas com valor por repositório, sem ficar carregando', () => {
+    mockUseEntityAnalysis.mockReturnValue(
+      hookState({ level: 'metric', entities: [], entityKey: undefined, analysis: undefined, hasNoEntities: true })
+    );
+
+    render(<EntityAnalysisDashboard />);
+
+    expect(screen.queryByRole('progressbar')).toBeNull();
+    expect(screen.getByText(/Nenhuma métrica da release v1.0 tem valor por repositório/)).toBeTruthy();
+    expect(screen.getByText(/5. Distribuição das Métricas/)).toBeTruthy();
+  });
+
+  it('explica quando a configuração não tem entidades no nível', () => {
+    mockUseEntityAnalysis.mockReturnValue(
+      hookState({ level: 'measure', entities: [], entityKey: undefined, analysis: undefined, hasNoEntities: true })
+    );
+
+    render(<EntityAnalysisDashboard />);
+
+    expect(screen.getByText(/A configuração da release v1.0 não tem nenhuma entidade no nível Medida/)).toBeTruthy();
   });
 });

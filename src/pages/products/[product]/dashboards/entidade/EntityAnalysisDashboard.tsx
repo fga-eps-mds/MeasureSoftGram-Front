@@ -49,6 +49,7 @@ const EntityAnalysisDashboard: NextPageWithLayout = () => {
     entityKey,
     setEntityKey,
     analysis,
+    hasNoEntities,
     isLoadingReleases,
     isLoading,
     error,
@@ -91,6 +92,24 @@ const EntityAnalysisDashboard: NextPageWithLayout = () => {
         >
           Este produto ainda não tem releases. Crie uma release para comparar os {terms.repositories} em uma
           entidade do modelo.
+        </Alert>
+      );
+    }
+
+    if (hasNoEntities) {
+      const releaseName = releases.find((release) => release.id === releaseId)?.release_name;
+      // o Service só lista métricas com valor do projeto inteiro (qualifier TRK) na release
+      if (level === 'metric') {
+        return (
+          <Alert severity="info">
+            Nenhuma métrica da release {releaseName} tem valor por {terms.repository}. Os valores por arquivo
+            ficam no dashboard 5. Distribuição das Métricas.
+          </Alert>
+        );
+      }
+      return (
+        <Alert severity="info">
+          A configuração da release {releaseName} não tem nenhuma entidade no nível {LEVEL_LABELS[level]}.
         </Alert>
       );
     }

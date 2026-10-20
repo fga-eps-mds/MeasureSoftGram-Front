@@ -1,14 +1,16 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import MetamodelTreeChart from '../MetamodelTreeChart';
 import { QualityModelNode } from '@customTypes/metamodel';
 
 let capturedEvents: any = null;
+let capturedOption: any = null;
 
 jest.mock('next/dynamic', () => () => {
   const MockECharts = React.forwardRef(({ onEvents, option }: any, ref: any) => {
     capturedEvents = onEvents;
+    capturedOption = option;
     return (
       <div data-testid="echarts-mock">
         <button
@@ -93,6 +95,7 @@ describe('<MetamodelTreeChart />', () => {
 
   beforeEach(() => {
     capturedEvents = null;
+    capturedOption = null;
     jest.clearAllMocks();
   });
 
@@ -206,5 +209,58 @@ describe('<MetamodelTreeChart />', () => {
     const toggleButton = screen.getByRole('button', { name: 'Expandir tudo' });
     fireEvent.click(toggleButton);
     expect(markMock).toHaveBeenCalledTimes(3);
+  });
+
+  it('abre e fecha um ramo no clique e aumenta a área do gráfico', () => {
+    const deepTree: QualityModelNode = {
+      ...sampleTree,
+      children: [
+        {
+          ...sampleTree.children[0],
+          children: [
+            {
+              id: 11,
+              type: 'subcharacteristic',
+              key: 'modifiability',
+              name: 'Modifiability',
+              description: null,
+              weight: 100,
+              children: Array.from({ length: 12 }, (_, index) => ({
+                id: 100 + index,
+                type: 'measure' as const,
+                key: `measure_${index}`,
+                name: `Medida ${index}`,
+                description: null,
+                weight: 8,
+                min_threshold: 0,
+                max_threshold: 10,
+                children: [],
+              })),
+            },
+          ],
+        },
+      ],
+    };
+    render(<MetamodelTreeChart treeData={deepTree} />);
+    const area = screen.getByTestId('metamodel-chart-area');
+    const subcharacteristic = () => capturedOption.series[0].data[0].children[0].children[0];
+
+    expect(subcharacteristic().collapsed).toBe(true);
+    expect(area).toHaveStyle({ height: '720px' });
+
+    act(() => capturedEvents.click({ data: subcharacteristic(), event: {} }));
+    expect(subcharacteristic().collapsed).toBe(false);
+    expect(parseInt(area.style.height || getComputedStyle(area).height, 10)).toBeGreaterThan(720);
+
+    act(() => capturedEvents.click({ data: subcharacteristic(), event: {} }));
+    expect(subcharacteristic().collapsed).toBe(true);
+  });
+
+  it('volta ao padrão quando chega outra árvore', () => {
+    const { rerender } = render(<MetamodelTreeChart treeData={sampleTree} />);
+    fireEvent.click(screen.getByRole('button', { name: 'Expandir tudo' }));
+
+    rerender(<MetamodelTreeChart treeData={{ ...sampleTree }} />);
+    expect(screen.getByRole('button', { name: 'Expandir tudo' })).toBeInTheDocument();
   });
 });

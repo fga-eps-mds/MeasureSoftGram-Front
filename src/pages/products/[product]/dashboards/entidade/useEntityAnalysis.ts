@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useRequest } from '@hooks/useRequest';
 import { productQuery } from '@services/product';
 import { EntityAnalysis, EntityAnalysisCatalog, EntityLevel, IReleases, ReleasesPaginated } from '@customTypes/product';
@@ -7,7 +7,7 @@ import { getCurrentRelease, toReleaseArray } from '@utils/releaseSelection';
 export function useEntityAnalysis(organizationId: string, productId: string) {
   const [selectedReleaseId, setReleaseId] = useState<number | undefined>();
   const [level, setLevel] = useState<EntityLevel>('characteristic');
-  const [entityKey, setEntityKey] = useState<string | undefined>();
+  const [selectedEntityKey, setEntityKey] = useState<string | undefined>();
 
   const releasesRequest = useRequest<IReleases[] | ReleasesPaginated>(
     productQuery.getReleaseList(organizationId, productId)
@@ -22,12 +22,13 @@ export function useEntityAnalysis(organizationId: string, productId: string) {
   );
   const entities = useMemo(() => entitiesRequest.data?.[level] ?? [], [entitiesRequest.data, level]);
 
-  // a entidade escolhida precisa existir na configuração da release e no nível atual
-  useEffect(() => {
-    if (!entities.some((entity) => entity.key === entityKey)) {
-      setEntityKey(entities[0]?.key);
-    }
-  }, [entities, entityKey]);
+  // a entidade escolhida precisa existir na configuração da release e no nível atual; decidido no
+  // mesmo render, para a troca de nível não pedir a entidade do nível anterior
+  const entityKey = entities.some((entity) => entity.key === selectedEntityKey)
+    ? selectedEntityKey
+    : entities[0]?.key;
+  // catálogo carregado e sem nenhuma entidade no nível: não há análise para pedir
+  const hasNoEntities = entitiesRequest.data !== undefined && entities.length === 0;
 
   const analysisRequest = useRequest<EntityAnalysis>(
     productQuery.getEntityAnalysis(organizationId, productId, { releaseId, level, key: entityKey })
@@ -52,6 +53,7 @@ export function useEntityAnalysis(organizationId: string, productId: string) {
     entityKey,
     setEntityKey,
     analysis: analysisRequest.data,
+    hasNoEntities,
     isLoadingReleases: releasesRequest.isLoading,
     isLoading: releasesRequest.isLoading || entitiesRequest.isLoading || analysisRequest.isLoading,
     error,
