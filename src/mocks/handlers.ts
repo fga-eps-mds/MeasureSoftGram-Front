@@ -33,6 +33,7 @@ export const handlers = [
     res(ctx.status(200), ctx.json({ count: 1, next: null, previous: null, results: [user] }))
   ),
   rest.get('*/v1/accounts/github-organizations/', (_req, res, ctx) => res(ctx.status(200), ctx.json([]))),
+  rest.get('*/v1/accounts/gitlab-namespaces/', (_req, res, ctx) => res(ctx.status(200), ctx.json([]))),
   rest.get('*/v1/accounts/user-repos', (_req, res, ctx) => res(ctx.status(200), ctx.json({ total_count: 0, items: [] }))),
   // getUserInfo: GET /v1/accounts/ (mantido apos os demais /accounts/ para nao capturar as rotas acima).
   rest.get('*/v1/accounts/', (_req, res, ctx) => res(ctx.status(200), ctx.json(user))),
@@ -42,6 +43,8 @@ export const handlers = [
   rest.post('*/v1/organizations/', (_req, res, ctx) => res(ctx.status(201), ctx.json(organizations.results[0]))),
   rest.post('*/v1/organizations/import/', (_req, res, ctx) => res(ctx.status(201), ctx.json(organizations.results[0]))),
   rest.get('*/v1/organizations/:orgId/github-repos/', (_req, res, ctx) => res(ctx.status(200), ctx.json([]))),
+  rest.get('*/v1/organizations/:orgId/gitlab-projects/', (_req, res, ctx) => res(ctx.status(200), ctx.json([]))),
+  rest.get('*/gitlab-projects/', (_req, res, ctx) => res(ctx.status(200), ctx.json([]))),
   rest.get('*/v1/organizations/:orgId/', (_req, res, ctx) => res(ctx.status(200), ctx.json(organizations.results[0]))),
 
   // ----- Produtos -----

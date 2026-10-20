@@ -269,7 +269,7 @@ describe('Auth Service', () => {
       expect(url).toContain('client_id=');
       expect(url).toContain('redirect_uri=');
       expect(url).toContain('response_type=code');
-      expect(url).toContain('scope=read_user+openid+profile+email');
+      expect(url).toContain('scope=read_user+openid+profile+email+read_api');
     });
 
     it('should use the public login redirect URL as redirect_uri', () => {

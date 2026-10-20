@@ -27,13 +27,13 @@ import { NextPageWithLayout } from "@pages/_app.next";
 import getLayout from "@components/Layout";
 import useRequireAuth from "@hooks/useRequireAuth";
 import { toast } from "react-toastify";
-import { organizationQuery, GitHubOrganization, GitHubRepo } from "@services/organization";
+import { organizationQuery } from "@services/organization";
 import { useRouter } from "next/router";
 import { productQuery } from "@services/product";
 import { repository } from "@services/repository";
 import { useOrganizationContext } from "@contexts/OrganizationProvider";
 import { useProductContext } from "@contexts/ProductProvider";
-import { getGithubReauthorizeUrl } from "@services/Auth";
+import { getGithubReauthorizeUrl, getGitlabAuthUrl } from "@services/Auth";
 import { createOAuthState } from "@services/Auth/oauthState";
 import { isSameGithubOrg } from "@utils/isSameGithubOrg";
 import { FaGitlab } from 'react-icons/fa';
@@ -44,7 +44,26 @@ interface ProductType {
   name: string;
 }
 
+interface ProviderNamespaceItem {
+  id: number | string;
+  name: string;
+  description?: string;
+  avatar_url?: string;
+  kind?: 'user' | 'group';
+  full_path?: string;
+  github_org_id?: number;
+  github_org_name?: string;
+}
 
+interface UnifiedRepoItem {
+  github_repo_id?: number;
+  gitlab_project_id?: number;
+  github_full_name?: string;
+  gitlab_path_with_namespace?: string;
+  name: string;
+  description?: string;
+  url: string;
+}
 
 const Products: NextPageWithLayout = () => {
   const { terms, provider } = useProviderTerms();
@@ -55,14 +74,14 @@ const Products: NextPageWithLayout = () => {
   const { organizationList, setCurrentOrganizations, fetchOrganizations, currentOrganization } = useOrganizationContext();
   const { setCurrentProduct, updateProductList, currentProduct } = useProductContext();
 
-  const [gitHubOrgs, setGitHubOrgs] = useState<GitHubOrganization[]>([]);
+  const [providerNamespaces, setProviderNamespaces] = useState<ProviderNamespaceItem[]>([]);
   const [selectedOrgName, setSelectedOrgName] = useState<string>('');
   const [selectedOrgDbId, setSelectedOrgDbId] = useState<string>('');
 
   const [products, setProducts] = useState<ProductType[]>([]);
   const [selectedProductId, setSelectedProductId] = useState<string>('');
 
-  const [gitHubRepos, setGitHubRepos] = useState<GitHubRepo[]>([]);
+  const [gitHubRepos, setGitHubRepos] = useState<UnifiedRepoItem[]>([]);
   const [importedRepoUrls, setImportedRepoUrls] = useState<string[]>([]);
   const [loadingOrgs, setLoadingOrgs] = useState<boolean>(true);
   const [loadingProducts, setLoadingProducts] = useState<boolean>(false);
@@ -72,56 +91,99 @@ const Products: NextPageWithLayout = () => {
   const [tabValue, setTabValue] = useState(0);
 
   const [page, setPage] = useState(1);
+  const [gitlabTotalPages, setGitlabTotalPages] = useState(1);
   const itemsPerPage = 10;
 
   useEffect(() => {
     setPage(1);
-  }, [search, tabValue, gitHubRepos]);
-  const lastLoadedProductIdRef = useRef<string>('');
+    if (provider === 'gitlab') {
+      setGitlabTotalPages(1);
+    }
+  }, [search, tabValue, selectedOrgName, provider]);
 
-  // eslint-disable-next-line sonarjs/cognitive-complexity
-  const loadGitHubOrgs = async () => {
+  useEffect(() => {
+    if (provider !== 'gitlab') {
+      setPage(1);
+    }
+  }, [gitHubRepos, provider]);
+
+  const lastLoadedProductIdRef = useRef<string>('');
+  const prevGitlabQueryRef = useRef({ page: 1, search: '', orgName: '', orgDbId: '' });
+
+  const resolveTargetOrg = async (): Promise<any> => {
+    if (currentOrganization) return currentOrganization;
+    const savedOrgId = localStorage.getItem('selectedOrgId');
+    if (!savedOrgId) return null;
+    try {
+      const parsedId = JSON.parse(savedOrgId);
+      const foundInList = organizationList.find(o => String(o.id) === String(parsedId));
+      if (foundInList) return foundInList;
+      const orgRes = await organizationQuery.getOrganizationById(parsedId);
+      if (orgRes.type === 'success') {
+        return orgRes.value;
+      }
+    } catch (e) {
+      console.error(e);
+    }
+    return null;
+  };
+
+  const resolveDefaultOrgName = async (namespaces: ProviderNamespaceItem[]): Promise<string> => {
+    if (namespaces.length === 0) return '';
+    const targetOrg = await resolveTargetOrg();
+    if (targetOrg) {
+      const matchGo = namespaces.find(go =>
+        isSameGithubOrg(go.name, targetOrg?.name, targetOrg?.key, (targetOrg as any)?.github_org_name)
+      );
+      if (matchGo) {
+        return matchGo.name;
+      }
+    }
+    return namespaces[0].name;
+  };
+
+  const loadProviderNamespaces = async () => {
     setLoadingOrgs(true);
     try {
-      const res = await organizationQuery.getGithubOrganizations();
-      if (res.type === 'success') {
-        setGitHubOrgs(res.value);
-        if (res.value.length > 0) {
-          let targetOrg = currentOrganization;
-          if (!targetOrg) {
-            const savedOrgId = localStorage.getItem('selectedOrgId');
-            if (savedOrgId) {
-              const parsedId = JSON.parse(savedOrgId);
-              targetOrg = organizationList.find(o => String(o.id) === String(parsedId)) || null;
-              if (!targetOrg) {
-                try {
-                  const orgRes = await organizationQuery.getOrganizationById(parsedId);
-                  if (orgRes.type === 'success') {
-                    targetOrg = orgRes.value as any;
-                  }
-                } catch (e) {
-                  console.error(e);
-                }
-              }
-            }
-          }
-
-          let defaultName = '';
-          if (targetOrg) {
-            const matchGo = res.value.find(go => 
-              isSameGithubOrg(go.github_org_name, targetOrg?.name, targetOrg?.key, targetOrg?.github_org_name)
-            );
-            if (matchGo) {
-              defaultName = matchGo.github_org_name;
-            }
-          } else {
-            defaultName = res.value[0].github_org_name;
-          }
-
-          setSelectedOrgName(defaultName);
+      let namespaces: ProviderNamespaceItem[] | null = null;
+      if (provider === 'gitlab') {
+        const res = await organizationQuery.getGitLabNamespaces();
+        if (res.type === 'success') {
+          namespaces = res.value.map(ns => ({
+            id: ns.id,
+            name: ns.name,
+            full_path: ns.full_path,
+            description: ns.description,
+            avatar_url: ns.avatar_url,
+            kind: ns.kind,
+            github_org_id: ns.id,
+            github_org_name: ns.name
+          }));
+        } else {
+          toast.error(`Erro ao buscar ${terms.organizations} do ${terms.providerName}.`);
         }
       } else {
-        toast.error(`Erro ao buscar ${terms.organizations} do ${terms.providerName}.`);
+        const res = await organizationQuery.getGithubOrganizations();
+        if (res.type === 'success') {
+          namespaces = res.value.map(go => ({
+            id: go.github_org_id,
+            name: go.github_org_name,
+            description: go.description,
+            avatar_url: go.avatar_url,
+            github_org_id: go.github_org_id,
+            github_org_name: go.github_org_name
+          }));
+        } else {
+          toast.error(`Erro ao buscar ${terms.organizations} do ${terms.providerName}.`);
+        }
+      }
+
+      if (namespaces) {
+        setProviderNamespaces(namespaces);
+        if (namespaces.length > 0) {
+          const defaultName = await resolveDefaultOrgName(namespaces);
+          setSelectedOrgName(defaultName);
+        }
       }
     } catch (error) {
       console.error(error);
@@ -134,23 +196,36 @@ const Products: NextPageWithLayout = () => {
   const getBackendOrgId = async (orgName: string): Promise<string> => {
     const res = await organizationQuery.getAllOrganization();
     if (res.type !== 'success') return '';
-    const match = res.value.find((o: any) => 
+    const match = res.value.find((o: any) =>
       isSameGithubOrg(orgName, o.name, o.key, o.github_org_name)
     );
     return match?.id || '';
   };
 
   const importOrg = async (orgName: string): Promise<string> => {
+    if (provider === 'gitlab') {
+      const createRes = await organizationQuery.createOrganization({ name: orgName });
+      if (createRes.type === 'success' && createRes.value?.id) {
+        await fetchOrganizations();
+        return String(createRes.value.id);
+      }
+      const res = await organizationQuery.getAllOrganization();
+      if (res.type === 'success') {
+        const found = res.value.find((o: any) => o.name?.toLowerCase() === orgName.toLowerCase());
+        if (found?.id) return String(found.id);
+      }
+      return '';
+    }
     const importResult = await organizationQuery.importOrganization(orgName);
     if (importResult.type === 'success' && importResult.value.id) {
-      fetchOrganizations(); // Removido o 'true'
+      await fetchOrganizations(); // Removido o 'true'
       return importResult.value.id;
     }
     return '';
   };
 
   const handleSelectOrgRef = useRef<boolean>(false);
-  
+
   const loadProductsForOrg = async (orgDbId: string) => {
     const productsRes = await productQuery.getAllProducts(orgDbId);
     const productList = (productsRes.data?.results || productsRes.data || []) as ProductType[];
@@ -185,6 +260,58 @@ const Products: NextPageWithLayout = () => {
     }
   };
 
+  const loadGitLabProjectsForOrg = async (
+    orgDbId: string,
+    namespace?: ProviderNamespaceItem,
+    targetPage: number = page,
+    searchTerm: string = search
+  ) => {
+    if (!orgDbId) return;
+    setLoadingRepos(true);
+    setRepoFetchError(null);
+    try {
+      const res = await organizationQuery.getGitLabProjects(
+        orgDbId,
+        namespace?.id,
+        namespace?.kind,
+        targetPage,
+        searchTerm
+      );
+      if (res.type === 'success') {
+        const { projects, totalPages, nextPage } = res.value;
+        const mappedRepos: UnifiedRepoItem[] = projects.map(p => ({
+          ...p,
+          github_repo_id: p.gitlab_project_id,
+          github_full_name: p.gitlab_path_with_namespace
+        }));
+        setGitHubRepos(mappedRepos);
+        // A paginação vem dos headers do GitLab, que o service repassa; a página dele tem 50 itens.
+        if (totalPages) {
+          setGitlabTotalPages(totalPages);
+        } else if (nextPage) {
+          setGitlabTotalPages(prev => Math.max(prev, nextPage));
+        } else {
+          setGitlabTotalPages(targetPage);
+        }
+      } else {
+        const status = res.error?.response?.status;
+        if (status === 409) {
+          setRepoFetchError('409');
+          toast.error(`Token do ${terms.providerName} expirado ou inválido.`);
+        } else {
+          setRepoFetchError('error');
+          toast.error(`Erro ao buscar ${terms.repositories} do ${terms.providerName}.`);
+        }
+      }
+    } catch (err) {
+      console.error(err);
+      setRepoFetchError('error');
+      toast.error(`Erro ao carregar ${terms.repositories}.`);
+    } finally {
+      setLoadingRepos(false);
+    }
+  };
+
   const handleSelectOrganization = async (orgName: string) => {
     if (!orgName) return;
     if (handleSelectOrgRef.current) return;
@@ -207,7 +334,13 @@ const Products: NextPageWithLayout = () => {
 
       setSelectedOrgDbId(orgDbId);
       await loadProductsForOrg(orgDbId);
-      await loadGithubReposForOrg(orgDbId);
+      if (provider === 'gitlab') {
+        const currentNs = providerNamespaces.find(ns => ns.name === orgName || ns.full_path === orgName);
+        prevGitlabQueryRef.current = { page: 1, search: '', orgName, orgDbId };
+        await loadGitLabProjectsForOrg(orgDbId, currentNs, 1, '');
+      } else {
+        await loadGithubReposForOrg(orgDbId);
+      }
 
     } catch (error: any) {
       console.error(error);
@@ -215,6 +348,7 @@ const Products: NextPageWithLayout = () => {
     } finally {
       setLoadingProducts(false);
       setLoadingRepos(false);
+      handleSelectOrgRef.current = false;
     }
   };
 
@@ -238,14 +372,14 @@ const Products: NextPageWithLayout = () => {
     }
   };
 
-  const handleImport = async (repo: GitHubRepo) => {
+  const handleImport = async (repo: UnifiedRepoItem) => {
     if (!selectedOrgDbId || !selectedProductId) return;
     try {
       const response = await repository.createRepository(selectedOrgDbId, selectedProductId, {
         name: repo.name,
         url: repo.url,
         description: repo.description || '',
-        platform: 'github',
+        platform: provider === 'gitlab' ? 'gitlab' : 'github',
         imported: true
       });
       if (response.type === 'success') {
@@ -260,9 +394,10 @@ const Products: NextPageWithLayout = () => {
   };
 
   // Volta para esta tela pelo callback do OAuth, que valida o state e renova o token.
-  const handleReauthorizeGithub = () => {
+  const handleReauthorize = () => {
     try {
-      window.location.assign(getGithubReauthorizeUrl(createOAuthState('github', '/products')));
+      const state = createOAuthState(provider === 'gitlab' ? 'gitlab' : 'github', '/products');
+      window.location.assign(provider === 'gitlab' ? getGitlabAuthUrl(state) : getGithubReauthorizeUrl(state));
     } catch (error) {
       console.error(error);
       toast.error(`Não foi possível iniciar a autorização do ${terms.providerName}.`);
@@ -270,8 +405,8 @@ const Products: NextPageWithLayout = () => {
   };
 
   useEffect(() => {
-    void loadGitHubOrgs();
-  }, []);
+    void loadProviderNamespaces();
+  }, [provider]);
 
   useEffect(() => {
     if (selectedOrgName) {
@@ -279,15 +414,39 @@ const Products: NextPageWithLayout = () => {
     }
   }, [selectedOrgName]);
 
+  useEffect(() => {
+    if (provider !== 'gitlab' || !selectedOrgDbId) return;
+
+    const prev = prevGitlabQueryRef.current;
+    if (
+      prev.page === page &&
+      prev.search === search &&
+      prev.orgName === selectedOrgName &&
+      prev.orgDbId === selectedOrgDbId
+    ) {
+      return;
+    }
+
+    const currentNs = providerNamespaces.find(ns => ns.name === selectedOrgName || ns.full_path === selectedOrgName);
+    const delay = prev.search !== search ? 400 : 0;
+
+    const timer = setTimeout(() => {
+      prevGitlabQueryRef.current = { page, search, orgName: selectedOrgName, orgDbId: selectedOrgDbId };
+      void loadGitLabProjectsForOrg(selectedOrgDbId, currentNs, page, search);
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [provider, selectedOrgDbId, selectedOrgName, page, search, providerNamespaces]);
+
   // eslint-disable-next-line sonarjs/cognitive-complexity
   useEffect(() => {
-    if (currentOrganization && gitHubOrgs.length > 0) {
-      const matchGo = gitHubOrgs.find(go => 
-        isSameGithubOrg(go.github_org_name, currentOrganization?.name, currentOrganization?.key, currentOrganization?.github_org_name)
+    if (currentOrganization && providerNamespaces.length > 0) {
+      const matchGo = providerNamespaces.find(go =>
+        isSameGithubOrg(go.name, currentOrganization?.name, currentOrganization?.key, (currentOrganization as any)?.github_org_name)
       );
       if (matchGo) {
-        if (matchGo.github_org_name !== selectedOrgName) {
-          setSelectedOrgName(matchGo.github_org_name);
+        if (matchGo.name !== selectedOrgName) {
+          setSelectedOrgName(matchGo.name);
         }
       } else if (selectedOrgName !== '') {
         setSelectedOrgName('');
@@ -297,7 +456,7 @@ const Products: NextPageWithLayout = () => {
         setSelectedProductId('');
       }
     }
-  }, [currentOrganization, gitHubOrgs]);
+  }, [currentOrganization, providerNamespaces]);
 
   useEffect(() => {
     if (selectedOrgDbId && selectedProductId) {
@@ -335,13 +494,23 @@ const Products: NextPageWithLayout = () => {
         const isAlreadyImported = importedRepoUrls.some(
           url => url && repo.url && (url === repo.url || url.toLowerCase() === repo.url.toLowerCase())
         );
-        const matchesSearch = repo.name?.toLowerCase().includes(search.toLowerCase()) || false;
+        const matchesSearch =
+          provider === 'gitlab'
+            ? true
+            : (repo.name?.toLowerCase().includes(search.toLowerCase()) || false);
         const matchesTab =
           (tabValue === 0 && isAlreadyImported) || tabValue === 1 || (tabValue === 2 && !isAlreadyImported);
         return matchesSearch && matchesTab;
       }),
-    [gitHubRepos, importedRepoUrls, search, tabValue]
+    [gitHubRepos, importedRepoUrls, search, tabValue, provider]
   );
+
+  const displayedRepos = useMemo(() => {
+    if (provider === 'gitlab') {
+      return filteredRepos;
+    }
+    return filteredRepos.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+  }, [provider, filteredRepos, page, itemsPerPage]);
 
   return (
     <>
@@ -359,7 +528,11 @@ const Products: NextPageWithLayout = () => {
                 {`Selecione ${terms.yourOrganization} e o produto correspondente para gerenciar seus ${terms.repositories}.`}
               </Typography>
             </Box>
-            {provider === 'gitlab' ? <FaGitlab size="2.5rem" /> : <GitHub color="action" sx={{ fontSize: '2.5rem' }} />}
+            {provider === 'gitlab' ? (
+              <FaGitlab size="2.5rem" color="#fc6d26" />
+            ) : (
+              <GitHub color="action" sx={{ fontSize: '2.5rem' }} />
+            )}
           </Box>
 
           <Paper variant="outlined" sx={{ padding: '1.5rem', borderRadius: '12px', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
@@ -374,9 +547,9 @@ const Products: NextPageWithLayout = () => {
                   label={`${terms.Organizations} do ${terms.providerName}`}
                   onChange={(e) => setSelectedOrgName(e.target.value)}
                 >
-                  {gitHubOrgs.map((o) => (
-                    <MenuItem key={o.github_org_id} value={o.github_org_name}>
-                      <strong>{o.github_org_name}</strong> {o.description ? `(${o.description})` : ''}
+                  {providerNamespaces.map((o) => (
+                    <MenuItem key={o.id} value={o.name}>
+                      <strong>{o.name}</strong> {o.description ? `(${o.description})` : ''}
                     </MenuItem>
                   ))}
                 </Select>
@@ -384,7 +557,11 @@ const Products: NextPageWithLayout = () => {
               <Typography variant="caption" color="text.secondary">
                 {`Não está vendo ${terms.yourOrganization}?`}{" "}
                 <Link
-                  href={`https://github.com/settings/connections/applications/${process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID}`}
+                  href={
+                    provider === 'gitlab'
+                      ? 'https://gitlab.com/-/profile/applications'
+                      : `https://github.com/settings/connections/applications/${process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID}`
+                  }
                   target="_blank"
                   rel="noopener noreferrer"
                   underline="hover"
@@ -484,7 +661,16 @@ const Products: NextPageWithLayout = () => {
                       <Typography variant="body2" color="text.secondary" paragraph>
                         {`Para carregar os ${terms.repositories}, autorize o aplicativo novamente.`}
                       </Typography>
-                      <Button variant="contained" color="primary" onClick={handleReauthorizeGithub}>
+                      <Button
+                        variant="contained"
+                        onClick={handleReauthorize}
+                        sx={
+                          provider === 'gitlab'
+                            ? { backgroundColor: '#fc6d26', '&:hover': { backgroundColor: '#e24329' } }
+                            : undefined
+                        }
+                        color={provider === 'gitlab' ? undefined : "primary"}
+                      >
                         {`Autorizar ${terms.providerName}`}
                       </Button>
                     </Box>
@@ -496,91 +682,91 @@ const Products: NextPageWithLayout = () => {
                       <Typography variant="h6" color="error" gutterBottom>
                         {`Não foi possível carregar os ${terms.repositories}`}
                       </Typography>
-                      <Button variant="outlined" color="primary" onClick={() => handleSelectOrganization(selectedOrgName)}>
+                      <Button variant="outlined" color="primary" onClick={() => void handleSelectOrganization(selectedOrgName)}>
                         Tentar Novamente
                       </Button>
                     </Box>
                   );
                 }
                 return (
-                <List sx={{ padding: 0 }}>
-                  {filteredRepos.length > 0 ? (
-                    filteredRepos.slice((page - 1) * itemsPerPage, page * itemsPerPage).map((repo) => {
-                      const isAlreadyImported = importedRepoUrls.some(
-                        url => url && repo.url && (url === repo.url || url.toLowerCase() === repo.url.toLowerCase())
-                      );
-                      return (
-                        <ListItem
-                          key={repo.github_repo_id}
-                          sx={{
-                            padding: '1.5rem',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            borderBottom: '1px solid',
-                            borderColor: 'divider',
-                            '&:last-child': { borderBottom: 'none' },
-                            transition: 'background-color 0.2s',
-                            '&:hover': {
-                              backgroundColor: 'action.hover'
-                            }
-                          }}
-                        >
-                          <Box display="flex" flexDirection="column" gap="0.5rem" flexGrow={1}>
-                            <Box display="flex" alignItems="center" gap="1rem">
-                              <Typography variant="subtitle1" fontWeight="bold">
-                                {repo.github_full_name || repo.name}
+                  <List sx={{ padding: 0 }}>
+                    {displayedRepos.length > 0 ? (
+                      displayedRepos.map((repo) => {
+                        const isAlreadyImported = importedRepoUrls.some(
+                          url => url && repo.url && (url === repo.url || url.toLowerCase() === repo.url.toLowerCase())
+                        );
+                        return (
+                          <ListItem
+                            key={repo.gitlab_project_id || repo.github_repo_id}
+                            sx={{
+                              padding: '1.5rem',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
+                              borderBottom: '1px solid',
+                              borderColor: 'divider',
+                              '&:last-child': { borderBottom: 'none' },
+                              transition: 'background-color 0.2s',
+                              '&:hover': {
+                                backgroundColor: 'action.hover'
+                              }
+                            }}
+                          >
+                            <Box display="flex" flexDirection="column" gap="0.5rem" flexGrow={1}>
+                              <Box display="flex" alignItems="center" gap="1rem">
+                                <Typography variant="subtitle1" fontWeight="bold">
+                                  {repo.gitlab_path_with_namespace || repo.github_full_name || repo.name}
+                                </Typography>
+                              </Box>
+                              <Typography variant="body2" color="text.secondary">
+                                {repo.description}
                               </Typography>
                             </Box>
-                            <Typography variant="body2" color="text.secondary">
-                              {repo.description}
-                            </Typography>
-                          </Box>
 
-                          <Box display="flex" alignItems="center" gap="1rem" marginLeft="2rem">
-                            {isAlreadyImported ? (
-                              <Chip
-                                icon={<CheckCircle color="success" />}
-                                label="Importado"
-                                variant="outlined"
-                                color="success"
-                                sx={{ fontWeight: '500', minWidth: '110px' }}
-                              />
-                            ) : (
-                              <Button
-                                variant="contained"
-                                color="primary"
-                                startIcon={<AddCircle />}
-                                onClick={() => handleImport(repo)}
-                                sx={{
-                                  textTransform: 'none',
-                                  fontWeight: 'bold',
-                                  minWidth: '110px',
-                                  borderRadius: '8px'
-                                }}
-                              >
-                                Importar
-                              </Button>
-                            )}
-                          </Box>
-                        </ListItem>
-                      );
-                    })
-                  ) : (
-                    <Box padding="3rem" textAlign="center">
-                      <Typography variant="body1" color="text.secondary">
-                        {`Nenhum ${terms.repository} associado a este produto foi encontrado.`}
-                      </Typography>
-                    </Box>
-                  )}
-                </List>
+                            <Box display="flex" alignItems="center" gap="1rem" marginLeft="2rem">
+                              {isAlreadyImported ? (
+                                <Chip
+                                  icon={<CheckCircle color="success" />}
+                                  label="Importado"
+                                  variant="outlined"
+                                  color="success"
+                                  sx={{ fontWeight: '500', minWidth: '110px' }}
+                                />
+                              ) : (
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  startIcon={<AddCircle />}
+                                  onClick={() => void handleImport(repo)}
+                                  sx={{
+                                    textTransform: 'none',
+                                    fontWeight: 'bold',
+                                    minWidth: '110px',
+                                    borderRadius: '8px'
+                                  }}
+                                >
+                                  Importar
+                                </Button>
+                              )}
+                            </Box>
+                          </ListItem>
+                        );
+                      })
+                    ) : (
+                      <Box padding="3rem" textAlign="center">
+                        <Typography variant="body1" color="text.secondary">
+                          {`Nenhum ${terms.repository} associado a este produto foi encontrado.`}
+                        </Typography>
+                      </Box>
+                    )}
+                  </List>
                 );
               })()}
 
-              {!loadingRepos && filteredRepos.length > 0 && (
+              {!loadingRepos && (provider === 'gitlab' ? displayedRepos.length > 0 : filteredRepos.length > 0) && (
                 <Box display="flex" justifyContent="center" padding="2rem">
                   <Pagination
-                    count={Math.ceil(filteredRepos.length / itemsPerPage)}
+                    count={provider === 'gitlab' ? gitlabTotalPages : Math.ceil(filteredRepos.length / itemsPerPage)}
                     page={page}
                     onChange={(e, value) => setPage(value)}
                     color="primary"

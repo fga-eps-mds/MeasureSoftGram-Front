@@ -114,7 +114,7 @@ export const getGitlabAuthUrl = (state: string) => {
     client_id: process.env.GITLAB_CLIENT_ID || '',
     redirect_uri: process.env.NEXT_PUBLIC_LOGIN_REDIRECT_URL || '',
     response_type: 'code',
-    scope: 'read_user openid profile email',
+    scope: 'read_user openid profile email read_api',
     state
   });
 
