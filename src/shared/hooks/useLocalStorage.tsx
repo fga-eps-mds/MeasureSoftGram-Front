@@ -14,10 +14,13 @@ function parseJSON<T>(value: string | null): T | undefined {
 export function useLocalStorage<T>(
   key: string,
   initialValue: T
-): { storedValue: T; setValue: SetValue<T>; removeValue: () => void } {
+): { storedValue: T; setValue: SetValue<T>; removeValue: () => void; isHydrated: boolean } {
   // State to store our value
   // Pass initial state function to useState so logic is only executed once
   const [storedValue, setStoredValue] = useState<T>(initialValue);
+  // Fica true no mesmo render em que o valor salvo é aplicado. Antes disso,
+  // storedValue é só o initialValue provisório (a leitura ocorre após a montagem).
+  const [isHydrated, setIsHydrated] = useState(false);
   const storedValueRef = useRef<T>(storedValue);
   const initialValueRef = useRef<T>(initialValue);
 
@@ -102,8 +105,9 @@ export function useLocalStorage<T>(
       storedValueRef.current = initialValue;
       setStoredValue(initialValue);
     }
+    setIsHydrated(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { storedValue, setValue, removeValue };
+  return { storedValue, setValue, removeValue, isHydrated };
 }

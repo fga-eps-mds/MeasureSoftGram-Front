@@ -14,6 +14,7 @@ export const authContextDefaultValues: authContextType = {
   signInWithCredentials: async () => ({ type: 'error', error: new Error('Implementation missing') }),
   logout: async () => { },
   provider: 'credentials',
+  isProviderReady: false,
   setProvider: () => { }
 };
 
@@ -46,7 +47,8 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   const {
     storedValue: provider,
     setValue: setProvider,
-    removeValue: removeProvider
+    removeValue: removeProvider,
+    isHydrated: isProviderReady
   } = useLocalStorage<Providers>('provider', 'credentials');
 
   const removeAuthStorage = useCallback(async () => {
@@ -261,10 +263,11 @@ useEffect(() => {
       signInWithGithub,
       signInWithGitlab,
       provider: provider!,
+      isProviderReady,
       setProvider,
       loading
     }),
-    [logout, provider, session, setProvider, signInWithCredentials, signInWithGithub, signInWithGitlab, loading]
+    [logout, provider, isProviderReady, session, setProvider, signInWithCredentials, signInWithGithub, signInWithGitlab, loading]
   );
 
   return (
