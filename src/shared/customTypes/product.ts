@@ -1,4 +1,4 @@
-import { ButtonProps } from '@mui/material';
+import type { ButtonProps } from '@mui/material/Button';
 
 export interface CollectedMeasure {
   id: number;

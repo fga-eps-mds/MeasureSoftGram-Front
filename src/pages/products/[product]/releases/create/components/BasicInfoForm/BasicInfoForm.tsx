@@ -1,7 +1,9 @@
 import React, { } from 'react';
-import { Accordion, AccordionSummary, Box, Checkbox, FormControlLabel, hexToRgb, TextField, Typography } from '@mui/material';
+import { Accordion, AccordionSummary, Box, Checkbox, FormControlLabel, TextField, Typography } from '@mui/material';
+import { hexToRgb } from '@mui/material/styles';
 import { ExpandMore } from '@mui/icons-material';
-import { Timeline, TimelineSeparator, TimelineConnector, TimelineDot, TimelineItem, TimelineContent, timelineItemClasses } from '@mui/lab';
+import { Timeline, TimelineSeparator, TimelineConnector, TimelineDot, TimelineItem, TimelineContent } from '@mui/lab';
+import { timelineItemClasses } from '@mui/lab/TimelineItem';
 import { useTranslation } from 'react-i18next';
 import { FieldErrors, UseFormRegister, UseFormTrigger, UseFormWatch } from 'react-hook-form';
 import { PreConfigData, ReleaseInfoForm } from '@customTypes/preConfig';

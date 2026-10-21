@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, MenuItem, Select, TextField, Typography, Button, SelectChangeEvent } from '@mui/material';
+import { Box, MenuItem, Select, TextField, Typography, Button } from '@mui/material';
+import type { SelectChangeEvent } from '@mui/material/Select';
 import DownloadIcon from '@mui/icons-material/Download';
 import { COLOR_TOKENS } from '@utils/formatPulseChart';
 import { useProviderTerms } from '@hooks/useProviderTerms';
