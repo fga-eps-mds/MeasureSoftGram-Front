@@ -1,3 +1,6 @@
+import { renderHook } from '@testing-library/react';
+import { usePreloadECharts } from '../ECharts';
+
 const mockLoaded = jest.fn();
 
 jest.mock('../EChartsCore', () => {
@@ -6,11 +9,14 @@ jest.mock('../EChartsCore', () => {
 });
 
 describe('ECharts', () => {
-  it('começa a baixar o ECharts quando a página importa o módulo, antes de algum gráfico montar', async () => {
-    jest.isolateModules(() => {
-      require('../ECharts');
-    });
+  it('não baixa o ECharts só por a página importar o módulo', async () => {
+    await new Promise(process.nextTick);
 
+    expect(mockLoaded).not.toHaveBeenCalled();
+  });
+
+  it('começa a baixar o ECharts quando a página com gráficos monta, antes de algum gráfico aparecer', async () => {
+    renderHook(() => usePreloadECharts());
     await new Promise(process.nextTick);
 
     expect(mockLoaded).toHaveBeenCalledTimes(1);

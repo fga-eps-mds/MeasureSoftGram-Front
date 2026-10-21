@@ -1,12 +1,17 @@
+import { useEffect } from 'react';
 import dynamic from 'next/dynamic';
 
-// O ECharts é o maior pedaço de JS das telas com gráfico. Pedido só quando o gráfico monta, ele esperava os dados
-// chegarem; importado junto com a página, ele baixa enquanto os dados ainda estão a caminho (o webpack serve o
-// mesmo chunk para os dois imports).
-if (typeof window !== 'undefined') {
-  import('./EChartsCore').catch(() => {
-    // sem rede agora, o dynamic tenta de novo quando o gráfico montar
-  });
+/**
+ * Começa a baixar o ECharts quando a página com gráficos monta, junto com as chamadas à API, e não só quando o
+ * gráfico aparece (depois dos dados). Fica num hook, e não no carregamento do módulo, porque o Next 12 executa os
+ * módulos das abas do menu no tempo ocioso depois do prefetch: no módulo, o ECharts era baixado em toda página.
+ */
+export function usePreloadECharts() {
+  useEffect(() => {
+    import('./EChartsCore').catch(() => {
+      // sem rede agora, o dynamic tenta de novo quando o gráfico montar
+    });
+  }, []);
 }
 
 // o import precisa ficar escrito aqui dentro: é por ele que o Next sabe quando o chunk já chegou e desenha direto

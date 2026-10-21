@@ -9,6 +9,7 @@ import DashboardCard, { SkeletonBlock } from '@components/DashboardCard';
 import ReleaseSelect from '@components/ReleaseSelect';
 import { MetamodelTreeChart } from '@components/MetamodelTreeChart';
 import useRequireAuth from '@hooks/useRequireAuth';
+import { usePreloadECharts } from '@components/ECharts';
 import { DASHBOARD_COLORS } from '@utils/dashboardColors';
 import { getPathId } from '@utils/pathDestructer';
 import { useMetamodelo } from './useMetamodelo';
@@ -17,6 +18,7 @@ const TITLE = '3. Metamodelo';
 
 const MetamodeloDashboard: NextPageWithLayout = () => {
   useRequireAuth();
+  usePreloadECharts();
   const router = useRouter();
   const [organizationId, productId] = getPathId(router.query?.product as string);
 

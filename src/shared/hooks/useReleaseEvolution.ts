@@ -1,53 +1,41 @@
 import { useMemo } from 'react';
 import { useRequest } from '@hooks/useRequest';
 import { productQuery } from '@services/product';
-import { ReleasesPaginated } from '@customTypes/product';
-import {
-  getRepositoryReleases,
-  groupHistoryByRelease,
-  HistoryEntity,
-  ReleaseWithRepositories,
-} from '@utils/groupHistoryByRelease';
+import { RepositoryReleaseHistory, toReleaseSeries } from '@utils/releaseHistory';
 
 export type EvolutionEntity = 'characteristics' | 'subcharacteristics' | 'measures' | 'metrics';
 
-function toArray<T>(data?: T[] | { results?: T[] }): T[] {
-  if (Array.isArray(data)) return data;
-  return data?.results ?? [];
-}
+const LEVELS: Record<EvolutionEntity, 'characteristic' | 'subcharacteristic' | 'measure' | 'metric'> = {
+  characteristics: 'characteristic',
+  subcharacteristics: 'subcharacteristic',
+  measures: 'measure',
+  metrics: 'metric'
+};
 
-/** Evolução de um nível do modelo em um repositório, com um ponto por release. */
+/**
+ * Evolução de um nível do modelo em um repositório, com um ponto por release. Vem pronta do release-history do
+ * Service (uma requisição de poucos KB); antes o front baixava a lista de releases e o histórico inteiro do nível
+ * (até 120 KB nas medidas) para achar o último valor de cada release.
+ */
 export function useReleaseEvolution(
   organizationId: string,
   productId: string,
   repositoryId: number | undefined,
   entity: EvolutionEntity
 ) {
-  const releasesRequest = useRequest<ReleaseWithRepositories[] | ReleasesPaginated>(
-    productQuery.getReleaseList(organizationId, productId)
+  const historyRequest = useRequest<RepositoryReleaseHistory>(
+    productQuery.getRepositoryReleaseHistoryConfig(organizationId, productId, repositoryId, LEVELS[entity])
   );
-  const historyRequest = useRequest<{ results: HistoryEntity[] }>(
-    productQuery.getRepositoryHistoricalValuesConfig(organizationId, productId, repositoryId, entity)
-  );
-
-  const releases = useMemo(
-    () => getRepositoryReleases(toArray(releasesRequest.data as ReleaseWithRepositories[]), repositoryId),
-    [releasesRequest.data, repositoryId]
-  );
-  const series = useMemo(
-    () => groupHistoryByRelease(toArray(historyRequest.data), releases),
-    [historyRequest.data, releases]
-  );
+  const { releaseNames, series } = useMemo(() => toReleaseSeries(historyRequest.data), [historyRequest.data]);
 
   return {
-    releaseNames: releases.map((release) => release.release_name),
+    releaseNames,
     series,
-    hasReleases: releases.length > 0,
-    isLoading: releasesRequest.isLoading || historyRequest.isLoading,
-    hasError: !!(releasesRequest.error || historyRequest.error),
+    hasReleases: releaseNames.length > 0,
+    isLoading: historyRequest.isLoading,
+    hasError: !!historyRequest.error,
     retry: () => {
-      void releasesRequest.mutate();
       void historyRequest.mutate();
-    },
+    }
   };
 }

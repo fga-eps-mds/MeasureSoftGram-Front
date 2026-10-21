@@ -21,6 +21,7 @@ import { NextPageWithLayout } from '@pages/_app.next';
 import getLayout from '@components/Layout';
 import ReleaseSelect from '@components/ReleaseSelect';
 import useRequireAuth from '@hooks/useRequireAuth';
+import { usePreloadECharts } from '@components/ECharts';
 import { useProviderTerms } from '@hooks/useProviderTerms';
 import { getPathId } from '@utils/pathDestructer';
 import { EntityAnalysisRepository, EntityLevel } from '@customTypes/product';
@@ -34,6 +35,7 @@ const LEVELS = Object.keys(LEVEL_LABELS) as EntityLevel[];
 
 const EntityAnalysisDashboard: NextPageWithLayout = () => {
   useRequireAuth();
+  usePreloadECharts();
   const { terms } = useProviderTerms();
   const router = useRouter();
   const [organizationId, productId] = getPathId(router.query?.product as string);

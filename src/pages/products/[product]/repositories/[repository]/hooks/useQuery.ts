@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
@@ -8,136 +8,24 @@ import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import { repository } from '@services/repository';
 import { productQuery } from '@services/product';
 
-import formatEntitiesFilter from '@utils/formatEntitiesFilter';
-import formatEntitiesMetrics from '@utils/formatEntitiesMetrics';
 import { getPathId } from '@utils/pathDestructer';
-import { Historical } from '@customTypes/repository';
-import { LatestValues, IReleases } from '@customTypes/product';
 
-import { LARGE_PRIME_NUMBER } from './const';
-
+/**
+ * Dados da tela do repositório: o repositório (cabeçalho) e o último TSQMI com o badge. A evolução das
+ * características vem do useReleaseEvolution. Antes o hook também buscava a árvore de entidades, os últimos
+ * valores de métricas e de características, o histórico de TSQMI e de características e a comparação com a meta,
+ * para componentes que a tela não usa mais: eram 6 chamadas a mais em cada abertura.
+ */
 export const useQuery = () => {
-  const {
-    setCurrentRepository,
-    setCharacteristics,
-    setSubCharacteristics,
-    setMeasures,
-    setMetrics,
-    setHistoricalTSQMI,
-    setLatestTSQMI,
-    setLatestTSQMIBadgeUrl,
-    setCharacteristicBadgeUrls
-  } = useRepositoryContext();
+  const { setCurrentRepository, setLatestTSQMI, setLatestTSQMIBadgeUrl } = useRepositoryContext();
 
   const { setCurrentProduct, currentProduct } = useProductContext();
   const { currentOrganization, organizationList, setCurrentOrganizations } = useOrganizationContext();
 
-  const [repositoryHistoricalCharacteristics, setRepositoryHistoricalCharacteristics] = useState<Historical[]>([]);
-  const [latestValueCharacteristics, setLatestValueCharacteristics] = useState<LatestValues[]>([]);
-  const [comparedGoalAccomplished, setcomparedGoalAccomplished] = useState<IReleases[]>([]);
-  const [checkedOptionsFormat, setCheckedOptions] = useState({});
-
   const { query } = useRouter();
-
-  function formatCheckedOptions(
-    characteristics: string[],
-    subCharacteristics: string[],
-    measures: string[],
-    metrics: string[]
-  ) {
-    let map = {};
-    const updateMap = (option: string) => {
-      map = {
-        ...map,
-        [option]: true
-      };
-    };
-
-    characteristics.forEach((option) => updateMap(option));
-    subCharacteristics.forEach((option) => updateMap(option));
-    measures.forEach((option) => updateMap(option));
-    metrics.forEach((option) => updateMap(option));
-
-    return map;
-  }
-
-  async function loadRepositorySupportedEntities(organizationId: string, productId: string, repositoryId: string) {
-    try {
-      const result = await productQuery.getPreConfigEntitiesRelationship(organizationId, productId);
-      const [characteristics, subCharacteristics, measures] = formatEntitiesFilter(result.data);
-
-      const resultMetrics = await productQuery.getMetricsLatestValues(organizationId, productId, repositoryId);
-      const [metrics] = formatEntitiesMetrics(resultMetrics.data);
-
-      setCharacteristics(characteristics);
-      setSubCharacteristics(subCharacteristics);
-      setMeasures(measures);
-      setMetrics(metrics);
-      setCheckedOptions(formatCheckedOptions(characteristics, subCharacteristics, measures, metrics));
-
-      // Build characteristic badge URLs
-      const badgeUrls: Record<string, string> = {};
-      characteristics.forEach((key: string) => {
-        badgeUrls[key] = repository.getCharacteristicBadgeUrl(organizationId, productId, repositoryId, key);
-      });
-      setCharacteristicBadgeUrls(badgeUrls);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-    }
-  }
-
-  async function loadHistoricalCharacteristics(organizationId: string, productId: string, repositoryId: string) {
-    try {
-      const result = await repository.getHistorical({
-        organizationId,
-        productId,
-        repositoryId,
-        entity: 'characteristics'
-      });
-
-      setRepositoryHistoricalCharacteristics(result.data.results);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-    }
-  }
-
-  async function loadLatestValueCharacteristics(organizationId: string, productId: string, repositoryId: string) {
-    try {
-      const result = await productQuery.getCharacteristicsLatestValues(organizationId, productId, repositoryId);
-
-      setLatestValueCharacteristics(result.data);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-    }
-  }
-
-  async function loadHistoricalTsqmi(organizationId: string, productId: string, repositoryId: string) {
-    try {
-      const { crypto } = window;
-      const array = new Uint32Array(1);
-      const randomValue = crypto.getRandomValues(array)[0];
-      const id = Math.round(randomValue * LARGE_PRIME_NUMBER);
-      const {
-        data: { results }
-      } = await repository.getHistorical({
-        organizationId,
-        productId,
-        repositoryId,
-        entity: 'tsqmi'
-      });
-
-      setHistoricalTSQMI({ id, key: 'TSQMI', name: 'TSQMI', history: results });
-    } catch (error) {
-      // eslint-disable-next-line no-console
-    }
-  }
 
   async function loadLatestTsqmi(organizationId: string, productId: string, repositoryId: string) {
     try {
-      const { crypto } = window;
-      const array = new Uint32Array(1);
-      const randomValue = crypto.getRandomValues(array)[0];
-      const id = Math.round(randomValue * LARGE_PRIME_NUMBER);
       const props = {
         organizationId,
         productId,
@@ -161,30 +49,6 @@ export const useQuery = () => {
       setCurrentRepository(data);
     } catch (error) {
       // eslint-disable-next-line no-console
-    }
-  }
-
-  async function loadRepositoryInfo(organizationId: string, productId: string, repositoryId: string) {
-    try {
-      await Promise.all([
-        loadRepository(organizationId, productId, repositoryId),
-        loadHistoricalTsqmi(organizationId, productId, repositoryId),
-        loadLatestTsqmi(organizationId, productId, repositoryId),
-        loadRepositorySupportedEntities(organizationId, productId, repositoryId),
-        loadHistoricalCharacteristics(organizationId, productId, repositoryId),
-        loadLatestValueCharacteristics(organizationId, productId, repositoryId)
-      ]).then();
-    } catch (error) {
-      // eslint-disable-next-line no-console
-    }
-  }
-
-  async function loadCompareGoalAccomplished(organizationId: string, productId: string, repositoryId: string) {
-    try {
-      const result = await productQuery.getCompareGoalAccomplished(organizationId, productId, repositoryId);
-      return result?.data;
-    } catch (error) {
-      console.error(error);
     }
   }
 
@@ -222,20 +86,15 @@ export const useQuery = () => {
 
       // Clear repository-scoped state first to avoid showing stale values while new data loads.
       setCurrentRepository(undefined);
-      setCharacteristics([]);
-      setSubCharacteristics([]);
-      setMeasures([]);
-      setMetrics([]);
-      setHistoricalTSQMI(undefined);
       setLatestTSQMI(undefined);
       setLatestTSQMIBadgeUrl(undefined);
-      setCharacteristicBadgeUrls({});
 
-      void loadProduct(organizationId, productId);
-      void loadRepositoryInfo(organizationId, productId, repositoryId);
-      void loadCompareGoalAccomplished(organizationId, productId, repositoryId).then((data) => {
-        setcomparedGoalAccomplished(data);
-      });
+      // o Layout já carrega o produto da rota; aqui só quando o do contexto é outro
+      if (!currentProduct || String(currentProduct.id) !== String(productId)) {
+        void loadProduct(organizationId, productId);
+      }
+      void loadRepository(organizationId, productId, repositoryId);
+      void loadLatestTsqmi(organizationId, productId, repositoryId);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query?.repository]);
@@ -253,11 +112,4 @@ export const useQuery = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentProduct, currentOrganization, query?.product]);
-
-  return {
-    repositoryHistoricalCharacteristics,
-    checkedOptionsFormat,
-    comparedGoalAccomplished,
-    latestValueCharacteristics
-  };
 };

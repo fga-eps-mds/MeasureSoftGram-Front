@@ -7,6 +7,7 @@ import { NextPageWithLayout } from '@pages/_app.next';
 import getLayout from '@components/Layout';
 import ReleaseEvolutionChart from '@components/ReleaseEvolutionChart';
 import useRequireAuth from '@hooks/useRequireAuth';
+import { usePreloadECharts } from '@components/ECharts';
 import { useProviderTerms } from '@hooks/useProviderTerms';
 import { EvolutionEntity, useReleaseEvolution } from '@hooks/useReleaseEvolution';
 import { useRepositoryList } from '@hooks/useRepositoryList';
@@ -60,6 +61,7 @@ function EvolutionChart({ organizationId, productId, repositoryId, chart }: Evol
 const TemporalDashboard: NextPageWithLayout = () => {
   const { terms } = useProviderTerms();
   useRequireAuth();
+  usePreloadECharts();
 
   const { query } = useRouter();
   const [organizationId, productId] = getPathId(query?.product as string);

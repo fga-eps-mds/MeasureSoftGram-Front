@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import ReactEcharts from '@components/ECharts';
 import { Alert, Box, Button, CircularProgress, Paper, Typography } from '@mui/material';
 import { COLOR_TOKENS } from '@utils/formatPulseChart';
-import { ReleaseSeries } from '@utils/groupHistoryByRelease';
+import { ReleaseSeries } from '@utils/releaseHistory';
 
 /** Paleta das telas atuais: primária, planejado × realizado e faixas de qualidade. */
 export const SERIES_COLORS = [

@@ -5,6 +5,7 @@ import { Box, Container } from '@mui/material';
 
 import { NextPageWithLayout } from '@pages/_app.next';
 import useRequireAuth from '@hooks/useRequireAuth';
+import { usePreloadECharts } from '@components/ECharts';
 import Layout from '@components/Layout/Layout';
 import ReleaseEvolutionChart from '@components/ReleaseEvolutionChart';
 import ProductConfigFilterProvider from '@contexts/ProductConfigFilterProvider/ProductConfigFilterProvider';
@@ -21,6 +22,7 @@ const Repository: NextPageWithLayout = () => {
   const { terms } = useProviderTerms();
   const { latestTSQMI, latestTSQMIBadgeUrl } = useRepositoryContext();
   useRequireAuth();
+  usePreloadECharts();
   useQuery();
 
   const { query } = useRouter();

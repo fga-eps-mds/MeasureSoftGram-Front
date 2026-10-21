@@ -19,6 +19,7 @@ import getLayout from '@components/Layout';
 import DashboardCard from '@components/DashboardCard';
 import ReleaseSelect from '@components/ReleaseSelect';
 import useRequireAuth from '@hooks/useRequireAuth';
+import { usePreloadECharts } from '@components/ECharts';
 import { useProviderTerms } from '@hooks/useProviderTerms';
 import { FileMetricKey } from '@customTypes/product';
 import { DASHBOARD_COLORS } from '@utils/dashboardColors';
@@ -44,6 +45,7 @@ const TOGGLE_SX: SxProps<Theme> = {
 
 const DistributionDashboard: NextPageWithLayout = () => {
   useRequireAuth();
+  usePreloadECharts();
   const { terms } = useProviderTerms();
   const router = useRouter();
   const [organizationId, productId] = getPathId(router.query?.product as string);

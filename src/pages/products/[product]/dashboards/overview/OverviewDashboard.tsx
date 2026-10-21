@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import Head from 'next/head';
-import ReactEcharts from '@components/ECharts';
+import ReactEcharts, { usePreloadECharts } from '@components/ECharts';
 import { useRouter } from 'next/router';
 import { Box, Button, Container, Link, MenuItem, Paper, TextField, Typography } from '@mui/material';
 
@@ -145,6 +145,7 @@ function PlannedAccomplishedLegend() {
 
 const OverviewDashboard: NextPageWithLayout = () => {
   useRequireAuth();
+  usePreloadECharts();
   const { terms } = useProviderTerms();
   const router = useRouter();
   const [organizationId, productId] = getPathId(router.query?.product as string);
