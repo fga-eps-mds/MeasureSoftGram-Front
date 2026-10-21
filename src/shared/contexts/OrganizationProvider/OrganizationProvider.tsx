@@ -100,7 +100,8 @@ export function OrganizationProvider({ children }: Props) {
         setHasFetched(true);
         setIsLoading(false);
 
-        if (provider !== 'gitlab') {
+        // só quem entrou pelo GitHub tem organizações para importar de lá; para os outros o Service responde 400
+        if (provider === 'github') {
           void syncGithubOrganizations(organizations);
         }
       } else {

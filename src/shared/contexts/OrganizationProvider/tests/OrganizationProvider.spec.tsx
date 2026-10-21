@@ -48,6 +48,7 @@ describe('OrganizationProvider', () => {
     // Mock padrão (caminho de sucesso)
     (useAuth as jest.Mock).mockReturnValue({
       session: { username: 'testuser' },
+      provider: 'github',
     });
 
     (organizationQuery.getAllOrganization as jest.Mock).mockResolvedValue({
@@ -77,7 +78,10 @@ describe('OrganizationProvider', () => {
     await waitFor(() => expect(screen.getByTestId('curr-org').textContent).toBe('Org 1'));
 
     // o accounts/ responde e o Auth guarda a sessão num objeto novo, do mesmo usuário
-    (useAuth as jest.Mock).mockReturnValue({ session: { username: 'testuser', email: 'test@example.com' } });
+    (useAuth as jest.Mock).mockReturnValue({
+      session: { username: 'testuser', email: 'test@example.com' },
+      provider: 'github'
+    });
     rerender(
       <OrganizationProvider>
         <TestComponent />
@@ -100,6 +104,19 @@ describe('OrganizationProvider', () => {
       expect(screen.getByTestId('curr-org').textContent).toBe('Org 1');
       expect(screen.getByTestId('org-len').textContent).toBe('1');
     });
+  });
+
+  it('não tenta importar organizações do GitHub para quem entrou com login e senha', async () => {
+    (useAuth as jest.Mock).mockReturnValue({ session: { username: 'testuser' }, provider: 'credentials' });
+
+    render(
+      <OrganizationProvider>
+        <TestComponent />
+      </OrganizationProvider>
+    );
+
+    await waitFor(() => expect(screen.getByTestId('curr-org').textContent).toBe('Org 1'));
+    expect(organizationQuery.getGithubOrganizations).not.toHaveBeenCalled();
   });
 
   it('should auto-import github organizations that are not in backend', async () => {
