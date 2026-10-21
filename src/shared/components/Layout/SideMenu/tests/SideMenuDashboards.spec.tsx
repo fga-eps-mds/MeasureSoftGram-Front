@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { act, render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import SideMenu from '../SideMenu';
 
@@ -55,7 +55,15 @@ jest.mock('@hooks/useProviderTranslation', () => ({
 
 describe('SideMenu Dashboards Submenu (CA1)', () => {
   it('adianta o código das abas do menu e dos dashboards, para a troca de aba não esperar o download', () => {
+    jest.useFakeTimers();
     render(<SideMenu />);
+
+    // espera o navegador ficar ocioso (no jsdom, o temporizador de reserva)
+    expect(mockPrefetch).not.toHaveBeenCalled();
+    act(() => {
+      jest.runOnlyPendingTimers();
+    });
+    jest.useRealTimers();
 
     const base = '/products/1-5-MeasureSoftGram';
     expect(mockPrefetch.mock.calls.map(([path]) => path)).toEqual([

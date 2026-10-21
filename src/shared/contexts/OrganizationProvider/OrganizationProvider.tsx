@@ -77,8 +77,11 @@ export function OrganizationProvider({ children }: Props) {
     }
   };
 
+  // depende só de haver sessão: o Auth troca o objeto da sessão quando o accounts/ responde, e cada troca buscava as
+  // organizações de novo
+  const hasSession = Boolean(session);
   const fetchOrganizations = useCallback(async (forceFetch?: boolean) => {
-    if (!session && !forceFetch) return;
+    if (!hasSession && !forceFetch) return;
 
     setIsLoading(true);
     try {
@@ -111,7 +114,7 @@ export function OrganizationProvider({ children }: Props) {
     } finally {
       setIsLoading(false);
     }
-  }, [session, terms, provider]);
+  }, [hasSession, terms, provider]);
 
   useEffect(() => {
     if (session?.username) {

@@ -38,6 +38,7 @@ import { createOAuthState } from "@services/Auth/oauthState";
 import { isSameGithubOrg } from "@utils/isSameGithubOrg";
 import { FaGitlab } from 'react-icons/fa';
 import { useProviderTerms } from '@hooks/useProviderTerms';
+import { refreshRepositoryList } from '@hooks/useRepositoryList';
 
 interface ProductType {
   id: string | number;
@@ -385,6 +386,8 @@ const Products: NextPageWithLayout = () => {
       if (response.type === 'success') {
         toast.success(`${terms.Repository} ${repo.name} importado com sucesso!`);
         void loadProductRepositories(selectedOrgDbId, selectedProductId);
+        // a lista guardada para as outras telas do produto também passa a ter o repositório importado
+        void refreshRepositoryList(selectedOrgDbId, selectedProductId);
       } else {
         toast.error(`Erro ao importar ${terms.repository}: ${response.error.message || 'Erro desconhecido'}`);
       }

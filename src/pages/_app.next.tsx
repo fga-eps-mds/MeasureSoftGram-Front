@@ -32,6 +32,8 @@ type AppPropsWithLayout = AppProps & {
 // axios. Fora do modo mock o valor inicial ja e true e nada acontece.
 const isMockingEnabled = process.env.NEXT_PUBLIC_API_MOCKING === 'enabled';
 
+const DEFAULT_LANGUAGE = 'en';
+
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
   const [mockingReady, setMockingReady] = useState(!isMockingEnabled);
@@ -43,7 +45,9 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
   const locale: any = typeof window !== 'undefined' && window.localStorage.getItem('locale_lang');
 
-  useSyncLanguage(locale);
+  // sem idioma salvo, o app fica no inglês em que o i18next já abre; com `false`, o useSyncLanguage pedia a troca
+  // para "nenhum idioma" e o i18next baixava de novo todos os arquivos de tradução
+  useSyncLanguage(locale || DEFAULT_LANGUAGE);
 
   // Sobe o worker MSW (client-only) e semeia a sessao fake antes de renderizar.
   useEffect(() => {

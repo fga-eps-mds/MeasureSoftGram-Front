@@ -120,14 +120,20 @@ function SideMenu() {
   // só começava a baixar o próprio código depois do clique. No `next dev` o prefetch não faz nada.
   const prefetchPaths = currentProduct ? [...MenuItems, ...dashboardSubItems].map((item) => item.path).join('\n') : '';
   useEffect(() => {
-    prefetchPaths
-      .split('\n')
-      .filter(Boolean)
-      .forEach((path) => {
+    if (!prefetchPaths) return undefined;
+    const prefetchAll = () =>
+      prefetchPaths.split('\n').forEach((path) => {
         router.prefetch?.(path)?.catch(() => {
           // sem prefetch, a página baixa no clique, como antes
         });
       });
+    // só quando o navegador fica ocioso, como o <Link>: o código das outras abas não disputa a rede com a página aberta
+    if (typeof window.requestIdleCallback === 'function') {
+      const handle = window.requestIdleCallback(prefetchAll, { timeout: 3000 });
+      return () => window.cancelIdleCallback(handle);
+    }
+    const timer = window.setTimeout(prefetchAll, 1000);
+    return () => window.clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [prefetchPaths]);
 

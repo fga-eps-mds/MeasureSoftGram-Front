@@ -15,7 +15,7 @@ jest.mock('@contexts/ProductProvider', () => ({
 }));
 
 jest.mock('@contexts/RepositoryProvider', () => ({
-  useRepositoryContext: () => ({})
+  useRepositoryContext: () => ({ setRepositoryList: jest.fn(), setRepositoriesLatestTsqmi: jest.fn() })
 }));
 
 jest.mock('next/router', () => ({

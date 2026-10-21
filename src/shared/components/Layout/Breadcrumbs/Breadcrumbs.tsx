@@ -14,9 +14,11 @@ export function Breadcrumbs() {
   const router = useRouter();
 
   const getCrumbs = () => {
-    const { asPath } = router;
+    // sem a barra final (trailingSlash: true) e sem query: no HTML gerado no build o caminho vem sem a barra, e a
+    // diferença no último item fazia a hidratação falhar e o React renderizar a página inteira de novo
+    const routePath = router.asPath.split(/[?#]/)[0].replace(/(.)\/+$/, '$1');
     const currentPath: string[] = [];
-    const pathArray = asPath.split('/').slice(1);
+    const pathArray = routePath.split('/').slice(1);
 
     const paths = pathArray
       .map((path, index) => {

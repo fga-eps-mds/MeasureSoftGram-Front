@@ -4,8 +4,12 @@ import { useRef } from 'react';
 import { SnackbarProvider as NotistackProvider, closeSnackbar } from 'notistack';
 // @mui
 import IconButton from '@mui/material/IconButton';
-//
-import Iconify from '../iconify';
+// ícones do MUI, já no bundle: os do Iconify vinham da API pública do Iconify na primeira vez que um aviso aparecia
+import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
+import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
+import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
+import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 //
 import { StyledIcon, StyledNotistack } from './styles';
 
@@ -32,22 +36,22 @@ export default function SnackbarProvider({ children }: Props) {
       iconVariant={{
         info: (
           <StyledIcon color="info">
-            <Iconify icon="eva:info-fill" width={24} />
+            <InfoRoundedIcon sx={{ fontSize: 24 }} />
           </StyledIcon>
         ),
         success: (
           <StyledIcon color="success">
-            <Iconify icon="eva:checkmark-circle-2-fill" width={24} />
+            <CheckCircleRoundedIcon sx={{ fontSize: 24 }} />
           </StyledIcon>
         ),
         warning: (
           <StyledIcon color="warning">
-            <Iconify icon="eva:alert-triangle-fill" width={24} />
+            <WarningRoundedIcon sx={{ fontSize: 24 }} />
           </StyledIcon>
         ),
         error: (
           <StyledIcon color="error">
-            <Iconify icon="solar:danger-bold" width={24} />
+            <ErrorRoundedIcon sx={{ fontSize: 24 }} />
           </StyledIcon>
         ),
       }}
@@ -61,7 +65,7 @@ export default function SnackbarProvider({ children }: Props) {
       // with close as default
       action={(snackbarId) => (
         <IconButton size="small" onClick={() => closeSnackbar(snackbarId)} sx={{ p: 0.5 }}>
-          <Iconify width={16} icon="mingcute:close-line" />
+          <CloseRoundedIcon sx={{ fontSize: 16 }} />
         </IconButton>
       )}
     >

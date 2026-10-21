@@ -146,6 +146,14 @@ class ProductQuery {
   }
 
 
+  getProductRepositoriesLatestTsqmiConfig(organizationId: string, productId: string): GetRequest {
+    if (!organizationId || !productId) return null;
+    return {
+      url: `/v1/organizations/${organizationId}/products/${productId}/repositories-tsqmi-latest-values/`,
+      method: 'get'
+    };
+  }
+
   async getProductRepositoriesLatestTsqmi(organizationId: string, productId: string) {
     const url = `/v1/organizations/${organizationId}/products/${productId}/repositories-tsqmi-latest-values/`;
     return api.get<RepositoriesLatestTsqmi>(url);

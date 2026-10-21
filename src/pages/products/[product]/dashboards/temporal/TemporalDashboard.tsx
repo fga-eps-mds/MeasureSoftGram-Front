@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Alert, Box, Container, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
@@ -8,13 +8,13 @@ import getLayout from '@components/Layout';
 import ReleaseEvolutionChart from '@components/ReleaseEvolutionChart';
 import useRequireAuth from '@hooks/useRequireAuth';
 import { useProviderTerms } from '@hooks/useProviderTerms';
-import { useRequest } from '@hooks/useRequest';
 import { EvolutionEntity, useReleaseEvolution } from '@hooks/useReleaseEvolution';
-import { productQuery } from '@services/product';
-import { Repositories } from '@customTypes/product';
+import { useRepositoryList } from '@hooks/useRepositoryList';
+import { Repository } from '@customTypes/repository';
 import { getPathId } from '@utils/pathDestructer';
 
 const TITLE = 'Evolução Temporal';
+const NO_REPOSITORIES: Repository[] = [];
 
 const CHARTS: { entity: EvolutionEntity; title: string; label: string; normalized: boolean }[] = [
   { entity: 'characteristics', title: 'Características', label: 'características', normalized: true },
@@ -64,17 +64,16 @@ const TemporalDashboard: NextPageWithLayout = () => {
   const { query } = useRouter();
   const [organizationId, productId] = getPathId(query?.product as string);
 
-  const { data: repositoriesData, isLoading: isLoadingRepositories } = useRequest<{ results: Repositories[] }>(
-    productQuery.getRepositoriesConfig(organizationId, productId)
+  // a lista que o Layout já pediu: ao voltar para a aba, os gráficos não esperam por ela
+  const { repositories = NO_REPOSITORIES, isLoading: isLoadingRepositories } = useRepositoryList(
+    organizationId,
+    productId
   );
-  const repositories = repositoriesData?.results ?? [];
-  const [selectedRepoId, setSelectedRepoId] = useState<number | undefined>();
-
-  useEffect(() => {
-    if (repositories.length && !repositories.some((repository) => repository.id === selectedRepoId)) {
-      setSelectedRepoId(repositories[0].id);
-    }
-  }, [repositories, selectedRepoId]);
+  const [chosenRepoId, setSelectedRepoId] = useState<number | undefined>();
+  // decidido no render: os históricos já saem com o primeiro repositório, sem esperar um efeito
+  const selectedRepoId = repositories.some((repository) => repository.id === chosenRepoId)
+    ? chosenRepoId
+    : repositories[0]?.id;
 
   return (
     <>

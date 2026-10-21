@@ -14,12 +14,6 @@ importers:
       '@emotion/styled':
         specifier: ^11.9.3
         version: 11.14.1(@emotion/react@11.14.0(@types/react@18.0.15)(react@18.2.0))(@types/react@18.0.15)(react@18.2.0)
-      '@iconify/react':
-        specifier: ^4.1.1
-        version: 4.1.1(react@18.2.0)
-      '@iconify/types':
-        specifier: ^2.0.0
-        version: 2.0.0
       '@mui/icons-material':
         specifier: ^5.10.2
         version: 5.18.0(@mui/material@5.18.0(@emotion/react@11.14.0(@types/react@18.0.15)(react@18.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.0.15)(react@18.2.0))(@types/react@18.0.15)(react@18.2.0))(@types/react@18.0.15)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react@18.0.15)(react@18.2.0)
@@ -467,14 +461,6 @@ packages:
   '@humanwhocodes/object-schema@1.2.1':
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     deprecated: Use @eslint/object-schema instead
-
-  '@iconify/react@4.1.1':
-    resolution: {integrity: sha512-jed14EjvKjee8mc0eoscGxlg7mSQRkwQG3iX3cPBCO7UlOjz0DtlvTqxqEcHUJGh+z1VJ31Yhu5B9PxfO0zbdg==}
-    peerDependencies:
-      react: '>=16'
-
-  '@iconify/types@2.0.0':
-    resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
 
   '@inquirer/external-editor@1.0.3':
     resolution: {integrity: sha512-RWbSrDiYmO4LbejWY7ttpxczuwQyZLBUyygsA9Nsv95hpzUWwnNTVQmAq3xuh7vNwCp07UTmE5i11XAEExx4RA==}
@@ -4104,13 +4090,6 @@ snapshots:
       - supports-color
 
   '@humanwhocodes/object-schema@1.2.1': {}
-
-  '@iconify/react@4.1.1(react@18.2.0)':
-    dependencies:
-      '@iconify/types': 2.0.0
-      react: 18.2.0
-
-  '@iconify/types@2.0.0': {}
 
   '@inquirer/external-editor@1.0.3(@types/node@18.0.4)':
     dependencies:

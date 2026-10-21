@@ -68,6 +68,26 @@ describe('OrganizationProvider', () => {
     });
   });
 
+  it('não busca as organizações de novo quando o Auth troca o objeto da mesma sessão', async () => {
+    const { rerender } = render(
+      <OrganizationProvider>
+        <TestComponent />
+      </OrganizationProvider>
+    );
+    await waitFor(() => expect(screen.getByTestId('curr-org').textContent).toBe('Org 1'));
+
+    // o accounts/ responde e o Auth guarda a sessão num objeto novo, do mesmo usuário
+    (useAuth as jest.Mock).mockReturnValue({ session: { username: 'testuser', email: 'test@example.com' } });
+    rerender(
+      <OrganizationProvider>
+        <TestComponent />
+      </OrganizationProvider>
+    );
+
+    await waitFor(() => expect(screen.getByTestId('curr-org').textContent).toBe('Org 1'));
+    expect(organizationQuery.getAllOrganization).toHaveBeenCalledTimes(1);
+  });
+
   it('should load organizations if session exists', async () => {
     render(
       <OrganizationProvider>
