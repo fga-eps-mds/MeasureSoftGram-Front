@@ -15,8 +15,10 @@ import { formatAnalysisCount, formatPeriod } from '@utils/distributionSummary';
 import { getPathId } from '@utils/pathDestructer';
 import { toLocalDay } from '@utils/releaseSelection';
 
+import DistributionDensity, { DENSITY_TITLE } from './DistributionDensity';
 import DistributionFilters from './DistributionFilters';
 import DistributionHistogram, { HISTOGRAM_TITLE } from './DistributionHistogram';
+import DistributionScatter, { SCATTER_TITLE } from './DistributionScatter';
 import DistributionSummary, { SUMMARY_TITLE } from './DistributionSummary';
 import { ChartSkeleton, CollectionGuideLink, DistributionErrorCard, SummarySkeleton } from './DistributionStates';
 import { useDistributionDashboard } from './useDistributionDashboard';
@@ -34,7 +36,19 @@ function formatReleaseDay(date: Date | string): string {
  * Grade da referência (CA4 a CA8): histograma e densidade lado a lado, boxplot na largura toda, dispersão e resumo
  * lado a lado. Em tela estreita, uma coluna na ordem dos quadros, sem as áreas vazias.
  */
-function DistributionGrid({ histogram, summary, busy }: { histogram: ReactNode; summary: ReactNode; busy?: boolean }) {
+function DistributionGrid({
+  histogram,
+  density,
+  scatter,
+  summary,
+  busy
+}: {
+  histogram: ReactNode;
+  density: ReactNode;
+  scatter: ReactNode;
+  summary: ReactNode;
+  busy?: boolean;
+}) {
   return (
     <Box
       data-testid="distribution-grid"
@@ -44,13 +58,15 @@ function DistributionGrid({ histogram, summary, busy }: { histogram: ReactNode; 
       alignItems="start"
       sx={{
         gridTemplateColumns: { xs: 'minmax(0, 1fr)', lg: 'repeat(2, minmax(0, 1fr))' },
-        // densidade e dispersão (TASK21.03.04) e boxplot (TASK21.03.05) entram nas áreas dens, disp e box
+        // o boxplot (TASK21.03.05) entra na área box
         gridTemplateAreas: { lg: '"hist dens" "box box" "disp summary"' },
         opacity: busy ? 0.6 : 1,
         transition: 'opacity 150ms'
       }}
     >
       <Box sx={{ gridArea: { lg: 'hist' }, minWidth: 0 }}>{histogram}</Box>
+      <Box sx={{ gridArea: { lg: 'dens' }, minWidth: 0 }}>{density}</Box>
+      <Box sx={{ gridArea: { lg: 'disp' }, minWidth: 0 }}>{scatter}</Box>
       <Box sx={{ gridArea: { lg: 'summary' }, minWidth: 0 }}>{summary}</Box>
     </Box>
   );
@@ -147,6 +163,8 @@ const DistributionDashboard: NextPageWithLayout = () => {
         <DistributionGrid
           busy={isUpdating}
           histogram={<DistributionHistogram entity={entity} />}
+          density={<DistributionDensity entity={entity} />}
+          scatter={<DistributionScatter entity={entity} />}
           summary={<DistributionSummary summary={entity.summary} />}
         />
       );
@@ -155,6 +173,8 @@ const DistributionDashboard: NextPageWithLayout = () => {
     return (
       <DistributionGrid
         histogram={<DashboardCard title={HISTOGRAM_TITLE} status="loading" loadingContent={<ChartSkeleton />} />}
+        density={<DashboardCard title={DENSITY_TITLE} status="loading" loadingContent={<ChartSkeleton />} />}
+        scatter={<DashboardCard title={SCATTER_TITLE} status="loading" loadingContent={<ChartSkeleton />} />}
         summary={<DashboardCard title={SUMMARY_TITLE} status="loading" loadingContent={<SummarySkeleton />} />}
       />
     );

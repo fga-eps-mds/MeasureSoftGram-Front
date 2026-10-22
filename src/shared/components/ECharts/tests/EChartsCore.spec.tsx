@@ -36,6 +36,18 @@ describe('EChartsCore', () => {
     chart.dispose();
   });
 
+  // sem o componente registrado, o ECharts ignora a marcação sem erro, e o gráfico sai sem a faixa ou sem a linha
+  it.each(['markLine', 'markArea'])('desenha o %s', (marker) => {
+    const chart = echarts.init(document.createElement('div'), undefined, { width: 400, height: 300 });
+    const data = marker === 'markArea' ? [[{ yAxis: 1 }, { yAxis: 2 }]] : [{ yAxis: 1 }];
+
+    chart.setOption({ ...cartesian, series: [{ type: 'line', data: [1, 2], [marker]: { data } }] });
+
+    const model = (chart as unknown as { getModel: () => { getComponent: (type: string) => unknown } }).getModel();
+    expect(model.getComponent(marker)).toBeTruthy();
+    chart.dispose();
+  });
+
   it('é o componente do echarts-for-react com o ECharts enxuto', async () => {
     const ref = React.createRef<ECharts>();
 

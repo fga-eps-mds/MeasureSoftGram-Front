@@ -1,9 +1,15 @@
-import { DistributionAnalysis } from '@customTypes/product';
+import { DistributionAnalysis, DistributionEntity } from '@customTypes/product';
+import { buildDensity, DensityPoint } from '../distributionDensity';
 import { buildHistogram } from '../distributionHistogram';
 import {
   DISTRIBUTION_COLORS,
+  formatAnalysisDateTime,
   formatBoxTooltip,
+  formatDensityOptions,
   formatHistogramOptions,
+  formatMedianLabel,
+  formatScatterOptions,
+  OUTLIER_STYLE,
   outlierSymbolSize,
   renderHistogramBar
 } from '../formatDistributionCharts';
@@ -78,5 +84,186 @@ describe('formatHistogramOptions', () => {
       [60, 65, 1]
     ]);
     expect(option.series[0].tooltip.formatter({ dataIndex: 0 })).toBe('40 a 44<br/><strong>2 análises</strong>');
+  });
+});
+
+describe('formatDensityOptions', () => {
+  const values = [0.31, 0.52, 0.55, 0.56, 0.6, 0.9];
+  const histogram = buildHistogram(values, 'tsqmi');
+  const points = buildDensity(values, { min: 0, max: 1, iqr: 0.0875 }) as DensityPoint[];
+
+  it('usa o mesmo eixo e as mesmas margens do histograma', () => {
+    const option = formatDensityOptions(points, histogram, 0.555, 'TSQMI');
+    const bars = formatHistogramOptions(histogram, 'TSQMI');
+
+    expect(option.xAxis).toEqual(bars.xAxis);
+    expect(option.grid).toMatchObject({ left: bars.grid.left, right: bars.grid.right });
+  });
+
+  it('desenha a curva com a área preenchida em cor clara', () => {
+    const [curve] = formatDensityOptions(points, histogram, 0.555, 'TSQMI').series;
+
+    expect(curve).toMatchObject({
+      name: 'Densidade',
+      type: 'line',
+      showSymbol: false,
+      areaStyle: { color: DISTRIBUTION_COLORS.densityFill }
+    });
+    expect(curve.data).toHaveLength(points.length);
+    expect(curve.data[0]).toEqual([points[0].x, points[0].y]);
+  });
+
+  it('marca a mediana numa linha vertical, com o valor na legenda (CA5)', () => {
+    const option = formatDensityOptions(points, histogram, 0.555, 'TSQMI');
+
+    expect(option.legend.data).toEqual(['Densidade', 'Mediana (0,56)']);
+    expect(option.series[1]).toMatchObject({ name: 'Mediana (0,56)', data: [] });
+    expect(option.series[1].markLine?.data).toEqual([{ xAxis: 0.555 }]);
+  });
+
+  it('sem mediana, só a curva', () => {
+    const option = formatDensityOptions(points, histogram, null, 'TSQMI');
+
+    expect(option.legend.data).toEqual(['Densidade']);
+    expect(option.series).toHaveLength(1);
+  });
+
+  it('descreve a curva no texto acessível e mostra o valor e a densidade no tooltip', () => {
+    const option = formatDensityOptions(points, histogram, 0.555, 'TSQMI');
+
+    expect(option.aria.label.description).toMatch(
+      /^Curva de densidade de TSQMI, de 0 a 1, com o pico em 0,5\d\. Mediana \(0,56\)\.$/
+    );
+    expect(option.tooltip.formatter([{ value: [0.5, 2.345] }])).toBe('0,50<br/>Densidade: <strong>2,35</strong>');
+  });
+});
+
+describe('formatMedianLabel', () => {
+  it('mostra a mediana com duas casas', () => {
+    expect(formatMedianLabel(0.5)).toBe('Mediana (0,50)');
+    expect(formatMedianLabel(47)).toBe('Mediana (47,00)');
+  });
+});
+
+describe('formatAnalysisDateTime', () => {
+  it('mostra a data e a hora da análise em pt-BR', () => {
+    expect(formatAnalysisDateTime('2026-08-17T10:05:00-03:00')).toBe('17/08/2026 às 10:05');
+  });
+});
+
+describe('formatScatterOptions', () => {
+  const summary = {
+    count: 4,
+    min: 0.31,
+    p10: 0.4,
+    q1: 0.5125,
+    median: 0.555,
+    q3: 0.6,
+    p90: 0.8,
+    max: 0.9,
+    iqr: 0.0875,
+    lower_limit: 0.38,
+    upper_limit: 0.73,
+    outliers: 2,
+    mean: 0.58,
+    skewness: 0.1
+  };
+  const tsqmi: DistributionEntity = {
+    key: 'tsqmi',
+    name: 'TSQMI',
+    level: 'tsqmi',
+    metric_type: null,
+    summary,
+    analyses: [
+      { date: '2026-08-17T10:00:00-03:00', value: 0.31, is_outlier: true },
+      { date: '2026-08-18T10:00:00-03:00', value: 0.52, is_outlier: false },
+      { date: '2026-08-19T10:00:00-03:00', value: 0.56, is_outlier: false },
+      { date: '2026-08-22T10:00:00-03:00', value: 0.9, is_outlier: true }
+    ]
+  };
+  const histogram = buildHistogram([0.31, 0.52, 0.56, 0.9], 'tsqmi');
+  const at = (date: string) => new Date(date).getTime();
+
+  it('põe um ponto por análise na data dela, com os discrepantes em círculo vazado (CA7)', () => {
+    const [regular, outliers] = formatScatterOptions(tsqmi, histogram).series;
+
+    expect(regular).toMatchObject({ name: 'Análise', type: 'scatter' });
+    expect(regular.data).toEqual([
+      [at('2026-08-18T10:00:00-03:00'), 0.52],
+      [at('2026-08-19T10:00:00-03:00'), 0.56]
+    ]);
+    expect(outliers).toMatchObject({ name: 'Valor discrepante', type: 'scatter', ...OUTLIER_STYLE });
+    expect(outliers.data).toEqual([
+      [at('2026-08-17T10:00:00-03:00'), 0.31],
+      [at('2026-08-22T10:00:00-03:00'), 0.9]
+    ]);
+  });
+
+  it('desenha a faixa do Q1 ao Q3 e a linha da mediana com os valores do resumo', () => {
+    const [, , iqr, median] = formatScatterOptions(tsqmi, histogram).series;
+
+    expect(iqr.markArea?.data).toEqual([[{ yAxis: 0.5125 }, { yAxis: 0.6 }]]);
+    expect(median.markLine?.data).toEqual([{ yAxis: 0.555 }]);
+    expect(median.markLine?.label.formatter).toBe('Mediana 0,56');
+  });
+
+  it('tem a legenda "Análise", "Valor discrepante" e "Q1 a Q3"', () => {
+    const { legend } = formatScatterOptions(tsqmi, histogram);
+
+    expect(legend.data.map((item) => item.name)).toEqual(['Análise', 'Valor discrepante', 'Q1 a Q3']);
+  });
+
+  it('nos valores de 0 a 1, o eixo y vai de 0 a 1, e o x é de tempo', () => {
+    const option = formatScatterOptions(tsqmi, histogram);
+
+    expect(option.yAxis).toMatchObject({ type: 'value', min: 0, max: 1 });
+    expect(option.xAxis.type).toBe('time');
+    expect(option.xAxis.axisLabel.formatter(at('2026-08-17T10:00:00-03:00'))).toBe('17 ago');
+  });
+
+  it('numa métrica, o eixo y segue a escala dela', () => {
+    const values = [42, 44, 47, 55, 63];
+    const metric: DistributionEntity = {
+      ...tsqmi,
+      level: 'metric',
+      metric_type: 'INT',
+      analyses: values.map((value, index) => ({ date: `2026-08-1${index}T10:00:00-03:00`, value, is_outlier: false }))
+    };
+
+    const option = formatScatterOptions(metric, buildHistogram(values, 'metric', 'INT'));
+
+    expect(option.yAxis).toMatchObject({ min: 40, max: 65 });
+  });
+
+  it('mostra a data e a hora e o valor com duas casas no tooltip', () => {
+    const { tooltip } = formatScatterOptions(tsqmi, histogram);
+
+    expect(tooltip.formatter({ value: [at('2026-08-17T10:00:00-03:00'), 0.31] })).toBe(
+      '17/08/2026 às 10:00<br/><strong>0,31</strong>'
+    );
+  });
+
+  it('descreve as análises, os quartis e os discrepantes no texto acessível', () => {
+    expect(formatScatterOptions(tsqmi, histogram).aria.label.description).toBe(
+      'Dispersão de TSQMI no tempo: 4 análises de 17 ago a 22 ago. Q1 0,51, mediana 0,56 e Q3 0,60. ' +
+        '2 valores discrepantes: 0,31 em 17/08/2026, 0,90 em 22/08/2026.'
+    );
+  });
+
+  it('sem discrepante, diz que não há nenhum; com muitos, lista os 10 primeiros', () => {
+    const none = { ...tsqmi, analyses: tsqmi.analyses.map((analysis) => ({ ...analysis, is_outlier: false })) };
+    const many = {
+      ...tsqmi,
+      analyses: Array.from({ length: 12 }, (_, index) => ({
+        date: `2026-09-${String(index + 1).padStart(2, '0')}T10:00:00-03:00`,
+        value: 0.1,
+        is_outlier: true
+      }))
+    };
+
+    expect(formatScatterOptions(none, histogram).aria.label.description).toMatch(/Nenhum valor discrepante\.$/);
+    expect(formatScatterOptions(many, histogram).aria.label.description).toMatch(
+      /12 valores discrepantes: 0,10 em 01\/09\/2026, .*0,10 em 10\/09\/2026 e mais 2\.$/
+    );
   });
 });

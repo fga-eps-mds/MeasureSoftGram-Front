@@ -31,7 +31,7 @@ export function CollectionGuideLink() {
   );
 }
 
-/** Esqueleto do histograma enquanto as análises carregam. */
+/** Esqueleto dos gráficos enquanto as análises carregam. */
 export function ChartSkeleton() {
   return (
     <Box display="flex" alignItems="flex-end" gap="6px" height={180} paddingX="16px" overflow="hidden">

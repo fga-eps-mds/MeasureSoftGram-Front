@@ -195,14 +195,51 @@ describe('<DistributionDashboard />', () => {
     expect(histogram).toHaveTextContent('Quantas análises caem em cada faixa de 5 de sum_ci_feedback_times');
   });
 
-  it('põe o histograma e o resumo nas posições da grade da referência', () => {
+  it('põe o histograma, a densidade, a dispersão e o resumo nas posições da grade da referência', () => {
     render(<DistributionDashboard />);
 
     const grid = screen.getByTestId('distribution-grid');
     expect(within(grid).getByRole('region', { name: 'Histograma' })).toBeInTheDocument();
+    expect(within(grid).getByRole('region', { name: 'Curva de densidade' })).toBeInTheDocument();
+    expect(within(grid).getByRole('region', { name: 'Dispersão das análises no tempo' })).toBeInTheDocument();
     expect(within(grid).getByRole('region', { name: 'Resumo estatístico e IQR' })).toBeInTheDocument();
-    // sem cartões vazios no lugar da densidade, do boxplot e da dispersão
-    expect(within(grid).getAllByRole('region')).toHaveLength(2);
+    // sem cartão vazio no lugar do boxplot
+    expect(within(grid).getAllByRole('region')).toHaveLength(4);
+  });
+
+  it('ao trocar de entidade, mantém os quadros anteriores enquanto a resposta nova não chega', () => {
+    render(<DistributionDashboard />);
+    const scatter = () => screen.getByRole('region', { name: 'Dispersão das análises no tempo' });
+    const before = within(scatter()).getByTestId('echarts').textContent;
+    // com o keepPreviousData, o pedido da característica devolve a resposta do TSQMI até a nova chegar
+    mockRequests({ respond: (params) => answer({ ...params, level: 'tsqmi', key: 'tsqmi' }) });
+
+    fireEvent.click(screen.getByRole('button', { name: 'Característica' }));
+
+    expect(screen.getByTestId('distribution-grid')).toHaveAttribute('aria-busy', 'true');
+    expect(within(scatter()).getByTestId('echarts').textContent).toBe(before);
+    expect(
+      within(screen.getByRole('region', { name: 'Curva de densidade' })).getByTestId('echarts')
+    ).toBeInTheDocument();
+    expect(screen.queryByText('Carregando')).not.toBeInTheDocument();
+  });
+
+  it('com poucas análises, a densidade explica que faltam análises e os outros quadros continuam (CA9)', () => {
+    mockRequests({
+      respond: (params) => ({
+        data: distribution({
+          repositoryId: params.repository_id,
+          main: entity('tsqmi', 'TSQMI', 'tsqmi', [0.5, 0.6])
+        })
+      })
+    });
+    render(<DistributionDashboard />);
+
+    expect(screen.getByRole('region', { name: 'Curva de densidade' })).toHaveTextContent(
+      'Faltam análises para a curva de densidade'
+    );
+    expect(within(screen.getByRole('region', { name: 'Histograma' })).getByTestId('echarts')).toBeInTheDocument();
+    expect(screen.getByRole('region', { name: 'Resumo estatístico e IQR' })).toBeInTheDocument();
   });
 
   it('produto sem release orienta a planejar a primeira (CA9)', () => {
@@ -246,6 +283,10 @@ describe('<DistributionDashboard />', () => {
 
     const grid = screen.getByTestId('distribution-grid');
     expect(within(grid).getByRole('region', { name: 'Histograma' })).toHaveTextContent('Carregando');
+    expect(within(grid).getByRole('region', { name: 'Curva de densidade' })).toHaveTextContent('Carregando');
+    expect(within(grid).getByRole('region', { name: 'Dispersão das análises no tempo' })).toHaveTextContent(
+      'Carregando'
+    );
     expect(within(grid).getByRole('region', { name: 'Resumo estatístico e IQR' })).toHaveTextContent('Carregando');
   });
 });
