@@ -4,11 +4,11 @@ import { ptBR } from 'date-fns/locale';
 import { DistributionAnalysis, DistributionEntity } from '@customTypes/product';
 import { DASHBOARD_COLORS } from '@utils/dashboardColors';
 import { DensityPoint } from '@utils/distributionDensity';
-import { formatAxisValue, formatBinLabel, Histogram } from '@utils/distributionHistogram';
+import { formatAxisValue, formatBinLabel, Histogram, isUnitScale } from '@utils/distributionHistogram';
 import { formatAnalysisCount, formatCount, formatPeriod, formatStatistic } from '@utils/distributionSummary';
 import { escapeHtml } from '@utils/formatOverviewCharts';
 import { COLOR_TOKENS } from '@utils/formatPulseChart';
-import { BoxplotStats, OutlierGroup } from '@utils/metricDistribution';
+import { BoxplotStats, getBoxplotStats, groupOutliers, OutlierGroup } from '@utils/metricDistribution';
 
 /** Cores dos gráficos da distribuição: barras em azul claro, caixa na cor primária e discrepantes em laranja. */
 export const DISTRIBUTION_COLORS = {
@@ -19,7 +19,13 @@ export const DISTRIBUTION_COLORS = {
   outlier: COLOR_TOKENS.warning,
   density: DASHBOARD_COLORS.planned,
   densityFill: 'rgba(123, 167, 215, 0.3)',
-  median: DASHBOARD_COLORS.primary
+  median: DASHBOARD_COLORS.primary,
+  // boxplot do nível: a entidade escolhida em cor escura, sobre o fundo destacado, e os filhos em cor clara
+  entityBox: DASHBOARD_COLORS.primary,
+  entityBoxFill: 'rgba(43, 77, 111, 0.35)',
+  entityRow: DASHBOARD_COLORS.infoBackground,
+  childBox: '#7BA7D7',
+  childBoxFill: '#FFFFFF'
 };
 
 const LEGEND = { textStyle: { color: DASHBOARD_COLORS.text, fontSize: 11 }, itemWidth: 16, itemHeight: 8 };
@@ -367,6 +373,173 @@ export function formatScatterOptions(entity: DistributionEntity, histogram: Hist
                 },
                 data: [{ yAxis: median }]
               }
+      }
+    ]
+  };
+}
+
+/** Uma linha do boxplot do nível: a entidade escolhida ou um filho dela, com a caixa e as hastes. */
+export interface LevelBoxplotRow {
+  entity: DistributionEntity;
+  stats: BoxplotStats;
+}
+
+/**
+ * Linhas do boxplot do nível (CA6): a entidade escolhida e os filhos com análise, na ordem em que o Service manda (a da
+ * configuração da release). Só entram os filhos na mesma escala da entidade: abaixo da medida vêm as métricas, com o
+ * valor bruto, que não cabem no eixo de 0 a 1. Um filho sem análise (resumo sem quartis) fica fora.
+ */
+export function getLevelBoxplotRows(entity: DistributionEntity, children: DistributionEntity[]): LevelBoxplotRow[] {
+  const sameScale = children.filter((child) => isUnitScale(child.level) === isUnitScale(entity.level));
+  return [entity, ...sameScale].flatMap((item) => {
+    const stats = getBoxplotStats(item.summary, item.analyses);
+    return stats ? [{ entity: item, stats }] : [];
+  });
+}
+
+/** Altura de cada linha do boxplot do nível; a tabela de percentis usa a mesma, para as linhas ficarem alinhadas. */
+export const BOXPLOT_ROW_HEIGHT = 44;
+
+/** Margens do grid do boxplot do nível, em px: o cabeçalho da tabela de percentis tem a altura do topo. */
+export const BOXPLOT_GRID = { top: 36, bottom: 28, left: 124, right: 24 };
+
+/** Largura dos nomes das linhas no eixo y; um nome maior é cortado com reticências. */
+const BOXPLOT_LABEL_WIDTH = 112;
+
+/**
+ * Num gráfico estreito (o cartão em 360 px), os nomes e a margem direita encolhem para sobrar espaço para as caixas;
+ * os nomes inteiros ficam na tabela de percentis, logo abaixo.
+ */
+const BOXPLOT_NARROW = { maxWidth: 360, labelWidth: 56, right: 12 };
+
+// um discrepante a menos de 1/36 do eixo do centro de um grupo entra nele: nenhum ponto fica escondido atrás de outro
+const OUTLIER_SPREAD = 36;
+
+/** Altura do gráfico: o topo, uma faixa por linha e a base com os valores do eixo. */
+export function getLevelBoxplotHeight(rows: number): number {
+  return BOXPLOT_GRID.top + rows * BOXPLOT_ROW_HEIGHT + BOXPLOT_GRID.bottom;
+}
+
+interface LevelOutlierPoint extends OutlierGroup {
+  row: LevelBoxplotRow;
+}
+
+/** Entidade e valor e data de cada análise do ponto, escapados porque o tooltip do ECharts é HTML. */
+export function formatLevelOutlierTooltip({ row, analyses }: LevelOutlierPoint): string {
+  const title = analyses.length === 1 ? 'Valor discrepante' : `${formatCount(analyses.length)} valores discrepantes`;
+  return [
+    `<span style="color:${DISTRIBUTION_COLORS.outlier};font-weight:bold">${title}</span>`,
+    escapeHtml(row.entity.name),
+    ...analyses.map(
+      (analysis) => `<strong>${formatStatistic(analysis.value)}</strong> em ${formatAnalysisDateTime(analysis.date)}`
+    )
+  ].join('<br/>');
+}
+
+function describeBoxplotRow({ entity, stats }: LevelBoxplotRow): string {
+  const count = stats.outliers.length;
+  let outliers = `${formatCount(count)} valores discrepantes`;
+  if (count === 0) outliers = 'nenhum valor discrepante';
+  else if (count === 1) outliers = '1 valor discrepante';
+  return `${entity.name}: mediana ${formatStatistic(stats.median)}, Q1 ${formatStatistic(
+    stats.q1
+  )} e Q3 ${formatStatistic(stats.q3)}, ${outliers}`;
+}
+
+/**
+ * Boxplot do nível (CA6): uma linha para a entidade escolhida e uma para cada filho dela no modelo, no mesmo eixo de
+ * valores do histograma (0 a 1, ou a escala da métrica). A primeira linha é a da entidade, em cor escura e sobre o
+ * fundo destacado; os filhos vêm em cor clara, na ordem da configuração da release. Caixa e hastes vêm de
+ * getBoxplotStats, e os discrepantes do Service ficam em círculo vazado, numa série à parte. O grid tem margens fixas
+ * em px e cada linha tem BOXPLOT_ROW_HEIGHT, para a tabela de percentis ao lado ficar alinhada às linhas.
+ */
+export function formatLevelBoxplotOptions(rows: LevelBoxplotRow[], histogram: Histogram) {
+  const [chosen, ...children] = rows;
+  const tolerance = (histogram.max - histogram.min) / OUTLIER_SPREAD;
+  const outliers: LevelOutlierPoint[] = rows.flatMap((row) =>
+    groupOutliers(row.stats.outliers, tolerance).map((group) => ({ ...group, row }))
+  );
+  let childrenSentence = '';
+  if (children.length === 1) childrenSentence = ' e do filho no modelo';
+  else if (children.length > 1) childrenSentence = ` e dos ${formatCount(children.length)} filhos no modelo`;
+
+  return {
+    animation: false,
+    aria: {
+      enabled: true,
+      label: {
+        description: `Boxplot de ${chosen.entity.name}${childrenSentence}, de ${formatAxisValue(
+          histogram.min
+        )} a ${formatAxisValue(histogram.max)}. ${rows.map(describeBoxplotRow).join('; ')}.`
+      }
+    },
+    tooltip: { trigger: 'item', confine: true },
+    grid: BOXPLOT_GRID,
+    xAxis: { ...histogramValueAxis(histogram), splitLine: SPLIT_LINE },
+    yAxis: {
+      type: 'category',
+      // a entidade escolhida fica no topo, e os filhos descem na ordem da release
+      inverse: true,
+      data: rows.map((row) => row.entity.key),
+      axisLine: { show: false },
+      axisTick: { show: false },
+      axisLabel: {
+        ...AXIS_LABEL,
+        color: DASHBOARD_COLORS.text,
+        width: BOXPLOT_LABEL_WIDTH,
+        overflow: 'truncate',
+        formatter: (_key: string, index: number) =>
+          index === 0 ? `{chosen|${rows[index].entity.name.replace(/[{}|]/g, '')}}` : rows[index].entity.name,
+        // na v5 o estilo rich não herda a fonte do label, então ele declara a sua
+        rich: { chosen: { color: DASHBOARD_COLORS.primary, fontSize: 11, fontWeight: 'bold' } }
+      },
+      // as cores do splitArea são cíclicas: só a primeira faixa fica destacada, sem repetir nas faixas ímpares
+      splitArea: {
+        show: true,
+        areaStyle: {
+          color: [DISTRIBUTION_COLORS.entityRow, ...new Array<string>(rows.length - 1).fill('transparent')]
+        }
+      }
+    },
+    series: [
+      {
+        id: 'boxplot',
+        name: 'Boxplot',
+        type: 'boxplot',
+        boxWidth: [10, 20],
+        data: rows.map(({ stats }, index) => ({
+          value: [stats.low, stats.q1, stats.median, stats.q3, stats.high],
+          itemStyle:
+            index === 0
+              ? { color: DISTRIBUTION_COLORS.entityBoxFill, borderColor: DISTRIBUTION_COLORS.entityBox, borderWidth: 2 }
+              : { color: DISTRIBUTION_COLORS.childBoxFill, borderColor: DISTRIBUTION_COLORS.childBox, borderWidth: 1.5 }
+        })),
+        tooltip: {
+          formatter: ({ dataIndex }: { dataIndex: number }) =>
+            formatBoxTooltip(rows[dataIndex].stats, rows[dataIndex].entity.name)
+        }
+      },
+      {
+        id: 'outliers',
+        name: 'Valor discrepante',
+        type: 'scatter',
+        z: 3,
+        symbolSize: outlierSymbolSize(outliers),
+        ...OUTLIER_STYLE,
+        data: outliers.map((point) => [point.value, point.row.entity.key]),
+        tooltip: { formatter: ({ dataIndex }: { dataIndex: number }) => formatLevelOutlierTooltip(outliers[dataIndex]) }
+      }
+    ],
+    media: [
+      {
+        query: { maxWidth: BOXPLOT_NARROW.maxWidth },
+        option: {
+          grid: {
+            left: BOXPLOT_NARROW.labelWidth + BOXPLOT_GRID.left - BOXPLOT_LABEL_WIDTH,
+            right: BOXPLOT_NARROW.right
+          },
+          yAxis: { axisLabel: { width: BOXPLOT_NARROW.labelWidth } }
+        }
       }
     ]
   };

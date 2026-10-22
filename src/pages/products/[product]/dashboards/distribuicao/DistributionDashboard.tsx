@@ -15,6 +15,7 @@ import { formatAnalysisCount, formatPeriod } from '@utils/distributionSummary';
 import { getPathId } from '@utils/pathDestructer';
 import { toLocalDay } from '@utils/releaseSelection';
 
+import DistributionBoxplot, { BOXPLOT_TITLE } from './DistributionBoxplot';
 import DistributionDensity, { DENSITY_TITLE } from './DistributionDensity';
 import DistributionFilters from './DistributionFilters';
 import DistributionHistogram, { HISTOGRAM_TITLE } from './DistributionHistogram';
@@ -39,12 +40,14 @@ function formatReleaseDay(date: Date | string): string {
 function DistributionGrid({
   histogram,
   density,
+  boxplot,
   scatter,
   summary,
   busy
 }: {
   histogram: ReactNode;
   density: ReactNode;
+  boxplot: ReactNode;
   scatter: ReactNode;
   summary: ReactNode;
   busy?: boolean;
@@ -58,7 +61,6 @@ function DistributionGrid({
       alignItems="start"
       sx={{
         gridTemplateColumns: { xs: 'minmax(0, 1fr)', lg: 'repeat(2, minmax(0, 1fr))' },
-        // o boxplot (TASK21.03.05) entra na área box
         gridTemplateAreas: { lg: '"hist dens" "box box" "disp summary"' },
         opacity: busy ? 0.6 : 1,
         transition: 'opacity 150ms'
@@ -66,6 +68,7 @@ function DistributionGrid({
     >
       <Box sx={{ gridArea: { lg: 'hist' }, minWidth: 0 }}>{histogram}</Box>
       <Box sx={{ gridArea: { lg: 'dens' }, minWidth: 0 }}>{density}</Box>
+      <Box sx={{ gridArea: { lg: 'box' }, minWidth: 0 }}>{boxplot}</Box>
       <Box sx={{ gridArea: { lg: 'disp' }, minWidth: 0 }}>{scatter}</Box>
       <Box sx={{ gridArea: { lg: 'summary' }, minWidth: 0 }}>{summary}</Box>
     </Box>
@@ -80,7 +83,8 @@ const DistributionDashboard: NextPageWithLayout = () => {
   const [organizationId, productId] = getPathId(router.query?.product as string);
 
   const dashboard = useDistributionDashboard(organizationId, productId);
-  const { release, level, selectedEntity, distribution, entity, period, status, isUpdating, retry } = dashboard;
+  const { release, level, selectedEntity, distribution, entity, children, period, status, isUpdating, retry } =
+    dashboard;
 
   const entityName = level === 'tsqmi' ? DISTRIBUTION_LEVEL_LABELS.tsqmi : selectedEntity?.name;
 
@@ -164,6 +168,7 @@ const DistributionDashboard: NextPageWithLayout = () => {
           busy={isUpdating}
           histogram={<DistributionHistogram entity={entity} />}
           density={<DistributionDensity entity={entity} />}
+          boxplot={<DistributionBoxplot entity={entity} childEntities={children ?? []} />}
           scatter={<DistributionScatter entity={entity} />}
           summary={<DistributionSummary summary={entity.summary} />}
         />
@@ -174,6 +179,7 @@ const DistributionDashboard: NextPageWithLayout = () => {
       <DistributionGrid
         histogram={<DashboardCard title={HISTOGRAM_TITLE} status="loading" loadingContent={<ChartSkeleton />} />}
         density={<DashboardCard title={DENSITY_TITLE} status="loading" loadingContent={<ChartSkeleton />} />}
+        boxplot={<DashboardCard title={BOXPLOT_TITLE} status="loading" loadingContent={<ChartSkeleton />} />}
         scatter={<DashboardCard title={SCATTER_TITLE} status="loading" loadingContent={<ChartSkeleton />} />}
         summary={<DashboardCard title={SUMMARY_TITLE} status="loading" loadingContent={<SummarySkeleton />} />}
       />

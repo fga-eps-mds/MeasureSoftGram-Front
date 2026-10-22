@@ -195,16 +195,31 @@ describe('<DistributionDashboard />', () => {
     expect(histogram).toHaveTextContent('Quantas análises caem em cada faixa de 5 de sum_ci_feedback_times');
   });
 
-  it('põe o histograma, a densidade, a dispersão e o resumo nas posições da grade da referência', () => {
+  it('põe o histograma, a densidade, o boxplot, a dispersão e o resumo nas posições da grade da referência', () => {
     render(<DistributionDashboard />);
 
     const grid = screen.getByTestId('distribution-grid');
-    expect(within(grid).getByRole('region', { name: 'Histograma' })).toBeInTheDocument();
-    expect(within(grid).getByRole('region', { name: 'Curva de densidade' })).toBeInTheDocument();
-    expect(within(grid).getByRole('region', { name: 'Dispersão das análises no tempo' })).toBeInTheDocument();
-    expect(within(grid).getByRole('region', { name: 'Resumo estatístico e IQR' })).toBeInTheDocument();
-    // sem cartão vazio no lugar do boxplot
-    expect(within(grid).getAllByRole('region')).toHaveLength(4);
+    // na ordem da grade, sem cartão vazio
+    expect(within(grid).getAllByRole('region')).toEqual(
+      [
+        'Histograma',
+        'Curva de densidade',
+        'Boxplot e percentis do nível',
+        'Dispersão das análises no tempo',
+        'Resumo estatístico e IQR'
+      ].map((name) => within(grid).getByRole('region', { name }))
+    );
+  });
+
+  it('desenha no boxplot a entidade e os filhos que vêm na resposta (CA6)', () => {
+    render(<DistributionDashboard />);
+
+    const boxplot = screen.getByRole('region', { name: 'Boxplot e percentis do nível' });
+    expect(
+      within(boxplot)
+        .getAllByTestId('percentile-row')
+        .map((row) => row.firstElementChild?.textContent)
+    ).toEqual(['TSQMI', 'Reliability']);
   });
 
   it('ao trocar de entidade, mantém os quadros anteriores enquanto a resposta nova não chega', () => {

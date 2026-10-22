@@ -48,6 +48,31 @@ describe('EChartsCore', () => {
     chart.dispose();
   });
 
+  // o boxplot do nível: caixas na horizontal, uma por categoria do eixo y, e os discrepantes num scatter por cima
+  it('desenha o boxplot na horizontal com os discrepantes no eixo de categorias', () => {
+    const chart = echarts.init(document.createElement('div'), undefined, { width: 400, height: 300 });
+
+    chart.setOption({
+      xAxis: { type: 'value', min: 0, max: 1 },
+      yAxis: { type: 'category', inverse: true, data: ['a', 'b'], splitArea: { show: true } },
+      series: [
+        { type: 'boxplot', data: [{ value: [0.1, 0.2, 0.3, 0.4, 0.5] }, { value: [0.2, 0.3, 0.4, 0.5, 0.6] }] },
+        { type: 'scatter', data: [[0.9, 'b']] }
+      ]
+    });
+
+    const model = (
+      chart as unknown as {
+        getModel: () => { getSeriesByType: (type: string) => { get: (option: string) => unknown }[] };
+      }
+    ).getModel();
+    expect(model.getSeriesByType('boxplot')).toHaveLength(1);
+    // no ECharts, o layout é o do eixo de categorias: vertical é o eixo y, com as caixas deitadas
+    expect(model.getSeriesByType('boxplot')[0].get('layout')).toBe('vertical');
+    expect(model.getSeriesByType('scatter')).toHaveLength(1);
+    chart.dispose();
+  });
+
   it('é o componente do echarts-for-react com o ECharts enxuto', async () => {
     const ref = React.createRef<ECharts>();
 

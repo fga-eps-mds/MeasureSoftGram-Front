@@ -3,12 +3,17 @@ import { buildDensity, DensityPoint } from '../distributionDensity';
 import { buildHistogram } from '../distributionHistogram';
 import {
   DISTRIBUTION_COLORS,
+  BOXPLOT_GRID,
+  BOXPLOT_ROW_HEIGHT,
   formatAnalysisDateTime,
   formatBoxTooltip,
   formatDensityOptions,
   formatHistogramOptions,
+  formatLevelBoxplotOptions,
   formatMedianLabel,
   formatScatterOptions,
+  getLevelBoxplotHeight,
+  getLevelBoxplotRows,
   OUTLIER_STYLE,
   outlierSymbolSize,
   renderHistogramBar
@@ -265,5 +270,195 @@ describe('formatScatterOptions', () => {
     expect(formatScatterOptions(many, histogram).aria.label.description).toMatch(
       /12 valores discrepantes: 0,10 em 01\/09\/2026, .*0,10 em 10\/09\/2026 e mais 2\.$/
     );
+  });
+});
+
+describe('boxplot do nível', () => {
+  // q1, mediana e q3 de cada série pelo método inclusive, como o Service calcula
+  function boxEntity(
+    key: string,
+    level: DistributionEntity['level'],
+    values: number[],
+    outliers: number[] = [],
+    metricType: string | null = null
+  ): DistributionEntity {
+    const sorted = [...values].sort((a, b) => a - b);
+    return {
+      key,
+      name: key === 'tsqmi' ? 'TSQMI' : key,
+      level,
+      metric_type: metricType,
+      analyses: values.map((value, index) => ({
+        date: `2026-08-${String(17 + index).padStart(2, '0')}T10:00:00-03:00`,
+        value,
+        is_outlier: outliers.includes(value)
+      })),
+      summary: {
+        count: values.length,
+        min: sorted[0] ?? null,
+        p10: values.length ? sorted[0] : null,
+        q1: values.length ? sorted[1] : null,
+        median: values.length ? sorted[2] : null,
+        q3: values.length ? sorted[3] : null,
+        p90: values.length ? sorted[sorted.length - 1] : null,
+        max: sorted[sorted.length - 1] ?? null,
+        iqr: values.length ? sorted[3] - sorted[1] : null,
+        lower_limit: null,
+        upper_limit: null,
+        outliers: outliers.length,
+        mean: null,
+        skewness: null
+      }
+    };
+  }
+
+  const tsqmi = boxEntity('tsqmi', 'tsqmi', [0.5, 0.55, 0.6, 0.62, 0.65]);
+  const reliability = boxEntity('reliability', 'characteristic', [0.1, 0.7, 0.72, 0.75, 0.78], [0.1]);
+  const maintainability = boxEntity('maintainability', 'characteristic', [0.6, 0.62, 0.64, 0.66, 0.68]);
+  const functional = boxEntity('functional_suitability', 'characteristic', [0.4, 0.42, 0.44, 0.46, 0.95], [0.95]);
+  const histogram = buildHistogram([0.5, 0.55, 0.6, 0.62, 0.65], 'tsqmi');
+
+  describe('getLevelBoxplotRows', () => {
+    it('põe a entidade escolhida primeiro e os filhos na ordem do Service', () => {
+      const rows = getLevelBoxplotRows(tsqmi, [reliability, maintainability, functional]);
+
+      expect(rows.map((row) => row.entity.key)).toEqual([
+        'tsqmi',
+        'reliability',
+        'maintainability',
+        'functional_suitability'
+      ]);
+      expect(rows[1].stats).toMatchObject({ low: 0.7, q1: 0.7, median: 0.72, q3: 0.75, high: 0.78 });
+    });
+
+    it('deixa de fora um filho sem análise', () => {
+      const empty = boxEntity('maturity', 'subcharacteristic', []);
+      const testing = boxEntity('testing_status', 'subcharacteristic', [0.6, 0.62, 0.64, 0.66, 0.68]);
+
+      const rows = getLevelBoxplotRows(reliability, [empty, testing]);
+
+      expect(rows.map((row) => row.entity.key)).toEqual(['reliability', 'testing_status']);
+    });
+
+    it('na medida, deixa de fora as métricas, que têm escala própria', () => {
+      const measure = boxEntity('ci_feedback_time', 'measure', [0.5, 0.55, 0.6, 0.62, 0.65]);
+      const metric = boxEntity('total_builds', 'metric', [42, 44, 47, 55, 63], [], 'INT');
+
+      expect(getLevelBoxplotRows(measure, [metric]).map((row) => row.entity.key)).toEqual(['ci_feedback_time']);
+    });
+
+    it('sem filhos, como no nível métrica, só a linha da entidade', () => {
+      const metric = boxEntity('total_builds', 'metric', [42, 44, 47, 55, 63], [], 'INT');
+
+      expect(getLevelBoxplotRows(metric, []).map((row) => row.entity.key)).toEqual(['total_builds']);
+    });
+  });
+
+  describe('formatLevelBoxplotOptions', () => {
+    const rows = getLevelBoxplotRows(tsqmi, [reliability, maintainability, functional]);
+
+    it('desenha uma caixa por linha, com a entidade em cor escura e os filhos em cor clara (CA6)', () => {
+      const [boxplot] = formatLevelBoxplotOptions(rows, histogram).series;
+
+      expect(boxplot.type).toBe('boxplot');
+      expect(boxplot.data?.map((item) => item.value)).toEqual([
+        [0.5, 0.55, 0.6, 0.62, 0.65],
+        [0.7, 0.7, 0.72, 0.75, 0.78],
+        [0.6, 0.62, 0.64, 0.66, 0.68],
+        [0.4, 0.42, 0.44, 0.46, 0.46]
+      ]);
+      expect(boxplot.data?.[0].itemStyle.borderColor).toBe(DISTRIBUTION_COLORS.entityBox);
+      expect(boxplot.data?.slice(1).map((item) => item.itemStyle.borderColor)).toEqual(
+        Array(3).fill(DISTRIBUTION_COLORS.childBox)
+      );
+    });
+
+    it('põe as linhas no eixo y de cima para baixo, com o nome da entidade em negrito', () => {
+      const { yAxis } = formatLevelBoxplotOptions(rows, histogram);
+
+      expect(yAxis).toMatchObject({
+        type: 'category',
+        inverse: true,
+        data: ['tsqmi', 'reliability', 'maintainability', 'functional_suitability']
+      });
+      expect(yAxis.axisLabel.formatter('tsqmi', 0)).toBe('{chosen|TSQMI}');
+      expect(yAxis.axisLabel.formatter('reliability', 1)).toBe('reliability');
+    });
+
+    it('destaca só o fundo da linha da entidade, sem repetir a cor nas faixas ímpares', () => {
+      const { yAxis } = formatLevelBoxplotOptions(rows, histogram);
+
+      expect(yAxis.splitArea.areaStyle.color).toEqual([
+        DISTRIBUTION_COLORS.entityRow,
+        'transparent',
+        'transparent',
+        'transparent'
+      ]);
+    });
+
+    it('desenha os discrepantes de cada linha em círculo vazado, na linha deles', () => {
+      const [, outliers] = formatLevelBoxplotOptions(rows, histogram).series;
+
+      expect(outliers).toMatchObject({ type: 'scatter', name: 'Valor discrepante', ...OUTLIER_STYLE });
+      expect(outliers.data).toEqual([
+        [0.1, 'reliability'],
+        [0.95, 'functional_suitability']
+      ]);
+    });
+
+    it('mostra o valor e a data do discrepante no tooltip, e a caixa no tooltip do boxplot', () => {
+      const [boxplot, outliers] = formatLevelBoxplotOptions(rows, histogram).series;
+
+      expect(outliers.tooltip.formatter({ dataIndex: 0 })).toBe(
+        `<span style="color:${DISTRIBUTION_COLORS.outlier};font-weight:bold">Valor discrepante</span><br/>` +
+          'reliability<br/><strong>0,10</strong> em 17/08/2026 às 10:00'
+      );
+      expect(boxplot.tooltip.formatter({ dataIndex: 1 })).toBe(formatBoxTooltip(rows[1].stats, 'reliability'));
+    });
+
+    it('junta no mesmo ponto os discrepantes que se sobrepõem, com todos no tooltip', () => {
+      const repeated = boxEntity('repeated', 'characteristic', [0.1, 0.1, 0.7, 0.72, 0.75], [0.1]);
+      const [, outliers] = formatLevelBoxplotOptions(getLevelBoxplotRows(tsqmi, [repeated]), histogram).series;
+
+      expect(outliers.data).toEqual([[0.1, 'repeated']]);
+      expect(outliers.symbolSize(null, { dataIndex: 0 })).toBe(12);
+      expect(outliers.tooltip.formatter({ dataIndex: 0 })).toContain('2 valores discrepantes');
+    });
+
+    it('usa o eixo do histograma: 0 a 1, ou a escala da métrica', () => {
+      const metric = boxEntity('total_builds', 'metric', [42, 44, 47, 55, 63], [], 'INT');
+
+      expect(formatLevelBoxplotOptions(rows, histogram).xAxis).toMatchObject({ min: 0, max: 1 });
+      expect(
+        formatLevelBoxplotOptions(
+          getLevelBoxplotRows(metric, []),
+          buildHistogram([42, 44, 47, 55, 63], 'metric', 'INT')
+        ).xAxis
+      ).toMatchObject({ min: 40, max: 65 });
+    });
+
+    it('tem o grid em px e a altura de uma faixa por linha, para alinhar com a tabela', () => {
+      expect(formatLevelBoxplotOptions(rows, histogram).grid).toEqual(BOXPLOT_GRID);
+      expect(getLevelBoxplotHeight(4)).toBe(BOXPLOT_GRID.top + 4 * BOXPLOT_ROW_HEIGHT + BOXPLOT_GRID.bottom);
+    });
+
+    it('num gráfico estreito, encurta os nomes e a margem direita, mantendo o topo e a base do grid', () => {
+      const [narrow] = formatLevelBoxplotOptions(rows, histogram).media;
+
+      expect(narrow.query).toEqual({ maxWidth: 360 });
+      expect(narrow.option.grid).toEqual({ left: 68, right: 12 });
+      expect(narrow.option.yAxis.axisLabel.width).toBe(56);
+    });
+
+    it('descreve as linhas e os discrepantes no texto acessível', () => {
+      expect(formatLevelBoxplotOptions(rows.slice(0, 2), histogram).aria.label.description).toBe(
+        'Boxplot de TSQMI e do filho no modelo, de 0 a 1. ' +
+          'TSQMI: mediana 0,60, Q1 0,55 e Q3 0,62, nenhum valor discrepante; ' +
+          'reliability: mediana 0,72, Q1 0,70 e Q3 0,75, 1 valor discrepante.'
+      );
+      expect(formatLevelBoxplotOptions(rows.slice(0, 1), histogram).aria.label.description).toMatch(
+        /^Boxplot de TSQMI, de 0 a 1\. /
+      );
+    });
   });
 });
