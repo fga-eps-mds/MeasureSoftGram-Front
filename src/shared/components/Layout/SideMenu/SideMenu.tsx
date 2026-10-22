@@ -6,6 +6,7 @@ import {
   FiGitBranch,
   FiPaperclip,
   FiGrid,
+  FiLink,
   FiChevronDown,
   FiChevronUp,
   FiPieChart,
@@ -111,6 +112,14 @@ function SideMenu() {
       path: `/products/${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/dashboards/distribuicao`,
       disable: !currentProduct,
       selected: router.pathname === '/products/[product]/dashboards/distribuicao',
+    },
+    {
+      startIcon: <FiLink fontSize={24} />,
+      text: '6. Relações e Correlações',
+      tooltip: 'Relações e Correlações',
+      path: `/products/${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/dashboards/relacoes`,
+      disable: !currentProduct,
+      selected: router.pathname === '/products/[product]/dashboards/relacoes',
     },
   ];
 

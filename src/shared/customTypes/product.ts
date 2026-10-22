@@ -381,3 +381,40 @@ export interface AnalysisDistribution {
   /** Filhos com análise na release, na ordem da configuração; vazio no nível métrica. */
   children: DistributionEntity[];
 }
+
+/** Níveis da correlação (US21.04): as características ou as subcaracterísticas. */
+export type CorrelationLevel = 'characteristic' | 'subcharacteristic';
+
+/** Um par do triângulo de baixo da matriz: a entidade da linha com uma das que vêm antes dela. */
+export interface CorrelationPair {
+  row: string;
+  column: string;
+  /** null quando uma das entidades não variou entre as releases. */
+  coefficient: number | null;
+  p_value: number | null;
+  /** p < 0,05. */
+  significant: boolean;
+}
+
+/**
+ * GET products/{id}/correlation/?repository_id=&level= (Service, US21.04): RD_Corr, a correlação entre as entidades
+ * do nível ao longo das releases do repositório, pela função f_sigma do Core.
+ */
+export interface RepositoryCorrelation {
+  repository: { id: number; name: string };
+  level: CorrelationLevel;
+  /** Entidades da configuração da release mais recente, na ordem dela. */
+  entities: Array<{ key: string; name: string }>;
+  /** Linhas de RD: as releases com valor para todas as entidades, da mais antiga para a mais nova. */
+  releases: ReleaseDashboardRelease[];
+  /** Releases do repositório deixadas de fora por falta de valor. */
+  excluded_releases: number;
+  /** null quando não há pares (reason preenchido). */
+  method: 'pearson' | 'spearman' | null;
+  /** Colunas de RD sem distribuição normal. */
+  non_normal: number | null;
+  /** |r| a partir do qual o coeficiente é significativo com o número de releases usadas. */
+  critical_value: number | null;
+  pairs: CorrelationPair[];
+  reason: 'insufficient_releases' | 'insufficient_entities' | null;
+}

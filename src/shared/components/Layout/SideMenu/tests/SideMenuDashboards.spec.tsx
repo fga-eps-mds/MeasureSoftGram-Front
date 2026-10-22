@@ -75,6 +75,7 @@ describe('SideMenu Dashboards Submenu (CA1)', () => {
       `${base}/dashboards/metamodelo`,
       `${base}/dashboards/entidade`,
       `${base}/dashboards/distribuicao`,
+      `${base}/dashboards/relacoes`,
     ]);
   });
 

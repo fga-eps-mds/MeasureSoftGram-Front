@@ -375,6 +375,29 @@ describe('ProductQuery', () => {
     );
   });
 
+  describe('getCorrelation', () => {
+    it('pede a correlação do repositório no nível escolhido', () => {
+      expect(productQuery.getCorrelation('1', '2', { repositoryId: 4, level: 'subcharacteristic' })).toEqual({
+        url: '/v1/organizations/1/products/2/correlation/',
+        method: 'get',
+        params: { repository_id: 4, level: 'subcharacteristic' }
+      });
+    });
+
+    it.each<[string, string, number | undefined]>([
+      ['', '2', 4],
+      ['1', '', 4],
+      ['1', '2', undefined]
+    ])(
+      'não pede nada sem organização, produto ou repositório (%s, %s, %s)',
+      (organizationId, productId, repositoryId) => {
+        expect(
+          productQuery.getCorrelation(organizationId, productId, { repositoryId, level: 'characteristic' })
+        ).toBeNull();
+      }
+    );
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });

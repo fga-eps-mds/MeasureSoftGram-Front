@@ -9,7 +9,8 @@ import {
   RepositoriesLatestTsqmi,
   ReleaseGoal,
   EntityLevel,
-  DistributionLevel
+  DistributionLevel,
+  CorrelationLevel
 } from '@customTypes/product';
 import { PreConfigData, PreConfigRoot, ReleaseInfoForm } from '@customTypes/preConfig';
 
@@ -254,6 +255,19 @@ class ProductQuery {
       url: `/v1/organizations/${organizationId}/products/${productId}/analysis-distribution/`,
       method: 'get',
       params: { release_id: releaseId, repository_id: repositoryId, level, key: needsKey ? key : undefined }
+    };
+  }
+
+  getCorrelation(
+    organizationId: string,
+    productId: string,
+    { repositoryId, level }: { repositoryId?: number; level: CorrelationLevel }
+  ): GetRequest {
+    if (!organizationId || !productId || !repositoryId) return null;
+    return {
+      url: `/v1/organizations/${organizationId}/products/${productId}/correlation/`,
+      method: 'get',
+      params: { repository_id: repositoryId, level }
     };
   }
 
