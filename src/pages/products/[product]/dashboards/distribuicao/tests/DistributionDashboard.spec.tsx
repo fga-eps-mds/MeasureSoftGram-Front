@@ -1,18 +1,23 @@
 import React from 'react';
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { getMetricReference } from '@utils/metricDistribution';
+import { useRequest } from '@hooks/useRequest';
+import { DistributionLevel, ReleaseDashboardRepository } from '@customTypes/product';
 import DistributionDashboard from '../DistributionDashboard';
-import { useDistributionDashboard } from '../useDistributionDashboard';
-import { action, commentsReference, files, front, releases, service, summary, withFiles } from './fixtures';
+import { action, catalog, distribution, entity, front, releaseRepositories, releases, service, tree } from './fixtures';
 
-type ChartOption = { series: { data: unknown; markLine?: { data: unknown } }[] };
+type ChartOption = { xAxis: unknown; series: { data: unknown }[] };
+type Params = { release_id?: number; repository_id?: number; level?: DistributionLevel; key?: string };
+type Request = { url: string; params?: Params } | null;
+type Response = { data?: unknown; error?: Error };
 
 const push = jest.fn();
+const mutate = jest.fn();
 
 jest.mock('next/router', () => ({ useRouter: () => ({ query: { product: '1-2-Produto' }, push }) }));
 jest.mock('@components/Layout', () => ({ __esModule: true, default: (page: React.ReactNode) => page }));
 jest.mock('@hooks/useRequireAuth', () => ({ __esModule: true, default: jest.fn() }));
+jest.mock('@hooks/useRequest', () => ({ useRequest: jest.fn() }));
 jest.mock('@hooks/useProviderTerms', () => ({
   useProviderTerms: () => ({
     terms: {
@@ -23,308 +28,224 @@ jest.mock('@hooks/useProviderTerms', () => ({
     }
   })
 }));
-jest.mock('../useDistributionDashboard', () => ({ useDistributionDashboard: jest.fn() }));
-// o ECharts não roda no jsdom: o mock mostra os dados e as linhas de referência que o gráfico receberia
+// o ECharts não roda no jsdom: o mock mostra o eixo e os dados que o gráfico receberia
 jest.mock('next/dynamic', () => () => ({ option }: { option: ChartOption }) => (
-  <div data-testid="echarts">{JSON.stringify(option.series.map((series) => [series.data, series.markLine?.data]))}</div>
+  <div data-testid="echarts">{JSON.stringify({ xAxis: option.xAxis, data: option.series[0].data })}</div>
 ));
 
-const setReleaseId = jest.fn();
-const setRepositoryId = jest.fn();
-const setMetric = jest.fn();
-const setView = jest.fn();
-const retryReleases = jest.fn();
-const retryRepositories = jest.fn();
-const retryDetail = jest.fn();
-const retryComparison = jest.fn();
-
-function dashboard(overrides = {}) {
+/** Uma métrica do GitHub (INT) no nível métrica; os outros níveis vão de 0 a 1. */
+function answer(params: Params): Response {
+  const { level = 'tsqmi', key = 'tsqmi' } = params;
+  const main =
+    level === 'metric'
+      ? entity(key, key, 'metric', [42, 44, 47, 55, 63], 'INT')
+      : entity(key, key === 'tsqmi' ? 'TSQMI' : key, level);
   return {
-    releases,
-    release: releases[1],
-    currentRelease: releases[1],
-    setReleaseId,
-    metric: 'complexity',
-    setMetric,
-    view: 'single',
-    setView,
-    repositories: [action, front, service],
-    repositoryOptions: [action, front, service],
-    repository: service,
-    setRepositoryId,
-    reference: null,
-    isLoadingReleases: false,
-    releasesError: undefined,
-    hasReleases: true,
-    isLoadingRepositories: false,
-    repositoriesError: undefined,
-    detail: withFiles(service),
-    isLoadingDetail: false,
-    detailError: undefined,
-    comparison: undefined,
-    isLoadingComparison: false,
-    comparisonError: undefined,
-    retryReleases,
-    retryRepositories,
-    retryDetail,
-    retryComparison,
-    ...overrides
+    data: distribution({ releaseId: params.release_id, repositoryId: params.repository_id, level, key, main })
   };
 }
 
-function card(name: string) {
-  return screen.getByRole('region', { name });
+function mockRequests({
+  releasesData = { results: releases },
+  repositories = [action, service, front],
+  respond = answer
+}: {
+  releasesData?: unknown;
+  repositories?: ReleaseDashboardRepository[];
+  respond?: typeof answer;
+} = {}) {
+  (useRequest as jest.Mock).mockImplementation((request: Request) => {
+    const result = (response: Response) => ({ isLoading: false, mutate, ...response });
+    if (!request) return result({});
+    const { url, params = {} } = request;
+    if (url.endsWith('/release/')) return result({ data: releasesData });
+    if (url.includes('release-dashboard/characteristics')) {
+      return result({ data: releaseRepositories(repositories, params.release_id) });
+    }
+    if (url.includes('quality-model-tree')) return result({ data: tree });
+    if (url.includes('entity-analysis/entities')) return result({ data: catalog });
+    return result(respond(params));
+  });
+}
+
+function choose(label: string, option: string) {
+  fireEvent.mouseDown(screen.getByRole('combobox', { name: label }));
+  fireEvent.click(within(screen.getByRole('listbox')).getByRole('option', { name: option }));
+}
+
+function optionsOf(label: string) {
+  fireEvent.mouseDown(screen.getByRole('combobox', { name: label }));
+  const names = within(screen.getByRole('listbox'))
+    .getAllByRole('option')
+    .map((option) => option.textContent);
+  fireEvent.keyDown(screen.getByRole('listbox'), { key: 'Escape' });
+  return names;
 }
 
 describe('<DistributionDashboard />', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    (useDistributionDashboard as jest.Mock).mockReturnValue(dashboard());
+    mockRequests();
   });
 
-  it('busca os dados do produto da URL', () => {
+  it('mostra o título, a frase com a entidade e a linha da release (CA1 e CA3)', () => {
     render(<DistributionDashboard />);
 
-    expect(useDistributionDashboard).toHaveBeenCalledWith('1', '2');
-    expect(screen.getByRole('heading', { name: '5. Distribuição das Métricas' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: '5. Distribuição Estatística' })).toBeInTheDocument();
+    expect(screen.getByTestId('distribution-subtitle')).toHaveTextContent(
+      'Como os valores de TSQMI se espalham entre as suas análises'
+    );
+    expect(screen.getByTestId('distribution-period')).toHaveTextContent(
+      'Release R2 · repositório MeasureSoftGram-Service · 6 análises no período (17 ago a 22 ago)'
+    );
   });
 
-  it('desenha o histograma e o boxplot do repositório, com os outliers (CA3, CA5)', () => {
+  it('abre na release atual e no primeiro repositório com análise, sem a opção "Todos" (CA2)', () => {
     render(<DistributionDashboard />);
 
-    const chart = within(card('Distribuição de complexity entre os arquivos · service')).getByTestId('echarts');
-    expect(chart).toHaveTextContent('[[1,3,5,7,8]]');
-    expect(chart).toHaveTextContent('[[30,0]]');
-    expect(screen.getByText('Passe o mouse sobre um ponto laranja (outlier) para ver o arquivo.')).toBeInTheDocument();
-  });
-
-  it('mostra o resumo com os arquivos excluídos (CA3, CA7)', () => {
-    render(<DistributionDashboard />);
-
-    const rows = within(card('Resumo'))
-      .getAllByTestId('summary-row')
-      .map((row) => row.textContent);
-    expect(rows).toEqual([
-      'Arquivos analisados9',
-      'Mínimo1',
-      '1º quartil3',
-      'Mediana5',
-      '3º quartil7',
-      'Máximo30',
-      'Média7,3',
-      'Desvio padrão8,3',
-      'Outliers1'
+    expect(screen.getByRole('combobox', { name: 'Release' })).toHaveTextContent('R2 (atual)');
+    expect(screen.getByRole('combobox', { name: 'Repositório' })).toHaveTextContent('MeasureSoftGram-Service');
+    expect(optionsOf('Repositório')).toEqual([
+      'MeasureSoftGram-Action (sem análise na release)',
+      'MeasureSoftGram-Service',
+      'MeasureSoftGram-Front'
     ]);
-    expect(within(card('Resumo')).getByText('2 arquivos excluídos')).toBeInTheDocument();
   });
 
-  it('leva as linhas de referência ao gráfico quando a medida usa a métrica (CA4)', () => {
-    (useDistributionDashboard as jest.Mock).mockReturnValue(
-      dashboard({
-        metric: 'comment_lines_density',
-        reference: getMetricReference('comment_lines_density', commentsReference)
-      })
-    );
+  it('tem os cinco níveis e nenhum seletor de entidade no TSQMI', () => {
     render(<DistributionDashboard />);
 
-    const chart = within(card('Distribuição de comment_lines_density entre os arquivos · service')).getByTestId(
-      'echarts'
-    );
-    expect(chart).toHaveTextContent('Mín. de referência = 10%');
-    expect(chart).toHaveTextContent('medida: Densidade de arquivos comentados');
-  });
-
-  it('abre na release atual e troca de release (CA2)', () => {
-    render(<DistributionDashboard />);
-
-    fireEvent.mouseDown(screen.getByRole('combobox', { name: 'Release' }));
-    expect(screen.getByRole('option', { name: '2026.2 R2 (atual)' })).toHaveAttribute('aria-selected', 'true');
-    fireEvent.click(screen.getByRole('option', { name: '2026.2 R1' }));
-
-    expect(setReleaseId).toHaveBeenCalledWith(1);
-  });
-
-  it('troca de repositório pelo seletor (CA2)', () => {
-    render(<DistributionDashboard />);
-
-    fireEvent.mouseDown(screen.getByRole('combobox', { name: 'Repositório' }));
-    fireEvent.click(screen.getByRole('option', { name: 'front' }));
-
-    expect(setRepositoryId).toHaveBeenCalledWith(9);
-    expect(setView).toHaveBeenCalledWith('single');
-  });
-
-  it('abre a comparação pela opção Todos do seletor (CA6)', () => {
-    render(<DistributionDashboard />);
-
-    fireEvent.mouseDown(screen.getByRole('combobox', { name: 'Repositório' }));
-    fireEvent.click(screen.getByRole('option', { name: 'Todos (3)' }));
-
-    expect(setView).toHaveBeenCalledWith('comparison');
-    expect(setRepositoryId).not.toHaveBeenCalled();
-  });
-
-  it('lista só as métricas coletadas por arquivo e troca de métrica (CA2)', () => {
-    render(<DistributionDashboard />);
-
-    fireEvent.mouseDown(screen.getByRole('combobox', { name: 'Métrica (coletada por arquivo)' }));
-    const options = within(screen.getByRole('listbox'))
-      .getAllByRole('option')
-      .map((option) => option.textContent);
-    expect(options).toEqual([
-      'complexity',
-      'functions',
-      'coverage',
-      'comment_lines_density',
-      'duplicated_lines_density',
-      'sqale_debt_ratio'
+    const levels = within(screen.getByRole('group', { name: 'Nível do modelo' })).getAllByRole('button');
+    expect(levels.map((button) => button.textContent)).toEqual([
+      'TSQMI',
+      'Característica',
+      'Subcaracterística',
+      'Medida',
+      'Métrica'
     ]);
-    fireEvent.click(screen.getByRole('option', { name: 'coverage' }));
-
-    expect(setMetric).toHaveBeenCalledWith('coverage');
+    expect(screen.getByRole('button', { name: 'TSQMI' })).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.queryByTestId('entity-selectors')).not.toBeInTheDocument();
   });
 
-  it('alterna para a comparação entre repositórios (CA6)', () => {
+  it('mostra um seletor por nível até o escolhido, cada um filtrado pelo de cima', () => {
     render(<DistributionDashboard />);
 
-    fireEvent.click(screen.getByRole('button', { name: 'Comparar repositórios' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Medida' }));
 
-    expect(setView).toHaveBeenCalledWith('comparison');
+    expect(screen.getByRole('combobox', { name: 'Característica' })).toHaveTextContent('Reliability');
+    expect(screen.getByRole('combobox', { name: 'Subcaracterística' })).toHaveTextContent('Testing Status');
+    expect(screen.getByRole('combobox', { name: 'Medida' })).toHaveTextContent('Passed Tests');
+    expect(optionsOf('Medida')).toEqual(['Passed Tests', 'CI Feedback Time']);
+    expect(screen.getByTestId('distribution-subtitle')).toHaveTextContent('Como os valores de Passed Tests');
   });
 
-  it('mostra um boxplot por repositório na comparação (CA6)', () => {
-    (useDistributionDashboard as jest.Mock).mockReturnValue(
-      dashboard({
-        view: 'comparison',
-        detail: undefined,
-        comparison: [
-          { name: 'front', summary: { ...summary, count: 5, median: 4 }, files: files.slice(0, 8) },
-          { name: 'service', summary, files }
-        ]
-      })
+  it('trocar um nível de cima limpa os de baixo e atualiza os quadros', () => {
+    render(<DistributionDashboard />);
+    fireEvent.click(screen.getByRole('button', { name: 'Medida' }));
+    choose('Medida', 'CI Feedback Time');
+
+    choose('Característica', 'Maintainability');
+
+    expect(screen.getByRole('combobox', { name: 'Subcaracterística' })).toHaveTextContent('Modifiability');
+    expect(screen.getByRole('combobox', { name: 'Medida' })).toHaveTextContent('Non Complex File Density');
+    const last = (useRequest as jest.Mock).mock.calls
+      .map(([request]: [Request]) => request)
+      .filter((request) => request?.url.includes('analysis-distribution'))
+      .pop();
+    expect(last?.params).toMatchObject({ level: 'measure', key: 'non_complex_file_density' });
+  });
+
+  it('no nível métrica, só lista os ramos com métricas que têm valor por análise', () => {
+    render(<DistributionDashboard />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Métrica' }));
+
+    expect(optionsOf('Característica')).toEqual(['Reliability', 'Functional Suitability']);
+    expect(optionsOf('Métrica')).toEqual(['sum_ci_feedback_times', 'total_builds']);
+  });
+
+  it('nos valores de 0 a 1, desenha o histograma de 0 a 1 com a régua A a E (CA4)', () => {
+    render(<DistributionDashboard />);
+
+    const histogram = screen.getByRole('region', { name: 'Histograma' });
+    const chart = JSON.parse(within(histogram).getByTestId('echarts').textContent ?? '{}');
+    expect(chart.xAxis).toMatchObject({ min: 0, max: 1, interval: 0.1 });
+    expect(chart.data).toHaveLength(10);
+    const bands = within(within(histogram).getByRole('list', { name: 'Faixas de qualidade de A a E' })).getAllByRole(
+      'listitem'
     );
-    render(<DistributionDashboard />);
-
-    const comparison = card('complexity por repositório · 2026.2 R2');
-    expect(within(comparison).getByTestId('echarts')).toHaveTextContent('[[1,3,4,7,8],[1,3,5,7,8]]');
-    expect(within(comparison).getByText('Um boxplot por repositório')).toBeInTheDocument();
-    expect(within(comparison).getByText('Sem complexity por arquivo nesta release: action.')).toBeInTheDocument();
-    expect(screen.getByRole('combobox', { name: 'Repositório' })).toHaveTextContent('Todos (3)');
-    expect(screen.getByRole('button', { name: 'Comparar repositórios' })).toHaveAttribute('aria-pressed', 'true');
+    expect(bands.map((band) => band.textContent)).toEqual([
+      'E · Muito ruim',
+      'D · Ruim',
+      'C · Bom',
+      'B · Muito bom',
+      'A · Ótimo'
+    ]);
   });
 
-  it('explica quando nenhum repositório tem a métrica na comparação (CA8)', () => {
-    const collected = { ...action, collected_at: '2026-10-14T21:03:11-03:00' };
-    (useDistributionDashboard as jest.Mock).mockReturnValue(
-      dashboard({
-        view: 'comparison',
-        detail: undefined,
-        repositories: [collected],
-        repositoryOptions: [collected],
-        repository: collected
-      })
-    );
+  it('numa métrica, o eixo segue a escala dela, sem a régua (CA4)', () => {
     render(<DistributionDashboard />);
 
-    const empty = card('complexity por repositório · 2026.2 R2');
-    expect(within(empty).getByText('Sem dados por arquivo')).toBeInTheDocument();
-    expect(within(empty).getByText('Nenhum repositório tem complexity por arquivo nesta release')).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Métrica' }));
+
+    const histogram = screen.getByRole('region', { name: 'Histograma' });
+    const chart = JSON.parse(within(histogram).getByTestId('echarts').textContent ?? '{}');
+    expect(chart.xAxis).toMatchObject({ min: 40, max: 65, interval: 5 });
+    expect(within(histogram).queryByRole('list')).not.toBeInTheDocument();
+    expect(histogram).toHaveTextContent('Quantas análises caem em cada faixa de 5 de sum_ci_feedback_times');
   });
 
-  it('mostra o erro da comparação e tenta de novo (CA8)', () => {
-    (useDistributionDashboard as jest.Mock).mockReturnValue(
-      dashboard({ view: 'comparison', detail: undefined, comparisonError: new Error('500') })
-    );
+  it('põe o histograma e o resumo nas posições da grade da referência', () => {
     render(<DistributionDashboard />);
 
-    fireEvent.click(within(card('Falha ao carregar')).getByRole('button', { name: 'Tentar novamente' }));
-
-    expect(retryComparison).toHaveBeenCalled();
+    const grid = screen.getByTestId('distribution-grid');
+    expect(within(grid).getByRole('region', { name: 'Histograma' })).toBeInTheDocument();
+    expect(within(grid).getByRole('region', { name: 'Resumo estatístico e IQR' })).toBeInTheDocument();
+    // sem cartões vazios no lugar da densidade, do boxplot e da dispersão
+    expect(within(grid).getAllByRole('region')).toHaveLength(2);
   });
 
-  it('orienta a planejar uma release quando o produto não tem nenhuma (CA8)', () => {
-    (useDistributionDashboard as jest.Mock).mockReturnValue(
-      dashboard({
-        releases: [],
-        release: undefined,
-        currentRelease: undefined,
-        hasReleases: false,
-        repositories: [],
-        repositoryOptions: [],
-        repository: undefined,
-        detail: undefined
-      })
-    );
+  it('produto sem release orienta a planejar a primeira (CA9)', () => {
+    mockRequests({ releasesData: { results: [] } });
     render(<DistributionDashboard />);
 
-    const empty = card('Produto sem release');
-    expect(within(empty).getByText('Sem release')).toBeInTheDocument();
-    expect(within(empty).getByText('Este produto ainda não tem release')).toBeInTheDocument();
-    fireEvent.click(within(empty).getByRole('button', { name: 'Planejar release' }));
-
+    expect(screen.getByText('Este produto ainda não tem release')).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Planejar release' }));
     expect(push).toHaveBeenCalledWith('/products/1-2-Produto/releases/create');
   });
 
-  it('explica quando o repositório não tem coleta por arquivo na release (CA8)', () => {
-    (useDistributionDashboard as jest.Mock).mockReturnValue(dashboard({ repository: action, detail: undefined }));
-    render(<DistributionDashboard />);
-
-    const empty = card('Distribuição de complexity entre os arquivos · action');
-    expect(within(empty).getByText('Sem dados por arquivo')).toBeInTheDocument();
-    expect(
-      within(empty).getByText('Não há métricas por arquivo do repositório action nesta release')
-    ).toBeInTheDocument();
-    expect(within(empty).getByRole('link', { name: 'Ver como configurar a coleta' })).toHaveAttribute(
-      'href',
-      'https://github.com/fga-eps-mds/MeasureSoftGram-Action'
-    );
-  });
-
-  it('aponta a métrica que faltou quando a coleta veio sem ela (CA8)', () => {
-    (useDistributionDashboard as jest.Mock).mockReturnValue(
-      dashboard({ repository: { ...action, collected_at: '2026-10-14T21:03:11-03:00' }, detail: undefined })
-    );
+  it('repositório sem análise na release orienta a configurar a coleta (CA9)', () => {
+    mockRequests({
+      respond: (params) => ({
+        data: distribution({ repositoryId: params.repository_id, main: entity('tsqmi', 'TSQMI', 'tsqmi', []) })
+      })
+    });
     render(<DistributionDashboard />);
 
     expect(
-      screen.getByText('A última coleta do repositório action não trouxe complexity por arquivo')
+      screen.getByText('O repositório MeasureSoftGram-Service não tem análises de TSQMI na release R2')
     ).toBeInTheDocument();
+    expect(screen.getByText(/roda no repositório entre 17\/08 e 16\/10, o período da release/)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Ver como configurar a coleta' })).toBeInTheDocument();
+    expect(screen.queryByTestId('distribution-period')).not.toBeInTheDocument();
   });
 
-  it('mostra o erro sem detalhes técnicos e tenta de novo (CA8)', () => {
-    (useDistributionDashboard as jest.Mock).mockReturnValue(
-      dashboard({ detail: undefined, detailError: new Error('500') })
-    );
+  it('com falha, mostra "Tentar novamente" sem detalhes técnicos (CA9)', () => {
+    mockRequests({ respond: () => ({ error: new Error('Request failed with status code 400') }) });
     render(<DistributionDashboard />);
 
-    const failure = card('Falha ao carregar');
-    expect(within(failure).getByText('Erro')).toBeInTheDocument();
-    expect(within(failure).getByText('Não foi possível carregar a distribuição')).toBeInTheDocument();
-    expect(screen.queryByText('500')).not.toBeInTheDocument();
-    fireEvent.click(within(failure).getByRole('button', { name: 'Tentar novamente' }));
-
-    expect(retryDetail).toHaveBeenCalled();
-  });
-
-  it('mostra o erro quando não consegue buscar as releases', () => {
-    (useDistributionDashboard as jest.Mock).mockReturnValue(
-      dashboard({ releasesError: new Error('500'), hasReleases: false, release: undefined })
-    );
-    render(<DistributionDashboard />);
-
-    expect(within(card('Falha ao carregar')).getByText('Não foi possível carregar a distribuição')).toBeInTheDocument();
+    expect(screen.getByText('Não foi possível carregar a distribuição')).toBeInTheDocument();
+    expect(screen.queryByText(/status code/)).not.toBeInTheDocument();
     fireEvent.click(screen.getByRole('button', { name: 'Tentar novamente' }));
-
-    expect(retryReleases).toHaveBeenCalled();
+    expect(mutate).toHaveBeenCalled();
   });
 
-  it('mostra o carregamento com o título do gráfico enquanto busca a lista da release', () => {
-    (useDistributionDashboard as jest.Mock).mockReturnValue(
-      dashboard({ isLoadingRepositories: true, detail: undefined })
-    );
+  it('enquanto carrega, mostra os esqueletos nas posições da grade', () => {
+    mockRequests({ respond: () => ({}) });
     render(<DistributionDashboard />);
 
-    expect(within(card('Distribuição de complexity entre os arquivos')).getByText('Carregando')).toBeInTheDocument();
-    expect(screen.queryByTestId('echarts')).not.toBeInTheDocument();
+    const grid = screen.getByTestId('distribution-grid');
+    expect(within(grid).getByRole('region', { name: 'Histograma' })).toHaveTextContent('Carregando');
+    expect(within(grid).getByRole('region', { name: 'Resumo estatístico e IQR' })).toHaveTextContent('Carregando');
   });
 });

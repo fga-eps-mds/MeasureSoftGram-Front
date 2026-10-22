@@ -9,7 +9,7 @@ import {
   RepositoriesLatestTsqmi,
   ReleaseGoal,
   EntityLevel,
-  FileMetricKey
+  DistributionLevel
 } from '@customTypes/product';
 import { PreConfigData, PreConfigRoot, ReleaseInfoForm } from '@customTypes/preConfig';
 
@@ -237,17 +237,23 @@ class ProductQuery {
     };
   }
 
-  getMetricDistribution(
+  getAnalysisDistribution(
     organizationId: string,
     productId: string,
-    { releaseId, metric, repositoryId }: { releaseId?: number; metric: FileMetricKey; repositoryId?: number }
+    {
+      releaseId,
+      repositoryId,
+      level,
+      key
+    }: { releaseId?: number; repositoryId?: number; level: DistributionLevel; key?: string }
   ): GetRequest {
-    if (!organizationId || !productId || !releaseId) return null;
+    // a chave só é obrigatória abaixo do TSQMI; no TSQMI ela fica fora da URL e da chave do SWR
+    const needsKey = level !== 'tsqmi';
+    if (!organizationId || !productId || !releaseId || !repositoryId || (needsKey && !key)) return null;
     return {
-      url: `/v1/organizations/${organizationId}/products/${productId}/metrics-distribution/`,
+      url: `/v1/organizations/${organizationId}/products/${productId}/analysis-distribution/`,
       method: 'get',
-      // sem repository_id (undefined some da URL e da chave do SWR) o Service devolve só o resumo de cada repositório
-      params: { release_id: releaseId, metric, repository_id: repositoryId }
+      params: { release_id: releaseId, repository_id: repositoryId, level, key: needsKey ? key : undefined }
     };
   }
 

@@ -190,7 +190,7 @@ describe('<EntityAnalysisDashboard />', () => {
 
     expect(screen.queryByRole('progressbar')).toBeNull();
     expect(screen.getByText(/Nenhuma métrica da release v1.0 tem valor por repositório/)).toBeTruthy();
-    expect(screen.getByText(/5. Distribuição das Métricas/)).toBeTruthy();
+    expect(screen.getByText(/As métricas do SonarQube são gravadas por arquivo/)).toBeTruthy();
   });
 
   it('explica quando a configuração não tem entidades no nível', () => {

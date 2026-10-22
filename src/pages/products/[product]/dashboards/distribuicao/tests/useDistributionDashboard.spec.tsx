@@ -1,52 +1,69 @@
 import { act, renderHook } from '@testing-library/react';
 import { useRequest } from '@hooks/useRequest';
-import { useRequests } from '@hooks/useRequests';
-import { FileMetricKey, MetricDistributionRepository } from '@customTypes/product';
+import { DistributionLevel, ReleaseDashboardRepository } from '@customTypes/product';
 import { useDistributionDashboard } from '../useDistributionDashboard';
-import { action, commentsReference, distribution, front, releases, service, withFiles } from './fixtures';
+import { action, catalog, distribution, entity, front, releaseRepositories, releases, service, tree } from './fixtures';
 
 jest.mock('@hooks/useRequest', () => ({ useRequest: jest.fn() }));
-jest.mock('@hooks/useRequests', () => ({ useRequests: jest.fn() }));
 
-type Params = { release_id?: number; metric?: FileMetricKey; repository_id?: number };
+type Params = { release_id?: number; repository_id?: number; level?: DistributionLevel; key?: string };
 type Request = { url: string; params?: Params } | null;
+type Response = { data?: unknown; isLoading?: boolean; error?: Error };
 
 const mutate = jest.fn();
-const byId: Record<number, MetricDistributionRepository> = { 7: service, 9: front, 11: action };
-const nonComplexReference = { measure: 'non_complex_file_density', min_threshold: 0, max_threshold: 10 };
 
-/** Responde como o Service. Com stale, a lista ainda é a da complexidade, como no keepPreviousData do SWR. */
-function mockRequests({
-  releasesData = { results: releases },
-  error,
-  stale = false
-}: { releasesData?: unknown; error?: Error; stale?: boolean } = {}) {
-  (useRequest as jest.Mock).mockImplementation((request: Request) => {
-    if (!request) return { data: undefined, isLoading: false, mutate };
-    if (request.url.endsWith('/release/')) return { data: releasesData, isLoading: false, mutate };
-
-    const { metric = 'complexity', release_id: releaseId = 2, repository_id: repositoryId } = request.params ?? {};
-    if (repositoryId) {
-      const data = distribution([withFiles(byId[repositoryId])], null, metric, releaseId);
-      return { data, isLoading: false, error, mutate };
-    }
-    // o Service devolve a faixa de non_complex_file_density também para a complexidade
-    const reference = metric === 'comment_lines_density' ? commentsReference : nonComplexReference;
-    const data = distribution([action, front, service], reference, stale ? 'complexity' : metric, releaseId);
-    return { data, isLoading: false, error, mutate };
-  });
-  (useRequests as jest.Mock).mockImplementation((requests: Request[]) => ({
-    data: requests.length
-      ? requests.map((request) => distribution([withFiles(byId[request?.params?.repository_id ?? 0])]))
-      : undefined,
-    isLoading: false,
-    error: undefined,
-    mutate
-  }));
+function respondWithDistribution(params: Params): Response {
+  return {
+    data: distribution({
+      releaseId: params.release_id,
+      repositoryId: params.repository_id,
+      level: params.level,
+      key: params.key ?? 'tsqmi'
+    })
+  };
 }
 
-function requests() {
-  return (useRequest as jest.Mock).mock.calls.map(([request]: [Request]) => request).filter(Boolean);
+interface Scenario {
+  releasesData?: unknown;
+  repositories?: ReleaseDashboardRepository[];
+  metrics?: typeof catalog;
+  /** Resposta do analysis-distribution para os parâmetros pedidos. */
+  answer?: typeof respondWithDistribution;
+  /** Resposta fixa (como a do keepPreviousData), em vez de uma por parâmetro. */
+  stale?: Response;
+}
+
+/** Responde como o Service, pela URL do pedido. */
+function mockRequests({
+  releasesData = { results: releases },
+  repositories = [action, service, front],
+  metrics = catalog,
+  answer = respondWithDistribution,
+  stale
+}: Scenario = {}) {
+  (useRequest as jest.Mock).mockImplementation((request: Request) => {
+    const respond = (response: Response) => ({ isLoading: false, mutate, ...response });
+    if (!request) return respond(stale ?? {});
+    const { url, params = {} } = request;
+    if (url.endsWith('/release/')) return respond({ data: releasesData });
+    if (url.includes('release-dashboard/characteristics')) {
+      return respond({ data: releaseRepositories(repositories, params.release_id) });
+    }
+    if (url.includes('quality-model-tree')) return respond({ data: tree });
+    if (url.includes('entity-analysis/entities')) return respond({ data: metrics });
+    return respond(stale ?? answer(params));
+  });
+}
+
+function distributionRequests() {
+  return (useRequest as jest.Mock).mock.calls
+    .filter(([request]: [Request]) => request?.url.includes('analysis-distribution'))
+    .map(([request, config]: [Request, unknown]) => ({ params: request?.params, config }));
+}
+
+function lastDistributionParams() {
+  const calls = distributionRequests();
+  return calls[calls.length - 1]?.params;
 }
 
 describe('useDistributionDashboard', () => {
@@ -55,178 +72,162 @@ describe('useDistributionDashboard', () => {
     mockRequests();
   });
 
-  it('abre na release atual e na complexidade, com os repositórios da release', () => {
+  it('abre na release atual, no TSQMI e no primeiro repositório da release com análise', () => {
     const { result } = renderHook(() => useDistributionDashboard('1', '2'));
 
     expect(result.current.release?.id).toBe(2);
-    expect(result.current.metric).toBe('complexity');
-    expect(result.current.view).toBe('single');
-    expect(result.current.repositories.map((item) => item.repository_name)).toEqual(['action', 'front', 'service']);
-    expect(result.current.repositoryOptions).toHaveLength(3);
-    expect(requests()).toContainEqual({
-      url: '/v1/organizations/1/products/2/metrics-distribution/',
-      method: 'get',
-      params: { release_id: 2, metric: 'complexity' }
+    expect(result.current.level).toBe('tsqmi');
+    expect(result.current.repositories.map((item) => item.id)).toEqual([11, 7, 9]);
+    // o Action vem antes, mas não tem análise na release
+    expect(result.current.repository?.id).toBe(7);
+    expect(result.current.selectors).toEqual([]);
+    expect(lastDistributionParams()).toEqual({ release_id: 2, repository_id: 7, level: 'tsqmi', key: undefined });
+  });
+
+  it('sem nenhum repositório com análise, abre no primeiro da lista', () => {
+    mockRequests({ repositories: [action, { ...front, tsqmi: { value: null, created_at: null } }] });
+    const { result } = renderHook(() => useDistributionDashboard('1', '2'));
+
+    expect(result.current.repository?.id).toBe(11);
+  });
+
+  it('expõe a entidade, os filhos e o período da resposta, para os outros quadros da página', () => {
+    const { result } = renderHook(() => useDistributionDashboard('1', '2'));
+
+    expect(result.current.status).toBe('ready');
+    expect(result.current.entity?.key).toBe('tsqmi');
+    expect(result.current.children?.map((child) => child.key)).toEqual(['reliability']);
+    expect(result.current.period).toEqual({
+      count: 6,
+      first: '2026-08-17T10:00:00-03:00',
+      last: '2026-08-22T10:00:00-03:00'
+    });
+    expect(result.current.distribution?.repository).toEqual({ id: 7, name: 'MeasureSoftGram-Service' });
+  });
+
+  it('mantém a resposta anterior ao trocar a seleção, sem piscar', () => {
+    const { result } = renderHook(() => useDistributionDashboard('1', '2'));
+
+    act(() => result.current.setRepositoryId(9));
+
+    expect(lastDistributionParams()).toMatchObject({ repository_id: 9 });
+    distributionRequests().forEach(({ config }) => expect(config).toEqual({ keepPreviousData: true }));
+  });
+
+  it('marca como atualizando enquanto a resposta ainda é a da seleção anterior', () => {
+    mockRequests({ stale: { data: distribution({ repositoryId: 7 }) } });
+    const { result } = renderHook(() => useDistributionDashboard('1', '2'));
+
+    act(() => result.current.setRepositoryId(9));
+
+    expect(result.current.status).toBe('ready');
+    expect(result.current.isUpdating).toBe(true);
+    expect(result.current.entity?.key).toBe('tsqmi');
+  });
+
+  it('abaixo do TSQMI, pede a entidade em vigor no último seletor', () => {
+    const { result } = renderHook(() => useDistributionDashboard('1', '2'));
+
+    act(() => result.current.setLevel('subcharacteristic'));
+
+    expect(result.current.selectors.map((selector) => [selector.level, selector.value])).toEqual([
+      ['characteristic', 'reliability'],
+      ['subcharacteristic', 'testing_status']
+    ]);
+    expect(result.current.selectedEntity).toEqual({ key: 'testing_status', name: 'Testing Status' });
+    expect(lastDistributionParams()).toEqual({
+      release_id: 2,
+      repository_id: 7,
+      level: 'subcharacteristic',
+      key: 'testing_status'
     });
   });
 
-  it('abre no primeiro repositório com dados por arquivo e busca os arquivos dele', () => {
+  it('no nível métrica, só oferece as métricas com valor por análise e limpa os níveis de baixo', () => {
     const { result } = renderHook(() => useDistributionDashboard('1', '2'));
 
-    expect(result.current.repository?.repository_name).toBe('front');
-    expect(result.current.detail?.files).toHaveLength(9);
-    expect(requests()).toContainEqual(
-      expect.objectContaining({ params: { release_id: 2, metric: 'complexity', repository_id: 9 } })
-    );
+    act(() => result.current.setLevel('metric'));
+    expect(result.current.selectors.map((selector) => selector.options.map((option) => option.key))).toEqual([
+      ['reliability', 'functional_suitability'],
+      ['testing_status'],
+      ['ci_feedback_time'],
+      ['sum_ci_feedback_times', 'total_builds']
+    ]);
+
+    act(() => result.current.setEntity('metric', 'total_builds'));
+    expect(lastDistributionParams()).toMatchObject({ level: 'metric', key: 'total_builds' });
+
+    act(() => result.current.setEntity('characteristic', 'functional_suitability'));
+    expect(result.current.selectors.map((selector) => selector.value)).toEqual([
+      'functional_suitability',
+      'functional_completeness',
+      'team_throughput',
+      'resolved_issues'
+    ]);
+    expect(lastDistributionParams()).toMatchObject({ level: 'metric', key: 'resolved_issues' });
   });
 
-  it('troca de repositório', () => {
+  it('sem métricas com valor por análise, avisa que o nível não tem entidade e não pede nada', () => {
+    mockRequests({ metrics: { ...catalog, metric: [] } });
     const { result } = renderHook(() => useDistributionDashboard('1', '2'));
 
-    act(() => result.current.setRepositoryId(7));
+    act(() => result.current.setLevel('metric'));
 
-    expect(result.current.repository?.repository_name).toBe('service');
-    expect(result.current.detail?.repository_name).toBe('service');
+    expect(result.current.status).toBe('noEntities');
+    expect(lastDistributionParams()).toMatchObject({ level: 'tsqmi' });
   });
 
-  it('não busca arquivos de um repositório sem dados por arquivo', () => {
+  it('produto sem release', () => {
+    mockRequests({ releasesData: { results: [] } });
     const { result } = renderHook(() => useDistributionDashboard('1', '2'));
 
-    act(() => result.current.setRepositoryId(11));
-
-    expect(result.current.repository?.repository_name).toBe('action');
-    expect(result.current.detail).toBeUndefined();
+    expect(result.current.status).toBe('noRelease');
   });
 
-  it('na comparação, busca os arquivos de cada repositório com dados (CA6)', () => {
+  it('release sem repositório', () => {
+    mockRequests({ repositories: [] });
     const { result } = renderHook(() => useDistributionDashboard('1', '2'));
 
-    act(() => result.current.setView('comparison'));
-
-    const [compared] = (useRequests as jest.Mock).mock.calls.at(-1);
-    expect(compared.map((request: Request) => request?.params?.repository_id)).toEqual([9, 7]);
-    expect(result.current.comparison?.map((item) => item.name)).toEqual(['front', 'service']);
-    expect(result.current.detail).toBeUndefined();
+    expect(result.current.status).toBe('noRepository');
+    expect(distributionRequests()).toEqual([]);
   });
 
-  it('só traz a faixa de referência quando a medida usa a métrica (CA4)', () => {
+  it('repositório sem análise na release', () => {
+    mockRequests({ answer: () => ({ data: distribution({ main: entity('tsqmi', 'TSQMI', 'tsqmi', []) }) }) });
     const { result } = renderHook(() => useDistributionDashboard('1', '2'));
 
-    expect(result.current.reference).toBeNull();
-
-    act(() => result.current.setMetric('comment_lines_density'));
-
-    expect(result.current.reference).toEqual({ ...commentsReference, measureName: 'Densidade de arquivos comentados' });
+    expect(result.current.status).toBe('noAnalyses');
   });
 
-  it('troca de release', () => {
+  it('com falha, mostra o erro e tenta todos os pedidos de novo', () => {
+    mockRequests({ answer: () => ({ error: new Error('400') }) });
     const { result } = renderHook(() => useDistributionDashboard('1', '2'));
 
-    act(() => result.current.setReleaseId(1));
-
-    expect(result.current.release?.id).toBe(1);
-    expect(requests()).toContainEqual(expect.objectContaining({ params: { release_id: 1, metric: 'complexity' } }));
+    expect(result.current.status).toBe('error');
+    act(() => result.current.retry());
+    expect(mutate).toHaveBeenCalledTimes(5);
   });
 
-  it('mantém as opções do seletor enquanto a lista da nova métrica carrega', () => {
+  it('ignora a resposta guardada de uma release de outro produto', () => {
+    mockRequests({ stale: { data: distribution({ releaseId: 99 }) } });
     const { result } = renderHook(() => useDistributionDashboard('1', '2'));
 
-    mockRequests({ stale: true });
-    act(() => result.current.setMetric('coverage'));
-
-    expect(result.current.isLoadingRepositories).toBe(true);
-    expect(result.current.repositoryOptions).toHaveLength(3);
-    expect(result.current.repositories).toEqual([]);
-    expect(result.current.reference).toBeNull();
-    expect(result.current.detail).toBeUndefined();
-    expect(useRequest).toHaveBeenCalledWith(
-      expect.objectContaining({ params: { release_id: 2, metric: 'coverage' } }),
-      { keepPreviousData: true }
-    );
+    expect(result.current.distribution).toBeUndefined();
+    expect(result.current.status).toBe('loading');
   });
 
-  it('ao trocar de produto, volta às escolhas padrão e não mostra a lista do produto anterior', () => {
+  it('volta às escolhas padrão quando o produto da URL muda', () => {
     const { result, rerender } = renderHook(({ productId }) => useDistributionDashboard('1', productId), {
       initialProps: { productId: '2' }
     });
-    act(() => result.current.setMetric('coverage'));
-    act(() => result.current.setView('comparison'));
 
-    // o produto 3 não tem release, e o keepPreviousData do SWR ainda devolve a lista do produto 2
-    const previous = distribution([action, front, service], null, 'coverage');
-    (useRequest as jest.Mock).mockImplementation((request: Request, config?: { keepPreviousData?: boolean }) => {
-      if (request?.url.endsWith('/release/')) return { data: { results: [] }, isLoading: false, mutate };
-      return { data: config?.keepPreviousData ? previous : undefined, isLoading: false, mutate };
+    act(() => {
+      result.current.setRepositoryId(9);
+      result.current.setLevel('measure');
     });
     rerender({ productId: '3' });
 
-    expect(result.current.metric).toBe('complexity');
-    expect(result.current.view).toBe('single');
-    expect(result.current.repositoryOptions).toEqual([]);
-    expect(result.current.repository).toBeUndefined();
-  });
-
-  it('sem os ids da URL, continua carregando e não busca nada', () => {
-    const { result } = renderHook(() => useDistributionDashboard('', ''));
-
-    expect(result.current.isLoadingReleases).toBe(true);
-    expect(result.current.hasReleases).toBe(false);
-    expect(requests()).toEqual([]);
-  });
-
-  it('produto sem releases não tem release escolhida', () => {
-    mockRequests({ releasesData: { results: [] } });
-
-    const { result } = renderHook(() => useDistributionDashboard('1', '2'));
-
-    expect(result.current.hasReleases).toBe(false);
-    expect(result.current.release).toBeUndefined();
-  });
-
-  it('expõe os erros e tenta de novo cada busca', () => {
-    mockRequests({ error: new Error('falhou') });
-    const mutateReleases = jest.fn();
-    const mutateRepositories = jest.fn();
-    const mutateDetail = jest.fn();
-    const mutateComparison = jest.fn();
-    const error = new Error('falhou');
-    (useRequest as jest.Mock).mockImplementation((request: Request) => {
-      if (!request) return { data: undefined, isLoading: false, mutate };
-      if (request.url.endsWith('/release/')) {
-        return { data: { results: releases }, isLoading: false, mutate: mutateReleases };
-      }
-      const { metric = 'complexity', release_id: releaseId = 2, repository_id: repositoryId } = request.params ?? {};
-      if (repositoryId) {
-        const data = distribution([withFiles(byId[repositoryId])], null, metric, releaseId);
-        return { data, isLoading: false, error, mutate: mutateDetail };
-      }
-      return {
-        data: distribution([action, front, service], null, metric, releaseId),
-        isLoading: false,
-        error,
-        mutate: mutateRepositories
-      };
-    });
-    (useRequests as jest.Mock).mockImplementation(() => ({
-      data: undefined,
-      isLoading: false,
-      error,
-      mutate: mutateComparison
-    }));
-    const { result } = renderHook(() => useDistributionDashboard('1', '2'));
-
-    expect(result.current.repositoriesError).toBeTruthy();
-    expect(result.current.detailError).toBeTruthy();
-    expect(result.current.comparisonError).toBeTruthy();
-
-    result.current.retryReleases();
-    expect(mutateReleases).toHaveBeenCalledTimes(1);
-    result.current.retryRepositories();
-    expect(mutateRepositories).toHaveBeenCalledTimes(1);
-    result.current.retryDetail();
-    expect(mutateDetail).toHaveBeenCalledTimes(1);
-    result.current.retryComparison();
-    expect(mutateComparison).toHaveBeenCalledTimes(1);
-    expect(mutate).not.toHaveBeenCalled();
+    expect(result.current.level).toBe('tsqmi');
+    expect(result.current.repository?.id).toBe(7);
   });
 });

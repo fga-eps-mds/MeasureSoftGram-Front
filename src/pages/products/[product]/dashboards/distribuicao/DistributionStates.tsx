@@ -3,15 +3,15 @@ import { Box, Button } from '@mui/material';
 import DashboardCard, { SkeletonBlock } from '@components/DashboardCard';
 import { DASHBOARD_COLORS } from '@utils/dashboardColors';
 
-/** Textos da tela 04 do protótipo. */
+/** Textos do estado de erro (CA9): sem detalhes técnicos, com "Tentar novamente". */
 export const DISTRIBUTION_ERROR_CARD_TITLE = 'Falha ao carregar';
 export const DISTRIBUTION_ERROR_TITLE = 'Não foi possível carregar a distribuição';
-export const NO_FILE_DATA_BADGE = 'Sem dados por arquivo';
 
 const COLLECTION_GUIDE_URL = 'https://github.com/fga-eps-mds/MeasureSoftGram-Action';
-const SKELETON_BAR_HEIGHTS = [170, 130, 96, 70, 52, 38, 26, 18, 12];
+const SKELETON_BAR_HEIGHTS = [26, 52, 96, 150, 170, 130, 70, 38, 18, 12];
+const SKELETON_SUMMARY_ROWS = 12;
 
-/** Guia de configuração da coleta: botão com contorno, como na tela 04; com href, o MUI desenha um link. */
+/** Guia de configuração da coleta: botão com contorno; com href, o MUI desenha um link. */
 export function CollectionGuideLink() {
   return (
     <Button
@@ -31,12 +31,23 @@ export function CollectionGuideLink() {
   );
 }
 
-/** Esqueleto do histograma enquanto os arquivos carregam. */
+/** Esqueleto do histograma enquanto as análises carregam. */
 export function ChartSkeleton() {
   return (
-    <Box display="flex" alignItems="flex-end" gap="6px" height={180} paddingX="16px">
+    <Box display="flex" alignItems="flex-end" gap="6px" height={180} paddingX="16px" overflow="hidden">
       {SKELETON_BAR_HEIGHTS.map((height) => (
-        <SkeletonBlock key={height} width={40} height={height} />
+        <SkeletonBlock key={height} width={32} height={height} />
+      ))}
+    </Box>
+  );
+}
+
+/** Esqueleto do resumo estatístico: uma linha por estatística. */
+export function SummarySkeleton() {
+  return (
+    <Box display="flex" flexDirection="column" gap="10px">
+      {Array.from({ length: SKELETON_SUMMARY_ROWS }, (_, index) => (
+        <SkeletonBlock key={index} width="100%" height={14} />
       ))}
     </Box>
   );

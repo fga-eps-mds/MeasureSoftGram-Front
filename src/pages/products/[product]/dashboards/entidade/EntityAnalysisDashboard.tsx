@@ -104,8 +104,8 @@ const EntityAnalysisDashboard: NextPageWithLayout = () => {
       if (level === 'metric') {
         return (
           <Alert severity="info">
-            Nenhuma métrica da release {releaseName} tem valor por {terms.repository}. Os valores por arquivo
-            ficam no dashboard 5. Distribuição das Métricas.
+            Nenhuma métrica da release {releaseName} tem valor por {terms.repository}. As métricas do SonarQube
+            são gravadas por arquivo e não entram nesta comparação.
           </Alert>
         );
       }

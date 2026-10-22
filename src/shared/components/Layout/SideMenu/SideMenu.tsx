@@ -106,8 +106,8 @@ function SideMenu() {
     },
     {
       startIcon: <FiBarChart fontSize={24} />,
-      text: '5. Distribuição das Métricas',
-      tooltip: 'Distribuição das Métricas',
+      text: '5. Distribuição Estatística',
+      tooltip: 'Distribuição Estatística',
       path: `/products/${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/dashboards/distribuicao`,
       disable: !currentProduct,
       selected: router.pathname === '/products/[product]/dashboards/distribuicao',

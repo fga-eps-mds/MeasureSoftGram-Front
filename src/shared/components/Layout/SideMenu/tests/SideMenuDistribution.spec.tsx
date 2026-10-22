@@ -35,12 +35,12 @@ jest.mock('@hooks/useProviderTranslation', () => ({
   })
 }));
 
-describe('<SideMenu /> · 5. Distribuição das Métricas (CA1)', () => {
+describe('<SideMenu /> · 5. Distribuição Estatística (CA1)', () => {
   it('mostra o item no submenu Dashboards e navega para o dashboard', () => {
     render(<SideMenu />);
 
     fireEvent.click(screen.getByText('Dashboards'));
-    fireEvent.click(screen.getByText('5. Distribuição das Métricas'));
+    fireEvent.click(screen.getByText('5. Distribuição Estatística'));
 
     expect(mockPush).toHaveBeenCalledWith('/products/1-5-MeasureSoftGram/dashboards/distribuicao');
   });

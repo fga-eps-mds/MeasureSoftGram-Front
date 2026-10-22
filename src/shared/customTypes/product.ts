@@ -325,59 +325,59 @@ export interface ReleaseDashboardCharacteristics {
   repositories: ReleaseDashboardRepository[];
 }
 
-/** Métricas do SonarQube que o Service guarda por arquivo (FILE_LEVEL_METRICS, US21.03). */
-export type FileMetricKey =
-  | 'coverage'
-  | 'complexity'
-  | 'functions'
-  | 'comment_lines_density'
-  | 'duplicated_lines_density'
-  | 'sqale_debt_ratio';
+/** Níveis do modelo na Distribuição Estatística: o TSQMI e os da Análise por Entidade. */
+export type DistributionLevel = 'tsqmi' | EntityLevel;
 
-export interface MetricDistributionFile {
-  path: string;
+/** Uma execução da coleta (Action ou CLI) no repositório, dentro da release. */
+export interface DistributionAnalysis {
+  date: string;
   value: number;
+  /** Fora dos limites Q1 − 1,5 × IQR e Q3 + 1,5 × IQR, pelo Service. */
+  is_outlier: boolean;
 }
 
-/** Resumo calculado pelo Service: quartis pelo método inclusive e desvio padrão populacional. */
-export interface MetricDistributionSummary {
+/**
+ * Resumo calculado pelo Service, sem arredondamento: quartis e percentis pelo método inclusive (QUARTIL.INC) e
+ * assimetria amostral ajustada (DISTORÇÃO). Sem análise, count e outliers vêm 0 e o resto vem null; a assimetria
+ * também vem null com menos de 3 análises ou com desvio zero.
+ */
+export interface DistributionSummary {
   count: number;
-  min: number;
-  q1: number;
-  median: number;
-  q3: number;
-  max: number;
-  mean: number;
-  std_dev: number;
+  min: number | null;
+  p10: number | null;
+  q1: number | null;
+  median: number | null;
+  q3: number | null;
+  p90: number | null;
+  max: number | null;
+  iqr: number | null;
+  lower_limit: number | null;
+  upper_limit: number | null;
+  outliers: number;
+  mean: number | null;
+  skewness: number | null;
 }
 
-export interface MetricDistributionRepository {
-  repository_id: number;
-  repository_name: string;
-  /** Última coleta na janela da release; null quando não houve coleta por arquivo. */
-  collected_at: string | null;
-  /** Arquivos com ncloc = 0, que ficam fora como no cálculo das medidas (CA7). */
-  excluded_files: number;
-  /**
-   * null em três casos: sem coleta por arquivo (collected_at null), coleta sem a métrica pedida (excluded_files 0)
-   * e todos os arquivos com ncloc = 0 (excluded_files > 0).
-   */
-  summary: MetricDistributionSummary | null;
-  /** Só vem quando o pedido traz repository_id, em ordem de caminho. */
-  files?: MetricDistributionFile[];
+export interface DistributionEntity {
+  key: string;
+  name: string;
+  level: DistributionLevel;
+  /** Só no nível métrica (INT, FLOAT, PERCENT…). */
+  metric_type: string | null;
+  /** Em ordem de data. */
+  analyses: DistributionAnalysis[];
+  summary: DistributionSummary;
 }
 
-/** Mínimo e máximo da medida que usa a métrica, na configuração da release (CA4). */
-export interface MetricDistributionReference {
-  measure: string;
-  min_threshold: number;
-  max_threshold: number;
-}
-
-/** GET products/{id}/metrics-distribution/?release_id=&metric=&repository_id= (Service, US21.03) */
-export interface MetricDistribution {
+/** GET products/{id}/analysis-distribution/?release_id=&repository_id=&level=&key= (Service, US21.03) */
+export interface AnalysisDistribution {
   release: ReleaseDashboardRelease;
-  metric: FileMetricKey;
-  reference: MetricDistributionReference | null;
-  repositories: MetricDistributionRepository[];
+  repository: { id: number; name: string };
+  level: DistributionLevel;
+  key: string;
+  /** Quantidade de análises da entidade e as datas da primeira e da última (null sem análise). */
+  period: { count: number; first: string | null; last: string | null };
+  entity: DistributionEntity;
+  /** Filhos com análise na release, na ordem da configuração; vazio no nível métrica. */
+  children: DistributionEntity[];
 }
