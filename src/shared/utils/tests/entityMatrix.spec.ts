@@ -26,6 +26,13 @@ describe('entityMatrix', () => {
       expect(formatScore(0.184)).toBe('0,18');
     });
 
+    it('corta o valor em vez de arredondar, para ele ficar no grau do valor sem arredondar', () => {
+      expect(formatScore(0.7951)).toBe('0,79');
+      expect(formatScore(0.8)).toBe('0,80');
+      expect(formatScore(0.29)).toBe('0,29');
+      expect(formatScore(1)).toBe('1,00');
+    });
+
     it('escreve a variação com sinal e "—" sem os dois valores', () => {
       expect(formatDelta(0.18, 0.47)).toBe('−0,29');
       expect(formatDelta(0.71, 0.7)).toBe('+0,01');
@@ -51,6 +58,16 @@ describe('entityMatrix', () => {
     expect(rows.map((row) => row.name)).toEqual(['Action', 'AI', 'Front', 'Service', 'CLI']);
   });
 
+  it('põe os sem TSQMI no fim mesmo quando vêm primeiro, na ordem do nome', () => {
+    const rows = sortRepositoriesByTsqmi([
+      repository(4, 'CLI', [null, null], {}),
+      repository(5, 'Action', [null, null], {}),
+      repository(1, 'Service', [0.67, 0.7], {})
+    ]);
+
+    expect(rows.map((row) => row.name)).toEqual(['Service', 'Action', 'CLI']);
+  });
+
   describe('getColumnGroups', () => {
     it('agrupa as colunas vizinhas pelas entidades de cima, uma linha por nível', () => {
       const [characteristics, subcharacteristics] = getColumnGroups(measureMatrix().columns);
@@ -66,8 +83,9 @@ describe('entityMatrix', () => {
       ]);
     });
 
-    it('não tem grupos no nível característica', () => {
+    it('não tem grupos no nível característica nem sem colunas', () => {
       expect(getColumnGroups([{ key: 'reliability', name: 'Reliability', weight: 34, path: [] }])).toEqual([]);
+      expect(getColumnGroups([])).toEqual([]);
     });
 
     it('não junta o mesmo pai quando as colunas não são vizinhas', () => {
@@ -97,6 +115,23 @@ describe('entityMatrix', () => {
     expect(getHighlightedCells(pairs).size).toBe(0);
   });
 
+  it('não destaca a piora que o quadro de contribuição não mostra, como a que arredonda para −0,000', () => {
+    const pairs = getPairs(
+      measureMatrix({
+        repositories: [
+          repository(1, 'api', [0.7, 0.6], {
+            passed_tests: [0.9, 0.8, -0.0004],
+            test_coverage: [0.5, 0.6, -0.02],
+            ci_feedback_time: [0.8, 0.7, 0.006]
+          })
+        ]
+      })
+    );
+
+    expect(getContributions(pairs).map((pair) => pair.column.key)).toEqual(['test_coverage', 'ci_feedback_time']);
+    expect(getHighlightedCells(pairs)).toEqual(new Set([cellId(1, 'test_coverage')]));
+  });
+
   it('lista as contribuições da maior piora para a maior melhora, sem as que não mudaram o indicador', () => {
     const contributions = getContributions(getPairs(measureMatrix()));
 
@@ -118,6 +153,27 @@ describe('entityMatrix', () => {
     const contributions = getContributions(getPairs(measureMatrix()), 3);
 
     expect(contributions.map((pair) => pair.contribution)).toEqual([-0.021, -0.017, -0.012]);
+  });
+
+  it('ignora a célula de uma entidade que não está nas colunas', () => {
+    const matrix = measureMatrix({ repositories: [repository(1, 'api', [0.7, null], { unknown: [0.1, null, null] })] });
+
+    expect(getPairs(matrix)).toEqual([]);
+  });
+
+  it('desempata o ranking pelo repositório e depois pela entidade', () => {
+    const matrix = measureMatrix({
+      repositories: [
+        repository(2, 'B', [0.5, null], { test_coverage: [0.3, null, null], passed_tests: [0.3, null, null] }),
+        repository(1, 'A', [0.5, null], { test_coverage: [0.3, null, null] })
+      ]
+    });
+
+    expect(getWorstPairs(getPairs(matrix)).map((pair) => `${pair.repository.name} · ${pair.column.key}`)).toEqual([
+      'A · test_coverage',
+      'B · passed_tests',
+      'B · test_coverage'
+    ]);
   });
 
   it('ranqueia os pares com valor do menor para o maior', () => {

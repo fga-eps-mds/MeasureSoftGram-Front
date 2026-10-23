@@ -4,6 +4,7 @@ import { DASHBOARD_COLORS } from '@utils/dashboardColors';
 import { formatDelta, formatScore, MatrixPair } from '@utils/entityMatrix';
 import { getQualityBand } from '@utils/qualityBands';
 import { IMPROVEMENT_COLOR, WORSENING_COLOR } from './ContributionChart';
+import { EntityKey } from './EntityHeatmap';
 
 const MONOSPACE = 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
 
@@ -47,9 +48,9 @@ export default function WorstPairsRanking({ pairs }: { pairs: MatrixPair[] }) {
                     fontSize="12px"
                     fontFamily={MONOSPACE}
                     color={DASHBOARD_COLORS.mutedText}
-                    sx={{ wordBreak: 'break-all' }}
+                    sx={{ overflowWrap: 'anywhere' }}
                   >
-                    {pair.column.key}
+                    <EntityKey value={pair.column.key} />
                   </Typography>
                 </TableCell>
                 <TableCell align="right">

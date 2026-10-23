@@ -40,7 +40,6 @@ const TITLE = '4. Análise por Entidade';
 const CARD_TITLE = 'Análise por Entidade';
 export const CONTRIBUTION_TITLE = 'O que puxa a qualidade total para baixo';
 export const RANKING_TITLE = 'Ranking dos piores pares';
-const MONOSPACE = 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
 
 const levelNoun = (level: EntityMatrixLevel) => LEVEL_LABELS[level].toLowerCase();
 
@@ -48,14 +47,6 @@ const levelNoun = (level: EntityMatrixLevel) => LEVEL_LABELS[level].toLowerCase(
 function formatReleaseDay(date: Date | string): string {
   const [, month, day] = toLocalDay(date).split('-');
   return `${day}/${month}`;
-}
-
-function Code({ children }: { children: React.ReactNode }) {
-  return (
-    <Box component="code" sx={{ fontFamily: MONOSPACE, fontSize: '13px' }}>
-      {children}
-    </Box>
-  );
 }
 
 function HeatmapSkeleton() {
@@ -81,14 +72,13 @@ function Reading({ matrix }: { matrix: EntityMatrix }) {
       sx={{ backgroundColor: '#F3F4F6', borderRadius: '6px', padding: '10px 14px', fontSize: '14px' }}
     >
       <Typography component="p" fontSize="14px" color={DASHBOARD_COLORS.text}>
-        <strong>Leitura:</strong> <Code>{weakest.column.key}</Code> é a {noun} mais fraca do produto (média{' '}
+        <strong>Leitura:</strong> {weakest.column.name} é a {noun} mais fraca do produto (média{' '}
         {formatScore(weakest.mean)}).
         {widest && (
           <>
             {' '}
-            <Code>{widest.column.key}</Code> tem a maior dispersão entre os repositórios: de{' '}
-            {formatScore(widest.lowest.value)} ({widest.lowest.repository}) a {formatScore(widest.highest.value)} (
-            {widest.highest.repository}).
+            {widest.column.name} tem a maior dispersão entre os repositórios: de {formatScore(widest.lowest.value)} (
+            {widest.lowest.repository}) a {formatScore(widest.highest.value)} ({widest.highest.repository}).
           </>
         )}
       </Typography>

@@ -26,6 +26,37 @@ const MONOSPACE = 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
 /** O texto escuro some no vermelho da faixa E. */
 const textColor = (band: QualityBand) => (band.grade === 'E' ? '#FFFFFF' : DASHBOARD_COLORS.text);
 
+/** Chave da entidade que quebra depois de um "_" ("commented_file_ / density"), e não no meio da palavra. */
+export function EntityKey({ value }: { value: string }) {
+  const parts = value.split('_');
+  // o prefixo até cada parte identifica a posição dela, mesmo com partes repetidas ("a_b_a")
+  const segments = parts.map((part, index) => ({ part, prefix: parts.slice(0, index + 1).join('_') }));
+  return (
+    <>
+      {segments.map(({ part, prefix }) => (
+        <React.Fragment key={prefix}>
+          {part}
+          {prefix !== value && (
+            <>
+              _<wbr />
+            </>
+          )}
+        </React.Fragment>
+      ))}
+    </>
+  );
+}
+
+/** Peso do cabeçalho colado ao nome, com espaços não separáveis: o "·" não fica sozinho no fim da linha. */
+function Weight({ weight, fontWeight }: { weight: number | null; fontWeight?: string }) {
+  if (weight === null) return null;
+  return (
+    <Typography component="span" fontSize="12px" fontWeight={fontWeight} color={DASHBOARD_COLORS.mutedText}>
+      {`\u00A0·\u00A0${weight}%`}
+    </Typography>
+  );
+}
+
 const headerCellSx = {
   backgroundColor: '#ECEEF1',
   borderRadius: '4px',
@@ -177,12 +208,7 @@ export default function EntityHeatmap({ matrix, highlighted, onSelectCell }: Pro
                   sx={headerCellSx}
                 >
                   {group.name}
-                  {group.weight !== null && (
-                    <Typography component="span" fontSize="12px" color={DASHBOARD_COLORS.mutedText}>
-                      {' '}
-                      · {group.weight}%
-                    </Typography>
-                  )}
+                  <Weight weight={group.weight} />
                 </Box>
               ))}
               <th aria-hidden />
@@ -201,20 +227,16 @@ export default function EntityHeatmap({ matrix, highlighted, onSelectCell }: Pro
               >
                 <Typography fontSize="12px" fontWeight="bold" color={DASHBOARD_COLORS.text}>
                   {column.name}
-                  {column.weight !== null && (
-                    <Typography component="span" fontSize="12px" fontWeight="normal" color={DASHBOARD_COLORS.mutedText}>
-                      {' '}
-                      · {column.weight}%
-                    </Typography>
-                  )}
+                  <Weight weight={column.weight} fontWeight="normal" />
                 </Typography>
                 <Typography
                   fontSize="11px"
                   fontFamily={MONOSPACE}
                   color={DASHBOARD_COLORS.mutedText}
-                  sx={{ wordBreak: 'break-all' }}
+                  // quebra no "_"; só uma parte que sozinha não cabe é cortada no meio
+                  sx={{ overflowWrap: 'anywhere' }}
                 >
-                  {column.key}
+                  <EntityKey value={column.key} />
                 </Typography>
               </Box>
             ))}

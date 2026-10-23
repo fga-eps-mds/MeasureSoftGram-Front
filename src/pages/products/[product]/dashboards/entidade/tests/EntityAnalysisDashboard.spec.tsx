@@ -101,12 +101,13 @@ describe('<EntityAnalysisDashboard />', () => {
       .getAllByRole('columnheader')
       .filter((header) => header.getAttribute('scope') === 'colgroup')
       .map((header) => [header.textContent, header.getAttribute('colspan')]);
+    // o peso fica colado ao nome por espaços não separáveis
     expect(groups).toEqual([
-      ['Reliability · 34%', '3'],
-      ['Maintainability · 33%', '1'],
-      ['Testing Status · 50%', '2'],
-      ['Maturity · 50%', '1'],
-      ['Modifiability · 100%', '1']
+      ['Reliability\u00A0·\u00A034%', '3'],
+      ['Maintainability\u00A0·\u00A033%', '1'],
+      ['Testing Status\u00A0·\u00A050%', '2'],
+      ['Maturity\u00A0·\u00A050%', '1'],
+      ['Modifiability\u00A0·\u00A0100%', '1']
     ]);
     expect(within(heatmap()).getByRole('columnheader', { name: 'TSQMI · Δ' })).toBeTruthy();
     // os nomes das releases ficam no texto, e não no cabeçalho
@@ -137,6 +138,15 @@ describe('<EntityAnalysisDashboard />', () => {
     expect(screen.getByTestId('quality-grade-legend').textContent).toContain('[0,80; 1,00] Ótimo');
   });
 
+  it('quebra a chave da entidade no "_" do cabeçalho', () => {
+    render(<EntityAnalysisDashboard />);
+
+    const key = within(heatmap()).getByText(
+      (_, element) => element?.textContent === 'commented_file_density' && element.tagName === 'P'
+    );
+    expect(key.querySelectorAll('wbr')).toHaveLength(2);
+  });
+
   it('destaca as 3 células que mais puxaram o TSQMI para baixo', () => {
     render(<EntityAnalysisDashboard />);
 
@@ -151,7 +161,7 @@ describe('<EntityAnalysisDashboard />', () => {
     render(<EntityAnalysisDashboard />);
 
     expect(screen.getByTestId('entity-reading').textContent).toBe(
-      'Leitura: commented_file_density é a medida mais fraca do produto (média 0,34). test_coverage tem a maior ' +
+      'Leitura: Commented File Density é a medida mais fraca do produto (média 0,34). Test Coverage tem a maior ' +
         'dispersão entre os repositórios: de 0,18 (AI) a 0,81 (Service).'
     );
   });

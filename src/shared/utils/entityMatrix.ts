@@ -31,9 +31,13 @@ const decimal = (digits: number) =>
 const TWO_DIGITS = decimal(2);
 const THREE_DIGITS = decimal(3);
 
-/** "0,74": valores de 0 a 1 com duas casas, como no protótipo. */
+/**
+ * "0,74": valores de 0 a 1 com duas casas, como no protótipo, cortados em vez de arredondados. O grau sai do valor
+ * sem arredondar, então 0,795 fica "0,79 · B", e não "0,80 · B" com a legenda dizendo que A começa em 0,80.
+ */
 export function formatScore(value: number): string {
-  return TWO_DIGITS.format(value);
+  // a folga evita que 0,29 (0,28999… no ponto flutuante) vire 0,28
+  return TWO_DIGITS.format(Math.floor(value * 100 + 1e-9) / 100);
 }
 
 function formatSigned(value: number, format: Intl.NumberFormat): string {
@@ -133,17 +137,6 @@ export function hasAnyValue(matrix: EntityMatrix): boolean {
   );
 }
 
-/** As células que mais puxaram o TSQMI para baixo (CA4): as de contribuição mais negativa. */
-export function getHighlightedCells(pairs: MatrixPair[], limit = HIGHLIGHTED_CELLS): Set<string> {
-  return new Set(
-    pairs
-      .filter((pair) => pair.contribution !== null && pair.contribution < 0)
-      .sort((a, b) => (a.contribution as number) - (b.contribution as number))
-      .slice(0, limit)
-      .map((pair) => cellId(pair.repository.id, pair.column.key))
-  );
-}
-
 /** Pares do quadro de contribuição (CA5): os que mais mudaram o indicador, da maior piora para a maior melhora. */
 export function getContributions(pairs: MatrixPair[], limit = CONTRIBUTION_LIMIT): MatrixPair[] {
   return pairs
@@ -151,6 +144,19 @@ export function getContributions(pairs: MatrixPair[], limit = CONTRIBUTION_LIMIT
     .sort((a, b) => Math.abs(b.contribution as number) - Math.abs(a.contribution as number))
     .slice(0, limit)
     .sort((a, b) => (a.contribution as number) - (b.contribution as number));
+}
+
+/**
+ * As células que mais puxaram o TSQMI para baixo (CA4): as primeiras pioras do quadro de contribuição. Sai dos mesmos
+ * pares do quadro, para o destaque não apontar uma célula que ele não mostra, como uma que arredonda para −0,000.
+ */
+export function getHighlightedCells(pairs: MatrixPair[], limit = HIGHLIGHTED_CELLS): Set<string> {
+  return new Set(
+    getContributions(pairs)
+      .filter((pair) => (pair.contribution as number) < 0)
+      .slice(0, limit)
+      .map((pair) => cellId(pair.repository.id, pair.column.key))
+  );
 }
 
 /** Ranking dos piores pares (CA6): do menor valor para o maior, só os que têm valor. */
@@ -189,7 +195,7 @@ export function getReading(matrix: EntityMatrix): MatrixReading | null {
   const stats = byColumn.map(({ column, pairs: columnPairs }) => {
     const sorted = [...columnPairs].sort((a, b) => (a.value as number) - (b.value as number));
     const lowest = sorted[0];
-    const highest = sorted.at(-1) ?? lowest;
+    const highest = sorted.at(-1) as MatrixPair;
     return {
       column,
       count: sorted.length,
