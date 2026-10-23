@@ -7,14 +7,13 @@ import { NextPageWithLayout } from '@pages/_app.next';
 import useRequireAuth from '@hooks/useRequireAuth';
 import { usePreloadECharts } from '@components/ECharts';
 import Layout from '@components/Layout/Layout';
-import ReleaseEvolutionChart from '@components/ReleaseEvolutionChart';
 import ProductConfigFilterProvider from '@contexts/ProductConfigFilterProvider/ProductConfigFilterProvider';
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
-import { useReleaseEvolution } from '@hooks/useReleaseEvolution';
 import { getPathId } from '@utils/pathDestructer';
 import { useProviderTerms } from '@hooks/useProviderTerms';
 
 import Headers from './components/Header';
+import RepositoryPulseChart from './components/RepositoryPulseChart';
 import TsqmiBadge from './components/TsqmiBadge';
 import { useQuery } from './hooks/useQuery';
 
@@ -29,17 +28,6 @@ const Repository: NextPageWithLayout = () => {
   const [organizationId, productId] = getPathId(query?.product as string);
   const [repositoryId] = getPathId((query?.repository as string) ?? '');
 
-  const { releaseNames, series, hasReleases, isLoading, hasError, retry } = useReleaseEvolution(
-    organizationId,
-    productId,
-    repositoryId ? Number(repositoryId) : undefined,
-    'characteristics'
-  );
-
-  const emptyMessage = hasReleases
-    ? `Nenhuma release tem valores de características deste ${terms.repository}. Eles aparecem depois que a Action do MeasureSoftGram roda dentro do período de uma release.`
-    : 'Este produto ainda não tem releases. Crie uma release para acompanhar a evolução por release.';
-
   return (
     <>
       <Head>
@@ -53,14 +41,10 @@ const Repository: NextPageWithLayout = () => {
 
             <TsqmiBadge latestTSQMI={latestTSQMI} latestTSQMIBadgeUrl={latestTSQMIBadgeUrl} />
 
-            <ReleaseEvolutionChart
-              title="Evolução das características"
-              releaseNames={releaseNames}
-              series={series}
-              isLoading={isLoading}
-              hasError={hasError}
-              onRetry={retry}
-              emptyMessage={emptyMessage}
+            <RepositoryPulseChart
+              organizationId={organizationId}
+              productId={productId}
+              repositoryId={repositoryId ? Number(repositoryId) : undefined}
             />
 
             {/* Lista de arquivos por medida: entra com a TASK23.01.03 */}

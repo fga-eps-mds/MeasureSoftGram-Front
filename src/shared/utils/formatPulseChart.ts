@@ -29,6 +29,16 @@ export function getQualityStatus(value: number): QualityStatus {
   return { key: band.grade, label: band.label, color: band.color };
 }
 
+/** Medidas das faixas do gráfico de pulso, em px: as mesmas no pulso do produto e no do repositório. */
+export const PULSE_GRID = { topOffset: 60, height: 82, gap: 34 };
+
+export interface PulseChartOptions {
+  /** `first-row` mostra o nome das releases só na primeira faixa, para as etiquetas não se repetirem nem se sobreporem. */
+  releaseLabels?: 'every-row' | 'first-row';
+  /** Linhas horizontais de grade dentro de cada faixa. */
+  horizontalLines?: boolean;
+}
+
 export interface VariationInfo {
   absoluteDiff: number;
   formattedDiff: string;
@@ -91,15 +101,16 @@ export interface PulseRepositoryData {
   releases: PulseRelease[];
 }
 
-export function formatPulseChartOptions(repositories: PulseRepositoryData[]) {
+export function formatPulseChartOptions(
+  repositories: PulseRepositoryData[],
+  { releaseLabels = 'every-row', horizontalLines = true }: PulseChartOptions = {}
+) {
   if (!repositories || !repositories.length) {
     return {};
   }
 
   const gridCount = repositories.length;
-  const gridHeight = 82;
-  const gridGap = 34;
-  const topOffset = 60;
+  const { height: gridHeight, gap: gridGap, topOffset } = PULSE_GRID;
 
   const grids: any[] = [];
   const xAxes: any[] = [];
@@ -108,6 +119,7 @@ export function formatPulseChartOptions(repositories: PulseRepositoryData[]) {
 
   repositories.forEach((repo, index) => {
     const isLast = index === gridCount - 1;
+    const showReleaseLabels = releaseLabels === 'every-row' || index === 0;
     const topPosition = topOffset + index * (gridHeight + gridGap);
 
     const sortedMeasurements = [...repo.measurements].sort(
@@ -134,7 +146,7 @@ export function formatPulseChartOptions(repositories: PulseRepositoryData[]) {
             name: `Início ${labelText}`,
             xAxis: startMs,
             label: {
-              show: true,
+              show: showReleaseLabels,
               formatter: `Início ${labelText}`,
               position: 'start',
               backgroundColor: 'rgba(95, 126, 163, 0.85)',
@@ -160,7 +172,7 @@ export function formatPulseChartOptions(repositories: PulseRepositoryData[]) {
             name: labelText,
             xAxis: endMs,
             label: {
-              show: true,
+              show: showReleaseLabels,
               formatter: labelText,
               position: 'end',
               backgroundColor: COLOR_TOKENS.primary,
@@ -234,7 +246,7 @@ export function formatPulseChartOptions(repositories: PulseRepositoryData[]) {
         formatter: (v: number) => v.toFixed(1),
       },
       splitLine: {
-        show: true,
+        show: horizontalLines,
         lineStyle: {
           color: COLOR_TOKENS.gridLine,
           type: 'solid',

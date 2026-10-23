@@ -6,18 +6,24 @@ import {
   getQualityStatus,
   calculateVariation,
   PulseMeasurement,
+  PULSE_GRID,
 } from '@utils/formatPulseChart';
 
 interface Props {
   name: string;
   measurements: PulseMeasurement[];
   topOffset: number;
+  /** O que o valor é: o TSQMI no pulso do produto, a característica no do repositório. */
+  valueLabel?: string;
+  showIcon?: boolean;
 }
 
 export const PulseChartRepoSidebar: React.FC<Props> = ({
   name,
   measurements,
   topOffset,
+  valueLabel = 'último TSQMI',
+  showIcon = true,
 }) => {
   const sorted = [...measurements].sort(
     (a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
@@ -37,7 +43,7 @@ export const PulseChartRepoSidebar: React.FC<Props> = ({
         left: 20,
         top: topOffset,
         width: 190,
-        height: 82,
+        height: PULSE_GRID.height,
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -47,7 +53,7 @@ export const PulseChartRepoSidebar: React.FC<Props> = ({
     >
       {/* Branch icon + Repo name */}
       <Box display="flex" alignItems="center" gap={0.5} marginBottom="2px">
-        <CallSplitIcon sx={{ fontSize: 16, color: COLOR_TOKENS.primary }} />
+        {showIcon && <CallSplitIcon sx={{ fontSize: 16, color: COLOR_TOKENS.primary }} />}
         <Typography
           variant="body2"
           fontWeight="bold"
@@ -96,7 +102,7 @@ export const PulseChartRepoSidebar: React.FC<Props> = ({
           color={COLOR_TOKENS.axisText}
           sx={{ fontSize: '10.5px' }}
         >
-          último TSQMI · {status.label}
+          {valueLabel} · {status.label}
         </Typography>
       </Box>
     </Box>

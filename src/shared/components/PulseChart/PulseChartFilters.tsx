@@ -6,9 +6,10 @@ import { COLOR_TOKENS } from '@utils/formatPulseChart';
 import { useProviderTerms } from '@hooks/useProviderTerms';
 
 interface Props {
-  repositories: { id: string | number; name: string }[];
-  selectedRepo: string;
-  onRepoChange: (repoId: string) => void;
+  /** Sem a lista, a barra mostra só o período e o botão de exportar (pulso das características do repositório). */
+  repositories?: { id: string | number; name: string }[];
+  selectedRepo?: string;
+  onRepoChange?: (repoId: string) => void;
   startDate: string;
   onStartDateChange: (date: string) => void;
   endDate: string;
@@ -28,7 +29,7 @@ export const PulseChartFilters: React.FC<Props> = ({
 }) => {
   const { terms } = useProviderTerms();
   const handleSelectRepo = (e: SelectChangeEvent<string>) => {
-    onRepoChange(e.target.value);
+    onRepoChange?.(e.target.value);
   };
 
   return (
@@ -42,31 +43,33 @@ export const PulseChartFilters: React.FC<Props> = ({
     >
       <Box display="flex" alignItems="center" gap={2} flexWrap="wrap">
         {/* Repo Selector */}
-        <Box display="flex" alignItems="center" gap={1}>
-          <Typography variant="body2" color="text.secondary" fontWeight={500}>
-            {terms.Repository}
-          </Typography>
-          <Select
-            size="small"
-            value={selectedRepo}
-            onChange={handleSelectRepo}
-            sx={{
-              minWidth: 180,
-              backgroundColor: '#FFFFFF',
-              borderRadius: '6px',
-              fontSize: '13px',
-            }}
-          >
-            <MenuItem value="all">
-              Todos ({repositories.length})
-            </MenuItem>
-            {repositories.map((repo) => (
-              <MenuItem key={repo.id} value={String(repo.id)}>
-                {repo.name}
+        {repositories && (
+          <Box display="flex" alignItems="center" gap={1}>
+            <Typography variant="body2" color="text.secondary" fontWeight={500}>
+              {terms.Repository}
+            </Typography>
+            <Select
+              size="small"
+              value={selectedRepo}
+              onChange={handleSelectRepo}
+              sx={{
+                minWidth: 180,
+                backgroundColor: '#FFFFFF',
+                borderRadius: '6px',
+                fontSize: '13px',
+              }}
+            >
+              <MenuItem value="all">
+                Todos ({repositories.length})
               </MenuItem>
-            ))}
-          </Select>
-        </Box>
+              {repositories.map((repo) => (
+                <MenuItem key={repo.id} value={String(repo.id)}>
+                  {repo.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </Box>
+        )}
 
         {/* Start Date */}
         <Box display="flex" alignItems="center" gap={1}>

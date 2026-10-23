@@ -15,3 +15,17 @@ export const DASHBOARD_COLORS = {
   planned: '#5C91C5',
   accomplished: COLOR_TOKENS.warning
 };
+
+/** Paleta das telas atuais: primária, planejado × realizado e faixas de qualidade. */
+export const SERIES_COLORS = [
+  COLOR_TOKENS.primary,
+  '#FF8C00',
+  COLOR_TOKENS.adequate,
+  '#1F60C4',
+  COLOR_TOKENS.warning,
+  COLOR_TOKENS.secondary,
+  COLOR_TOKENS.critical,
+  '#7B5EA7',
+  '#2E9C9C',
+  COLOR_TOKENS.axisText,
+];

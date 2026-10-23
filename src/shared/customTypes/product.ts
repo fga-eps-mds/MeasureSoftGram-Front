@@ -202,6 +202,7 @@ export interface IReleases {
   product: number;
   goal?: number;
   description?: string;
+  repositories_ids?: number[];
 }
 
 export interface ReleasesPaginated {

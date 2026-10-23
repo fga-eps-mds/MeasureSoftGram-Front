@@ -11,8 +11,8 @@ import { productQuery } from '@services/product';
 import { getPathId } from '@utils/pathDestructer';
 
 /**
- * Dados da tela do repositório: o repositório (cabeçalho) e o último TSQMI com o badge. A evolução das
- * características vem do useReleaseEvolution. Antes o hook também buscava a árvore de entidades, os últimos
+ * Dados da tela do repositório: o repositório (cabeçalho) e o último TSQMI com o badge. O pulso das
+ * características vem do useRepositoryPulse. Antes o hook também buscava a árvore de entidades, os últimos
  * valores de métricas e de características, o histórico de TSQMI e de características e a comparação com a meta,
  * para componentes que a tela não usa mais: eram 6 chamadas a mais em cada abertura.
  */
