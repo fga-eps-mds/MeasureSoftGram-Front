@@ -170,7 +170,8 @@ export default function DashboardCard({
         minWidth: 0
       }}
     >
-      <Box display="flex" alignItems="center" gap="12px" minHeight="36px">
+      {/* em tela estreita, a ação do cabeçalho (uma legenda) desce para baixo do título em vez de alargar o cartão */}
+      <Box display="flex" flexWrap="wrap" alignItems="center" gap="12px" minHeight="36px" data-testid="dashboard-card-header">
         <Typography flex={1} fontWeight="bold" fontSize="18px" color={DASHBOARD_COLORS.cardTitle}>
           {title}
         </Typography>

@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+// Com o menu, a coluna do conteúdo é minmax(0, 1fr): com 1fr (minmax(auto, 1fr)), ela não ficava mais estreita que a
+// largura intrínseca do conteúdo, e o breadcrumb, que quebra em linhas, alargava a página em tela estreita.
 export const LayoutGrid = styled.div<{ $showSidebar?: boolean }>`
   display: grid;
   min-height: 100vh;
@@ -7,7 +9,7 @@ export const LayoutGrid = styled.div<{ $showSidebar?: boolean }>`
   ${(props) =>
     props.$showSidebar
       ? `
-        grid-template-columns: 328px 1fr min-content;
+        grid-template-columns: min-content minmax(0, 1fr) min-content;
         grid-template-rows: 1fr;
         grid-template-areas: 'side-menu main-content right-side';
       `
@@ -20,8 +22,14 @@ export const LayoutGrid = styled.div<{ $showSidebar?: boolean }>`
       `}
 `;
 
+// Abaixo do sm do MUI, o menu aberto fica por cima do conteúdo e sai da coluna: ela guarda a largura do menu
+// recolhido, para o conteúdo não pular.
 export const SideMenuArea = styled.div`
   grid-area: side-menu;
+
+  @media (max-width: 599.95px) {
+    min-width: 63px;
+  }
 `;
 
 export const TopHeaderArea = styled.header`

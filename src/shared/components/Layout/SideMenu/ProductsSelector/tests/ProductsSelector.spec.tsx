@@ -4,6 +4,7 @@ import ProductSelector from '../ProductsSelector';
 
 const mockPush = jest.fn();
 const mockSetCurrentProduct = jest.fn();
+const mockCloseOverlay = jest.fn();
 const PRODUCTS = [
   { id: 1, name: 'Produto A' },
   { id: 2, name: 'Produto B' }
@@ -26,7 +27,7 @@ jest.mock('@contexts/ProductProvider', () => ({
 }));
 
 jest.mock('@contexts/SidebarProvider/SideMenuProvider', () => ({
-  useSideMenuContext: () => ({ toggleCollapse: jest.fn(), isCollapsed: false })
+  useSideMenuContext: () => ({ toggleCollapse: jest.fn(), isCollapsed: false, closeOverlay: mockCloseOverlay })
 }));
 
 jest.mock('@contexts/Auth', () => ({
@@ -45,5 +46,7 @@ describe('<ProductSelector />', () => {
 
     expect(mockSetCurrentProduct).toHaveBeenCalledWith(PRODUCTS[1]);
     expect(mockPush).toHaveBeenCalledWith('/products/9-2-Produto B');
+    // em tela estreita, o menu aberto por cima do conteúdo fecha ao escolher o produto
+    expect(mockCloseOverlay).toHaveBeenCalled();
   });
 });

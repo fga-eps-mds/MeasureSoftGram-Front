@@ -16,6 +16,17 @@ describe('<DashboardCard />', () => {
     expect(screen.getByText('seletor')).toBeInTheDocument();
   });
 
+  it('a ação do cabeçalho desce para baixo do título quando não cabe ao lado', () => {
+    render(
+      <DashboardCard title="Planejado × Realizado" status="ready" headerAction={<span>legenda</span>}>
+        <div>gráfico</div>
+      </DashboardCard>
+    );
+
+    // o jsdom não calcula a largura: o teste confere a regra, e os prints do PR em 360 px, a quebra de fato
+    expect(screen.getByTestId('dashboard-card-header')).toHaveStyle({ flexWrap: 'wrap' });
+  });
+
   it('mostra o selo e o esqueleto enquanto carrega', () => {
     render(
       <DashboardCard

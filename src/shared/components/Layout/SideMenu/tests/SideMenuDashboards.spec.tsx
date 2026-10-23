@@ -31,8 +31,10 @@ jest.mock('@contexts/ProductProvider', () => ({
   }),
 }));
 
+const mockSideMenu = { isCollapsed: false, closeOverlay: jest.fn() };
+
 jest.mock('@contexts/SidebarProvider/SideMenuProvider', () => ({
-  useSideMenuContext: () => ({ isCollapsed: false }),
+  useSideMenuContext: () => mockSideMenu,
 }));
 
 jest.mock('react-i18next', () => ({
@@ -93,5 +95,33 @@ describe('SideMenu Dashboards Submenu (CA1)', () => {
 
     fireEvent.click(metamodeloItem);
     expect(mockPush).toHaveBeenCalledWith('/products/1-5-MeasureSoftGram/dashboards/metamodelo');
+  });
+
+  describe('largura do menu com o submenu aberto', () => {
+    afterEach(() => {
+      mockSideMenu.isCollapsed = false;
+    });
+
+    it('o recuo dos subitens não alarga o menu expandido', () => {
+      render(<SideMenu />);
+      fireEvent.click(screen.getByText('Dashboards'));
+
+      const subitems = screen.getAllByTestId('dashboard-subitem');
+      expect(subitems).toHaveLength(6);
+      subitems.forEach((subitem) => {
+        expect(subitem).toHaveStyle({ paddingLeft: '20px', contain: 'inline-size', overflow: 'hidden' });
+      });
+    });
+
+    it('com o menu recolhido, os subitens ficam sem recuo, alinhados aos outros ícones', () => {
+      mockSideMenu.isCollapsed = true;
+      render(<SideMenu />);
+      // recolhido, o item mostra só o ícone: o nome fica no tooltip
+      fireEvent.click(screen.getByLabelText('Dashboards'));
+
+      screen.getAllByTestId('dashboard-subitem').forEach((subitem) => {
+        expect(subitem).toHaveStyle({ paddingLeft: '0px', contain: 'inline-size' });
+      });
+    });
   });
 });

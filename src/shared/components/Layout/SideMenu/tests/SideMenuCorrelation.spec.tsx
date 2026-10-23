@@ -26,7 +26,7 @@ jest.mock('@contexts/ProductProvider', () => ({
   useProductContext: () => ({ currentProduct: { id: '5', name: 'MeasureSoftGram' } })
 }));
 jest.mock('@contexts/SidebarProvider/SideMenuProvider', () => ({
-  useSideMenuContext: () => ({ isCollapsed: false })
+  useSideMenuContext: () => ({ isCollapsed: false, closeOverlay: jest.fn() })
 }));
 jest.mock('@hooks/useProviderTranslation', () => ({
   useProviderTranslation: () => ({

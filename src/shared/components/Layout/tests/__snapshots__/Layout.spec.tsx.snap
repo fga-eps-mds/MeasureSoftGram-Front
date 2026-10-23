@@ -6,19 +6,611 @@ Object {
   "baseElement": <body>
     <div>
       <div
-        class="sc-4e0701da-0 hveokN"
+        class="sc-14d06553-0 lemoMD"
       >
         <div
-          class="sc-4e0701da-1 kXaLIU"
+          class="sc-14d06553-1 gkqUzG"
         >
           <div
-            class="sc-63dcaa60-0 gNIybT"
+            class="sc-ad3618fb-0 bQYuRm"
+            data-testid="side-menu"
+          >
+            <div
+              class="sc-ad3618fb-3 gNVfPA"
+              data-testid="side-menu-collapse"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-color#f5f5f5 MuiSvgIcon-fontSizeLarge css-tzssek-MuiSvgIcon-root"
+                data-testid="NavigateBeforeRoundedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M14.91 6.71a.9959.9959 0 0 0-1.41 0L8.91 11.3c-.39.39-.39 1.02 0 1.41l4.59 4.59c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L11.03 12l3.88-3.88c.38-.39.38-1.03 0-1.41"
+                />
+              </svg>
+            </div>
+            <div
+              class="sc-ad3618fb-1 iIeQFd"
+              data-testid="side-menu-content"
+            >
+              <div
+                class="MuiBox-root css-nb2z2f"
+              >
+                <img
+                  class="sc-ad3618fb-4 bXirHI"
+                  height="50"
+                  src="/images/svg/logo_white.svg"
+                />
+                <div
+                  class="MuiBox-root css-k008qs"
+                >
+                  <button
+                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1f0qgxp-MuiButtonBase-root-MuiButton-root"
+                    data-id="en-button"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <img
+                      alt="flag"
+                      height="30"
+                      src="/images/png/en.png"
+                      width="30"
+                    />
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </button>
+                  <button
+                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1f0qgxp-MuiButtonBase-root-MuiButton-root"
+                    data-id="pt-button"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <img
+                      alt="flag"
+                      height="30"
+                      src="/images/png/pt.png"
+                      width="30"
+                    />
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </button>
+                </div>
+              </div>
+              <div
+                class="MuiFormControl-root css-1tmtvq6-MuiFormControl-root"
+              >
+                <label
+                  class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-qyan12-MuiFormLabel-root-MuiInputLabel-root"
+                  data-shrink="true"
+                  id="demo-simple-select-autowidth-label"
+                >
+                  organization.placeholder
+                </label>
+                <div
+                  class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl sc-779df817-0 fsOGtg css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
+                >
+                  <div
+                    aria-controls=":r0:"
+                    aria-expanded="false"
+                    aria-haspopup="listbox"
+                    aria-labelledby="demo-simple-select-autowidth-label demo-simple-select-autowidth"
+                    class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
+                    id="demo-simple-select-autowidth"
+                    role="combobox"
+                    tabindex="0"
+                  >
+                    Org 1
+                  </div>
+                  <input
+                    aria-hidden="true"
+                    aria-invalid="false"
+                    class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+                    tabindex="-1"
+                    value="1"
+                  />
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-hfutr2-MuiSvgIcon-root-MuiSelect-icon"
+                    data-testid="ArrowDropDownIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M7 10l5 5 5-5z"
+                    />
+                  </svg>
+                  <fieldset
+                    aria-hidden="true"
+                    class="MuiOutlinedInput-notchedOutline css-r01yff-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
+                  >
+                    <legend
+                      class="css-sl37lx-MuiNotchedOutlined-root"
+                    >
+                      <span>
+                        organization.placeholder
+                      </span>
+                    </legend>
+                  </fieldset>
+                </div>
+              </div>
+              <div
+                class="MuiFormControl-root css-1tmtvq6-MuiFormControl-root"
+              >
+                <label
+                  class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-qyan12-MuiFormLabel-root-MuiInputLabel-root"
+                  data-shrink="true"
+                  id="demo-simple-select-autowidth-label"
+                >
+                  product.placeholder
+                </label>
+                <div
+                  class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl sc-779df817-0 fsOGtg css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
+                >
+                  <div
+                    aria-controls=":r1:"
+                    aria-expanded="false"
+                    aria-haspopup="listbox"
+                    aria-labelledby="demo-simple-select-autowidth-label demo-simple-select-autowidth"
+                    class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
+                    id="demo-simple-select-autowidth"
+                    role="combobox"
+                    tabindex="0"
+                  >
+                    Product 1
+                  </div>
+                  <input
+                    aria-hidden="true"
+                    aria-invalid="false"
+                    class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+                    tabindex="-1"
+                    value="1"
+                  />
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-hfutr2-MuiSvgIcon-root-MuiSelect-icon"
+                    data-testid="ArrowDropDownIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M7 10l5 5 5-5z"
+                    />
+                  </svg>
+                  <fieldset
+                    aria-hidden="true"
+                    class="MuiOutlinedInput-notchedOutline css-r01yff-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
+                  >
+                    <legend
+                      class="css-sl37lx-MuiNotchedOutlined-root"
+                    >
+                      <span>
+                        product.placeholder
+                      </span>
+                    </legend>
+                  </fieldset>
+                </div>
+              </div>
+              <hr
+                class="MuiDivider-root MuiDivider-fullWidth css-qrim74-MuiDivider-root"
+              />
+              <div
+                class="sc-ad3618fb-2 BRKxB"
+              >
+                <div
+                  class="MuiBox-root css-10wzbhq"
+                >
+                  <div
+                    aria-label="sidebar-options.overview.tooltip"
+                    class="sc-ad80db87-0 dwUUfE"
+                    data-mui-internal-clone-element="true"
+                  >
+                    <div
+                      class="sc-ad80db87-1 bba-DyI"
+                    >
+                      <svg
+                        fill="none"
+                        font-size="28"
+                        height="1em"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <line
+                          x1="18"
+                          x2="18"
+                          y1="20"
+                          y2="10"
+                        />
+                        <line
+                          x1="12"
+                          x2="12"
+                          y1="20"
+                          y2="4"
+                        />
+                        <line
+                          x1="6"
+                          x2="6"
+                          y1="20"
+                          y2="14"
+                        />
+                      </svg>
+                    </div>
+                    <div
+                      class="MuiBox-root css-1113w14"
+                    >
+                      sidebar-options.overview.text
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root css-10wzbhq"
+                >
+                  <div
+                    aria-label="sidebar-options.repos.tooltip"
+                    class="sc-ad80db87-0 dwUUfE"
+                    data-mui-internal-clone-element="true"
+                  >
+                    <div
+                      class="sc-ad80db87-1 bba-DyI"
+                    >
+                      <svg
+                        fill="none"
+                        font-size="28"
+                        height="1em"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <line
+                          x1="6"
+                          x2="6"
+                          y1="3"
+                          y2="15"
+                        />
+                        <circle
+                          cx="18"
+                          cy="6"
+                          r="3"
+                        />
+                        <circle
+                          cx="6"
+                          cy="18"
+                          r="3"
+                        />
+                        <path
+                          d="M18 9a9 9 0 0 1-9 9"
+                        />
+                      </svg>
+                    </div>
+                    <div
+                      class="MuiBox-root css-1113w14"
+                    >
+                      sidebar-options.repos.text
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root css-10wzbhq"
+                >
+                  <div
+                    aria-label="sidebar-options.release.tooltip"
+                    class="sc-ad80db87-0 dwUUfE"
+                    data-mui-internal-clone-element="true"
+                  >
+                    <div
+                      class="sc-ad80db87-1 bba-DyI"
+                    >
+                      <svg
+                        fill="none"
+                        font-size="28"
+                        height="1em"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"
+                        />
+                      </svg>
+                    </div>
+                    <div
+                      class="MuiBox-root css-1113w14"
+                    >
+                      Releases
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root css-10wzbhq"
+                >
+                  <div
+                    aria-label="Dashboards"
+                    class="sc-ad80db87-0 dwUUfE"
+                    data-mui-internal-clone-element="true"
+                  >
+                    <div
+                      class="sc-ad80db87-1 bba-DyI"
+                    >
+                      <svg
+                        fill="none"
+                        font-size="28"
+                        height="1em"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect
+                          height="7"
+                          width="7"
+                          x="3"
+                          y="3"
+                        />
+                        <rect
+                          height="7"
+                          width="7"
+                          x="14"
+                          y="3"
+                        />
+                        <rect
+                          height="7"
+                          width="7"
+                          x="14"
+                          y="14"
+                        />
+                        <rect
+                          height="7"
+                          width="7"
+                          x="3"
+                          y="14"
+                        />
+                      </svg>
+                    </div>
+                    <div
+                      class="MuiBox-root css-1113w14"
+                    >
+                      Dashboards
+                    </div>
+                    <div
+                      class="MuiBox-root css-ccw5zh"
+                    >
+                      <svg
+                        fill="none"
+                        font-size="20"
+                        height="1em"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <polyline
+                          points="6 9 12 15 18 9"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr
+                class="MuiDivider-root MuiDivider-fullWidth css-fan870-MuiDivider-root"
+              />
+              <div
+                class="MuiBox-root css-10wzbhq"
+              >
+                <div
+                  aria-label="tooltip.user-menu"
+                  class="sc-ad80db87-0 dwUUfE"
+                  data-mui-internal-clone-element="true"
+                >
+                  <div
+                    class="sc-ad80db87-1 bba-DyI"
+                  >
+                    <div
+                      class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-128rogb-MuiAvatar-root"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiAvatar-fallback css-10mi8st-MuiSvgIcon-root-MuiAvatar-fallback"
+                        data-testid="PersonIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root css-1113w14"
+                  >
+                    testuser
+                  </div>
+                  <div
+                    class="MuiBox-root css-ccw5zh"
+                  >
+                    <svg
+                      fill="none"
+                      font-size="28"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <polyline
+                        points="9 18 15 12 9 6"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="sc-14d06553-4 hONrww"
+        >
+          <div
+            class="sc-6674b5e5-0 gSYjiE"
+          >
+            <div
+              class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
+            >
+              <div
+                class="MuiBox-root css-j7qwjs"
+              >
+                <nav
+                  class="MuiTypography-root MuiTypography-body1 MuiBreadcrumbs-root css-1xpz3xq-MuiTypography-root-MuiBreadcrumbs-root"
+                >
+                  <ol
+                    class="MuiBreadcrumbs-ol css-4pdmu4-MuiBreadcrumbs-ol"
+                  >
+                    <li
+                      class="MuiBreadcrumbs-li"
+                    >
+                      <div
+                        class="MuiBox-root css-70qvj9"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-8ljajx-MuiSvgIcon-root"
+                          data-testid="HomeOutlinedIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="m12 5.69 5 4.5V18h-2v-6H9v6H7v-7.81zM12 3 2 12h3v8h6v-6h2v6h6v-8h3z"
+                          />
+                        </svg>
+                      </div>
+                    </li>
+                    <li
+                      aria-hidden="true"
+                      class="MuiBreadcrumbs-separator css-1wuw8dw-MuiBreadcrumbs-separator"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                        data-testid="NavigateNextIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                        />
+                      </svg>
+                    </li>
+                    <li
+                      class="MuiBreadcrumbs-li"
+                    >
+                      <h6
+                        class="MuiTypography-root MuiTypography-subtitle1 css-65a2cr-MuiTypography-root"
+                      >
+                        organizations
+                      </h6>
+                    </li>
+                    <li
+                      aria-hidden="true"
+                      class="MuiBreadcrumbs-separator css-1wuw8dw-MuiBreadcrumbs-separator"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                        data-testid="NavigateNextIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                        />
+                      </svg>
+                    </li>
+                    <li
+                      class="MuiBreadcrumbs-li"
+                    >
+                      <h6
+                        class="MuiTypography-root MuiTypography-subtitle1 css-65a2cr-MuiTypography-root"
+                      >
+                        home
+                      </h6>
+                    </li>
+                  </ol>
+                </nav>
+                <div
+                  class="MuiBox-root css-19mtlry"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="sc-14d06553-5 fEeMmh"
+        />
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="sc-14d06553-0 lemoMD"
+    >
+      <div
+        class="sc-14d06553-1 gkqUzG"
+      >
+        <div
+          class="sc-ad3618fb-0 bQYuRm"
+          data-testid="side-menu"
+        >
+          <div
+            class="sc-ad3618fb-3 gNVfPA"
+            data-testid="side-menu-collapse"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-color#f5f5f5 MuiSvgIcon-fontSizeLarge css-tzssek-MuiSvgIcon-root"
+              data-testid="NavigateBeforeRoundedIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M14.91 6.71a.9959.9959 0 0 0-1.41 0L8.91 11.3c-.39.39-.39 1.02 0 1.41l4.59 4.59c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L11.03 12l3.88-3.88c.38-.39.38-1.03 0-1.41"
+              />
+            </svg>
+          </div>
+          <div
+            class="sc-ad3618fb-1 iIeQFd"
+            data-testid="side-menu-content"
           >
             <div
               class="MuiBox-root css-nb2z2f"
             >
               <img
-                class="sc-63dcaa60-3 dYlGQG"
+                class="sc-ad3618fb-4 bXirHI"
                 height="50"
                 src="/images/svg/logo_white.svg"
               />
@@ -173,26 +765,11 @@ Object {
                 </fieldset>
               </div>
             </div>
-            <div
-              class="sc-63dcaa60-2 cZDHjs"
-            >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-color#f5f5f5 MuiSvgIcon-fontSizeLarge css-tzssek-MuiSvgIcon-root"
-                data-testid="NavigateBeforeRoundedIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M14.91 6.71a.9959.9959 0 0 0-1.41 0L8.91 11.3c-.39.39-.39 1.02 0 1.41l4.59 4.59c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L11.03 12l3.88-3.88c.38-.39.38-1.03 0-1.41"
-                />
-              </svg>
-            </div>
             <hr
               class="MuiDivider-root MuiDivider-fullWidth css-qrim74-MuiDivider-root"
             />
             <div
-              class="sc-63dcaa60-1 fAmqBr"
+              class="sc-ad3618fb-2 BRKxB"
             >
               <div
                 class="MuiBox-root css-10wzbhq"
@@ -466,572 +1043,9 @@ Object {
             </div>
           </div>
         </div>
-        <div
-          class="sc-4e0701da-4 kCuHiO"
-        >
-          <div
-            class="sc-6674b5e5-0 gSYjiE"
-          >
-            <div
-              class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
-            >
-              <div
-                class="MuiBox-root css-j7qwjs"
-              >
-                <nav
-                  class="MuiTypography-root MuiTypography-body1 MuiBreadcrumbs-root css-1xpz3xq-MuiTypography-root-MuiBreadcrumbs-root"
-                >
-                  <ol
-                    class="MuiBreadcrumbs-ol css-4pdmu4-MuiBreadcrumbs-ol"
-                  >
-                    <li
-                      class="MuiBreadcrumbs-li"
-                    >
-                      <div
-                        class="MuiBox-root css-70qvj9"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-8ljajx-MuiSvgIcon-root"
-                          data-testid="HomeOutlinedIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            d="m12 5.69 5 4.5V18h-2v-6H9v6H7v-7.81zM12 3 2 12h3v8h6v-6h2v6h6v-8h3z"
-                          />
-                        </svg>
-                      </div>
-                    </li>
-                    <li
-                      aria-hidden="true"
-                      class="MuiBreadcrumbs-separator css-1wuw8dw-MuiBreadcrumbs-separator"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
-                        data-testid="NavigateNextIcon"
-                        focusable="false"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
-                        />
-                      </svg>
-                    </li>
-                    <li
-                      class="MuiBreadcrumbs-li"
-                    >
-                      <h6
-                        class="MuiTypography-root MuiTypography-subtitle1 css-65a2cr-MuiTypography-root"
-                      >
-                        organizations
-                      </h6>
-                    </li>
-                    <li
-                      aria-hidden="true"
-                      class="MuiBreadcrumbs-separator css-1wuw8dw-MuiBreadcrumbs-separator"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
-                        data-testid="NavigateNextIcon"
-                        focusable="false"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
-                        />
-                      </svg>
-                    </li>
-                    <li
-                      class="MuiBreadcrumbs-li"
-                    >
-                      <h6
-                        class="MuiTypography-root MuiTypography-subtitle1 css-65a2cr-MuiTypography-root"
-                      >
-                        home
-                      </h6>
-                    </li>
-                  </ol>
-                </nav>
-                <div
-                  class="MuiBox-root css-19mtlry"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          class="sc-4e0701da-5 jsyunT"
-        />
-      </div>
-    </div>
-  </body>,
-  "container": <div>
-    <div
-      class="sc-4e0701da-0 hveokN"
-    >
-      <div
-        class="sc-4e0701da-1 kXaLIU"
-      >
-        <div
-          class="sc-63dcaa60-0 gNIybT"
-        >
-          <div
-            class="MuiBox-root css-nb2z2f"
-          >
-            <img
-              class="sc-63dcaa60-3 dYlGQG"
-              height="50"
-              src="/images/svg/logo_white.svg"
-            />
-            <div
-              class="MuiBox-root css-k008qs"
-            >
-              <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1f0qgxp-MuiButtonBase-root-MuiButton-root"
-                data-id="en-button"
-                tabindex="0"
-                type="button"
-              >
-                <img
-                  alt="flag"
-                  height="30"
-                  src="/images/png/en.png"
-                  width="30"
-                />
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
-              </button>
-              <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1f0qgxp-MuiButtonBase-root-MuiButton-root"
-                data-id="pt-button"
-                tabindex="0"
-                type="button"
-              >
-                <img
-                  alt="flag"
-                  height="30"
-                  src="/images/png/pt.png"
-                  width="30"
-                />
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
-              </button>
-            </div>
-          </div>
-          <div
-            class="MuiFormControl-root css-1tmtvq6-MuiFormControl-root"
-          >
-            <label
-              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-qyan12-MuiFormLabel-root-MuiInputLabel-root"
-              data-shrink="true"
-              id="demo-simple-select-autowidth-label"
-            >
-              organization.placeholder
-            </label>
-            <div
-              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl sc-779df817-0 fsOGtg css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
-            >
-              <div
-                aria-controls=":r0:"
-                aria-expanded="false"
-                aria-haspopup="listbox"
-                aria-labelledby="demo-simple-select-autowidth-label demo-simple-select-autowidth"
-                class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
-                id="demo-simple-select-autowidth"
-                role="combobox"
-                tabindex="0"
-              >
-                Org 1
-              </div>
-              <input
-                aria-hidden="true"
-                aria-invalid="false"
-                class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
-                tabindex="-1"
-                value="1"
-              />
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-hfutr2-MuiSvgIcon-root-MuiSelect-icon"
-                data-testid="ArrowDropDownIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M7 10l5 5 5-5z"
-                />
-              </svg>
-              <fieldset
-                aria-hidden="true"
-                class="MuiOutlinedInput-notchedOutline css-r01yff-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
-              >
-                <legend
-                  class="css-sl37lx-MuiNotchedOutlined-root"
-                >
-                  <span>
-                    organization.placeholder
-                  </span>
-                </legend>
-              </fieldset>
-            </div>
-          </div>
-          <div
-            class="MuiFormControl-root css-1tmtvq6-MuiFormControl-root"
-          >
-            <label
-              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-qyan12-MuiFormLabel-root-MuiInputLabel-root"
-              data-shrink="true"
-              id="demo-simple-select-autowidth-label"
-            >
-              product.placeholder
-            </label>
-            <div
-              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl sc-779df817-0 fsOGtg css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
-            >
-              <div
-                aria-controls=":r1:"
-                aria-expanded="false"
-                aria-haspopup="listbox"
-                aria-labelledby="demo-simple-select-autowidth-label demo-simple-select-autowidth"
-                class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
-                id="demo-simple-select-autowidth"
-                role="combobox"
-                tabindex="0"
-              >
-                Product 1
-              </div>
-              <input
-                aria-hidden="true"
-                aria-invalid="false"
-                class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
-                tabindex="-1"
-                value="1"
-              />
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-hfutr2-MuiSvgIcon-root-MuiSelect-icon"
-                data-testid="ArrowDropDownIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M7 10l5 5 5-5z"
-                />
-              </svg>
-              <fieldset
-                aria-hidden="true"
-                class="MuiOutlinedInput-notchedOutline css-r01yff-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
-              >
-                <legend
-                  class="css-sl37lx-MuiNotchedOutlined-root"
-                >
-                  <span>
-                    product.placeholder
-                  </span>
-                </legend>
-              </fieldset>
-            </div>
-          </div>
-          <div
-            class="sc-63dcaa60-2 cZDHjs"
-          >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-color#f5f5f5 MuiSvgIcon-fontSizeLarge css-tzssek-MuiSvgIcon-root"
-              data-testid="NavigateBeforeRoundedIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M14.91 6.71a.9959.9959 0 0 0-1.41 0L8.91 11.3c-.39.39-.39 1.02 0 1.41l4.59 4.59c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L11.03 12l3.88-3.88c.38-.39.38-1.03 0-1.41"
-              />
-            </svg>
-          </div>
-          <hr
-            class="MuiDivider-root MuiDivider-fullWidth css-qrim74-MuiDivider-root"
-          />
-          <div
-            class="sc-63dcaa60-1 fAmqBr"
-          >
-            <div
-              class="MuiBox-root css-10wzbhq"
-            >
-              <div
-                aria-label="sidebar-options.overview.tooltip"
-                class="sc-ad80db87-0 dwUUfE"
-                data-mui-internal-clone-element="true"
-              >
-                <div
-                  class="sc-ad80db87-1 bba-DyI"
-                >
-                  <svg
-                    fill="none"
-                    font-size="28"
-                    height="1em"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <line
-                      x1="18"
-                      x2="18"
-                      y1="20"
-                      y2="10"
-                    />
-                    <line
-                      x1="12"
-                      x2="12"
-                      y1="20"
-                      y2="4"
-                    />
-                    <line
-                      x1="6"
-                      x2="6"
-                      y1="20"
-                      y2="14"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiBox-root css-1113w14"
-                >
-                  sidebar-options.overview.text
-                </div>
-              </div>
-            </div>
-            <div
-              class="MuiBox-root css-10wzbhq"
-            >
-              <div
-                aria-label="sidebar-options.repos.tooltip"
-                class="sc-ad80db87-0 dwUUfE"
-                data-mui-internal-clone-element="true"
-              >
-                <div
-                  class="sc-ad80db87-1 bba-DyI"
-                >
-                  <svg
-                    fill="none"
-                    font-size="28"
-                    height="1em"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <line
-                      x1="6"
-                      x2="6"
-                      y1="3"
-                      y2="15"
-                    />
-                    <circle
-                      cx="18"
-                      cy="6"
-                      r="3"
-                    />
-                    <circle
-                      cx="6"
-                      cy="18"
-                      r="3"
-                    />
-                    <path
-                      d="M18 9a9 9 0 0 1-9 9"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiBox-root css-1113w14"
-                >
-                  sidebar-options.repos.text
-                </div>
-              </div>
-            </div>
-            <div
-              class="MuiBox-root css-10wzbhq"
-            >
-              <div
-                aria-label="sidebar-options.release.tooltip"
-                class="sc-ad80db87-0 dwUUfE"
-                data-mui-internal-clone-element="true"
-              >
-                <div
-                  class="sc-ad80db87-1 bba-DyI"
-                >
-                  <svg
-                    fill="none"
-                    font-size="28"
-                    height="1em"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiBox-root css-1113w14"
-                >
-                  Releases
-                </div>
-              </div>
-            </div>
-            <div
-              class="MuiBox-root css-10wzbhq"
-            >
-              <div
-                aria-label="Dashboards"
-                class="sc-ad80db87-0 dwUUfE"
-                data-mui-internal-clone-element="true"
-              >
-                <div
-                  class="sc-ad80db87-1 bba-DyI"
-                >
-                  <svg
-                    fill="none"
-                    font-size="28"
-                    height="1em"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <rect
-                      height="7"
-                      width="7"
-                      x="3"
-                      y="3"
-                    />
-                    <rect
-                      height="7"
-                      width="7"
-                      x="14"
-                      y="3"
-                    />
-                    <rect
-                      height="7"
-                      width="7"
-                      x="14"
-                      y="14"
-                    />
-                    <rect
-                      height="7"
-                      width="7"
-                      x="3"
-                      y="14"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiBox-root css-1113w14"
-                >
-                  Dashboards
-                </div>
-                <div
-                  class="MuiBox-root css-ccw5zh"
-                >
-                  <svg
-                    fill="none"
-                    font-size="20"
-                    height="1em"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <polyline
-                      points="6 9 12 15 18 9"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </div>
-          <hr
-            class="MuiDivider-root MuiDivider-fullWidth css-fan870-MuiDivider-root"
-          />
-          <div
-            class="MuiBox-root css-10wzbhq"
-          >
-            <div
-              aria-label="tooltip.user-menu"
-              class="sc-ad80db87-0 dwUUfE"
-              data-mui-internal-clone-element="true"
-            >
-              <div
-                class="sc-ad80db87-1 bba-DyI"
-              >
-                <div
-                  class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-128rogb-MuiAvatar-root"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiAvatar-fallback css-10mi8st-MuiSvgIcon-root-MuiAvatar-fallback"
-                    data-testid="PersonIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
-                    />
-                  </svg>
-                </div>
-              </div>
-              <div
-                class="MuiBox-root css-1113w14"
-              >
-                testuser
-              </div>
-              <div
-                class="MuiBox-root css-ccw5zh"
-              >
-                <svg
-                  fill="none"
-                  font-size="28"
-                  height="1em"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                  width="1em"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <polyline
-                    points="9 18 15 12 9 6"
-                  />
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
       <div
-        class="sc-4e0701da-4 kCuHiO"
+        class="sc-14d06553-4 hONrww"
       >
         <div
           class="sc-6674b5e5-0 gSYjiE"
@@ -1127,7 +1141,7 @@ Object {
         </div>
       </div>
       <div
-        class="sc-4e0701da-5 jsyunT"
+        class="sc-14d06553-5 fEeMmh"
       />
     </div>
   </div>,
@@ -1191,14 +1205,14 @@ Object {
   "baseElement": <body>
     <div>
       <div
-        class="sc-4e0701da-0 jrKyOu"
+        class="sc-14d06553-0 cxxzwQ"
       >
         <header
-          class="sc-4e0701da-2 jMuSff"
+          class="sc-14d06553-2 gIhd"
         >
           <img
             alt="MeasureSoftGram"
-            class="sc-4e0701da-3 fsQpzg"
+            class="sc-14d06553-3 hrEnUK"
             src="/images/svg/logo_white.svg"
           />
           <button
@@ -1248,7 +1262,7 @@ Object {
           </button>
         </header>
         <div
-          class="sc-4e0701da-4 kCuHiO"
+          class="sc-14d06553-4 hONrww"
         >
           <div
             class="sc-6674b5e5-0 gSYjiE"
@@ -1344,21 +1358,21 @@ Object {
           </div>
         </div>
         <div
-          class="sc-4e0701da-5 jsyunT"
+          class="sc-14d06553-5 fEeMmh"
         />
       </div>
     </div>
   </body>,
   "container": <div>
     <div
-      class="sc-4e0701da-0 jrKyOu"
+      class="sc-14d06553-0 cxxzwQ"
     >
       <header
-        class="sc-4e0701da-2 jMuSff"
+        class="sc-14d06553-2 gIhd"
       >
         <img
           alt="MeasureSoftGram"
-          class="sc-4e0701da-3 fsQpzg"
+          class="sc-14d06553-3 hrEnUK"
           src="/images/svg/logo_white.svg"
         />
         <button
@@ -1408,7 +1422,7 @@ Object {
         </button>
       </header>
       <div
-        class="sc-4e0701da-4 kCuHiO"
+        class="sc-14d06553-4 hONrww"
       >
         <div
           class="sc-6674b5e5-0 gSYjiE"
@@ -1504,7 +1518,7 @@ Object {
         </div>
       </div>
       <div
-        class="sc-4e0701da-5 jsyunT"
+        class="sc-14d06553-5 fEeMmh"
       />
     </div>
   </div>,
