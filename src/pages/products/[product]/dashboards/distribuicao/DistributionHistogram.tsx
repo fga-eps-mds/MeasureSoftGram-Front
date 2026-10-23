@@ -1,10 +1,13 @@
 import React, { useMemo } from 'react';
 import { Box, Typography } from '@mui/material';
 import DashboardCard from '@components/DashboardCard';
+import ExportCsvButton from '@components/ExportCsvButton';
 import { DistributionEntity } from '@customTypes/product';
 import { DASHBOARD_COLORS } from '@utils/dashboardColors';
 import { buildHistogram, formatAxisValue } from '@utils/distributionHistogram';
+import { CsvChart } from '@utils/exportCsv';
 import { formatHistogramOptions, HISTOGRAM_CHART_HEIGHT, HISTOGRAM_GRID_SIDES } from '@utils/formatDistributionCharts';
+import { DISTRIBUTION_CSV, HistogramCsvRow } from '@utils/formatDistributionCsv';
 import { QUALITY_BANDS } from '@utils/qualityBands';
 import DistributionChart from './DistributionChart';
 
@@ -104,7 +107,14 @@ export function QualityBandRuler() {
 }
 
 /** Quantas análises caem em cada faixa de valor (CA4); nos valores de 0 a 1, com a régua A a E. */
-export default function DistributionHistogram({ entity }: { entity: DistributionEntity }) {
+export default function DistributionHistogram({
+  entity,
+  csv
+}: {
+  entity: DistributionEntity;
+  /** O CSV do quadro, montado pela página; com ele, o cabeçalho ganha o botão "Exportar .csv". */
+  csv?: CsvChart<HistogramCsvRow>;
+}) {
   const histogram = useMemo(
     () =>
       buildHistogram(
@@ -122,7 +132,11 @@ export default function DistributionHistogram({ entity }: { entity: Distribution
       }, na escala da métrica.`;
 
   return (
-    <DashboardCard title={HISTOGRAM_TITLE} status="ready">
+    <DashboardCard
+      title={HISTOGRAM_TITLE}
+      status="ready"
+      headerAction={csv && <ExportCsvButton dashboard={DISTRIBUTION_CSV.dashboard} chart={csv} />}
+    >
       <Box>
         <DistributionChart option={option} height={HISTOGRAM_CHART_HEIGHT} />
         {histogram.unit && <QualityBandRuler />}

@@ -34,22 +34,42 @@ export interface SummaryRow {
   highlight?: boolean;
 }
 
-/** Linhas do resumo estatístico (CA8), na ordem da referência; contagens sem casas e o resto com duas. */
+/** Uma estatística do resumo (CA8): o rótulo da tela e o campo do resumo do Service. */
+export interface SummaryStatistic {
+  label: string;
+  key: keyof DistributionSummary;
+  highlight?: boolean;
+}
+
+/** As estatísticas do resumo, na ordem da referência; a tela e o CSV usam a mesma lista. */
+export const SUMMARY_STATISTICS: SummaryStatistic[] = [
+  { label: 'Análises', key: 'count' },
+  { label: 'Mínimo', key: 'min' },
+  { label: 'Q1 (1º quartil)', key: 'q1' },
+  { label: 'Mediana', key: 'median' },
+  { label: 'Q3 (3º quartil)', key: 'q3' },
+  { label: 'Máximo', key: 'max' },
+  { label: 'IQR (Q3 − Q1)', key: 'iqr', highlight: true },
+  { label: 'Limite inferior', key: 'lower_limit' },
+  { label: 'Limite superior', key: 'upper_limit' },
+  { label: 'Discrepantes', key: 'outliers' },
+  { label: 'Média', key: 'mean' },
+  { label: 'Assimetria', key: 'skewness' }
+];
+
+/** Contagens sem casas e o resto com duas. */
+function formatSummaryValue(key: keyof DistributionSummary, value: number | null): string {
+  if (value !== null && (key === 'count' || key === 'outliers')) return formatCount(value);
+  return formatStatistic(value);
+}
+
+/** Linhas do resumo estatístico (CA8), na ordem da referência. */
 export function getSummaryRows(summary: DistributionSummary): SummaryRow[] {
-  return [
-    { label: 'Análises', value: formatCount(summary.count) },
-    { label: 'Mínimo', value: formatStatistic(summary.min) },
-    { label: 'Q1 (1º quartil)', value: formatStatistic(summary.q1) },
-    { label: 'Mediana', value: formatStatistic(summary.median) },
-    { label: 'Q3 (3º quartil)', value: formatStatistic(summary.q3) },
-    { label: 'Máximo', value: formatStatistic(summary.max) },
-    { label: 'IQR (Q3 − Q1)', value: formatStatistic(summary.iqr), highlight: true },
-    { label: 'Limite inferior', value: formatStatistic(summary.lower_limit) },
-    { label: 'Limite superior', value: formatStatistic(summary.upper_limit) },
-    { label: 'Discrepantes', value: formatCount(summary.outliers) },
-    { label: 'Média', value: formatStatistic(summary.mean) },
-    { label: 'Assimetria', value: formatStatistic(summary.skewness) }
-  ];
+  return SUMMARY_STATISTICS.map(({ label, key, highlight }) => ({
+    label,
+    value: formatSummaryValue(key, summary[key]),
+    ...(highlight ? { highlight } : {})
+  }));
 }
 
 /** O que o sinal da assimetria diz sobre as análises; null quando o Service não a calcula. */

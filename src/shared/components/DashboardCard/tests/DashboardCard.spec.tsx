@@ -88,6 +88,21 @@ describe('<DashboardCard />', () => {
     expect(screen.queryByText('Não foi possível carregar este gráfico')).not.toBeInTheDocument();
   });
 
+  it('no estado vazio, mostra ao lado do selo a ação desse estado, e não a dos dados', () => {
+    render(
+      <DashboardCard
+        title="Curva de densidade"
+        status="empty"
+        headerAction={<span>seletor</span>}
+        emptyHeaderAction={<span>exportar</span>}
+      />
+    );
+
+    expect(screen.getByText('Sem dados')).toBeInTheDocument();
+    expect(screen.getByText('exportar')).toBeInTheDocument();
+    expect(screen.queryByText('seletor')).not.toBeInTheDocument();
+  });
+
   it('troca o texto do selo quando a tela pede um mais específico', () => {
     render(<DashboardCard title="Produto sem release" status="empty" badgeLabel="Sem release" />);
 

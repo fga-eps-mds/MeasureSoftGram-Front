@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useMemo } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Box, Button, Container, Typography } from '@mui/material';
@@ -6,12 +6,14 @@ import { Box, Button, Container, Typography } from '@mui/material';
 import { NextPageWithLayout } from '@pages/_app.next';
 import getLayout from '@components/Layout';
 import DashboardCard from '@components/DashboardCard';
+import { ExportAllCsvButton } from '@components/ExportCsvButton';
 import useRequireAuth from '@hooks/useRequireAuth';
 import { usePreloadECharts } from '@components/ECharts';
 import { useProviderTerms } from '@hooks/useProviderTerms';
 import { DASHBOARD_COLORS } from '@utils/dashboardColors';
 import { DISTRIBUTION_LEVEL_LABELS } from '@utils/distributionCascade';
 import { formatAnalysisCount, formatPeriod } from '@utils/distributionSummary';
+import { DISTRIBUTION_CSV, formatDistributionCsvs } from '@utils/formatDistributionCsv';
 import { getPathId } from '@utils/pathDestructer';
 import { toLocalDay } from '@utils/releaseSelection';
 
@@ -87,6 +89,12 @@ const DistributionDashboard: NextPageWithLayout = () => {
     dashboard;
 
   const entityName = level === 'tsqmi' ? DISTRIBUTION_LEVEL_LABELS.tsqmi : selectedEntity?.name;
+  // os CSVs levam o que os quadros mostram: enquanto a seleção nova carrega, a resposta anterior, como eles
+  const csv = useMemo(
+    () => (status === 'ready' && distribution ? formatDistributionCsvs(distribution) : undefined),
+    [status, distribution]
+  );
+  const csvCharts = csv ? [csv.histogram, csv.density, csv.boxplot, csv.scatter, csv.summary] : [];
 
   const renderContent = () => {
     if (status === 'error') return <DistributionErrorCard onRetry={retry} />;
@@ -166,11 +174,11 @@ const DistributionDashboard: NextPageWithLayout = () => {
       return (
         <DistributionGrid
           busy={isUpdating}
-          histogram={<DistributionHistogram entity={entity} />}
-          density={<DistributionDensity entity={entity} />}
-          boxplot={<DistributionBoxplot entity={entity} childEntities={children ?? []} />}
-          scatter={<DistributionScatter entity={entity} />}
-          summary={<DistributionSummary summary={entity.summary} />}
+          histogram={<DistributionHistogram entity={entity} csv={csv?.histogram} />}
+          density={<DistributionDensity entity={entity} csv={csv?.density} />}
+          boxplot={<DistributionBoxplot entity={entity} childEntities={children ?? []} csv={csv?.boxplot} />}
+          scatter={<DistributionScatter entity={entity} csv={csv?.scatter} />}
+          summary={<DistributionSummary summary={entity.summary} csv={csv?.summary} />}
         />
       );
     }
@@ -194,13 +202,17 @@ const DistributionDashboard: NextPageWithLayout = () => {
 
       <Container maxWidth="xl">
         <Box display="flex" flexDirection="column" gap="24px" marginTop="40px" marginBottom="40px">
-          <Box>
-            <Typography component="h1" fontWeight="bold" fontSize="30px" color={DASHBOARD_COLORS.primary}>
-              {TITLE}
-            </Typography>
-            <Typography color={DASHBOARD_COLORS.mutedText} data-testid="distribution-subtitle">
-              Como os valores de <em>{entityName ?? 'uma entidade do modelo'}</em> se espalham entre as suas análises
-            </Typography>
+          {/* em tela estreita, o botão de exportar desce para baixo do título em vez de alargar a página */}
+          <Box display="flex" alignItems="flex-start" justifyContent="space-between" flexWrap="wrap" gap="16px">
+            <Box>
+              <Typography component="h1" fontWeight="bold" fontSize="30px" color={DASHBOARD_COLORS.primary}>
+                {TITLE}
+              </Typography>
+              <Typography color={DASHBOARD_COLORS.mutedText} data-testid="distribution-subtitle">
+                Como os valores de <em>{entityName ?? 'uma entidade do modelo'}</em> se espalham entre as suas análises
+              </Typography>
+            </Box>
+            <ExportAllCsvButton dashboard={DISTRIBUTION_CSV.dashboard} charts={csvCharts} />
           </Box>
 
           <DistributionFilters {...dashboard} />

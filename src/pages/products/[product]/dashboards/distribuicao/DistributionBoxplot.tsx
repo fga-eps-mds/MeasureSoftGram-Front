@@ -1,10 +1,12 @@
 import React, { useMemo } from 'react';
 import { Box, Theme, Typography } from '@mui/material';
 import DashboardCard from '@components/DashboardCard';
+import ExportCsvButton from '@components/ExportCsvButton';
 import { DistributionEntity, DistributionSummary } from '@customTypes/product';
 import { DASHBOARD_COLORS } from '@utils/dashboardColors';
 import { buildHistogram } from '@utils/distributionHistogram';
 import { formatCount, formatStatistic } from '@utils/distributionSummary';
+import { CsvChart } from '@utils/exportCsv';
 import {
   BOXPLOT_GRID,
   BOXPLOT_ROW_HEIGHT,
@@ -13,6 +15,7 @@ import {
   getLevelBoxplotHeight,
   getLevelBoxplotRows
 } from '@utils/formatDistributionCharts';
+import { BoxplotCsvRow, DISTRIBUTION_CSV } from '@utils/formatDistributionCsv';
 import DistributionChart from './DistributionChart';
 
 export const BOXPLOT_TITLE = 'Boxplot e percentis do nível';
@@ -97,10 +100,13 @@ function BoxplotLegend() {
  */
 export default function DistributionBoxplot({
   entity,
-  childEntities
+  childEntities,
+  csv
 }: {
   entity: DistributionEntity;
   childEntities: DistributionEntity[];
+  /** O CSV do quadro, montado pela página; com ele, o cabeçalho ganha o botão "Exportar .csv". */
+  csv?: CsvChart<BoxplotCsvRow>;
 }) {
   const rows = useMemo(() => getLevelBoxplotRows(entity, childEntities), [entity, childEntities]);
   const option = useMemo(() => {
@@ -115,7 +121,11 @@ export default function DistributionBoxplot({
   const hasMetricChildren = entity.level === 'measure' && childEntities.some((child) => child.level === 'metric');
 
   return (
-    <DashboardCard title={BOXPLOT_TITLE} status="ready">
+    <DashboardCard
+      title={BOXPLOT_TITLE}
+      status="ready"
+      headerAction={csv && <ExportCsvButton dashboard={DISTRIBUTION_CSV.dashboard} chart={csv} />}
+    >
       <Box
         data-testid="boxplot-layout"
         display="grid"

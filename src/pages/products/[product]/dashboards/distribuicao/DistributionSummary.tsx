@@ -1,20 +1,34 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import DashboardCard from '@components/DashboardCard';
+import ExportCsvButton from '@components/ExportCsvButton';
 import { DistributionSummary as Summary } from '@customTypes/product';
 import { DASHBOARD_COLORS } from '@utils/dashboardColors';
 import { describeSkewness, getSkewnessWarning, getSummaryRows } from '@utils/distributionSummary';
+import { CsvChart } from '@utils/exportCsv';
+import { DISTRIBUTION_CSV, SummaryCsvRow } from '@utils/formatDistributionCsv';
 import { COLOR_TOKENS } from '@utils/formatPulseChart';
 
 export const SUMMARY_TITLE = 'Resumo estatístico e IQR';
 
 /** Resumo estatístico das análises (CA8), com a nota sobre o IQR, os discrepantes e a assimetria. */
-export default function DistributionSummary({ summary }: { summary: Summary }) {
+export default function DistributionSummary({
+  summary,
+  csv
+}: {
+  summary: Summary;
+  /** O CSV do quadro, montado pela página; com ele, o cabeçalho ganha o botão "Exportar .csv". */
+  csv?: CsvChart<SummaryCsvRow>;
+}) {
   const warning = getSkewnessWarning(summary);
   const skewness = describeSkewness(summary.skewness);
 
   return (
-    <DashboardCard title={SUMMARY_TITLE} status="ready">
+    <DashboardCard
+      title={SUMMARY_TITLE}
+      status="ready"
+      headerAction={csv && <ExportCsvButton dashboard={DISTRIBUTION_CSV.dashboard} chart={csv} />}
+    >
       <Box component="dl" display="flex" flexDirection="column" gap="4px" margin={0}>
         {getSummaryRows(summary).map((row) => (
           <Box

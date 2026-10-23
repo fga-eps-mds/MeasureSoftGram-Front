@@ -10,6 +10,8 @@ export interface DashboardCardProps {
   status: DashboardCardStatus;
   /** Ação no canto do cabeçalho (um seletor, uma legenda), só quando há dados. */
   headerAction?: ReactNode;
+  /** Ação ao lado do selo do estado vazio (um botão de exportar desabilitado, por exemplo). */
+  emptyHeaderAction?: ReactNode;
   /** Esqueleto mostrado enquanto carrega. */
   loadingContent?: ReactNode;
   loadingMessage?: string;
@@ -50,6 +52,7 @@ export default function DashboardCard({
   title,
   status,
   headerAction,
+  emptyHeaderAction,
   loadingContent,
   loadingMessage = 'Carregando os dados da release…',
   emptyTitle = 'Ainda não há análises nesta release',
@@ -122,15 +125,15 @@ export default function DashboardCard({
         <Typography flex={1} fontWeight="bold" fontSize="18px" color={DASHBOARD_COLORS.cardTitle}>
           {title}
         </Typography>
-        {badge ? (
+        {badge && (
           <Box sx={{ backgroundColor: badge.background, borderRadius: '12px', padding: '4px 10px' }}>
             <Typography fontWeight="bold" fontSize="12px" color={badge.color}>
               {badgeLabel ?? badge.label}
             </Typography>
           </Box>
-        ) : (
-          headerAction
         )}
+        {status === 'ready' && headerAction}
+        {status === 'empty' && emptyHeaderAction}
       </Box>
       {renderContent()}
     </Paper>
