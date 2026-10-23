@@ -10,25 +10,42 @@ import {
 
 describe('formatPulseChart Utility', () => {
   describe('getQualityStatus', () => {
-    it('deve classificar valores menores que 0.40 como crítico', () => {
-      const status = getQualityStatus(0.35);
-      expect(status.key).toBe('critical');
-      expect(status.label).toBe('crítico');
-      expect(status.color).toBe(COLOR_TOKENS.critical);
+    // faixas A a E do Indicador Total da Qualidade (US06.01), com os valores de limite
+    it.each([
+      [0, 'E', 'Muito ruim', '#D7191C'],
+      [0.19, 'E', 'Muito ruim', '#D7191C'],
+      [0.2, 'D', 'Ruim', '#FE7D37'],
+      [0.39, 'D', 'Ruim', '#FE7D37'],
+      [0.4, 'C', 'Bom', '#DFB317'],
+      [0.59, 'C', 'Bom', '#DFB317'],
+      [0.6, 'B', 'Muito bom', '#8CC63F'],
+      [0.79, 'B', 'Muito bom', '#8CC63F'],
+      [0.8, 'A', 'Ótimo', '#1A9641'],
+      [1, 'A', 'Ótimo', '#1A9641'],
+    ])('classifica %p na faixa %s (%s)', (value, grade, label, color) => {
+      expect(getQualityStatus(value)).toEqual({ key: grade, label, color });
     });
 
-    it('deve classificar valores entre 0.40 e 0.69 como atenção', () => {
-      const status = getQualityStatus(0.55);
-      expect(status.key).toBe('warning');
-      expect(status.label).toBe('atenção');
-      expect(status.color).toBe(COLOR_TOKENS.warning);
+    it('leva o que passar de 0 a 1 para a faixa da ponta', () => {
+      expect(getQualityStatus(-0.1).key).toBe('E');
+      expect(getQualityStatus(1.2).key).toBe('A');
     });
+  });
 
-    it('deve classificar valores maiores ou iguais a 0.70 como adequado', () => {
-      const status = getQualityStatus(0.75);
-      expect(status.key).toBe('adequate');
-      expect(status.label).toBe('adequado');
-      expect(status.color).toBe(COLOR_TOKENS.adequate);
+  describe('formatPulseChartOptions', () => {
+    it('pinta o pulso com as 5 faixas', () => {
+      const repos: PulseRepositoryData[] = [
+        { id: 1, name: 'repo', measurements: [{ created_at: '2026-01-01T12:00:00Z', value: 0.5 }], releases: [] },
+      ];
+      const options = formatPulseChartOptions(repos) as { visualMap: { pieces: { color: string }[] }[] };
+
+      expect(options.visualMap[0].pieces.map((piece) => piece.color)).toEqual([
+        '#D7191C',
+        '#FE7D37',
+        '#DFB317',
+        '#8CC63F',
+        '#1A9641',
+      ]);
     });
   });
 
@@ -162,7 +179,7 @@ describe('formatPulseChart Utility', () => {
 
       const csv = convertPulseRepositoriesToCsv(repos);
       expect(csv).toContain('id,key,name,description,historyId,history_characteristic_id,history_value,history_created_at,quality_status');
-      expect(csv).toContain('1,,"2022-1-MeasureSoftGram-Front",,1,,0.8,2026-01-01T12:00:00Z,adequado');
+      expect(csv).toContain('1,,"2022-1-MeasureSoftGram-Front",,1,,0.8,2026-01-01T12:00:00Z,Ótimo');
     });
   });
 });

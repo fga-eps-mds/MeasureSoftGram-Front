@@ -1,4 +1,10 @@
-import { getQualityBand, QUALITY_BANDS } from '../qualityBands';
+import {
+  formatQualityBandRange,
+  getQualityBand,
+  getQualityBandClamped,
+  getQualityVisualMapPieces,
+  QUALITY_BANDS
+} from '../qualityBands';
 
 describe('QUALITY_BANDS', () => {
   it('cobre de 0 a 1 sem buracos, com as cores e os rótulos da US06.01', () => {
@@ -32,5 +38,37 @@ describe('getQualityBand', () => {
   it('não classifica valores fora de 0 a 1', () => {
     expect(getQualityBand(-0.1)).toBeUndefined();
     expect(getQualityBand(1.01)).toBeUndefined();
+  });
+});
+
+describe('getQualityBandClamped', () => {
+  it('leva o que passar de 0 a 1 para a faixa da ponta', () => {
+    expect(getQualityBandClamped(-0.1).grade).toBe('E');
+    expect(getQualityBandClamped(1.2).grade).toBe('A');
+    expect(getQualityBandClamped(0.6).grade).toBe('B');
+  });
+});
+
+describe('formatQualityBandRange', () => {
+  it('escreve o intervalo de cada faixa com vírgula decimal', () => {
+    expect(QUALITY_BANDS.map(formatQualityBandRange)).toEqual([
+      '0,00 a 0,19',
+      '0,20 a 0,39',
+      '0,40 a 0,59',
+      '0,60 a 0,79',
+      '0,80 a 1,00'
+    ]);
+  });
+});
+
+describe('getQualityVisualMapPieces', () => {
+  it('cobre de 0 a 1 com as mesmas fronteiras das faixas', () => {
+    expect(getQualityVisualMapPieces()).toEqual([
+      { lt: 0.2, color: '#D7191C' },
+      { gte: 0.2, lt: 0.4, color: '#FE7D37' },
+      { gte: 0.4, lt: 0.6, color: '#DFB317' },
+      { gte: 0.6, lt: 0.8, color: '#8CC63F' },
+      { gte: 0.8, color: '#1A9641' }
+    ]);
   });
 });

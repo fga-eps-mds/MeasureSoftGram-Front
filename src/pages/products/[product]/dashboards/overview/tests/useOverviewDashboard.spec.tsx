@@ -1,7 +1,7 @@
 import { act, renderHook } from '@testing-library/react';
 import { useRequest } from '@hooks/useRequest';
 import { useOverviewDashboard } from '../useOverviewDashboard';
-import { characteristics, previousCharacteristics, releases, summary } from './fixtures';
+import { analysis, characteristics, previousCharacteristics, releases, summary } from './fixtures';
 
 jest.mock('@hooks/useRequest', () => ({ useRequest: jest.fn() }));
 
@@ -16,6 +16,7 @@ function mockRequests({ releasesData = { results: releases }, error }: { release
 
     const releaseId = request.params?.release_id;
     if (request.url.endsWith('/summary/')) return { data: summary(releaseId), isLoading: false, error, mutate };
+    if (request.url.endsWith('/analysis_data/')) return { data: analysis(), isLoading: false, error, mutate };
     const data = releaseId === 1 ? previousCharacteristics : characteristics();
     return { data, isLoading: false, error, mutate };
   });
@@ -46,6 +47,13 @@ describe('useOverviewDashboard', () => {
         '/v1/organizations/1/products/2/release-dashboard/characteristics/?2'
       ])
     );
+  });
+
+  it('busca o analysis_data da release, para o equalizador e o radar', () => {
+    const { result } = renderHook(() => useOverviewDashboard('1', '2'));
+
+    expect(result.current.analysis?.accomplished).toHaveLength(2);
+    expect(requestedUrls()).toContain('/v1/organizations/1/products/2/release/2/analysis_data/?');
   });
 
   it('busca também a release anterior, para a variação do TSQMI', () => {
@@ -92,7 +100,9 @@ describe('useOverviewDashboard', () => {
     result.current.retrySummary();
     result.current.retryCharacteristics();
     result.current.retryReleases();
+    result.current.retryAnalysis();
 
-    expect(mutate).toHaveBeenCalledTimes(4);
+    expect(result.current.analysisError).toBeTruthy();
+    expect(mutate).toHaveBeenCalledTimes(5);
   });
 });

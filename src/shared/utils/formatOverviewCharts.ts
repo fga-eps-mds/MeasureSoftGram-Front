@@ -1,9 +1,7 @@
-import {
-  ReleaseDashboardCharacteristic,
-  ReleaseDashboardCharacteristics,
-  ReleaseDashboardRepository
-} from '@customTypes/product';
+import { AccomplishedRepository, ReleaseDashboardCharacteristics } from '@customTypes/product';
+import { CharacteristicComparison } from '@utils/comparePlannedAccomplished';
 import { DASHBOARD_COLORS } from '@utils/dashboardColors';
+import { getQualityBandClamped } from '@utils/qualityBands';
 
 const AXIS_LABEL = { color: DASHBOARD_COLORS.mutedText, fontSize: 11 };
 const SPLIT_LINE = { lineStyle: { color: DASHBOARD_COLORS.gridLine } };
@@ -57,10 +55,16 @@ export function getTsqmiBars(
     .sort((a, b) => b.value - a.value);
 }
 
+/** "B · Muito bom": grau e rótulo da faixa do Indicador Total da Qualidade (US06.01). */
+export function formatQualityGrade(value: number): string {
+  const band = getQualityBandClamped(value);
+  return `${band.grade} · ${band.label}`;
+}
+
 export function formatTsqmiTooltip(bar: TsqmiBar, releaseName: string, previousReleaseName?: string): string {
   const lines = [
     `<strong>${escapeHtml(bar.name)} · ${escapeHtml(releaseName)}</strong>`,
-    `TSQMI: ${formatDecimal(bar.value)}`
+    `Indicador Total da Qualidade: ${formatDecimal(bar.value)} (${formatQualityGrade(bar.value)})`
   ];
   if (bar.previous !== null && previousReleaseName) {
     lines.push(
@@ -98,48 +102,50 @@ export function formatTsqmiBarOptions(bars: TsqmiBar[], releaseName: string, pre
     series: [
       {
         type: 'bar',
-        data: bars.map((bar) => bar.value),
+        // cada barra com a cor da faixa do valor (A a E)
+        data: bars.map((bar) => ({ value: bar.value, itemStyle: { color: getQualityBandClamped(bar.value).color } })),
         barMaxWidth: 22,
-        itemStyle: { color: DASHBOARD_COLORS.primary, borderRadius: 3 },
+        itemStyle: { borderRadius: 3 },
         label: {
           show: true,
           position: 'right',
           ...VALUE_LABEL,
           fontSize: 13,
-          formatter: ({ value }: { value: number }) => formatDecimal(value)
+          formatter: ({ value }: { value: number }) => `${formatDecimal(value)} · ${getQualityBandClamped(value).grade}`
         }
       }
     ]
   };
 }
 
-/** Repositório que o radar mostra primeiro: o primeiro com alguma característica calculada na release. */
-export function getDefaultRadarRepository(repositories: ReleaseDashboardRepository[]): number | undefined {
-  const withValues = repositories.find((repository) =>
-    repository.characteristics.some((characteristic) => characteristic.value !== null)
+/** Repositório que o equalizador e o radar mostram primeiro: o primeiro com alguma característica realizada. */
+export function getDefaultAnalysisRepository(accomplished: AccomplishedRepository[]): string | undefined {
+  const withValues = accomplished.find((repository) => hasAccomplishedValues(repository));
+  return (withValues ?? accomplished[0])?.repository_name;
+}
+
+export function hasAccomplishedValues(repository?: AccomplishedRepository): boolean {
+  return !!repository?.characteristics?.some(
+    (characteristic) => typeof characteristic?.value === 'number' && Number.isFinite(characteristic.value)
   );
-  return (withValues ?? repositories[0])?.id;
 }
 
-export function hasCharacteristicValues(repository?: ReleaseDashboardRepository): boolean {
-  return !!repository?.characteristics.some((characteristic) => characteristic.value !== null);
-}
-
+/**
+ * Radar das características do repositório com os mesmos valores do realizado (Rd) do equalizador: os eixos são as
+ * características planejadas, na mesma ordem, e uma característica sem realizado fica sem ponto em vez de zero.
+ */
 export function formatRadarOptions(
-  characteristics: Pick<ReleaseDashboardCharacteristic, 'key' | 'name'>[],
-  repository: ReleaseDashboardRepository
+  comparisons: CharacteristicComparison[],
+  repositoryName: string,
+  nameOf: (key: string) => string
 ) {
-  const valueByKey = new Map(
-    repository.characteristics.map((characteristic) => [characteristic.key, characteristic.value])
-  );
-  // sem valor na release, o eixo fica sem ponto em vez de cair para zero
-  const values = characteristics.map((characteristic) => valueByKey.get(characteristic.key) ?? '-');
+  const values = comparisons.map((comparison) => comparison.rd ?? '-');
 
   return {
     animation: false,
     tooltip: { trigger: 'item' },
     radar: {
-      indicator: characteristics.map((characteristic) => ({ name: characteristic.name, max: 1 })),
+      indicator: comparisons.map((comparison) => ({ name: nameOf(comparison.key), max: 1 })),
       center: ['50%', '54%'],
       radius: '72%',
       splitNumber: 4,
@@ -166,77 +172,7 @@ export function formatRadarOptions(
           textBorderWidth: 2,
           formatter: ({ value }: { value: number | string }) => (typeof value === 'number' ? formatDecimal(value) : '')
         },
-        data: [{ name: repository.name, value: values }]
-      }
-    ]
-  };
-}
-
-export function hasPlannedOrAccomplished(characteristics: ReleaseDashboardCharacteristic[]): boolean {
-  return characteristics.some(
-    (characteristic) => characteristic.planned !== null || characteristic.accomplished !== null
-  );
-}
-
-export function formatPlannedAccomplishedOptions(characteristics: ReleaseDashboardCharacteristic[]) {
-  const barLabel = {
-    show: true,
-    position: 'top',
-    ...VALUE_LABEL,
-    formatter: ({ value }: { value: number | string }) => (typeof value === 'number' ? formatDecimal(value) : '')
-  };
-
-  return {
-    animation: false,
-    legend: { show: false },
-    grid: { left: 8, right: 8, top: 24, bottom: 8, containLabel: true },
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: { type: 'shadow' },
-      formatter: (params: { dataIndex: number }[]) => {
-        const characteristic = characteristics[params[0].dataIndex];
-        const lines = [
-          `<strong>${escapeHtml(characteristic.name)}</strong>`,
-          `Planejado: ${formatDecimal(characteristic.planned)}`,
-          `Realizado: ${formatDecimal(characteristic.accomplished)}`
-        ];
-        if (characteristic.dispersion !== null) {
-          lines.push(`Dispersão entre os repositórios: ±${formatDecimal(characteristic.dispersion)}`);
-        }
-        return lines.join('<br/>');
-      }
-    },
-    xAxis: {
-      type: 'category',
-      data: characteristics.map((characteristic) => characteristic.name),
-      axisTick: { show: false },
-      axisLine: { lineStyle: { color: DASHBOARD_COLORS.gridLine } },
-      axisLabel: { color: DASHBOARD_COLORS.text, fontSize: 12 }
-    },
-    yAxis: {
-      type: 'value',
-      min: 0,
-      max: 1,
-      interval: 0.25,
-      axisLabel: { ...AXIS_LABEL, formatter: (value: number) => formatDecimal(value) },
-      splitLine: SPLIT_LINE
-    },
-    series: [
-      {
-        name: 'Planejado',
-        type: 'bar',
-        barMaxWidth: 34,
-        itemStyle: { color: DASHBOARD_COLORS.planned, borderRadius: 2 },
-        label: barLabel,
-        data: characteristics.map((characteristic) => characteristic.planned ?? '-')
-      },
-      {
-        name: 'Realizado',
-        type: 'bar',
-        barMaxWidth: 34,
-        itemStyle: { color: DASHBOARD_COLORS.accomplished, borderRadius: 2 },
-        label: barLabel,
-        data: characteristics.map((characteristic) => characteristic.accomplished ?? '-')
+        data: [{ name: repositoryName, value: values }]
       }
     ]
   };

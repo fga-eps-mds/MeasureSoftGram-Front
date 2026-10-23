@@ -1,40 +1,35 @@
-import { ReleaseDashboardCharacteristics, ReleaseDashboardRepository } from '@customTypes/product';
+import {
+  AccomplishedRepository,
+  ReleaseDashboardCharacteristics,
+  ReleaseDashboardRepository
+} from '@customTypes/product';
+import { comparePlannedAccomplished } from '@utils/comparePlannedAccomplished';
 import {
   formatDecimal,
-  formatPlannedAccomplishedOptions,
+  formatQualityGrade,
   formatRadarOptions,
   formatTotal,
   formatTsqmiBarOptions,
   formatTsqmiTooltip,
   formatVariation,
-  getDefaultRadarRepository,
+  getDefaultAnalysisRepository,
   getTsqmiBars,
-  hasCharacteristicValues,
-  hasPlannedOrAccomplished
+  hasAccomplishedValues
 } from '../formatOverviewCharts';
 
-function repository(
-  id: number,
-  name: string,
-  tsqmi: number | null,
-  values: Record<string, number | null> = {}
-): ReleaseDashboardRepository {
-  return {
-    id,
-    name,
-    tsqmi: { value: tsqmi, created_at: tsqmi === null ? null : '2026-02-10T10:00:00-03:00' },
-    characteristics: Object.entries(values).map(([key, value]) => ({ key, value, created_at: null }))
-  };
+function repository(id: number, name: string, tsqmi: number | null): ReleaseDashboardRepository {
+  return { id, name, tsqmi: { value: tsqmi, created_at: tsqmi === null ? null : '2026-02-10T10:00:00-03:00' } };
 }
 
-function characteristicsData(repositories: ReleaseDashboardRepository[]): ReleaseDashboardCharacteristics {
+function tsqmiData(repositories: ReleaseDashboardRepository[]): ReleaseDashboardCharacteristics {
+  return { release: { id: 2, release_name: 'R2', start_at: '', end_at: '' }, repositories };
+}
+
+function accomplished(name: string, values: Record<string, number | null>, normDiff = 0.1): AccomplishedRepository {
   return {
-    release: { id: 2, release_name: 'R2', start_at: '', end_at: '' },
-    characteristics: [
-      { key: 'reliability', name: 'Reliability', planned: 0.7, accomplished: 0.74, dispersion: 0.05 },
-      { key: 'maintainability', name: 'Maintainability', planned: null, accomplished: null, dispersion: null }
-    ],
-    repositories
+    repository_name: name,
+    norm_diff: normDiff,
+    characteristics: Object.entries(values).map(([key, value]) => ({ name: key, value: value as number, diff: 0 }))
   };
 }
 
@@ -48,19 +43,26 @@ describe('formatOverviewCharts', () => {
     expect(formatVariation(0.001)).toBe('0,00');
   });
 
-  describe('TSQMI por repositório', () => {
-    const current = characteristicsData([
+  it('escreve o grau e o rótulo da faixa do indicador', () => {
+    expect(formatQualityGrade(0.72)).toBe('B · Muito bom');
+    expect(formatQualityGrade(0.8)).toBe('A · Ótimo');
+    expect(formatQualityGrade(0.19)).toBe('E · Muito ruim');
+  });
+
+  describe('Indicador Total da Qualidade por repositório', () => {
+    const current = tsqmiData([
       repository(1, 'core', 0.77),
       repository(2, 'front', 0.72),
       repository(3, 'service', 0.81),
-      repository(4, 'docs', null)
+      repository(4, 'docs', null),
+      repository(5, 'action', 0.17)
     ]);
-    const previous = characteristicsData([repository(2, 'front', 0.75)]);
+    const previous = tsqmiData([repository(2, 'front', 0.75)]);
 
-    it('ordena do maior TSQMI para o menor e tira quem não tem valor na release', () => {
+    it('ordena do maior indicador para o menor e tira quem não tem valor na release', () => {
       const bars = getTsqmiBars(current, previous);
 
-      expect(bars.map((bar) => bar.name)).toEqual(['service', 'core', 'front']);
+      expect(bars.map((bar) => bar.name)).toEqual(['service', 'core', 'front', 'action']);
       expect(bars.find((bar) => bar.name === 'front')?.previous).toBe(0.75);
       expect(bars.find((bar) => bar.name === 'core')?.previous).toBeNull();
     });
@@ -69,11 +71,11 @@ describe('formatOverviewCharts', () => {
       expect(getTsqmiBars(undefined)).toEqual([]);
     });
 
-    it('mostra a variação em relação à release anterior no tooltip', () => {
+    it('mostra a faixa e a variação em relação à release anterior no tooltip', () => {
       const front = getTsqmiBars(current, previous).find((bar) => bar.name === 'front')!;
 
       expect(formatTsqmiTooltip(front, 'R2', 'R1')).toBe(
-        '<strong>front · R2</strong><br/>TSQMI: 0,72<br/>Variação: −0,03 em relação à R1'
+        '<strong>front · R2</strong><br/>Indicador Total da Qualidade: 0,72 (B · Muito bom)<br/>Variação: −0,03 em relação à R1'
       );
     });
 
@@ -89,80 +91,65 @@ describe('formatOverviewCharts', () => {
       expect(formatTsqmiTooltip(bar, 'R2')).not.toContain('<b>');
     });
 
-    it('monta as barras na ordem e no eixo de 0 a 1', () => {
+    it('pinta cada barra com a cor da faixa do valor e escreve o grau', () => {
       const bars = getTsqmiBars(current);
       const options = formatTsqmiBarOptions(bars, 'R2');
 
-      expect(options.yAxis.data).toEqual(['service', 'core', 'front']);
-      expect(options.series[0].data).toEqual([0.81, 0.77, 0.72]);
+      expect(options.yAxis.data).toEqual(['service', 'core', 'front', 'action']);
+      expect(options.series[0].data).toEqual([
+        { value: 0.81, itemStyle: { color: '#1A9641' } },
+        { value: 0.77, itemStyle: { color: '#8CC63F' } },
+        { value: 0.72, itemStyle: { color: '#8CC63F' } },
+        { value: 0.17, itemStyle: { color: '#D7191C' } }
+      ]);
+      expect(options.series[0].label.formatter({ value: 0.81 })).toBe('0,81 · A');
       expect(options.xAxis).toMatchObject({ min: 0, max: 1 });
       expect(options.tooltip.formatter({ dataIndex: 0 })).toContain('service · R2');
     });
   });
 
-  describe('radar', () => {
+  describe('equalizador e radar (analysis_data)', () => {
     const repositories = [
-      repository(1, 'docs', null, { reliability: null }),
-      repository(2, 'core', 0.7, { reliability: 0.74, maintainability: 0.78 })
+      accomplished('docs', { reliability: null }),
+      accomplished('core', { reliability: 0.74, maintainability: 0.78 })
+    ];
+    const planned = [
+      { name: 'reliability', value: 0.7, diff: 0 },
+      { name: 'maintainability', value: 0.8, diff: 0 },
+      { name: 'functional_suitability', value: 0.6, diff: 0 }
     ];
 
-    it('começa pelo primeiro repositório com alguma característica calculada', () => {
-      expect(getDefaultRadarRepository(repositories)).toBe(2);
-      expect(getDefaultRadarRepository([repositories[0]])).toBe(1);
-      expect(getDefaultRadarRepository([])).toBeUndefined();
+    it('começa pelo primeiro repositório com alguma característica realizada', () => {
+      expect(getDefaultAnalysisRepository(repositories)).toBe('core');
+      expect(getDefaultAnalysisRepository([repositories[0]])).toBe('docs');
+      expect(getDefaultAnalysisRepository([])).toBeUndefined();
     });
 
-    it('sabe se o repositório tem alguma característica calculada', () => {
-      expect(hasCharacteristicValues(repositories[0])).toBe(false);
-      expect(hasCharacteristicValues(repositories[1])).toBe(true);
-      expect(hasCharacteristicValues(undefined)).toBe(false);
+    it('sabe se o repositório tem alguma característica realizada', () => {
+      expect(hasAccomplishedValues(repositories[0])).toBe(false);
+      expect(hasAccomplishedValues(repositories[1])).toBe(true);
+      expect(hasAccomplishedValues(undefined)).toBe(false);
     });
 
-    it('usa as características da configuração como eixos, de 0 a 1', () => {
-      const { characteristics } = characteristicsData([]);
-      const options = formatRadarOptions(characteristics, repositories[1]);
+    it('usa os mesmos eixos e valores do realizado (Rd) do equalizador', () => {
+      const comparisons = comparePlannedAccomplished(planned, repositories[1].characteristics);
+      const options = formatRadarOptions(comparisons, 'core', (key) => `nome de ${key}`);
 
       expect(options.radar.indicator).toEqual([
-        { name: 'Reliability', max: 1 },
-        { name: 'Maintainability', max: 1 }
+        { name: 'nome de reliability', max: 1 },
+        { name: 'nome de maintainability', max: 1 },
+        { name: 'nome de functional_suitability', max: 1 }
       ]);
-      expect(options.series[0].data[0].value).toEqual([0.74, 0.78]);
+      expect(options.series[0].data[0]).toEqual({ name: 'core', value: [0.74, 0.78, '-'] });
+      expect(comparisons.map((comparison) => comparison.rd)).toEqual([0.74, 0.78, null]);
     });
 
-    it('deixa sem ponto a característica sem valor, em vez de zero', () => {
-      const { characteristics } = characteristicsData([]);
-      const options = formatRadarOptions(characteristics, repository(3, 'web', null, { reliability: 0.6 }));
+    it('deixa sem ponto a característica sem realizado, em vez de zero', () => {
+      const options = formatRadarOptions(comparePlannedAccomplished(planned, []), 'web', (key) => key);
 
-      expect(options.series[0].data[0].value).toEqual([0.6, '-']);
+      expect(options.series[0].data[0].value).toEqual(['-', '-', '-']);
       expect(options.series[0].label.formatter({ value: '-' })).toBe('');
       expect(options.series[0].label.formatter({ value: 0.6 })).toBe('0,60');
-    });
-  });
-
-  describe('planejado × realizado', () => {
-    const { characteristics } = characteristicsData([]);
-
-    it('monta uma barra de planejado e uma de realizado por característica', () => {
-      const options = formatPlannedAccomplishedOptions(characteristics);
-
-      expect(options.xAxis.data).toEqual(['Reliability', 'Maintainability']);
-      expect(options.series.map((series) => series.name)).toEqual(['Planejado', 'Realizado']);
-      expect(options.series[0].data).toEqual([0.7, '-']);
-      expect(options.series[1].data).toEqual([0.74, '-']);
-    });
-
-    it('mostra a dispersão entre os repositórios no tooltip', () => {
-      const options = formatPlannedAccomplishedOptions(characteristics);
-
-      expect(options.tooltip.formatter([{ dataIndex: 0 }])).toBe(
-        '<strong>Reliability</strong><br/>Planejado: 0,70<br/>Realizado: 0,74<br/>Dispersão entre os repositórios: ±0,05'
-      );
-      expect(options.tooltip.formatter([{ dataIndex: 1 }])).toContain('Planejado: sem dado');
-    });
-
-    it('sabe se há planejado ou realizado para mostrar', () => {
-      expect(hasPlannedOrAccomplished(characteristics)).toBe(true);
-      expect(hasPlannedOrAccomplished([characteristics[1]])).toBe(false);
     });
   });
 });

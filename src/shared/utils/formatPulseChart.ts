@@ -1,3 +1,4 @@
+import { getQualityBandClamped, getQualityVisualMapPieces, QualityGrade } from './qualityBands';
 import { toPulseSeries } from './toPulseSeries';
 
 export const COLOR_TOKENS = {
@@ -14,7 +15,7 @@ export const COLOR_TOKENS = {
   mutedText: 'rgba(0, 0, 0, 0.65)',
 };
 
-export type QualityRange = 'critical' | 'warning' | 'adequate';
+export type QualityRange = QualityGrade;
 
 export interface QualityStatus {
   key: QualityRange;
@@ -22,14 +23,10 @@ export interface QualityStatus {
   color: string;
 }
 
+/** Faixa do Indicador Total da Qualidade (A a E, US06.01) de um valor; as faixas ficam em `qualityBands`. */
 export function getQualityStatus(value: number): QualityStatus {
-  if (value < 0.4) {
-    return { key: 'critical', label: 'crítico', color: COLOR_TOKENS.critical };
-  }
-  if (value < 0.7) {
-    return { key: 'warning', label: 'atenção', color: COLOR_TOKENS.warning };
-  }
-  return { key: 'adequate', label: 'adequado', color: COLOR_TOKENS.adequate };
+  const band = getQualityBandClamped(value);
+  return { key: band.grade, label: band.label, color: band.color };
 }
 
 export interface VariationInfo {
@@ -283,11 +280,7 @@ export function formatPulseChartOptions(repositories: PulseRepositoryData[]) {
         show: false,
         dimension: 1,
         seriesIndex: Array.from({ length: gridCount }, (_, i) => i),
-        pieces: [
-          { lte: 0.399, color: COLOR_TOKENS.critical },
-          { gte: 0.4, lte: 0.699, color: COLOR_TOKENS.warning },
-          { gte: 0.7, color: COLOR_TOKENS.adequate },
-        ],
+        pieces: getQualityVisualMapPieces(),
       },
     ],
     tooltip: {

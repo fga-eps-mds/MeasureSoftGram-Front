@@ -27,3 +27,29 @@ export function getQualityBand(value: number): QualityBand | undefined {
   if (value < 0 || value > 1) return undefined;
   return QUALITY_BANDS.find((band) => value < band.max) ?? QUALITY_BANDS[QUALITY_BANDS.length - 1];
 }
+
+/** Faixa de um valor, levando o que passar de 0 a 1 para a faixa da ponta (E abaixo de 0, A acima de 1). */
+export function getQualityBandClamped(value: number): QualityBand {
+  return getQualityBand(Math.min(1, Math.max(0, value))) as QualityBand;
+}
+
+const decimal = (value: number) => value.toFixed(2).replace('.', ',');
+
+/** Intervalo da faixa para as legendas: "0,00 a 0,19" … "0,80 a 1,00". */
+export function formatQualityBandRange(band: QualityBand): string {
+  const end = band.max === 1 ? 1 : band.max - 0.01;
+  return `${decimal(band.min)} a ${decimal(end)}`;
+}
+
+/** Peças do `visualMap` do ECharts que pintam uma série pela faixa do valor. */
+export function getQualityVisualMapPieces() {
+  return QUALITY_BANDS.map((band, index) => {
+    const isFirst = index === 0;
+    const isLast = index === QUALITY_BANDS.length - 1;
+    return {
+      ...(isFirst ? {} : { gte: band.min }),
+      ...(isLast ? {} : { lt: band.max }),
+      color: band.color
+    };
+  });
+}

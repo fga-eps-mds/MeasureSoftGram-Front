@@ -1,4 +1,6 @@
 import {
+  AccomplishedRepository,
+  IReleasesWithGoalAndAccomplished,
   ReleaseDashboardCharacteristics,
   ReleaseDashboardRepository,
   ReleaseDashboardSummary
@@ -30,38 +32,42 @@ export function summary(releaseId = 2): ReleaseDashboardSummary {
   };
 }
 
-function repository(
-  id: number,
-  name: string,
-  tsqmi: number | null,
-  values: Record<string, number | null>
-): ReleaseDashboardRepository {
-  return {
-    id,
-    name,
-    tsqmi: { value: tsqmi, created_at: null },
-    characteristics: Object.entries(values).map(([key, value]) => ({ key, value, created_at: null }))
-  };
+function repository(id: number, name: string, tsqmi: number | null): ReleaseDashboardRepository {
+  return { id, name, tsqmi: { value: tsqmi, created_at: null } };
 }
 
+/** release-dashboard/characteristics: o Indicador Total da Qualidade de cada repositório. */
 export function characteristics(
-  repositories: ReleaseDashboardRepository[] = [
-    repository(7, 'service', 0.81, { reliability: 0.74, maintainability: 0.78 }),
-    repository(9, 'front', 0.72, { reliability: 0.7, maintainability: null })
-  ]
+  repositories: ReleaseDashboardRepository[] = [repository(7, 'service', 0.81), repository(9, 'front', 0.72)]
 ): ReleaseDashboardCharacteristics {
+  return { release: { id: 2, release_name: '2026.2 R2', start_at: '', end_at: '' }, repositories };
+}
+
+export const previousCharacteristics = characteristics([repository(9, 'front', 0.75)]);
+
+function accomplished(name: string, values: Record<string, number | null>, normDiff: number): AccomplishedRepository {
   return {
-    release: { id: 2, release_name: '2026.2 R2', start_at: '', end_at: '' },
-    characteristics: [
-      { key: 'reliability', name: 'Reliability', planned: 0.7, accomplished: 0.72, dispersion: 0.02 },
-      { key: 'maintainability', name: 'Maintainability', planned: 0.8, accomplished: 0.78, dispersion: 0 }
-    ],
-    repositories
+    repository_name: name,
+    norm_diff: normDiff,
+    characteristics: Object.entries(values).map(([key, value]) => ({ name: key, value: value as number, diff: 0 }))
   };
 }
 
-export const repositoryWithoutAnalysis = repository(11, 'docs', null, { reliability: null, maintainability: null });
+/** analysis_data da release: o mesmo do equalizador da tela da release. */
+export function analysis(
+  repositories: AccomplishedRepository[] = [
+    accomplished('service', { reliability: 0.74, maintainability: 0.78 }, 0.05),
+    accomplished('front', { reliability: 0.7, maintainability: null }, 0.2)
+  ]
+): IReleasesWithGoalAndAccomplished {
+  return {
+    release: releases[1],
+    planned: [
+      { name: 'reliability', value: 0.7, diff: 0 },
+      { name: 'maintainability', value: 0.8, diff: 0 }
+    ],
+    accomplished: repositories
+  };
+}
 
-export const previousCharacteristics = characteristics([
-  repository(9, 'front', 0.75, { reliability: 0.7, maintainability: 0.7 })
-]);
+export const repositoryWithoutAnalysis = accomplished('docs', { reliability: null, maintainability: null }, 0);

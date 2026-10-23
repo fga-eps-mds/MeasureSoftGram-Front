@@ -300,28 +300,19 @@ export interface ReleaseDashboardSummary {
   };
 }
 
-export interface ReleaseDashboardCharacteristic {
-  key: string;
-  name: string;
-  /** Meta da release, de 0 a 1; null quando a release não tem meta para a característica. */
-  planned: number | null;
-  /** Média entre os repositórios com valor; null quando nenhum tem valor. */
-  accomplished: number | null;
-  /** Desvio padrão entre os repositórios com valor. */
-  dispersion: number | null;
-}
-
 export interface ReleaseDashboardRepository {
   id: number;
   name: string;
+  /** Indicador Total da Qualidade (TSQMI) do repositório na release. */
   tsqmi: ReleaseValue;
-  characteristics: Array<ReleaseValue & { key: string }>;
 }
 
-/** GET products/{id}/release-dashboard/characteristics/?release_id= (Service, US07.01) */
+/**
+ * GET products/{id}/release-dashboard/characteristics/?release_id= (Service, US07.01): o Indicador Total da Qualidade
+ * de cada repositório na release. O planejado × realizado e o radar usam o analysis_data da release.
+ */
 export interface ReleaseDashboardCharacteristics {
   release: ReleaseDashboardRelease;
-  characteristics: ReleaseDashboardCharacteristic[];
   repositories: ReleaseDashboardRepository[];
 }
 

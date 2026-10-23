@@ -3,6 +3,7 @@ import { useRequest } from '@hooks/useRequest';
 import { productQuery } from '@services/product';
 import {
   IReleases,
+  IReleasesWithGoalAndAccomplished,
   ReleaseDashboardCharacteristics,
   ReleaseDashboardSummary,
   ReleasesPaginated
@@ -28,6 +29,10 @@ export function useOverviewDashboard(organizationId: string, productId: string) 
   const characteristicsRequest = useRequest<ReleaseDashboardCharacteristics>(
     productQuery.getReleaseDashboardCharacteristics(organizationId, productId, release?.id)
   );
+  // planejado × realizado e radar: o mesmo analysis_data da tela da release (Rp, Rd, diff e norm_diff)
+  const analysisRequest = useRequest<IReleasesWithGoalAndAccomplished>(
+    productQuery.getReleaseAnalysisDataConfig(organizationId, productId, release?.id)
+  );
   // só para a variação do TSQMI no tooltip: se falhar, o gráfico continua sem a variação
   const previousCharacteristicsRequest = useRequest<ReleaseDashboardCharacteristics>(
     productQuery.getReleaseDashboardCharacteristics(organizationId, productId, previousRelease?.id)
@@ -50,6 +55,9 @@ export function useOverviewDashboard(organizationId: string, productId: string) 
     characteristics: characteristicsRequest.data,
     characteristicsError: characteristicsRequest.error,
     previousCharacteristics: previousCharacteristicsRequest.data,
+    analysis: analysisRequest.data,
+    analysisError: analysisRequest.error,
+    retryAnalysis: () => void analysisRequest.mutate(),
     retryReleases: () => void releasesRequest.mutate(),
     retrySummary: () => void summaryRequest.mutate(),
     retryCharacteristics: () => {

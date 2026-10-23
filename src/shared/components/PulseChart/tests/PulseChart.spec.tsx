@@ -91,9 +91,11 @@ describe('<PulseChart />', () => {
     const { getByText } = render(<PulseChart organizationId="1" productId="1" />);
 
     expect(getByText('Gráfico MSG — Evolução de Qualidade')).toBeInTheDocument();
-    expect(getByText('Crítico (< 0,40)')).toBeInTheDocument();
-    expect(getByText('Atenção (0,40–0,69)')).toBeInTheDocument();
-    expect(getByText('Adequado (≥ 0,70)')).toBeInTheDocument();
+    expect(getByText('A · Ótimo (0,80 a 1,00)')).toBeInTheDocument();
+    expect(getByText('B · Muito bom (0,60 a 0,79)')).toBeInTheDocument();
+    expect(getByText('C · Bom (0,40 a 0,59)')).toBeInTheDocument();
+    expect(getByText('D · Ruim (0,20 a 0,39)')).toBeInTheDocument();
+    expect(getByText('E · Muito ruim (0,00 a 0,19)')).toBeInTheDocument();
     expect(getByText('2022-1-MeasureSoftGram-CLI')).toBeInTheDocument();
     expect(getByText('0.918')).toBeInTheDocument();
     expect(getByText('Renderizado com Apache ECharts')).toBeInTheDocument();

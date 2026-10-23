@@ -12,17 +12,20 @@ import useRequireAuth from '@hooks/useRequireAuth';
 import { useProviderTerms } from '@hooks/useProviderTerms';
 import { ReleaseDashboardSummary } from '@customTypes/product';
 import { DASHBOARD_COLORS } from '@utils/dashboardColors';
+import PlannedVsAccomplishedEqualizer from '@components/PlannedVsAccomplishedEqualizer';
+import { comparePlannedAccomplished } from '@utils/comparePlannedAccomplished';
 import {
-  formatPlannedAccomplishedOptions,
   formatRadarOptions,
   formatTotal,
   formatTsqmiBarOptions,
-  getDefaultRadarRepository,
+  getDefaultAnalysisRepository,
   getTsqmiBars,
-  hasCharacteristicValues,
-  hasPlannedOrAccomplished
+  hasAccomplishedValues
 } from '@utils/formatOverviewCharts';
 import { getPathId } from '@utils/pathDestructer';
+import { QUALITY_BANDS, formatQualityBandRange } from '@utils/qualityBands';
+import { useTranslation } from 'react-i18next';
+import MSGAlert from '../../../../../components/idv/feedback';
 
 import { useOverviewDashboard } from './useOverviewDashboard';
 
@@ -125,17 +128,18 @@ function Totals({ summary, isLoading, error, onRetry }: TotalsProps) {
   );
 }
 
-function PlannedAccomplishedLegend() {
+/** Legenda das 5 faixas do Indicador Total da Qualidade (US06.01), da melhor para a pior. */
+function QualityBandsLegend() {
   return (
-    <Box display="flex" gap="18px" alignItems="center">
-      {[
-        { label: 'Planejado', color: DASHBOARD_COLORS.planned },
-        { label: 'Realizado', color: DASHBOARD_COLORS.accomplished }
-      ].map((item) => (
-        <Box key={item.label} display="flex" alignItems="center" gap="6px">
-          <Box sx={{ width: 12, height: 12, borderRadius: '2px', backgroundColor: item.color }} />
+    <Box display="flex" flexDirection="column" gap="8px" data-testid="quality-bands-legend">
+      <Typography fontWeight="bold" fontSize="13px" color={DASHBOARD_COLORS.text}>
+        Faixas
+      </Typography>
+      {[...QUALITY_BANDS].reverse().map((band) => (
+        <Box key={band.grade} display="flex" alignItems="center" gap="8px">
+          <Box sx={{ width: 14, height: 14, borderRadius: '3px', backgroundColor: band.color, flexShrink: 0 }} />
           <Typography fontSize="12px" color={DASHBOARD_COLORS.text}>
-            {item.label}
+            {band.grade} · {band.label} ({formatQualityBandRange(band)})
           </Typography>
         </Box>
       ))}
@@ -164,17 +168,33 @@ const OverviewDashboard: NextPageWithLayout = () => {
     characteristics,
     characteristicsError,
     previousCharacteristics,
+    analysis,
+    analysisError,
     retryReleases,
     retrySummary,
-    retryCharacteristics
+    retryCharacteristics,
+    retryAnalysis
   } = useOverviewDashboard(organizationId, productId);
 
-  const [selectedRepositoryId, setSelectedRepositoryId] = useState<number | undefined>();
+  const { t } = useTranslation('release');
+  const characteristicName = (key: string) => {
+    const translated = t(`characteristics.${key}`);
+    return translated && translated !== `characteristics.${key}` ? translated : key;
+  };
 
-  const repositories = characteristics?.repositories ?? [];
-  const radarRepository =
-    repositories.find((repository) => repository.id === selectedRepositoryId) ??
-    repositories.find((repository) => repository.id === getDefaultRadarRepository(repositories));
+  // o mesmo seletor comanda o equalizador e o radar, como na tela da release
+  const [selectedRepositoryName, setSelectedRepositoryName] = useState<string | undefined>();
+  const analysisRepositories = analysis?.accomplished ?? [];
+  const planned = analysis?.planned ?? [];
+  const selectedRepository =
+    analysisRepositories.find((repository) => repository.repository_name === selectedRepositoryName) ??
+    analysisRepositories.find(
+      (repository) => repository.repository_name === getDefaultAnalysisRepository(analysisRepositories)
+    );
+  const comparisons = useMemo(
+    () => comparePlannedAccomplished(planned, selectedRepository?.characteristics),
+    [planned, selectedRepository]
+  );
 
   const tsqmiBars = useMemo(
     () => getTsqmiBars(characteristics, previousCharacteristics),
@@ -184,15 +204,10 @@ const OverviewDashboard: NextPageWithLayout = () => {
 
   const isLoadingCharacteristics = isLoadingReleases || (!!release && !characteristics);
   const tsqmiStatus = getStatus(characteristicsError, isLoadingCharacteristics, tsqmiBars.length === 0);
-  const radarStatus = getStatus(
-    characteristicsError,
-    isLoadingCharacteristics,
-    !repositories.some((repository) => hasCharacteristicValues(repository))
-  );
-  const plannedStatus = getStatus(
-    characteristicsError,
-    isLoadingCharacteristics,
-    !hasPlannedOrAccomplished(characteristics?.characteristics ?? [])
+  const analysisStatus = getStatus(
+    analysisError,
+    isLoadingReleases || (!!release && !analysis),
+    analysisRepositories.length === 0
   );
 
   const renderContent = () => {
@@ -230,84 +245,78 @@ const OverviewDashboard: NextPageWithLayout = () => {
           onRetry={retrySummary}
         />
 
-        <Box display="grid" gridTemplateColumns={{ xs: '1fr', lg: '1fr 1fr' }} gap="24px">
-          <DashboardCard
-            title={`TSQMI por ${terms.repository}`}
-            status={tsqmiStatus}
-            loadingContent={<BarsSkeleton />}
-            emptyDescription={`Rode a coleta do MeasureSoftGram (GitHub Action ou CLI) em pelo menos um ${terms.repository} do produto para ver o TSQMI.`}
-            emptyAction={<CollectionGuideLink />}
-            onRetry={retryCharacteristics}
-          >
-            <ReactEcharts
-              option={formatTsqmiBarOptions(tsqmiBars, releaseName, previousRelease?.release_name)}
-              notMerge
-              style={{ height: Math.max(160, tsqmiBars.length * 34 + 40), width: '100%' }}
-            />
-          </DashboardCard>
-
-          <DashboardCard
-            title="Radar das características"
-            status={radarStatus}
-            loadingContent={<BarsSkeleton />}
-            emptyDescription={`Rode a coleta do MeasureSoftGram (GitHub Action ou CLI) em pelo menos um ${terms.repository} do produto para ver o radar.`}
-            emptyAction={<CollectionGuideLink />}
-            onRetry={retryCharacteristics}
-            headerAction={
-              <TextField
-                select
-                size="small"
-                label={terms.Repository}
-                value={radarRepository?.id ?? ''}
-                onChange={(event) => setSelectedRepositoryId(Number(event.target.value))}
-                sx={{ width: 220 }}
-                SelectProps={{ MenuProps: { disableScrollLock: true } }}
-              >
-                {repositories.map((repository) => (
-                  <MenuItem key={repository.id} value={repository.id}>
-                    {repository.name}
-                  </MenuItem>
-                ))}
-              </TextField>
-            }
-          >
-            {radarRepository && hasCharacteristicValues(radarRepository) ? (
+        <DashboardCard
+          title="Indicador Total da Qualidade"
+          status={tsqmiStatus}
+          loadingContent={<BarsSkeleton />}
+          emptyDescription={`Rode a coleta do MeasureSoftGram (GitHub Action ou CLI) em pelo menos um ${terms.repository} do produto para ver o indicador.`}
+          emptyAction={<CollectionGuideLink />}
+          onRetry={retryCharacteristics}
+        >
+          <Box display="flex" flexWrap="wrap" alignItems="center" gap="32px">
+            <Box flex="1 1 480px" minWidth={0}>
               <ReactEcharts
-                option={formatRadarOptions(characteristics?.characteristics ?? [], radarRepository)}
+                option={formatTsqmiBarOptions(tsqmiBars, releaseName, previousRelease?.release_name)}
                 notMerge
-                style={{ height: 260, width: '100%' }}
+                style={{ height: Math.max(160, tsqmiBars.length * 34 + 40), width: '100%' }}
               />
-            ) : (
-              <Box display="flex" alignItems="center" justifyContent="center" height={260}>
-                <Typography fontSize="13px" color={DASHBOARD_COLORS.mutedText} textAlign="center">
-                  O {terms.repository} {radarRepository?.name} não tem análise nesta release.
-                </Typography>
-              </Box>
-            )}
-            <Typography fontSize="12px" color={DASHBOARD_COLORS.mutedText}>
-              Características do {terms.repository} {radarRepository?.name} na release {releaseName}.
-            </Typography>
-          </DashboardCard>
-        </Box>
+            </Box>
+            <QualityBandsLegend />
+          </Box>
+        </DashboardCard>
 
         <DashboardCard
-          title="Planejado × Realizado por característica"
-          status={plannedStatus}
+          title={`Planejado × Realizado do ${terms.repository}`}
+          status={analysisStatus}
           loadingContent={<BarsSkeleton />}
           emptyDescription={`Rode a coleta do MeasureSoftGram (GitHub Action ou CLI) em pelo menos um ${terms.repository} do produto para comparar com o planejado.`}
           emptyAction={<CollectionGuideLink />}
-          onRetry={retryCharacteristics}
-          headerAction={<PlannedAccomplishedLegend />}
+          onRetry={retryAnalysis}
+          headerAction={
+            <TextField
+              select
+              size="small"
+              label={terms.Repository}
+              value={selectedRepository?.repository_name ?? ''}
+              onChange={(event) => setSelectedRepositoryName(event.target.value)}
+              sx={{ width: 240 }}
+              SelectProps={{ MenuProps: { disableScrollLock: true } }}
+            >
+              {analysisRepositories.map((repository) => (
+                <MenuItem key={repository.repository_name} value={repository.repository_name}>
+                  {repository.repository_name}
+                </MenuItem>
+              ))}
+            </TextField>
+          }
         >
-          <ReactEcharts
-            option={formatPlannedAccomplishedOptions(characteristics?.characteristics ?? [])}
-            notMerge
-            style={{ height: 240, width: '100%' }}
+          <PlannedVsAccomplishedEqualizer
+            planned={planned}
+            accomplished={selectedRepository?.characteristics}
+            normDiff={selectedRepository?.norm_diff}
           />
-          <Typography fontSize="12px" color={DASHBOARD_COLORS.mutedText}>
-            Realizado é a média entre os {terms.repositories} com análise na release; passe o mouse para ver a
-            dispersão.
+
+          <Typography fontWeight="bold" fontSize="15px" color={DASHBOARD_COLORS.cardTitle} marginTop="8px">
+            Radar das características
           </Typography>
+          {hasAccomplishedValues(selectedRepository) ? (
+            <>
+              <ReactEcharts
+                option={formatRadarOptions(comparisons, selectedRepository?.repository_name ?? '', characteristicName)}
+                notMerge
+                style={{ height: 300, width: '100%' }}
+              />
+              <Typography fontSize="12px" color={DASHBOARD_COLORS.mutedText}>
+                Mesmos valores do realizado (Rd) do {terms.repository} {selectedRepository?.repository_name} na release{' '}
+                {releaseName}.
+              </Typography>
+            </>
+          ) : (
+            <MSGAlert severity="warning" title="Ainda não há análises nesta release" action={<CollectionGuideLink />}>
+              O {terms.repository} {selectedRepository?.repository_name} ainda não tem características calculadas na
+              release {releaseName}. Rode a coleta do MeasureSoftGram (GitHub Action ou CLI) para ver o radar.
+            </MSGAlert>
+          )}
         </DashboardCard>
       </>
     );
@@ -337,7 +346,7 @@ const OverviewDashboard: NextPageWithLayout = () => {
               currentReleaseId={currentRelease?.id}
               onChange={(releaseId) => {
                 setReleaseId(releaseId);
-                setSelectedRepositoryId(undefined);
+                setSelectedRepositoryName(undefined);
               }}
               disabled={isLoadingReleases}
             />

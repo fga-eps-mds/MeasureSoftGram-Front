@@ -220,6 +220,15 @@ class ProductQuery {
     };
   }
 
+  /** analysis_data da release: planejado (Rp) e, por repositório, realizado (Rd), diff e norm_diff. */
+  getReleaseAnalysisDataConfig(organizationId: string, productId: string, releaseId?: number): GetRequest {
+    if (!organizationId || !productId || !releaseId) return null;
+    return {
+      url: `/v1/organizations/${organizationId}/products/${productId}/release/${releaseId}/analysis_data/`,
+      method: 'get'
+    };
+  }
+
   getReleaseDashboardSummary(organizationId: string, productId: string, releaseId?: number): GetRequest {
     if (!organizationId || !productId || !releaseId) return null;
     return {
