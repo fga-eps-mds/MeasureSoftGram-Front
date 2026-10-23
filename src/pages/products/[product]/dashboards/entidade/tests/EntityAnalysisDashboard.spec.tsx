@@ -1,6 +1,7 @@
 import React from 'react';
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { useRequest } from '@hooks/useRequest';
+import { downloadCsv, downloadCsvZip } from '@utils/exportCsv';
 import EntityAnalysisDashboard from '../EntityAnalysisDashboard';
 import { measureMatrix, repository } from './fixtures';
 
@@ -15,6 +16,7 @@ jest.mock('@hooks/useProviderTerms', () => ({
 }));
 // a composição da célula é pedida pelo diálogo
 jest.mock('@hooks/useRequest', () => ({ useRequest: jest.fn() }));
+jest.mock('@utils/exportCsv', () => ({ downloadCsv: jest.fn(), downloadCsvZip: jest.fn() }));
 
 const mockUseEntityAnalysis = jest.fn();
 jest.mock('../useEntityAnalysis', () => ({
@@ -45,10 +47,23 @@ const hookState = (overrides = {}) => ({
 
 const heatmap = () => screen.getByRole('table', { name: 'Mapa de calor' });
 const card = (name: string) => screen.getByRole('region', { name });
+const HEATMAP = 'Mapa de calor: repositório × medida';
+const CONTRIBUTION = 'O que puxa a qualidade total para baixo';
+const RANKING = 'Ranking dos piores pares';
+const exportButton = (name: string) => within(card(name)).getByRole('button', { name: 'Exportar .csv' });
+const exportAllButton = () => screen.getByRole('button', { name: 'Exportar todos (.zip)' }) as HTMLButtonElement;
+/** Clica no .zip e espera ele terminar de gerar (o botão fica "Exportando…" enquanto isso). */
+async function exportAll() {
+  fireEvent.click(exportAllButton());
+  await waitFor(() => expect(exportAllButton().disabled).toBe(false));
+}
+const zipCharts = () => (downloadCsvZip as jest.Mock).mock.calls.at(-1)[1];
 
 describe('<EntityAnalysisDashboard />', () => {
   beforeEach(() => {
     mockPush.mockClear();
+    (downloadCsv as jest.Mock).mockClear();
+    (downloadCsvZip as jest.Mock).mockClear();
     mockUseEntityAnalysis.mockReturnValue(hookState());
     (useRequest as jest.Mock).mockReturnValue({ data: undefined, isLoading: false, mutate: jest.fn() });
   });
@@ -254,5 +269,104 @@ describe('<EntityAnalysisDashboard />', () => {
     render(<EntityAnalysisDashboard />);
 
     expect(screen.getByText('A configuração da release R2 não tem nenhuma entidade no nível medida')).toBeTruthy();
+  });
+
+  describe('exportação de CSV', () => {
+    it('exporta o CSV de cada quadro pelo botão do cabeçalho', () => {
+      render(<EntityAnalysisDashboard />);
+
+      [HEATMAP, CONTRIBUTION, RANKING].forEach((name) => fireEvent.click(exportButton(name)));
+
+      const exported = (downloadCsv as jest.Mock).mock.calls.map(([dashboard, chart]) => [
+        dashboard,
+        chart.name,
+        chart.rows.length
+      ]);
+      expect(exported).toEqual([
+        ['entidade', 'mapa-calor', 12],
+        ['entidade', 'contribuicao', 10],
+        ['entidade', 'ranking', 10]
+      ]);
+    });
+
+    it('exporta os três quadros num .zip pelo botão do topo', async () => {
+      render(<EntityAnalysisDashboard />);
+
+      await exportAll();
+
+      expect((downloadCsvZip as jest.Mock).mock.calls[0][0]).toBe('entidade');
+      expect(zipCharts().map((chart: { name: string }) => chart.name)).toEqual([
+        'mapa-calor',
+        'contribuicao',
+        'ranking'
+      ]);
+    });
+
+    it('exporta a release e o nível escolhidos', async () => {
+      const { rerender } = render(<EntityAnalysisDashboard />);
+      await exportAll();
+      expect(zipCharts()[0].rows[0]).toMatchObject({ release: 'R2', level: 'Medida' });
+
+      const matrix = measureMatrix({
+        release: { id: 1, release_name: 'R1', start_at: '2026-02-01', end_at: '2026-02-28' },
+        previous_release: null,
+        level: 'characteristic',
+        columns: [{ key: 'reliability', name: 'Reliability', weight: 50, path: [] }],
+        repositories: [repository(1, 'api', [0.6, null], { reliability: [0.7, null, null] })]
+      });
+      mockUseEntityAnalysis.mockReturnValue(hookState({ releaseId: 1, level: 'characteristic', matrix }));
+      rerender(<EntityAnalysisDashboard />);
+      await exportAll();
+
+      // na primeira release a contribuição não tem linhas e fica fora do .zip (o botão filtra os vazios)
+      expect(zipCharts()[0].rows).toEqual([
+        {
+          release: 'R1',
+          level: 'Característica',
+          repository: 'api',
+          entity: 'Reliability',
+          key: 'reliability',
+          path: '',
+          weight: 50,
+          value: 0.7,
+          grade: 'B',
+          tsqmi: 0.6,
+          tsqmi_grade: 'B',
+          tsqmi_variation: null
+        }
+      ]);
+    });
+
+    it('não exporta a contribuição na primeira release', async () => {
+      const matrix = measureMatrix({
+        previous_release: null,
+        repositories: [repository(1, 'api', [0.6, null], { passed_tests: [0.9, null, null] })]
+      });
+      mockUseEntityAnalysis.mockReturnValue(hookState({ matrix }));
+      render(<EntityAnalysisDashboard />);
+
+      expect(within(card(CONTRIBUTION)).queryByRole('button', { name: 'Exportar .csv' })).toBeNull();
+      await exportAll();
+      expect(zipCharts().map((chart: { name: string }) => chart.name)).toEqual(['mapa-calor', 'ranking']);
+    });
+
+    it('desabilita o .zip sem dados', () => {
+      const matrix = measureMatrix({ repositories: [repository(1, 'api', [null, null], {})] });
+      mockUseEntityAnalysis.mockReturnValue(hookState({ matrix }));
+      render(<EntityAnalysisDashboard />);
+
+      expect(exportAllButton().disabled).toBe(true);
+      expect(screen.queryByRole('button', { name: 'Exportar .csv' })).toBeNull();
+    });
+
+    it('desabilita o .zip enquanto carrega e no erro', () => {
+      mockUseEntityAnalysis.mockReturnValue(hookState({ isLoading: true, matrix: undefined }));
+      const { rerender } = render(<EntityAnalysisDashboard />);
+      expect(exportAllButton().disabled).toBe(true);
+
+      mockUseEntityAnalysis.mockReturnValue(hookState({ error: new Error('500') }));
+      rerender(<EntityAnalysisDashboard />);
+      expect(exportAllButton().disabled).toBe(true);
+    });
   });
 });

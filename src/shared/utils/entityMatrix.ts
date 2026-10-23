@@ -3,8 +3,12 @@ import {
   EntityMatrixColumn,
   EntityMatrixEntity,
   EntityMatrixLevel,
-  EntityMatrixRepository
+  EntityMatrixRepository,
+  EntityMatrixValue
 } from '@customTypes/product';
+import { LEVEL_LABELS } from '@utils/entityLevels';
+import { CsvChart, CsvColumn } from '@utils/exportCsv';
+import { getQualityBand } from '@utils/qualityBands';
 
 export const MATRIX_LEVELS: EntityMatrixLevel[] = ['characteristic', 'subcharacteristic', 'measure'];
 
@@ -206,5 +210,175 @@ export function getReading(matrix: EntityMatrix): MatrixReading | null {
   return {
     weakest: { column: weakest.column, mean: weakest.mean },
     widest: widest && { column: widest.column, lowest: widest.lowest, highest: widest.highest }
+  };
+}
+
+/** Nomes dos arquivos: `msgram-entidade-<quadro>-<data>.csv` e o `.zip` com os três. */
+export const ENTITY_CSV = {
+  dashboard: 'entidade',
+  heatmap: 'mapa-calor',
+  contribution: 'contribuicao',
+  ranking: 'ranking'
+};
+
+const variation = ({ value, previous_value: previousValue }: EntityMatrixValue) =>
+  value === null || previousValue === null ? null : value - previousValue;
+
+const gradeOf = (value: number | null) => (value === null ? null : getQualityBand(value)?.grade ?? null);
+
+const releaseFields = (matrix: EntityMatrix) => ({
+  release: matrix.release.release_name,
+  level: LEVEL_LABELS[matrix.level]
+});
+
+const entityFields = (column: EntityMatrixColumn) => ({ entity: column.name, key: column.key });
+
+const RELEASE_COLUMNS = [
+  { key: 'release', title: 'Release' },
+  { key: 'level', title: 'Nível' }
+] as const;
+
+const ENTITY_COLUMNS = [
+  { key: 'repository', title: 'Repositório' },
+  { key: 'entity', title: 'Entidade' },
+  { key: 'key', title: 'Chave da entidade' }
+] as const;
+
+export type EntityHeatmapCsvRow = {
+  release: string;
+  level: string;
+  repository: string;
+  entity: string;
+  key: string;
+  path: string;
+  weight: number | null;
+  value: number | null;
+  grade: string | null;
+  tsqmi: number | null;
+  tsqmi_grade: string | null;
+  tsqmi_variation: number | null;
+};
+
+const HEATMAP_CSV_COLUMNS: CsvColumn<EntityHeatmapCsvRow>[] = [
+  ...RELEASE_COLUMNS,
+  ...ENTITY_COLUMNS,
+  { key: 'path', title: 'Entidades de cima' },
+  { key: 'weight', title: 'Peso (%)' },
+  { key: 'value', title: 'Valor' },
+  { key: 'grade', title: 'Grau' },
+  { key: 'tsqmi', title: 'Indicador Total da Qualidade' },
+  { key: 'tsqmi_grade', title: 'Grau do indicador' },
+  { key: 'tsqmi_variation', title: 'Variação do indicador' }
+];
+
+/**
+ * CSV do mapa de calor: uma linha por célula, na ordem da tela (linhas do pior para o melhor TSQMI), com a célula
+ * "sem dado" e a variação da primeira release vazias.
+ */
+export function formatEntityHeatmapCsv(matrix: EntityMatrix): CsvChart<EntityHeatmapCsvRow> {
+  return {
+    name: ENTITY_CSV.heatmap,
+    columns: HEATMAP_CSV_COLUMNS,
+    rows: sortRepositoriesByTsqmi(matrix.repositories).flatMap((repository) => {
+      const cells = new Map(repository.cells.map((cell) => [cell.key, cell]));
+      return matrix.columns.map((column) => {
+        const value = cells.get(column.key)?.value ?? null;
+        return {
+          ...releaseFields(matrix),
+          repository: repository.name,
+          ...entityFields(column),
+          path: column.path.map((parent) => parent.name).join(' › '),
+          weight: column.weight,
+          value,
+          grade: gradeOf(value),
+          tsqmi: repository.tsqmi.value,
+          tsqmi_grade: gradeOf(repository.tsqmi.value),
+          tsqmi_variation: variation(repository.tsqmi)
+        };
+      });
+    })
+  };
+}
+
+export type EntityContributionCsvRow = {
+  release: string;
+  previous_release: string;
+  level: string;
+  repository: string;
+  entity: string;
+  key: string;
+  value: number | null;
+  previous_value: number | null;
+  contribution: number | null;
+};
+
+const CONTRIBUTION_CSV_COLUMNS: CsvColumn<EntityContributionCsvRow>[] = [
+  RELEASE_COLUMNS[0],
+  { key: 'previous_release', title: 'Release anterior' },
+  RELEASE_COLUMNS[1],
+  ...ENTITY_COLUMNS,
+  { key: 'value', title: 'Valor' },
+  { key: 'previous_value', title: 'Valor na release anterior' },
+  { key: 'contribution', title: 'Contribuição para a variação do indicador' }
+];
+
+/** CSV de "O que puxa a qualidade total para baixo": os pares do quadro, na ordem da tela; vazio na primeira release. */
+export function formatEntityContributionCsv(
+  matrix: EntityMatrix,
+  contributions: MatrixPair[]
+): CsvChart<EntityContributionCsvRow> {
+  const previousRelease = matrix.previous_release;
+  return {
+    name: ENTITY_CSV.contribution,
+    columns: CONTRIBUTION_CSV_COLUMNS,
+    rows: previousRelease
+      ? contributions.map((pair) => ({
+          ...releaseFields(matrix),
+          previous_release: previousRelease.release_name,
+          repository: pair.repository.name,
+          ...entityFields(pair.column),
+          value: pair.value,
+          previous_value: pair.previousValue,
+          contribution: pair.contribution
+        }))
+      : []
+  };
+}
+
+export type EntityRankingCsvRow = {
+  release: string;
+  level: string;
+  position: number;
+  repository: string;
+  entity: string;
+  key: string;
+  value: number | null;
+  grade: string | null;
+  variation: number | null;
+};
+
+const RANKING_CSV_COLUMNS: CsvColumn<EntityRankingCsvRow>[] = [
+  ...RELEASE_COLUMNS,
+  { key: 'position', title: 'Posição' },
+  ...ENTITY_COLUMNS,
+  { key: 'value', title: 'Valor' },
+  { key: 'grade', title: 'Grau' },
+  { key: 'variation', title: 'Variação' }
+];
+
+/** CSV do "Ranking dos piores pares": a posição na tela, o valor, o grau e a variação (vazia na primeira release). */
+export function formatEntityRankingCsv(matrix: EntityMatrix, worstPairs: MatrixPair[]): CsvChart<EntityRankingCsvRow> {
+  return {
+    name: ENTITY_CSV.ranking,
+    columns: RANKING_CSV_COLUMNS,
+    rows: worstPairs.map((pair, index) => ({
+      ...releaseFields(matrix),
+      position: index + 1,
+      repository: pair.repository.name,
+      ...entityFields(pair.column),
+      value: pair.value,
+      grade: gradeOf(pair.value),
+      variation: variation({ value: pair.value, previous_value: pair.previousValue })
+    }))
   };
 }

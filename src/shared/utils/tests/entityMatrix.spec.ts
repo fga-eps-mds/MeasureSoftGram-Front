@@ -1,7 +1,12 @@
 import { measureMatrix, repository } from '@pages/products/[product]/dashboards/entidade/tests/fixtures';
+import { csvFileName, toCsv } from '@utils/exportCsv';
 import {
   cellId,
+  ENTITY_CSV,
   formatContribution,
+  formatEntityContributionCsv,
+  formatEntityHeatmapCsv,
+  formatEntityRankingCsv,
   formatDelta,
   formatScore,
   getColumnGroups,
@@ -149,6 +154,146 @@ describe('entityMatrix', () => {
       expect(getReading(empty)).toBeNull();
       expect(hasAnyValue(empty)).toBe(false);
       expect(hasAnyValue(single)).toBe(true);
+    });
+  });
+
+  describe('CSV', () => {
+    const firstRelease = () =>
+      measureMatrix({
+        previous_release: null,
+        repositories: [
+          repository(1, 'api', [0.6, null], {
+            passed_tests: [0.9, null, null],
+            test_coverage: [0.4, null, null]
+          })
+        ]
+      });
+
+    it('nomeia os arquivos como msgram-entidade-<quadro>-<data>.csv', () => {
+      const date = new Date(2026, 9, 23);
+      expect(
+        [ENTITY_CSV.heatmap, ENTITY_CSV.contribution, ENTITY_CSV.ranking].map((name) =>
+          csvFileName(ENTITY_CSV.dashboard, name, date)
+        )
+      ).toEqual([
+        'msgram-entidade-mapa-calor-2026-10-23.csv',
+        'msgram-entidade-contribuicao-2026-10-23.csv',
+        'msgram-entidade-ranking-2026-10-23.csv'
+      ]);
+    });
+
+    it('exporta uma linha por célula do mapa, na ordem da tela, com a release, o nível e o caminho', () => {
+      const chart = formatEntityHeatmapCsv(measureMatrix());
+
+      expect(chart.name).toBe('mapa-calor');
+      expect(chart.columns.map((column) => column.title)).toEqual([
+        'Release',
+        'Nível',
+        'Repositório',
+        'Entidade',
+        'Chave da entidade',
+        'Entidades de cima',
+        'Peso (%)',
+        'Valor',
+        'Grau',
+        'Indicador Total da Qualidade',
+        'Grau do indicador',
+        'Variação do indicador'
+      ]);
+      expect(chart.rows).toHaveLength(12);
+      expect(
+        chart.rows.map((row) => row.repository).filter((name, index, names) => names.indexOf(name) === index)
+      ).toEqual(['AI', 'Front', 'Service']);
+      const { tsqmi_variation: variation, ...first } = chart.rows[0];
+      expect(first).toEqual({
+        release: 'R2',
+        level: 'Medida',
+        repository: 'AI',
+        entity: 'Passed Tests',
+        key: 'passed_tests',
+        path: 'Reliability › Testing Status',
+        weight: 33,
+        value: 0.74,
+        grade: 'B',
+        tsqmi: 0.41,
+        tsqmi_grade: 'C'
+      });
+      expect(variation).toBeCloseTo(-0.09, 10);
+    });
+
+    it('deixa vazios o valor e o grau da célula "sem dado"', () => {
+      const chart = formatEntityHeatmapCsv(measureMatrix());
+      const noData = chart.rows.find((row) => row.repository === 'Front' && row.key === 'ci_feedback_time');
+
+      expect(noData).toMatchObject({ value: null, grade: null, tsqmi: 0.53, tsqmi_grade: 'C' });
+      expect(toCsv({ columns: chart.columns, rows: [{ ...noData!, tsqmi_variation: null }] }).split('\r\n')[1]).toBe(
+        'R2,Medida,Front,CI Feedback Time,ci_feedback_time,Reliability › Maturity,100,,,0.53,C,'
+      );
+    });
+
+    it('deixa vazia a variação na primeira release do produto', () => {
+      const matrix = firstRelease();
+
+      expect(toCsv(formatEntityHeatmapCsv(matrix)).split('\r\n')[1]).toBe(
+        'R2,Medida,api,Passed Tests,passed_tests,Reliability › Testing Status,33,0.9,A,0.6,B,'
+      );
+      expect(toCsv(formatEntityRankingCsv(matrix, getWorstPairs(getPairs(matrix)))).split('\r\n')).toEqual([
+        'Release,Nível,Posição,Repositório,Entidade,Chave da entidade,Valor,Grau,Variação',
+        'R2,Medida,1,api,Test Coverage,test_coverage,0.4,C,',
+        'R2,Medida,2,api,Passed Tests,passed_tests,0.9,A,'
+      ]);
+      expect(formatEntityContributionCsv(matrix, getContributions(getPairs(matrix))).rows).toEqual([]);
+    });
+
+    it('exporta as contribuições na ordem da tela, sem arredondar', () => {
+      const matrix = measureMatrix();
+      const chart = formatEntityContributionCsv(matrix, getContributions(getPairs(matrix)));
+
+      expect(chart.name).toBe('contribuicao');
+      expect(chart.rows.map((row) => [row.repository, row.key, row.contribution])).toEqual([
+        ['Front', 'test_coverage', -0.021],
+        ['AI', 'test_coverage', -0.017],
+        ['AI', 'commented_file_density', -0.012],
+        ['AI', 'ci_feedback_time', -0.008],
+        ['Service', 'test_coverage', -0.004],
+        ['Service', 'ci_feedback_time', -0.002],
+        ['Front', 'commented_file_density', -0.002],
+        ['Front', 'passed_tests', 0.001],
+        ['Service', 'commented_file_density', 0.003],
+        ['AI', 'passed_tests', 0.005]
+      ]);
+      expect(chart.rows[0]).toEqual({
+        release: 'R2',
+        previous_release: 'R1',
+        level: 'Medida',
+        repository: 'Front',
+        entity: 'Test Coverage',
+        key: 'test_coverage',
+        value: 0.32,
+        previous_value: 0.68,
+        contribution: -0.021
+      });
+    });
+
+    it('exporta o ranking com a posição, o valor, o grau e a variação', () => {
+      const matrix = measureMatrix();
+      const chart = formatEntityRankingCsv(matrix, getWorstPairs(getPairs(matrix)));
+
+      expect(chart.name).toBe('ranking');
+      expect(chart.rows).toHaveLength(10);
+      const { variation, ...first } = chart.rows[0];
+      expect(first).toEqual({
+        release: 'R2',
+        level: 'Medida',
+        position: 1,
+        repository: 'AI',
+        entity: 'Test Coverage',
+        key: 'test_coverage',
+        value: 0.18,
+        grade: 'E'
+      });
+      expect(variation).toBeCloseTo(-0.29, 10);
+      expect(chart.rows.map((row) => row.position)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     });
   });
 });

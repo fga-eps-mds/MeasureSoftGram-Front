@@ -97,6 +97,8 @@ const chart: CsvChart<PairRow> = { name: 'matriz-correlacao', columns, rows };
 
 O exemplo completo é o dashboard "6. Relações e Correlações" (`formatCorrelationCsv`, em `src/shared/utils/formatCorrelationCharts.ts`).
 
+O dashboard "4. Análise por Entidade" exporta o mapa de calor, a contribuição e o ranking dos piores pares (`formatEntityHeatmapCsv`, `formatEntityContributionCsv` e `formatEntityRankingCsv`, em `src/shared/utils/entityMatrix.ts`), sempre com a release e o nível escolhidos. A célula "sem dado" e a variação da primeira release ficam vazias.
+
 ## Licença
 
 Este projeto é distribuído sob a licença [GNU AGPL-3.0](./LICENSE).

@@ -6,6 +6,7 @@ import { Box, Button, Container, Tab, Tabs, Typography } from '@mui/material';
 import { NextPageWithLayout } from '@pages/_app.next';
 import getLayout from '@components/Layout';
 import DashboardCard, { SkeletonBlock } from '@components/DashboardCard';
+import ExportCsvButton, { ExportAllCsvButton } from '@components/ExportCsvButton';
 import ReleaseSelect from '@components/ReleaseSelect';
 import useRequireAuth from '@hooks/useRequireAuth';
 import { useProviderTerms } from '@hooks/useProviderTerms';
@@ -13,6 +14,10 @@ import { EntityMatrix, EntityMatrixLevel } from '@customTypes/product';
 import { DASHBOARD_COLORS } from '@utils/dashboardColors';
 import { LEVEL_LABELS } from '@utils/entityLevels';
 import {
+  ENTITY_CSV,
+  formatEntityContributionCsv,
+  formatEntityHeatmapCsv,
+  formatEntityRankingCsv,
   formatScore,
   getContributions,
   getHighlightedCells,
@@ -119,6 +124,23 @@ const EntityAnalysisDashboard: NextPageWithLayout = () => {
   const contributions = useMemo(() => getContributions(pairs), [pairs]);
   const worstPairs = useMemo(() => getWorstPairs(pairs), [pairs]);
 
+  // os CSVs só existem com o mapa na tela: sem análise, sem entidades ou sem repositórios o .zip fica desabilitado
+  const readyMatrix =
+    !error && !isLoading && matrix && matrix.columns.length > 0 && matrix.repositories.length > 0 && hasAnyValue(matrix)
+      ? matrix
+      : undefined;
+  const csvCharts = useMemo(
+    () =>
+      readyMatrix
+        ? {
+            heatmap: formatEntityHeatmapCsv(readyMatrix),
+            contribution: formatEntityContributionCsv(readyMatrix, contributions),
+            ranking: formatEntityRankingCsv(readyMatrix, worstPairs)
+          }
+        : undefined,
+    [readyMatrix, contributions, worstPairs]
+  );
+
   const heatmapTitle = `Mapa de calor: repositório × ${levelNoun(level)}`;
 
   const renderContribution = (data: EntityMatrix) => {
@@ -144,7 +166,11 @@ const EntityAnalysisDashboard: NextPageWithLayout = () => {
       );
     }
     return (
-      <DashboardCard title={CONTRIBUTION_TITLE} status="ready">
+      <DashboardCard
+        title={CONTRIBUTION_TITLE}
+        status="ready"
+        headerAction={csvCharts && <ExportCsvButton dashboard={ENTITY_CSV.dashboard} chart={csvCharts.contribution} />}
+      >
         <Typography fontSize="13px" color={DASHBOARD_COLORS.mutedText}>
           Quanto cada par {terms.repository} × {levelNoun(data.level)} fez o TSQMI do {terms.repository} subir ou descer
           de {data.previous_release.release_name} para {data.release.release_name}: o TSQMI recalculado com o valor da
@@ -239,7 +265,11 @@ const EntityAnalysisDashboard: NextPageWithLayout = () => {
 
     return (
       <>
-        <DashboardCard title={heatmapTitle} status="ready">
+        <DashboardCard
+          title={heatmapTitle}
+          status="ready"
+          headerAction={csvCharts && <ExportCsvButton dashboard={ENTITY_CSV.dashboard} chart={csvCharts.heatmap} />}
+        >
           <Typography fontSize="13px" color={DASHBOARD_COLORS.mutedText}>
             Linhas do pior para o melhor TSQMI. Cada célula mostra o valor normalizado [0, 1] e o grau; clique numa
             célula para ver a composição da entidade naquele {terms.repository}.{deltaCaption}
@@ -260,10 +290,13 @@ const EntityAnalysisDashboard: NextPageWithLayout = () => {
             title={RANKING_TITLE}
             status="ready"
             headerAction={
-              <Box sx={{ backgroundColor: DASHBOARD_COLORS.text, borderRadius: '12px', padding: '4px 10px' }}>
-                <Typography fontWeight="bold" fontSize="12px" color="#FFFFFF">
-                  Nível: {LEVEL_LABELS[matrix.level]}
-                </Typography>
+              <Box display="flex" flexWrap="wrap" alignItems="center" gap="8px">
+                <Box sx={{ backgroundColor: DASHBOARD_COLORS.text, borderRadius: '12px', padding: '4px 10px' }}>
+                  <Typography fontWeight="bold" fontSize="12px" color="#FFFFFF">
+                    Nível: {LEVEL_LABELS[matrix.level]}
+                  </Typography>
+                </Box>
+                {csvCharts && <ExportCsvButton dashboard={ENTITY_CSV.dashboard} chart={csvCharts.ranking} />}
               </Box>
             }
           >
@@ -312,6 +345,10 @@ const EntityAnalysisDashboard: NextPageWithLayout = () => {
                 disabled={isLoadingReleases}
               />
             )}
+            <ExportAllCsvButton
+              dashboard={ENTITY_CSV.dashboard}
+              charts={csvCharts ? [csvCharts.heatmap, csvCharts.contribution, csvCharts.ranking] : []}
+            />
           </Box>
 
           {releases.length > 0 && (
