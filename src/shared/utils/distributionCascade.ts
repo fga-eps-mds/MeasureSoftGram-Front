@@ -1,6 +1,6 @@
 import { QualityModelNode } from '@customTypes/metamodel';
 import { DistributionLevel, EntityLevel } from '@customTypes/product';
-import { LEVEL_LABELS } from '@utils/formatEntityAnalysisChart';
+import { LEVEL_LABELS } from '@utils/entityLevels';
 
 /** Níveis do seletor da Distribuição Estatística, do topo do modelo para baixo. */
 export const DISTRIBUTION_LEVELS: DistributionLevel[] = [

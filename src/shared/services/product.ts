@@ -9,6 +9,7 @@ import {
   RepositoriesLatestTsqmi,
   ReleaseGoal,
   EntityLevel,
+  EntityMatrixLevel,
   DistributionLevel,
   CorrelationLevel
 } from '@customTypes/product';
@@ -185,6 +186,19 @@ class ProductQuery {
       url: `/v1/organizations/${organizationId}/products/${productId}/entity-analysis/entities/`,
       method: 'get',
       params: { release_id: releaseId }
+    };
+  }
+
+  getEntityMatrix(
+    organizationId: string,
+    productId: string,
+    params: { releaseId?: number; level: EntityMatrixLevel }
+  ): GetRequest {
+    if (!organizationId || !productId || !params.releaseId) return null;
+    return {
+      url: `/v1/organizations/${organizationId}/products/${productId}/entity-analysis/matrix/`,
+      method: 'get',
+      params: { release_id: params.releaseId, level: params.level }
     };
   }
 

@@ -274,6 +274,49 @@ export interface EntityAnalysis {
   repositories: EntityAnalysisRepository[];
 }
 
+/** Níveis do mapa de calor da Análise por Entidade: as métricas não têm valor de 0 a 1 nem grau. */
+export type EntityMatrixLevel = Exclude<EntityLevel, 'metric'>;
+
+export interface EntityMatrixEntity {
+  key: string;
+  name: string;
+  /** Peso na configuração da release, dentro da entidade de cima. */
+  weight: number | null;
+}
+
+export interface EntityMatrixColumn extends EntityMatrixEntity {
+  /** As entidades de cima, da característica até o pai. */
+  path: Array<EntityMatrixEntity & { level: EntityLevel }>;
+}
+
+export interface EntityMatrixValue {
+  value: number | null;
+  /** Valor na release anterior; null na primeira release ou sem valor nela. */
+  previous_value: number | null;
+}
+
+export interface EntityMatrixCell extends EntityMatrixValue {
+  key: string;
+  /** Quanto a entidade fez o TSQMI do repositório subir ou descer desde a release anterior. */
+  contribution: number | null;
+}
+
+export interface EntityMatrixRepository {
+  id: number;
+  name: string;
+  tsqmi: EntityMatrixValue;
+  cells: EntityMatrixCell[];
+}
+
+/** GET products/{id}/entity-analysis/matrix/?release_id=&level= (Service, US21.02) */
+export interface EntityMatrix {
+  release: ReleaseDashboardRelease;
+  previous_release: ReleaseDashboardRelease | null;
+  level: EntityMatrixLevel;
+  columns: EntityMatrixColumn[];
+  repositories: EntityMatrixRepository[];
+}
+
 /** Valor de uma entidade numa release: o último calculado dentro da janela dela (null sem análise). */
 export interface ReleaseValue {
   value: number | null;

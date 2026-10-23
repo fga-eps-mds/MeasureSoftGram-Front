@@ -1,41 +1,98 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import {
-  Alert,
-  Box,
-  Button,
-  Checkbox,
-  CircularProgress,
-  Container,
-  FormControl,
-  FormControlLabel,
-  InputLabel,
-  MenuItem,
-  Paper,
-  Select,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Container, Tab, Tabs, Typography } from '@mui/material';
 
 import { NextPageWithLayout } from '@pages/_app.next';
 import getLayout from '@components/Layout';
+import DashboardCard, { SkeletonBlock } from '@components/DashboardCard';
 import ReleaseSelect from '@components/ReleaseSelect';
 import useRequireAuth from '@hooks/useRequireAuth';
-import { usePreloadECharts } from '@components/ECharts';
 import { useProviderTerms } from '@hooks/useProviderTerms';
+import { EntityMatrix, EntityMatrixLevel } from '@customTypes/product';
+import { DASHBOARD_COLORS } from '@utils/dashboardColors';
+import { LEVEL_LABELS } from '@utils/entityLevels';
+import {
+  formatScore,
+  getContributions,
+  getHighlightedCells,
+  getPairs,
+  getReading,
+  getWorstPairs,
+  hasAnyValue,
+  LEVEL_PATHS,
+  MATRIX_LEVELS
+} from '@utils/entityMatrix';
 import { getPathId } from '@utils/pathDestructer';
-import { EntityAnalysisRepository, EntityLevel } from '@customTypes/product';
-import { formatReferenceCaption, hasAnyValue, LEVEL_LABELS } from '@utils/formatEntityAnalysisChart';
+import { toLocalDay } from '@utils/releaseSelection';
 import { useEntityAnalysis } from './useEntityAnalysis';
-import EntityAnalysisChart from './EntityAnalysisChart';
+import EntityHeatmap, { QualityGradeLegend, SelectedCell } from './EntityHeatmap';
+import ContributionChart from './ContributionChart';
+import WorstPairsRanking from './WorstPairsRanking';
 import RepositoryDetailDialog from './RepositoryDetailDialog';
 
-const TITLE = 'Análise por Entidade';
-const LEVELS = Object.keys(LEVEL_LABELS) as EntityLevel[];
+const TITLE = '4. Análise por Entidade';
+const CARD_TITLE = 'Análise por Entidade';
+export const CONTRIBUTION_TITLE = 'O que puxa a qualidade total para baixo';
+export const RANKING_TITLE = 'Ranking dos piores pares';
+const MONOSPACE = 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
+
+const levelNoun = (level: EntityMatrixLevel) => LEVEL_LABELS[level].toLowerCase();
+
+/** "17/08" de uma data da release, para a orientação do estado sem análise. */
+function formatReleaseDay(date: Date | string): string {
+  const [, month, day] = toLocalDay(date).split('-');
+  return `${day}/${month}`;
+}
+
+function Code({ children }: { children: React.ReactNode }) {
+  return (
+    <Box component="code" sx={{ fontFamily: MONOSPACE, fontSize: '13px' }}>
+      {children}
+    </Box>
+  );
+}
+
+function HeatmapSkeleton() {
+  return (
+    <Box display="flex" flexDirection="column" gap="6px">
+      {Array.from({ length: 5 }, (_, index) => (
+        <SkeletonBlock key={index} width="100%" height={40} />
+      ))}
+    </Box>
+  );
+}
+
+/** Frase de leitura do mapa (CA4). */
+function Reading({ matrix }: { matrix: EntityMatrix }) {
+  const reading = getReading(matrix);
+  if (!reading) return null;
+  const noun = levelNoun(matrix.level);
+  const { weakest, widest } = reading;
+
+  return (
+    <Box
+      data-testid="entity-reading"
+      sx={{ backgroundColor: '#F3F4F6', borderRadius: '6px', padding: '10px 14px', fontSize: '14px' }}
+    >
+      <Typography component="p" fontSize="14px" color={DASHBOARD_COLORS.text}>
+        <strong>Leitura:</strong> <Code>{weakest.column.key}</Code> é a {noun} mais fraca do produto (média{' '}
+        {formatScore(weakest.mean)}).
+        {widest && (
+          <>
+            {' '}
+            <Code>{widest.column.key}</Code> tem a maior dispersão entre os repositórios: de{' '}
+            {formatScore(widest.lowest.value)} ({widest.lowest.repository}) a {formatScore(widest.highest.value)} (
+            {widest.highest.repository}).
+          </>
+        )}
+      </Typography>
+    </Box>
+  );
+}
 
 const EntityAnalysisDashboard: NextPageWithLayout = () => {
   useRequireAuth();
-  usePreloadECharts();
   const { terms } = useProviderTerms();
   const router = useRouter();
   const [organizationId, productId] = getPathId(router.query?.product as string);
@@ -47,112 +104,184 @@ const EntityAnalysisDashboard: NextPageWithLayout = () => {
     setReleaseId,
     level,
     setLevel,
-    entities,
-    entityKey,
-    setEntityKey,
-    analysis,
-    hasNoEntities,
+    matrix,
     isLoadingReleases,
     isLoading,
     error,
-    retry,
+    retry
   } = useEntityAnalysis(organizationId, productId);
 
-  const [showReference, setShowReference] = useState(true);
-  const [selectedRepository, setSelectedRepository] = useState<EntityAnalysisRepository | null>(null);
-  const closeDetail = useCallback(() => setSelectedRepository(null), []);
+  const [selectedCell, setSelectedCell] = useState<SelectedCell | null>(null);
+  const closeDetail = useCallback(() => setSelectedCell(null), []);
 
-  const goToReleases = () => {
-    void router.push(`/products/${router.query.product}/releases`);
+  const pairs = useMemo(() => (matrix ? getPairs(matrix) : []), [matrix]);
+  const highlighted = useMemo(() => getHighlightedCells(pairs), [pairs]);
+  const contributions = useMemo(() => getContributions(pairs), [pairs]);
+  const worstPairs = useMemo(() => getWorstPairs(pairs), [pairs]);
+
+  const heatmapTitle = `Mapa de calor: repositório × ${levelNoun(level)}`;
+
+  const renderContribution = (data: EntityMatrix) => {
+    if (!data.previous_release) {
+      return (
+        <DashboardCard
+          title={CONTRIBUTION_TITLE}
+          status="empty"
+          badgeLabel="Primeira release"
+          emptyTitle={`${data.release.release_name} é a primeira release do produto`}
+          emptyDescription="Não há release anterior para comparar. A contribuição de cada par aparece a partir da próxima release."
+        />
+      );
+    }
+    if (contributions.length === 0) {
+      return (
+        <DashboardCard
+          title={CONTRIBUTION_TITLE}
+          status="empty"
+          emptyTitle={`Nenhum par mudou o TSQMI de ${data.previous_release.release_name} para ${data.release.release_name}`}
+          emptyDescription={`A contribuição só aparece quando a entidade tem valor nas duas releases no mesmo ${terms.repository}.`}
+        />
+      );
+    }
+    return (
+      <DashboardCard title={CONTRIBUTION_TITLE} status="ready">
+        <Typography fontSize="13px" color={DASHBOARD_COLORS.mutedText}>
+          Quanto cada par {terms.repository} × {levelNoun(data.level)} fez o TSQMI do {terms.repository} subir ou descer
+          de {data.previous_release.release_name} para {data.release.release_name}: o TSQMI recalculado com o valor da
+          release anterior, pelos pesos do modelo. Os {contributions.length} pares que mais mudaram o indicador.
+        </Typography>
+        <ContributionChart pairs={contributions} />
+      </DashboardCard>
+    );
   };
 
   const renderContent = () => {
     if (error) {
       return (
-        <Alert
-          severity="error"
-          action={
-            <Button color="inherit" size="small" onClick={retry}>
-              Tentar novamente
-            </Button>
-          }
-        >
-          Não foi possível carregar a análise por entidade.
-        </Alert>
+        <DashboardCard
+          title={CARD_TITLE}
+          status="error"
+          errorTitle="Não foi possível carregar a análise por entidade"
+          onRetry={retry}
+        />
       );
     }
 
     if (!isLoadingReleases && releases.length === 0) {
       return (
-        <Alert
-          severity="info"
-          action={
-            <Button color="inherit" size="small" onClick={goToReleases}>
-              Ir para releases
+        <DashboardCard
+          title="Produto sem release"
+          status="empty"
+          badgeLabel="Sem release"
+          emptyTitle="Este produto ainda não tem release"
+          emptyDescription={`A análise compara os ${terms.repositories} dentro do período de uma release. Planeje a primeira release para começar.`}
+          emptyAction={
+            <Button
+              variant="contained"
+              disableElevation
+              onClick={() => void router.push(`/products/${router.query.product}/releases/create`)}
+              sx={{ backgroundColor: DASHBOARD_COLORS.primary, fontWeight: 'bold', textTransform: 'none' }}
+            >
+              Planejar release
             </Button>
           }
-        >
-          Este produto ainda não tem releases. Crie uma release para comparar os {terms.repositories} em uma
-          entidade do modelo.
-        </Alert>
+        />
       );
     }
 
-    if (hasNoEntities) {
-      const releaseName = releases.find((release) => release.id === releaseId)?.release_name;
-      // o Service só lista métricas com valor do projeto inteiro (qualifier TRK) na release
-      if (level === 'metric') {
-        return (
-          <Alert severity="info">
-            Nenhuma métrica da release {releaseName} tem valor por {terms.repository}. As métricas do SonarQube
-            são gravadas por arquivo e não entram nesta comparação.
-          </Alert>
-        );
-      }
+    if (isLoading || !matrix) {
+      return <DashboardCard title={heatmapTitle} status="loading" loadingContent={<HeatmapSkeleton />} />;
+    }
+
+    if (matrix.columns.length === 0) {
       return (
-        <Alert severity="info">
-          A configuração da release {releaseName} não tem nenhuma entidade no nível {LEVEL_LABELS[level]}.
-        </Alert>
+        <DashboardCard
+          title={heatmapTitle}
+          status="empty"
+          emptyTitle={`A configuração da release ${
+            matrix.release.release_name
+          } não tem nenhuma entidade no nível ${levelNoun(matrix.level)}`}
+          emptyDescription="Escolha outro nível ou confira a configuração do modelo da release."
+        />
       );
     }
 
-    if (isLoading || !analysis) {
+    if (matrix.repositories.length === 0) {
       return (
-        <Box display="flex" justifyContent="center" padding={6}>
-          <CircularProgress />
-        </Box>
+        <DashboardCard
+          title={heatmapTitle}
+          status="empty"
+          emptyTitle={`Este produto ainda não tem ${terms.repositories}`}
+          emptyDescription={`Adicione um ${terms.repository} ao produto e rode a coleta do MeasureSoftGram para comparar os valores.`}
+        />
       );
     }
 
-    if (!hasAnyValue(analysis)) {
+    if (!hasAnyValue(matrix)) {
       return (
-        <Alert severity="info">
-          A release {analysis.release.release_name} ainda não tem análise de {analysis.entity.name}. Os valores
-          aparecem depois que a Action do MeasureSoftGram roda nos {terms.repositories} dentro do período da
-          release.
-        </Alert>
+        <DashboardCard
+          title={heatmapTitle}
+          status="empty"
+          badgeLabel="Sem análise"
+          emptyTitle={`A release ${matrix.release.release_name} ainda não tem análises`}
+          emptyDescription={`Os valores aparecem quando a Action ou a CLI do MeasureSoftGram roda nos ${
+            terms.repositories
+          } entre ${formatReleaseDay(matrix.release.start_at)} e ${formatReleaseDay(
+            matrix.release.end_at
+          )}, o período da release.`}
+        />
       );
     }
 
-    const referenceCaption = showReference ? formatReferenceCaption(analysis) : null;
+    const deltaCaption = matrix.previous_release
+      ? ` Δ é a variação em relação à release anterior, ${matrix.previous_release.release_name}.`
+      : ` ${matrix.release.release_name} é a primeira release do produto: sem variação para mostrar.`;
 
     return (
       <>
-        {referenceCaption && (
-          <Typography variant="body2" color="text.secondary" data-testid="entity-reference">
-            {referenceCaption}
+        <DashboardCard title={heatmapTitle} status="ready">
+          <Typography fontSize="13px" color={DASHBOARD_COLORS.mutedText}>
+            Linhas do pior para o melhor TSQMI. Cada célula mostra o valor normalizado [0, 1] e o grau; clique numa
+            célula para ver a composição da entidade naquele {terms.repository}.{deltaCaption}
           </Typography>
-        )}
-        <EntityAnalysisChart
-          analysis={analysis}
-          showReference={showReference}
-          onSelectRepository={setSelectedRepository}
+          <EntityHeatmap matrix={matrix} highlighted={highlighted} onSelectCell={setSelectedCell} />
+          <QualityGradeLegend />
+          <Reading matrix={matrix} />
+        </DashboardCard>
+
+        <Box
+          display="grid"
+          gap="24px"
+          alignItems="start"
+          sx={{ gridTemplateColumns: { xs: 'minmax(0, 1fr)', lg: 'repeat(2, minmax(0, 1fr))' } }}
+        >
+          {renderContribution(matrix)}
+          <DashboardCard
+            title={RANKING_TITLE}
+            status="ready"
+            headerAction={
+              <Box sx={{ backgroundColor: DASHBOARD_COLORS.text, borderRadius: '12px', padding: '4px 10px' }}>
+                <Typography fontWeight="bold" fontSize="12px" color="#FFFFFF">
+                  Nível: {LEVEL_LABELS[matrix.level]}
+                </Typography>
+              </Box>
+            }
+          >
+            <Typography fontSize="13px" color={DASHBOARD_COLORS.mutedText}>
+              {terms.repository} × {levelNoun(matrix.level)}, do menor valor para o maior.{deltaCaption}
+            </Typography>
+            <WorstPairsRanking pairs={worstPairs} />
+          </DashboardCard>
+        </Box>
+
+        <RepositoryDetailDialog
+          organizationId={organizationId}
+          productId={productId}
+          releaseId={releaseId}
+          level={matrix.level}
+          cell={selectedCell}
+          onClose={closeDetail}
         />
-        <Typography variant="caption" color="text.secondary">
-          Clique em uma barra para ver a decomposição de {analysis.entity.name} naquele{' '}
-          {terms.repository}.
-        </Typography>
-        <RepositoryDetailDialog analysis={analysis} repository={selectedRepository} onClose={closeDetail} />
       </>
     );
   };
@@ -164,17 +293,17 @@ const EntityAnalysisDashboard: NextPageWithLayout = () => {
       </Head>
 
       <Container maxWidth="xl">
-        <Box display="flex" flexDirection="column" gap={2} marginTop="40px">
-          <Typography variant="h4" color="#33568E" fontWeight="500">
-            {TITLE}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Compare os {terms.repositories} do produto em uma entidade do modelo, do pior para o melhor valor
-            na release.
-          </Typography>
-
-          {releases.length > 0 && (
-            <Box display="flex" flexWrap="wrap" gap={2} alignItems="center">
+        <Box display="flex" flexDirection="column" gap="24px" marginTop="40px" marginBottom="40px">
+          <Box display="flex" flexWrap="wrap" alignItems="flex-start" gap="16px">
+            <Box flex={1} minWidth="260px">
+              <Typography component="h1" fontWeight="bold" fontSize="30px" color={DASHBOARD_COLORS.primary}>
+                {TITLE}
+              </Typography>
+              <Typography color={DASHBOARD_COLORS.mutedText}>
+                Em qual entidade e em qual nível do modelo a qualidade está caindo
+              </Typography>
+            </Box>
+            {releases.length > 0 && (
               <ReleaseSelect
                 releases={releases}
                 value={releaseId}
@@ -182,63 +311,45 @@ const EntityAnalysisDashboard: NextPageWithLayout = () => {
                 onChange={setReleaseId}
                 disabled={isLoadingReleases}
               />
+            )}
+          </Box>
 
-              <FormControl size="small" sx={{ minWidth: 200 }}>
-                <InputLabel id="entity-analysis-level">Nível</InputLabel>
-                <Select
-                  labelId="entity-analysis-level"
-                  label="Nível"
+          {releases.length > 0 && (
+            <Box display="flex" flexWrap="wrap" alignItems="center" justifyContent="space-between" gap="12px">
+              <Box display="flex" flexWrap="wrap" alignItems="center" gap="12px" minWidth={0} maxWidth="100%">
+                <Typography id="entity-level-label" fontSize="14px" fontWeight="bold" color={DASHBOARD_COLORS.text}>
+                  Nível do modelo
+                </Typography>
+                <Tabs
                   value={level}
-                  onChange={(event) => setLevel(event.target.value as EntityLevel)}
+                  onChange={(_, value: EntityMatrixLevel) => setLevel(value)}
+                  aria-labelledby="entity-level-label"
+                  // em tela estreita as abas rolam dentro delas, sem alargar a página
+                  variant="scrollable"
+                  scrollButtons={false}
+                  sx={{
+                    minHeight: 36,
+                    maxWidth: '100%',
+                    '& .MuiTab-root': { minHeight: 36, textTransform: 'none', fontWeight: 'bold' }
+                  }}
                 >
-                  {LEVELS.map((item) => (
-                    <MenuItem key={item} value={item}>
-                      {LEVEL_LABELS[item]}
-                    </MenuItem>
+                  {MATRIX_LEVELS.map((item) => (
+                    <Tab key={item} value={item} label={LEVEL_LABELS[item]} />
                   ))}
-                </Select>
-              </FormControl>
-
-              <FormControl size="small" sx={{ minWidth: 260 }} disabled={entities.length === 0}>
-                <InputLabel id="entity-analysis-entity">Entidade</InputLabel>
-                <Select
-                  labelId="entity-analysis-entity"
-                  label="Entidade"
-                  value={entityKey ?? ''}
-                  onChange={(event) => setEntityKey(event.target.value)}
-                >
-                  {entities.map((entity) => (
-                    <MenuItem key={entity.key} value={entity.key}>
-                      {entity.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-
-              {(level === 'characteristic' || level === 'measure') && (
-                <FormControlLabel
-                  control={
-                    <Checkbox checked={showReference} onChange={(event) => setShowReference(event.target.checked)} />
-                  }
-                  label="Mostrar meta e faixa de referência"
-                />
-              )}
+                </Tabs>
+              </Box>
+              <Typography fontSize="14px" color={DASHBOARD_COLORS.mutedText} data-testid="entity-level-path">
+                {LEVEL_PATHS[level].map((step, index, steps) => (
+                  <React.Fragment key={step}>
+                    {index > 0 && ' › '}
+                    {index === steps.length - 1 ? <strong>{step}</strong> : step}
+                  </React.Fragment>
+                ))}
+              </Typography>
             </Box>
           )}
 
-          <Paper
-            elevation={0}
-            sx={{
-              border: '1px solid #d0d7de',
-              borderRadius: '8px',
-              padding: 3,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 2,
-            }}
-          >
-            {renderContent()}
-          </Paper>
+          {renderContent()}
         </Box>
       </Container>
     </>
