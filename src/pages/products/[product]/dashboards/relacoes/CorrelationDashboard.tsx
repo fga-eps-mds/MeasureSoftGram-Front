@@ -6,11 +6,17 @@ import { Box, Button, Container, Typography } from '@mui/material';
 import { NextPageWithLayout } from '@pages/_app.next';
 import getLayout from '@components/Layout';
 import DashboardCard, { SkeletonBlock } from '@components/DashboardCard';
+import { ExportAllCsvButton } from '@components/ExportCsvButton';
 import useRequireAuth from '@hooks/useRequireAuth';
 import { usePreloadECharts } from '@components/ECharts';
 import { useProviderTerms } from '@hooks/useProviderTerms';
 import { DASHBOARD_COLORS } from '@utils/dashboardColors';
-import { CORRELATION_LEVEL_PLURALS, formatCorrelationInfo } from '@utils/formatCorrelationCharts';
+import {
+  CORRELATION_CSV,
+  CORRELATION_LEVEL_PLURALS,
+  formatCorrelationCsv,
+  formatCorrelationInfo
+} from '@utils/formatCorrelationCharts';
 import { getPathId } from '@utils/pathDestructer';
 
 import { CollectionGuideLink } from '../distribuicao/DistributionStates';
@@ -76,6 +82,11 @@ const CorrelationDashboard: NextPageWithLayout = () => {
   const dashboard = useCorrelationDashboard(organizationId, productId);
   const { repository, level, correlation, status, isUpdating, retry } = dashboard;
   const noun = CORRELATION_LEVEL_PLURALS[level];
+  // a exportação geral leva as duas matrizes da tela, com os filtros aplicados
+  const csvCharts =
+    status === 'ready' && correlation
+      ? [CORRELATION_CSV.matrix, CORRELATION_CSV.bubbles].map((name) => formatCorrelationCsv(correlation, name))
+      : [];
 
   const renderContent = () => {
     if (status === 'error') {
@@ -178,14 +189,17 @@ const CorrelationDashboard: NextPageWithLayout = () => {
 
       <Container maxWidth="xl">
         <Box display="flex" flexDirection="column" gap="24px" marginTop="40px" marginBottom="40px">
-          <Box>
-            <Typography component="h1" fontWeight="bold" fontSize="30px" color={DASHBOARD_COLORS.primary}>
-              {TITLE}
-            </Typography>
-            <Typography color={DASHBOARD_COLORS.mutedText} data-testid="correlation-subtitle">
-              Como as {noun} de <em>{repository?.name ?? `um ${terms.repository}`}</em> variam juntas ao longo das
-              releases
-            </Typography>
+          <Box display="flex" alignItems="flex-start" justifyContent="space-between" flexWrap="wrap" gap="16px">
+            <Box>
+              <Typography component="h1" fontWeight="bold" fontSize="30px" color={DASHBOARD_COLORS.primary}>
+                {TITLE}
+              </Typography>
+              <Typography color={DASHBOARD_COLORS.mutedText} data-testid="correlation-subtitle">
+                Como as {noun} de <em>{repository?.name ?? `um ${terms.repository}`}</em> variam juntas ao longo das
+                releases
+              </Typography>
+            </Box>
+            <ExportAllCsvButton dashboard={CORRELATION_CSV.dashboard} charts={csvCharts} />
           </Box>
 
           <CorrelationFilters {...dashboard} />

@@ -3,6 +3,7 @@ import { CorrelationLevel, CorrelationPair, RepositoryCorrelation } from '@custo
 import { DASHBOARD_COLORS } from '@utils/dashboardColors';
 import { formatCount, formatStatistic, MISSING_STATISTIC } from '@utils/distributionSummary';
 import { escapeHtml } from '@utils/formatOverviewCharts';
+import { CsvChart, CsvColumn } from '@utils/exportCsv';
 
 /** Escala divergente da correlação: laranja em −1, cinza claro em 0 e azul em +1, como na referência. */
 export const CORRELATION_COLORS = {
@@ -333,4 +334,50 @@ export function formatCorrelationBubbleOptions(correlation: RepositoryCorrelatio
     describeCorrelation(correlation, 'Matriz de bolhas'),
     renderBubbleCell(cells)
   );
+}
+
+/** Nome do dashboard e de cada matriz nos arquivos exportados. */
+export const CORRELATION_CSV = { dashboard: 'relacoes', matrix: 'matriz-correlacao', bubbles: 'matriz-bolhas' };
+
+export type CorrelationCsvRow = {
+  repository: string;
+  level: string;
+  row: string;
+  column: string;
+  coefficient: number | null;
+  p_value: number | null;
+  significant: string;
+  method: string;
+  releases: number;
+};
+
+const CORRELATION_CSV_COLUMNS: CsvColumn<CorrelationCsvRow>[] = [
+  { key: 'repository', title: 'Repositório' },
+  { key: 'level', title: 'Nível' },
+  { key: 'row', title: 'Linha' },
+  { key: 'column', title: 'Coluna' },
+  { key: 'coefficient', title: 'Coeficiente' },
+  { key: 'p_value', title: 'p-valor' },
+  { key: 'significant', title: 'Significativo' },
+  { key: 'method', title: 'Coeficiente aplicado' },
+  { key: 'releases', title: 'Releases' }
+];
+
+/** CSV de uma matriz: um par por linha, com o coeficiente e o p-valor do Service, sem arredondar. */
+export function formatCorrelationCsv(correlation: RepositoryCorrelation, name: string): CsvChart<CorrelationCsvRow> {
+  return {
+    name,
+    columns: CORRELATION_CSV_COLUMNS,
+    rows: getCorrelationCells(correlation).map(({ pair, rowName, columnName }) => ({
+      repository: correlation.repository.name,
+      level: CORRELATION_LEVEL_LABELS[correlation.level],
+      row: rowName,
+      column: columnName,
+      coefficient: pair.coefficient,
+      p_value: pair.p_value,
+      significant: pair.significant ? 'sim' : 'não',
+      method: methodLabel(correlation),
+      releases: correlation.releases.length
+    }))
+  };
 }

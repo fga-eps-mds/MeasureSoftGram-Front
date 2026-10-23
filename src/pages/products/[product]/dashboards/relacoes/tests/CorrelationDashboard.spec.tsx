@@ -1,8 +1,9 @@
 import React from 'react';
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { useRequest } from '@hooks/useRequest';
 import { CorrelationLevel } from '@customTypes/product';
+import { downloadCsv, downloadCsvZip } from '@utils/exportCsv';
 import CorrelationDashboard from '../CorrelationDashboard';
 import { correlation, repositories } from './fixtures';
 
@@ -18,6 +19,7 @@ jest.mock('next/router', () => ({ useRouter: () => ({ query: { product: '1-2-Pro
 jest.mock('@components/Layout', () => ({ __esModule: true, default: (page: React.ReactNode) => page }));
 jest.mock('@hooks/useRequireAuth', () => ({ __esModule: true, default: jest.fn() }));
 jest.mock('@hooks/useRequest', () => ({ useRequest: jest.fn() }));
+jest.mock('@utils/exportCsv', () => ({ downloadCsv: jest.fn(), downloadCsvZip: jest.fn() }));
 jest.mock('@hooks/useProviderTerms', () => ({
   useProviderTerms: () => ({
     terms: {
@@ -112,6 +114,30 @@ describe('<CorrelationDashboard />', () => {
     });
   });
 
+  it('exporta cada matriz em CSV e as duas num .zip, com os filtros da tela (CA7)', async () => {
+    render(<CorrelationDashboard />);
+    choose('Repositório', 'MeasureSoftGram-Front');
+    fireEvent.click(screen.getByRole('button', { name: 'Subcaracterística' }));
+
+    screen.getAllByRole('button', { name: 'Exportar .csv' }).forEach((button) => fireEvent.click(button));
+    fireEvent.click(screen.getByRole('button', { name: 'Exportar todos (.zip)' }));
+    await waitFor(() => expect(screen.getByRole('button', { name: 'Exportar todos (.zip)' })).toBeEnabled());
+
+    const charts = (downloadCsv as jest.Mock).mock.calls.map(([dashboard, chart]) => [dashboard, chart.name]);
+    expect(charts).toEqual([
+      ['relacoes', 'matriz-correlacao'],
+      ['relacoes', 'matriz-bolhas']
+    ]);
+    const [dashboard, zipCharts] = (downloadCsvZip as jest.Mock).mock.calls[0];
+    expect(dashboard).toBe('relacoes');
+    expect(zipCharts.map((chart: { name: string }) => chart.name)).toEqual(['matriz-correlacao', 'matriz-bolhas']);
+    expect(zipCharts[0].rows[0]).toMatchObject({
+      repository: 'MeasureSoftGram-Front',
+      level: 'Subcaracterística',
+      coefficient: 0.559
+    });
+  });
+
   it('com 1 ou 2 releases com valor, explica que faltam releases (CA9)', () => {
     const [first, second] = correlation().releases;
     mockRequests({
@@ -172,5 +198,6 @@ describe('<CorrelationDashboard />', () => {
 
     expect(screen.getAllByText('Carregando')).toHaveLength(2);
     expect(screen.queryByTestId('echarts')).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Exportar todos (.zip)' })).toBeDisabled();
   });
 });

@@ -73,6 +73,30 @@ Consulte o [Guia de Contribuição](https://fga-eps-mds.github.io/MeasureSoftGra
 
 Este projeto segue o [Código de Conduta](https://fga-eps-mds.github.io/MeasureSoftGram-Docs/docs/codigo-de-conduta/).
 
+## Exportação de CSV dos dashboards
+
+Cada gráfico de um dashboard declara o que exporta como um `CsvChart` (`src/shared/utils/exportCsv.ts`): o `name` que vai no nome do arquivo, as colunas (a chave do campo na linha e o título do cabeçalho) e as linhas, montadas com os dados que a tela já carregou, com os filtros aplicados e os valores sem arredondar.
+
+```ts
+import { CsvChart, CsvColumn } from '@utils/exportCsv';
+
+type PairRow = { row: string; column: string; coefficient: number | null };
+
+const columns: CsvColumn<PairRow>[] = [
+  { key: 'row', title: 'Linha' },
+  { key: 'column', title: 'Coluna' },
+  { key: 'coefficient', title: 'Coeficiente' }
+];
+
+const chart: CsvChart<PairRow> = { name: 'matriz-correlacao', columns, rows };
+```
+
+- O botão "Exportar .csv" de cada gráfico vai no `headerAction` do `DashboardCard`: `<ExportCsvButton dashboard="relacoes" chart={chart} />`. Ele baixa `msgram-<dashboard>-<grafico>-<data>.csv` e fica desabilitado sem linhas.
+- O botão do topo da página recebe os gráficos dela: `<ExportAllCsvButton dashboard="relacoes" charts={[...]} />`. Ele baixa `msgram-<dashboard>-<data>.zip`, com um CSV por gráfico com dados.
+- O CSV é separado por vírgula e escapa vírgula, aspas e quebra de linha (RFC 4180). Um valor `null` fica vazio.
+
+O exemplo completo é o dashboard "6. Relações e Correlações" (`formatCorrelationCsv`, em `src/shared/utils/formatCorrelationCharts.ts`).
+
 ## Licença
 
 Este projeto é distribuído sob a licença [GNU AGPL-3.0](./LICENSE).

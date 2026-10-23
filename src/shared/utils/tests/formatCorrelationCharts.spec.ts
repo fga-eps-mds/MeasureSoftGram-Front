@@ -5,6 +5,7 @@ import {
   correlationTextColor,
   describeCorrelation,
   formatCorrelationBubbleOptions,
+  formatCorrelationCsv,
   formatCorrelationInfo,
   formatCorrelationMatrixOptions,
   formatPairTooltip,
@@ -12,6 +13,7 @@ import {
   getCorrelationCells,
   getCorrelationChartSize
 } from '@utils/formatCorrelationCharts';
+import { toCsv } from '@utils/exportCsv';
 import { correlation } from '@pages/products/[product]/dashboards/relacoes/tests/fixtures';
 
 type Series = {
@@ -140,6 +142,30 @@ describe('formatCorrelationCharts', () => {
         'Maintainability × Reliability: 0,56; Functional Suitability × Reliability: -0,32, não significativo; ' +
         'Functional Suitability × Maintainability: 0,93.'
     );
+  });
+
+  describe('formatCorrelationCsv', () => {
+    it('traz um par por linha, sem arredondar, com o coeficiente aplicado e o número de releases', () => {
+      const chart = formatCorrelationCsv(correlation(), 'matriz-correlacao');
+
+      expect(chart.name).toBe('matriz-correlacao');
+      expect(toCsv(chart).split('\r\n')).toEqual([
+        'Repositório,Nível,Linha,Coluna,Coeficiente,p-valor,Significativo,Coeficiente aplicado,Releases',
+        'MeasureSoftGram-Service,Característica,Maintainability,Reliability,0.559,0.0104,sim,Spearman,20',
+        'MeasureSoftGram-Service,Característica,Functional Suitability,Reliability,-0.32,0.17,não,Spearman,20',
+        'MeasureSoftGram-Service,Característica,Functional Suitability,Maintainability,0.9282,3.7e-9,sim,Spearman,20'
+      ]);
+    });
+
+    it('deixa vazios o coeficiente e o p-valor do par sem variação', () => {
+      const data = correlation({
+        pairs: [{ row: 'maintainability', column: 'reliability', coefficient: null, p_value: null, significant: false }]
+      });
+
+      expect(toCsv(formatCorrelationCsv(data, 'matriz-bolhas')).split('\r\n')[1]).toBe(
+        'MeasureSoftGram-Service,Característica,Maintainability,Reliability,,,não,Spearman,20'
+      );
+    });
   });
 
   it('dimensiona o gráfico por uma célula por entidade e o espaço do último nome', () => {

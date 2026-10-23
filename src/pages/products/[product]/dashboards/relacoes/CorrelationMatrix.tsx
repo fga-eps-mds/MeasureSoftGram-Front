@@ -1,11 +1,14 @@
 import React, { useMemo } from 'react';
 import { Box, Typography } from '@mui/material';
 import DashboardCard from '@components/DashboardCard';
+import ExportCsvButton from '@components/ExportCsvButton';
 import { RepositoryCorrelation } from '@customTypes/product';
 import { DASHBOARD_COLORS } from '@utils/dashboardColors';
 import {
   CORRELATION_COLORS,
+  CORRELATION_CSV,
   CORRELATION_LEVEL_PLURALS,
+  formatCorrelationCsv,
   formatCorrelationMatrixOptions,
   formatSignificanceNote,
   METHOD_LABELS
@@ -48,7 +51,16 @@ export default function CorrelationMatrix({ correlation }: { correlation: Reposi
   const method = correlation.method ? METHOD_LABELS[correlation.method] : '';
 
   return (
-    <DashboardCard title={matrixTitle(correlation)} status="ready">
+    <DashboardCard
+      title={matrixTitle(correlation)}
+      status="ready"
+      headerAction={
+        <ExportCsvButton
+          dashboard={CORRELATION_CSV.dashboard}
+          chart={formatCorrelationCsv(correlation, CORRELATION_CSV.matrix)}
+        />
+      }
+    >
       <Typography fontSize="13px" color={DASHBOARD_COLORS.text}>
         RD_Corr = f<sub>σ</sub>(RD): correlação entre os valores das {noun} nas {correlation.releases.length} releases
         de {correlation.repository.name}. Cada nome fica na diagonal: leia a linha à esquerda dele e a coluna abaixo

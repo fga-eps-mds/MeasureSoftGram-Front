@@ -1,10 +1,16 @@
 import React, { useMemo } from 'react';
 import { Box, Typography } from '@mui/material';
 import DashboardCard from '@components/DashboardCard';
+import ExportCsvButton from '@components/ExportCsvButton';
 import { RepositoryCorrelation } from '@customTypes/product';
 import { DASHBOARD_COLORS } from '@utils/dashboardColors';
 import { formatStatistic } from '@utils/distributionSummary';
-import { CORRELATION_COLORS, formatCorrelationBubbleOptions } from '@utils/formatCorrelationCharts';
+import {
+  CORRELATION_COLORS,
+  CORRELATION_CSV,
+  formatCorrelationBubbleOptions,
+  formatCorrelationCsv
+} from '@utils/formatCorrelationCharts';
 import CorrelationChart from './CorrelationChart';
 
 export const BUBBLES_TITLE = 'Matriz de bolhas das correlações';
@@ -71,7 +77,16 @@ export default function CorrelationBubbles({ correlation }: { correlation: Repos
   const option = useMemo(() => formatCorrelationBubbleOptions(correlation), [correlation]);
 
   return (
-    <DashboardCard title={BUBBLES_TITLE} status="ready">
+    <DashboardCard
+      title={BUBBLES_TITLE}
+      status="ready"
+      headerAction={
+        <ExportCsvButton
+          dashboard={CORRELATION_CSV.dashboard}
+          chart={formatCorrelationCsv(correlation, CORRELATION_CSV.bubbles)}
+        />
+      }
+    >
       <Typography fontSize="13px" color={DASHBOARD_COLORS.text}>
         A mesma matriz RD_Corr de {correlation.repository.name}: o tamanho do círculo é |r| e a cor é o sinal da
         correlação. Os nomes ficam na diagonal, como na matriz ao lado.
