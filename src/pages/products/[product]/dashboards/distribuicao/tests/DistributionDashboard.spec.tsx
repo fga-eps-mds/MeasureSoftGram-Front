@@ -112,6 +112,26 @@ describe('<DistributionDashboard />', () => {
     ]);
   });
 
+  it('a opção escolhida do repositório cabe na largura disponível, cortada com reticências e com o texto inteiro no title', () => {
+    render(<DistributionDashboard />);
+
+    choose('Repositório', 'MeasureSoftGram-Action (sem análise na release)');
+
+    const select = screen.getByRole('combobox', { name: 'Repositório' });
+    expect(select).toHaveTextContent('MeasureSoftGram-Action (sem análise na release)');
+    expect(select).toHaveAttribute('title', 'MeasureSoftGram-Action (sem análise na release)');
+    // o jsdom não calcula a largura: o teste confere as regras que o emotion inseriu para o seletor
+    const rules = Array.from(document.styleSheets).flatMap((sheet) =>
+      Array.from(sheet.cssRules).map((rule) => rule.cssText)
+    );
+    const root = select.closest('.MuiTextField-root') as HTMLElement;
+    const rootClass = Array.from(root.classList).find((name) => name.startsWith('css-'));
+    expect(rules).toContainEqual(expect.stringMatching(`^\\.${rootClass} \\{.*min-width: 0;.*max-width: 100%;`));
+    expect(rules).toContainEqual(
+      `.${rootClass} .MuiSelect-select {min-width: 0; max-width: 100%; overflow: hidden; text-overflow: ellipsis;}`
+    );
+  });
+
   it('tem os cinco níveis e nenhum seletor de entidade no TSQMI', () => {
     render(<DistributionDashboard />);
 

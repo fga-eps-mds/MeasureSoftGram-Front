@@ -11,7 +11,7 @@ import DistributionChart from './DistributionChart';
 export const HISTOGRAM_TITLE = 'Histograma';
 
 // some da tela, mas continua para os leitores de tela
-const VISUALLY_HIDDEN = {
+export const VISUALLY_HIDDEN = {
   position: 'absolute',
   width: '1px',
   height: '1px',
@@ -21,10 +21,44 @@ const VISUALLY_HIDDEN = {
 };
 
 /**
+ * Tamanho da fonte do rótulo de uma faixa da régua conforme a largura dela. O rótulo mais largo, "B · Muito bom",
+ * mede 69 px em 11 px (o tamanho normal), 63 px em 10 px e 56 px em 9 px: cada degrau é o maior tamanho que ainda
+ * cabe na faixa. Em 1314 px de tela, por exemplo, a faixa tem 64 px e o rótulo sai em 9 px.
+ */
+export const BAND_LABEL_STEPS = [
+  { maxWidth: 72, fontSize: '10px' },
+  { maxWidth: 65, fontSize: '9px' }
+];
+
+/**
+ * Abaixo disso o rótulo não cabe nem em 9 px (em 360 px de tela, a faixa tem 25 px): só a letra aparece, de volta
+ * ao tamanho normal, porque sozinha ela cabe.
+ */
+export const BAND_LETTER_ONLY_MAX_WIDTH = 58;
+
+const BAND_FONT_SIZE = '11px';
+
+/**
+ * Regras do rótulo de uma faixa, por largura da própria faixa (cada li é um container): a fonte diminui em degraus
+ * e, quando nem assim cabe, só a letra fica na tela; o rótulo continua no title e no texto para leitores de tela.
+ */
+export function bandLabelRules() {
+  return {
+    ...Object.fromEntries(
+      BAND_LABEL_STEPS.map((step) => [`@container (max-width: ${step.maxWidth}px)`, { fontSize: step.fontSize }])
+    ),
+    [`@container (max-width: ${BAND_LETTER_ONLY_MAX_WIDTH}px)`]: {
+      fontSize: BAND_FONT_SIZE,
+      '& .quality-band-label': VISUALLY_HIDDEN
+    }
+  };
+}
+
+/**
  * Régua das faixas A a E abaixo do eixo de 0 a 1, nas margens do grid do histograma: cada faixa ocupa 0,2 do eixo,
- * então cinco colunas iguais ficam alinhadas às barras. Fica fora do ECharts para seguir a largura do cartão: com a
- * régua mais estreita que 420 px (uns 84 px por faixa, o que cabe "B · Muito bom"), só a letra aparece, e o rótulo
- * fica no title e no texto para leitores de tela.
+ * então cinco colunas iguais ficam alinhadas às barras. Fica fora do ECharts para seguir a largura do cartão. Cada
+ * faixa decide pela própria largura se mostra a letra e o rótulo, com a fonte menor se precisar, ou só a letra
+ * (ver bandLabelRules): no desktop o rótulo aparece; em telas estreitas, como 360 px, só a letra.
  */
 export function QualityBandRuler() {
   return (
@@ -38,10 +72,8 @@ export function QualityBandRuler() {
       padding={0}
       sx={{
         listStyle: 'none',
-        containerType: 'inline-size',
         marginLeft: `${HISTOGRAM_GRID_SIDES.left}px`,
-        marginRight: `${HISTOGRAM_GRID_SIDES.right}px`,
-        '@container (max-width: 420px)': { '& .quality-band-label': VISUALLY_HIDDEN }
+        marginRight: `${HISTOGRAM_GRID_SIDES.right}px`
       }}
     >
       {QUALITY_BANDS.map((band) => (
@@ -52,9 +84,16 @@ export function QualityBandRuler() {
           title={`${band.grade} · ${band.label}`}
           textAlign="center"
           minWidth={0}
+          sx={{ containerType: 'inline-size' }}
         >
           <Box sx={{ height: '10px', borderRadius: '2px', backgroundColor: band.color }} />
-          <Typography fontSize="11px" color={DASHBOARD_COLORS.text} marginTop="4px" lineHeight={1.3}>
+          <Typography
+            color={DASHBOARD_COLORS.text}
+            marginTop="4px"
+            lineHeight={1.3}
+            whiteSpace="nowrap"
+            sx={{ fontSize: BAND_FONT_SIZE, ...bandLabelRules() }}
+          >
             <strong>{band.grade}</strong>
             <span className="quality-band-label"> · {band.label}</span>
           </Typography>

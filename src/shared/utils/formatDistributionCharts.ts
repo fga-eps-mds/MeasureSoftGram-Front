@@ -155,7 +155,9 @@ export function formatMedianLabel(median: number | null): string {
 /**
  * Curva de densidade das análises (CA5), no mesmo eixo x e com as mesmas margens do histograma, para os dois quadros
  * ficarem alinhados lado a lado. A área fica preenchida em cor clara. A mediana do Service é uma linha vertical
- * tracejada numa série sem pontos, só para ter o próprio item na legenda.
+ * tracejada numa série sem pontos, só para ter o próprio item na legenda. O eixo y fica sem rótulos e sem marcas,
+ * como na tela de referência: a densidade é relativa, e numa métrica de valores grandes os rótulos viravam "0" ou se
+ * repetiam. A grade leve continua, e o texto acessível descreve a curva.
  */
 export function formatDensityOptions(
   points: DensityPoint[],
@@ -196,8 +198,9 @@ export function formatDensityOptions(
     xAxis: histogramValueAxis(histogram),
     yAxis: {
       type: 'value',
-      axisLabel: { ...AXIS_LABEL, formatter: (value: number) => formatAxisValue(Number(value.toFixed(2))) },
-      splitLine: SPLIT_LINE
+      axisLabel: { show: false },
+      axisTick: { show: false },
+      splitLine: { show: true, ...SPLIT_LINE }
     },
     series: [
       {
@@ -246,6 +249,40 @@ export function formatAnalysisDateTime(date: string | number): string {
 
 function toScatterPoint(analysis: DistributionAnalysis): [number, number] {
   return [new Date(analysis.date).getTime(), analysis.value];
+}
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+/**
+ * Folga de cada lado dos rótulos de data. O hideOverlap só esconde um rótulo cuja caixa invade a do vizinho, e no
+ * cartão de 360 px "22 set" e "1 out" só se encostavam ("22 set1 out"). Com um fundo transparente, o padding entra
+ * na caixa do rótulo (sem fundo o ECharts mede só o texto), então dois que se encostam passam a se sobrepor e um some.
+ */
+const TIME_LABEL_SPACING = { backgroundColor: 'transparent', padding: [0, 4] };
+
+/**
+ * Eixo de tempo da dispersão. Com as análises em dias diferentes, o ECharts escolhe o intervalo e os rótulos saem com
+ * dia e mês. Com todas no mesmo dia (uma análise só, por exemplo), ele não tem como escolher e enche o eixo de
+ * "1 jul / 1 jan" sem ano: aí o eixo vai de um dia antes a um dia depois, com um rótulo por dia e a data completa.
+ */
+export function scatterTimeAxis(analyses: DistributionAnalysis[]) {
+  const times = analyses.map((analysis) => new Date(analysis.date).getTime());
+  const days = new Set(times.map((time) => format(new Date(time), 'yyyy-MM-dd')));
+  const sameDay = days.size === 1;
+  const pattern = sameDay ? 'dd/MM/yyyy' : 'd MMM';
+  return {
+    type: 'time',
+    ...(sameDay ? { min: Math.min(...times) - DAY_MS, max: Math.max(...times) + DAY_MS, minInterval: DAY_MS } : {}),
+    boundaryGap: ['3%', '3%'],
+    splitLine: { show: false },
+    axisLine: { lineStyle: { color: DASHBOARD_COLORS.gridLine } },
+    axisLabel: {
+      ...AXIS_LABEL,
+      hideOverlap: true,
+      ...TIME_LABEL_SPACING,
+      formatter: (value: number) => format(new Date(value), pattern, { locale: ptBR })
+    }
+  };
 }
 
 function describeOutliers(outliers: DistributionAnalysis[]): string {
@@ -305,17 +342,7 @@ export function formatScatterOptions(entity: DistributionEntity, histogram: Hist
     },
     // a legenda quebra em duas linhas no cartão de 360 px: o topo do grid tem espaço para a segunda
     grid: { left: 8, right: 24, top: 60, bottom: 8, containLabel: true },
-    xAxis: {
-      type: 'time',
-      boundaryGap: ['3%', '3%'],
-      splitLine: { show: false },
-      axisLine: { lineStyle: { color: DASHBOARD_COLORS.gridLine } },
-      axisLabel: {
-        ...AXIS_LABEL,
-        hideOverlap: true,
-        formatter: (value: number) => format(new Date(value), 'd MMM', { locale: ptBR })
-      }
-    },
+    xAxis: scatterTimeAxis(analyses),
     yAxis: {
       type: 'value',
       min: histogram.min,

@@ -4,12 +4,24 @@ import '@testing-library/jest-dom';
 import DistributionDensity from '../DistributionDensity';
 import { entity } from './fixtures';
 
-type ChartOption = { xAxis: unknown; legend: { data: string[] }; series: { data: number[][] }[] };
+type ChartOption = {
+  xAxis: unknown;
+  yAxis: unknown;
+  aria: { label: { description: string } };
+  legend: { data: string[] };
+  series: { data: number[][] }[];
+};
 
 // o ECharts não roda no jsdom: o mock mostra o eixo, a legenda e a curva que o gráfico receberia
 jest.mock('next/dynamic', () => () => ({ option }: { option: ChartOption }) => (
   <div data-testid="echarts">
-    {JSON.stringify({ xAxis: option.xAxis, legend: option.legend.data, curve: option.series[0].data })}
+    {JSON.stringify({
+      xAxis: option.xAxis,
+      yAxis: option.yAxis,
+      aria: option.aria.label.description,
+      legend: option.legend.data,
+      curve: option.series[0].data
+    })}
   </div>
 ));
 
@@ -35,6 +47,25 @@ describe('<DistributionDensity />', () => {
 
     expect(chart().xAxis).toMatchObject({ min: 40, max: 65, interval: 5 });
     expect(chart().curve.at(-1)[0]).toBe(65);
+  });
+
+  it('numa métrica, não mostra os rótulos do eixo y, que repetiam "0", e o texto acessível continua descrevendo a curva', () => {
+    render(
+      <DistributionDensity
+        entity={entity(
+          'sum_ci_feedback_times',
+          'Sum of time in seconds on builds',
+          'metric',
+          [12000, 18000, 24000, 26000, 85000],
+          'INT'
+        )}
+      />
+    );
+
+    expect(chart().yAxis).toMatchObject({ axisLabel: { show: false }, axisTick: { show: false } });
+    expect(chart().aria).toMatch(
+      /^Curva de densidade de Sum of time in seconds on builds, de 10\.000 a 90\.000, com o pico em/
+    );
   });
 
   it('com menos de 3 análises, explica que faltam análises (CA9)', () => {

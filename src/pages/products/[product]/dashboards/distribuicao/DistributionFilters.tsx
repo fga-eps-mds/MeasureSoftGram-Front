@@ -10,6 +10,21 @@ import { useDistributionDashboard } from './useDistributionDashboard';
 const SELECT_PROPS = { MenuProps: { disableScrollLock: true } };
 // em tela estreita a lista ocupa a linha toda, e a página não rola na horizontal
 const SELECT_SX: SxProps<Theme> = { width: { xs: '100%', sm: 230 }, backgroundColor: '#FFFFFF' };
+/**
+ * O seletor de repositório nunca passa da largura que tem: a opção escolhida ("Badge Demo N-A (sem análise na
+ * release)", por exemplo) é cortada com reticências em vez de alargar a página, e o texto inteiro fica no title.
+ */
+const REPOSITORY_SX: SxProps<Theme> = {
+  ...SELECT_SX,
+  maxWidth: '100%',
+  minWidth: 0,
+  '& .MuiSelect-select': { minWidth: 0, maxWidth: '100%', overflow: 'hidden', textOverflow: 'ellipsis' }
+};
+
+/** Nome do repositório na lista; sem análise na release, o aviso vai junto. */
+function repositoryLabel(item: { name: string; tsqmi: { value: number | null } }): string {
+  return item.tsqmi.value === null ? `${item.name} (sem análise na release)` : item.name;
+}
 const TOGGLE_SX: SxProps<Theme> = {
   textTransform: 'none',
   fontWeight: 'bold',
@@ -73,12 +88,15 @@ export default function DistributionFilters({
           value={repository?.id ?? ''}
           onChange={(event) => setRepositoryId(Number(event.target.value))}
           disabled={repositories.length === 0}
-          sx={SELECT_SX}
-          SelectProps={SELECT_PROPS}
+          sx={REPOSITORY_SX}
+          SelectProps={{
+            ...SELECT_PROPS,
+            SelectDisplayProps: { title: repository ? repositoryLabel(repository) : undefined }
+          }}
         >
           {repositories.map((item) => (
             <MenuItem key={item.id} value={item.id}>
-              {item.tsqmi.value === null ? `${item.name} (sem análise na release)` : item.name}
+              {repositoryLabel(item)}
             </MenuItem>
           ))}
         </TextField>

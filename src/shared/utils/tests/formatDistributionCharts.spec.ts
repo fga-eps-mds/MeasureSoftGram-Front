@@ -133,6 +133,14 @@ describe('formatDensityOptions', () => {
     expect(option.series).toHaveLength(1);
   });
 
+  it('esconde os rótulos e as marcas do eixo y, mantendo a grade, como na tela de referência', () => {
+    const { yAxis } = formatDensityOptions(points, histogram, 0.555, 'TSQMI');
+
+    expect(yAxis.axisLabel).toMatchObject({ show: false });
+    expect(yAxis.axisTick).toMatchObject({ show: false });
+    expect(yAxis.splitLine).toMatchObject({ show: true, lineStyle: { color: expect.any(String) } });
+  });
+
   it('descreve a curva no texto acessível e mostra o valor e a densidade no tooltip', () => {
     const option = formatDensityOptions(points, histogram, 0.555, 'TSQMI');
 
@@ -224,6 +232,43 @@ describe('formatScatterOptions', () => {
     expect(option.yAxis).toMatchObject({ type: 'value', min: 0, max: 1 });
     expect(option.xAxis.type).toBe('time');
     expect(option.xAxis.axisLabel.formatter(at('2026-08-17T10:00:00-03:00'))).toBe('17 ago');
+  });
+
+  it('com todas as análises no mesmo dia, abre o eixo um dia antes e um depois e mostra a data completa', () => {
+    const day = 24 * 60 * 60 * 1000;
+    const sameDay: DistributionEntity = {
+      ...tsqmi,
+      analyses: [
+        { date: '2026-10-23T09:00:00-03:00', value: 0.9, is_outlier: false },
+        { date: '2026-10-23T15:30:00-03:00', value: 0.88, is_outlier: false }
+      ]
+    };
+
+    const { xAxis } = formatScatterOptions(sameDay, histogram);
+
+    expect(xAxis).toMatchObject({
+      type: 'time',
+      min: at('2026-10-23T09:00:00-03:00') - day,
+      max: at('2026-10-23T15:30:00-03:00') + day,
+      minInterval: day
+    });
+    expect(xAxis.axisLabel.formatter(at('2026-10-23T00:00:00-03:00'))).toBe('23/10/2026');
+    expect(xAxis.axisLabel.formatter(at('2026-10-24T00:00:00-03:00'))).toBe('24/10/2026');
+  });
+
+  it('esconde os rótulos de data que se sobrepõem, com uma folga para os que só se encostam', () => {
+    const { axisLabel } = formatScatterOptions(tsqmi, histogram).xAxis;
+
+    // sem fundo o ECharts mede só o texto: a folga só conta na caixa do rótulo com um fundo, mesmo transparente
+    expect(axisLabel).toMatchObject({ hideOverlap: true, backgroundColor: 'transparent', padding: [0, 4] });
+  });
+
+  it('com análises em dias diferentes, o eixo segue as datas delas, com dia e mês', () => {
+    const { xAxis } = formatScatterOptions(tsqmi, histogram);
+
+    expect(xAxis).not.toHaveProperty('min');
+    expect(xAxis).not.toHaveProperty('max');
+    expect(xAxis.axisLabel.formatter(at('2026-08-17T10:00:00-03:00'))).toBe('17 ago');
   });
 
   it('numa métrica, o eixo y segue a escala dela', () => {
