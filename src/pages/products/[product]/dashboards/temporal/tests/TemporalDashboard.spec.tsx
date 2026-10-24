@@ -1,6 +1,8 @@
 import React from 'react';
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import { useRequest } from '@hooks/useRequest';
+import { downloadCsv, downloadCsvZip } from '@utils/exportCsv';
 import TemporalDashboard from '../TemporalDashboard';
 
 jest.mock('next/router', () => ({ useRouter: () => ({ query: { product: '1-2-Produto' } }) }));
@@ -12,6 +14,7 @@ jest.mock('@hooks/useProviderTerms', () => ({
   }),
 }));
 jest.mock('@hooks/useRequest', () => ({ useRequest: jest.fn() }));
+jest.mock('@utils/exportCsv', () => ({ downloadCsv: jest.fn(), downloadCsvZip: jest.fn() }));
 jest.mock('@components/ECharts', () => ({
   __esModule: true,
   usePreloadECharts: jest.fn(),
@@ -114,10 +117,20 @@ const chooseOption = (label: string, option: string) => {
 };
 const closeMenu = () => fireEvent.keyDown(screen.getByRole('listbox'), { key: 'Escape' });
 
+const exportButton = (title: string) => chart(title).getByRole('button', { name: 'Exportar .csv' });
+const exportAllButton = () => screen.getByRole('button', { name: 'Exportar todos (.zip)' });
+async function exportAll() {
+  fireEvent.click(exportAllButton());
+  await waitFor(() => expect(exportAllButton()).toBeEnabled());
+}
+const zipChartNames = () => (downloadCsvZip as jest.Mock).mock.calls.at(-1)[1].map((item: { name: string }) => item.name);
+const downloadedChart = () => (downloadCsv as jest.Mock).mock.calls.at(-1)[1];
+
 describe('<TemporalDashboard />', () => {
   beforeEach(() => {
     responses = defaultResponse;
     mutate.mockReset();
+    jest.clearAllMocks();
     (useRequest as jest.Mock).mockImplementation((request: Request) =>
       request ? { isLoading: false, mutate, ...responses(request) } : { isLoading: false, mutate }
     );
@@ -239,5 +252,100 @@ describe('<TemporalDashboard />', () => {
 
     expect(screen.getByText('Este produto ainda não tem repositórios')).toBeTruthy();
     expect(screen.queryByRole('region', { name: 'Característica' })).toBeNull();
+  });
+
+  describe('exportação de CSV', () => {
+    it('exporta o gráfico da característica com um ponto por dia, sem arredondar', () => {
+      render(<TemporalDashboard />);
+
+      fireEvent.click(exportButton('Característica'));
+
+      expect((downloadCsv as jest.Mock).mock.calls[0][0]).toBe('temporal');
+      expect(downloadedChart().name).toBe('caracteristicas');
+      expect(downloadedChart().rows).toEqual([
+        { repository: 'api', entity: 'Reliability', date: '2026-03-01', value: 0.5 },
+        { repository: 'api', entity: 'Reliability', date: '2026-03-05', value: 0.6 },
+      ]);
+    });
+
+    it('exporta por mês quando o eixo está em meses, com a última análise do mês', () => {
+      render(<TemporalDashboard />);
+      fireEvent.click(screen.getByRole('button', { name: 'Meses' }));
+
+      fireEvent.click(exportButton('Característica'));
+
+      expect(downloadedChart().rows).toEqual([{ repository: 'api', entity: 'Reliability', date: '2026-03', value: 0.6 }]);
+    });
+
+    it('exporta só as entidades filtradas na tela', () => {
+      render(<TemporalDashboard />);
+      chooseOption('Subcaracterística', 'Maturity');
+      closeMenu();
+
+      fireEvent.click(exportButton('Subcaracterísticas'));
+      expect(downloadedChart().name).toBe('subcaracteristicas');
+      expect(downloadedChart().rows.map((row: { entity: string }) => row.entity)).toEqual(['Maturity']);
+
+      fireEvent.click(exportButton('Medidas'));
+      expect(downloadedChart().name).toBe('medidas');
+      expect(downloadedChart().rows.map((row: { entity: string }) => row.entity)).toEqual(['CI Feedback Time']);
+
+      fireEvent.click(exportButton('Métricas'));
+      expect(downloadedChart().name).toBe('metricas');
+      expect(downloadedChart().rows).toEqual([{ repository: 'api', entity: 'ci_time', date: '2026-03-01', value: 300 }]);
+    });
+
+    it('leva o nome do repositório escolhido', () => {
+      render(<TemporalDashboard />);
+      chooseOption('Repositório', 'web');
+
+      fireEvent.click(exportButton('Característica'));
+
+      expect(downloadedChart().rows[0].repository).toBe('web');
+    });
+
+    it('exporta os quatro gráficos num .zip pelo botão do topo', async () => {
+      render(<TemporalDashboard />);
+
+      await exportAll();
+
+      expect((downloadCsvZip as jest.Mock).mock.calls[0][0]).toBe('temporal');
+      expect(zipChartNames()).toEqual(['caracteristicas', 'subcaracteristicas', 'medidas', 'metricas']);
+    });
+
+    it('sem dados no gráfico, o botão dele fica desabilitado e o .zip leva os outros', async () => {
+      render(<TemporalDashboard />);
+      chooseOption('Característica', 'Maintainability');
+
+      // a medida da Maintainability não tem histórico, e ela não tem métricas do repositório inteiro
+      expect(exportButton('Medidas')).toBeDisabled();
+      expect(exportButton('Métricas')).toBeDisabled();
+      expect(exportButton('Característica')).toBeEnabled();
+      await exportAll();
+
+      expect(zipChartNames()).toEqual(['caracteristicas', 'subcaracteristicas']);
+    });
+
+    it('não exporta o gráfico que está carregando nem o que deu erro', async () => {
+      responses = (request) => {
+        if (request.url.includes('historical-values/measures')) return { isLoading: true };
+        if (request.url.includes('historical-values/subcharacteristics')) return { error: new Error('500') };
+        return defaultResponse(request);
+      };
+      render(<TemporalDashboard />);
+
+      expect(within(screen.getByRole('region', { name: 'Medidas' })).queryByRole('button', { name: 'Exportar .csv' })).toBeNull();
+      await exportAll();
+
+      expect(zipChartNames()).toEqual(['caracteristicas', 'metricas']);
+    });
+
+    it('desabilita o .zip quando o produto não tem repositórios', () => {
+      responses = (request) =>
+        request.url.endsWith('/repositories/') ? { data: { results: [] } } : defaultResponse(request);
+      render(<TemporalDashboard />);
+
+      expect(exportAllButton()).toBeDisabled();
+    });
   });
 });

@@ -2,7 +2,6 @@ import {
   getQualityStatus,
   calculateVariation,
   formatPulseChartOptions,
-  convertPulseRepositoriesToCsv,
   COLOR_TOKENS,
   PulseRepositoryData,
 } from '../formatPulseChart';
@@ -202,24 +201,4 @@ describe('formatPulseChart Utility', () => {
       });
     });
   });
-
-  describe('convertPulseRepositoriesToCsv', () => {
-    it('deve gerar string CSV válida contendo os cabeçalhos e valores de medições', () => {
-      const repos: PulseRepositoryData[] = [
-        {
-          id: 1,
-          name: '2022-1-MeasureSoftGram-Front',
-          measurements: [
-            { created_at: '2026-01-01T12:00:00Z', value: 0.8 },
-          ],
-          releases: [],
-        },
-      ];
-
-      const csv = convertPulseRepositoriesToCsv(repos);
-      expect(csv).toContain('id,key,name,description,historyId,history_characteristic_id,history_value,history_created_at,quality_status');
-      expect(csv).toContain('1,,"2022-1-MeasureSoftGram-Front",,1,,0.8,2026-01-01T12:00:00Z,Ótimo');
-    });
-  });
 });
-

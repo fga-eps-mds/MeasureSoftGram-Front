@@ -1,10 +1,12 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { downloadCsv } from '@utils/exportCsv';
 import PulseChart from '../PulseChart';
 
 const mockUsePulseChartData = jest.fn();
 
+jest.mock('@utils/exportCsv', () => ({ downloadCsv: jest.fn(), downloadCsvZip: jest.fn() }));
 jest.mock('../usePulseChartData', () => ({
   usePulseChartData: () => mockUsePulseChartData(),
 }));
@@ -42,6 +44,7 @@ jest.mock('next/dynamic', () => () => {
 
 describe('<PulseChart />', () => {
   beforeEach(() => {
+    jest.clearAllMocks();
     mockUsePulseChartData.mockReturnValue(defaultChartData());
   });
 
@@ -61,30 +64,25 @@ describe('<PulseChart />', () => {
     expect(getByText('Não foi possível carregar os dados do gráfico de pulso.')).toBeInTheDocument();
   });
 
-  it('exporta os repositórios filtrados em CSV', () => {
-    const createObjectURL = jest.fn(() => 'blob:csv');
-    const revokeObjectURL = jest.fn();
-    Object.assign(window.URL, { createObjectURL, revokeObjectURL });
-    const click = jest.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => undefined);
+  it('exporta os repositórios filtrados em CSV pelo botão padrão dos dashboards', () => {
+    const { getByRole } = render(<PulseChart organizationId="1" productId="1" />);
+    fireEvent.click(getByRole('button', { name: 'Exportar .csv' }));
 
-    const { getByText } = render(<PulseChart organizationId="1" productId="1" />);
-    fireEvent.click(getByText('exportar .csv'));
-
-    expect(createObjectURL).toHaveBeenCalledWith(expect.any(Blob));
-    expect(click).toHaveBeenCalledTimes(1);
-    expect(revokeObjectURL).toHaveBeenCalledWith('blob:csv');
-    click.mockRestore();
+    expect(downloadCsv).toHaveBeenCalledTimes(1);
+    const [dashboard, chart] = (downloadCsv as jest.Mock).mock.calls[0];
+    expect(dashboard).toBe('produto');
+    expect(chart.name).toBe('pulso');
+    expect(chart.rows).toEqual([
+      { repository: '2022-1-MeasureSoftGram-CLI', date: '2026-08-21T12:00:00Z', value: 0.918, grade: 'A' },
+    ]);
   });
 
-  it('não exporta quando não há repositórios filtrados', () => {
+  it('deixa o botão de exportar desabilitado quando não há repositórios filtrados', () => {
     mockUsePulseChartData.mockReturnValue({ ...defaultChartData(), filteredRepositories: [] });
-    const createObjectURL = jest.fn();
-    Object.assign(window.URL, { createObjectURL });
 
-    const { getByText } = render(<PulseChart organizationId="1" productId="1" />);
-    fireEvent.click(getByText('exportar .csv'));
+    const { getByRole } = render(<PulseChart organizationId="1" productId="1" />);
 
-    expect(createObjectURL).not.toHaveBeenCalled();
+    expect(getByRole('button', { name: 'Exportar .csv' })).toBeDisabled();
   });
 
   it('renders pulse chart header, legend and summary correctly', () => {

@@ -1,6 +1,7 @@
 import React from 'react';
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { downloadCsv, downloadCsvZip } from '@utils/exportCsv';
 import { useOverviewDashboard } from '../useOverviewDashboard';
 import OverviewDashboard from '../OverviewDashboard';
 import {
@@ -27,6 +28,7 @@ jest.mock('@hooks/useProviderTerms', () => ({
     }
   })
 }));
+jest.mock('@utils/exportCsv', () => ({ downloadCsv: jest.fn(), downloadCsvZip: jest.fn() }));
 jest.mock('../useOverviewDashboard', () => ({ useOverviewDashboard: jest.fn() }));
 // o equalizador tem testes próprios: aqui basta ver o que ele recebe do analysis_data
 jest.mock('@components/PlannedVsAccomplishedEqualizer', () => ({
@@ -87,6 +89,22 @@ function dashboard(overrides = {}) {
 
 function card(name: string) {
   return screen.getByRole('region', { name });
+}
+
+const exportAllButton = () => screen.getByRole('button', { name: 'Exportar todos (.zip)' });
+/** Clica no .zip e espera ele terminar de gerar (o botão fica "Exportando…" enquanto isso). */
+async function exportAll() {
+  fireEvent.click(exportAllButton());
+  await waitFor(() => expect(exportAllButton()).toBeEnabled());
+}
+const zipCharts = (): { name: string; rows: Record<string, unknown>[] }[] =>
+  (downloadCsvZip as jest.Mock).mock.calls.at(-1)[1];
+const downloadedChart = () => (downloadCsv as jest.Mock).mock.calls.at(-1)[1];
+function chooseRepository(name: string) {
+  fireEvent.mouseDown(
+    within(card('Planejado × Realizado do repositório')).getByRole('combobox', { name: 'Repositório' })
+  );
+  fireEvent.click(screen.getByRole('option', { name }));
 }
 
 describe('<OverviewDashboard />', () => {
@@ -268,5 +286,120 @@ describe('<OverviewDashboard />', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Criar release' }));
 
     expect(push).toHaveBeenCalledWith('/products/1-2-Produto/releases/create');
+  });
+
+  describe('exportação de CSV', () => {
+    it('exporta os quatro gráficos num .zip pelo botão do topo, com a release escolhida', async () => {
+      render(<OverviewDashboard />);
+
+      await exportAll();
+
+      expect((downloadCsvZip as jest.Mock).mock.calls[0][0]).toBe('overview');
+      expect(zipCharts().map((chart) => chart.name)).toEqual(['totais', 'indicador', 'planejado-realizado', 'radar']);
+      expect(zipCharts()[0].rows[0]).toEqual({ release: '2026.2 R2', total: 'Características', quantity: 3 });
+      expect(zipCharts()[0].rows).toHaveLength(6);
+    });
+
+    it('exporta o Indicador Total da Qualidade pelo botão do card, com o valor e o grau de cada repositório', () => {
+      render(<OverviewDashboard />);
+
+      fireEvent.click(within(card('Indicador Total da Qualidade')).getByRole('button', { name: 'Exportar .csv' }));
+
+      expect((downloadCsv as jest.Mock).mock.calls[0][0]).toBe('overview');
+      expect(downloadedChart().name).toBe('indicador');
+      expect(downloadedChart().rows).toEqual([
+        { release: '2026.2 R2', repository: 'service', indicator: 0.81, grade: 'A' },
+        { release: '2026.2 R2', repository: 'front', indicator: 0.72, grade: 'B' }
+      ]);
+    });
+
+    it('exporta o planejado × realizado só do repositório escolhido no seletor', () => {
+      render(<OverviewDashboard />);
+      const comparison = card('Planejado × Realizado do repositório');
+
+      fireEvent.click(within(comparison).getByRole('button', { name: 'Exportar .csv' }));
+      expect(downloadedChart().name).toBe('planejado-realizado');
+      expect(downloadedChart().rows.map((row: { repository: string }) => row.repository)).toEqual([
+        'service',
+        'service'
+      ]);
+      expect(downloadedChart().rows[0]).toMatchObject({
+        release: '2026.2 R2',
+        characteristic: 'reliability',
+        planned: 0.7,
+        accomplished: 0.74,
+        normDiff: 0.05
+      });
+
+      chooseRepository('front');
+      fireEvent.click(within(comparison).getByRole('button', { name: 'Exportar .csv' }));
+
+      expect(downloadedChart().rows[1]).toEqual({
+        release: '2026.2 R2',
+        repository: 'front',
+        characteristic: 'maintainability',
+        planned: 0.8,
+        accomplished: null,
+        difference: null,
+        normDiff: 0.2
+      });
+    });
+
+    it('exporta o radar com os valores do realizado do repositório escolhido, pelo botão do radar', () => {
+      render(<OverviewDashboard />);
+      chooseRepository('front');
+
+      fireEvent.click(screen.getByRole('button', { name: 'Exportar .csv do radar' }));
+
+      expect(downloadedChart().name).toBe('radar');
+      expect(downloadedChart().rows).toEqual([
+        { release: '2026.2 R2', repository: 'front', characteristic: 'reliability', value: 0.7 },
+        { release: '2026.2 R2', repository: 'front', characteristic: 'maintainability', value: null }
+      ]);
+    });
+
+    it('sem análise no repositório escolhido, não há botão do radar e o .zip leva os outros gráficos', async () => {
+      (useOverviewDashboard as jest.Mock).mockReturnValue(
+        dashboard({ analysis: analysis([...(analysis().accomplished ?? []), repositoryWithoutAnalysis]) })
+      );
+      render(<OverviewDashboard />);
+      chooseRepository('docs');
+
+      expect(screen.queryByRole('button', { name: 'Exportar .csv do radar' })).not.toBeInTheDocument();
+      await exportAll();
+
+      expect(zipCharts().map((chart) => chart.name)).toEqual(['totais', 'indicador', 'planejado-realizado']);
+    });
+
+    it('deixa de fora do .zip os totais que ainda não chegaram', async () => {
+      (useOverviewDashboard as jest.Mock).mockReturnValue(dashboard({ summary: undefined }));
+      render(<OverviewDashboard />);
+
+      await exportAll();
+
+      expect(zipCharts().map((chart) => chart.name)).toEqual(['indicador', 'planejado-realizado', 'radar']);
+    });
+
+    it('desabilita o .zip enquanto nada carregou', () => {
+      (useOverviewDashboard as jest.Mock).mockReturnValue(
+        dashboard({
+          isLoadingReleases: true,
+          release: undefined,
+          summary: undefined,
+          characteristics: undefined,
+          analysis: undefined
+        })
+      );
+      render(<OverviewDashboard />);
+
+      expect(exportAllButton()).toBeDisabled();
+    });
+
+    it('não oferece o CSV de um card com erro', () => {
+      (useOverviewDashboard as jest.Mock).mockReturnValue(dashboard({ characteristicsError: new Error('500') }));
+      render(<OverviewDashboard />);
+
+      expect(within(card('Indicador Total da Qualidade')).queryByRole('button', { name: 'Exportar .csv' })).toBeNull();
+    });
   });
 });

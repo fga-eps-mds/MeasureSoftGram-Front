@@ -2,11 +2,14 @@ import React, { useMemo } from 'react';
 import { Box, Typography } from '@mui/material';
 import DashboardCard, { SkeletonBlock } from '@components/DashboardCard';
 import ReactEcharts from '@components/ECharts';
+import ExportCsvButton from '@components/ExportCsvButton';
 import { PulseChartFilters } from '@components/PulseChart/PulseChartFilters';
 import { PulseChartRepoSidebar } from '@components/PulseChart/PulseChartRepoSidebar';
 import { QualityLegend } from '@components/PulseChart/QualityLegend';
 import { useProviderTerms } from '@hooks/useProviderTerms';
-import { PULSE_GRID, convertPulseRepositoriesToCsv, formatPulseChartOptions } from '@utils/formatPulseChart';
+import { CsvChart } from '@utils/exportCsv';
+import { PULSE_GRID, formatPulseChartOptions } from '@utils/formatPulseChart';
+import { PULSE_CSV, RepositoryPulseCsvRow } from '@utils/formatPulseCsv';
 import { useRepositoryPulse } from '../../hooks/useRepositoryPulse';
 
 const TITLE = 'Indicador das Características';
@@ -14,24 +17,15 @@ const TITLE = 'Indicador das Características';
 const PULSE_OPTIONS = { releaseLabels: 'first-row', horizontalLines: false } as const;
 
 interface Props {
-  organizationId: string;
-  productId: string;
-  repositoryId?: number;
-}
-
-function downloadCsv(content: string, fileName: string) {
-  const url = window.URL.createObjectURL(new Blob([content], { type: 'text/csv;charset=utf-8;' }));
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = fileName;
-  link.click();
-  window.URL.revokeObjectURL(url);
+  /** Os dados do pulso: a página os busca, para o botão do topo e o deste card usarem os mesmos. */
+  pulse: ReturnType<typeof useRepositoryPulse>;
+  /** O CSV das medições do período filtrado. */
+  csv: CsvChart<RepositoryPulseCsvRow>;
 }
 
 /** Gráfico de pulso (metáfora do eletrocardiograma) de cada característica do repositório, como o pulso do produto. */
-export default function RepositoryPulseChart({ organizationId, productId, repositoryId }: Props) {
+export default function RepositoryPulseChart({ pulse, csv }: Readonly<Props>) {
   const { terms } = useProviderTerms();
-  const pulse = useRepositoryPulse(organizationId, productId, repositoryId);
   const options = useMemo(() => formatPulseChartOptions(pulse.rows, PULSE_OPTIONS), [pulse.rows]);
 
   let status: 'loading' | 'error' | 'empty' | 'ready' = 'ready';
@@ -39,17 +33,16 @@ export default function RepositoryPulseChart({ organizationId, productId, reposi
   else if (pulse.isLoading) status = 'loading';
   else if (!pulse.hasMeasurements) status = 'empty';
 
-  const exportCsv = () => {
-    if (!pulse.rows.length) return;
-    const day = new Date().toISOString().split('T')[0];
-    downloadCsv(convertPulseRepositoriesToCsv(pulse.rows), `msgram-caracteristicas-${repositoryId}-${day}.csv`);
-  };
-
   return (
     <DashboardCard
       title={TITLE}
       status={status}
-      headerAction={<QualityLegend />}
+      headerAction={
+        <Box display="flex" alignItems="center" flexWrap="wrap" gap="12px">
+          <QualityLegend />
+          <ExportCsvButton dashboard={PULSE_CSV.repository} chart={csv} />
+        </Box>
+      }
       loadingContent={<SkeletonBlock width="100%" height={PULSE_GRID.topOffset + 3 * (PULSE_GRID.height + PULSE_GRID.gap)} />}
       loadingMessage="Carregando as medições das características…"
       emptyTitle={`Ainda não há medições das características deste ${terms.repository}`}
@@ -62,7 +55,6 @@ export default function RepositoryPulseChart({ organizationId, productId, reposi
         onStartDateChange={pulse.setStartDate}
         endDate={pulse.endDate}
         onEndDateChange={pulse.setEndDate}
-        onExportCsv={exportCsv}
       />
 
       <Typography variant="body2" color="text.secondary" fontSize="12px">

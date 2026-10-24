@@ -1,4 +1,4 @@
-import { AccomplishedRepository, ReleaseDashboardCharacteristics } from '@customTypes/product';
+import { AccomplishedRepository, ReleaseDashboardCharacteristics, ReleaseDashboardSummary } from '@customTypes/product';
 import { CharacteristicComparison } from '@utils/comparePlannedAccomplished';
 import { DASHBOARD_COLORS } from '@utils/dashboardColors';
 import { getQualityBandClamped } from '@utils/qualityBands';
@@ -23,6 +23,27 @@ export function formatVariation(diff: number): string {
   const rounded = Math.round(diff * 100) / 100;
   if (rounded === 0) return formatDecimal(0);
   return `${rounded > 0 ? '+' : '−'}${formatDecimal(Math.abs(rounded))}`;
+}
+
+export interface TotalItem {
+  label: string;
+  /** `undefined` enquanto os totais da release ainda não chegaram. */
+  value?: number;
+}
+
+/** Os totais da release na ordem dos cards da tela; `repositoriesLabel` é o termo do provedor ("Repositórios"). */
+export function getTotalItems(
+  totals: ReleaseDashboardSummary['totals'] | undefined,
+  repositoriesLabel: string
+): TotalItem[] {
+  return [
+    { label: 'Características', value: totals?.characteristics },
+    { label: 'Subcaracterísticas', value: totals?.subcharacteristics },
+    { label: 'Medidas', value: totals?.measures },
+    { label: 'Métricas', value: totals?.metrics },
+    { label: repositoriesLabel, value: totals?.repositories },
+    { label: 'Arquivos analisados', value: totals?.files }
+  ];
 }
 
 export function escapeHtml(text: string): string {

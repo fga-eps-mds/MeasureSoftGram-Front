@@ -1,8 +1,6 @@
-import React from 'react';
-import { Box, MenuItem, Select, TextField, Typography, Button } from '@mui/material';
+import React, { ReactNode } from 'react';
+import { Box, MenuItem, Select, TextField, Typography } from '@mui/material';
 import type { SelectChangeEvent } from '@mui/material/Select';
-import DownloadIcon from '@mui/icons-material/Download';
-import { COLOR_TOKENS } from '@utils/formatPulseChart';
 import { useProviderTerms } from '@hooks/useProviderTerms';
 
 interface Props {
@@ -14,7 +12,8 @@ interface Props {
   onStartDateChange: (date: string) => void;
   endDate: string;
   onEndDateChange: (date: string) => void;
-  onExportCsv?: () => void;
+  /** O botão "Exportar .csv" do gráfico (`ExportCsvButton`), no canto da barra. */
+  exportAction?: ReactNode;
 }
 
 export const PulseChartFilters: React.FC<Props> = ({
@@ -25,7 +24,7 @@ export const PulseChartFilters: React.FC<Props> = ({
   onStartDateChange,
   endDate,
   onEndDateChange,
-  onExportCsv,
+  exportAction,
 }) => {
   const { terms } = useProviderTerms();
   const handleSelectRepo = (e: SelectChangeEvent<string>) => {
@@ -108,28 +107,7 @@ export const PulseChartFilters: React.FC<Props> = ({
         </Box>
       </Box>
 
-      {/* Export CSV Button */}
-      {onExportCsv && (
-        <Button
-          variant="outlined"
-          size="small"
-          onClick={onExportCsv}
-          startIcon={<DownloadIcon fontSize="small" />}
-          sx={{
-            borderColor: COLOR_TOKENS.border,
-            color: COLOR_TOKENS.primary,
-            textTransform: 'none',
-            fontSize: '12px',
-            fontWeight: 500,
-            '&:hover': {
-              borderColor: COLOR_TOKENS.primary,
-              backgroundColor: 'rgba(43, 77, 111, 0.04)',
-            },
-          }}
-        >
-          exportar .csv
-        </Button>
-      )}
+      {exportAction}
     </Box>
   );
 };

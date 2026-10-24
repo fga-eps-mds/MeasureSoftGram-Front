@@ -101,6 +101,12 @@ O dashboard "4. Análise por Entidade" exporta o mapa de calor, a contribuição
 
 O dashboard "5. Distribuição Estatística" exporta o histograma, a curva de densidade, o boxplot, a dispersão no tempo e o resumo estatístico (`formatDistributionCsvs`, em `src/shared/utils/formatDistributionCsv.ts`), sempre com a release, o repositório, o nível e a entidade escolhidos no começo de cada linha. Com menos de 3 análises, o CSV da densidade fica sem linhas e o botão dele aparece desabilitado no quadro vazio (`emptyHeaderAction` do `DashboardCard`).
 
+O dashboard "1. Visão Geral de Qualidade" exporta os totais, o Indicador Total da Qualidade, o planejado × realizado e o radar (`formatTotalsCsv`, `formatIndicatorCsv`, `formatPlannedAccomplishedCsv` e `formatRadarCsv`, em `src/shared/utils/formatOverviewCsv.ts`), sempre com a release escolhida no começo de cada linha. O planejado × realizado e o radar levam só o repositório escolhido no seletor do card, e o realizado de uma característica sem análise fica vazio. Os totais entram só no `.zip`, e o radar tem o próprio botão ("Exportar .csv do radar") no mesmo card do planejado × realizado: quando um card tem mais de um gráfico, `ExportCsvButton` recebe `ariaLabel` para diferenciá-los.
+
+O dashboard "2. Evolução Temporal" exporta um CSV por gráfico (`formatTemporalCsv`, em `src/shared/utils/formatTemporalCsv.ts`), só com as entidades filtradas na tela e a data no eixo escolhido (`yyyy-MM-dd` em dias, `yyyy-MM` em meses). O botão do gráfico sem dados aparece desabilitado (`emptyHeaderAction`), e o `.zip` leva só os gráficos com dados.
+
+Os gráficos de pulso (`formatProductPulseCsv` e `formatRepositoryPulseCsv`, em `src/shared/utils/formatPulseCsv.ts`) exportam as medições do período filtrado, em ordem de data, com o grau (A a E) da faixa do valor. O pulso do produto usa o botão dentro de `PulseChartFilters` (`exportAction`); o da tela do repositório fica no card e, junto com o `.zip` do topo, usa o mesmo `useRepositoryPulse`, que a página busca e passa ao card.
+
 ## Licença
 
 Este projeto é distribuído sob a licença [GNU AGPL-3.0](./LICENSE).

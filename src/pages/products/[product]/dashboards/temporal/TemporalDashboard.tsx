@@ -7,10 +7,13 @@ import { NextPageWithLayout } from '@pages/_app.next';
 import getLayout from '@components/Layout';
 import DashboardCard, { SkeletonBlock } from '@components/DashboardCard';
 import ReactEcharts, { usePreloadECharts } from '@components/ECharts';
+import ExportCsvButton, { ExportAllCsvButton } from '@components/ExportCsvButton';
 import useRequireAuth from '@hooks/useRequireAuth';
 import { useProviderTerms } from '@hooks/useProviderTerms';
 import { DASHBOARD_COLORS } from '@utils/dashboardColors';
+import { TEMPORAL_CSV, TemporalCsvRow, formatTemporalCsv } from '@utils/formatTemporalCsv';
 import { formatTimeEvolutionOptions } from '@utils/formatTimeEvolutionChart';
+import { CsvChart } from '@utils/exportCsv';
 import { TimeGranularity } from '@utils/historicalValues';
 import { getPathId } from '@utils/pathDestructer';
 
@@ -34,29 +37,34 @@ const CHARTS: { level: EvolutionLevel; title: string; label: string; normalized:
   { level: 'metrics', title: 'Métricas', label: 'métricas', normalized: false }
 ];
 
+function getStatus(data: EvolutionChartData): 'loading' | 'error' | 'empty' | 'ready' {
+  if (data.hasError) return 'error';
+  if (data.isLoading) return 'loading';
+  return data.series.length === 0 ? 'empty' : 'ready';
+}
+
 interface EvolutionChartCardProps {
   chart: (typeof CHARTS)[number];
   data: EvolutionChartData;
   granularity: TimeGranularity;
+  csv: CsvChart<TemporalCsvRow>;
   emptyTitle: string;
   emptyDescription: string;
 }
 
-function EvolutionChartCard({ chart, data, granularity, emptyTitle, emptyDescription }: EvolutionChartCardProps) {
+function EvolutionChartCard({ chart, data, granularity, csv, emptyTitle, emptyDescription }: EvolutionChartCardProps) {
   const options = useMemo(
     () => formatTimeEvolutionOptions(data.series, granularity, chart.normalized),
     [data.series, granularity, chart.normalized]
   );
-
-  let status: 'loading' | 'error' | 'empty' | 'ready' = 'ready';
-  if (data.hasError) status = 'error';
-  else if (data.isLoading) status = 'loading';
-  else if (data.series.length === 0) status = 'empty';
+  const exportButton = <ExportCsvButton dashboard={TEMPORAL_CSV.dashboard} chart={csv} />;
 
   return (
     <DashboardCard
       title={chart.title}
-      status={status}
+      status={getStatus(data)}
+      headerAction={exportButton}
+      emptyHeaderAction={exportButton}
       loadingContent={<SkeletonBlock width="100%" height={CHART_HEIGHT} />}
       loadingMessage={`Carregando a evolução das ${chart.label}…`}
       emptyTitle={emptyTitle}
@@ -78,6 +86,16 @@ const TemporalDashboard: NextPageWithLayout = () => {
   const [organizationId, productId] = getPathId(query?.product as string);
   const evolution = useTemporalEvolution(organizationId, productId);
   const { repositories, isLoadingRepositories, granularity, measures } = evolution;
+
+  // os CSVs levam o que os gráficos mostram: o gráfico carregando, com erro ou sem dados não exporta nada
+  const repositoryName = repositories.find((repository) => repository.id === evolution.repositoryId)?.name ?? '';
+  const csvs = Object.fromEntries(
+    CHARTS.map(({ level }) => {
+      const data = evolution.charts[level];
+      const series = getStatus(data) === 'ready' ? data.series : [];
+      return [level, formatTemporalCsv(level, repositoryName, series, granularity)];
+    })
+  ) as Record<EvolutionLevel, CsvChart<TemporalCsvRow>>;
 
   const emptyMessages: Record<EvolutionLevel, { title: string; description: string }> = {
     characteristics: {
@@ -117,6 +135,7 @@ const TemporalDashboard: NextPageWithLayout = () => {
         chart={chart}
         data={evolution.charts[chart.level]}
         granularity={granularity}
+        csv={csvs[chart.level]}
         emptyTitle={emptyMessages[chart.level].title}
         emptyDescription={emptyMessages[chart.level].description}
       />
@@ -131,14 +150,18 @@ const TemporalDashboard: NextPageWithLayout = () => {
 
       <Container maxWidth="xl">
         <Box display="flex" flexDirection="column" gap="28px" marginTop="40px" marginBottom="40px">
-          <Box>
-            <Typography component="h1" fontWeight="bold" fontSize="30px" color={DASHBOARD_COLORS.primary}>
-              {TITLE}
-            </Typography>
-            <Typography fontSize="13px" color={DASHBOARD_COLORS.mutedText}>
-              Cada nível mostra as filhas do que foi escolhido no nível anterior. Com mais de uma análise no mesmo dia
-              ou mês, vale a última.
-            </Typography>
+          {/* em tela estreita, o botão de exportar desce para baixo do título em vez de alargar a página */}
+          <Box display="flex" alignItems="flex-start" justifyContent="space-between" flexWrap="wrap" gap="16px">
+            <Box>
+              <Typography component="h1" fontWeight="bold" fontSize="30px" color={DASHBOARD_COLORS.primary}>
+                {TITLE}
+              </Typography>
+              <Typography fontSize="13px" color={DASHBOARD_COLORS.mutedText}>
+                Cada nível mostra as filhas do que foi escolhido no nível anterior. Com mais de uma análise no mesmo
+                dia ou mês, vale a última.
+              </Typography>
+            </Box>
+            <ExportAllCsvButton dashboard={TEMPORAL_CSV.dashboard} charts={Object.values(csvs)} />
           </Box>
 
           <Box display="flex" alignItems="center" flexWrap="wrap" gap="16px">

@@ -17,15 +17,20 @@ const BUTTON_SX = {
   '&:hover': { borderColor: DASHBOARD_COLORS.primary }
 };
 
-/** "Exportar .csv" de um gráfico, com os dados que ele mostra; desabilitado sem dados. */
+/**
+ * "Exportar .csv" de um gráfico, com os dados que ele mostra; desabilitado sem dados. Quando um card tem mais de um
+ * gráfico, `ariaLabel` diferencia o botão de cada um (e deve começar com o texto visível).
+ */
 export default function ExportCsvButton<T extends Row>({
   dashboard,
-  chart
-}: Readonly<{ dashboard: string; chart: CsvChart<T> }>) {
+  chart,
+  ariaLabel
+}: Readonly<{ dashboard: string; chart: CsvChart<T>; ariaLabel?: string }>) {
   return (
     <Button
       variant="outlined"
       size="small"
+      aria-label={ariaLabel}
       startIcon={<DownloadIcon fontSize="small" />}
       disabled={chart.rows.length === 0}
       onClick={() => downloadCsv(dashboard, chart)}

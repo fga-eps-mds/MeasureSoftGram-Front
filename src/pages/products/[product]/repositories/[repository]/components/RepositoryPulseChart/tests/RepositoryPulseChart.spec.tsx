@@ -1,9 +1,14 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import { useRequest } from '@hooks/useRequest';
+import { downloadCsv } from '@utils/exportCsv';
+import { formatRepositoryPulseCsv } from '@utils/formatPulseCsv';
+import { useRepositoryPulse } from '../../../hooks/useRepositoryPulse';
 import RepositoryPulseChart from '../RepositoryPulseChart';
 
 jest.mock('@hooks/useRequest', () => ({ useRequest: jest.fn() }));
+jest.mock('@utils/exportCsv', () => ({ downloadCsv: jest.fn(), downloadCsvZip: jest.fn() }));
 jest.mock('@hooks/useProviderTerms', () => ({
   useProviderTerms: () => ({ terms: { Repository: 'Repositório', repository: 'repositório' } }),
 }));
@@ -58,12 +63,19 @@ const mutate = jest.fn();
 const defaultResponse = (request: NonNullable<Request>) =>
   request.url.endsWith('/release/') ? { data: releases } : { data: characteristics };
 
-const renderChart = () => render(<RepositoryPulseChart organizationId="1" productId="2" repositoryId={7} />);
+// a página sobe o hook e o CSV para o botão do topo e o do card usarem os mesmos dados
+function PulseWithData() {
+  const pulse = useRepositoryPulse('1', '2', 7);
+  return <RepositoryPulseChart pulse={pulse} csv={formatRepositoryPulseCsv('api', pulse.rows)} />;
+}
+
+const renderChart = () => render(<PulseWithData />);
 
 describe('<RepositoryPulseChart />', () => {
   beforeEach(() => {
     responses = defaultResponse;
     mutate.mockReset();
+    jest.clearAllMocks();
     (useRequest as jest.Mock).mockImplementation((request: Request) =>
       request ? { isLoading: false, mutate, ...responses(request) } : { isLoading: false, mutate }
     );
@@ -108,17 +120,42 @@ describe('<RepositoryPulseChart />', () => {
     expect(screen.getByText(/Nenhuma medição no período selecionado/)).toBeTruthy();
   });
 
-  it('exporta as medições em .csv', () => {
-    const createObjectURL = jest.fn(() => 'blob:csv');
-    Object.assign(window.URL, { createObjectURL, revokeObjectURL: jest.fn() });
-    const click = jest.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => undefined);
-
+  it('exporta as medições de cada característica pelo botão padrão dos dashboards', () => {
     renderChart();
-    fireEvent.click(screen.getByRole('button', { name: /exportar .csv/ }));
 
-    expect(createObjectURL).toHaveBeenCalled();
-    expect(click).toHaveBeenCalled();
-    click.mockRestore();
+    fireEvent.click(screen.getByRole('button', { name: 'Exportar .csv' }));
+
+    const [dashboard, chart] = (downloadCsv as jest.Mock).mock.calls[0];
+    expect(dashboard).toBe('repositorio');
+    expect(chart.name).toBe('pulso');
+    expect(chart.rows).toEqual([
+      { repository: 'api', characteristic: 'Reliability', date: '2026-03-01T10:00:00', value: 0.3, grade: 'D' },
+      { repository: 'api', characteristic: 'Reliability', date: '2026-03-10T10:00:00', value: 0.5, grade: 'C' },
+      { repository: 'api', characteristic: 'Maintainability', date: '2026-03-12T10:00:00', value: 0.8, grade: 'A' },
+    ]);
+  });
+
+  it('exporta só as medições do período filtrado e desabilita o botão quando o período não tem nenhuma', () => {
+    renderChart();
+    const [start] = screen.getAllByDisplayValue('');
+
+    fireEvent.change(start, { target: { value: '2026-03-05' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Exportar .csv' }));
+    expect((downloadCsv as jest.Mock).mock.calls[0][1].rows.map((row: { value: number }) => row.value)).toEqual([0.5, 0.8]);
+
+    fireEvent.change(start, { target: { value: '2026-04-01' } });
+    expect(screen.getByRole('button', { name: 'Exportar .csv' })).toBeDisabled();
+  });
+
+  it('não oferece o botão de exportar enquanto carrega nem quando dá erro', () => {
+    responses = () => ({ isLoading: true });
+    const { unmount } = renderChart();
+    expect(screen.queryByRole('button', { name: 'Exportar .csv' })).toBeNull();
+    unmount();
+
+    responses = (request) => (request.url.endsWith('/release/') ? { data: releases } : { error: new Error('500') });
+    renderChart();
+    expect(screen.queryByRole('button', { name: 'Exportar .csv' })).toBeNull();
   });
 
   it('mostra o carregamento', () => {

@@ -8,6 +8,7 @@ import { NextPageWithLayout } from '@pages/_app.next';
 import getLayout from '@components/Layout';
 import DashboardCard, { dashboardCardSx, SkeletonBlock } from '@components/DashboardCard';
 import ReleaseSelect from '@components/ReleaseSelect';
+import ExportCsvButton, { ExportAllCsvButton } from '@components/ExportCsvButton';
 import useRequireAuth from '@hooks/useRequireAuth';
 import { useProviderTerms } from '@hooks/useProviderTerms';
 import { ReleaseDashboardSummary } from '@customTypes/product';
@@ -19,9 +20,17 @@ import {
   formatTotal,
   formatTsqmiBarOptions,
   getDefaultAnalysisRepository,
+  getTotalItems,
   getTsqmiBars,
   hasAccomplishedValues
 } from '@utils/formatOverviewCharts';
+import {
+  OVERVIEW_CSV,
+  formatIndicatorCsv,
+  formatPlannedAccomplishedCsv,
+  formatRadarCsv,
+  formatTotalsCsv
+} from '@utils/formatOverviewCsv';
 import { getPathId } from '@utils/pathDestructer';
 import { QUALITY_BANDS, formatQualityBandRange } from '@utils/qualityBands';
 import { useTranslation } from 'react-i18next';
@@ -84,15 +93,7 @@ function Totals({ summary, isLoading, error, onRetry }: TotalsProps) {
     return <DashboardCard title="Totais da release" status="error" onRetry={onRetry} />;
   }
 
-  const totals = summary?.totals;
-  const items = [
-    { label: 'Características', value: totals?.characteristics },
-    { label: 'Subcaracterísticas', value: totals?.subcharacteristics },
-    { label: 'Medidas', value: totals?.measures },
-    { label: 'Métricas', value: totals?.metrics },
-    { label: terms.Repositories, value: totals?.repositories },
-    { label: 'Arquivos analisados', value: totals?.files }
-  ];
+  const items = getTotalItems(summary?.totals, terms.Repositories);
 
   return (
     <Box
@@ -210,6 +211,22 @@ const OverviewDashboard: NextPageWithLayout = () => {
     analysisRepositories.length === 0
   );
 
+  // os CSVs levam o que os cards mostram: um card com erro ou sem dados não exporta nada
+  const repositoryName = selectedRepository?.repository_name ?? '';
+  const hasRadar = analysisStatus === 'ready' && hasAccomplishedValues(selectedRepository);
+  const csv = {
+    totals: formatTotalsCsv(releaseName, summaryError ? [] : getTotalItems(summary?.totals, terms.Repositories)),
+    indicator: formatIndicatorCsv(releaseName, tsqmiStatus === 'ready' ? tsqmiBars : []),
+    plannedAccomplished: formatPlannedAccomplishedCsv(
+      releaseName,
+      repositoryName,
+      analysisStatus === 'ready' ? comparisons : [],
+      selectedRepository?.norm_diff,
+      characteristicName
+    ),
+    radar: formatRadarCsv(releaseName, repositoryName, hasRadar ? comparisons : [], characteristicName)
+  };
+
   const renderContent = () => {
     if (releasesError) {
       return <DashboardCard title="Releases do produto" status="error" onRetry={retryReleases} />;
@@ -252,6 +269,7 @@ const OverviewDashboard: NextPageWithLayout = () => {
           emptyDescription={`Rode a coleta do MeasureSoftGram (GitHub Action ou CLI) em pelo menos um ${terms.repository} do produto para ver o indicador.`}
           emptyAction={<CollectionGuideLink />}
           onRetry={retryCharacteristics}
+          headerAction={<ExportCsvButton dashboard={OVERVIEW_CSV.dashboard} chart={csv.indicator} />}
         >
           <Box display="flex" flexWrap="wrap" alignItems="center" gap="32px">
             <Box flex="1 1 480px" minWidth={0}>
@@ -273,21 +291,24 @@ const OverviewDashboard: NextPageWithLayout = () => {
           emptyAction={<CollectionGuideLink />}
           onRetry={retryAnalysis}
           headerAction={
-            <TextField
-              select
-              size="small"
-              label={terms.Repository}
-              value={selectedRepository?.repository_name ?? ''}
-              onChange={(event) => setSelectedRepositoryName(event.target.value)}
-              sx={{ width: 240 }}
-              SelectProps={{ MenuProps: { disableScrollLock: true } }}
-            >
-              {analysisRepositories.map((repository) => (
-                <MenuItem key={repository.repository_name} value={repository.repository_name}>
-                  {repository.repository_name}
-                </MenuItem>
-              ))}
-            </TextField>
+            <Box display="flex" alignItems="center" flexWrap="wrap" gap="12px">
+              <TextField
+                select
+                size="small"
+                label={terms.Repository}
+                value={selectedRepository?.repository_name ?? ''}
+                onChange={(event) => setSelectedRepositoryName(event.target.value)}
+                sx={{ width: 240 }}
+                SelectProps={{ MenuProps: { disableScrollLock: true } }}
+              >
+                {analysisRepositories.map((repository) => (
+                  <MenuItem key={repository.repository_name} value={repository.repository_name}>
+                    {repository.repository_name}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <ExportCsvButton dashboard={OVERVIEW_CSV.dashboard} chart={csv.plannedAccomplished} />
+            </Box>
           }
         >
           <PlannedVsAccomplishedEqualizer
@@ -296,9 +317,25 @@ const OverviewDashboard: NextPageWithLayout = () => {
             normDiff={selectedRepository?.norm_diff}
           />
 
-          <Typography fontWeight="bold" fontSize="15px" color={DASHBOARD_COLORS.cardTitle} marginTop="8px">
-            Radar das características
-          </Typography>
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+            flexWrap="wrap"
+            gap="12px"
+            marginTop="8px"
+          >
+            <Typography fontWeight="bold" fontSize="15px" color={DASHBOARD_COLORS.cardTitle}>
+              Radar das características
+            </Typography>
+            {hasRadar && (
+              <ExportCsvButton
+                dashboard={OVERVIEW_CSV.dashboard}
+                chart={csv.radar}
+                ariaLabel="Exportar .csv do radar"
+              />
+            )}
+          </Box>
           {hasAccomplishedValues(selectedRepository) ? (
             <>
               <ReactEcharts
@@ -340,16 +377,22 @@ const OverviewDashboard: NextPageWithLayout = () => {
               </Typography>
             </Box>
 
-            <ReleaseSelect
-              releases={releases}
-              value={release?.id}
-              currentReleaseId={currentRelease?.id}
-              onChange={(releaseId) => {
-                setReleaseId(releaseId);
-                setSelectedRepositoryName(undefined);
-              }}
-              disabled={isLoadingReleases}
-            />
+            <Box display="flex" alignItems="center" flexWrap="wrap" gap="12px">
+              <ExportAllCsvButton
+                dashboard={OVERVIEW_CSV.dashboard}
+                charts={[csv.totals, csv.indicator, csv.plannedAccomplished, csv.radar]}
+              />
+              <ReleaseSelect
+                releases={releases}
+                value={release?.id}
+                currentReleaseId={currentRelease?.id}
+                onChange={(releaseId) => {
+                  setReleaseId(releaseId);
+                  setSelectedRepositoryName(undefined);
+                }}
+                disabled={isLoadingReleases}
+              />
+            </Box>
           </Box>
 
           {renderContent()}

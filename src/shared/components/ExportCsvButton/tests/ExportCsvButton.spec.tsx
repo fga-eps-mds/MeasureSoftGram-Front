@@ -28,6 +28,17 @@ describe('<ExportCsvButton />', () => {
 
     expect(screen.getByRole('button', { name: 'Exportar .csv' })).toBeDisabled();
   });
+
+  it('diferencia o botão pelo nome acessível, mantendo o texto visível', () => {
+    render(<ExportCsvButton dashboard="overview" chart={matrix} ariaLabel="Exportar .csv do radar" />);
+
+    const button = screen.getByRole('button', { name: 'Exportar .csv do radar' });
+    expect(button).toHaveTextContent('Exportar .csv');
+
+    fireEvent.click(button);
+
+    expect(downloadCsv).toHaveBeenCalledWith('overview', matrix);
+  });
 });
 
 describe('<ExportAllCsvButton />', () => {
