@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { Box, Container } from '@mui/material';
+import { Alert, Box, Container } from '@mui/material';
 
 import { NextPageWithLayout } from '@pages/_app.next';
 import useRequireAuth from '@hooks/useRequireAuth';
@@ -25,7 +25,7 @@ const Repository: NextPageWithLayout = () => {
   const { currentRepository, latestTSQMI, latestTSQMIBadgeUrl } = useRepositoryContext();
   useRequireAuth();
   usePreloadECharts();
-  useQuery();
+  const { repositoryNotFound } = useQuery();
 
   const { query } = useRouter();
   const [organizationId, productId] = getPathId(query?.product as string);
@@ -37,6 +37,19 @@ const Repository: NextPageWithLayout = () => {
     currentRepository?.name ?? '',
     pulse.isLoading || pulse.hasError ? [] : pulse.rows
   );
+
+  if (repositoryNotFound) {
+    return (
+      <>
+        <Head>
+          <title>{terms.Repository}</title>
+        </Head>
+        <Container sx={{ marginTop: '40px' }}>
+          <Alert severity="warning">Você não tem acesso a este repositório no {terms.providerName}.</Alert>
+        </Container>
+      </>
+    );
+  }
 
   return (
     <>

@@ -197,16 +197,36 @@ describe('Organization Service', () => {
     expect(result.type).toBe('error');
   });
 
+  it('deve importar grupo do GitLab (POST)', async () => {
+    (api.post as jest.Mock).mockResolvedValue({ data: { id: '9', name: 'Grupo' } });
+
+    const result = await organizationQuery.importGitlabGroup(77);
+
+    expect(api.post).toHaveBeenCalledWith('/v1/organizations/import-gitlab/', { gitlab_group_id: 77 });
+    expect(result.type).toBe('success');
+  });
+
+  it('deve retornar erro ao falhar importar grupo do GitLab', async () => {
+    (api.post as jest.Mock).mockRejectedValue(new Error(NETWORK_ERROR));
+    const result = await organizationQuery.importGitlabGroup(77);
+    expect(result.type).toBe('error');
+  });
+
   // Testes de getGithubRepos
   it('deve buscar repositórios do GitHub (GET)', async () => {
     const mockRepos = [{ github_repo_id: 1, name: 'repo1' }];
-    (api.get as jest.Mock).mockResolvedValue({ data: mockRepos });
+    (api.get as jest.Mock).mockResolvedValue({
+      data: mockRepos,
+      headers: { 'x-total-pages': '66', 'x-next-page': '3' }
+    });
 
-    const result = await organizationQuery.getGithubRepos('1');
+    const result = await organizationQuery.getGithubRepos('1', 2, 'repo');
 
-    expect(api.get).toHaveBeenCalledWith('/v1/organizations/1/github-repos/');
+    expect(api.get).toHaveBeenCalledWith('/v1/organizations/1/github-repos/', {
+      params: { page: 2, search: 'repo' }
+    });
     expect(result.type).toBe('success');
-    expect((result as any).value).toEqual(mockRepos);
+    expect((result as any).value).toEqual({ repos: mockRepos, totalPages: 66, nextPage: 3 });
   });
 
   it('deve retornar erro ao falhar buscar repositórios do GitHub', async () => {

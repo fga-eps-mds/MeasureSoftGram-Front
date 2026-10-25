@@ -3,12 +3,13 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { downloadCsvZip } from '@utils/exportCsv';
 import { useRepositoryPulse } from '../hooks/useRepositoryPulse';
+import { useQuery } from '../hooks/useQuery';
 import Repository from '../Repository';
 
 jest.mock('next/router', () => ({ useRouter: () => ({ query: { product: '1-2-Produto', repository: '7-api' } }) }));
 jest.mock('@hooks/useRequireAuth', () => ({ __esModule: true, default: jest.fn() }));
 jest.mock('@hooks/useProviderTerms', () => ({
-  useProviderTerms: () => ({ terms: { Repository: 'Repositório', repository: 'repositório' } }),
+  useProviderTerms: () => ({ terms: { Repository: 'Repositório', repository: 'repositório', providerName: 'GitHub' } }),
 }));
 jest.mock('@contexts/RepositoryProvider', () => ({
   useRepositoryContext: () => ({
@@ -43,6 +44,16 @@ describe('<Repository />', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     (useRepositoryPulse as jest.Mock).mockReturnValue(pulseState());
+    (useQuery as jest.Mock).mockReturnValue({ repositoryNotFound: false });
+  });
+
+  it('avisa que o usuário não tem acesso ao repositório no provedor quando o servidor responde 404', () => {
+    (useQuery as jest.Mock).mockReturnValue({ repositoryNotFound: true });
+
+    render(<Repository />);
+
+    expect(screen.getByText('Você não tem acesso a este repositório no GitHub.')).toBeTruthy();
+    expect(screen.queryByTestId('repository-header')).toBeNull();
   });
 
   it('monta a tela com cabeçalho, TSQMI, pulso das características e espaço para as medidas', () => {

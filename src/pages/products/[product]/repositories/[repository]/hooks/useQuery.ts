@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
@@ -24,6 +24,9 @@ export const useQuery = () => {
 
   const { query } = useRouter();
 
+  // 404 em getRepository: o provedor (GitHub/GitLab) não libera este repositório para o usuário
+  const [repositoryNotFound, setRepositoryNotFound] = useState(false);
+
   async function loadLatestTsqmi(organizationId: string, productId: string, repositoryId: string) {
     try {
       const props = {
@@ -48,7 +51,9 @@ export const useQuery = () => {
 
       setCurrentRepository(data);
     } catch (error) {
-      // eslint-disable-next-line no-console
+      if ((error as { response?: { status?: number } })?.response?.status === 404) {
+        setRepositoryNotFound(true);
+      }
     }
   }
 
@@ -84,6 +89,7 @@ export const useQuery = () => {
       const [organizationId, productId] = getPathId(query?.product as string);
       const [repositoryId] = getPathId(query?.repository as string);
 
+      setRepositoryNotFound(false);
       // Clear repository-scoped state first to avoid showing stale values while new data loads.
       setCurrentRepository(undefined);
       setLatestTSQMI(undefined);
@@ -112,4 +118,6 @@ export const useQuery = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentProduct, currentOrganization, query?.product]);
+
+  return { repositoryNotFound };
 };

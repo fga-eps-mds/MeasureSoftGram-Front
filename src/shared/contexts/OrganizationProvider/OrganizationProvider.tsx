@@ -17,7 +17,7 @@ interface IOrganizationContext {
   organizationList: Organization[];
   isLoading: boolean;
   hasFetched: boolean;
-  fetchOrganizations: (forceFetch?: boolean) => void;
+  fetchOrganizations: (forceFetch?: boolean) => Promise<void>;
 }
 
 const OrganizationContext = createContext<IOrganizationContext | undefined>(undefined);

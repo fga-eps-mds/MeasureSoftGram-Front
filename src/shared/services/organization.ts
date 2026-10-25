@@ -114,10 +114,41 @@ class OrganizationQuery {
     }
   }
 
-  async getGithubRepos(orgId: string): Promise<Result<GitHubRepo[]>> {
+  async importGitlabGroup(gitlabGroupId: number | string): Promise<Result<OrganizationFormData>> {
     try {
-      const response = await api.get(`/v1/organizations/${orgId}/github-repos/`);
-      return { type: 'success', value: response.data as GitHubRepo[] };
+      const response = await api.post('/v1/organizations/import-gitlab/', { gitlab_group_id: gitlabGroupId });
+      return { type: 'success', value: response.data as OrganizationFormData };
+    } catch (error) {
+      return { type: 'error', error: error as AxiosError };
+    }
+  }
+
+  async getGithubRepos(
+    orgId: string,
+    page?: number,
+    search?: string,
+    excludeProductId?: string
+  ): Promise<Result<GitHubReposPage>> {
+    try {
+      const params: Record<string, any> = {};
+      if (excludeProductId) {
+        params.exclude_product = excludeProductId;
+      }
+      if (page !== undefined && page !== null) {
+        params.page = page;
+      }
+      if (search !== undefined && search !== null && search !== '') {
+        params.search = search;
+      }
+      const response = await api.get(`/v1/organizations/${orgId}/github-repos/`, { params });
+      return {
+        type: 'success',
+        value: {
+          repos: response.data as GitHubRepo[],
+          totalPages: parsePageHeader(response.headers?.['x-total-pages']),
+          nextPage: parsePageHeader(response.headers?.['x-next-page'])
+        }
+      };
     } catch (error) {
       return { type: 'error', error: error as AxiosError };
     }
@@ -138,10 +169,14 @@ class OrganizationQuery {
     namespaceId?: number | string,
     kind?: string,
     page?: number,
-    search?: string
+    search?: string,
+    excludeProductId?: string
   ): Promise<Result<GitLabProjectsPage>> {
     try {
       const params: Record<string, any> = {};
+      if (excludeProductId) {
+        params.exclude_product = excludeProductId;
+      }
       if (namespaceId !== undefined && namespaceId !== null && namespaceId !== '') {
         params.namespace_id = namespaceId;
       }
@@ -200,6 +235,12 @@ export interface GitLabProject {
   name: string;
   description: string;
   url: string;
+}
+
+export interface GitHubReposPage {
+  repos: GitHubRepo[];
+  totalPages: number | null;
+  nextPage: number | null;
 }
 
 export interface GitLabProjectsPage {
