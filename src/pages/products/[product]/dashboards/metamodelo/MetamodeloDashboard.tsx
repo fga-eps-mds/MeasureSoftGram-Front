@@ -14,7 +14,7 @@ import { DASHBOARD_COLORS } from '@utils/dashboardColors';
 import { getPathId } from '@utils/pathDestructer';
 import { useMetamodelo } from './useMetamodelo';
 
-const TITLE = '3. Metamodelo';
+const TITLE = '3. Estrutura das Medidas e Indicadores (Metamodelo)';
 
 const MetamodeloDashboard: NextPageWithLayout = () => {
   useRequireAuth();
@@ -81,7 +81,7 @@ const MetamodeloDashboard: NextPageWithLayout = () => {
           </Box>
 
           <DashboardCard
-            title="Modelo de qualidade da release"
+            title="Configuração do modelo de qualidade da release"
             status={status}
             loadingContent={<SkeletonBlock width="100%" height={420} />}
             loadingMessage="Carregando o modelo de qualidade da release…"

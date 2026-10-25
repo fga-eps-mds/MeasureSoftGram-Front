@@ -93,8 +93,8 @@ function SideMenu() {
     },
     {
       startIcon: <FiShare2 fontSize={24} />,
-      text: '3. Metamodelo',
-      tooltip: 'Metamodelo',
+      text: '3. Estrutura das Medidas e Indicadores (Metamodelo)',
+      tooltip: '3. Estrutura das Medidas e Indicadores (Metamodelo)',
       path: `/products/${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/dashboards/metamodelo`,
       disable: !currentProduct,
       selected: router.pathname === '/products/[product]/dashboards/metamodelo',
@@ -189,6 +189,13 @@ function SideMenu() {
                     boxSizing: 'border-box',
                     overflow: 'hidden',
                     contain: 'inline-size',
+                    '& > div > div': {
+                      width: isCollapsed ? 'auto' : '100%',
+                      minHeight: '45px',
+                      height: 'auto',
+                      boxSizing: 'border-box',
+                      padding: '6px 4px',
+                    },
                   }}
                 >
                   <SideMenuItem

@@ -90,6 +90,12 @@ describe('<MetamodeloDashboard />', () => {
   it('abre na release atual e mostra a árvore dela (CA2)', () => {
     render(<MetamodeloDashboard />);
 
+    expect(
+      screen.getByRole('heading', { name: '3. Estrutura das Medidas e Indicadores (Metamodelo)' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('region', { name: 'Configuração do modelo de qualidade da release' })
+    ).toBeInTheDocument();
     expect(screen.getByRole('combobox', { name: 'Release' }).textContent).toBe('Release 2 (atual)');
     expect(treeRequests().at(-1)).toEqual({
       url: '/v1/organizations/1/products/5/quality-model-tree/',
