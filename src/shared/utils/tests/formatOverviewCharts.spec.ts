@@ -97,10 +97,10 @@ describe('formatOverviewCharts', () => {
 
       expect(options.yAxis.data).toEqual(['service', 'core', 'front', 'action']);
       expect(options.series[0].data).toEqual([
-        { value: 0.81, itemStyle: { color: '#1A9641' } },
-        { value: 0.77, itemStyle: { color: '#8CC63F' } },
-        { value: 0.72, itemStyle: { color: '#8CC63F' } },
-        { value: 0.17, itemStyle: { color: '#D7191C' } }
+        { value: 0.81, itemStyle: { color: '#04724D' } },
+        { value: 0.77, itemStyle: { color: '#0DC889' } },
+        { value: 0.72, itemStyle: { color: '#0DC889' } },
+        { value: 0.17, itemStyle: { color: '#BE2E0E' } }
       ]);
       expect(options.series[0].label.formatter({ value: 0.81 })).toBe('0,81 · A');
       expect(options.xAxis).toMatchObject({ min: 0, max: 1 });

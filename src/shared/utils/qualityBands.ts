@@ -12,14 +12,14 @@ export interface QualityBand {
 
 /**
  * Faixas de cor do Indicador Total da Qualidade, definidas pelo PO na US06.01, para valores de 0 a 1, da pior para a
- * melhor.
+ * melhor. As cores são da paleta do guia de IDV (página IDV do Figma): vermelho, âmbar e verde.
  */
 export const QUALITY_BANDS: QualityBand[] = [
-  { grade: 'E', min: 0, max: 0.2, color: '#D7191C', label: 'Muito ruim' },
-  { grade: 'D', min: 0.2, max: 0.4, color: '#FE7D37', label: 'Ruim' },
-  { grade: 'C', min: 0.4, max: 0.6, color: '#DFB317', label: 'Bom' },
-  { grade: 'B', min: 0.6, max: 0.8, color: '#8CC63F', label: 'Muito bom' },
-  { grade: 'A', min: 0.8, max: 1, color: '#1A9641', label: 'Ótimo' }
+  { grade: 'E', min: 0, max: 0.2, color: '#BE2E0E', label: 'Muito ruim' },
+  { grade: 'D', min: 0.2, max: 0.4, color: '#F16141', label: 'Ruim' },
+  { grade: 'C', min: 0.4, max: 0.6, color: '#EBA133', label: 'Bom' },
+  { grade: 'B', min: 0.6, max: 0.8, color: '#0DC889', label: 'Muito bom' },
+  { grade: 'A', min: 0.8, max: 1, color: '#04724D', label: 'Ótimo' }
 ];
 
 /** Faixa de um valor de 0 a 1; fora disso, undefined. */

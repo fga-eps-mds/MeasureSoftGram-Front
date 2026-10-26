@@ -148,6 +148,15 @@ class ProductQuery {
   }
 
 
+  /** Histórico do TSQMI dos repositórios do produto, com um ponto por release (US06.01). */
+  getProductTsqmiReleaseHistoryConfig(organizationId: string, productId: string): GetRequest {
+    if (!organizationId || !productId) return null;
+    return {
+      url: `/v1/organizations/${organizationId}/products/${productId}/repositories-tsqmi-release-history/`,
+      method: 'get'
+    };
+  }
+
   getProductRepositoriesLatestTsqmiConfig(organizationId: string, productId: string): GetRequest {
     if (!organizationId || !productId) return null;
     return {

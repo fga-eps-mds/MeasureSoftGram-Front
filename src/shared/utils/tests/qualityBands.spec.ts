@@ -9,11 +9,11 @@ import {
 describe('QUALITY_BANDS', () => {
   it('cobre de 0 a 1 sem buracos, com as cores e os rótulos da US06.01', () => {
     expect(QUALITY_BANDS.map(({ grade, color, label }) => [grade, color, label])).toEqual([
-      ['E', '#D7191C', 'Muito ruim'],
-      ['D', '#FE7D37', 'Ruim'],
-      ['C', '#DFB317', 'Bom'],
-      ['B', '#8CC63F', 'Muito bom'],
-      ['A', '#1A9641', 'Ótimo']
+      ['E', '#BE2E0E', 'Muito ruim'],
+      ['D', '#F16141', 'Ruim'],
+      ['C', '#EBA133', 'Bom'],
+      ['B', '#0DC889', 'Muito bom'],
+      ['A', '#04724D', 'Ótimo']
     ]);
     QUALITY_BANDS.slice(1).forEach((band, index) => expect(band.min).toBe(QUALITY_BANDS[index].max));
     expect(QUALITY_BANDS[0].min).toBe(0);
@@ -64,11 +64,11 @@ describe('formatQualityBandRange', () => {
 describe('getQualityVisualMapPieces', () => {
   it('cobre de 0 a 1 com as mesmas fronteiras das faixas', () => {
     expect(getQualityVisualMapPieces()).toEqual([
-      { lt: 0.2, color: '#D7191C' },
-      { gte: 0.2, lt: 0.4, color: '#FE7D37' },
-      { gte: 0.4, lt: 0.6, color: '#DFB317' },
-      { gte: 0.6, lt: 0.8, color: '#8CC63F' },
-      { gte: 0.8, color: '#1A9641' }
+      { lt: 0.2, color: '#BE2E0E' },
+      { gte: 0.2, lt: 0.4, color: '#F16141' },
+      { gte: 0.4, lt: 0.6, color: '#EBA133' },
+      { gte: 0.6, lt: 0.8, color: '#0DC889' },
+      { gte: 0.8, color: '#04724D' }
     ]);
   });
 });

@@ -214,6 +214,23 @@ describe('ProductQuery', () => {
     );
   });
 
+  it('getProductTsqmiReleaseHistoryConfig should return the release history request', () => {
+    expect(productQuery.getProductTsqmiReleaseHistoryConfig('1', '2')).toEqual({
+      url: '/v1/organizations/1/products/2/repositories-tsqmi-release-history/',
+      method: 'get'
+    });
+  });
+
+  it.each([
+    ['', '2'],
+    ['1', '']
+  ])(
+    'getProductTsqmiReleaseHistoryConfig should return null when an id is missing (%s, %s)',
+    (organizationId, productId) => {
+      expect(productQuery.getProductTsqmiReleaseHistoryConfig(organizationId, productId)).toBeNull();
+    }
+  );
+
   it('getProductRepositoriesLatestTsqmi should call api.get with the right URL', async () => {
     const organizationId = '1';
     const productId = '2';

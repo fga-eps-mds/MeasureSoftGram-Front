@@ -138,7 +138,7 @@ describe('<OverviewDashboard />', () => {
     const indicator = card('Indicador Total da Qualidade');
 
     expect(within(indicator).getByTestId('echarts')).toHaveTextContent(
-      '[[{"value":0.81,"itemStyle":{"color":"#1A9641"}},{"value":0.72,"itemStyle":{"color":"#8CC63F"}}]]'
+      '[[{"value":0.81,"itemStyle":{"color":"#04724D"}},{"value":0.72,"itemStyle":{"color":"#0DC889"}}]]'
     );
     const legend = within(indicator).getByTestId('quality-bands-legend');
     expect(within(legend).getByText('A · Ótimo (0,80 a 1,00)')).toBeInTheDocument();

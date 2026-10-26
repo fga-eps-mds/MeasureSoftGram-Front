@@ -360,6 +360,35 @@ export interface ReleaseDashboardCharacteristics {
   repositories: ReleaseDashboardRepository[];
 }
 
+/**
+ * Indicador TSQMI de um repositório numa release, com a variação em relação à release anterior do mesmo repositório.
+ * A variação vem null na primeira release ou quando uma das duas não tem valor; com a anterior igual a 0, só
+ * `variation_percent` vem null.
+ */
+export interface TsqmiReleasePoint extends ReleaseValue {
+  release_id: number;
+  previous_value: number | null;
+  variation: number | null;
+  variation_percent: number | null;
+}
+
+export interface TsqmiReleaseHistoryRepository {
+  id: number;
+  name: string;
+  /** Um ponto por release que inclui o repositório, na ordem de `releases`. */
+  history: TsqmiReleasePoint[];
+}
+
+/**
+ * GET products/{id}/repositories-tsqmi-release-history/ (Service, US06.01): o TSQMI de cada repositório com um ponto
+ * por release. Sem release cadastrada, `releases` vem vazia (empty state).
+ */
+export interface ProductTsqmiReleaseHistory {
+  /** Todas as releases do produto, da mais antiga para a mais nova. */
+  releases: ReleaseDashboardRelease[];
+  repositories: TsqmiReleaseHistoryRepository[];
+}
+
 /** Níveis do modelo na Distribuição Estatística: o TSQMI e os da Análise por Entidade. */
 export type DistributionLevel = 'tsqmi' | EntityLevel;
 

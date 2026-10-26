@@ -1,28 +1,19 @@
 import { AccomplishedRepository, ReleaseDashboardCharacteristics, ReleaseDashboardSummary } from '@customTypes/product';
 import { CharacteristicComparison } from '@utils/comparePlannedAccomplished';
 import { DASHBOARD_COLORS } from '@utils/dashboardColors';
+import { escapeHtml, formatDecimal, formatVariation } from '@utils/formatNumber';
 import { getQualityBandClamped } from '@utils/qualityBands';
+
+// Continuam exportados daqui para os imports existentes; a definição fica em formatNumber.
+export { escapeHtml, formatDecimal, formatVariation };
 
 const AXIS_LABEL = { color: DASHBOARD_COLORS.mutedText, fontSize: 11 };
 const SPLIT_LINE = { lineStyle: { color: DASHBOARD_COLORS.gridLine } };
 const VALUE_LABEL = { color: DASHBOARD_COLORS.text, fontSize: 11, fontWeight: 'bold' as const };
 
-/** 0,81 — duas casas, vírgula decimal. */
-export function formatDecimal(value: number | null | undefined): string {
-  if (value === null || value === undefined) return 'sem dado';
-  return value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-}
-
 /** 1.284 — separador de milhar. */
 export function formatTotal(value: number): string {
   return value.toLocaleString('pt-BR');
-}
-
-/** +0,04 ou −0,03, com o sinal de menos tipográfico. */
-export function formatVariation(diff: number): string {
-  const rounded = Math.round(diff * 100) / 100;
-  if (rounded === 0) return formatDecimal(0);
-  return `${rounded > 0 ? '+' : '−'}${formatDecimal(Math.abs(rounded))}`;
 }
 
 export interface TotalItem {
@@ -44,10 +35,6 @@ export function getTotalItems(
     { label: repositoriesLabel, value: totals?.repositories },
     { label: 'Arquivos analisados', value: totals?.files }
   ];
-}
-
-export function escapeHtml(text: string): string {
-  return text.replace(/[&<>"']/g, (char) => `&#${char.charCodeAt(0)};`);
 }
 
 export interface TsqmiBar {

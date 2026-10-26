@@ -6,6 +6,7 @@ import { downloadCsv } from '@utils/exportCsv';
 import { formatRepositoryPulseCsv } from '@utils/formatPulseCsv';
 import { useRepositoryPulse } from '../../../hooks/useRepositoryPulse';
 import RepositoryPulseChart from '../RepositoryPulseChart';
+import { PULSE_POINTS_PER_MEASUREMENT } from '@utils/toPulseSeries';
 
 jest.mock('@hooks/useRequest', () => ({ useRequest: jest.fn() }));
 jest.mock('@utils/exportCsv', () => ({ downloadCsv: jest.fn(), downloadCsvZip: jest.fn() }));
@@ -22,7 +23,7 @@ jest.mock('@components/ECharts', () => ({
   __esModule: true,
   default: ({ option }: { option: MockOption }) => (
     <div data-testid="echarts">
-      {option.series.map((series) => `${series.name}:${series.data.length / 3}`).join('|')}
+      {option.series.map((series) => `${series.name}:${series.data.length / PULSE_POINTS_PER_MEASUREMENT}`).join('|')}
       <span data-testid="grid-height">{option.grid[0].height}</span>
       <span data-testid="horizontal-lines">{String(option.yAxis.some((axis) => axis.splitLine.show))}</span>
       <span data-testid="release-labels">

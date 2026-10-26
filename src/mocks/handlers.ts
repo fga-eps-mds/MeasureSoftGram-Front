@@ -84,6 +84,10 @@ export const handlers = [
   rest.get('*/v1/organizations/:orgId/products/:productId/repositories-tsqmi-historical-values/', (_req, res, ctx) =>
     res(ctx.status(200), ctx.json({ count: 0, next: null, previous: null, results: [] }))
   ),
+  // Sem release cadastrada (como em release/ acima): a tela mostra o empty state do histórico por release.
+  rest.get('*/v1/organizations/:orgId/products/:productId/repositories-tsqmi-release-history/', (_req, res, ctx) =>
+    res(ctx.status(200), ctx.json({ releases: [], repositories: [] }))
+  ),
   rest.get('*/v1/organizations/:orgId/products/:productId/repositories-tsqmi-latest-values/', (_req, res, ctx) =>
     res(ctx.status(200), ctx.json({ count: 0, next: null, previous: null, results: [] }))
   ),
