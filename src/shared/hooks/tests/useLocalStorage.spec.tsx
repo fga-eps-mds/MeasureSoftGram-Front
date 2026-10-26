@@ -12,6 +12,13 @@ describe('useLocalStorage', () => {
     expect(result.current.storedValue).toBe('initial');
   });
 
+  it('should expose isHydrated as true once the stored value has been read', () => {
+    window.localStorage.setItem('test-key', JSON.stringify('stored-data'));
+    const { result } = renderHook(() => useLocalStorage('test-key', 'initial'));
+    expect(result.current.isHydrated).toBe(true);
+    expect(result.current.storedValue).toBe('stored-data');
+  });
+
   it('should load stored value from localStorage on mount', () => {
     window.localStorage.setItem('test-key', JSON.stringify('stored-data'));
     const { result } = renderHook(() => useLocalStorage('test-key', 'initial'));

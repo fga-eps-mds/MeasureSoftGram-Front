@@ -1,0 +1,131 @@
+import React from 'react';
+import { act, render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import SideMenu from '../SideMenu';
+
+const mockPush = jest.fn();
+const mockPrefetch = jest.fn(() => Promise.resolve());
+
+jest.mock('next/router', () => ({
+  useRouter: () => ({
+    pathname: '/products/[product]',
+    query: { product: '1-5-MeasureSoftGram' },
+    push: mockPush,
+    prefetch: mockPrefetch,
+  }),
+}));
+
+jest.mock('@contexts/Auth', () => ({
+  useAuth: () => ({ session: { username: 'testuser' } }),
+}));
+
+jest.mock('@contexts/OrganizationProvider', () => ({
+  useOrganizationContext: () => ({
+    currentOrganization: { id: '1', name: 'org-test' },
+  }),
+}));
+
+jest.mock('@contexts/ProductProvider', () => ({
+  useProductContext: () => ({
+    currentProduct: { id: '5', name: 'MeasureSoftGram' },
+  }),
+}));
+
+const mockSideMenu = { isCollapsed: false, closeOverlay: jest.fn() };
+
+jest.mock('@contexts/SidebarProvider/SideMenuProvider', () => ({
+  useSideMenuContext: () => mockSideMenu,
+}));
+
+jest.mock('react-i18next', () => ({
+  useTranslation: () => ({
+    t: (key: string) => key,
+    i18n: { language: 'pt', changeLanguage: jest.fn() },
+  }),
+}));
+
+jest.mock('@hooks/useProviderTranslation', () => ({
+  useProviderTranslation: () => ({
+    t: (key: string) => {
+      if (key.includes('overview.text')) return 'Visão Geral';
+      if (key.includes('repos.text')) return 'Repositórios';
+      return key;
+    },
+    i18n: { language: 'pt', changeLanguage: jest.fn() },
+  }),
+}));
+
+describe('SideMenu Dashboards Submenu (CA1)', () => {
+  it('adianta o código das abas do menu e dos dashboards, para a troca de aba não esperar o download', () => {
+    jest.useFakeTimers();
+    render(<SideMenu />);
+
+    // espera o navegador ficar ocioso (no jsdom, o temporizador de reserva)
+    expect(mockPrefetch).not.toHaveBeenCalled();
+    act(() => {
+      jest.runOnlyPendingTimers();
+    });
+    jest.useRealTimers();
+
+    const base = '/products/1-5-MeasureSoftGram';
+    expect(mockPrefetch.mock.calls.map(([path]) => path)).toEqual([
+      base,
+      `${base}/repositories`,
+      `${base}/releases`,
+      `${base}/dashboards/overview`,
+      `${base}/dashboards/temporal`,
+      `${base}/dashboards/metamodelo`,
+      `${base}/dashboards/entidade`,
+      `${base}/dashboards/distribuicao`,
+      `${base}/dashboards/relacoes`,
+    ]);
+  });
+
+  it('exibe o item "3. Estrutura das Medidas e Indicadores (Metamodelo)" ao expandir o menu Dashboards e navega ao clicar nele', () => {
+    render(<SideMenu />);
+
+    const dashboardsButton = screen.getByText('Dashboards');
+    expect(dashboardsButton).toBeInTheDocument();
+
+    // Clica para expandir o submenu Dashboards
+    fireEvent.click(dashboardsButton);
+
+    const metamodeloItem = screen.getByText('3. Estrutura das Medidas e Indicadores (Metamodelo)');
+    expect(metamodeloItem).toBeInTheDocument();
+    expect(
+      screen.getByLabelText('3. Estrutura das Medidas e Indicadores (Metamodelo)')
+    ).toHaveStyle({ width: '100%', minHeight: '45px', height: 'auto', boxSizing: 'border-box' });
+
+    fireEvent.click(metamodeloItem);
+    expect(mockPush).toHaveBeenCalledWith('/products/1-5-MeasureSoftGram/dashboards/metamodelo');
+  });
+
+  describe('largura do menu com o submenu aberto', () => {
+    afterEach(() => {
+      mockSideMenu.isCollapsed = false;
+    });
+
+    it('o recuo dos subitens não alarga o menu expandido', () => {
+      render(<SideMenu />);
+      fireEvent.click(screen.getByText('Dashboards'));
+
+      const subitems = screen.getAllByTestId('dashboard-subitem');
+      expect(subitems).toHaveLength(6);
+      subitems.forEach((subitem) => {
+        expect(subitem).toHaveStyle({ paddingLeft: '20px', contain: 'inline-size', overflow: 'hidden' });
+      });
+    });
+
+    it('com o menu recolhido, os subitens ficam sem recuo, alinhados aos outros ícones, e com o nome inteiro no tooltip', () => {
+      mockSideMenu.isCollapsed = true;
+      render(<SideMenu />);
+      // recolhido, o item mostra só o ícone: o nome fica no tooltip
+      fireEvent.click(screen.getByLabelText('Dashboards'));
+
+      expect(screen.getByLabelText('3. Estrutura das Medidas e Indicadores (Metamodelo)')).toBeInTheDocument();
+      screen.getAllByTestId('dashboard-subitem').forEach((subitem) => {
+        expect(subitem).toHaveStyle({ paddingLeft: '0px', contain: 'inline-size' });
+      });
+    });
+  });
+});

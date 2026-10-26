@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, Container, Typography, Grid, SxProps, Theme } from '@mui/material';
+import { Box, Container, Typography, Grid } from '@mui/material';
+import type { SxProps, Theme } from '@mui/material/styles';
 
 interface LandingSectionProps {
   id: string;

@@ -18,7 +18,7 @@ import { SiSubversion, SiMercurial, SiMicrosoftazure } from "react-icons/si";
 import TsqmiBadge from '@pages/products/[product]/repositories/[repository]/components/TsqmiBadge';
 import { useProviderTranslation as useTranslation } from '@hooks/useProviderTranslation';
 import { useQuery } from '@hooks/useQuery';
-import { productQuery } from '@services/product';
+import { useRepositoryList } from '@hooks/useRepositoryList';
 import { repository as repositoryService } from '@services/repository';
 import { getPathId } from '@utils/pathDestructer';
 
@@ -45,6 +45,8 @@ const platformIcons = {
   'outros': () => <FaCodeBranch size="1.5em" />,
 };
 
+const NO_REPOSITORIES: Repository[] = [];
+
 const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
   const { currentProduct } = useProductContext();
   const { currentOrganization, } = useOrganizationContext();
@@ -52,33 +54,25 @@ const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
   const router = useRouter();
   const { handleRepositoryAction, loadProduct } = useQuery();
 
-  const [filteredRepositories, setFilteredRepositories] = useState<Repository[]>([]);
+  const [organizationId, productId] = getPathId(router.query?.product as string);
+  // a mesma entrada do cache do Layout: ao voltar para a aba, a lista aparece na hora
+  const { repositories, mutate: mutateRepositories } = useRepositoryList(organizationId, productId);
+  const repositoryList = repositories ?? NO_REPOSITORIES;
+
+  // começa com a lista do cache, para a tabela não piscar vazia ao voltar para a aba
+  const [filteredRepositories, setFilteredRepositories] = useState<Repository[]>(repositoryList);
   const [repositoryToDelete, setRepositoryToDelete] = useState<Repository | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [repositoryList, setRepositoryList] = useState<Repository[]>([])
   const [confirmationName, setConfirmationName] = useState('');
   const [errorText, setErrorText] = useState('');
 
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [organizationId, productId] = getPathId(router.query?.product as string);
-
-        if (!currentProduct) {
-          await loadProduct(organizationId, productId);
-        }
-
-        const result = await productQuery.getAllRepositories(organizationId, productId);
-        setRepositoryList(result.data.results);
-      } catch (error) {
-        console.error(error);
-        return [];
-      }
-    };
-
-    void fetchData();
-  }, []); // The empty dependency array ensures this effect runs only once after the initial render
+    if (!currentProduct && organizationId && productId) {
+      void loadProduct(organizationId, productId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
 
   const handleClickRedirects = (id: string) => {
@@ -88,15 +82,13 @@ const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
 
   const getTsqmiValue = (id: number) => repositoriesLatestTsqmi?.results.find(result => result.id === id)?.current_tsqmi
 
-  const getTsqmiUrl = (repoId: number) => {
-    const [organizationId, productId] = getPathId(router.query?.product as string);
-    return repositoryService.getTsqmiBadgeUrl({
+  const getTsqmiUrl = (repoId: number) =>
+    repositoryService.getTsqmiBadgeUrl({
       organizationId,
       productId,
       repositoryId: String(repoId),
       entity: 'tsqmi'
     });
-  }
 
   function handleRepositoriesFilter(name: string) {
     if ((name == null || name === '') && repositoryList?.length) {
@@ -128,8 +120,15 @@ const RepositoriesTable: React.FC<Props> = ({ maxCount }: Props) => {
         const result = await handleRepositoryAction('delete', currentOrganization.id, currentProduct.id, String(repositoryToDelete.id), null);
 
         if (result.type === 'success') {
-          const updatedRepositoryList = repositoryList?.filter((repo) => repo.id !== repositoryToDelete.id);
-          setRepositoryList(updatedRepositoryList);
+          // tira da lista na hora; o handleRepositoryAction já pede a lista nova ao Service
+          void mutateRepositories(
+            (response) =>
+              response && {
+                ...response,
+                data: { results: response.data.results.filter((repo) => repo.id !== repositoryToDelete.id) }
+              },
+            { revalidate: false }
+          );
           toast.success(t('delete.toast-sucess'));
         } else {
           toast.error(t('delete.toast-error'));

@@ -4,6 +4,7 @@ import { Button, Box, Typography, CircularProgress } from '@mui/material';
 import { GitHub } from '@mui/icons-material';
 import { FaGitlab } from 'react-icons/fa';
 import { getGithubAuthUrl, getGitlabAuthUrl, getLoginOrigin } from '@services/Auth';
+import { createOAuthState } from '@services/Auth/oauthState';
 import { useRouter } from 'next/router';
 import { useAuth } from '@contexts/Auth';
 import { AuthLayout } from '@layouts/auth';
@@ -31,7 +32,7 @@ const Auth: NextPageWithLayout = () => {
 
   // Valida o client id no Service antes de sair para o provedor; qualquer
   // falha leva a /auth/error em vez de um redirecionamento invalido.
-  const startOAuthLogin = async (provider: OAuthProvider, clientId: string | undefined, getAuthUrl: () => string) => {
+  const startOAuthLogin = async (provider: OAuthProvider, clientId: string | undefined, getAuthUrl: typeof getGithubAuthUrl) => {
     setLoadingProvider(provider);
     try {
       if (!clientId) {
@@ -54,8 +55,9 @@ const Auth: NextPageWithLayout = () => {
         await router.push('/auth/error');
         return;
       }
+      const state = createOAuthState(provider);
       setProvider(provider);
-      window.location.assign(getAuthUrl());
+      window.location.assign(getAuthUrl(state));
     } catch (err) {
       await router.push('/auth/error');
     } finally {

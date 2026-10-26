@@ -12,145 +12,283 @@ import {
   TextField,
   Tabs,
   Tab,
-  List,
-  ListItem,
   Button,
-  Chip,
   Paper,
   InputAdornment,
   CircularProgress,
+  LinearProgress,
   Link,
   Pagination
 } from "@mui/material";
-import { Search, CheckCircle, AddCircle, GitHub, FolderSpecial } from "@mui/icons-material";
+import { Search, GitHub, FolderSpecial } from "@mui/icons-material";
 import { NextPageWithLayout } from "@pages/_app.next";
 import getLayout from "@components/Layout";
 import useRequireAuth from "@hooks/useRequireAuth";
 import { toast } from "react-toastify";
-import { organizationQuery, GitHubOrganization, GitHubRepo } from "@services/organization";
+import { organizationQuery, Result, ResultError } from "@services/organization";
+import type { AxiosError } from 'axios';
 import { useRouter } from "next/router";
 import { productQuery } from "@services/product";
 import { repository } from "@services/repository";
 import { useOrganizationContext } from "@contexts/OrganizationProvider";
 import { useProductContext } from "@contexts/ProductProvider";
-import { useAuth } from "@contexts/Auth";
+import { getGithubReauthorizeUrl, getGitlabAuthUrl } from "@services/Auth";
+import { createOAuthState } from "@services/Auth/oauthState";
 import { isSameGithubOrg } from "@utils/isSameGithubOrg";
 import { FaGitlab } from 'react-icons/fa';
 import { useProviderTerms } from '@hooks/useProviderTerms';
+import { refreshRepositoryList } from '@hooks/useRepositoryList';
+import { useAuth } from '@contexts/Auth';
+import {
+  UnifiedRepoItem,
+  normalizeRepoUrl,
+  refreshProviderRepos,
+  useImportList
+} from './hooks/useImportRepos';
+import ImportRepoList from './components/ImportRepoList';
+import ReauthorizePanel from './components/ReauthorizePanel';
 
 interface ProductType {
   id: string | number;
   name: string;
 }
 
-
+interface ProviderNamespaceItem {
+  id: number | string;
+  name: string;
+  description?: string;
+  avatar_url?: string;
+  kind?: 'user' | 'group';
+  full_path?: string;
+  github_org_id?: number;
+  github_org_name?: string;
+}
 
 const Products: NextPageWithLayout = () => {
   const { terms, provider } = useProviderTerms();
+  const { isProviderReady } = useAuth();
   useRequireAuth();
   const { t: tp } = useTranslation('product');
   const router = useRouter();
 
   const { organizationList, setCurrentOrganizations, fetchOrganizations, currentOrganization } = useOrganizationContext();
   const { setCurrentProduct, updateProductList, currentProduct } = useProductContext();
-  const { signInWithGithub } = useAuth();
 
-  const [gitHubOrgs, setGitHubOrgs] = useState<GitHubOrganization[]>([]);
+  const [providerNamespaces, setProviderNamespaces] = useState<ProviderNamespaceItem[]>([]);
   const [selectedOrgName, setSelectedOrgName] = useState<string>('');
   const [selectedOrgDbId, setSelectedOrgDbId] = useState<string>('');
 
   const [products, setProducts] = useState<ProductType[]>([]);
   const [selectedProductId, setSelectedProductId] = useState<string>('');
 
-  const [gitHubRepos, setGitHubRepos] = useState<GitHubRepo[]>([]);
-  const [importedRepoUrls, setImportedRepoUrls] = useState<string[]>([]);
+  // importados nesta tela (chave "organização:produto|url"): marcam o "Importado" na hora, antes de a lista do
+  // servidor voltar, sem passar para outro produto ou organização
+  const [pendingImports, setPendingImports] = useState<Set<string>>(new Set());
   const [loadingOrgs, setLoadingOrgs] = useState<boolean>(true);
   const [loadingProducts, setLoadingProducts] = useState<boolean>(false);
-  const [loadingRepos, setLoadingRepos] = useState<boolean>(false);
   const [repoFetchError, setRepoFetchError] = useState<'409' | 'error' | null>(null);
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [tabValue, setTabValue] = useState(0);
 
   const [page, setPage] = useState(1);
-  const itemsPerPage = 10;
 
   useEffect(() => {
     setPage(1);
-  }, [search, tabValue, gitHubRepos]);
+  }, [search, tabValue, selectedOrgName, provider, selectedProductId]);
+
+  // a busca vai para o servidor só quando a pessoa para de digitar
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedSearch(search.trim()), search ? 400 : 0);
+    return () => clearTimeout(timer);
+  }, [search]);
+
   const lastLoadedProductIdRef = useRef<string>('');
 
-  // eslint-disable-next-line sonarjs/cognitive-complexity
-  const loadGitHubOrgs = async () => {
-    setLoadingOrgs(true);
+  const currentNamespace = useMemo(
+    () => providerNamespaces.find(ns => ns.name === selectedOrgName || ns.full_path === selectedOrgName),
+    [providerNamespaces, selectedOrgName]
+  );
+
+  const importList = useImportList({
+    provider: provider === 'gitlab' ? 'gitlab' : 'github',
+    terms,
+    orgDbId: selectedOrgDbId,
+    productId: selectedProductId,
+    namespace: currentNamespace,
+    tabValue,
+    page,
+    search: debouncedSearch
+  });
+  const { imported } = importList;
+  const mutateImported = imported.mutate;
+
+  // ao trocar de produto, abre em "Importados" se ele já tem repositórios e em "A Importar" se não tem
+  useEffect(() => {
+    if (!selectedProductId || imported.repos === undefined) return;
+    if (lastLoadedProductIdRef.current === selectedProductId) return;
+    lastLoadedProductIdRef.current = selectedProductId;
+    setTabValue(imported.repos.length === 0 ? 2 : 0);
+  }, [selectedProductId, imported.repos]);
+
+  const importScope = `${selectedOrgDbId}:${selectedProductId}`;
+  const importedUrls = useMemo(
+    () => new Set((imported.repos ?? []).map(repo => normalizeRepoUrl(repo.url))),
+    [imported.repos]
+  );
+  const isImported = (repo: UnifiedRepoItem) =>
+    !!repo.url && (importedUrls.has(normalizeRepoUrl(repo.url)) ||
+      pendingImports.has(`${importScope}|${normalizeRepoUrl(repo.url)}`));
+
+  const resolveTargetOrg = async (): Promise<any> => {
+    if (currentOrganization) return currentOrganization;
+    const savedOrgId = localStorage.getItem('selectedOrgId');
+    if (!savedOrgId) return null;
     try {
-      const res = await organizationQuery.getGithubOrganizations();
-      if (res.type === 'success') {
-        setGitHubOrgs(res.value);
-        if (res.value.length > 0) {
-          let targetOrg = currentOrganization;
-          if (!targetOrg) {
-            const savedOrgId = localStorage.getItem('selectedOrgId');
-            if (savedOrgId) {
-              const parsedId = JSON.parse(savedOrgId);
-              targetOrg = organizationList.find(o => String(o.id) === String(parsedId)) || null;
-              if (!targetOrg) {
-                try {
-                  const orgRes = await organizationQuery.getOrganizationById(parsedId);
-                  if (orgRes.type === 'success') {
-                    targetOrg = orgRes.value as any;
-                  }
-                } catch (e) {
-                  console.error(e);
-                }
-              }
-            }
-          }
-
-          let defaultName = '';
-          if (targetOrg) {
-            const matchGo = res.value.find(go => 
-              isSameGithubOrg(go.github_org_name, targetOrg?.name, targetOrg?.key, targetOrg?.github_org_name)
-            );
-            if (matchGo) {
-              defaultName = matchGo.github_org_name;
-            }
-          } else {
-            defaultName = res.value[0].github_org_name;
-          }
-
-          setSelectedOrgName(defaultName);
-        }
-      } else {
-        toast.error(`Erro ao buscar ${terms.organizations} do ${terms.providerName}.`);
+      const parsedId = JSON.parse(savedOrgId);
+      const foundInList = organizationList.find(o => String(o.id) === String(parsedId));
+      if (foundInList) return foundInList;
+      const orgRes = await organizationQuery.getOrganizationById(parsedId);
+      if (orgRes.type === 'success') {
+        return orgRes.value;
       }
+    } catch (e) {
+      console.error(e);
+    }
+    return null;
+  };
+
+  const resolveDefaultOrgName = async (namespaces: ProviderNamespaceItem[]): Promise<string> => {
+    if (namespaces.length === 0) return '';
+    const targetOrg = await resolveTargetOrg();
+    if (targetOrg) {
+      const matchGo = namespaces.find(go =>
+        isSameGithubOrg(go.name, targetOrg?.name, targetOrg?.key, (targetOrg as any)?.github_org_name)
+      );
+      if (matchGo) {
+        return matchGo.name;
+      }
+    }
+    return namespaces[0].name;
+  };
+
+  // Busca as organizações/namespaces do provedor e converte para o formato único da tela.
+  const fetchProviderNamespaces = async (): Promise<Result<ProviderNamespaceItem[]>> => {
+    if (provider === 'gitlab') {
+      const res = await organizationQuery.getGitLabNamespaces();
+      if (res.type !== 'success') return res;
+      return {
+        type: 'success',
+        value: res.value.map(ns => ({
+          id: ns.id,
+          name: ns.name,
+          full_path: ns.full_path,
+          description: ns.description,
+          avatar_url: ns.avatar_url,
+          kind: ns.kind,
+          github_org_id: ns.id,
+          github_org_name: ns.name
+        }))
+      };
+    }
+    // 'github' e 'credentials' (admin com token do GitHub) usam o GitHub, padrão da plataforma.
+    const res = await organizationQuery.getGithubOrganizations();
+    if (res.type !== 'success') return res;
+    return {
+      type: 'success',
+      value: res.value.map(go => ({
+        id: go.github_org_id,
+        name: go.github_org_name,
+        description: go.description,
+        avatar_url: go.avatar_url,
+        github_org_id: go.github_org_id,
+        github_org_name: go.github_org_name
+      }))
+    };
+  };
+
+  // 409 = token do provedor expirado/revogado: mostra a reautorização sem deslogar.
+  const notifyNamespacesError = (error: ResultError['error']) => {
+    if ((error as AxiosError)?.response?.status === 409) {
+      setRepoFetchError('409');
+      toast.error(`Token do ${terms.providerName} expirado ou inválido.`);
+      return;
+    }
+    toast.error(`Erro ao buscar ${terms.organizations} do ${terms.providerName}.`);
+  };
+
+  const loadProviderNamespaces = async (estaAtivo: () => boolean = () => true) => {
+    setLoadingOrgs(true);
+    setRepoFetchError(null);
+    try {
+      const res = await fetchProviderNamespaces();
+      if (!estaAtivo()) return;
+      if (res.type !== 'success') {
+        notifyNamespacesError(res.error);
+        return;
+      }
+
+      setProviderNamespaces(res.value);
+      if (res.value.length === 0) return;
+      const defaultName = await resolveDefaultOrgName(res.value);
+      if (!estaAtivo()) return;
+      setSelectedOrgName(defaultName);
     } catch (error) {
+      if (!estaAtivo()) return;
       console.error(error);
       toast.error(`Erro ao carregar ${terms.organizations}.`);
     } finally {
-      setLoadingOrgs(false);
+      if (estaAtivo()) setLoadingOrgs(false);
     }
   };
 
   const getBackendOrgId = async (orgName: string): Promise<string> => {
     const res = await organizationQuery.getAllOrganization();
     if (res.type !== 'success') return '';
-    const match = res.value.find((o: any) => 
+    const match = res.value.find((o: any) =>
       isSameGithubOrg(orgName, o.name, o.key, o.github_org_name)
     );
     return match?.id || '';
   };
 
-  const importOrg = async (orgName: string): Promise<string> => {
-    const importResult = await organizationQuery.importOrganization(orgName);
-    if (importResult.type === 'success' && importResult.value.id) {
-      fetchOrganizations(); // Removido o 'true'
-      return importResult.value.id;
+  // grupo do GitLab: uma Organization compartilhada entre os membros do grupo
+  const importGitlabGroupOrg = async (groupId: number | string): Promise<string> => {
+    const importRes = await organizationQuery.importGitlabGroup(groupId);
+    if (importRes.type !== 'success' || !importRes.value?.id) return '';
+    await fetchOrganizations();
+    return String(importRes.value.id);
+  };
+
+  // espaço pessoal do GitLab: uma Organization própria, ou a que já existe com o mesmo nome
+  const importGitlabPersonalOrg = async (orgName: string): Promise<string> => {
+    const createRes = await organizationQuery.createOrganization({ name: orgName });
+    if (createRes.type === 'success' && createRes.value?.id) {
+      await fetchOrganizations();
+      return String(createRes.value.id);
     }
-    return '';
+    const res = await organizationQuery.getAllOrganization();
+    if (res.type !== 'success') return '';
+    const found = res.value.find((o: any) => o.name?.toLowerCase() === orgName.toLowerCase());
+    return found?.id ? String(found.id) : '';
+  };
+
+  const importGithubOrg = async (orgName: string): Promise<string> => {
+    const importResult = await organizationQuery.importOrganization(orgName);
+    if (importResult.type !== 'success' || !importResult.value.id) return '';
+    await fetchOrganizations();
+    return importResult.value.id;
+  };
+
+  const importOrg = async (orgName: string): Promise<string> => {
+    if (provider !== 'gitlab') return importGithubOrg(orgName);
+    const group = providerNamespaces.find(
+      ns => ns.kind === 'group' && (ns.name === orgName || ns.full_path === orgName)
+    );
+    return group ? importGitlabGroupOrg(group.id) : importGitlabPersonalOrg(orgName);
   };
 
   const handleSelectOrgRef = useRef<boolean>(false);
-  
+
   const loadProductsForOrg = async (orgDbId: string) => {
     const productsRes = await productQuery.getAllProducts(orgDbId);
     const productList = (productsRes.data?.results || productsRes.data || []) as ProductType[];
@@ -168,32 +306,12 @@ const Products: NextPageWithLayout = () => {
     }
   };
 
-  const loadGithubReposForOrg = async (orgDbId: string) => {
-    setRepoFetchError(null);
-    const reposRes = await organizationQuery.getGithubRepos(orgDbId);
-    if (reposRes.type === 'success') {
-      setGitHubRepos(reposRes.value);
-    } else {
-      const status = reposRes.error?.response?.status;
-      if (status === 409) {
-        setRepoFetchError('409');
-        toast.error(`Token do ${terms.providerName} expirado ou inválido.`);
-      } else {
-        setRepoFetchError('error');
-        toast.error(`Erro ao buscar ${terms.repositories} do ${terms.providerName}.`);
-      }
-    }
-  };
-
   const handleSelectOrganization = async (orgName: string) => {
     if (!orgName) return;
     if (handleSelectOrgRef.current) return;
     handleSelectOrgRef.current = true;
     setLoadingProducts(true);
-    setLoadingRepos(true);
     setProducts([]);
-    setGitHubRepos([]);
-    setImportedRepoUrls([]);
     try {
       let orgDbId = await getBackendOrgId(orgName);
 
@@ -207,50 +325,36 @@ const Products: NextPageWithLayout = () => {
 
       setSelectedOrgDbId(orgDbId);
       await loadProductsForOrg(orgDbId);
-      await loadGithubReposForOrg(orgDbId);
-
     } catch (error: any) {
       console.error(error);
       toast.error(`Erro de comunicação com o servidor.`);
     } finally {
       setLoadingProducts(false);
-      setLoadingRepos(false);
+      handleSelectOrgRef.current = false;
     }
   };
 
-  const loadProductRepositories = async (orgDbId: string, productId: string) => {
+  const handleImport = async (repo: UnifiedRepoItem) => {
+    // a seleção pode mudar durante o await: tudo abaixo usa a seleção em que o clique aconteceu
+    const orgDbId = selectedOrgDbId;
+    const productId = selectedProductId;
     if (!orgDbId || !productId) return;
     try {
-      const res = await productQuery.getAllRepositories(orgDbId, productId);
-      const repoList = res?.data?.results || res?.data || [];
-      const urls = repoList.map((r: any) => r.url);
-      setImportedRepoUrls(urls);
-      if (lastLoadedProductIdRef.current !== productId) {
-        lastLoadedProductIdRef.current = productId;
-        if (urls.length === 0) {
-          setTabValue(2); // "A Importar"
-        } else {
-          setTabValue(0); // "Importados"
-        }
-      }
-    } catch (error) {
-      console.error("Erro ao carregar projetos importados:", error);
-    }
-  };
-
-  const handleImport = async (repo: GitHubRepo) => {
-    if (!selectedOrgDbId || !selectedProductId) return;
-    try {
-      const response = await repository.createRepository(selectedOrgDbId, selectedProductId, {
+      const response = await repository.createRepository(orgDbId, productId, {
         name: repo.name,
         url: repo.url,
         description: repo.description || '',
-        platform: 'github',
+        platform: provider === 'gitlab' ? 'gitlab' : 'github',
         imported: true
       });
       if (response.type === 'success') {
         toast.success(`${terms.Repository} ${repo.name} importado com sucesso!`);
-        void loadProductRepositories(selectedOrgDbId, selectedProductId);
+        setPendingImports(prev => new Set(prev).add(`${orgDbId}:${productId}|${normalizeRepoUrl(repo.url)}`));
+        void mutateImported();
+        // "A Importar" e "Todos" mudam com o repositório importado
+        void refreshProviderRepos();
+        // a lista guardada para as outras telas do produto também passa a ter o repositório importado
+        void refreshRepositoryList(orgDbId, productId);
       } else {
         toast.error(`Erro ao importar ${terms.repository}: ${response.error.message || 'Erro desconhecido'}`);
       }
@@ -259,36 +363,25 @@ const Products: NextPageWithLayout = () => {
     }
   };
 
-  useEffect(() => {
-    void loadGitHubOrgs();
-  }, []);
-
-  useEffect(() => {
-    const code = router.query.code as string;
-    if (code) {
-      const exchangeCode = async () => {
-        setLoadingOrgs(true);
-        try {
-          const res = await signInWithGithub(code);
-          if (res.type === 'success') {
-            toast.success(`${terms.Organizations} do ${terms.providerName} ${provider === 'gitlab' ? 'vinculados' : 'vinculadas'} com sucesso!`);
-            await loadGitHubOrgs();
-            fetchOrganizations(); // Removido o 'true'
-          } else {
-            toast.error(`Erro ao vincular ${terms.organizations} do ${terms.providerName}.`);
-          }
-        } catch (err) {
-          console.error(err);
-          toast.error("Ocorreu um erro ao vincular.");
-        } finally {
-          setLoadingOrgs(false);
-          const { code: _, ...query } = router.query;
-          void router.replace({ pathname: router.pathname, query }, undefined, { shallow: true });
-        }
-      };
-      void exchangeCode();
+  // Volta para esta tela pelo callback do OAuth, que valida o state e renova o token.
+  const handleReauthorize = () => {
+    try {
+      const state = createOAuthState(provider === 'gitlab' ? 'gitlab' : 'github', '/products');
+      window.location.assign(provider === 'gitlab' ? getGitlabAuthUrl(state) : getGithubReauthorizeUrl(state));
+    } catch (error) {
+      console.error(error);
+      toast.error(`Não foi possível iniciar a autorização do ${terms.providerName}.`);
     }
-  }, [router.query.code]);
+  };
+
+  // Só busca depois de o provider real ser lido do localStorage; antes disso ele
+  // vale 'credentials' provisoriamente e geraria uma busca (e um toast) a mais.
+  useEffect(() => {
+    if (!isProviderReady) return;
+    let ativo = true;
+    void loadProviderNamespaces(() => ativo);
+    return () => { ativo = false; };
+  }, [provider, isProviderReady]);
 
   useEffect(() => {
     if (selectedOrgName) {
@@ -298,29 +391,21 @@ const Products: NextPageWithLayout = () => {
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
   useEffect(() => {
-    if (currentOrganization && gitHubOrgs.length > 0) {
-      const matchGo = gitHubOrgs.find(go => 
-        isSameGithubOrg(go.github_org_name, currentOrganization?.name, currentOrganization?.key, currentOrganization?.github_org_name)
+    if (currentOrganization && providerNamespaces.length > 0) {
+      const matchGo = providerNamespaces.find(go =>
+        isSameGithubOrg(go.name, currentOrganization?.name, currentOrganization?.key, (currentOrganization as any)?.github_org_name)
       );
       if (matchGo) {
-        if (matchGo.github_org_name !== selectedOrgName) {
-          setSelectedOrgName(matchGo.github_org_name);
+        if (matchGo.name !== selectedOrgName) {
+          setSelectedOrgName(matchGo.name);
         }
       } else if (selectedOrgName !== '') {
         setSelectedOrgName('');
         setProducts([]);
-        setGitHubRepos([]);
-        setImportedRepoUrls([]);
         setSelectedProductId('');
       }
     }
-  }, [currentOrganization, gitHubOrgs]);
-
-  useEffect(() => {
-    if (selectedOrgDbId && selectedProductId) {
-      void loadProductRepositories(selectedOrgDbId, selectedProductId);
-    }
-  }, [selectedOrgDbId, selectedProductId]);
+  }, [currentOrganization, providerNamespaces]);
 
   useEffect(() => {
     if (selectedOrgDbId && organizationList.length > 0) {
@@ -346,19 +431,125 @@ const Products: NextPageWithLayout = () => {
     }
   }, [currentProduct, products]);
 
-  const filteredRepos = useMemo(
-    () =>
-      gitHubRepos.filter((repo) => {
-        const isAlreadyImported = importedRepoUrls.some(
-          url => url && repo.url && (url === repo.url || url.toLowerCase() === repo.url.toLowerCase())
-        );
-        const matchesSearch = repo.name?.toLowerCase().includes(search.toLowerCase()) || false;
-        const matchesTab =
-          (tabValue === 0 && isAlreadyImported) || tabValue === 1 || (tabValue === 2 && !isAlreadyImported);
-        return matchesSearch && matchesTab;
-      }),
-    [gitHubRepos, importedRepoUrls, search, tabValue]
+  const renderListBody = () => {
+    if (importList.isLoading) {
+      return (
+        <Box display="flex" justifyContent="center" alignItems="center" padding="4rem">
+          <CircularProgress />
+        </Box>
+      );
+    }
+    if (importList.errorKind === '409') {
+      return <ReauthorizePanel embedded terms={terms} isGitlab={provider === 'gitlab'} onReauthorize={handleReauthorize} />;
+    }
+    if (importList.errorKind === 'error') {
+      return (
+        <Box padding="4rem" textAlign="center">
+          <Typography variant="h6" color="error" gutterBottom>
+            {`Não foi possível carregar os ${terms.repositories}`}
+          </Typography>
+          <Button variant="outlined" color="primary" onClick={importList.retry}>
+            Tentar Novamente
+          </Button>
+        </Box>
+      );
+    }
+    return (
+      <ImportRepoList
+        repos={importList.repos}
+        terms={terms}
+        isImported={isImported}
+        onImport={repo => void handleImport(repo)}
+        importDisabled={!importList.importedReady}
+      />
+    );
+  };
+
+  const renderEmptySelection = () => (
+      <Paper variant="outlined" sx={{ padding: '3rem', textAlign: 'center', borderRadius: '12px' }}>
+        <FolderSpecial color="disabled" sx={{ fontSize: '3rem', marginBottom: '1rem' }} />
+        <Typography variant="body1" color="text.secondary" gutterBottom>
+          {selectedOrgDbId && products.length === 0
+            ? `${terms.thisOrganization.charAt(0).toUpperCase()}${terms.thisOrganization.slice(1)} ainda não possui nenhum produto cadastrado.`
+            : `Selecione ${terms.anOrganization} e um produto para carregar os ${terms.repositories} correspondentes.`
+          }
+        </Typography>
+        {selectedOrgDbId && products.length === 0 && (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => router.push(`/products/create?id_organization=${selectedOrgDbId}`)}
+            sx={{ marginTop: '1.5rem', textTransform: 'none', fontWeight: 'bold', borderRadius: '8px' }}
+          >
+            Cadastrar Primeiro Produto
+          </Button>
+        )}
+      </Paper>
   );
+
+  const renderContent = () => {
+    if (repoFetchError === '409') {
+      return <ReauthorizePanel terms={terms} isGitlab={provider === 'gitlab'} onReauthorize={handleReauthorize} />;
+    }
+    if (!selectedProductId) return renderEmptySelection();
+    return (
+      <Paper variant="outlined" sx={{ borderRadius: '12px', overflow: 'hidden' }}>
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          padding="1rem"
+          borderBottom="1px solid"
+          borderColor="divider"
+          flexWrap="wrap"
+          gap="1rem"
+        >
+          <TextField
+            placeholder={`Buscar ${terms.repositories} do produto...`}
+            size="small"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            sx={{ minWidth: '250px' }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search size={20} />
+                </InputAdornment>
+              )
+            }}
+          />
+
+          <Box display="flex" alignItems="center" gap="1rem">
+            <Tabs
+              value={tabValue}
+              onChange={(_, newValue) => setTabValue(newValue)}
+              indicatorColor="primary"
+              textColor="primary"
+              sx={{ marginRight: '1rem' }}
+            >
+              <Tab label="Importados" />
+              <Tab label="Todos" />
+              <Tab label="A Importar" />
+            </Tabs>
+          </Box>
+        </Box>
+
+        {importList.isRefreshing && <LinearProgress />}
+        {renderListBody()}
+
+        {!importList.isLoading && !importList.errorKind && importList.repos.length > 0 && (
+          <Box display="flex" justifyContent="center" padding="2rem">
+            <Pagination
+              count={importList.totalPages}
+              page={page}
+              onChange={(e, value) => setPage(value)}
+              color="primary"
+            />
+          </Box>
+        )}
+      </Paper>
+    );
+  };
 
   return (
     <>
@@ -376,7 +567,11 @@ const Products: NextPageWithLayout = () => {
                 {`Selecione ${terms.yourOrganization} e o produto correspondente para gerenciar seus ${terms.repositories}.`}
               </Typography>
             </Box>
-            {provider === 'gitlab' ? <FaGitlab size="2.5rem" /> : <GitHub color="action" sx={{ fontSize: '2.5rem' }} />}
+            {provider === 'gitlab' ? (
+              <FaGitlab size="2.5rem" color="#fc6d26" />
+            ) : (
+              <GitHub color="action" sx={{ fontSize: '2.5rem' }} />
+            )}
           </Box>
 
           <Paper variant="outlined" sx={{ padding: '1.5rem', borderRadius: '12px', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
@@ -391,9 +586,9 @@ const Products: NextPageWithLayout = () => {
                   label={`${terms.Organizations} do ${terms.providerName}`}
                   onChange={(e) => setSelectedOrgName(e.target.value)}
                 >
-                  {gitHubOrgs.map((o) => (
-                    <MenuItem key={o.github_org_id} value={o.github_org_name}>
-                      <strong>{o.github_org_name}</strong> {o.description ? `(${o.description})` : ''}
+                  {providerNamespaces.map((o) => (
+                    <MenuItem key={o.id} value={o.name}>
+                      <strong>{o.name}</strong> {o.description ? `(${o.description})` : ''}
                     </MenuItem>
                   ))}
                 </Select>
@@ -401,7 +596,11 @@ const Products: NextPageWithLayout = () => {
               <Typography variant="caption" color="text.secondary">
                 {`Não está vendo ${terms.yourOrganization}?`}{" "}
                 <Link
-                  href={`https://github.com/settings/connections/applications/${process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID}`}
+                  href={
+                    provider === 'gitlab'
+                      ? 'https://gitlab.com/-/profile/applications'
+                      : `https://github.com/settings/connections/applications/${process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID}`
+                  }
                   target="_blank"
                   rel="noopener noreferrer"
                   underline="hover"
@@ -442,190 +641,7 @@ const Products: NextPageWithLayout = () => {
             </Box>
           </Paper>
 
-          {selectedProductId ? (
-            <Paper variant="outlined" sx={{ borderRadius: '12px', overflow: 'hidden' }}>
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                padding="1rem"
-                borderBottom="1px solid"
-                borderColor="divider"
-                flexWrap="wrap"
-                gap="1rem"
-              >
-                <TextField
-                  placeholder={`Buscar ${terms.repositories} do produto...`}
-                  size="small"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  sx={{ minWidth: '250px' }}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Search size={20} />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-
-                <Box display="flex" alignItems="center" gap="1rem">
-                  <Tabs
-                    value={tabValue}
-                    onChange={(_, newValue) => setTabValue(newValue)}
-                    indicatorColor="primary"
-                    textColor="primary"
-                    sx={{ marginRight: '1rem' }}
-                  >
-                    <Tab label="Importados" />
-                    <Tab label="Todos" />
-                    <Tab label="A Importar" />
-                  </Tabs>
-                </Box>
-              </Box>
-
-              {(() => {
-                if (loadingRepos) {
-                  return (
-                    <Box display="flex" justifyContent="center" alignItems="center" padding="4rem">
-                      <CircularProgress />
-                    </Box>
-                  );
-                }
-                if (repoFetchError === '409') {
-                  return (
-                    <Box padding="4rem" textAlign="center">
-                      <Typography variant="h6" color="error" gutterBottom>
-                        {`Token do ${terms.providerName} expirado ou inválido`}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary" paragraph>
-                        {`Para carregar os ${terms.repositories}, autorize o aplicativo novamente.`}
-                      </Typography>
-                      <Button variant="contained" color="primary" onClick={() => window.open(`https://github.com/login/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID}&scope=repo`, '_self')}>
-                        {`Autorizar ${terms.providerName}`}
-                      </Button>
-                    </Box>
-                  );
-                }
-                if (repoFetchError === 'error') {
-                  return (
-                    <Box padding="4rem" textAlign="center">
-                      <Typography variant="h6" color="error" gutterBottom>
-                        {`Não foi possível carregar os ${terms.repositories}`}
-                      </Typography>
-                      <Button variant="outlined" color="primary" onClick={() => handleSelectOrganization(selectedOrgName)}>
-                        Tentar Novamente
-                      </Button>
-                    </Box>
-                  );
-                }
-                return (
-                <List sx={{ padding: 0 }}>
-                  {filteredRepos.length > 0 ? (
-                    filteredRepos.slice((page - 1) * itemsPerPage, page * itemsPerPage).map((repo) => {
-                      const isAlreadyImported = importedRepoUrls.some(
-                        url => url && repo.url && (url === repo.url || url.toLowerCase() === repo.url.toLowerCase())
-                      );
-                      return (
-                        <ListItem
-                          key={repo.github_repo_id}
-                          sx={{
-                            padding: '1.5rem',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            borderBottom: '1px solid',
-                            borderColor: 'divider',
-                            '&:last-child': { borderBottom: 'none' },
-                            transition: 'background-color 0.2s',
-                            '&:hover': {
-                              backgroundColor: 'action.hover'
-                            }
-                          }}
-                        >
-                          <Box display="flex" flexDirection="column" gap="0.5rem" flexGrow={1}>
-                            <Box display="flex" alignItems="center" gap="1rem">
-                              <Typography variant="subtitle1" fontWeight="bold">
-                                {repo.github_full_name || repo.name}
-                              </Typography>
-                            </Box>
-                            <Typography variant="body2" color="text.secondary">
-                              {repo.description}
-                            </Typography>
-                          </Box>
-
-                          <Box display="flex" alignItems="center" gap="1rem" marginLeft="2rem">
-                            {isAlreadyImported ? (
-                              <Chip
-                                icon={<CheckCircle color="success" />}
-                                label="Importado"
-                                variant="outlined"
-                                color="success"
-                                sx={{ fontWeight: '500', minWidth: '110px' }}
-                              />
-                            ) : (
-                              <Button
-                                variant="contained"
-                                color="primary"
-                                startIcon={<AddCircle />}
-                                onClick={() => handleImport(repo)}
-                                sx={{
-                                  textTransform: 'none',
-                                  fontWeight: 'bold',
-                                  minWidth: '110px',
-                                  borderRadius: '8px'
-                                }}
-                              >
-                                Importar
-                              </Button>
-                            )}
-                          </Box>
-                        </ListItem>
-                      );
-                    })
-                  ) : (
-                    <Box padding="3rem" textAlign="center">
-                      <Typography variant="body1" color="text.secondary">
-                        {`Nenhum ${terms.repository} associado a este produto foi encontrado.`}
-                      </Typography>
-                    </Box>
-                  )}
-                </List>
-                );
-              })()}
-
-              {!loadingRepos && filteredRepos.length > 0 && (
-                <Box display="flex" justifyContent="center" padding="2rem">
-                  <Pagination
-                    count={Math.ceil(filteredRepos.length / itemsPerPage)}
-                    page={page}
-                    onChange={(e, value) => setPage(value)}
-                    color="primary"
-                  />
-                </Box>
-              )}
-            </Paper>
-          ) : (
-            <Paper variant="outlined" sx={{ padding: '3rem', textAlign: 'center', borderRadius: '12px' }}>
-              <FolderSpecial color="disabled" sx={{ fontSize: '3rem', marginBottom: '1rem' }} />
-              <Typography variant="body1" color="text.secondary" gutterBottom>
-                {selectedOrgDbId && products.length === 0
-                  ? `${terms.thisOrganization.charAt(0).toUpperCase()}${terms.thisOrganization.slice(1)} ainda não possui nenhum produto cadastrado.`
-                  : `Selecione ${terms.anOrganization} e um produto para carregar os ${terms.repositories} correspondentes.`
-                }
-              </Typography>
-              {selectedOrgDbId && products.length === 0 && (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => router.push(`/products/create?id_organization=${selectedOrgDbId}`)}
-                  sx={{ marginTop: '1.5rem', textTransform: 'none', fontWeight: 'bold', borderRadius: '8px' }}
-                >
-                  Cadastrar Primeiro Produto
-                </Button>
-              )}
-            </Paper>
-          )}
+          {renderContent()}
         </Box>
       </Container>
     </>

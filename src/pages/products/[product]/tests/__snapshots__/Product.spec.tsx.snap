@@ -35,8 +35,8 @@ Object {
                 class="MuiTypography-root MuiTypography-caption css-qkcnm0-MuiTypography-root"
               >
                 last-update
-                 : 
-                hoje às 09:00
+                : 
+                -
               </span>
             </div>
           </div>
@@ -194,8 +194,8 @@ Object {
               class="MuiTypography-root MuiTypography-caption css-qkcnm0-MuiTypography-root"
             >
               last-update
-               : 
-              hoje às 09:00
+              : 
+              -
             </span>
           </div>
         </div>

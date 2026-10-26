@@ -3,6 +3,7 @@ import { render, screen, waitFor, act, fireEvent, renderHook } from '@testing-li
 import { getUserInfo, signInCredentials, signOut } from '@services/Auth';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
+import { createOAuthState, OAUTH_STATE_KEY } from '@services/Auth/oauthState';
 import { AuthProvider, useAuth } from '../Auth.context';
 
 const localStorageMock: Record<string, any> = {};
@@ -81,11 +82,13 @@ const TestComponent = () => {
 // 3. Suíte de Testes
 describe('AuthContext', () => {
   const mockPush = jest.fn();
+  const mockReplace = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
     Object.keys(localStorageMock).forEach((key) => delete localStorageMock[key]);
     localStorage.clear();
+    sessionStorage.clear();
     // Restaura a URL: testes anteriores sobrescrevem globalThis.location (code/state/error)
     Object.defineProperty(globalThis, 'location', {
       value: { search: '', href: 'http://localhost/', pathname: '/' },
@@ -96,6 +99,7 @@ describe('AuthContext', () => {
     // Configuração padrão do useRouter
     (useRouter as jest.Mock).mockReturnValue({
       push: mockPush,
+      replace: mockReplace,
       pathname: '/',
     });
   });
@@ -130,179 +134,175 @@ describe('AuthContext', () => {
     expect(typeof result.current.logout).toBe('function');
   });
 
-  it('deve redirecionar para o state com code quando ambos estiverem presentes', async () => {
-    Object.defineProperty(globalThis, 'location', {
-      value: {
-        search: '?code=abc123&state=/products/1-test/repositories/2-repo',
-        href: 'http://localhost/?code=abc123&state=/products/1-test/repositories/2-repo',
-        pathname: '/',
-      },
-      writable: true,
+  describe('Callback do OAuth', () => {
+    const setCallbackUrl = (search: string) => {
+      Object.defineProperty(globalThis, 'location', {
+        value: { search, href: `http://localhost/${search}`, pathname: '/' },
+        writable: true,
+        configurable: true,
+      });
+    };
+
+    const renderProvider = () =>
+      render(
+        <AuthProvider>
+          <TestComponent />
+        </AuthProvider>
+      );
+
+    it('deve chamar signInWithGithub quando o state conferir com o login iniciado no GitHub', async () => {
+      const { signInGithub } = require('@services/Auth');
+      signInGithub.mockResolvedValueOnce({ type: 'success', value: { key: 'fake-key' } });
+      setCallbackUrl(`?code=github_code_123&state=${createOAuthState('github')}`);
+
+      renderProvider();
+
+      await waitFor(() => {
+        expect(signInGithub).toHaveBeenCalledWith('github_code_123');
+      });
+      expect(sessionStorage.getItem(OAUTH_STATE_KEY)).toBeNull();
+      expect(mockReplace).not.toHaveBeenCalled();
     });
 
-    render(
-      <AuthProvider>
-        <TestComponent />
-      </AuthProvider>
-    );
+    it('deve chamar signInWithGitlab quando o state conferir com o login iniciado no GitLab', async () => {
+      const { signInGitlab } = require('@services/Auth');
+      signInGitlab.mockResolvedValueOnce({ type: 'success', value: { key: 'fake-gitlab-key' } });
+      setCallbackUrl(`?code=gitlab_code_456&state=${createOAuthState('gitlab')}`);
 
-    await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith('/products/1-test/repositories/2-repo?code=abc123');
-    });
-  });
+      renderProvider();
 
-  it('deve adicionar & ao code quando o state já tiver query params', async () => {
-    Object.defineProperty(globalThis, 'location', {
-      value: {
-        search: '?code=abc123&state=/products/1-test?tab=details',
-        href: 'http://localhost/?code=abc123&state=/products/1-test?tab=details',
-        pathname: '/',
-      },
-      writable: true,
+      await waitFor(() => {
+        expect(signInGitlab).toHaveBeenCalledWith('gitlab_code_456');
+      });
     });
 
-    render(
-      <AuthProvider>
-        <TestComponent />
-      </AuthProvider>
-    );
+    it('deve usar o provedor guardado no state, e não o do localStorage', async () => {
+      const { signInGithub, signInGitlab } = require('@services/Auth');
+      signInGithub.mockResolvedValueOnce({ type: 'success', value: { key: 'fake-key' } });
+      localStorageMock.provider = 'gitlab';
+      setCallbackUrl(`?code=github_code_123&state=${createOAuthState('github')}`);
 
-    await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith('/products/1-test?tab=details&code=abc123');
-    });
-  });
+      renderProvider();
 
-  it('não deve redirecionar para /home quando state estiver presente após login', async () => {
-    (getUserInfo as jest.Mock).mockResolvedValueOnce({
-      type: 'success',
-      value: { username: 'testuser', email: 'test@test.com' },
+      await waitFor(() => {
+        expect(signInGithub).toHaveBeenCalledWith('github_code_123');
+      });
+      expect(signInGitlab).not.toHaveBeenCalled();
     });
 
-    localStorageMock.token = 'fake-token';
+    it('deve exibir o erro e limpar a sessão quando o login OAuth falhar', async () => {
+      const { signInGithub } = require('@services/Auth');
+      signInGithub.mockResolvedValueOnce({ type: 'error', error: new Error('código expirado') });
+      localStorageMock.provider = 'github';
+      setCallbackUrl(`?code=github_code_expirado&state=${createOAuthState('github')}`);
 
-    Object.defineProperty(globalThis, 'location', {
-      value: {
-        search: '?state=/some/path',
-        href: 'http://localhost/?state=/some/path',
-        pathname: '/',
-      },
-      writable: true,
+      renderProvider();
+
+      await waitFor(() => {
+        expect(toast.error).toHaveBeenCalledWith('Erro ao realizar login: código expirado');
+      });
+      expect(localStorageMock.provider).toBeUndefined();
     });
 
-    render(
-      <AuthProvider>
-        <TestComponent />
-      </AuthProvider>
-    );
+    it.each([
+      ['sem state', () => '?code=codigo_sem_state'],
+      ['com state divergente', () => {
+        createOAuthState('github');
+        return '?code=codigo_forjado&state=forjado';
+      }],
+      ['com state usado como caminho', () => '?code=codigo_forjado&state=/products/1-test'],
+    ])('não deve trocar o code recebido %s e deve levar a /auth/error', async (_, buildSearch) => {
+      const { signInGithub, signInGitlab } = require('@services/Auth');
+      localStorageMock.provider = 'github';
+      setCallbackUrl(buildSearch());
 
-    await waitFor(() => {
+      renderProvider();
+
+      await waitFor(() => {
+        expect(mockReplace).toHaveBeenCalledWith('/auth/error');
+      });
+      expect(signInGithub).not.toHaveBeenCalled();
+      expect(signInGitlab).not.toHaveBeenCalled();
+      expect(mockPush).not.toHaveBeenCalledWith(expect.stringContaining('code='));
+      expect(toast.error).toHaveBeenCalledWith('Não foi possível confirmar o login. Tente entrar novamente.');
+      expect(sessionStorage.getItem(OAUTH_STATE_KEY)).toBeNull();
+    });
+
+    it('deve manter a sessão ativa quando o callback for rejeitado', async () => {
+      (getUserInfo as jest.Mock).mockResolvedValue({
+        type: 'success',
+        value: { username: 'testuser', email: 'test@test.com' },
+      });
+      localStorageMock.token = 'fake-token';
+      setCallbackUrl('?code=codigo_forjado&state=forjado');
+
+      renderProvider();
+
+      await waitFor(() => {
+        expect(screen.getByTestId('session-state')).toHaveTextContent('Logado');
+      });
+      expect(mockReplace).toHaveBeenCalledWith('/auth/error');
+      expect(mockPush).not.toHaveBeenCalledWith('/home');
+      expect(localStorageMock.token).toBe('fake-token');
+    });
+
+    it('deve trocar o code mesmo logado e voltar à página de origem ao reautorizar', async () => {
+      const { signInGithub } = require('@services/Auth');
+      signInGithub.mockResolvedValueOnce({ type: 'success', value: { key: 'fake-token' } });
+      (getUserInfo as jest.Mock).mockResolvedValue({
+        type: 'success',
+        value: { username: 'testuser', email: 'test@test.com' },
+      });
+      localStorageMock.token = 'fake-token';
+      setCallbackUrl(`?code=github_code_reauth&state=${createOAuthState('github', '/products')}`);
+
+      renderProvider();
+
+      await waitFor(() => {
+        expect(mockReplace).toHaveBeenCalledWith('/products');
+      });
+      expect(signInGithub).toHaveBeenCalledWith('github_code_reauth');
       expect(mockPush).not.toHaveBeenCalledWith('/home');
     });
-  });
 
-  it('deve chamar signInWithGithub quando code estiver presente e provider for github', async () => {
-    const { signInGithub } = require('@services/Auth');
-    signInGithub.mockResolvedValueOnce({
-      type: 'success',
-      value: { key: 'fake-key' },
+    it('deve exibir toast "Login cancelado" quando parâmetro error=access_denied estiver presente', async () => {
+      setCallbackUrl(`?error=access_denied&error_description=Denied&state=${createOAuthState('github')}`);
+
+      renderProvider();
+
+      await waitFor(() => {
+        expect(toast.info).toHaveBeenCalledWith('Login cancelado');
+      });
+      expect(sessionStorage.getItem(OAUTH_STATE_KEY)).toBeNull();
     });
 
-    localStorageMock.provider = 'github';
+    it('deve exibir erro do provedor e voltar a /auth quando a autorização falhar', async () => {
+      setCallbackUrl(`?error=server_error&state=${createOAuthState('github')}`);
 
-    Object.defineProperty(globalThis, 'location', {
-      value: {
-        search: '?code=github_code_123',
-        href: 'http://localhost/?code=github_code_123',
-        pathname: '/',
-      },
-      writable: true,
+      renderProvider();
+
+      await waitFor(() => {
+        expect(mockPush).toHaveBeenCalledWith('/auth');
+      });
+      expect(toast.error).toHaveBeenCalledWith('Erro na autorização do provedor.');
     });
 
-    render(
-      <AuthProvider>
-        <TestComponent />
-      </AuthProvider>
-    );
+    it('deve manter a sessão e voltar à página de origem quando a reautorização for cancelada', async () => {
+      (getUserInfo as jest.Mock).mockResolvedValue({
+        type: 'success',
+        value: { username: 'testuser', email: 'test@test.com' },
+      });
+      localStorageMock.token = 'fake-token';
+      setCallbackUrl(`?error=access_denied&state=${createOAuthState('github', '/products')}`);
 
-    await waitFor(() => {
-      expect(signInGithub).toHaveBeenCalledWith('github_code_123');
-    });
-  });
+      renderProvider();
 
-  it('deve chamar signInWithGitlab quando code estiver presente e provider for gitlab', async () => {
-    const { signInGitlab } = require('@services/Auth');
-    signInGitlab.mockResolvedValueOnce({
-      type: 'success',
-      value: { key: 'fake-gitlab-key' },
-    });
-
-    localStorageMock.provider = 'gitlab';
-
-    Object.defineProperty(globalThis, 'location', {
-      value: {
-        search: '?code=gitlab_code_456',
-        href: 'http://localhost/?code=gitlab_code_456',
-        pathname: '/',
-      },
-      writable: true,
-    });
-
-    render(
-      <AuthProvider>
-        <TestComponent />
-      </AuthProvider>
-    );
-
-    await waitFor(() => {
-      expect(signInGitlab).toHaveBeenCalledWith('gitlab_code_456');
-    });
-  });
-
-  it('deve exibir o erro e limpar a sessão quando o login OAuth falhar', async () => {
-    const { signInGithub } = require('@services/Auth');
-    signInGithub.mockResolvedValueOnce({ type: 'error', error: new Error('código expirado') });
-
-    localStorageMock.provider = 'github';
-
-    Object.defineProperty(globalThis, 'location', {
-      value: {
-        search: '?code=github_code_expirado',
-        href: 'http://localhost/?code=github_code_expirado',
-        pathname: '/',
-      },
-      writable: true,
-    });
-
-    render(
-      <AuthProvider>
-        <TestComponent />
-      </AuthProvider>
-    );
-
-    await waitFor(() => {
-      expect(toast.error).toHaveBeenCalledWith('Erro ao realizar login: código expirado');
-    });
-    expect(localStorageMock.provider).toBeUndefined();
-  });
-
-  it('deve exibir toast "Login cancelado" quando parâmetro error=access_denied estiver presente', async () => {
-    Object.defineProperty(globalThis, 'location', {
-      value: {
-        search: '?error=access_denied&error_description=Denied',
-        href: 'http://localhost/?error=access_denied',
-        pathname: '/',
-      },
-      writable: true,
-    });
-
-    render(
-      <AuthProvider>
-        <TestComponent />
-      </AuthProvider>
-    );
-
-    await waitFor(() => {
+      await waitFor(() => {
+        expect(mockReplace).toHaveBeenCalledWith('/products');
+      });
       expect(toast.info).toHaveBeenCalledWith('Login cancelado');
+      expect(localStorageMock.token).toBe('fake-token');
+      expect(mockPush).not.toHaveBeenCalledWith('/auth');
     });
   });
 

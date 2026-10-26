@@ -4,6 +4,7 @@ import { useRepositoryContext } from '@contexts/RepositoryProvider';
 import { productQuery } from '@services/product';
 import { repository } from '@services/repository';
 import { useRouter } from 'next/router';
+import { refreshRepositoryList, useRepositoryList } from '@hooks/useRepositoryList';
 import { useQuery } from '../useQuery';
 
 // Mocks dos contextos e serviços
@@ -12,6 +13,10 @@ jest.mock('@contexts/RepositoryProvider');
 jest.mock('@services/product');
 jest.mock('@services/repository');
 jest.mock('next/router', () => ({ useRouter: jest.fn() }));
+jest.mock('@hooks/useRepositoryList', () => ({
+  useRepositoryList: jest.fn(() => ({ repositories: undefined })),
+  refreshRepositoryList: jest.fn()
+}));
 
 describe('useQuery Hook', () => {
   const mockSetRepositoryList = jest.fn();
@@ -61,6 +66,17 @@ describe('useQuery Hook', () => {
 
     expect(response).toEqual(mockResponse);
     expect(repository.createRepository).toHaveBeenCalled();
+    // a lista guardada no cache passa a ter o repositório novo
+    expect(refreshRepositoryList).toHaveBeenCalledWith('org1', 'prod1');
+  });
+
+  it('não pede a lista de novo quando a ação falha', async () => {
+    (repository.deleteRepository as jest.Mock).mockResolvedValue({ type: 'error', error: new Error('x') });
+
+    const { result } = renderHook(() => useQuery());
+    await result.current.handleRepositoryAction('delete', 'org1', 'prod1', 'rep1', null);
+
+    expect(refreshRepositoryList).not.toHaveBeenCalled();
   });
 
   it('deve retornar erro se a ação for inválida no handleRepositoryAction', async () => {
@@ -78,7 +94,7 @@ describe('useQuery Hook - carregamento pela rota', () => {
   beforeEach(() => {
     (useRepositoryContext as jest.Mock).mockReturnValue({ setRepositoryList: mockSetRepositoryList });
     (useRouter as jest.Mock).mockReturnValue({ query: { product: '1-2-produto' } });
-    (productQuery.getAllRepositories as jest.Mock).mockResolvedValue({ data: { results: [] } });
+    (useRepositoryList as jest.Mock).mockReturnValue({ repositories: [] });
   });
 
   afterEach(() => {
@@ -99,6 +115,7 @@ describe('useQuery Hook - carregamento pela rota', () => {
   });
 
   it('busca produto e repositórios em paralelo quando o produto muda', async () => {
+    (useRepositoryList as jest.Mock).mockReturnValue({ repositories: undefined });
     (useProductContext as jest.Mock).mockReturnValue({
       currentProduct: { id: 9 },
       setCurrentProduct: mockSetCurrentProduct
@@ -108,6 +125,16 @@ describe('useQuery Hook - carregamento pela rota', () => {
     renderHook(() => useQuery());
 
     await waitFor(() => expect(productQuery.getProductById).toHaveBeenCalledWith('1', '2'));
-    expect(productQuery.getAllRepositories).toHaveBeenCalledWith('1', '2');
+    expect(useRepositoryList).toHaveBeenCalledWith('1', '2');
+  });
+
+  it('põe no contexto a lista que vem do cache compartilhado', async () => {
+    const repositories = [{ id: 1, name: 'api' }];
+    (useRepositoryList as jest.Mock).mockReturnValue({ repositories });
+    (useProductContext as jest.Mock).mockReturnValue({ currentProduct: { id: 2 }, setCurrentProduct: mockSetCurrentProduct });
+
+    renderHook(() => useQuery());
+
+    await waitFor(() => expect(mockSetRepositoryList).toHaveBeenCalledWith(repositories));
   });
 });

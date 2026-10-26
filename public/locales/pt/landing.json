@@ -74,10 +74,6 @@
         "title": "Assistentes de IA via MCP",
         "description": "Um servidor Model Context Protocol expõe a qualidade dos seus produtos a qualquer cliente compatível: Claude, editores e outros assistentes, não só um."
       },
-      "grafana": {
-        "title": "Grafana",
-        "description": "Leva os indicadores do modelo de qualidade para os seus painéis de observabilidade e acompanhamento."
-      },
       "vscode": {
         "title": "VS Code",
         "description": "Consulta a qualidade das releases sem sair do editor, pela integração via Model Context Protocol."

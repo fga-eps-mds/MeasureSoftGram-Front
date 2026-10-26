@@ -10,7 +10,7 @@ import getLayout from '@components/Layout';
 import { Characteristic, Measure, PreConfigData, ReleaseInfoForm, Subcharacteristic } from '@customTypes/preConfig';
 import { productQuery } from '@services/product';
 import { balanceMatrixService } from '@services/balanceMatrix';
-import { useSnackbar } from '@components/snackbar';
+import { toast } from 'react-toastify';
 import ConfirmModal from '@components/ConfirmModal/ConfirmModal';
 import * as Styles from './styles';
 import BasicInfoForm from './components/BasicInfoForm/BasicInfoForm';
@@ -37,7 +37,6 @@ function ReleaseCreation() {
   const [balanceMatrix, setBalanceMatrix] = useState<any>();
   const [releaseGoal, setReleaseGoal] = useState<any>();
   const [releaseConflict, setReleaseConflict] = useState<string>();
-  const { enqueueSnackbar } = useSnackbar()
 
   const router = useRouter();
   const routerParams: any = router.query;
@@ -106,7 +105,7 @@ function ReleaseCreation() {
         }
 
         if (defaultResult.status === 'rejected' || currentResult.status === 'rejected' || balanceResult.status === 'rejected') {
-          enqueueSnackbar(t('getPreConfigError'), { autoHideDuration: 10000, variant: 'error' })
+          toast.error(t('getPreConfigError'), { autoClose: 10000 })
         }
       }
 
@@ -194,7 +193,7 @@ function ReleaseCreation() {
         setShowChangeDateModal(true);
       }
       else
-        enqueueSnackbar(`${error?.response?.data?.detail}`, { autoHideDuration: 10000, variant: 'error' })
+        toast.error(`${error?.response?.data?.detail}`, { autoClose: 10000 })
     }
   };
 
@@ -210,7 +209,7 @@ function ReleaseCreation() {
     }
     catch (error: any) {
       setShowChangeDateModal(false);
-      enqueueSnackbar(`${error?.response?.data?.detail}`, { autoHideDuration: 10000, variant: 'error' });
+      toast.error(`${error?.response?.data?.detail}`, { autoClose: 10000 });
     }
   }
 
@@ -264,7 +263,7 @@ function ReleaseCreation() {
     const invalidCharacteristics = findItemWithSumNotEqualTo100(configPageData!.characteristics);
 
     if (invalidCharacteristics && invalidCharacteristics?.length > 0) {
-      enqueueSnackbar(t('invalidCharacteristicsError'), { autoHideDuration: 10000, variant: 'error' })
+      toast.error(t('invalidCharacteristicsError'), { autoClose: 10000 })
       document.getElementById("characteristicSection")?.scrollIntoView({ behavior: "smooth" });
       return false;
     }
@@ -279,7 +278,7 @@ function ReleaseCreation() {
 
 
     if (invalidSubcharacteristics && invalidSubcharacteristics?.length > 0) {
-      enqueueSnackbar(t("invalidSubcharacteristicsError"), { autoHideDuration: 10000, variant: 'error' })
+      toast.error(t("invalidSubcharacteristicsError"), { autoClose: 10000 })
       document.getElementById(`SubCarAccordion-${invalidSubcharacteristics[0]}`)?.scrollIntoView({ behavior: "smooth" });
       return false;
     }
@@ -297,7 +296,7 @@ function ReleaseCreation() {
       .filter(key => key !== null);
 
     if (invalidMeasures && invalidMeasures?.length > 0) {
-      enqueueSnackbar(t('invalidMeasuresError'), { autoHideDuration: 10000, variant: 'error' })
+      toast.error(t('invalidMeasuresError'), { autoClose: 10000 })
       document.getElementById(`MetricSubCarAccordion-${invalidMeasures[0]}`)?.scrollIntoView({ behavior: "smooth" });
       return false;
     }
@@ -310,7 +309,7 @@ function ReleaseCreation() {
       case 0: {
         const selectedRepos = getValues('repositories_ids');
         if (!selectedRepos || selectedRepos.length === 0) {
-          enqueueSnackbar(t(`Selecione pelo menos um ${terms.repository} para a release.`), { autoHideDuration: 6000, variant: 'error' });
+          toast.error(t(`Selecione pelo menos um ${terms.repository} para a release.`), { autoClose: 6000 });
           break;
         }
         setActiveStep(activeStep + 1);
@@ -350,10 +349,10 @@ function ReleaseCreation() {
 
       await productQuery.createProductRelease(organizationId, productId, release);
 
-      enqueueSnackbar(t('releaseCreated'), { autoHideDuration: 6000, variant: 'success' });
+      toast.success(t('releaseCreated'), { autoClose: 6000 });
       void router.push(`/products/${router.query.product}/releases/`);
     } catch (error: any) {
-      enqueueSnackbar(`${error.response?.data?.message ?? error}`, { autoHideDuration: 10000, variant: 'error' });
+      toast.error(`${error.response?.data?.message ?? error}`, { autoClose: 10000 });
     }
 
   }

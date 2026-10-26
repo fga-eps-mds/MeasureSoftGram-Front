@@ -6,20 +6,20 @@ import { repository, Result } from '@services/repository';
 import { Repository } from '@customTypes/repository';
 import { useEffect } from 'react';
 import { getPathId } from '@utils/pathDestructer';
+import { refreshRepositoryList, useRepositoryList } from '@hooks/useRepositoryList';
 
 export function useQuery() {
   const { setRepositoryList } = useRepositoryContext();
   const { currentProduct, setCurrentProduct } = useProductContext();
   const { query } = useRouter();
+  const [routeOrganizationId, routeProductId] = getPathId(query?.product as string);
 
-  const loadRepositories = async (organizationId: string, productId: string) => {
-    try {
-      const result = await productQuery.getAllRepositories(organizationId, productId);
-      setRepositoryList(result.data.results);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // a lista vem do cache compartilhado: o Layout e a página que também usa este hook fazem um pedido só
+  const { repositories } = useRepositoryList(routeOrganizationId, routeProductId);
+  useEffect(() => {
+    if (repositories) setRepositoryList(repositories);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [repositories]);
 
   const loadRepositoriesNoContext = async (organizationId: string, productId: string): Promise<Repository[]> => {
     try {
@@ -49,34 +49,28 @@ export function useQuery() {
     data: any
   ): Promise<Result<any>> => {
     try {
+      let result: Result<any>;
       if (action === 'create') {
-        return repository.createRepository(organizationId, productId, data || {});
+        result = await repository.createRepository(organizationId, productId, data || {});
+      } else if (action === 'update' && repositoryId) {
+        result = await repository.updateRepository(organizationId, productId, repositoryId, data || {});
+      } else if (action === 'delete' && repositoryId) {
+        result = await repository.deleteRepository(organizationId, productId, repositoryId);
+      } else {
+        throw new Error('Invalid action or missing repositoryId.');
       }
-      if (action === 'update' && repositoryId) {
-        return repository.updateRepository(organizationId, productId, repositoryId, data || {});
-      }
-      if (action === 'delete' && repositoryId) {
-        return repository.deleteRepository(organizationId, productId, repositoryId);
-      }
-      throw new Error('Invalid action or missing repositoryId.');
+      if (result?.type === 'success') void refreshRepositoryList(organizationId, productId);
+      return result;
     } catch (error) {
       return { type: 'error', error: new Error(`Failed to ${action} repository.`) };
     }
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (typeof query?.product === 'string') {
-        try {
-          const [organizationId, productId] = getPathId(query?.product);
-          await Promise.all([loadProduct(organizationId, productId), loadRepositories(organizationId, productId)]);
-        } catch (error) {
-          console.error(error);
-        }
-      }
-    };
-
-    fetchData().catch((error) => console.error(error));
+    if (routeOrganizationId && routeProductId) {
+      loadProduct(routeOrganizationId, routeProductId).catch((error) => console.error(error));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query?.product]);
 
   return { handleRepositoryAction, loadRepositoriesNoContext, loadProduct };

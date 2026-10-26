@@ -19,5 +19,23 @@
     "security": "Segurança",
     "maintainability": "Manutenibilidade",
     "flexibility": "Portabilidade"
+  },
+  "loadError": "Não foi possível carregar a comparação Planejado × Realizado desta release.",
+  "equalizer": {
+    "noPlanning": "Esta release não possui planejamento. Planeje a release para ver a comparação entre o planejado e o realizado.",
+    "noAccomplished": "Ainda não há dados realizados para esta release. São exibidos apenas os valores planejados.",
+    "noData": "Sem dado",
+    "situation": "Situação",
+    "status": {
+      "equal": "Igual ao planejado",
+      "above": "Acima do planejado",
+      "below": "Abaixo do planejado",
+      "no-data": "Sem dado realizado"
+    },
+    "legend": {
+      "planned": "Planejado (Rp)",
+      "accomplished": "Realizado (Rd)",
+      "cursor": "Cursor: valor planejado"
+    }
   }
 }

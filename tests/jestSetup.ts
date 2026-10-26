@@ -2,6 +2,12 @@ import 'jest-canvas-mock';
 import * as hooks from 'next/router';
 import { NextRouter } from 'next/router';
 import '@testing-library/jest-dom';
+import { webcrypto } from 'node:crypto';
+
+// O jsdom 19 nao expoe a Web Crypto API, que o navegador expoe.
+if (!globalThis.crypto?.getRandomValues) {
+  Object.defineProperty(globalThis, 'crypto', { value: webcrypto, configurable: true });
+}
 
 export const createMockedRoute = (
   query?: Object) => ({

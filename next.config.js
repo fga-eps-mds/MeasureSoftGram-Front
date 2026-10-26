@@ -1,7 +1,5 @@
 /** @type {import('next').NextConfig} */
-const withTM = require('next-transpile-modules')(['@mui/x-charts'])
-const nextConfig = withTM(
-  {
+const nextConfig = {
   reactStrictMode: false,
   swcMinify: true,
   compiler: {
@@ -26,18 +24,27 @@ const nextConfig = withTM(
     buildActivity: false
   },
   trailingSlash: true,
-  modularizeImports: {
-    '@mui/material': {
-      transform: '@mui/material/{{member}}',
-    },
-    '@mui/lab': {
-      transform: '@mui/lab/{{member}}',
-    },
-    '@mui/x-charts': {
-      transform: '@mui/x-charts/{{member}}',
+  // No `next dev`, cada página compila na primeira visita: com `import { Box } from '@mui/material'` o webpack
+  // processava o MUI inteiro (~13 mil módulos) a cada página. No Next 12 o modularizeImports só vale dentro de
+  // `experimental`; fora dele era ignorado. Fica fora dos testes, que mocam '@mui/material' inteiro.
+  experimental: {
+    modularizeImports: process.env.NODE_ENV === 'test' ? undefined : {
+      '@mui/material': {
+        transform: '@mui/material/{{member}}',
+      },
+      '@mui/lab': {
+        transform: '@mui/lab/{{member}}',
+      },
+      '@mui/icons-material': {
+        transform: '@mui/icons-material/{{member}}',
+      },
     },
   },
-}
-)
+  // o `next dev` guardava só 2 páginas compiladas e descartava as paradas há 25 s: voltar para uma aba recompilava
+  onDemandEntries: {
+    maxInactiveAge: 60 * 60 * 1000,
+    pagesBufferLength: 20,
+  },
+};
 
 module.exports = nextConfig;
