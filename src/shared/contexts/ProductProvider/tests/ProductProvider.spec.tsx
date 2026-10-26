@@ -9,11 +9,15 @@ jest.mock('@services/product');
 jest.mock('@contexts/OrganizationProvider');
 jest.mock('@hooks/useLocalStorage');
 
+const mockRouter = { query: {} as Record<string, string> };
+jest.mock('next/router', () => ({ useRouter: () => mockRouter }));
+
 describe('ProductProvider', () => {
   let mockSetValue: jest.Mock;
 
   beforeEach(() => {
     jest.clearAllMocks();
+    mockRouter.query = {};
     mockSetValue = jest.fn();
     (LocalStorageHook.useLocalStorage as jest.Mock).mockReturnValue({
       storedValue: null,
@@ -210,11 +214,13 @@ describe('ProductProvider', () => {
 
     let prevLoadAllProducts: any;
     let rendersCount = 0;
+    let currentProductId: string | undefined;
 
     const Child = () => {
-      const { loadAllProducts } = useProductContext();
+      const { loadAllProducts, currentProduct } = useProductContext();
       rendersCount += 1;
       prevLoadAllProducts = loadAllProducts;
+      currentProductId = currentProduct?.id;
       return <div />;
     };
 
@@ -227,8 +233,11 @@ describe('ProductProvider', () => {
     await waitFor(() => {
       expect(productQuery.getAllProducts).toHaveBeenCalledTimes(1);
     });
+    // espera a carga inicial terminar (o produto escolhido), para contar só o render do rerender
+    await waitFor(() => expect(currentProductId).toBe('prod-1'));
 
     const initialLoadFn = prevLoadAllProducts;
+    const rendersBeforeRerender = rendersCount;
 
     // Simulate re-render with a NEW object reference for currentOrganization, but SAME id
     orgState = { id: 'org-1', name: 'Org Name 1 Updated' };
@@ -240,11 +249,87 @@ describe('ProductProvider', () => {
 
     // loadAllProducts reference should remain identical (memoized with useCallback)
     expect(prevLoadAllProducts).toBe(initialLoadFn);
-    expect(rendersCount).toBe(3);
+    expect(rendersCount).toBe(rendersBeforeRerender + 1);
 
     // getAllProducts should NOT have been called a second time
     expect(productQuery.getAllProducts).toHaveBeenCalledTimes(1);
 
     useOrgSpy.mockRestore();
+  });
+
+  const CurrentProduct = () => {
+    const { currentProduct } = useProductContext();
+    return <span data-testid="curr-prod">{currentProduct === null ? 'null' : currentProduct?.name ?? 'none'}</span>;
+  };
+
+  it('na página de um produto, o produto da URL vence o salvo no navegador e o primeiro da lista', async () => {
+    mockRouter.query = { product: '1-2-Produto Dois' };
+    (LocalStorageHook.useLocalStorage as jest.Mock).mockReturnValue({
+      storedValue: '1',
+      setValue: mockSetValue,
+      removeValue: jest.fn()
+    });
+    jest.spyOn(OrgContext, 'useOrganizationContext').mockReturnValue({ currentOrganization: { id: 1 } } as any);
+    (productQuery.getAllProducts as jest.Mock).mockResolvedValueOnce({
+      data: {
+        results: [
+          { id: 1, name: 'Produto Um' },
+          { id: 2, name: 'Produto Dois' }
+        ]
+      }
+    });
+
+    render(
+      <ProductProvider>
+        <CurrentProduct />
+      </ProductProvider>
+    );
+
+    await waitFor(() => expect(screen.getByTestId('curr-prod').textContent).toBe('Produto Dois'));
+  });
+
+  it('não zera o produto atual enquanto a lista de produtos da organização ainda não chegou', async () => {
+    jest.spyOn(OrgContext, 'useOrganizationContext').mockReturnValue({ currentOrganization: { id: 'org-1' } } as any);
+    let resolveProducts: (value: unknown) => void = () => {};
+    (productQuery.getAllProducts as jest.Mock).mockReturnValueOnce(
+      new Promise((resolve) => {
+        resolveProducts = resolve;
+      })
+    );
+
+    // como o Layout faz ao carregar o produto da URL
+    const SetFromRoute = () => {
+      const { setCurrentProduct } = useProductContext();
+      React.useEffect(() => setCurrentProduct({ id: 'prod-2', name: 'Produto Dois' } as any), [setCurrentProduct]);
+      return null;
+    };
+
+    render(
+      <ProductProvider>
+        <SetFromRoute />
+        <CurrentProduct />
+      </ProductProvider>
+    );
+
+    await waitFor(() => expect(screen.getByTestId('curr-prod').textContent).toBe('Produto Dois'));
+    expect(screen.getByTestId('curr-prod').textContent).toBe('Produto Dois');
+
+    await act(async () => {
+      resolveProducts({ data: { results: [{ id: 'prod-2', name: 'Produto Dois' }] } });
+    });
+    expect(screen.getByTestId('curr-prod').textContent).toBe('Produto Dois');
+  });
+
+  it('zera o produto quando a lista da organização chega vazia', async () => {
+    jest.spyOn(OrgContext, 'useOrganizationContext').mockReturnValue({ currentOrganization: { id: 'org-1' } } as any);
+    (productQuery.getAllProducts as jest.Mock).mockResolvedValueOnce({ data: { results: [] } });
+
+    render(
+      <ProductProvider>
+        <CurrentProduct />
+      </ProductProvider>
+    );
+
+    await waitFor(() => expect(screen.getByTestId('curr-prod').textContent).toBe('null'));
   });
 });

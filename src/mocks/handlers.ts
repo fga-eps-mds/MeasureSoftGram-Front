@@ -33,6 +33,7 @@ export const handlers = [
     res(ctx.status(200), ctx.json({ count: 1, next: null, previous: null, results: [user] }))
   ),
   rest.get('*/v1/accounts/github-organizations/', (_req, res, ctx) => res(ctx.status(200), ctx.json([]))),
+  rest.get('*/v1/accounts/gitlab-namespaces/', (_req, res, ctx) => res(ctx.status(200), ctx.json([]))),
   rest.get('*/v1/accounts/user-repos', (_req, res, ctx) => res(ctx.status(200), ctx.json({ total_count: 0, items: [] }))),
   // getUserInfo: GET /v1/accounts/ (mantido apos os demais /accounts/ para nao capturar as rotas acima).
   rest.get('*/v1/accounts/', (_req, res, ctx) => res(ctx.status(200), ctx.json(user))),
@@ -42,6 +43,8 @@ export const handlers = [
   rest.post('*/v1/organizations/', (_req, res, ctx) => res(ctx.status(201), ctx.json(organizations.results[0]))),
   rest.post('*/v1/organizations/import/', (_req, res, ctx) => res(ctx.status(201), ctx.json(organizations.results[0]))),
   rest.get('*/v1/organizations/:orgId/github-repos/', (_req, res, ctx) => res(ctx.status(200), ctx.json([]))),
+  rest.get('*/v1/organizations/:orgId/gitlab-projects/', (_req, res, ctx) => res(ctx.status(200), ctx.json([]))),
+  rest.get('*/gitlab-projects/', (_req, res, ctx) => res(ctx.status(200), ctx.json([]))),
   rest.get('*/v1/organizations/:orgId/', (_req, res, ctx) => res(ctx.status(200), ctx.json(organizations.results[0]))),
 
   // ----- Produtos -----
@@ -75,28 +78,21 @@ export const handlers = [
   rest.get('*/v1/organizations/:orgId/products/:productId/release/', (_req, res, ctx) =>
     res(ctx.status(200), ctx.json([]))
   ),
+  rest.get('*/v1/organizations/:orgId/products/:productId/quality-model-tree/', (_req, res, ctx) =>
+    res(ctx.status(200), ctx.json([]))
+  ),
   rest.get('*/v1/organizations/:orgId/products/:productId/repositories-tsqmi-historical-values/', (_req, res, ctx) =>
     res(ctx.status(200), ctx.json({ count: 0, next: null, previous: null, results: [] }))
+  ),
+  // Sem release cadastrada (como em release/ acima): a tela mostra o empty state do histórico por release.
+  rest.get('*/v1/organizations/:orgId/products/:productId/repositories-tsqmi-release-history/', (_req, res, ctx) =>
+    res(ctx.status(200), ctx.json({ releases: [], repositories: [] }))
   ),
   rest.get('*/v1/organizations/:orgId/products/:productId/repositories-tsqmi-latest-values/', (_req, res, ctx) =>
     res(ctx.status(200), ctx.json({ count: 0, next: null, previous: null, results: [] }))
   ),
   rest.get('*/v1/organizations/:orgId/products/:productId/repositories/:repositoryId/', (_req, res, ctx) =>
     res(ctx.status(200), ctx.json(repositories.results[0]))
-  ),
-
-  // ----- Grafana -----
-  rest.get('*/v1/grafana/dashboard/:uid/', (req, res, ctx) =>
-    res(
-      ctx.status(200),
-      ctx.json({
-        dashboard_uid: req.params.uid,
-        title: 'Dashboard Mock',
-        grafana_url: 'https://grafana.example.dev/d/mock',
-        product_id: 1,
-        repository: { id: 1, name: '2026.1-MeasureSoftGram-Front' }
-      })
-    )
   ),
 
   // ----- Fallback -----

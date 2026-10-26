@@ -197,16 +197,36 @@ describe('Organization Service', () => {
     expect(result.type).toBe('error');
   });
 
+  it('deve importar grupo do GitLab (POST)', async () => {
+    (api.post as jest.Mock).mockResolvedValue({ data: { id: '9', name: 'Grupo' } });
+
+    const result = await organizationQuery.importGitlabGroup(77);
+
+    expect(api.post).toHaveBeenCalledWith('/v1/organizations/import-gitlab/', { gitlab_group_id: 77 });
+    expect(result.type).toBe('success');
+  });
+
+  it('deve retornar erro ao falhar importar grupo do GitLab', async () => {
+    (api.post as jest.Mock).mockRejectedValue(new Error(NETWORK_ERROR));
+    const result = await organizationQuery.importGitlabGroup(77);
+    expect(result.type).toBe('error');
+  });
+
   // Testes de getGithubRepos
   it('deve buscar repositórios do GitHub (GET)', async () => {
     const mockRepos = [{ github_repo_id: 1, name: 'repo1' }];
-    (api.get as jest.Mock).mockResolvedValue({ data: mockRepos });
+    (api.get as jest.Mock).mockResolvedValue({
+      data: mockRepos,
+      headers: { 'x-total-pages': '66', 'x-next-page': '3' }
+    });
 
-    const result = await organizationQuery.getGithubRepos('1');
+    const result = await organizationQuery.getGithubRepos('1', 2, 'repo');
 
-    expect(api.get).toHaveBeenCalledWith('/v1/organizations/1/github-repos/');
+    expect(api.get).toHaveBeenCalledWith('/v1/organizations/1/github-repos/', {
+      params: { page: 2, search: 'repo' }
+    });
     expect(result.type).toBe('success');
-    expect((result as any).value).toEqual(mockRepos);
+    expect((result as any).value).toEqual({ repos: mockRepos, totalPages: 66, nextPage: 3 });
   });
 
   it('deve retornar erro ao falhar buscar repositórios do GitHub', async () => {
@@ -214,4 +234,69 @@ describe('Organization Service', () => {
     const result = await organizationQuery.getGithubRepos('1');
     expect(result.type).toBe('error');
   });
+
+  // Testes de getGitLabNamespaces
+  it('deve buscar namespaces do GitLab (GET)', async () => {
+    const mockNamespaces = [
+      { id: 1, name: 'Group 1', full_path: 'group-1', avatar_url: '', description: 'Desc', kind: 'group' }
+    ];
+    (api.get as jest.Mock).mockResolvedValue({ data: mockNamespaces });
+
+    const result = await organizationQuery.getGitLabNamespaces();
+
+    expect(api.get).toHaveBeenCalledWith('/v1/accounts/gitlab-namespaces/');
+    expect(result.type).toBe('success');
+    expect((result as any).value).toEqual(mockNamespaces);
+  });
+
+  it('deve retornar erro ao falhar buscar namespaces do GitLab', async () => {
+    (api.get as jest.Mock).mockRejectedValue(new Error(NETWORK_ERROR));
+    const result = await organizationQuery.getGitLabNamespaces();
+    expect(result.type).toBe('error');
+  });
+
+  // Testes de getGitLabProjects
+  it('deve buscar projetos do GitLab com parâmetros (GET)', async () => {
+    const mockProjects = [
+      {
+        gitlab_project_id: 10,
+        gitlab_path_with_namespace: 'group-1/proj-1',
+        name: 'proj-1',
+        description: 'Desc',
+        url: 'https://gitlab.com/group-1/proj-1'
+      }
+    ];
+    (api.get as jest.Mock).mockResolvedValue({
+      data: mockProjects,
+      headers: { 'x-total-pages': '4', 'x-next-page': '3' }
+    });
+
+    const result = await organizationQuery.getGitLabProjects('org-1', 1, 'group', 2, 'search-term');
+
+    expect(api.get).toHaveBeenCalledWith('/v1/organizations/org-1/gitlab-projects/', {
+      params: {
+        namespace_id: 1,
+        kind: 'group',
+        page: 2,
+        search: 'search-term'
+      }
+    });
+    expect(result.type).toBe('success');
+    expect((result as any).value).toEqual({ projects: mockProjects, totalPages: 4, nextPage: 3 });
+  });
+
+  it('não informa próxima página quando o GitLab manda o header vazio', async () => {
+    (api.get as jest.Mock).mockResolvedValue({ data: [], headers: { 'x-next-page': '' } });
+
+    const result = await organizationQuery.getGitLabProjects('org-1', 1, 'group', 1, '');
+
+    expect((result as any).value).toEqual({ projects: [], totalPages: null, nextPage: null });
+  });
+
+  it('deve retornar erro ao falhar buscar projetos do GitLab', async () => {
+    (api.get as jest.Mock).mockRejectedValue(new Error(NETWORK_ERROR));
+    const result = await organizationQuery.getGitLabProjects('org-1', 1, 'group', 1, '');
+    expect(result.type).toBe('error');
+  });
 });
+

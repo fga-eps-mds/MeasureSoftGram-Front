@@ -7,6 +7,7 @@ import { Box, Container, Typography } from '@mui/material';
 import { useProductContext } from '@contexts/ProductProvider';
 import { useRequest } from '@hooks/useRequest';
 import { productQuery } from '@services/product';
+import { ProductTsqmiReleaseHistory, RepositoriesTsqmiHistory } from '@customTypes/product';
 import { PulseChart } from '@components/PulseChart';
 
 import { getPathId } from '@utils/pathDestructer';
@@ -22,25 +23,33 @@ const ProductContent: React.FC = () => {
 
   const [organizationId, productId] = getPathId(query?.product as string);
 
-  const { data: releaseData, isLoading: isReleasesLoading } = useRequest<any>(
+  // Mesma requisição do PulseChart (o SWR deduplica): sem release cadastrada, a resposta vem com `releases: []`
+  // (Cenário 6 da US06.01). Com erro, o PulseChart mostra o alerta, em vez de um empty state enganoso.
+  const {
+    data: releaseHistoryData,
+    isLoading: isReleasesLoading,
+    error: releaseHistoryError,
+  } = useRequest<ProductTsqmiReleaseHistory>(
+    organizationId && productId ? productQuery.getProductTsqmiReleaseHistoryConfig(organizationId, productId) : null
+  );
+
+  // Mesma requisição do PulseChart (o SWR deduplica): a última atualização é a medição de TSQMI mais recente.
+  const { data: tsqmiHistoryData } = useRequest<RepositoriesTsqmiHistory>(
     organizationId && productId
-      ? productQuery.getReleaseList(organizationId, productId)
+      ? productQuery.getProductRepositoriesTsqmiHistoryConfig(organizationId, productId)
       : null
   );
 
-  const getReleasesArray = (): any[] => {
-    if (Array.isArray(releaseData)) return releaseData;
-    if (Array.isArray(releaseData?.results)) return releaseData.results;
-    return [];
-  };
+  const latestMeasurementMs = Math.max(
+    0,
+    ...(tsqmiHistoryData?.results ?? []).flatMap((repo) =>
+      (repo.history ?? []).map((m) => new Date(m.created_at).getTime())
+    )
+  );
 
-  const releasesArray = getReleasesArray();
-
-  const lastUpdateDate =
-    currentProduct &&
-    formatRelative(new Date(), new Date(), {
-      locale: ptBR,
-    });
+  const lastUpdateDate = latestMeasurementMs
+    ? formatRelative(new Date(latestMeasurementMs), new Date(), { locale: ptBR })
+    : '-';
 
   if (!currentProduct || isReleasesLoading || !organizationId || !productId) {
     return (
@@ -50,7 +59,7 @@ const ProductContent: React.FC = () => {
     );
   }
 
-  const hasNoReleases = releasesArray.length === 0;
+  const hasNoReleases = !releaseHistoryError && (releaseHistoryData?.releases ?? []).length === 0;
 
   return (
     <Container>
@@ -66,7 +75,7 @@ const ProductContent: React.FC = () => {
               </Typography>
             </Box>
             <Typography variant="caption" color="gray">
-              {t('last-update')} : {lastUpdateDate}
+              {t('last-update')}: {lastUpdateDate}
             </Typography>
           </Box>
         </Box>

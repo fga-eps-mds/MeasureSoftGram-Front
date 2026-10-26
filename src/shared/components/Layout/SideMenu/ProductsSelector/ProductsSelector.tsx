@@ -13,13 +13,14 @@ import MSGSelectBox from '../../../../../components/idv/inputs/MSGSelectBox';
 function ProductSelector() {
   const { currentOrganization } = useOrganizationContext();
   const { currentProduct, setCurrentProduct, productsList } = useProductContext();
-  const { toggleCollapse, isCollapsed } = useSideMenuContext();
+  const { toggleCollapse, isCollapsed, closeOverlay } = useSideMenuContext();
   const router = useRouter();
 
   const onChange = (value: Product) => {
     if (productsList) {
       const selectedProduct = productsList.find(product => product.id === value.id) || null;
       setCurrentProduct(selectedProduct);
+      closeOverlay();
       void router.push(`/products/${currentOrganization?.id}-${selectedProduct?.id}-${selectedProduct?.name}`);
     }
   };

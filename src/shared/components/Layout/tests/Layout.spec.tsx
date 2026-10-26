@@ -160,4 +160,36 @@ describe('<Layout />', () => {
       expect(mockLogout).toHaveBeenCalled();
     });
   });
+
+  describe('Coluna do menu lateral', () => {
+    it('acompanha a largura do menu, em vez de reservar 328 px', () => {
+      mockUseProductContext.mockReturnValue({
+        productsList: [{ id: '1', name: 'Product 1' }],
+        currentProduct: { id: '1', name: 'Product 1' },
+        setCurrentProduct: jest.fn(),
+        updateProductList: jest.fn(),
+      });
+
+      mockUseOrganizationContext.mockReturnValue({
+        organizationList: [{ id: '1', name: 'Org 1', products: ['1'] }],
+        currentOrganization: { id: '1', name: 'Org 1', products: ['1'] },
+        setCurrentOrganizations: jest.fn(),
+        fetchOrganizations: jest.fn(),
+      });
+
+      render(
+        <RepositoryProvider>
+          <Layout />
+        </RepositoryProvider>
+      );
+
+      // o jsdom não calcula o grid nem entende minmax(): o teste confere a regra no CSS gerado, e os prints do
+      // PR, a largura de fato
+      const css = Array.from(document.querySelectorAll('style'))
+        .map((style) => style.textContent)
+        .join('\n');
+      expect(css).toContain('grid-template-columns:min-content minmax(0,1fr) min-content;');
+      expect(css).not.toContain('328px');
+    });
+  });
 });

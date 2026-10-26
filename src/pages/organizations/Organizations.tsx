@@ -121,7 +121,7 @@ const Organizations: OrganizationsType = () => {
           localStorage.setItem('selectedOrgId', JSON.stringify(createdOrg.id.toString()));
           setCurrentOrganizations([createdOrg]);
         }
-        fetchOrganizations(true);
+        void fetchOrganizations(true);
         setTimeout(() => {
           void router.push('/home');
         }, 2000);

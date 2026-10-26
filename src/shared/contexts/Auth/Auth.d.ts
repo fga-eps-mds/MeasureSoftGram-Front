@@ -6,6 +6,8 @@ type authContextType = {
   signInWithCredentials: (data: LoginFormData) => Promise<Result<User>>;
   logout: () => Promise<void>;
   provider: Providers;
+  // false enquanto provider ainda é o valor padrão, antes da leitura do localStorage
+  isProviderReady: boolean;
   setProvider: React.Dispatch<SetStateAction<Providers>>;
 };
 

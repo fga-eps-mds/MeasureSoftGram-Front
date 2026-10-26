@@ -7,7 +7,7 @@ export const useOrganizationQuery = () => {
   const createOrganization = async (data: OrganizationFormData): Promise<Result<OrganizationFormData>> => {
     const result = await organizationQuery.createOrganization(data);
     if (result.type === 'success') {
-      fetchOrganizations(true);
+      void fetchOrganizations(true);
     }
     return result;
   };
@@ -18,7 +18,7 @@ export const useOrganizationQuery = () => {
   const updateOrganization = async (id: string, data: OrganizationFormData): Promise<Result<void>> => {
     const result = await organizationQuery.updateOrganization(id, data);
     if (result.type === 'success') {
-      fetchOrganizations(true);
+      void fetchOrganizations(true);
     }
     return result;
   };
@@ -26,7 +26,7 @@ export const useOrganizationQuery = () => {
   const deleteOrganization = async (id: string): Promise<Result<void>> => {
     const result = await organizationQuery.deleteOrganization(id);
     if (result.type === 'success') {
-      fetchOrganizations(true);
+      void fetchOrganizations(true);
     }
     return result;
   };

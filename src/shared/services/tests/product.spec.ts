@@ -214,6 +214,23 @@ describe('ProductQuery', () => {
     );
   });
 
+  it('getProductTsqmiReleaseHistoryConfig should return the release history request', () => {
+    expect(productQuery.getProductTsqmiReleaseHistoryConfig('1', '2')).toEqual({
+      url: '/v1/organizations/1/products/2/repositories-tsqmi-release-history/',
+      method: 'get'
+    });
+  });
+
+  it.each([
+    ['', '2'],
+    ['1', '']
+  ])(
+    'getProductTsqmiReleaseHistoryConfig should return null when an id is missing (%s, %s)',
+    (organizationId, productId) => {
+      expect(productQuery.getProductTsqmiReleaseHistoryConfig(organizationId, productId)).toBeNull();
+    }
+  );
+
   it('getProductRepositoriesLatestTsqmi should call api.get with the right URL', async () => {
     const organizationId = '1';
     const productId = '2';
@@ -309,6 +326,92 @@ describe('ProductQuery', () => {
     await productQuery.getReleaseAnalysisDataByReleaseId(organizationId, productId, releaseId);
     expect(api.get).toHaveBeenCalledWith(
       `/v1/organizations/${organizationId}/products/${productId}/release/${releaseId}/analysis_data`
+    );
+  });
+
+  it('Should build the quality-model-tree request of a release', () => {
+    expect(productQuery.getQualityModelTreeConfig('1', '2', 42)).toEqual({
+      url: '/v1/organizations/1/products/2/quality-model-tree/',
+      method: 'get',
+      params: { release_id: 42 }
+    });
+  });
+
+  it('Should not request the quality-model-tree without a release', () => {
+    expect(productQuery.getQualityModelTreeConfig('1', '2')).toBeNull();
+    expect(productQuery.getQualityModelTreeConfig('', '2', 42)).toBeNull();
+  });
+
+  describe('getAnalysisDistribution', () => {
+    it('pede as análises de uma entidade num repositório da release', () => {
+      expect(
+        productQuery.getAnalysisDistribution('1', '2', {
+          releaseId: 3,
+          repositoryId: 4,
+          level: 'characteristic',
+          key: 'reliability'
+        })
+      ).toEqual({
+        url: '/v1/organizations/1/products/2/analysis-distribution/',
+        method: 'get',
+        params: { release_id: 3, repository_id: 4, level: 'characteristic', key: 'reliability' }
+      });
+    });
+
+    it('no TSQMI, pede sem a chave', () => {
+      const request = productQuery.getAnalysisDistribution('1', '2', {
+        releaseId: 3,
+        repositoryId: 4,
+        level: 'tsqmi',
+        key: 'tsqmi'
+      });
+
+      expect(request?.params).toEqual({ release_id: 3, repository_id: 4, level: 'tsqmi' });
+      // a chave do SWR é o request serializado: o parâmetro ausente não pode aparecer nela
+      expect(JSON.stringify(request)).not.toContain('"key"');
+    });
+
+    it.each<[string, string, number | undefined, number | undefined, string | undefined]>([
+      ['', '2', 3, 4, 'reliability'],
+      ['1', '', 3, 4, 'reliability'],
+      ['1', '2', undefined, 4, 'reliability'],
+      ['1', '2', 3, undefined, 'reliability'],
+      ['1', '2', 3, 4, undefined]
+    ])(
+      'não pede nada sem organização, produto, release, repositório ou chave (%s, %s, %s, %s, %s)',
+      (organizationId, productId, releaseId, repositoryId, key) => {
+        expect(
+          productQuery.getAnalysisDistribution(organizationId, productId, {
+            releaseId,
+            repositoryId,
+            level: 'measure',
+            key
+          })
+        ).toBeNull();
+      }
+    );
+  });
+
+  describe('getCorrelation', () => {
+    it('pede a correlação do repositório no nível escolhido', () => {
+      expect(productQuery.getCorrelation('1', '2', { repositoryId: 4, level: 'subcharacteristic' })).toEqual({
+        url: '/v1/organizations/1/products/2/correlation/',
+        method: 'get',
+        params: { repository_id: 4, level: 'subcharacteristic' }
+      });
+    });
+
+    it.each<[string, string, number | undefined]>([
+      ['', '2', 4],
+      ['1', '', 4],
+      ['1', '2', undefined]
+    ])(
+      'não pede nada sem organização, produto ou repositório (%s, %s, %s)',
+      (organizationId, productId, repositoryId) => {
+        expect(
+          productQuery.getCorrelation(organizationId, productId, { repositoryId, level: 'characteristic' })
+        ).toBeNull();
+      }
     );
   });
 

@@ -8,7 +8,6 @@ import {
   SonarBrandIcon,
   GitHubBrandIcon,
   ClaudeBrandIcon,
-  GrafanaBrandIcon,
   VSCodeBrandIcon,
 } from './brandIcons';
 
@@ -29,7 +28,6 @@ const INTEGRATIONS: Integration[] = [
   { key: 'sonar', Icon: SonarBrandIcon, brand: '#4E9BCD', label: 'SonarQube' },
   { key: 'github', Icon: GitHubBrandIcon, brand: '#181717', label: 'GitHub' },
   { key: 'ai', Icon: ClaudeBrandIcon, brand: '#D97757', label: 'Claude' },
-  { key: 'grafana', Icon: GrafanaBrandIcon, brand: '#F46800', label: 'Grafana' },
   { key: 'vscode', Icon: VSCodeBrandIcon, brand: '#007ACC', label: 'Visual Studio Code' },
 ];
 
@@ -43,7 +41,7 @@ export const IntegrationsSection: React.FC = () => {
       subtitle={t('integrations.subtitle')}
     >
       {INTEGRATIONS.map(({ key, Icon, brand, label }) => (
-        <Grid item xs={12} sm={6} md={4} key={key}>
+        <Grid item xs={12} sm={6} md={3} key={key}>
           <FeatureCard
             title={t(`integrations.items.${key}.title`)}
             description={t(`integrations.items.${key}.description`)}

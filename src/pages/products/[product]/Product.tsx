@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import { NextPageWithLayout } from '@pages/_app.next';
 import getLayout from '@components/Layout';
 import useRequireAuth from '@hooks/useRequireAuth';
+import { usePreloadECharts } from '@components/ECharts';
 import { useProductContext } from '@contexts/ProductProvider';
 
 import { useProviderTranslation as useTranslation } from '@hooks/useProviderTranslation';
@@ -15,6 +16,7 @@ import ProductContent from './components/ProductContent';
 
 const Product: NextPageWithLayout = () => {
   useRequireAuth();
+  usePreloadECharts();
   useQuery();
   const { currentProduct } = useProductContext();
   const router = useRouter();

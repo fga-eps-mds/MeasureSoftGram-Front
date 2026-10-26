@@ -17,7 +17,7 @@ interface IOrganizationContext {
   organizationList: Organization[];
   isLoading: boolean;
   hasFetched: boolean;
-  fetchOrganizations: (forceFetch?: boolean) => void;
+  fetchOrganizations: (forceFetch?: boolean) => Promise<void>;
 }
 
 const OrganizationContext = createContext<IOrganizationContext | undefined>(undefined);
@@ -27,7 +27,7 @@ const isSameGithubOrg = (githubOrgName: string, dbOrg: Organization) => {
 };
 
 export function OrganizationProvider({ children }: Props) {
-  const { terms } = useProviderTerms();
+  const { terms, provider } = useProviderTerms();
   const { session } = useAuth();
   const [currentOrganizations, setCurrentOrganizations] = useState<Organization[]>([]);
   const [currentOrganization, setCurrentOrganization] = useState<Organization | null>(null);
@@ -77,8 +77,11 @@ export function OrganizationProvider({ children }: Props) {
     }
   };
 
+  // depende só de haver sessão: o Auth troca o objeto da sessão quando o accounts/ responde, e cada troca buscava as
+  // organizações de novo
+  const hasSession = Boolean(session);
   const fetchOrganizations = useCallback(async (forceFetch?: boolean) => {
-    if (!session && !forceFetch) return;
+    if (!hasSession && !forceFetch) return;
 
     setIsLoading(true);
     try {
@@ -96,8 +99,11 @@ export function OrganizationProvider({ children }: Props) {
         setOrganizationList(organizations);
         setHasFetched(true);
         setIsLoading(false);
-  
-        void syncGithubOrganizations(organizations);
+
+        // só quem entrou pelo GitHub tem organizações para importar de lá; para os outros o Service responde 400
+        if (provider === 'github') {
+          void syncGithubOrganizations(organizations);
+        }
       } else {
         toast.error(`Erro ao carregar ${terms.organizations}.`);
         setHasFetched(true);
@@ -109,7 +115,7 @@ export function OrganizationProvider({ children }: Props) {
     } finally {
       setIsLoading(false);
     }
-  }, [session, terms]);
+  }, [hasSession, terms, provider]);
 
   useEffect(() => {
     if (session?.username) {

@@ -1,13 +1,37 @@
 import React, { useRef } from 'react';
-import dynamic from 'next/dynamic';
+import ReactEcharts from '@components/ECharts';
 import { Box, Paper, Typography, CircularProgress, Alert } from '@mui/material';
-import { COLOR_TOKENS, formatPulseChartOptions, convertPulseRepositoriesToCsv } from '@utils/formatPulseChart';
+import ExportCsvButton from '@components/ExportCsvButton';
+import { PULSE_GRID, PulseMeasurement, PulseRelease, formatPulseChartOptions } from '@utils/formatPulseChart';
+import { PULSE_CSV, formatProductPulseCsv } from '@utils/formatPulseCsv';
+import { formatPulseReleaseTooltip } from '@utils/formatPulseReleaseTooltip';
 import { usePulseChartData } from './usePulseChartData';
 import { PulseChartFilters } from './PulseChartFilters';
 import { PulseChartRepoSidebar } from './PulseChartRepoSidebar';
+import { QualityLegend } from './QualityLegend';
 import { useProviderTerms } from '@hooks/useProviderTerms';
 
-const ReactEcharts = dynamic(() => import('echarts-for-react'), { ssr: false });
+// Protótipo aprovado pelo PO (US06.01): sem linhas horizontais, a etiqueta da release em cada faixa (sem a de início)
+// e os detalhes da release no ponto do indicador.
+const PULSE_OPTIONS = {
+  releaseLabels: 'every-row',
+  releaseStartLabels: false,
+  horizontalLines: false,
+  releaseTooltip: formatPulseReleaseTooltip,
+} as const;
+
+/**
+ * Base da variação na barra lateral: a release com indicador encerrada mais recentemente antes da última medição.
+ * Uma release cuja janela inclui a última medição tem como indicador essa mesma medição, e a variação daria sempre 0.
+ */
+export function getReferenceRelease(releases: PulseRelease[], measurements: PulseMeasurement[]) {
+  const latestMs = Math.max(...measurements.map((m) => new Date(m.created_at).getTime()));
+  const release = releases
+    .filter((rel) => typeof rel.tsqmi?.value === 'number' && new Date(rel.end_at).getTime() < latestMs)
+    .sort((a, b) => new Date(a.end_at).getTime() - new Date(b.end_at).getTime())
+    .pop();
+  return release ? { name: release.name, value: release.tsqmi?.value as number } : undefined;
+}
 
 interface Props {
   organizationId?: string;
@@ -27,27 +51,14 @@ export const PulseChart: React.FC<Props> = ({ organizationId, productId }) => {
     setStartDate,
     endDate,
     setEndDate,
-    totalMeasurements,
     selectedMeasurements,
     latestDate,
+    releasesInPeriod,
     isLoading,
     error,
   } = usePulseChartData(organizationId, productId);
 
-  const chartOptions = formatPulseChartOptions(filteredRepositories);
-
-  const handleExportCsv = () => {
-    if (!filteredRepositories.length) return;
-    const csvContent = convertPulseRepositoriesToCsv(filteredRepositories);
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    const timestamp = new Date().toISOString().split('T')[0];
-    a.download = `msgram-evolucao-qualidade-${timestamp}.csv`;
-    a.click();
-    window.URL.revokeObjectURL(url);
-  };
+  const chartOptions = formatPulseChartOptions(filteredRepositories, PULSE_OPTIONS);
 
 
   if (isLoading) {
@@ -67,10 +78,6 @@ export const PulseChart: React.FC<Props> = ({ organizationId, productId }) => {
       </Paper>
     );
   }
-
-  const topOffset = 60;
-  const gridHeight = 82;
-  const gridGap = 34;
 
   return (
     <Paper
@@ -92,81 +99,72 @@ export const PulseChart: React.FC<Props> = ({ organizationId, productId }) => {
         onStartDateChange={setStartDate}
         endDate={endDate}
         onEndDateChange={setEndDate}
-        onExportCsv={handleExportCsv}
+        exportAction={<ExportCsvButton dashboard={PULSE_CSV.product} chart={formatProductPulseCsv(filteredRepositories)} />}
       />
 
-      {/* Header section */}
-      <Box display="flex" justifyContent="space-between" alignItems="flex-start" marginBottom="16px">
-        <Box>
+      {/* Card do gráfico: título, subtítulo e legenda logo abaixo, à esquerda (protótipo) */}
+      <Box sx={{ border: '1px solid #E0E0E0', borderRadius: '8px', padding: '24px' }}>
+        <Box display="flex" flexDirection="column" gap="4px" marginBottom="16px">
           <Typography variant="h6" fontWeight="bold" color="#1F2937">
-            Gráfico MSG — Evolução de Qualidade
+            Gráfico MSG — Evolução de Qualidade por Release
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ fontSize: '12px' }}>
-            Gráfico de pulso por {terms.repository} (TSQMI) • pico = variação entre medições • marcadores = releases planejadas • cor = faixa de qualidade
+            Gráfico de pulso por {terms.repository} (indicador TSQMI) • pico = variação entre medições • marcador = Release
+            • ponto = indicador consolidado no encerramento da Release • cor = faixa de qualidade
           </Typography>
+          <QualityLegend />
         </Box>
 
-        {/* Quality Legend */}
-        <Box display="flex" alignItems="center" gap={2}>
-          <Box display="flex" alignItems="center" gap={0.5}>
-            <Box sx={{ width: 10, height: 10, borderRadius: '2px', backgroundColor: COLOR_TOKENS.critical }} />
-            <Typography variant="caption" color="text.secondary">Crítico (&lt; 0,40)</Typography>
+        {/* Main ECharts + Sidebar Area */}
+        {filteredRepositories.length === 0 ? (
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            minHeight="200px"
+            sx={{ border: '1px dashed #D0D7DE', borderRadius: '8px' }}
+          >
+            <Typography color="text.secondary" variant="body2">
+              Nenhuma medição no período selecionado. Ajuste as datas De/Até.
+            </Typography>
           </Box>
-          <Box display="flex" alignItems="center" gap={0.5}>
-            <Box sx={{ width: 10, height: 10, borderRadius: '2px', backgroundColor: COLOR_TOKENS.warning }} />
-            <Typography variant="caption" color="text.secondary">Atenção (0,40–0,69)</Typography>
+        ) : (
+          <Box sx={{ position: 'relative', width: '100%' }}>
+            {/* Left repo overlays */}
+            {filteredRepositories.map((repo, index) => (
+              <PulseChartRepoSidebar
+                key={repo.id}
+                name={repo.name}
+                measurements={repo.measurements}
+                topOffset={PULSE_GRID.topOffset + index * (PULSE_GRID.height + PULSE_GRID.gap)}
+                valueLabel="último indicador TSQMI"
+                showIcon={false}
+                reference={getReferenceRelease(repo.releases, repo.measurements)}
+              />
+            ))}
+
+            {/* Apache ECharts dynamic component */}
+            {/* notMerge: a cada filtro, o gráfico é refeito; mesclando, ficariam as faixas e séries anteriores */}
+            <ReactEcharts
+              ref={echartsRef}
+              option={chartOptions}
+              notMerge
+              style={{
+                height: `${chartOptions.height || 400}px`,
+                width: '100%',
+              }}
+            />
           </Box>
-          <Box display="flex" alignItems="center" gap={0.5}>
-            <Box sx={{ width: 10, height: 10, borderRadius: '2px', backgroundColor: COLOR_TOKENS.adequate }} />
-            <Typography variant="caption" color="text.secondary">Adequado (&ge; 0,70)</Typography>
-          </Box>
-        </Box>
+        )}
       </Box>
 
-      {/* Main ECharts + Sidebar Area */}
-      {filteredRepositories.length === 0 ? (
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          minHeight="200px"
-          sx={{ border: '1px dashed #D0D7DE', borderRadius: '8px' }}
-        >
-          <Typography color="text.secondary" variant="body2">
-            Nenhuma medição no período selecionado. Ajuste as datas De/Até.
-          </Typography>
-        </Box>
-      ) : (
-        <Box sx={{ position: 'relative', width: '100%' }}>
-          {/* Left repo overlays */}
-          {filteredRepositories.map((repo, index) => (
-            <PulseChartRepoSidebar
-              key={repo.id}
-              name={repo.name}
-              measurements={repo.measurements}
-              topOffset={topOffset + index * (gridHeight + gridGap)}
-            />
-          ))}
-
-          {/* Apache ECharts dynamic component */}
-          <ReactEcharts
-            ref={echartsRef}
-            option={chartOptions}
-            style={{
-              height: `${chartOptions.height || 400}px`,
-              width: '100%',
-            }}
-          />
-        </Box>
-      )}
-
       {/* Footer summary */}
-      <Box display="flex" justifyContent="space-between" alignItems="center" marginTop="16px">
+      <Box marginTop="16px">
         <Typography variant="caption" color="text.secondary" sx={{ fontSize: '11px' }}>
-          {filteredRepositories.length} {terms.repository}(s) • {totalMeasurements} medição(ões) total(is) • {selectedMeasurements} no período • Última medição: {latestDate || 'N/A'}
-        </Typography>
-        <Typography variant="caption" color="text.secondary" sx={{ fontSize: '11px' }}>
-          Renderizado com Apache ECharts
+          {filteredRepositories.length} {terms.repository}
+          {filteredRepositories.length === 1 ? '' : 's'} • {selectedMeasurements}{' '}
+          {selectedMeasurements === 1 ? 'medição' : 'medições'} no período selecionado • {releasesInPeriod}{' '}
+          {releasesInPeriod === 1 ? 'Release' : 'Releases'} no período • última medição: {latestDate || 'N/A'}
         </Typography>
       </Box>
     </Paper>

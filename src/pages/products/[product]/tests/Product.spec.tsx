@@ -15,7 +15,7 @@ jest.mock('@contexts/ProductProvider', () => ({
 }));
 
 jest.mock('@contexts/RepositoryProvider', () => ({
-  useRepositoryContext: () => ({})
+  useRepositoryContext: () => ({ setRepositoryList: jest.fn(), setRepositoriesLatestTsqmi: jest.fn() })
 }));
 
 jest.mock('next/router', () => ({
@@ -28,12 +28,6 @@ jest.mock('next/router', () => ({
 
 jest.mock('@hooks/useRequest', () => ({
   useRequest: () => ({ data: [], isLoading: false })
-}));
-
-jest.mock('@services/grafana', () => ({
-  grafanaService: {
-    getDashboardUrl: jest.fn().mockResolvedValue({ data: { grafana_url: 'http://localhost:5000/d/test' } }),
-  }
 }));
 
 describe('Product', () => {

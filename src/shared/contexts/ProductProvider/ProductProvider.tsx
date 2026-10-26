@@ -4,6 +4,8 @@ import { Product } from '@customTypes/product';
 import { productQuery } from '@services/product';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import { useLocalStorage } from '@hooks/useLocalStorage';
+import { useRouter } from 'next/router';
+import { getPathId } from '@utils/pathDestructer';
 
 interface Props {
   children: ReactNode;
@@ -29,6 +31,13 @@ export function ProductProvider({ children }: Props) {
 
   const { currentOrganization } = useOrganizationContext();
   const currentOrgId = currentOrganization?.id;
+  // organização cuja lista de produtos já chegou: lista vazia antes disso é carregamento, não "sem produtos"
+  const [loadedOrgId, setLoadedOrgId] = useState<string>();
+
+  // numa página de produto (/products/<org>-<produto>-<nome>), o produto da URL é o atual; antes, o salvo no
+  // navegador ou o primeiro da lista podiam vencer, e o menu lateral levava para outro produto
+  const router = useRouter();
+  const [, routeProductId] = getPathId(router?.query?.product as string | undefined);
 
   const updateProductList = useCallback((products: Product[]) => {
     setProductsList(products);
@@ -44,6 +53,7 @@ export function ProductProvider({ children }: Props) {
       const result = await productQuery.getAllProducts(currentOrgId);
       const products = result.data?.results || result.data || [];
       updateProductList(products);
+      setLoadedOrgId(String(currentOrgId));
     } catch (error) {
       console.error(error);
     }
@@ -62,6 +72,14 @@ export function ProductProvider({ children }: Props) {
 
   useEffect(() => {
     if (productsList.length > 0) {
+      const routeProduct = routeProductId
+        ? productsList.find((product) => String(product.id) === routeProductId)
+        : undefined;
+      if (routeProduct) {
+        // compara pelo id: o produto pode ter vindo completo do getProductById, e não precisa ser trocado
+        if (String(currentProduct?.id) !== routeProductId) setCurrentProduct(routeProduct);
+        return;
+      }
       if (currentProduct === undefined || currentProduct === null) {
         if (storedProductId) {
           const found = productsList.find((p) => p.id === storedProductId || p.id?.toString() === storedProductId);
@@ -72,11 +90,11 @@ export function ProductProvider({ children }: Props) {
         }
         setCurrentProduct(productsList[0]);
       }
-    } else if (currentOrganization) {
-      // If we loaded products but it's empty
+    } else if (currentOrganization && loadedOrgId === String(currentOrganization.id)) {
+      // a lista desta organização já chegou e veio vazia
       setCurrentProduct(null);
     }
-  }, [productsList, storedProductId, currentProduct, currentOrganization]);
+  }, [productsList, storedProductId, currentProduct, currentOrganization, routeProductId, loadedOrgId]);
 
   // Sync back to local storage whenever it changes
   useEffect(() => {

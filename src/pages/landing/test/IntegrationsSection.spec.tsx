@@ -3,13 +3,13 @@ import { render, screen } from '@testing-library/react';
 import { IntegrationsSection } from '../components/IntegrationsSection';
 
 // A secao de integracoes lista as ferramentas que o MeasureSoftGram conecta:
-// SonarQube, GitHub, assistentes de IA via MCP, Grafana e VS Code. O texto vem
+// SonarQube, GitHub, assistentes de IA via MCP e VS Code. O texto vem
 // do namespace `landing` (mockado globalmente, devolve a propria chave) e cada
 // integracao exibe um icone de marca acessivel (role="img" + aria-label).
 
-const ITEM_KEYS = ['sonar', 'github', 'ai', 'grafana', 'vscode'] as const;
+const ITEM_KEYS = ['sonar', 'github', 'ai', 'vscode'] as const;
 
-const BRAND_LABELS = ['SonarQube', 'GitHub', 'Claude', 'Grafana', 'Visual Studio Code'];
+const BRAND_LABELS = ['SonarQube', 'GitHub', 'Claude', 'Visual Studio Code'];
 
 describe('IntegrationsSection', () => {
   it('renderiza o cabecalho da secao', () => {

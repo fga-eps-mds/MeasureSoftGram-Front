@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, Paper, Typography, SxProps, Theme } from '@mui/material';
+import { Box, Paper, Typography } from '@mui/material';
+import type { SxProps, Theme } from '@mui/material/styles';
 
 interface FeatureCardProps {
   title: string;

@@ -3,22 +3,13 @@ import { renderHook, waitFor } from '@testing-library/react';
 import { repository } from '@services/repository';
 import { productQuery } from '@services/product';
 
-import formatEntitiesFilter from '@utils/formatEntitiesFilter';
-import formatEntitiesMetrics from '@utils/formatEntitiesMetrics';
-
 import { useQuery } from '../useQuery';
 
 // ---- Estado mutável compartilhado pelos mocks ----
 const mockSetters = {
   setCurrentRepository: jest.fn(),
-  setCharacteristics: jest.fn(),
-  setSubCharacteristics: jest.fn(),
-  setMeasures: jest.fn(),
-  setMetrics: jest.fn(),
-  setHistoricalTSQMI: jest.fn(),
   setLatestTSQMI: jest.fn(),
-  setLatestTSQMIBadgeUrl: jest.fn(),
-  setCharacteristicBadgeUrls: jest.fn()
+  setLatestTSQMIBadgeUrl: jest.fn()
 };
 
 const mockSetCurrentProduct = jest.fn();
@@ -77,34 +68,18 @@ jest.mock('@services/product', () => ({
 }));
 
 // ---- Mocks dos Utilitários ----
-jest.mock('@utils/formatEntitiesFilter', () => jest.fn());
-jest.mock('@utils/formatEntitiesMetrics', () => jest.fn());
 jest.mock('@utils/pathDestructer', () => ({
   getPathId: jest.fn((str: string) => (str ? str.split('-') : []))
 }));
 
 const mockedRepository = repository as jest.Mocked<typeof repository>;
 const mockedProductQuery = productQuery as jest.Mocked<typeof productQuery>;
-const mockedFormatEntitiesFilter = formatEntitiesFilter as jest.Mock;
-const mockedFormatEntitiesMetrics = formatEntitiesMetrics as jest.Mock;
 
 describe('useQuery', () => {
   let logSpy: jest.SpyInstance;
   let errorSpy: jest.SpyInstance;
 
   beforeAll(() => {
-    // window.crypto é usado em loadHistoricalTsqmi/loadLatestTsqmi.
-    Object.defineProperty(window, 'crypto', {
-      configurable: true,
-      value: {
-        getRandomValues: jest.fn((arr: Uint32Array) => {
-          const randomValues = new Uint32Array(arr);
-          randomValues[0] = 12345;
-          return randomValues;
-        })
-      }
-    });
-
     // Mantém o console limpo durante os testes de "caminho triste".
     logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
@@ -124,9 +99,6 @@ describe('useQuery', () => {
     mockOrganizationList = [];
 
     // Retornos padrão (caminho feliz) que cada teste pode sobrescrever.
-    mockedFormatEntitiesFilter.mockReturnValue([[], [], []]);
-    mockedFormatEntitiesMetrics.mockReturnValue([[]]);
-
     mockedProductQuery.getPreConfigEntitiesRelationship.mockResolvedValue({ data: { data: [] } });
     mockedProductQuery.getMetricsLatestValues.mockResolvedValue({ data: {} });
     mockedProductQuery.getCharacteristicsLatestValues.mockResolvedValue({ data: [] });
@@ -149,62 +121,49 @@ describe('useQuery', () => {
       expect(mockedRepository.getRepository).not.toHaveBeenCalled();
     });
 
-    it('deve buscar e formatar todos os dados com sucesso quando houver repositório na query', async () => {
+    it('busca o repositório e o último TSQMI com o badge quando há repositório na query', async () => {
       mockQuery = { product: 'org-1-prod-2', repository: 'repo-3' };
-      mockCurrentOrganization = { id: 'org' };
-      mockOrganizationList = [{ id: 'org' }];
-
-      mockedFormatEntitiesFilter.mockReturnValue([['char1'], ['sub1'], ['meas1']]);
-      mockedFormatEntitiesMetrics.mockReturnValue([['met1']]);
-
-      mockedProductQuery.getPreConfigEntitiesRelationship.mockResolvedValue({ data: 'rel' });
-      mockedProductQuery.getMetricsLatestValues.mockResolvedValue({ data: 'metrics' });
-      mockedProductQuery.getCharacteristicsLatestValues.mockResolvedValue({ data: ['charData'] });
-      mockedProductQuery.getCompareGoalAccomplished.mockResolvedValue({ data: ['goalAccomplished'] });
-      mockedProductQuery.getProductById.mockResolvedValue({ type: 'success', value: 'productData' });
-
-      mockedRepository.getHistorical.mockResolvedValue({ data: { results: ['historicalData'] } });
       mockedRepository.getLatest.mockResolvedValue({ data: 'latestTsqmi' });
-      mockedRepository.getTsqmiBadgeUrl.mockReturnValue(BADGE_URL);
       mockedRepository.getRepository.mockResolvedValue({ data: 'repositoryData' });
 
-      const { result } = renderHook(() => useQuery());
+      renderHook(() => useQuery());
 
       await waitFor(() => {
         expect(mockSetters.setCurrentRepository).toHaveBeenCalledWith('repositoryData');
-        expect(mockSetters.setCharacteristics).toHaveBeenCalledWith(['char1']);
-        expect(mockSetters.setSubCharacteristics).toHaveBeenCalledWith(['sub1']);
-        expect(mockSetters.setMeasures).toHaveBeenCalledWith(['meas1']);
-        expect(mockSetters.setMetrics).toHaveBeenCalledWith(['met1']);
         expect(mockSetters.setLatestTSQMI).toHaveBeenCalledWith('latestTsqmi');
         expect(mockSetters.setLatestTSQMIBadgeUrl).toHaveBeenCalledWith(BADGE_URL);
-        expect(mockSetters.setHistoricalTSQMI).toHaveBeenCalledWith(
-          expect.objectContaining({ name: 'TSQMI', key: 'TSQMI', history: ['historicalData'] })
-        );
-
-        expect(result.current.repositoryHistoricalCharacteristics).toEqual(['historicalData']);
-        expect(result.current.latestValueCharacteristics).toEqual(['charData']);
-        expect(result.current.comparedGoalAccomplished).toEqual(['goalAccomplished']);
-
-        expect(result.current.checkedOptionsFormat).toEqual({
-          char1: true,
-          sub1: true,
-          meas1: true,
-          met1: true
-        });
       });
+    });
+
+    it('não pede os dados dos componentes que a tela não usa mais', async () => {
+      mockQuery = { product: 'org-1-prod-2', repository: 'repo-3' };
+
+      renderHook(() => useQuery());
+
+      await waitFor(() => expect(mockSetters.setLatestTSQMIBadgeUrl).toHaveBeenCalledWith(BADGE_URL));
+      expect(mockedProductQuery.getPreConfigEntitiesRelationship).not.toHaveBeenCalled();
+      expect(mockedProductQuery.getMetricsLatestValues).not.toHaveBeenCalled();
+      expect(mockedProductQuery.getCharacteristicsLatestValues).not.toHaveBeenCalled();
+      expect(mockedProductQuery.getCompareGoalAccomplished).not.toHaveBeenCalled();
+      expect(mockedRepository.getHistorical).not.toHaveBeenCalled();
+    });
+
+    it('não busca de novo o produto que o Layout já carregou', async () => {
+      mockQuery = { product: '1-2', repository: '3-test' };
+      mockCurrentProduct = { id: 2, name: 'Produto' };
+
+      renderHook(() => useQuery());
+
+      await waitFor(() => expect(mockSetters.setCurrentRepository).toHaveBeenCalledWith({ id: '1', name: 'test-repo' }));
+      expect(mockedProductQuery.getProductById).not.toHaveBeenCalled();
     });
 
     it('deve lidar corretamente com erros nas requisições sem quebrar a aplicação (blocos catch)', async () => {
       mockQuery = { product: 'org-1-prod-2', repository: 'repo-3' };
 
       const error = new Error('Network Error');
-      mockedProductQuery.getPreConfigEntitiesRelationship.mockRejectedValue(error);
-      mockedProductQuery.getCharacteristicsLatestValues.mockRejectedValue(error);
-      mockedProductQuery.getCompareGoalAccomplished.mockRejectedValue(error);
       mockedProductQuery.getProductById.mockRejectedValue(error);
 
-      mockedRepository.getHistorical.mockRejectedValue(error);
       mockedRepository.getLatest.mockRejectedValue(error);
       mockedRepository.getRepository.mockRejectedValue(error);
 
@@ -213,10 +172,10 @@ describe('useQuery', () => {
       await waitFor(() => {
         // O catch do loadLatestTsqmi chama console.log.
         expect(logSpy).toHaveBeenCalledWith(error);
-        // Os catches de loadCompareGoalAccomplished e loadProduct chamam console.error.
+        // O catch do loadProduct chama console.error.
         expect(errorSpy).toHaveBeenCalledWith(error);
         // A limpeza inicial do estado roda sem quebrar mesmo diante dos erros.
-        expect(mockSetters.setCharacteristicBadgeUrls).toHaveBeenCalledWith({});
+        expect(mockSetters.setLatestTSQMI).toHaveBeenCalledWith(undefined);
         // Como getRepository falhou, o repositório nunca recebe dados reais.
         expect(mockSetters.setCurrentRepository).not.toHaveBeenCalledWith('repositoryData');
       });
@@ -224,14 +183,6 @@ describe('useQuery', () => {
   });
 
   describe('organização e badges', () => {
-    it('should return initial state when no query params', () => {
-      const { result } = renderHook(() => useQuery());
-
-      expect(result.current.repositoryHistoricalCharacteristics).toEqual([]);
-      expect(result.current.latestValueCharacteristics).toEqual([]);
-      expect(result.current.comparedGoalAccomplished).toEqual([]);
-    });
-
     it('should load repository data when query.repository is present', async () => {
       mockQuery = { product: '1-2', repository: '3-test' };
 
@@ -297,7 +248,7 @@ describe('useQuery', () => {
       renderHook(() => useQuery());
 
       await waitFor(() => {
-        expect(mockSetters.setCharacteristicBadgeUrls).toHaveBeenCalledWith({});
+        expect(mockSetters.setCurrentRepository).toHaveBeenCalledWith(undefined);
         expect(mockSetters.setLatestTSQMI).toHaveBeenCalledWith(undefined);
         expect(mockSetters.setLatestTSQMIBadgeUrl).toHaveBeenCalledWith(undefined);
       });
@@ -308,11 +259,12 @@ describe('useQuery', () => {
 
       mockQuery = { product: '1-2', repository: '3-test' };
 
-      const { result } = renderHook(() => useQuery());
+      renderHook(() => useQuery());
 
       await waitFor(() => {
-        expect(result.current.repositoryHistoricalCharacteristics).toEqual([]);
+        expect(errorSpy).toHaveBeenCalled();
       });
+      expect(mockSetCurrentProduct).not.toHaveBeenCalled();
     });
   });
 });

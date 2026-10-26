@@ -5,7 +5,7 @@ import formatCompareGoalsChart from '@utils/formatCompareGoalsChart';
 import CompareGoalsChart from '../CompareGoalsChart';
 
 jest.mock('@utils/formatCompareGoalsChart');
-jest.mock('echarts-for-react', () => ({
+jest.mock('@components/ECharts/EChartsCore', () => ({
   __esModule: true,
   default: () => <div data-testid="react-echarts" />,
 }));

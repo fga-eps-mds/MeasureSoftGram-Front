@@ -2,7 +2,11 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { AuthProvider } from '@contexts/Auth';
 import mockRouter from 'next-router-mock';
+import { OAUTH_STATE_KEY } from '@services/Auth/oauthState';
 import Auth from '../index.page';
+
+const storedOAuthState = () => JSON.parse(sessionStorage.getItem(OAUTH_STATE_KEY) as string);
+const assignedUrl = () => new URL((window.location.assign as jest.Mock).mock.calls[0][0]);
 
 /* eslint-disable global-require, arrow-body-style */
 jest.mock('next/router', () => require('next-router-mock'));
@@ -21,6 +25,7 @@ describe('Auth', () => {
       GITLAB_CLIENT_ID: 'valid-gitlab-client-id'
     };
     mockRouter.setCurrentUrl('/auth');
+    sessionStorage.clear();
     global.fetch = jest.fn();
     delete (window as any).location;
     window.location = {
@@ -35,6 +40,7 @@ describe('Auth', () => {
 
   afterEach(() => {
     window.location = originalLocation;
+    jest.restoreAllMocks();
   });
 
   afterAll(() => {
@@ -158,6 +164,65 @@ describe('Auth', () => {
 
       expect(window.location.assign).toHaveBeenCalledWith(expect.stringContaining('/login/oauth/authorize'));
     });
+
+    it('Deve enviar ao GitHub o state guardado nesta aba', async () => {
+      (global.fetch as jest.Mock).mockResolvedValue({
+        ok: true,
+        json: async () => ({ valid: true })
+      });
+
+      render(
+        <AuthProvider>
+          <Auth />
+        </AuthProvider>
+      );
+
+      fireEvent.click(screen.getByRole('button', { name: /login com github/i }));
+      await screen.findByRole('button', { name: /login com github/i });
+
+      expect(storedOAuthState()).toMatchObject({ provider: 'github', returnTo: null });
+      expect(assignedUrl().searchParams.get('state')).toBe(storedOAuthState().nonce);
+    });
+
+    it('Não deve guardar state quando o client id for rejeitado', async () => {
+      (global.fetch as jest.Mock).mockResolvedValue({
+        ok: true,
+        json: async () => ({ valid: false })
+      });
+
+      render(
+        <AuthProvider>
+          <Auth />
+        </AuthProvider>
+      );
+
+      fireEvent.click(screen.getByRole('button', { name: /login com github/i }));
+      await screen.findByRole('button', { name: /login com github/i });
+
+      expect(sessionStorage.getItem(OAUTH_STATE_KEY)).toBeNull();
+    });
+
+    it('Deve redirecionar para /auth/error sem sair do site quando não conseguir guardar o state', async () => {
+      (global.fetch as jest.Mock).mockResolvedValue({
+        ok: true,
+        json: async () => ({ valid: true })
+      });
+      jest.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+        throw new Error('blocked');
+      });
+
+      render(
+        <AuthProvider>
+          <Auth />
+        </AuthProvider>
+      );
+
+      fireEvent.click(screen.getByRole('button', { name: /login com github/i }));
+      await screen.findByRole('button', { name: /login com github/i });
+
+      expect(mockRouter.asPath).toBe('/auth/error');
+      expect(window.location.assign).not.toHaveBeenCalled();
+    });
   });
 
   describe('Fluxo de Login do GitLab', () => {
@@ -222,6 +287,18 @@ describe('Auth', () => {
       expect(window.location.assign).toHaveBeenCalledWith(
         expect.stringContaining('https://gitlab.com/oauth/authorize')
       );
+    });
+
+    it('Deve enviar ao GitLab o state guardado nesta aba', async () => {
+      (global.fetch as jest.Mock).mockResolvedValue({
+        ok: true,
+        json: async () => ({ valid: true })
+      });
+
+      await clickGitlabLogin();
+
+      expect(storedOAuthState()).toMatchObject({ provider: 'gitlab', returnTo: null });
+      expect(assignedUrl().searchParams.get('state')).toBe(storedOAuthState().nonce);
     });
   });
 });

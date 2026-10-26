@@ -225,7 +225,7 @@ describe('Repository', () => {
     it('getTsqmiBadgeUrl monta a URL do badge de TSQMI', () => {
       const url = repository.getTsqmiBadgeUrl(props);
 
-      expect(url).toEqual('http://api.test/v1/organizations/org1/products/prod1/repositories/repo1/latest-values/tsqmi/badge');
+      expect(url).toEqual('http://api.test/v1/organizations/org1/products/prod1/repositories/repo1/latest-values/tsqmi/badge/');
     });
 
     it('getCharacteristicBadgeUrl monta a URL do badge de característica', () => {

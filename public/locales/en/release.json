@@ -19,5 +19,23 @@
     "security": "Security",
     "maintainability": "Maintainability",
     "flexibility": "Flexibility"
+  },
+  "loadError": "Could not load the Planned × Accomplished comparison for this release.",
+  "equalizer": {
+    "noPlanning": "This release has no planning. Plan the release to see the comparison between planned and accomplished.",
+    "noAccomplished": "There is no accomplished data for this release yet. Only planned values are shown.",
+    "noData": "No data",
+    "situation": "Status",
+    "status": {
+      "equal": "Equal to planned",
+      "above": "Above planned",
+      "below": "Below planned",
+      "no-data": "No accomplished data"
+    },
+    "legend": {
+      "planned": "Planned (Rp)",
+      "accomplished": "Accomplished (Rd)",
+      "cursor": "Cursor: planned value"
+    }
   }
 }

@@ -14,7 +14,7 @@ export const ni18nConfig = {
     'repositories',
     'overview',
     'header',
-    'lates_value_table',
+    'latest_value_table',
     'graphic_chart'
   ],
   react: {

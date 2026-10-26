@@ -1,49 +1,43 @@
-import { toPulseSeries } from '../toPulseSeries';
+import { PULSE_AMPLITUDE, PULSE_POINTS_PER_MEASUREMENT, toPulseSeries } from '../toPulseSeries';
+
+const DAY = 24 * 60 * 60 * 1000;
+const ts = [1700000000000, 1700000000000 + 10 * DAY, 1700000000000 + 20 * DAY];
+
+const peakOf = (series: [number, number][], measurement: number) =>
+  series[measurement * PULSE_POINTS_PER_MEASUREMENT + 2];
 
 describe('toPulseSeries', () => {
   it('deve retornar [] para entrada vazia', () => {
-    expect(toPulseSeries([], [], [])).toEqual([]);
+    expect(toPulseSeries([], [])).toEqual([]);
   });
 
-  it('deve gerar 3N pontos para N medições', () => {
-    const ts = [1700000000000, 1700086400000, 1700172800000];
-    const values = [0.8, 0.6, 0.9];
-    const bases = [0.7, 0.7, 0.7];
-
-    const result = toPulseSeries(ts, values, bases);
-
-    expect(result).toHaveLength(3 * ts.length);
+  it('gera um complexo de ECG por medição', () => {
+    expect(toPulseSeries(ts, [0.8, 0.6, 0.9])).toHaveLength(PULSE_POINTS_PER_MEASUREMENT * ts.length);
   });
 
-  it('deve ter o ponto do meio de cada trio como o valor medido e retornar à base', () => {
-    const ts = [1700000000000, 1700086400000];
-    const values = [0.75, 0.85];
-    const bases = [0.60, 0.60];
+  it('fica no nível do indicador entre as medições', () => {
+    const series = toPulseSeries(ts, [0.8, 0.6, 0.9]);
 
-    const result = toPulseSeries(ts, values, bases);
-
-    // Primeiro trio
-    expect(result[0][1]).toBe(0.60); // Antes: base
-    expect(result[1]).toEqual([ts[0], 0.75]); // Pico: valor medido
-    expect(result[2][1]).toBe(0.60); // Depois: retorna à base
-
-    // Segundo trio
-    expect(result[3][1]).toBe(0.60); // Antes: base anterior
-    expect(result[4]).toEqual([ts[1], 0.85]); // Pico: valor medido
-    expect(result[5][1]).toBe(0.60); // Depois: retorna à base
+    // nova base de cada medição = valor medido; a seguinte parte dele
+    expect(series[4]).toEqual([expect.any(Number), 0.8]);
+    expect(series[5][1]).toBe(0.8);
+    expect(series[9][1]).toBe(0.6);
+    expect(series[14][1]).toBe(0.9);
   });
 
-  it('deve calcular a média dos valores como base quando bases omitido', () => {
-    const ts = [1700000000000, 1700086400000];
-    const values = [0.60, 0.80]; // Média = 0.70
+  it('o pico sobe quando o indicador melhora e desce quando piora, com a variação ampliada', () => {
+    const series = toPulseSeries(ts, [0.5, 0.52, 0.49]);
 
-    const result = toPulseSeries(ts, values);
+    expect(peakOf(series, 1)[0]).toBe(ts[1]);
+    expect(peakOf(series, 1)[1]).toBeCloseTo(0.5 + 0.02 * PULSE_AMPLITUDE.gain);
+    expect(peakOf(series, 2)[1]).toBeCloseTo(0.52 - 0.03 * PULSE_AMPLITUDE.gain);
+  });
 
-    expect(result).toHaveLength(6);
-    expect(result[0][1]).toBe(0.70); // Base média
-    expect(result[1]).toEqual([ts[0], 0.60]); // Pico 1
-    expect(result[2][1]).toBe(0.70); // Retorna à base média
-    expect(result[4]).toEqual([ts[1], 0.80]); // Pico 2
-    expect(result[5][1]).toBe(0.70); // Retorna à base média
+  it('bate com a amplitude mínima sem variação e limita os picos grandes', () => {
+    const series = toPulseSeries(ts, [0.5, 0.5, 0.9]);
+
+    expect(peakOf(series, 0)[1]).toBeCloseTo(0.5 + PULSE_AMPLITUDE.min);
+    expect(peakOf(series, 1)[1]).toBeCloseTo(0.5 + PULSE_AMPLITUDE.min);
+    expect(peakOf(series, 2)[1]).toBeCloseTo(0.5 + PULSE_AMPLITUDE.max);
   });
 });

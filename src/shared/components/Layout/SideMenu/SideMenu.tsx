@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import {
+  FiAlignLeft,
+  FiBarChart,
   FiBarChart2,
   FiGitBranch,
   FiPaperclip,
   FiGrid,
+  FiLink,
   FiChevronDown,
   FiChevronUp,
   FiPieChart,
   FiTrendingUp,
+  FiShare2,
 } from 'react-icons/fi';
 import { useAuth } from '@contexts/Auth';
 import { useProductContext } from '@contexts/ProductProvider';
 import { useRouter } from 'next/router';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
+import { useSideMenuContext } from '@contexts/SidebarProvider/SideMenuProvider';
 import { useProviderTranslation as useTranslation } from '@hooks/useProviderTranslation';
 import { Box } from '@mui/material';
 import SideMenuItem from './SideMenuItem/SideMenuItem';
@@ -34,6 +39,7 @@ function SideMenu() {
   const { currentOrganization } = useOrganizationContext();
   const { currentProduct } = useProductContext();
   const router = useRouter();
+  const { isCollapsed, closeOverlay } = useSideMenuContext();
   const [isDashboardMenuOpen, setIsDashboardMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -85,9 +91,62 @@ function SideMenu() {
       disable: !currentProduct,
       selected: router.pathname === '/products/[product]/dashboards/temporal',
     },
+    {
+      startIcon: <FiShare2 fontSize={24} />,
+      text: '3. Estrutura das Medidas e Indicadores (Metamodelo)',
+      tooltip: '3. Estrutura das Medidas e Indicadores (Metamodelo)',
+      path: `/products/${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/dashboards/metamodelo`,
+      disable: !currentProduct,
+      selected: router.pathname === '/products/[product]/dashboards/metamodelo',
+    },
+    {
+      startIcon: <FiAlignLeft fontSize={24} />,
+      text: '4. Análise por Entidade',
+      tooltip: 'Análise por Entidade',
+      path: `/products/${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/dashboards/entidade`,
+      disable: !currentProduct,
+      selected: router.pathname === '/products/[product]/dashboards/entidade',
+    },
+    {
+      startIcon: <FiBarChart fontSize={24} />,
+      text: '5. Distribuição Estatística',
+      tooltip: 'Distribuição Estatística',
+      path: `/products/${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/dashboards/distribuicao`,
+      disable: !currentProduct,
+      selected: router.pathname === '/products/[product]/dashboards/distribuicao',
+    },
+    {
+      startIcon: <FiLink fontSize={24} />,
+      text: '6. Relações e Correlações',
+      tooltip: 'Relações e Correlações',
+      path: `/products/${currentOrganization?.id}-${currentProduct?.id}-${currentProduct?.name}/dashboards/relacoes`,
+      disable: !currentProduct,
+      selected: router.pathname === '/products/[product]/dashboards/relacoes',
+    },
   ];
 
   const isAnyDashboardSelected = router.pathname?.includes('/dashboards/') ?? false;
+
+  // O menu navega com router.push, que não adianta o JS da página como o <Link> faz: sem o prefetch, cada aba
+  // só começava a baixar o próprio código depois do clique. No `next dev` o prefetch não faz nada.
+  const prefetchPaths = currentProduct ? [...MenuItems, ...dashboardSubItems].map((item) => item.path).join('\n') : '';
+  useEffect(() => {
+    if (!prefetchPaths) return undefined;
+    const prefetchAll = () =>
+      prefetchPaths.split('\n').forEach((path) => {
+        router.prefetch?.(path)?.catch(() => {
+          // sem prefetch, a página baixa no clique, como antes
+        });
+      });
+    // só quando o navegador fica ocioso, como o <Link>: o código das outras abas não disputa a rede com a página aberta
+    if (typeof window.requestIdleCallback === 'function') {
+      const handle = window.requestIdleCallback(prefetchAll, { timeout: 3000 });
+      return () => window.cancelIdleCallback(handle);
+    }
+    const timer = window.setTimeout(prefetchAll, 1000);
+    return () => window.clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [prefetchPaths]);
 
   return (
     <SideMenuWrapper
@@ -100,6 +159,7 @@ function SideMenu() {
                 key={item.text}
                 {...item}
                 onClick={() => {
+                  closeOverlay();
                   void router.push(item.path);
                 }}
               />
@@ -116,13 +176,33 @@ function SideMenu() {
               onClick={() => setIsDashboardMenuOpen((prev) => !prev)}
             />
 
+            {/* O contain tira o recuo da largura do menu: sem ele, abrir o submenu alargava a coluna em 20 px e o
+                conteúdo pulava. Recolhido, o submenu fica sem recuo, alinhado aos outros ícones. */}
             {isDashboardMenuOpen &&
               dashboardSubItems.map((item) => (
-                <Box key={item.text} sx={{ width: '100%', paddingLeft: '20px', boxSizing: 'border-box', overflow: 'hidden' }}>
+                <Box
+                  key={item.text}
+                  data-testid="dashboard-subitem"
+                  sx={{
+                    width: '100%',
+                    paddingLeft: isCollapsed ? 0 : '20px',
+                    boxSizing: 'border-box',
+                    overflow: 'hidden',
+                    contain: 'inline-size',
+                    '& > div > div': {
+                      width: isCollapsed ? 'auto' : '100%',
+                      minHeight: '45px',
+                      height: 'auto',
+                      boxSizing: 'border-box',
+                      padding: '6px 4px',
+                    },
+                  }}
+                >
                   <SideMenuItem
                     key={item.text}
                     {...item}
                     onClick={() => {
+                      closeOverlay();
                       void router.push(item.path);
                     }}
                   />
