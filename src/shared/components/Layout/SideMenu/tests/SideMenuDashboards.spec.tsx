@@ -81,7 +81,7 @@ describe('SideMenu Dashboards Submenu (CA1)', () => {
     ]);
   });
 
-  it('exibe o item "3. Metamodelo" ao expandir o menu Dashboards e navega ao clicar nele', () => {
+  it('exibe o item "3. Estrutura das Medidas e Indicadores (Metamodelo)" ao expandir o menu Dashboards e navega ao clicar nele', () => {
     render(<SideMenu />);
 
     const dashboardsButton = screen.getByText('Dashboards');
@@ -90,8 +90,11 @@ describe('SideMenu Dashboards Submenu (CA1)', () => {
     // Clica para expandir o submenu Dashboards
     fireEvent.click(dashboardsButton);
 
-    const metamodeloItem = screen.getByText('3. Metamodelo');
+    const metamodeloItem = screen.getByText('3. Estrutura das Medidas e Indicadores (Metamodelo)');
     expect(metamodeloItem).toBeInTheDocument();
+    expect(
+      screen.getByLabelText('3. Estrutura das Medidas e Indicadores (Metamodelo)')
+    ).toHaveStyle({ width: '100%', minHeight: '45px', height: 'auto', boxSizing: 'border-box' });
 
     fireEvent.click(metamodeloItem);
     expect(mockPush).toHaveBeenCalledWith('/products/1-5-MeasureSoftGram/dashboards/metamodelo');
@@ -113,12 +116,13 @@ describe('SideMenu Dashboards Submenu (CA1)', () => {
       });
     });
 
-    it('com o menu recolhido, os subitens ficam sem recuo, alinhados aos outros ícones', () => {
+    it('com o menu recolhido, os subitens ficam sem recuo, alinhados aos outros ícones, e com o nome inteiro no tooltip', () => {
       mockSideMenu.isCollapsed = true;
       render(<SideMenu />);
       // recolhido, o item mostra só o ícone: o nome fica no tooltip
       fireEvent.click(screen.getByLabelText('Dashboards'));
 
+      expect(screen.getByLabelText('3. Estrutura das Medidas e Indicadores (Metamodelo)')).toBeInTheDocument();
       screen.getAllByTestId('dashboard-subitem').forEach((subitem) => {
         expect(subitem).toHaveStyle({ paddingLeft: '0px', contain: 'inline-size' });
       });

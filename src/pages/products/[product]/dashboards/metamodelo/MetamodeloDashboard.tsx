@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Box, Button, Container, Typography } from '@mui/material';
@@ -6,15 +6,17 @@ import { Box, Button, Container, Typography } from '@mui/material';
 import { NextPageWithLayout } from '@pages/_app.next';
 import getLayout from '@components/Layout';
 import DashboardCard, { SkeletonBlock } from '@components/DashboardCard';
+import ExportCsvButton from '@components/ExportCsvButton';
 import ReleaseSelect from '@components/ReleaseSelect';
 import { MetamodelTreeChart } from '@components/MetamodelTreeChart';
 import useRequireAuth from '@hooks/useRequireAuth';
 import { usePreloadECharts } from '@components/ECharts';
 import { DASHBOARD_COLORS } from '@utils/dashboardColors';
+import { METAMODEL_CSV, formatMetamodelCsv } from '@utils/formatMetamodelCsv';
 import { getPathId } from '@utils/pathDestructer';
 import { useMetamodelo } from './useMetamodelo';
 
-const TITLE = '3. Metamodelo';
+const TITLE = '3. Estrutura das Medidas e Indicadores (Metamodelo)';
 
 const MetamodeloDashboard: NextPageWithLayout = () => {
   useRequireAuth();
@@ -24,6 +26,13 @@ const MetamodeloDashboard: NextPageWithLayout = () => {
 
   const { releases, release, currentRelease, setReleaseId, isLoadingReleases, hasReleases, tree, status, retry } =
     useMetamodelo(organizationId, productId);
+
+  // o CSV leva toda a árvore da release escolhida, mesmo com ramos fechados; sem árvore pronta, fica vazio
+  const csv = useMemo(
+    () => formatMetamodelCsv(release?.release_name ?? '', status === 'ready' ? tree : null),
+    [release?.release_name, status, tree]
+  );
+  const exportButton = <ExportCsvButton dashboard={METAMODEL_CSV.dashboard} chart={csv} />;
 
   const goToPlanRelease = () => {
     void router.push(`/products/${router.query.product}/releases/create`);
@@ -81,8 +90,10 @@ const MetamodeloDashboard: NextPageWithLayout = () => {
           </Box>
 
           <DashboardCard
-            title="Modelo de qualidade da release"
+            title="Configuração do modelo de qualidade da release"
             status={status}
+            headerAction={exportButton}
+            emptyHeaderAction={exportButton}
             loadingContent={<SkeletonBlock width="100%" height={420} />}
             loadingMessage="Carregando o modelo de qualidade da release…"
             onRetry={retry}

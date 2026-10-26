@@ -105,6 +105,8 @@ O dashboard "1. Visão Geral de Qualidade" exporta os totais, o Indicador Total 
 
 O dashboard "2. Evolução Temporal" exporta um CSV por gráfico (`formatTemporalCsv`, em `src/shared/utils/formatTemporalCsv.ts`), só com as entidades filtradas na tela e a data no eixo escolhido (`yyyy-MM-dd` em dias, `yyyy-MM` em meses). O botão do gráfico sem dados aparece desabilitado (`emptyHeaderAction`), e o `.zip` leva só os gráficos com dados.
 
+O dashboard "3. Estrutura das Medidas e Indicadores (Metamodelo)" exporta a árvore de configuração da release escolhida (`formatMetamodelCsv`, em `src/shared/utils/formatMetamodelCsv.ts`), com uma linha por nó em pré-ordem (mesmo com ramos colapsados na tela), o peso sem arredondar e os limiares mínimo e máximo apenas nas medidas. Por ter um único quadro, usa apenas o botão do card (`msgram-metamodelo-arvore-<data>.csv`), desabilitado no estado vazio (`emptyHeaderAction`).
+
 Os gráficos de pulso (`formatProductPulseCsv` e `formatRepositoryPulseCsv`, em `src/shared/utils/formatPulseCsv.ts`) exportam as medições do período filtrado, em ordem de data, com o grau (A a E) da faixa do valor. O pulso do produto usa o botão dentro de `PulseChartFilters` (`exportAction`); o da tela do repositório fica no card e, junto com o `.zip` do topo, usa o mesmo `useRepositoryPulse`, que a página busca e passa ao card.
 
 ## Licença
