@@ -1,4 +1,4 @@
-import { analysis, characteristics, summary } from '@pages/products/[product]/dashboards/overview/tests/fixtures';
+import { analysis, characteristics, summary } from '@app/(dashboard)/products/[product]/dashboards/overview/tests/fixtures';
 import { comparePlannedAccomplished } from '../comparePlannedAccomplished';
 import { toCsv } from '../exportCsv';
 import { getTotalItems, getTsqmiBars } from '../formatOverviewCharts';

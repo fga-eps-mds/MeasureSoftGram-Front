@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { useRouter } from '@hooks/useRouter';
 
 import { Breadcrumbs as BreadcrumbsMUI, Typography, Box } from '@mui/material';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';

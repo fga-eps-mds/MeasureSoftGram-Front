@@ -10,7 +10,7 @@ jest.mock('@contexts/OrganizationProvider');
 jest.mock('@hooks/useLocalStorage');
 
 const mockRouter = { query: {} as Record<string, string> };
-jest.mock('next/router', () => ({ useRouter: () => mockRouter }));
+jest.mock('@hooks/useRouter', () => ({ useRouter: () => mockRouter }));
 
 describe('ProductProvider', () => {
   let mockSetValue: jest.Mock;

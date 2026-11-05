@@ -1,6 +1,4 @@
 import 'jest-canvas-mock';
-import * as hooks from 'next/router';
-import { NextRouter } from 'next/router';
 import '@testing-library/jest-dom';
 import { webcrypto } from 'node:crypto';
 
@@ -16,7 +14,7 @@ export const createMockedRoute = (
     push: jest.fn(), // <-- Adicionado aqui
     replace: jest.fn(),
     prefetch: jest.fn().mockResolvedValue(undefined),
-   } as unknown as NextRouter);
+   } as unknown as ReturnType<typeof import('@hooks/useRouter').useRouter>);
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -33,5 +31,7 @@ jest.mock('react-i18next', () => ({
   }),
 }));
 
-jest.mock('next/config', () => () => ({ publicRuntimeConfig: {} }));
-jest.spyOn(hooks, 'useRouter').mockImplementation(() => createMockedRoute({ layer: undefined, product: undefined }));
+// quem precisa de outra rota troca a implementação (ver tests/helper/router.ts) ou mocka o módulo no próprio spec
+jest.mock('@hooks/useRouter', () => ({
+  useRouter: jest.fn(() => createMockedRoute({ layer: undefined, product: undefined }))
+}));

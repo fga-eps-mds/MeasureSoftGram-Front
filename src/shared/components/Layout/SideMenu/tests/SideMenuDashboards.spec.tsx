@@ -6,7 +6,7 @@ import SideMenu from '../SideMenu';
 const mockPush = jest.fn();
 const mockPrefetch = jest.fn(() => Promise.resolve());
 
-jest.mock('next/router', () => ({
+jest.mock('@hooks/useRouter', () => ({
   useRouter: () => ({
     pathname: '/products/[product]',
     query: { product: '1-5-MeasureSoftGram' },

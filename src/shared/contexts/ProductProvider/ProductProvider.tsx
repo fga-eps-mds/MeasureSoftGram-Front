@@ -4,7 +4,7 @@ import { Product } from '@customTypes/product';
 import { productQuery } from '@services/product';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import { useLocalStorage } from '@hooks/useLocalStorage';
-import { useRouter } from 'next/router';
+import { useRouter } from '@hooks/useRouter';
 import { getPathId } from '@utils/pathDestructer';
 
 interface Props {

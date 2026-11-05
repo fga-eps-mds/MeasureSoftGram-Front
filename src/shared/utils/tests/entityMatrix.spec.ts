@@ -1,4 +1,4 @@
-import { measureMatrix, repository } from '@pages/products/[product]/dashboards/entidade/tests/fixtures';
+import { measureMatrix, repository } from '@app/(dashboard)/products/[product]/dashboards/entidade/tests/fixtures';
 import { csvFileName, toCsv } from '@utils/exportCsv';
 import {
   cellId,

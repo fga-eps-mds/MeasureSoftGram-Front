@@ -5,7 +5,7 @@ import { AuthProvider, useAuth } from '../index';
 
 // Mock next/router
 const mockPush = jest.fn();
-jest.mock('next/router', () => ({
+jest.mock('@hooks/useRouter', () => ({
   useRouter: () => ({
     push: mockPush,
     replace: jest.fn(),

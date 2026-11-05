@@ -1,10 +1,12 @@
+'use client';
+
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Avatar, Box, Button, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
 import { Logout } from '@mui/icons-material';
 import { FaCog } from 'react-icons/fa';
 import { FiChevronDown } from 'react-icons/fi';
-import { useRouter } from 'next/router';
+import { useRouter } from '@hooks/useRouter';
 import { useProviderTranslation as useTranslation } from '@hooks/useProviderTranslation';
 
 import { SideMenuProvider } from '@contexts/SidebarProvider/SideMenuProvider';
@@ -94,8 +96,12 @@ function HeaderUserMenu() {
   );
 }
 
+// páginas que abrem sem o breadcrumb
+const ROUTES_WITHOUT_BREADCRUMB = ['/home', '/about'];
+
 function Layout({ children, rightSide, disableBreadcrumb = false }: Props) {
   useQuery();
+  const { pathname } = useRouter();
   const { productsList } = useProductContext();
   const { organizationList } = useOrganizationContext();
 
@@ -121,7 +127,7 @@ function Layout({ children, rightSide, disableBreadcrumb = false }: Props) {
         </Styles.TopHeaderArea>
       )}
       <Styles.MainContentArea>
-        {!disableBreadcrumb && <Breadcrumbs />}
+        {!disableBreadcrumb && !ROUTES_WITHOUT_BREADCRUMB.includes(pathname) && <Breadcrumbs />}
         {children}
       </Styles.MainContentArea>
       <Styles.RightSideArea>{rightSide}</Styles.RightSideArea>

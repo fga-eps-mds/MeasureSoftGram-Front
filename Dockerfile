@@ -1,5 +1,5 @@
 # ============================================================
-# Build de producao do Front (Next.js 12). Multi-stage:
+# Build de producao do Front (Next.js 16, App Router). Multi-stage:
 #   builder -> instala deps + next build (gera o .next otimizado)
 #   runner  -> NODE_ENV=production + next start (serve o build pronto)
 #

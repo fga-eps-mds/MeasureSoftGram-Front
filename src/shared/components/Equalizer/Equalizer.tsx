@@ -21,7 +21,7 @@ export default function Equalizer({ planned, isChart = false }: EqualizerProps) 
 
   return (
     <Stack spacing={spacing} direction="row" height="inherit" mt={12.5}>
-      {planned.map(plannedCharacteristic => (<EqualizerSlider characteristic={plannedCharacteristic} />))}
+      {planned.map(plannedCharacteristic => (<EqualizerSlider key={plannedCharacteristic.key} characteristic={plannedCharacteristic} />))}
     </Stack>
   )
 }

@@ -5,7 +5,7 @@ import { productQuery } from '@services/product';
 import SideMenuItem from '../SideMenuItem';
 
 jest.mock('@services/product');
-jest.mock('next/router', () => ({ useRouter: () => ({ query: { product: '1-2-produto' } }) }));
+jest.mock('@hooks/useRouter', () => ({ useRouter: () => ({ query: { product: '1-2-produto' } }) }));
 jest.mock('@contexts/SidebarProvider/SideMenuProvider', () => ({
   useSideMenuContext: () => ({ isCollapsed: false })
 }));

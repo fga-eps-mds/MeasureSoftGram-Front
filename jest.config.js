@@ -20,8 +20,7 @@ const customJestConfig = {
     '!<rootDir>/src/**/*.d.ts',
     '!<rootDir>/src/**/styles.ts',
     '!<rootDir>/src/**/index.{ts,tsx}',
-    '!<rootDir>/src/**/*.page.{ts,tsx}',
-    '!<rootDir>/src/**/*.next.{ts,tsx}',
+    '!<rootDir>/src/app/**/{page,layout,loading,providers}.{ts,tsx}',
     '!<rootDir>/src/mocks/**',
   ],
   testRegex: '((\\.|/*.)(spec))\\.tsx?$',
@@ -31,9 +30,10 @@ const customJestConfig = {
     '/tests/',
     'styles\\.(ts|tsx)$',
     '/Theme/',
-    'index\\.(page\\.)?(ts|tsx)$',
-    '/_app\\.tsx$',
-    '/_document\\.tsx$',
+    'index\\.(ts|tsx)$',
+    '/app/(.*/)?page\\.(ts|tsx)$',
+    '/app/(layout|loading|providers)\\.tsx$',
+    '/app/(.*/)?(layout|loading)\\.tsx$',
     '/mocks/'
   ],
 
@@ -82,8 +82,9 @@ const ESM_PACKAGES = '/node_modules/(?!(\\.pnpm/(echarts|zrender)@[^/]+/node_mod
 // Exporta a configuração combinando o padrão do Next com a configuração customizada
 module.exports = async () => {
   const config = await createJestConfig(customJestConfig)();
-  config.transformIgnorePatterns = config.transformIgnorePatterns.map((pattern) =>
-    pattern === '/node_modules/' ? ESM_PACKAGES : pattern
-  );
+  // o next/jest ignora /node_modules/ em dois padrões (um deles específico do pnpm): o primeiro vira o nosso, o segundo sai
+  config.transformIgnorePatterns = config.transformIgnorePatterns
+    .filter((pattern) => !pattern.startsWith('/node_modules[\\\\/]'))
+    .map((pattern) => (pattern.startsWith('/node_modules/') ? ESM_PACKAGES : pattern));
   return config;
 };

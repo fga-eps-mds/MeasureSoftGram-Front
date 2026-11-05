@@ -10,7 +10,7 @@ const PRODUCTS = [
   { id: 2, name: 'Produto B' }
 ];
 
-jest.mock('next/router', () => ({
+jest.mock('@hooks/useRouter', () => ({
   useRouter: () => ({ push: mockPush })
 }));
 

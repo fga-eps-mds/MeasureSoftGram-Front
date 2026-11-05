@@ -1,7 +1,7 @@
 import { useProductContext } from '@contexts/ProductProvider';
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
 import { productQuery } from '@services/product';
-import { useRouter } from 'next/router';
+import { useRouter } from '@hooks/useRouter';
 import { repository, Result } from '@services/repository';
 import { Repository } from '@customTypes/repository';
 import { useEffect } from 'react';

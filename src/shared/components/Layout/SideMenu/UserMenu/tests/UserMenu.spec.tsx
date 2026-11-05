@@ -5,7 +5,7 @@ import UserMenu from '../UserMenu';
 const mockPush = jest.fn();
 const mockLogout = jest.fn();
 
-jest.mock('next/router', () => ({
+jest.mock('@hooks/useRouter', () => ({
   useRouter: () => ({ push: mockPush })
 }));
 

@@ -12,7 +12,7 @@ jest.mock('@mui/material', () => ({
   useMediaQuery: jest.fn(),
 }));
 
-jest.mock('next/router', () => ({
+jest.mock('@hooks/useRouter', () => ({
   useRouter: () => ({
     pathname: '/products/[product]',
     query: { product: '1-5-MeasureSoftGram' },

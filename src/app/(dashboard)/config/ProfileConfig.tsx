@@ -1,0 +1,66 @@
+'use client';
+
+import useRequireAuth from '@hooks/useRequireAuth';
+import { Container, TextField, InputAdornment, IconButton } from '@mui/material';
+import { Visibility, VisibilityOff, ContentCopy } from '@mui/icons-material';
+import { useEffect, useState } from 'react';
+import { getAccessToken } from '@services/Auth';
+import { useTranslation } from 'react-i18next';
+
+const ProfileConfig: React.FC = () => {
+  useRequireAuth();
+
+  const [tokenVisible, setTokenVisible] = useState(false);
+  const [apiToken, setApiToken] = useState('');
+
+  useEffect(() => {
+    void getAccessToken().then((res) => {
+      if (res.type === 'success') {
+        setApiToken(`Token ${res.value.key}`); // Changed to use template literals
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleToggleVisibility = () => {
+    setTokenVisible(!tokenVisible);
+  };
+
+  const handleCopyToken = () => {
+    navigator.clipboard.writeText(apiToken).catch((error) => console.error(error));
+  };
+
+  const { t } = useTranslation('settings');
+
+  return (
+    <>
+      <title>Config</title>
+      <Container>
+        <h1>{t('pageTitle')}</h1>
+
+        <h3 style={{ textAlign: 'left' }}>{t('apiKeyHeader')}</h3>
+        <TextField
+          style={{ textAlign: 'center' }}
+          type={tokenVisible ? 'text' : 'password'}
+          value={apiToken}
+          label={t('apiKeyLabel')}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton aria-label="toggle password visibility" onClick={handleToggleVisibility}>
+                  {tokenVisible ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+                <IconButton aria-label="copy api token" onClick={handleCopyToken}>
+                  <ContentCopy />
+                </IconButton>
+              </InputAdornment>
+            )
+          }}
+        />
+      </Container>
+    </>
+  );
+};
+
+
+export default ProfileConfig;

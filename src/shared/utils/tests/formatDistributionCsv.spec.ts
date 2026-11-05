@@ -1,4 +1,4 @@
-import { distribution, entity, summary } from '@pages/products/[product]/dashboards/distribuicao/tests/fixtures';
+import { distribution, entity, summary } from '@app/(dashboard)/products/[product]/dashboards/distribuicao/tests/fixtures';
 import { buildDensity } from '../distributionDensity';
 import { csvFileName, toCsv } from '../exportCsv';
 import {

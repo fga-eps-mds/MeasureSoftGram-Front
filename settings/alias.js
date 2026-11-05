@@ -12,12 +12,8 @@ module.exports = [
     path: './src/shared/hooks'
   },
   {
-    name: '@pages',
-    path: './src/pages'
-  },
-  {
-    name: '@modules',
-    path: './src/modules'
+    name: '@app',
+    path: './src/app'
   },
   {
     name: '@services',

@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, waitFor, act, fireEvent, renderHook } from '@testing-library/react';
 import { getUserInfo, signInCredentials, signOut } from '@services/Auth';
 import { toast } from 'react-toastify';
-import { useRouter } from 'next/router';
+import { useRouter } from '@hooks/useRouter';
 import { createOAuthState, OAUTH_STATE_KEY } from '@services/Auth/oauthState';
 import { AuthProvider, useAuth } from '../Auth.context';
 
@@ -26,7 +26,7 @@ jest.mock('react-toastify', () => ({
   },
 }));
 
-jest.mock('next/router', () => ({
+jest.mock('@hooks/useRouter', () => ({
   useRouter: jest.fn(),
 }));
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { useRouter } from 'next/router';
+import { useRouter } from '@hooks/useRouter';
 import { Breadcrumbs } from '../Breadcrumbs';
 
-jest.mock('next/router', () => ({ useRouter: jest.fn() }));
+jest.mock('@hooks/useRouter', () => ({ useRouter: jest.fn() }));
 jest.mock('@hooks/useProviderTranslation', () => ({
   useProviderTranslation: () => ({ t: (key: string) => key })
 }));

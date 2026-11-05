@@ -15,7 +15,7 @@ jest.mock('@contexts/Auth', () => ({
   }),
 }));
 
-jest.mock('next/router', () => ({
+jest.mock('@hooks/useRouter', () => ({
   useRouter: () => ({
     push: mockPush,
     asPath: '/home',
@@ -187,7 +187,9 @@ describe('<Layout />', () => {
       // PR, a largura de fato
       const css = Array.from(document.querySelectorAll('style'))
         .map((style) => style.textContent)
-        .join('\n');
+        .join('\n')
+        // o styled-components 6 não tira o espaço depois da vírgula
+        .replace(/,\s+/g, ',');
       expect(css).toContain('grid-template-columns:min-content minmax(0,1fr) min-content;');
       expect(css).not.toContain('328px');
     });

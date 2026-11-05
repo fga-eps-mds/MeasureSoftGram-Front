@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { FiBox } from 'react-icons/fi';
 import LetterAvatar from '@components/LetterAvatar';
 import { useProductContext } from '@contexts/ProductProvider';
-import { useRouter } from 'next/router';
+import { useRouter } from '@hooks/useRouter';
 import { useOrganizationContext } from '@contexts/OrganizationProvider';
 import { useSideMenuContext } from '@contexts/SidebarProvider/SideMenuProvider';
 import { useProviderTranslation as useTranslation } from '@hooks/useProviderTranslation';

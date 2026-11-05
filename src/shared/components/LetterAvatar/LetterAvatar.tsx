@@ -11,7 +11,7 @@ function stringAvatar(name: string) {
 
 interface Props {
   name: string;
-  icon?: JSX.Element;
+  icon?: React.JSX.Element;
 }
 
 function LetterAvatar({ name, icon }: Props) {

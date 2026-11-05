@@ -39,12 +39,9 @@ const defaultChartData = () => ({
 
 const mockEchartsOption = jest.fn();
 
-jest.mock('next/dynamic', () => () => {
-  const MockECharts = ({ option, notMerge }: { option: unknown; notMerge?: boolean }) => {
-    mockEchartsOption(option, notMerge);
-    return <div data-testid="echarts-mock" />;
-  };
-  return MockECharts;
+jest.mock('next/dynamic', () => () => ({ option, notMerge }: { option: unknown; notMerge?: boolean }) => {
+  mockEchartsOption(option, notMerge);
+  return <div data-testid="echarts-mock" />;
 });
 
 describe('<PulseChart />', () => {

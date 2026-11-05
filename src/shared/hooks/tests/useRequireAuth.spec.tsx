@@ -1,7 +1,7 @@
 import { useAuth } from '@contexts/Auth';
 import { toast } from 'react-toastify';
 import useRequireAuth from '@hooks/useRequireAuth';
-import { useRouter } from 'next/router';
+import { useRouter } from '@hooks/useRouter';
 import { act, renderHook } from '@testing-library/react';
 
 jest.mock('react-toastify', () => ({
@@ -13,7 +13,7 @@ jest.mock('react-toastify', () => ({
 const mockPush = jest.fn();
 const mockPathname = '/';
 
-jest.mock('next/router', () => ({
+jest.mock('@hooks/useRouter', () => ({
   useRouter: jest.fn(),
 }));
 

@@ -1,0 +1,152 @@
+import React from 'react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import { useRouter } from '@hooks/useRouter';
+import { useProductContext } from '@contexts/ProductProvider';
+import { useOrganizationContext } from '@contexts/OrganizationProvider';
+import { useRepositoryContext } from '@contexts/RepositoryProvider';
+import { useQuery } from '@hooks/useQuery';
+import { SWRConfig } from 'swr';
+import api from '@services/api';
+import { act } from 'react-dom/test-utils';
+import RepositoriesTable from '../RepositoriesTable';
+
+jest.mock('@hooks/useRouter', () => ({
+  useRouter: jest.fn(),
+}));
+
+jest.mock('@contexts/ProductProvider', () => ({
+  useProductContext: jest.fn(),
+}));
+
+jest.mock('@contexts/OrganizationProvider', () => ({
+  useOrganizationContext: jest.fn(),
+}));
+
+jest.mock('@contexts/RepositoryProvider', () => ({
+  useRepositoryContext: jest.fn(),
+}));
+
+jest.mock('@hooks/useQuery', () => ({
+  useQuery: jest.fn(),
+}));
+
+jest.mock('@services/product', () => ({
+  productQuery: {
+    getRepositoriesConfig: (organizationId: string, productId: string) => ({
+      url: `/v1/organizations/${organizationId}/products/${productId}/repositories/`,
+      method: 'get',
+    }),
+  },
+}));
+
+jest.mock('@services/api', () => ({
+  __esModule: true,
+  default: { request: jest.fn(), getUri: () => 'http://api.test' },
+}));
+
+// cache novo em cada teste, como numa página recém-aberta
+const renderTable = () =>
+  render(
+    <SWRConfig value={{ provider: () => new Map() }}>
+      <RepositoriesTable />
+    </SWRConfig>
+  );
+
+jest.mock('react-toastify', () => ({
+  toast: {
+    success: jest.fn(),
+    error: jest.fn(),
+  },
+}));
+
+const repoName = 'Repository 1';
+
+describe('RepositoriesTable', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    useRouter.mockReturnValue({ push: jest.fn(), query: { product: '1-3-2024-measure' } });
+    useProductContext.mockReturnValue({ currentProduct: { id: '1', name: 'Product A' } });
+    useOrganizationContext.mockReturnValue({ currentOrganization: { id: '1' } });
+    useRepositoryContext.mockReturnValue({ repositoriesLatestTsqmi: { results: [] } });
+    useQuery.mockReturnValue({ handleRepositoryAction: jest.fn(), loadProduct: jest.fn() });
+  });
+
+  it('renders repository list correctly', async () => {
+    const mockRepositories = { data: { results: [{ id: 1, name: repoName, platform: 'github' }] } };
+    api.request.mockResolvedValue(mockRepositories);
+
+    await act(() => {
+      renderTable();
+    })
+
+    // Wait for the data fetching to complete
+    await waitFor(() => {
+      expect(screen.getByText(repoName)).toBeInTheDocument();
+    });
+
+    expect(api.request).toHaveBeenCalledWith({ url: '/v1/organizations/1/products/3/repositories/', method: 'get' });
+  });
+
+  it('handles search input and filters repositories', async () => {
+    const mockRepositories = { data: { results: [{ id: 1, name: repoName, platform: 'github' }] } };
+    api.request.mockResolvedValue(mockRepositories);
+
+    renderTable();
+
+    await waitFor(() => {
+      expect(screen.getByText(repoName)).toBeInTheDocument();
+    });
+
+    act(() => {
+      const searchInput = document.getElementById('search-bar');
+      fireEvent.change(searchInput, { target: { value: 'Repo' } });
+    })
+
+    expect(screen.getByText(repoName)).toBeInTheDocument();
+  });
+
+  it('removes the last repository from the table after deleting it', async () => {
+    const mockRepositories = { data: { results: [{ id: 1, name: repoName, platform: 'github' }] } };
+    api.request.mockResolvedValue(mockRepositories);
+    const handleRepositoryAction = jest.fn().mockResolvedValue({ type: 'success' });
+    useQuery.mockReturnValue({ handleRepositoryAction, loadProduct: jest.fn() });
+
+    renderTable();
+
+    await waitFor(() => {
+      expect(screen.getByText(repoName)).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByLabelText('delete'));
+
+    const confirmationInput = screen.getByRole('textbox');
+    fireEvent.change(confirmationInput, { target: { value: repoName } });
+
+    fireEvent.click(screen.getByRole('button', { name: 'delete.button' }));
+
+    await waitFor(() => {
+      expect(handleRepositoryAction).toHaveBeenCalled();
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByText(repoName)).not.toBeInTheDocument();
+    });
+    expect(screen.queryByTestId('repository-row')).not.toBeInTheDocument();
+  });
+
+  it('mostra na hora a lista que já está no cache, sem esperar o Service', () => {
+    const cache = new Map();
+    const key = JSON.stringify({ url: '/v1/organizations/1/products/3/repositories/', method: 'get' });
+    cache.set(key, { data: { data: { results: [{ id: 1, name: repoName, platform: 'github' }] } } });
+    api.request.mockReturnValue(new Promise(() => {}));
+
+    render(
+      <SWRConfig value={{ provider: () => cache }}>
+        <RepositoriesTable />
+      </SWRConfig>
+    );
+
+    expect(screen.getByText(repoName)).toBeInTheDocument();
+  });
+});

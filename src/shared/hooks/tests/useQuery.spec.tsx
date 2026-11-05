@@ -3,7 +3,7 @@ import { useProductContext } from '@contexts/ProductProvider';
 import { useRepositoryContext } from '@contexts/RepositoryProvider';
 import { productQuery } from '@services/product';
 import { repository } from '@services/repository';
-import { useRouter } from 'next/router';
+import { useRouter } from '@hooks/useRouter';
 import { refreshRepositoryList, useRepositoryList } from '@hooks/useRepositoryList';
 import { useQuery } from '../useQuery';
 
@@ -12,7 +12,7 @@ jest.mock('@contexts/ProductProvider');
 jest.mock('@contexts/RepositoryProvider');
 jest.mock('@services/product');
 jest.mock('@services/repository');
-jest.mock('next/router', () => ({ useRouter: jest.fn() }));
+jest.mock('@hooks/useRouter', () => ({ useRouter: jest.fn() }));
 jest.mock('@hooks/useRepositoryList', () => ({
   useRepositoryList: jest.fn(() => ({ repositories: undefined })),
   refreshRepositoryList: jest.fn()

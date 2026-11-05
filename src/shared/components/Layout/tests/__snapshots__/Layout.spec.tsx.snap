@@ -6,17 +6,17 @@ Object {
   "baseElement": <body>
     <div>
       <div
-        class="sc-14d06553-0 lemoMD"
+        class="sc-14d06553-0 kEpshn"
       >
         <div
-          class="sc-14d06553-1 gkqUzG"
+          class="sc-14d06553-1 jjQjaH"
         >
           <div
-            class="sc-ad3618fb-0 bQYuRm"
+            class="sc-ad3618fb-0 hNDIqP"
             data-testid="side-menu"
           >
             <div
-              class="sc-ad3618fb-3 gNVfPA"
+              class="sc-ad3618fb-3 ctKQkZ"
               data-testid="side-menu-collapse"
             >
               <svg
@@ -32,17 +32,21 @@ Object {
               </svg>
             </div>
             <div
-              class="sc-ad3618fb-1 iIeQFd"
+              class="sc-ad3618fb-1 cmKkde"
               data-testid="side-menu-content"
             >
               <div
                 class="MuiBox-root css-nb2z2f"
               >
-                <img
-                  class="sc-ad3618fb-4 bXirHI"
-                  height="50"
-                  src="/images/svg/logo_white.svg"
-                />
+                <a
+                  href="/home"
+                >
+                  <img
+                    class="sc-ad3618fb-4 dxzRtx"
+                    height="50"
+                    src="/images/svg/logo_white.svg"
+                  />
+                </a>
                 <div
                   class="MuiBox-root css-k008qs"
                 >
@@ -91,10 +95,10 @@ Object {
                   organization.placeholder
                 </label>
                 <div
-                  class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl sc-779df817-0 fsOGtg css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
+                  class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl sc-779df817-0 kIApQp css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
                 >
                   <div
-                    aria-controls=":r0:"
+                    aria-controls="_r_0_"
                     aria-expanded="false"
                     aria-haspopup="listbox"
                     aria-labelledby="demo-simple-select-autowidth-label demo-simple-select-autowidth"
@@ -148,10 +152,10 @@ Object {
                   product.placeholder
                 </label>
                 <div
-                  class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl sc-779df817-0 fsOGtg css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
+                  class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl sc-779df817-0 kIApQp css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
                 >
                   <div
-                    aria-controls=":r1:"
+                    aria-controls="_r_1_"
                     aria-expanded="false"
                     aria-haspopup="listbox"
                     aria-labelledby="demo-simple-select-autowidth-label demo-simple-select-autowidth"
@@ -198,18 +202,18 @@ Object {
                 class="MuiDivider-root MuiDivider-fullWidth css-qrim74-MuiDivider-root"
               />
               <div
-                class="sc-ad3618fb-2 BRKxB"
+                class="sc-ad3618fb-2 fPdCca"
               >
                 <div
                   class="MuiBox-root css-10wzbhq"
                 >
                   <div
                     aria-label="sidebar-options.overview.tooltip"
-                    class="sc-ad80db87-0 dwUUfE"
+                    class="sc-ad80db87-0 gycRAr"
                     data-mui-internal-clone-element="true"
                   >
                     <div
-                      class="sc-ad80db87-1 bba-DyI"
+                      class="sc-ad80db87-1 jrEAYp"
                     >
                       <svg
                         fill="none"
@@ -255,11 +259,11 @@ Object {
                 >
                   <div
                     aria-label="sidebar-options.repos.tooltip"
-                    class="sc-ad80db87-0 dwUUfE"
+                    class="sc-ad80db87-0 gycRAr"
                     data-mui-internal-clone-element="true"
                   >
                     <div
-                      class="sc-ad80db87-1 bba-DyI"
+                      class="sc-ad80db87-1 jrEAYp"
                     >
                       <svg
                         fill="none"
@@ -306,11 +310,11 @@ Object {
                 >
                   <div
                     aria-label="sidebar-options.release.tooltip"
-                    class="sc-ad80db87-0 dwUUfE"
+                    class="sc-ad80db87-0 gycRAr"
                     data-mui-internal-clone-element="true"
                   >
                     <div
-                      class="sc-ad80db87-1 bba-DyI"
+                      class="sc-ad80db87-1 jrEAYp"
                     >
                       <svg
                         fill="none"
@@ -341,11 +345,11 @@ Object {
                 >
                   <div
                     aria-label="Dashboards"
-                    class="sc-ad80db87-0 dwUUfE"
+                    class="sc-ad80db87-0 gycRAr"
                     data-mui-internal-clone-element="true"
                   >
                     <div
-                      class="sc-ad80db87-1 bba-DyI"
+                      class="sc-ad80db87-1 jrEAYp"
                     >
                       <svg
                         fill="none"
@@ -421,11 +425,11 @@ Object {
               >
                 <div
                   aria-label="tooltip.user-menu"
-                  class="sc-ad80db87-0 dwUUfE"
+                  class="sc-ad80db87-0 gycRAr"
                   data-mui-internal-clone-element="true"
                 >
                   <div
-                    class="sc-ad80db87-1 bba-DyI"
+                    class="sc-ad80db87-1 jrEAYp"
                   >
                     <div
                       class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-128rogb-MuiAvatar-root"
@@ -474,10 +478,10 @@ Object {
           </div>
         </div>
         <div
-          class="sc-14d06553-4 hONrww"
+          class="sc-14d06553-4 jOcHzn"
         >
           <div
-            class="sc-6674b5e5-0 gSYjiE"
+            class="sc-6674b5e5-0 KjwgP"
           >
             <div
               class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
@@ -494,21 +498,25 @@ Object {
                     <li
                       class="MuiBreadcrumbs-li"
                     >
-                      <div
-                        class="MuiBox-root css-70qvj9"
+                      <a
+                        href="/home"
                       >
-                        <svg
-                          aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-8ljajx-MuiSvgIcon-root"
-                          data-testid="HomeOutlinedIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
+                        <div
+                          class="MuiBox-root css-70qvj9"
                         >
-                          <path
-                            d="m12 5.69 5 4.5V18h-2v-6H9v6H7v-7.81zM12 3 2 12h3v8h6v-6h2v6h6v-8h3z"
-                          />
-                        </svg>
-                      </div>
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-8ljajx-MuiSvgIcon-root"
+                            data-testid="HomeOutlinedIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="m12 5.69 5 4.5V18h-2v-6H9v6H7v-7.81zM12 3 2 12h3v8h6v-6h2v6h6v-8h3z"
+                            />
+                          </svg>
+                        </div>
+                      </a>
                     </li>
                     <li
                       aria-hidden="true"
@@ -570,24 +578,24 @@ Object {
           </div>
         </div>
         <div
-          class="sc-14d06553-5 fEeMmh"
+          class="sc-14d06553-5 hiGWTo"
         />
       </div>
     </div>
   </body>,
   "container": <div>
     <div
-      class="sc-14d06553-0 lemoMD"
+      class="sc-14d06553-0 kEpshn"
     >
       <div
-        class="sc-14d06553-1 gkqUzG"
+        class="sc-14d06553-1 jjQjaH"
       >
         <div
-          class="sc-ad3618fb-0 bQYuRm"
+          class="sc-ad3618fb-0 hNDIqP"
           data-testid="side-menu"
         >
           <div
-            class="sc-ad3618fb-3 gNVfPA"
+            class="sc-ad3618fb-3 ctKQkZ"
             data-testid="side-menu-collapse"
           >
             <svg
@@ -603,17 +611,21 @@ Object {
             </svg>
           </div>
           <div
-            class="sc-ad3618fb-1 iIeQFd"
+            class="sc-ad3618fb-1 cmKkde"
             data-testid="side-menu-content"
           >
             <div
               class="MuiBox-root css-nb2z2f"
             >
-              <img
-                class="sc-ad3618fb-4 bXirHI"
-                height="50"
-                src="/images/svg/logo_white.svg"
-              />
+              <a
+                href="/home"
+              >
+                <img
+                  class="sc-ad3618fb-4 dxzRtx"
+                  height="50"
+                  src="/images/svg/logo_white.svg"
+                />
+              </a>
               <div
                 class="MuiBox-root css-k008qs"
               >
@@ -662,10 +674,10 @@ Object {
                 organization.placeholder
               </label>
               <div
-                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl sc-779df817-0 fsOGtg css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
+                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl sc-779df817-0 kIApQp css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
               >
                 <div
-                  aria-controls=":r0:"
+                  aria-controls="_r_0_"
                   aria-expanded="false"
                   aria-haspopup="listbox"
                   aria-labelledby="demo-simple-select-autowidth-label demo-simple-select-autowidth"
@@ -719,10 +731,10 @@ Object {
                 product.placeholder
               </label>
               <div
-                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl sc-779df817-0 fsOGtg css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
+                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl sc-779df817-0 kIApQp css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
               >
                 <div
-                  aria-controls=":r1:"
+                  aria-controls="_r_1_"
                   aria-expanded="false"
                   aria-haspopup="listbox"
                   aria-labelledby="demo-simple-select-autowidth-label demo-simple-select-autowidth"
@@ -769,18 +781,18 @@ Object {
               class="MuiDivider-root MuiDivider-fullWidth css-qrim74-MuiDivider-root"
             />
             <div
-              class="sc-ad3618fb-2 BRKxB"
+              class="sc-ad3618fb-2 fPdCca"
             >
               <div
                 class="MuiBox-root css-10wzbhq"
               >
                 <div
                   aria-label="sidebar-options.overview.tooltip"
-                  class="sc-ad80db87-0 dwUUfE"
+                  class="sc-ad80db87-0 gycRAr"
                   data-mui-internal-clone-element="true"
                 >
                   <div
-                    class="sc-ad80db87-1 bba-DyI"
+                    class="sc-ad80db87-1 jrEAYp"
                   >
                     <svg
                       fill="none"
@@ -826,11 +838,11 @@ Object {
               >
                 <div
                   aria-label="sidebar-options.repos.tooltip"
-                  class="sc-ad80db87-0 dwUUfE"
+                  class="sc-ad80db87-0 gycRAr"
                   data-mui-internal-clone-element="true"
                 >
                   <div
-                    class="sc-ad80db87-1 bba-DyI"
+                    class="sc-ad80db87-1 jrEAYp"
                   >
                     <svg
                       fill="none"
@@ -877,11 +889,11 @@ Object {
               >
                 <div
                   aria-label="sidebar-options.release.tooltip"
-                  class="sc-ad80db87-0 dwUUfE"
+                  class="sc-ad80db87-0 gycRAr"
                   data-mui-internal-clone-element="true"
                 >
                   <div
-                    class="sc-ad80db87-1 bba-DyI"
+                    class="sc-ad80db87-1 jrEAYp"
                   >
                     <svg
                       fill="none"
@@ -912,11 +924,11 @@ Object {
               >
                 <div
                   aria-label="Dashboards"
-                  class="sc-ad80db87-0 dwUUfE"
+                  class="sc-ad80db87-0 gycRAr"
                   data-mui-internal-clone-element="true"
                 >
                   <div
-                    class="sc-ad80db87-1 bba-DyI"
+                    class="sc-ad80db87-1 jrEAYp"
                   >
                     <svg
                       fill="none"
@@ -992,11 +1004,11 @@ Object {
             >
               <div
                 aria-label="tooltip.user-menu"
-                class="sc-ad80db87-0 dwUUfE"
+                class="sc-ad80db87-0 gycRAr"
                 data-mui-internal-clone-element="true"
               >
                 <div
-                  class="sc-ad80db87-1 bba-DyI"
+                  class="sc-ad80db87-1 jrEAYp"
                 >
                   <div
                     class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-128rogb-MuiAvatar-root"
@@ -1045,10 +1057,10 @@ Object {
         </div>
       </div>
       <div
-        class="sc-14d06553-4 hONrww"
+        class="sc-14d06553-4 jOcHzn"
       >
         <div
-          class="sc-6674b5e5-0 gSYjiE"
+          class="sc-6674b5e5-0 KjwgP"
         >
           <div
             class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
@@ -1065,21 +1077,25 @@ Object {
                   <li
                     class="MuiBreadcrumbs-li"
                   >
-                    <div
-                      class="MuiBox-root css-70qvj9"
+                    <a
+                      href="/home"
                     >
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-8ljajx-MuiSvgIcon-root"
-                        data-testid="HomeOutlinedIcon"
-                        focusable="false"
-                        viewBox="0 0 24 24"
+                      <div
+                        class="MuiBox-root css-70qvj9"
                       >
-                        <path
-                          d="m12 5.69 5 4.5V18h-2v-6H9v6H7v-7.81zM12 3 2 12h3v8h6v-6h2v6h6v-8h3z"
-                        />
-                      </svg>
-                    </div>
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-8ljajx-MuiSvgIcon-root"
+                          data-testid="HomeOutlinedIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="m12 5.69 5 4.5V18h-2v-6H9v6H7v-7.81zM12 3 2 12h3v8h6v-6h2v6h6v-8h3z"
+                          />
+                        </svg>
+                      </div>
+                    </a>
                   </li>
                   <li
                     aria-hidden="true"
@@ -1141,7 +1157,7 @@ Object {
         </div>
       </div>
       <div
-        class="sc-14d06553-5 fEeMmh"
+        class="sc-14d06553-5 hiGWTo"
       />
     </div>
   </div>,
@@ -1205,16 +1221,20 @@ Object {
   "baseElement": <body>
     <div>
       <div
-        class="sc-14d06553-0 cxxzwQ"
+        class="sc-14d06553-0 gBdpNc"
       >
         <header
-          class="sc-14d06553-2 gIhd"
+          class="sc-14d06553-2 jIlWjm"
         >
-          <img
-            alt="MeasureSoftGram"
-            class="sc-14d06553-3 hrEnUK"
-            src="/images/svg/logo_white.svg"
-          />
+          <a
+            href="/home"
+          >
+            <img
+              alt="MeasureSoftGram"
+              class="sc-14d06553-3 iRoemZ"
+              src="/images/svg/logo_white.svg"
+            />
+          </a>
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-jm0rf4-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
@@ -1262,10 +1282,10 @@ Object {
           </button>
         </header>
         <div
-          class="sc-14d06553-4 hONrww"
+          class="sc-14d06553-4 jOcHzn"
         >
           <div
-            class="sc-6674b5e5-0 gSYjiE"
+            class="sc-6674b5e5-0 KjwgP"
           >
             <div
               class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
@@ -1282,21 +1302,25 @@ Object {
                     <li
                       class="MuiBreadcrumbs-li"
                     >
-                      <div
-                        class="MuiBox-root css-70qvj9"
+                      <a
+                        href="/home"
                       >
-                        <svg
-                          aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-8ljajx-MuiSvgIcon-root"
-                          data-testid="HomeOutlinedIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
+                        <div
+                          class="MuiBox-root css-70qvj9"
                         >
-                          <path
-                            d="m12 5.69 5 4.5V18h-2v-6H9v6H7v-7.81zM12 3 2 12h3v8h6v-6h2v6h6v-8h3z"
-                          />
-                        </svg>
-                      </div>
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-8ljajx-MuiSvgIcon-root"
+                            data-testid="HomeOutlinedIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="m12 5.69 5 4.5V18h-2v-6H9v6H7v-7.81zM12 3 2 12h3v8h6v-6h2v6h6v-8h3z"
+                            />
+                          </svg>
+                        </div>
+                      </a>
                     </li>
                     <li
                       aria-hidden="true"
@@ -1358,23 +1382,27 @@ Object {
           </div>
         </div>
         <div
-          class="sc-14d06553-5 fEeMmh"
+          class="sc-14d06553-5 hiGWTo"
         />
       </div>
     </div>
   </body>,
   "container": <div>
     <div
-      class="sc-14d06553-0 cxxzwQ"
+      class="sc-14d06553-0 gBdpNc"
     >
       <header
-        class="sc-14d06553-2 gIhd"
+        class="sc-14d06553-2 jIlWjm"
       >
-        <img
-          alt="MeasureSoftGram"
-          class="sc-14d06553-3 hrEnUK"
-          src="/images/svg/logo_white.svg"
-        />
+        <a
+          href="/home"
+        >
+          <img
+            alt="MeasureSoftGram"
+            class="sc-14d06553-3 iRoemZ"
+            src="/images/svg/logo_white.svg"
+          />
+        </a>
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-jm0rf4-MuiButtonBase-root-MuiButton-root"
           tabindex="0"
@@ -1422,10 +1450,10 @@ Object {
         </button>
       </header>
       <div
-        class="sc-14d06553-4 hONrww"
+        class="sc-14d06553-4 jOcHzn"
       >
         <div
-          class="sc-6674b5e5-0 gSYjiE"
+          class="sc-6674b5e5-0 KjwgP"
         >
           <div
             class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
@@ -1442,21 +1470,25 @@ Object {
                   <li
                     class="MuiBreadcrumbs-li"
                   >
-                    <div
-                      class="MuiBox-root css-70qvj9"
+                    <a
+                      href="/home"
                     >
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-8ljajx-MuiSvgIcon-root"
-                        data-testid="HomeOutlinedIcon"
-                        focusable="false"
-                        viewBox="0 0 24 24"
+                      <div
+                        class="MuiBox-root css-70qvj9"
                       >
-                        <path
-                          d="m12 5.69 5 4.5V18h-2v-6H9v6H7v-7.81zM12 3 2 12h3v8h6v-6h2v6h6v-8h3z"
-                        />
-                      </svg>
-                    </div>
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-8ljajx-MuiSvgIcon-root"
+                          data-testid="HomeOutlinedIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="m12 5.69 5 4.5V18h-2v-6H9v6H7v-7.81zM12 3 2 12h3v8h6v-6h2v6h6v-8h3z"
+                          />
+                        </svg>
+                      </div>
+                    </a>
                   </li>
                   <li
                     aria-hidden="true"
@@ -1518,7 +1550,7 @@ Object {
         </div>
       </div>
       <div
-        class="sc-14d06553-5 fEeMmh"
+        class="sc-14d06553-5 hiGWTo"
       />
     </div>
   </div>,

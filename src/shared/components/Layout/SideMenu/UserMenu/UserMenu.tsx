@@ -3,7 +3,7 @@ import { Avatar, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/materia
 import { useAuth } from '@contexts/Auth';
 import { FiChevronRight } from 'react-icons/fi';
 import { Logout } from '@mui/icons-material';
-import { useRouter } from 'next/router';
+import { useRouter } from '@hooks/useRouter';
 // import { FaGear } from 'react-icons/fa6';
 import { FaCog } from 'react-icons/fa';
 import { useProviderTranslation as useTranslation } from '@hooks/useProviderTranslation';

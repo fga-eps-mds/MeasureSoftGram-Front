@@ -1,5 +1,5 @@
 export type infoDataType = {
-  imageSrc: string | JSX.Element;
+  imageSrc: string | React.JSX.Element;
   title: string;
   description: string;
   routeTo?: string;

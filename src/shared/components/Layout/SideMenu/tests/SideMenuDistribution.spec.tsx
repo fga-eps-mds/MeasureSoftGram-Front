@@ -9,7 +9,7 @@ jest.mock('../SideMenuWrapper', () => ({
   __esModule: true,
   default: ({ menuItems }: { menuItems?: React.ReactNode }) => <nav>{menuItems}</nav>
 }));
-jest.mock('next/router', () => ({
+jest.mock('@hooks/useRouter', () => ({
   useRouter: () => ({
     pathname: '/products/[product]',
     query: { product: '1-5-MeasureSoftGram' },

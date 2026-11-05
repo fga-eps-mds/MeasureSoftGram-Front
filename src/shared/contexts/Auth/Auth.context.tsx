@@ -2,9 +2,10 @@ import React, { createContext, useCallback, useContext, useEffect, useMemo, useR
 import { getUserInfo, signInCredentials, signInGithub, signInGitlab, signOut } from '@services/Auth';
 import { consumeOAuthState, OAuthStateContext } from '@services/Auth/oauthState';
 import { toast } from 'react-toastify';
-import { useRouter } from 'next/router';
+import { useRouter } from '@hooks/useRouter';
 import { useLocalStorage } from '@hooks/useLocalStorage';
 import ConfirmModal from '@components/ConfirmModal/ConfirmModal';
+import { finishLogout, startLogout } from './logoutState';
 
 export const authContextDefaultValues: authContextType = {
   session: null,
@@ -23,7 +24,7 @@ export const AuthContext = createContext<authContextType>(authContextDefaultValu
 const OAUTH_ERROR_PAGE = '/auth/error';
 const OAUTH_REJECTED_MESSAGE = 'Não foi possível confirmar o login. Tente entrar novamente.';
 
-export const AuthProvider = ({ children }: { children: JSX.Element }) => {
+export const AuthProvider = ({ children }: { children: React.JSX.Element }) => {
   const [loading, setLoading] = useState<'loading' | 'loaded'>('loading');
   const [isWarningOpen, setIsWarningOpen] = useState(false); // ESTADO PARA O MODAL
   const router = useRouter();
@@ -62,12 +63,17 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     const response = await signOut();
 
     if (response.type === 'success') {
-      await router.push('/');
+      startLogout();
+      router.push('/');
       toast.success('Volte logo para acompanhar seus produtos!');
     }
 
     await removeAuthStorage();
   }, [removeAuthStorage, router]);
+
+  useEffect(() => {
+    if (router.pathname === '/') finishLogout();
+  }, [router.pathname]);
 
   const getUser = useCallback(async () => {
     const response = await getUserInfo();
